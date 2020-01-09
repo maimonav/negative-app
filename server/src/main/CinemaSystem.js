@@ -20,22 +20,22 @@ class CinemaSystem {
   //   });
   // };
 
-  register = (id, userName, password, permissions) => {
+  register(id, userName, password, permissions) {
     if (id in this.users) return "The id is already exists";
     const User = require("./User");
     this.users.set(id, new User(id, userName, password, permissions));
     return "The user registered successfully.";
-  };
+  }
 
-  login = (userName, password, userId) => {
+  login(userName, password, userId) {
     if (!this.users.has(userId)) return "The user isn't exists";
     return this.users.get(userId).login(userName, password);
-  };
+  }
 
-  logout = userId => {
+  logout(userId) {
     if (!this.users.has(userId)) return "The user isn't exists";
     return this.users.get(userId).logout();
-  };
+  }
 }
 
 module.exports = CinemaSystem;

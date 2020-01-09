@@ -22,7 +22,7 @@ class User {
     // UserDB.find((err, users) => (err ? console.log(err) : console.log(users)));
   }
 
-  login = (userName, password) => {
+  login(userName, password) {
     if (this.isLoggedin) {
       return "The user already connected";
     }
@@ -35,21 +35,21 @@ class User {
     this.isLoggedin = true;
     console.log(this);
     return "User Logged in succesfully.";
-  };
+  }
 
-  logout = () => {
+  logout() {
     if (!this.isConnected) return "The user isn't connected";
     this.isLoggedin = false;
     return "Logout success";
-  };
+  }
 
-  equals = toCompare => {
+  equals(toCompare) {
     return (
       toCompare.userName === this.userName &&
       toCompare.password === this.password &&
       toCompare.permissions === this.permissions
     );
-  };
+  }
 }
 
 module.exports = User;
