@@ -1,9 +1,9 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import SubmitButton from "./Button";
+import BaseButton from "../Components/Button";
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -35,13 +35,14 @@ class Login extends React.Component {
           label="Password"
           onChange={event => this.setPassword(event)}
         />
-        <SubmitButton
+        <BaseButton
+          name="Submit"
           onClick={() =>
-            this.props.handleSubmit(this.state.username, this.state.password)
+            this.props.handleRegister(this.state.username, this.state.password)
           }
         />
       </form>
     );
   }
 }
-export default Login;
+export default Register;

@@ -5,14 +5,9 @@ import Tab from "@material-ui/core/Tab";
 
 export default function TablPanel(props) {
   const [value, setValue] = React.useState(props.tabNumber);
-  let disabled = true;
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    if (newValue === 1 || newValue === 2) {
-      disabled = !disabled;
-    }
-    props.handleChange(newValue);
+    props.handleTabChange && props.handleTabChange(newValue);
   };
 
   return (
@@ -25,7 +20,9 @@ export default function TablPanel(props) {
         aria-label="tabs"
       >
         <Tab label="Home" />
-        <Tab label="Login" />
+        {!props.isUserLogged && <Tab label="Login" />}
+        {!props.isUserLogged && <Tab label="Register" />}
+        {props.isUserLogged && <Tab label="Logout" />}
       </Tabs>
     </Paper>
   );

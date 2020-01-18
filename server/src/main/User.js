@@ -7,19 +7,6 @@ class User {
     this.password = this.sha256(userName + password);
     this.permissions = permissions;
     this.isLoggedin = false;
-    try {
-      // new UserDB({
-      //   _id: id,
-      //   username: userName,
-      //   password: password,
-      //   permissions: permissions
-      // }).save(err => {});
-      // err ? console.error(err) : console.error(`${userName} saved`)
-      // );
-    } catch (error) {}
-
-    //TODO: remove//
-    // UserDB.find((err, users) => (err ? console.log(err) : console.log(users)));
   }
 
   login(userName, password) {
@@ -38,9 +25,9 @@ class User {
   }
 
   logout() {
-    if (!this.isConnected) return "The user isn't connected";
+    if (!this.isLoggedin) return "The user isn't connected";
     this.isLoggedin = false;
-    return "Logout success";
+    return "Logout succeded.";
   }
 
   equals(toCompare) {

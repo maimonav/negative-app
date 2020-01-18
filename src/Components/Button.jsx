@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function SubmitButton(props) {
+export default function BaseButton(props) {
   const classes = useStyles();
 
   return (
@@ -20,7 +20,7 @@ export default function SubmitButton(props) {
         color="primary"
         onClick={() => props.onClick()}
       >
-        Submit
+        {props.name}
       </Button>
     </div>
   );

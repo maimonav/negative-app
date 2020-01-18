@@ -9,17 +9,20 @@ class ServiceLayer {
   }
 
   register(userName, password, permissions) {
-    if (this.users.get(userName) !== "undefined") {
+    if (this.users.has(userName)) {
       return "The user already Exist";
     } else {
-      this.users.set(userName, this.userCounter);
-      this.userCounter++;
-      return this.cinemaSystem.register(
+      let result = this.cinemaSystem.register(
         this.userCounter,
         userName,
         password,
         permissions
       );
+      if (result === "The user registered successfully.") {
+        this.users.set(userName, this.userCounter);
+        this.userCounter++;
+      }
+      return result;
     }
   }
 
@@ -31,12 +34,14 @@ class ServiceLayer {
         this.users.get(userName)
       );
     }
+    return "Incorrect user name.";
   }
 
   logout(userName) {
     if (this.users.has(userName)) {
       return this.cinemaSystem.logout(this.users.get(userName));
     }
+    return "Incorrect user name.";
   }
 }
 module.exports = ServiceLayer;

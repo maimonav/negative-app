@@ -3,25 +3,17 @@
 class CinemaSystem {
   constructor() {
     this.users = new Map();
-    // this.connectToDB();
     const User = require("./User");
     this.users.set(0, new User(0, "admin", "admin", [1, 2, 3]));
   }
 
-  // connectToDB = () => {
-  //   mongoose.connect("mongodb://localhost/db", {
-  //     useUnifiedTopology: true,
-  //     useNewUrlParser: true
-  //   });
-  //   var db = mongoose.connection;
-  //   db.on("error", console.error.bind(console, "connection error:"));
-  //   db.once("open", function() {
-  //     console.log("connected");
-  //   });
-  // };
-
   register(id, userName, password, permissions) {
-    if (id in this.users) return "The id is already exists";
+    if (this.users.has(id)) return "The id is already exists";
+    if (
+      (permissions =
+        undefined || !Array.isArray(permissions) || permissions.length === 0)
+    )
+      return "No permissions were received for the user";
     const User = require("./User");
     this.users.set(id, new User(id, userName, password, permissions));
     return "The user registered successfully.";
