@@ -1,4 +1,5 @@
-// const { UserDB } = require("./Models");
+const DataBase = require("./DBManager");
+
 class User {
   constructor(id, userName, password, permissions) {
     this.sha256 = require("js-sha256").sha256;
@@ -7,6 +8,8 @@ class User {
     this.password = this.sha256(userName + password);
     this.permissions = permissions;
     this.isLoggedin = false;
+    DataBase.add('user',{ id:id,username:userName, password:password, permissions:permissions});
+
   }
 
   login(userName, password) {
