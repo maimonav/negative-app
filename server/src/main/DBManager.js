@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const mysql = require('mysql2');
 const { userSchema, employeeSchema } = require("./Models");
 
 class DataBase {
@@ -7,15 +8,18 @@ class DataBase {
 
 
     static initDB(dbName) {
-        this.sequelize = new Sequelize(dbName, 'root', 'admin', {
-            host: 'localhost',
-            dialect: 'mysql'
-        });
+        try {
+            this.sequelize = new Sequelize(dbName, 'root', 'admin', {
+                host: 'localhost',
+                dialect: 'mysql'
+            });
 
-        this.User = this.sequelize.define('user', userSchema(), {});
-        this.Employee = this.sequelize.define('employee', employeeSchema(this.User), {});
-        this.models = { user: this.User, employee: this.Employee };
-
+            this.User = this.sequelize.define('user', userSchema(), {});
+            this.Employee = this.sequelize.define('employee', employeeSchema(this.User), {});
+            this.models = { user: this.User, employee: this.Employee };
+        } catch (error) {
+            console.log(error);
+        }
         return this.sequelize;
     }
 
@@ -23,8 +27,31 @@ class DataBase {
         this.initDB('mydb');
     }
 
+    static async connectAndCreate() {
+        try {
+            const con = mysql.createConnection({
+                host: "localhost",
+                user: "root",
+                password: "admin"
+            });
+
+            await con.connect(async function (err) {
+                if (err) throw err;
+                console.log("Connected!");
+            });
+            await con.promise().query("CREATE DATABASE mydb");
+            console.log("Database created");
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     async close() {
-        await this.sequelize.close();
+        try {
+            await this.sequelize.close();
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     static add(modelName, element) {
@@ -57,12 +84,12 @@ class DataBase {
         });
     }
 
-    static update(modelName, id , element) {
+    static update(modelName, id, element) {
         const model = this.models[modelName];
         return model.sync().then(() => {
             try {
                 return this.sequelize.transaction((t) => {
-                    return model.update(element, { where: { id: id } ,transaction: t });
+                    return model.update(element, { where: { id: id }, transaction: t });
                 })
                     .catch((error => console.log(error)));
             } catch (error) {

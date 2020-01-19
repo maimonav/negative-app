@@ -7,9 +7,12 @@ class CinemaSystem {
       User:require("./User"),	
       Employee:require("./Employee")	
     };	
-    DataBase.init();	
-    this.users.set(0, new User(0, "admin", "admin", 'ADMIN'));	
-    this.users.set(1, new Employee(1, "manager", "manager", 'MANAGER','Noa','Cohen','0508888888'));	
+    DataBase.connectAndCreate().then(()=>{
+      DataBase.init()
+      this.users.set(0, new User(0, "admin", "admin", 'ADMIN'));	
+      this.users.set(1, new Employee(1, "manager", "manager", 'MANAGER','Noa','Cohen','0508888888'));	
+    })
+    
 
   }
 
