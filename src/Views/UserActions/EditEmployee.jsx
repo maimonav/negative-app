@@ -9,26 +9,8 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 
-// const styles = {
-//   cardCategoryWhite: {
-//     color: "rgba(255,255,255,.62)",
-//     margin: "0",
-//     fontSize: "14px",
-//     marginTop: "0",
-//     marginBottom: "0"
-//   },
-//   cardTitleWhite: {
-//     color: "#FFFFFF",
-//     marginTop: "0px",
-//     minHeight: "auto",
-//     fontWeight: "300",
-//     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-//     marginBottom: "3px",
-//     textDecoration: "none"
-//   }
-// };
 
-export default class AddEmployee extends React.Component {
+export default class EditEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -58,7 +40,7 @@ export default class AddEmployee extends React.Component {
   }
 
   setPermission(event) {
-    this.setState({ permission: event });
+    this.setState({ permission: event.target.value });
   }
 
   setContactDetails(event) {
@@ -80,8 +62,8 @@ export default class AddEmployee extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="success">
-                <h4>Add new employee</h4>
-                <p>Complete his profile</p>
+                <h4>Edit employee</h4>
+                <p>Edit the details you want</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -156,7 +138,7 @@ export default class AddEmployee extends React.Component {
                 <Button
                   color="success"
                   onClick={() =>
-                    this.props.handleAddEmployee(
+                    this.props.handleEditEmployee(
                       userName,
                       password,
                       firstName,
@@ -166,7 +148,7 @@ export default class AddEmployee extends React.Component {
                     )
                   }
                 >
-                  Add New Employee
+                  Edit Employee
                 </Button>
               </CardFooter>
             </Card>
@@ -176,3 +158,4 @@ export default class AddEmployee extends React.Component {
     );
   }
 }
+

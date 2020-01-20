@@ -4,6 +4,7 @@ import Login from "./Views/Login";
 import Logout from "./Views/Logout";
 import Register from "./Views/Register";
 import AddEmployee from "./Views/UserActions/AddEmployee";
+import EditEmployee from "./Views/UserActions/EditEmployee";
 
 class App extends React.Component {
   constructor(props) {
@@ -80,6 +81,30 @@ class App extends React.Component {
       });
   };
 
+  handleEditEmployee = (
+    userName,
+    password,
+    firstName,
+    lastName,
+    permission,
+    contactDetails
+  ) => {
+    fetch(
+      `api/editEmployee?userName=${encodeURIComponent(
+        userName
+      )}&password=${encodeURIComponent(
+        password
+      )}&firstName=${encodeURIComponent(firstName)}
+      &lastName=${encodeURIComponent(lastName)}&permission=${encodeURIComponent(
+        permission
+      )}&contactDetails=${encodeURIComponent(contactDetails)}`
+    )
+      .then(response => response.json())
+      .then(state => {
+        alert(state.result);
+      });
+  };
+
   returnToHome = () => {
     this.setState({ tabNumber: 0 });
   };
@@ -95,6 +120,8 @@ class App extends React.Component {
         return <Register handleRegister={this.handleRegister}></Register>;
       } else if (tabNumber === 3) {
         return <AddEmployee handleAddEmployee={this.handleAddEmployee} />;
+      } else if (tabNumber === 4) {
+        return <EditEmployee handleEditEmployee={this.handleEditEmployee} />;
       }
     } else {
       return <Logout handleLogout={this.handleLogout}></Logout>;
