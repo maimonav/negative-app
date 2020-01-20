@@ -1,9 +1,9 @@
 import React from "react";
-import "./App.css";
 import TabPanel from "./Components/TabPanel";
 import Login from "./Views/Login";
 import Logout from "./Views/Logout";
 import Register from "./Views/Register";
+import AddEmployee from "./Views/UserActions/AddEmployee";
 
 class App extends React.Component {
   constructor(props) {
@@ -56,6 +56,30 @@ class App extends React.Component {
       });
   };
 
+  handleAddEmployee = (
+    userName,
+    password,
+    firstName,
+    lastName,
+    permission,
+    contactDetails
+  ) => {
+    fetch(
+      `api/addNewEmployee?userName=${encodeURIComponent(
+        userName
+      )}&password=${encodeURIComponent(
+        password
+      )}&firstName=${encodeURIComponent(firstName)}
+      &lastName=${encodeURIComponent(lastName)}&permission=${encodeURIComponent(
+        permission
+      )}&contactDetails=${encodeURIComponent(contactDetails)}`
+    )
+      .then(response => response.json())
+      .then(state => {
+        alert(state.result);
+      });
+  };
+
   returnToHome = () => {
     this.setState({ tabNumber: 0 });
   };
@@ -69,6 +93,8 @@ class App extends React.Component {
         return <Login handleLogin={this.handleLogin}></Login>;
       } else if (tabNumber === 2) {
         return <Register handleRegister={this.handleRegister}></Register>;
+      } else if (tabNumber === 3) {
+        return <AddEmployee handleAddEmployee={this.handleAddEmployee} />;
       }
     } else {
       return <Logout handleLogout={this.handleLogout}></Logout>;

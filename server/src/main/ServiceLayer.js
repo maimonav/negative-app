@@ -43,5 +43,9 @@ class ServiceLayer {
     }
     return "Incorrect user name.";
   }
+
+  addNewEmployee(userName, password, firstName, lastName, permission, contactDetails){
+    return "Employee Added Successfully"
+  }
 }
 module.exports = ServiceLayer;
