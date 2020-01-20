@@ -39,6 +39,18 @@ class CinemaSystem {
         this.users.set(userID, employee);
         return "The employee registered successfully.";
     }
+    editEmployee(employeeID, password, permissions, firstName, lastName, contactDetails) {
+        if (!this.users.has(employeeID)) return 'The id is not exists';
+        return this.employeeManagement.editEmployee(employeeID, password, permissions, firstName, lastName, contactDetails);
+    }
+
+    deleteEmployee(employeeID) {
+        if (!this.users.has(employeeID)) return 'The id is not exists';
+        let res = this.employeeManagement.deleteEmployee(employeeID);
+        if (res === "Successfully deleted employee data deletion")
+            this.users.delete(employeeID);
+        return res;
+    }
 }
 
 module.exports = CinemaSystem;

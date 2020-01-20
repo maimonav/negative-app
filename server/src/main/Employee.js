@@ -7,5 +7,13 @@ class Employee extends User {
         this.contactDetails = contactDetails;
         this.employeeShift = new Map();
     }
+    editEmployee(password, permissions, firstName, lastName, contactDetails) {
+        this.password = password;
+        this.permissions = permissions;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.contactDetails = contactDetails;
+        this.employeeShift = new Map();
+    }
 }
 module.exports = Employee;

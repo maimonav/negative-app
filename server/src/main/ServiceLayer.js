@@ -60,6 +60,23 @@ class ServiceLayer {
         }
     }
 
+    editEmployee(userName, password, permissions, firstName, lastName, contactDetails) {
+        if (!this.users.has(userName)) {
+            return "The employee does not exist";
+        }
+        return this.cinemaSystem.editEmployee(this.users.get(userName), password, permissions, firstName, lastName, contactDetails);
+    }
+
+    deleteEmployee(userName) {
+        if (!this.users.has(userName)) {
+            return "The employee does not exist";
+        }
+        let res = this.cinemaSystem.deleteEmployee(this.users.get(userName));
+        if (res === "Successfully deleted employee data deletion")
+            this.users.delete(userName);
+        return res;
+    }
+
     convertPermissions(permissions) {
         switch (permissions) {
             case 'User':
