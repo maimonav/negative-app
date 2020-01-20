@@ -5,6 +5,7 @@ import Logout from "./Views/Logout";
 import Register from "./Views/Register";
 import AddEmployee from "./Views/UserActions/AddEmployee";
 import EditEmployee from "./Views/UserActions/EditEmployee";
+import RemoveEmployee from "./Views/UserActions/RemoveEmployee";
 
 class App extends React.Component {
   constructor(props) {
@@ -105,6 +106,18 @@ class App extends React.Component {
       });
   };
 
+  handleRemoveEmployee = (userId, password) => {
+    fetch(
+      `api/removeEmployee?userName=${encodeURIComponent(
+        userId
+      )}&password=${encodeURIComponent(password)}`
+    )
+      .then(response => response.json())
+      .then(state => {
+        alert(state.result);
+      });
+  };
+
   returnToHome = () => {
     this.setState({ tabNumber: 0 });
   };
@@ -122,6 +135,8 @@ class App extends React.Component {
         return <AddEmployee handleAddEmployee={this.handleAddEmployee} />;
       } else if (tabNumber === 4) {
         return <EditEmployee handleEditEmployee={this.handleEditEmployee} />;
+      } else if (tabNumber === 5) {
+        return <RemoveEmployee handleRemoveEmployee={this.handleRemoveEmployee} />;
       }
     } else {
       return <Logout handleLogout={this.handleLogout}></Logout>;

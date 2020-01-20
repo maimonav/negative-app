@@ -51,6 +51,13 @@ app.get("/api/editEmployee", (req, res) => {
   res.send(JSON.stringify({result}));
 })
 
+app.get("/api/removeEmployee", (req, res) => {
+  const userId = req.query.userId || "";
+  const password = req.query.password || "";
+  const result = service.removeEmployee(userId, password);
+  res.send(JSON.stringify({result}));
+})
+
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );

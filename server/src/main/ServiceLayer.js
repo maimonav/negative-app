@@ -51,5 +51,9 @@ class ServiceLayer {
   editEmployee(userName, password, firstName, lastName, permission, contactDetails){
     return "Employee Edit Successfully"
   }
+
+  removeEmployee(userName, password){
+    return "Employee Removed Successfully"
+  }
 }
 module.exports = ServiceLayer;
