@@ -36,9 +36,18 @@ app.get("/api/addNewEmployee", (req, res) => {
   const lastName = req.query.lastName || "";
   const permission = req.query.permission || "";
   const contactDetails = req.query.contactDetails || "";
-  const result = service.addNewEmployee(userName, password, firstName, lastName, permission, contactDetails);
-  res.send(JSON.stringify({result}));
-})
+  const user = req.query.user || "";
+  const result = service.addNewEmployee(
+    userName,
+    password,
+    firstName,
+    lastName,
+    permission,
+    contactDetails,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
 
 app.get("/api/editEmployee", (req, res) => {
   const userName = req.query.userName || "";
@@ -47,16 +56,25 @@ app.get("/api/editEmployee", (req, res) => {
   const lastName = req.query.lastName || "";
   const permission = req.query.permission || "";
   const contactDetails = req.query.contactDetails || "";
-  const result = service.editEmployee(userName, password, firstName, lastName, permission, contactDetails);
-  res.send(JSON.stringify({result}));
-})
+  const user = req.query.user || "";
+  const result = service.editEmployee(
+    userName,
+    password,
+    firstName,
+    lastName,
+    permission,
+    contactDetails,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
 
 app.get("/api/removeEmployee", (req, res) => {
-  const userId = req.query.userId || "";
-  const password = req.query.password || "";
-  const result = service.removeEmployee(userId, password);
-  res.send(JSON.stringify({result}));
-})
+  const userName = req.query.userName || "";
+  const user = req.query.user || "";
+  const result = service.removeEmployee(userName, user);
+  res.send(JSON.stringify({ result }));
+});
 
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")

@@ -66,6 +66,7 @@ class App extends React.Component {
     permission,
     contactDetails
   ) => {
+    const user = localStorage.getItem("username");
     fetch(
       `api/addNewEmployee?userName=${encodeURIComponent(
         userName
@@ -74,7 +75,9 @@ class App extends React.Component {
       )}&firstName=${encodeURIComponent(firstName)}
       &lastName=${encodeURIComponent(lastName)}&permission=${encodeURIComponent(
         permission
-      )}&contactDetails=${encodeURIComponent(contactDetails)}`
+      )}&contactDetails=${encodeURIComponent(
+        contactDetails
+      )}&user=${encodeURIComponent(user)}`
     )
       .then(response => response.json())
       .then(state => {
@@ -90,6 +93,7 @@ class App extends React.Component {
     permission,
     contactDetails
   ) => {
+    const user = localStorage.getItem("username");
     fetch(
       `api/editEmployee?userName=${encodeURIComponent(
         userName
@@ -98,7 +102,9 @@ class App extends React.Component {
       )}&firstName=${encodeURIComponent(firstName)}
       &lastName=${encodeURIComponent(lastName)}&permission=${encodeURIComponent(
         permission
-      )}&contactDetails=${encodeURIComponent(contactDetails)}`
+      )}&contactDetails=${encodeURIComponent(
+        contactDetails
+      )}&use=${encodeURIComponent(user)}`
     )
       .then(response => response.json())
       .then(state => {
@@ -106,11 +112,12 @@ class App extends React.Component {
       });
   };
 
-  handleRemoveEmployee = (userId, password) => {
+  handleRemoveEmployee = userName => {
+    const user = localStorage.getItem("username");
     fetch(
       `api/removeEmployee?userName=${encodeURIComponent(
-        userId
-      )}&password=${encodeURIComponent(password)}`
+        userName
+      )}&user=${encodeURIComponent(user)}`
     )
       .then(response => response.json())
       .then(state => {
@@ -131,15 +138,19 @@ class App extends React.Component {
         return <Login handleLogin={this.handleLogin}></Login>;
       } else if (tabNumber === 2) {
         return <Register handleRegister={this.handleRegister}></Register>;
-      } else if (tabNumber === 3) {
-        return <AddEmployee handleAddEmployee={this.handleAddEmployee} />;
-      } else if (tabNumber === 4) {
-        return <EditEmployee handleEditEmployee={this.handleEditEmployee} />;
-      } else if (tabNumber === 5) {
-        return <RemoveEmployee handleRemoveEmployee={this.handleRemoveEmployee} />;
-      }
+      } 
     } else {
-      return <Logout handleLogout={this.handleLogout}></Logout>;
+      if (tabNumber === 1) {
+        return <Logout handleLogout={this.handleLogout}></Logout>;
+      } else if (tabNumber === 2) {
+        return <AddEmployee handleAddEmployee={this.handleAddEmployee} />;
+      } else if (tabNumber === 3) {
+        return <EditEmployee handleEditEmployee={this.handleEditEmployee} />;
+      } else if (tabNumber === 4) {
+        return (
+          <RemoveEmployee handleRemoveEmployee={this.handleRemoveEmployee} />
+        );
+      }
     }
   };
 
