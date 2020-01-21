@@ -34,10 +34,6 @@ describe("CinemaSystem", () => {
     });
 
     it('Integration-register Test on class ServiceLayer', () => {
-        servicelayer.cinemaSystem = cinemaSystem;
-        expect(servicelayer.register(user.id, correctUserName, correctPassword)).toBe('No permissions were received for the user');
-        expect(servicelayer.register(user.id, correctUserName, correctPassword, 1)).toBe('No permissions were received for the user');
-        expect(servicelayer.register(user.id, correctUserName, correctPassword, [])).toBe('No permissions were received for the user');
         expect(servicelayer.userCounter).toBe(1);
         expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('The user registered successfully.');
         expect(servicelayer.userCounter).toBe(2);

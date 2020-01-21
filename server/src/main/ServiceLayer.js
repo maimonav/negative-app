@@ -64,6 +64,9 @@ class ServiceLayer {
     }
 
     editEmployee(userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
+        console.log("\n", ActionIDOfTheOperation, "\n");
+        console.log("\n", userName, "\n");
+
         if (!this.users.has(userName)) {
             return "The employee does not exist";
         }

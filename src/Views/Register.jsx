@@ -36,7 +36,7 @@ class Register extends React.Component {
           onChange={event => this.setPassword(event)}
         />
         <BaseButton
-          name="Submit"
+          name="Register"
           onClick={() =>
             this.props.handleRegister(this.state.username, this.state.password)
           }

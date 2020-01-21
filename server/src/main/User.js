@@ -9,6 +9,9 @@ class User {
     }
 
     login(userName, password) {
+        console.log(userName, this.sha256(userName + password));
+        console.log(this.userName, this.password);
+
         if (this.Loggedin) {
             return "The user already connected";
         }

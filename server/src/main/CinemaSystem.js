@@ -4,7 +4,7 @@ class CinemaSystem {
     constructor() {
         this.users = new Map();
         const User = require("./User");
-        this.users.set(0, new User(0, "admin", "admin", [1, 2, 3]));
+        this.users.set(0, new User(0, "admin", "admin", [1, 2, 3, 4]));
         const EmployeeManagement = require("./EmployeeManagement");
         this.employeeManagement = new EmployeeManagement();
         this.userOfflineMsg = "The operation cannot be completed - the user is not connected to the system";

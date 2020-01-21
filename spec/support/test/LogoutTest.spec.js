@@ -13,7 +13,6 @@ describe("LogoutTest", () => {
         correctUserName = "yuval";
         correctPassword = "123456";
         user = new User(1, correctUserName, correctPassword);
-        // user.isLoggedin = true;
         cinemaSystem = new CinemaSystem();
         cinemaSystem.users.set(1, user);
         servicelayer = new ServiceLayer();
@@ -21,7 +20,7 @@ describe("LogoutTest", () => {
     });
     it('UnitTest-logout Test on class User', () => {
         expect(user.logout()).toBe('The user isn\'t connected');
-        user.isLoggedin = true;
+        user.Loggedin = true;
         expect(user.logout()).toBe('Logout succeded.');
 
     });
@@ -45,14 +44,14 @@ describe("LogoutTest", () => {
 
     it('integration-logout Test on class User', () => {
         expect(user.logout()).toBe('The user isn\'t connected');
-        user.isLoggedin = true;
+        user.Loggedin = true;
         expect(user.logout()).toBe('Logout succeded.');
         expect(user.logout()).toBe('The user isn\'t connected');
 
     });
 
     it('integration-logout Test on class CinemaSystem', () => {
-        user.isLoggedin = true;
+        user.Loggedin = true;
         const wrongid = 'a';
         expect(cinemaSystem.logout(wrongid)).toBe("The user isn't exists");
         expect(cinemaSystem.logout(user.id)).toBe('Logout succeded.');
@@ -63,7 +62,7 @@ describe("LogoutTest", () => {
         servicelayer.cinemaSystem = cinemaSystem;
         const wrongUserName = "yubal";
         expect(servicelayer.logout(wrongUserName, correctPassword)).toBe("Incorrect user name.");
-        user.isLoggedin = true;
+        user.Loggedin = true;
         expect(servicelayer.logout(correctUserName, correctPassword, user.id)).toBe('Logout succeded.');
 
     });

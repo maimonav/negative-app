@@ -35,7 +35,7 @@ export default class RemoveEmployee extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="User Id"
+                      labelText="User Name"
                       id="userName"
                       formControlProps={{
                         fullWidth: true
