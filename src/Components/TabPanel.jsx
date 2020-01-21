@@ -23,9 +23,9 @@ export default function TablPanel(props) {
         {!props.isUserLogged && <Tab label="Login" />}
         {!props.isUserLogged && <Tab label="Register" />}
         {props.isUserLogged && <Tab label="Logout" />}
-        {<Tab label="Add Employee" />}
-        {<Tab label="Edit Employee" />}
-        {<Tab label="Remove Employee" />}
+        {props.isUserLogged && <Tab label="Add Employee" />}
+        {props.isUserLogged && <Tab label="Edit Employee" />}
+        {props.isUserLogged && <Tab label="Remove Employee" />}
       </Tabs>
     </Paper>
   );

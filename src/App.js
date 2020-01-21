@@ -138,17 +138,19 @@ class App extends React.Component {
         return <Login handleLogin={this.handleLogin}></Login>;
       } else if (tabNumber === 2) {
         return <Register handleRegister={this.handleRegister}></Register>;
-      } else if (tabNumber === 3) {
+      } 
+    } else {
+      if (tabNumber === 1) {
+        return <Logout handleLogout={this.handleLogout}></Logout>;
+      } else if (tabNumber === 2) {
         return <AddEmployee handleAddEmployee={this.handleAddEmployee} />;
-      } else if (tabNumber === 4) {
+      } else if (tabNumber === 3) {
         return <EditEmployee handleEditEmployee={this.handleEditEmployee} />;
-      } else if (tabNumber === 5) {
+      } else if (tabNumber === 4) {
         return (
           <RemoveEmployee handleRemoveEmployee={this.handleRemoveEmployee} />
         );
       }
-    } else {
-      return <Logout handleLogout={this.handleLogout}></Logout>;
     }
   };
 

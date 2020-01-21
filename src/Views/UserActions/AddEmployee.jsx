@@ -58,7 +58,7 @@ export default class AddEmployee extends React.Component {
   }
 
   setPermission(event) {
-    this.setState({ permission: event });
+    this.setState({ permission: event.target.value});
   }
 
   setContactDetails(event) {
