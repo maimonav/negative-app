@@ -5,11 +5,11 @@ class User {
         this.userName = userName;
         this.password = this.sha256(userName + password);
         this.permissions = permissions;
-        this.isLoggedin = false;
+        this.Loggedin = false;
     }
 
     login(userName, password) {
-        if (this.isLoggedin) {
+        if (this.Loggedin) {
             return "The user already connected";
         }
         if (
@@ -18,15 +18,23 @@ class User {
         ) {
             return "Incorrect user name or password";
         }
-        this.isLoggedin = true;
+        this.Loggedin = true;
         console.log(this);
         return "User Logged in succesfully.";
     }
 
     logout() {
-        if (!this.isLoggedin) return "The user isn't connected";
-        this.isLoggedin = false;
+        if (!this.Loggedin) return "The user isn't connected";
+        this.Loggedin = false;
         return "Logout succeded.";
+    }
+
+    isLoggedin() {
+        return this.Loggedin;
+    }
+
+    permmisionCheck(permissionRequired) {
+        return this.permissions.includes(permissionRequired);
     }
 
     equals(toCompare) {

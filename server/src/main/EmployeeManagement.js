@@ -26,6 +26,7 @@ class EmployeeManagemnt {
         if (!this.employeeDictionary.has(employeeID)) {
             return "The employee does not exist in the system.";
         }
+
         if (this.employeeDictionary.delete(employeeID))
             return "Successfully deleted employee data deletion";
         return "The deletion of employee data ended with failure";

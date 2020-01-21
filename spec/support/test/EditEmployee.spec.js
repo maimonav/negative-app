@@ -44,28 +44,34 @@ describe("EditEmployeeTest", () => {
     it('UnitTest-EditEmployee Test on class CinemaSystem', () => {
         spyOn(employeeManagemnt, 'editEmployee').and.returnValue('dummy');
         cinemaSystem.employeeManagement = employeeManagemnt;
-        expect(cinemaSystem.editEmployee("dummy user name", permissions, fname, lname, contactDetails)).toEqual("The id is not exists");
-        expect(cinemaSystem.editEmployee(adminID, permissions, fname, lname, contactDetails)).toEqual("dummy");
+        expect(cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
+        admin.Loggedin = true;
+        expect(cinemaSystem.editEmployee("dummy user name", adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The id is not exists");
+        expect(cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual("dummy");
 
     });
 
     it('UnitTest-EditEmployee Test on class ServiceLayer', () => {
         spyOn(cinemaSystem, 'editEmployee').and.returnValue('dummy');
         servicelayer.cinemaSystem = cinemaSystem;
-        expect(servicelayer.editEmployee(-1, permissions, fname, lname, contactDetails)).toEqual("The employee does not exist");
-        expect(servicelayer.editEmployee(adminUserName, permissions, fname, lname, contactDetails)).toEqual("dummy");
+        expect(servicelayer.editEmployee(-1, adminPassword, "Director", fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
+        expect(servicelayer.editEmployee(adminUserName, "Director", adminPassword, fname, lname, contactDetails, adminUserName)).toEqual("dummy");
 
     });
 
     it('integration-EditEmployee Test on class CinemaSystem', () => {
-        expect(cinemaSystem.editEmployee("dummy user name", permissions, fname, lname, contactDetails)).toEqual("The id is not exists");
-        expect(cinemaSystem.editEmployee(adminID, permissions, fname, lname, contactDetails)).toEqual("Employee editing data ended successfully");
+        expect(cinemaSystem.editEmployee(adminID, adminPassword, fname, lname, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
+        admin.Loggedin = true;
+        expect(cinemaSystem.editEmployee("dummy user name", adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The id is not exists");
+        expect(cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual("Employee editing data ended successfully");
+
 
     });
 
     it('integration-EditEmployee Test on class ServiceLayer', () => {
-        expect(servicelayer.editEmployee(-1, permissions, fname, lname, contactDetails)).toEqual("The employee does not exist");
-        expect(servicelayer.editEmployee(adminUserName, permissions, fname, lname, contactDetails)).toEqual("Employee editing data ended successfully");
+        admin.Loggedin = true;
+        expect(servicelayer.editEmployee(-1, adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
+        expect(servicelayer.editEmployee(adminUserName, adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("Employee editing data ended successfully");
 
     });
 

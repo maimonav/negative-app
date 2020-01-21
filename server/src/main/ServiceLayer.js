@@ -8,7 +8,7 @@ class ServiceLayer {
         this.userCounter = 1;
     }
 
-    register(userName, password, permissions) {
+    register(userName, password) {
         if (this.users.has(userName)) {
             return "The user already Exist";
         } else {
@@ -16,7 +16,7 @@ class ServiceLayer {
                 this.userCounter,
                 userName,
                 password,
-                permissions
+                this.convertPermissions("User")
             );
             if (result === "The user registered successfully.") {
                 this.users.set(userName, this.userCounter);
@@ -44,14 +44,17 @@ class ServiceLayer {
         return "Incorrect user name.";
     }
 
-    addNewEmployee(userName, password, permissions, firstName, lastName, contactDetails) {
+    addNewEmployee(userName, password, firstName, lastName, permissions, contactDetails, ActionIDOfTheOperation) {
         if (this.users.has(userName)) {
             return "The user already exist";
         } else {
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                return "The user performing the operation does not exist in the system";
+            }
             let convertedPermission = this.convertPermissions(permissions)
             if ((convertedPermission = undefined || !Array.isArray(convertedPermission)))
                 return "No permissions were received for the user";
-            let result = this.cinemaSystem.addNewEmployee(this.userCounter, userName, password, convertedPermission, firstName, lastName, contactDetails);
+            let result = this.cinemaSystem.addNewEmployee(this.userCounter, userName, password, convertedPermission, firstName, lastName, contactDetails, this.users.get(ActionIDOfTheOperation));
             if (result === "The employee registered successfully.") {
                 this.users.set(userName, this.userCounter)
                 this.userCounter++;
@@ -60,18 +63,24 @@ class ServiceLayer {
         }
     }
 
-    editEmployee(userName, password, permissions, firstName, lastName, contactDetails) {
+    editEmployee(userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (!this.users.has(userName)) {
             return "The employee does not exist";
         }
-        return this.cinemaSystem.editEmployee(this.users.get(userName), password, permissions, firstName, lastName, contactDetails);
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        return this.cinemaSystem.editEmployee(this.users.get(userName), password, permissions, firstName, lastName, contactDetails, this.users.get(ActionIDOfTheOperation));
     }
 
-    deleteEmployee(userName) {
+    deleteEmployee(userName, ActionIDOfTheOperation) {
         if (!this.users.has(userName)) {
             return "The employee does not exist";
         }
-        let res = this.cinemaSystem.deleteEmployee(this.users.get(userName));
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let res = this.cinemaSystem.deleteEmployee(this.users.get(userName), this.users.get(ActionIDOfTheOperation));
         if (res === "Successfully deleted employee data deletion")
             this.users.delete(userName);
         return res;
