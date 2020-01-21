@@ -13,24 +13,16 @@ export default class RemoveEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: "",
-      password: "",
+      userName: ""
     };
   }
 
   setUserId(event) {
-    this.setState({ userId: event.target.value });
-  }
-
-  setPassword(event) {
-    this.setState({ password: event.target.value });
+    this.setState({ userName: event.target.value });
   }
 
   render() {
-    const {
-      userId,
-      password,
-    } = this.state;
+    const { userName } = this.state;
     return (
       <div>
         <GridContainer>
@@ -44,41 +36,22 @@ export default class RemoveEmployee extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="User Id"
-                      id="userId"
+                      id="userName"
                       formControlProps={{
                         fullWidth: true
                       }}
                       onChange={event => this.setUserId(event)}
                     />
                   </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Password"
-                      id="password"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setPassword(event)}
-                    />
-                  </GridItem>
                 </GridContainer>
-                <GridContainer>
-                  
-                  
-                </GridContainer>
-                <GridContainer>
-                </GridContainer>
+                <GridContainer></GridContainer>
+                <GridContainer></GridContainer>
                 <GridContainer></GridContainer>
               </CardBody>
               <CardFooter>
                 <Button
                   color="success"
-                  onClick={() =>
-                    this.props.handleRemoveEmployee(
-                      userId,
-                      password,
-                    )
-                  }
+                  onClick={() => this.props.handleRemoveEmployee(userName)}
                 >
                   Remove Employee
                 </Button>
