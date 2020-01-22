@@ -36,7 +36,7 @@ class Login extends React.Component {
           onChange={event => this.setPassword(event)}
         />
         <BaseButton
-          name="Submit"
+          name="Login"
           onClick={() =>
             this.props.handleLogin(this.state.username, this.state.password)
           }
