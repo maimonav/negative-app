@@ -9,9 +9,22 @@ class User {
         this.password = this.sha256(userName + password);
         this.permissions = permissions;
         this.Loggedin = false;
-        DataBase.add('user',{ id:id,username:userName, password:password, permissions:permissions});
+        let permissionToDB = 'EMPLOYEE';
+        if ((permissions !== undefined && Array.isArray(permissions))){
+            if (permissions.includes(5))
+            permissionToDB = 'ADMIN';
+        else if (permissions.includes(4))
+            permissionToDB = 'MANAGER';
+        else if (permissions.includes(3))
+            permissionToDB = 'DEPUTY_MANAGER';
+        else if (permissions.includes(2))
+            permissionToDB = 'SHIFT_MANAGER';
+        }
+
+        DataBase.add('user', { id: id, username: userName, password: password, permissions: permissionToDB });
 
     }
+
 
     login(userName, password) {
         console.log(userName, this.sha256(userName + password));
