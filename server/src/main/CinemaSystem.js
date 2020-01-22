@@ -15,8 +15,8 @@ class CinemaSystem {
 
     DataBase.connectAndCreate().then(()=>{
       DataBase.init()
-      this.users.set(0, new User(0, "admin", "admin", 'ADMIN'));	
-      this.users.set(1, new Employee(1, "manager", "manager", 'MANAGER','Noa','Cohen','0508888888'));	
+      this.users.set(0, new User(0, "admin", "admin", [1,2,3,4,5]));	
+      this.users.set(1, new Employee(1, "manager", "manager", [1,2,3,4],'Noa','Cohen','0508888888'));	
     })
     
 
@@ -46,7 +46,7 @@ class CinemaSystem {
     addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (this.users.has(userID)) return 'The id is already exists';
         if (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permmisionCheck(3)) return inappropriatePermissionsMsg;
+        if (!this.users.get(ActionIDOfTheOperation).permmisionCheck(3)) return this.inappropriatePermissionsMsg;
         let employee = this.employeeManagement.addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails);
         if (employee === "The employee already exist")
             return "The id is already exists";

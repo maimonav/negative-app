@@ -5,7 +5,7 @@ class ServiceLayer {
         this.cinemaSystem = new CinemaSystem();
         this.users = new Map();
         this.users.set("admin", 0);
-        this.userCounter = 1;
+        this.userCounter = 3;
     }
 
     register(userName, password) {
@@ -44,7 +44,14 @@ class ServiceLayer {
         return "Incorrect user name.";
     }
 
+
+    printallUser(){
+        this.users.forEach((value, key, map)=>{
+            console.log(`m[${key}] = ${value}`);
+        })
+    }
     addNewEmployee(userName, password, firstName, lastName, permissions, contactDetails, ActionIDOfTheOperation) {
+        this.printallUser();
         if (this.users.has(userName)) {
             return "The user already exist";
         } else {
