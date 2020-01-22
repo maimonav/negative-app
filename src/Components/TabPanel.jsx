@@ -2,6 +2,7 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import DropDownTab from "./DropDownTab";
 
 export default function TablPanel(props) {
   const [value, setValue] = React.useState(props.tabNumber);
@@ -26,6 +27,7 @@ export default function TablPanel(props) {
         {props.isUserLogged && <Tab label="Add Employee" />}
         {props.isUserLogged && <Tab label="Edit Employee" />}
         {props.isUserLogged && <Tab label="Remove Employee" />}
+        {/* <DropDownTab handleTabChange={handleChange}></DropDownTab> */}
       </Tabs>
     </Paper>
   );
