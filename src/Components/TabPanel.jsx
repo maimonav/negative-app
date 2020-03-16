@@ -88,20 +88,24 @@ export default function TablPanel(props) {
         {props.isLogged && (
           <Route
             path="/addEmployee"
-            component={() => <AddEmployee handleLogout={handleAddEmployee} />}
+            component={() => (
+              <AddEmployee handleAddEmployee={handleAddEmployee} />
+            )}
           />
         )}
         {props.isLogged && (
           <Route
             path="/editEmployee"
-            component={() => <EditEmployee handleLogout={handleEditEmployee} />}
+            component={() => (
+              <EditEmployee handleEditEmployee={handleEditEmployee} />
+            )}
           />
         )}
         {props.isLogged && (
           <Route
             path="/removeEmployee"
             component={() => (
-              <RemoveEmployee handleLogout={handleRemoveEmployee} />
+              <RemoveEmployee handleRemoveEmployee={handleRemoveEmployee} />
             )}
           />
         )}
