@@ -1,3 +1,6 @@
+const DB = require("../../../server/src/main/DBManager");
+
+
 describe("LoginTest", () => {
     let user;
     let correctUserName;
@@ -10,9 +13,11 @@ describe("LoginTest", () => {
     let cinemaSystem;
 
     beforeEach(() => {
+        DB.testModeOn();
         correctUserName = "yuval";
         correctPassword = "123456";
-        user = new User(1, correctUserName, correctPassword);
+        permissions=[1,2,3,4];
+        user = new User(1, correctUserName, correctPassword,permissions);
         cinemaSystem = new CinemaSystem();
         cinemaSystem.users.set(1, user);
         servicelayer = new ServiceLayer();

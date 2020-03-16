@@ -1,3 +1,7 @@
+const DB = require("../../../server/src/main/DBManager");
+
+
+
 describe("addEmployeeTest", () => {
     let user;
     let correctUserName;
@@ -11,6 +15,8 @@ describe("addEmployeeTest", () => {
     let cinemaSystem;
 
     beforeEach(() => {
+        DB.testModeOn();
+
         adminID = 1;
         adminUserName = "adminUserName";
         adminPassword = "adminPassword";
@@ -26,6 +32,7 @@ describe("addEmployeeTest", () => {
         servicelayer.users.set(adminUserName, adminID);
         servicelayer.userCounter = 2;
 
+
         userID = 2;
         userUserName = "userUserName";
         userPassword = "adminPassword";
@@ -38,6 +45,9 @@ describe("addEmployeeTest", () => {
 
         cinemaSystem.employeeManagement = employeeManagemnt;
         servicelayer.cinemaSystem = cinemaSystem
+
+
+        
     });
 
     it('UnitTest-addEmployee Test on class EmployeeManagemnt', () => {
@@ -61,7 +71,7 @@ describe("addEmployeeTest", () => {
         spyOn(cinemaSystem, 'addNewEmployee').and.returnValue("The employee registered successfully.");
         servicelayer.cinemaSystem = cinemaSystem;
         expectedUserCounter = servicelayer.userCounter + 1;
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, "not good permmision", userfname, userlname, usercontactDetails, adminUserName)).toEqual("No permissions were received for the user");
+        expect(servicelayer.addNewEmployee(userUserName, userPassword,  userfname, userlname,"not good permmision", usercontactDetails, adminUserName)).toEqual("No permissions were received for the user");
         expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, "dummy")).toEqual("The user performing the operation does not exist in the system");
         expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The employee registered successfully.");
         expect(servicelayer.userCounter).toEqual(expectedUserCounter);
@@ -83,7 +93,7 @@ describe("addEmployeeTest", () => {
     it('Integration-addEmployee Test on class ServiceLayer', () => {
         admin.Loggedin = true;
         expectedUserCounter = servicelayer.userCounter + 1;
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, "not good permmision", userfname, userlname, usercontactDetails, adminUserName)).toEqual("No permissions were received for the user");
+        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, "not good permmision", usercontactDetails, adminUserName)).toEqual("No permissions were received for the user");
         expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, "dummy")).toEqual("The user performing the operation does not exist in the system");
         expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The employee registered successfully.");
         expect(servicelayer.userCounter).toEqual(expectedUserCounter);

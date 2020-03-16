@@ -1,16 +1,26 @@
-// const mongoose = require("mongoose");
+const DataBase = require("./DBManager");
 
 class CinemaSystem {
-    constructor() {
-        this.users = new Map();
-        const User = require("./User");
-        this.users.set(0, new User(0, "admin", "admin", [1, 2, 3, 4]));
-        const EmployeeManagement = require("./EmployeeManagement");
-        this.employeeManagement = new EmployeeManagement();
-        this.userOfflineMsg = "The operation cannot be completed - the user is not connected to the system";
-        this.inappropriatePermissionsMsg = "User does not have proper permissions";
 
-    }
+  constructor() {
+    this.users = new Map();
+    const {User,Employee} = {	
+      User:require("./User"),	
+      Employee:require("./Employee")	
+    };
+    const EmployeeManagement = require("./EmployeeManagement");
+    this.employeeManagement = new EmployeeManagement();
+    this.userOfflineMsg = "The operation cannot be completed - the user is not connected to the system";
+    this.inappropriatePermissionsMsg = "User does not have proper permissions";
+
+    DataBase.connectAndCreate().then(()=>{
+      DataBase.init()
+      this.users.set(0, new User(0, "admin", "admin", [1,2,3,4,5]));	
+      this.users.set(1, new Employee(1, "manager", "manager", [1,2,3,4],'Noa','Cohen','0508888888'));	
+    })
+    
+
+  }
 
     register(id, userName, password, permissions) {
         if (this.users.has(id)) return "The id is already exists";
@@ -36,7 +46,7 @@ class CinemaSystem {
     addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (this.users.has(userID)) return 'The id is already exists';
         if (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permmisionCheck(3)) return inappropriatePermissionsMsg;
+        if (!this.users.get(ActionIDOfTheOperation).permmisionCheck(3)) return this.inappropriatePermissionsMsg;
         let employee = this.employeeManagement.addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails);
         if (employee === "The employee already exist")
             return "The id is already exists";

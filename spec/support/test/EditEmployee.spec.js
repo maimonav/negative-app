@@ -1,3 +1,6 @@
+const DB = require("../../../server/src/main/DBManager");
+
+
 describe("EditEmployeeTest", () => {
     let user;
     let correctUserName;
@@ -11,6 +14,7 @@ describe("EditEmployeeTest", () => {
     let cinemaSystem;
 
     beforeEach(() => {
+        DB.testModeOn();
         adminID = 1;
         adminUserName = "adminUserName";
         adminPassword = "adminPassword";

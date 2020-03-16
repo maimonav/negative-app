@@ -5,7 +5,7 @@ class ServiceLayer {
         this.cinemaSystem = new CinemaSystem();
         this.users = new Map();
         this.users.set("admin", 0);
-        this.userCounter = 1;
+        this.userCounter = 3;
     }
 
     register(userName, password) {
@@ -44,7 +44,14 @@ class ServiceLayer {
         return "Incorrect user name.";
     }
 
+
+    printallUser(){
+        this.users.forEach((value, key, map)=>{
+            console.log(`m[${key}] = ${value}`);
+        })
+    }
     addNewEmployee(userName, password, firstName, lastName, permissions, contactDetails, ActionIDOfTheOperation) {
+        this.printallUser();
         if (this.users.has(userName)) {
             return "The user already exist";
         } else {
@@ -52,7 +59,7 @@ class ServiceLayer {
                 return "The user performing the operation does not exist in the system";
             }
             let convertedPermission = this.convertPermissions(permissions)
-            if ((convertedPermission = undefined || !Array.isArray(convertedPermission)))
+            if ((convertedPermission === undefined || !Array.isArray(convertedPermission)))
                 return "No permissions were received for the user";
             let result = this.cinemaSystem.addNewEmployee(this.userCounter, userName, password, convertedPermission, firstName, lastName, contactDetails, this.users.get(ActionIDOfTheOperation));
             if (result === "The employee registered successfully.") {
@@ -99,6 +106,8 @@ class ServiceLayer {
                 return [1, 2, 3];
             case 'Director':
                 return [1, 2, 3, 4];
+            case 'admin':
+                return [1, 2, 3, 4,5];
             default:
                 return undefined;
         }
