@@ -19,7 +19,10 @@ class Logout extends React.Component {
   render() {
     return (
       <form className={this.classes.root} noValidate autoComplete="off">
-        <BaseButton name="Logout" onClick={() => this.props.handleLogout()} />
+        <BaseButton
+          name="Logout"
+          onClick={() => this.props.handleLogout(this.props.onLogout)}
+        />
       </form>
     );
   }

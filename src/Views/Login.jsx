@@ -38,7 +38,11 @@ class Login extends React.Component {
         <BaseButton
           name="Login"
           onClick={() =>
-            this.props.handleLogin(this.state.username, this.state.password)
+            this.props.handleLogin(
+              this.state.username,
+              this.state.password,
+              this.props.onLogin
+            )
           }
         />
       </form>
