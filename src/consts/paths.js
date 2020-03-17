@@ -6,3 +6,6 @@ export const removeEmployeePath = "/removeEmployee";
 export const addProductPath = "/addProduct";
 export const editMoviePath = "/editMovie";
 export const removeMoviePath = "/removeMovie";
+export const addSupplierPath = "/addSupplier";
+export const editSupplierPath = "/editSupplier";
+export const removeSupplierPath = "/removeSupplier";

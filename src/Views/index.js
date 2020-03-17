@@ -6,6 +6,9 @@ import RemoveEmployee from "./UserActions/RemoveEmployee";
 import AddProduct from "./InventoryActions/AddProduct";
 import EditMovie from "./InventoryActions/EditMovie";
 import RemoveMovie from "./InventoryActions/RemoveMovie";
+import AddSupplier from "./UserActions/AddSupplier";
+import EditSupplier from "./UserActions/EditSupplier";
+import RemoveSupplier from "./UserActions/RemoveSupplier";
 
 export {
   Login,
@@ -15,5 +18,8 @@ export {
   RemoveEmployee,
   AddProduct,
   EditMovie,
-  RemoveMovie
+  RemoveMovie,
+  AddSupplier,
+  EditSupplier,
+  RemoveSupplier
 };
