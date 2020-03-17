@@ -99,6 +99,31 @@ app.get("/api/removeMovie", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addNewSupplier", (req, res) => {
+  const name = req.query.name || "";
+  const contactDetails = req.query.contactDetails || "";
+  const user = req.query.user || "";
+  const result = service.addNewSupplier(name, contactDetails, user);
+  res.send(JSON.stringify({ result }));
+});
+
+//not yet
+app.get("/api/editNewSupplier", (req, res) => {
+  const name = req.query.name || "";
+  const contactDetails = req.query.contactDetails || "";
+  const user = req.query.user || "";
+  const result = service.addNewEmployee(name, contactDetails, user);
+  res.send(JSON.stringify({ result }));
+});
+//not yet
+app.get("/api/removeNewSupplier", (req, res) => {
+  const name = req.query.userName || "";
+  const contactDetails = req.query.contactDetails || "";
+  const user = req.query.user || "";
+  const result = service.addNewEmployee(name, contactDetails, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );

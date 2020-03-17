@@ -9,7 +9,10 @@ import {
   removeEmployeePath,
   addProductPath,
   editMoviePath,
-  removeMoviePath
+  removeMoviePath,
+  addSupplierPath,
+  editSupplierPath,
+  removeSupplierPath
 } from "../consts/paths";
 import {
   handleLogin,
@@ -19,7 +22,10 @@ import {
   handleRemoveEmployee,
   handleAddProduct,
   handleEditMovie,
-  handleRemoveMovie
+  handleRemoveMovie,
+  handleAddSupplier,
+  handleEditSupplier,
+  handleRemoveSupplier
 } from "../Handlers/Handlers";
 
 import {
@@ -30,7 +36,10 @@ import {
   RemoveEmployee,
   AddProduct,
   EditMovie,
-  RemoveMovie
+  RemoveMovie,
+  AddSupplier,
+  EditSupplier,
+  RemoveSupplier
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -94,6 +103,30 @@ export default function Routes(props) {
           path={removeMoviePath}
           component={() => (
             <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={addSupplierPath}
+          component={() => (
+            <AddSupplier handleAddSupplier={handleAddSupplier} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={editSupplierPath}
+          component={() => (
+            <EditSupplier handleEditSupplier={handleEditSupplier} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={removeSupplierPath}
+          component={() => (
+            <RemoveSupplier handleRemoveSupplier={handleRemoveSupplier} />
           )}
         />
       )}
