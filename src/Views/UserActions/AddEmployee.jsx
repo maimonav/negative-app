@@ -8,7 +8,7 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
-
+const style = { justifyContent: "center", top: "auto" };
 // const styles = {
 //   cardCategoryWhite: {
 //     color: "rgba(255,255,255,.62)",
@@ -76,7 +76,7 @@ export default class AddEmployee extends React.Component {
     } = this.state;
     return (
       <div>
-        <GridContainer>
+        <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="success">
@@ -152,7 +152,7 @@ export default class AddEmployee extends React.Component {
                 </GridContainer>
                 <GridContainer></GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="success"
                   onClick={() =>

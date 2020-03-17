@@ -8,6 +8,7 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
+const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveEmployee extends React.Component {
   constructor(props) {
@@ -25,7 +26,7 @@ export default class RemoveEmployee extends React.Component {
     const { userName } = this.state;
     return (
       <div>
-        <GridContainer>
+        <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="success">
@@ -44,11 +45,8 @@ export default class RemoveEmployee extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer></GridContainer>
-                <GridContainer></GridContainer>
-                <GridContainer></GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="success"
                   onClick={() => this.props.handleRemoveEmployee(userName)}
