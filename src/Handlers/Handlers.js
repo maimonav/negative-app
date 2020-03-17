@@ -18,9 +18,7 @@ export function handleLogout(onLogout) {
   fetch(`/api/logout?username=${encodeURIComponent(username)}`)
     .then(response => response.json())
     .then(state => {
-      if (state.result === "Logout succeded.") {
-        onLogout();
-      }
+      onLogout();
       alert(state.result);
     });
 }
