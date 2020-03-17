@@ -8,147 +8,145 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
-const style = { justifyContent: "center", top: "auto" };
 
-export default class EditEmployee extends React.Component {
+// const styles = {
+//   cardCategoryWhite: {
+//     color: "rgba(255,255,255,.62)",
+//     margin: "0",
+//     fontSize: "14px",
+//     marginTop: "0",
+//     marginBottom: "0"
+//   },
+//   cardTitleWhite: {
+//     color: "#FFFFFF",
+//     marginTop: "0px",
+//     minHeight: "auto",
+//     fontWeight: "300",
+//     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+//     marginBottom: "3px",
+//     textDecoration: "none"
+//   }
+// };
+
+export default class AddProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "",
-      password: "",
-      firstName: "",
-      lastName: "",
-      permission: "",
-      contactDetails: ""
+      productName: "",
+      productPrice: "",
+      productQuantity: "",
+      maxQuantity: "",
+      minQuantity: "",
+      productCategory: ""
     };
   }
 
-  setUsername(event) {
-    this.setState({ userName: event.target.value });
+  setProuctName(event) {
+    this.setState({ productName: event.target.value });
   }
 
-  setPassword(event) {
-    this.setState({ password: event.target.value });
+  setProuctPrice(event) {
+    this.setState({ productPrice: event.target.value });
   }
 
-  setFirstName(event) {
-    this.setState({ firstName: event.target.value });
+  setProuctQuantity(event) {
+    this.setState({ productQuantity: event.target.value });
   }
 
-  setLastName(event) {
-    this.setState({ lastName: event.target.value });
+  setMaxQuantity(event) {
+    this.setState({ maxQuantity: event.target.value });
   }
 
-  setPermission(event) {
-    this.setState({ permission: event.target.value });
+  setMinQuantity(event) {
+    this.setState({ minQuantity: event.target.value });
   }
 
-  setContactDetails(event) {
-    this.setState({ contactDetails: event.target.value });
+  setProductCategory(event) {
+    this.setState({ productCategory: event.target.value });
   }
 
   render() {
-    const {
-      userName,
-      password,
-      firstName,
-      lastName,
-      permission,
-      contactDetails
-    } = this.state;
     return (
       <div>
-        <GridContainer style={style}>
+        <GridContainer>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="success">
-                <h4>Edit employee</h4>
-                <p>Change the details you want about the employee you choose</p>
+              <CardHeader color="info">
+                <h4>Add new Product</h4>
+                <p>Complete product's details</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Username"
-                      id="username"
+                      labelText="Product Name"
+                      id="productName"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setUsername(event)}
+                      onChange={event => this.setProuctName(event)}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Password"
-                      id="password"
+                      labelText="Product Price"
+                      id="productPrice"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setPassword(event)}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="First Name"
-                      id="first-name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setFirstName(event)}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Last Name"
-                      id="last-name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setLastName(event)}
+                      onChange={event => this.setProuctPrice(event)}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Permission - type: User, Shift Manager, Deputy Directo, Director"
-                      id="permission"
+                      labelText="Product Quantity"
+                      id="productPrice"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setPermission(event)}
+                      onChange={event => this.setProuctQuantity(event)}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Contact Details"
-                      id="contactDetails"
+                      labelText="Set Product Max Quantity"
+                      id="productMaxQuantity"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setContactDetails(event)}
+                      onChange={event => this.setMaxQuantity(event)}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Set Product Min Quantity"
+                      id="productMinQuantity"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      onChange={event => this.minQuantity(event)}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Set Product Category"
+                      id="productCategory"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      onChange={event => this.setProductCategory(event)}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer></GridContainer>
               </CardBody>
-              <CardFooter style={{ justifyContent: "center" }}>
-                <Button
-                  color="success"
-                  onClick={() =>
-                    this.props.handleEditEmployee(
-                      userName,
-                      password,
-                      firstName,
-                      lastName,
-                      permission,
-                      contactDetails
-                    )
-                  }
-                >
-                  Edit Employee
+              <CardFooter>
+                <Button color="info" onClick={() => "hello"}>
+                  Add New Product
                 </Button>
               </CardFooter>
             </Card>

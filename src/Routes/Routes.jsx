@@ -5,7 +5,8 @@ import {
   logoutPath,
   addEmployeePath,
   editEmployeePath,
-  removeEmployeePath
+  removeEmployeePath,
+  addProductPath
 } from "../consts/paths";
 import {
   handleLogin,
@@ -20,7 +21,8 @@ import {
   Logout,
   AddEmployee,
   EditEmployee,
-  RemoveEmployee
+  RemoveEmployee,
+  AddProduct
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -66,6 +68,9 @@ export default function Routes(props) {
             <RemoveEmployee handleRemoveEmployee={handleRemoveEmployee} />
           )}
         />
+      )}
+      {props.isLogged && (
+        <Route path={addProductPath} component={() => <AddProduct />} />
       )}
     </Switch>
   );
