@@ -16,7 +16,7 @@ export default function BaseButton(props) {
   return (
     <div className={classes.root}>
       <Button
-        variant="contained"
+        variant="outlined"
         color="primary"
         onClick={() => props.onClick()}
       >

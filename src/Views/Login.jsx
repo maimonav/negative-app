@@ -2,6 +2,8 @@ import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import BaseButton from "../Components/Button";
+import { Box } from "@material-ui/core";
+import "./Login.scss";
 
 class Login extends React.Component {
   constructor(props) {
@@ -26,26 +28,33 @@ class Login extends React.Component {
 
   render() {
     return (
-      <form className={this.classes.root} noValidate autoComplete="off">
-        <TextField
-          label="Username"
-          onChange={event => this.setUsername(event)}
-        />
-        <TextField
-          label="Password"
-          onChange={event => this.setPassword(event)}
-        />
-        <BaseButton
-          name="Login"
-          onClick={() =>
-            this.props.handleLogin(
-              this.state.username,
-              this.state.password,
-              this.props.onLogin
-            )
-          }
-        />
-      </form>
+      <>
+        <Box className="login-box">
+          Login To System
+          <form className={this.classes.root} noValidate autoComplete="off">
+            <Box>
+              <TextField
+                label="Username"
+                onChange={event => this.setUsername(event)}
+              />
+              <TextField
+                label="Password"
+                onChange={event => this.setPassword(event)}
+              />
+            </Box>
+            <BaseButton
+              name="Login"
+              onClick={() =>
+                this.props.handleLogin(
+                  this.state.username,
+                  this.state.password,
+                  this.props.onLogin
+                )
+              }
+            />
+          </form>
+        </Box>
+      </>
     );
   }
 }
