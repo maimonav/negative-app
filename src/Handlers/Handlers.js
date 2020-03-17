@@ -101,3 +101,46 @@ export function handleRemoveEmployee(userName) {
       alert(state.result);
     });
 }
+
+export function handleAddSupplier(name, contactDetails) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addSupplier?name=${encodeURIComponent(
+      name
+    )}&contactDetails=${encodeURIComponent(
+      contactDetails
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditSupplier(name, contactDetails) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addSupplier?name=${encodeURIComponent(
+      name
+    )}&contactDetails=${encodeURIComponent(
+      contactDetails
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveSupplier(name) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addSupplier?name=${encodeURIComponent(name)}&user=${encodeURIComponent(
+      user
+    )}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}

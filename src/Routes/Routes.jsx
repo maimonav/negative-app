@@ -5,14 +5,20 @@ import {
   logoutPath,
   addEmployeePath,
   editEmployeePath,
-  removeEmployeePath
+  removeEmployeePath,
+  addSupplierPath,
+  editSupplierPath,
+  removeSupplierPath
 } from "../consts/paths";
 import {
   handleLogin,
   handleLogout,
   handleAddEmployee,
   handleEditEmployee,
-  handleRemoveEmployee
+  handleRemoveEmployee,
+  handleAddSupplier,
+  handleEditSupplier,
+  handleRemoveSupplier
 } from "../Handlers/Handlers";
 
 import {
@@ -20,7 +26,10 @@ import {
   Logout,
   AddEmployee,
   EditEmployee,
-  RemoveEmployee
+  RemoveEmployee,
+  AddSupplier,
+  EditSupplier,
+  RemoveSupplier
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -64,6 +73,30 @@ export default function Routes(props) {
           path={removeEmployeePath}
           component={() => (
             <RemoveEmployee handleRemoveEmployee={handleRemoveEmployee} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={addSupplierPath}
+          component={() => (
+            <AddSupplier handleAddSupplier={handleAddSupplier} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={editSupplierPath}
+          component={() => (
+            <EditSupplier handleEditSupplier={handleEditSupplier} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={removeSupplierPath}
+          component={() => (
+            <RemoveSupplier handleRemoveSupplier={handleRemoveSupplier} />
           )}
         />
       )}
