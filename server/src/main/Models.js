@@ -6,8 +6,8 @@ const userSchema = () => {
   return {
     // attributes
     id: {type: Sequelize.INTEGER, primaryKey: true},
-    username: {type: Sequelize.STRING, allowNull: false},
-    password: {type: Sequelize.STRING, allowNull: false},
+    username: {type: Sequelize.STRING, notEmpty:true, allowNull: false},
+    password: {type: Sequelize.STRING, notEmpty:true, allowNull: false},
     permissions: {type:Sequelize.ENUM('ADMIN', 'MANAGER','DEPUTY_MANAGER','SHIFT_MANAGER','EMPLOYEE'), allowNull: false,defaultValue: 'EMPLOYEE' },
     isUserRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
   }};
@@ -24,13 +24,250 @@ const userSchema = () => {
         key: 'id'
       }
     },
-    firstName: {type: Sequelize.STRING, allowNull: false,isAlpha: true},
-    lastName: {type: Sequelize.STRING, allowNull: false,isAlpha: true},
-    contactDetails: {type: Sequelize.STRING, allowNull: false},
+    firstName: {type: Sequelize.STRING, notEmpty:true, allowNull: false,isAlpha: true},
+    lastName: {type: Sequelize.STRING, notEmpty:true, allowNull: false,isAlpha: true},
+    contactDetails: {type: Sequelize.STRING, notEmpty:true,  allowNull: false},
     isEmployeeRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
   }};
 
+  const movieSchema = (Category) => {
+    return {
+    // attributes
+    id: {type: Sequelize.INTEGER, primaryKey: true},
+    name: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
+    categoryId: {type: Sequelize.INTEGER, 
+      references: {
+        // This is a reference to another model
+        model: Category,
+   
+        // This is the column name of the referenced model
+        key: 'id'
+      }
+    },
+    movieKey: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
+    examinationRoom: {type: Sequelize.INTEGER, allowNull: false}
+  }};
 
+
+  const cafeteriaProductSchema = (Category) => {
+    return {
+    // attributes
+    id: {type: Sequelize.INTEGER, primaryKey: true},
+    name: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
+    categoryId: {type: Sequelize.INTEGER, 
+      references: {
+        // This is a reference to another model
+        model: Category,
+   
+        // This is the column name of the referenced model
+        key: 'id'
+      }
+    },
+    price: {type: Sequelize.INTEGER, allowNull: false},
+    quantity: {type: Sequelize.INTEGER, allowNull: false},
+    maxQuantity: {type: Sequelize.INTEGER, defaultValue: 4294967295},
+    minQuantity: {type: Sequelize.INTEGER, defaultValue: -1}
+  }};
+
+  const categorySchema = () => {
+    return {
+      // attributes
+      id: {type: Sequelize.INTEGER, primaryKey: true},
+      parendId: {type: Sequelize.INTEGER, allowNull: false},
+      name: {type: Sequelize.STRING, allowNull: false,notEmpty:true},
+      isCategoryRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+  }};
+
+  const supplierSchema = () => {
+    return {
+      // attributes
+      id: {type: Sequelize.INTEGER, primaryKey: true},
+      name: {type: Sequelize.STRING, notEmpty:true,allowNull: false},
+      contactDetails: {type: Sequelize.STRING, notEmpty:true,  allowNull: false},
+      isSupplierRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+  }};
+  
+
+  const orderSchema = (Employee,Supplier ) => {
+    return {
+      // attributes
+      id: {type: Sequelize.INTEGER, primaryKey: true},
+      date: {type: Sequelize.DATE, allowNull: false},
+      creatorEmployeeId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Employee,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      recipientEmployeeId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Employee,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      supplierId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Supplier,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      isOrderRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+  }};
+
+
+  const movieOrderSchema = (Movie,Order) => {
+    return {
+      // attributes
+      orderId: {type: Sequelize.INTEGER, primaryKey: true,
+        references: {
+          // This is a reference to another model
+          model: Movie,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      productId: {type: Sequelize.INTEGER, primaryKey: true,
+        references: {
+          // This is a reference to another model
+          model: Order,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      expectedQuantity: {type: Sequelize.INTEGER,min:0, defaultValue: 0},
+      actualQuantity: {type: Sequelize.INTEGER,min:0, defaultValue: 0},
+  }};
+
+  const cafeteriaProductOrderSchema = (CafeteriaProduct,Order) => {
+    return {
+      // attributes
+      orderId: {type: Sequelize.INTEGER, primaryKey: true,
+        references: {
+          // This is a reference to another model
+          model: CafeteriaProduct,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      productId: {type: Sequelize.INTEGER, primaryKey: true,
+        references: {
+          // This is a reference to another model
+          model: Order,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      expectedQuantity: {type: Sequelize.INTEGER, min:0, defaultValue: 0},
+      actualQuantity: {type: Sequelize.INTEGER, min:0,defaultValue: 0},
+  }};
+
+
+  const incomesDailyReportSchema = (Employee) => {
+    return {
+      // attributes
+      date: {type: Sequelize.DATE, primaryKey: true},
+      creatorEmployeeId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Employee,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      numOfTabsSales: {type: Sequelize.INTEGER, allowNull: false},
+      cafeteriaCashRevenues: {type: Sequelize.INTEGER, allowNull: false},
+      cafeteriaCreditCardRevenues: {type: Sequelize.INTEGER, allowNull: false},
+      ticketsCashRevenues: {type: Sequelize.INTEGER, allowNull: false},
+      ticketsCreditCardRevenues: {type: Sequelize.INTEGER, allowNull: false},
+      tabsCashRevenues: {type: Sequelize.INTEGER, allowNull: false},
+      tabsCreditCardRevenues: {type: Sequelize.INTEGER, allowNull: false},
+  }};
+
+  
+  const moviesDailyReportSchema = (Movie,Employee) => {
+    return {
+      // attributes
+      date: {type: Sequelize.DATE, primaryKey: true},
+      creatorEmployeeId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Employee,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      movieId: {type: Sequelize.INTEGER, primaryKey: true,
+        references: {
+          // This is a reference to another model
+          model: Movie,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      theater: {type: Sequelize.INTEGER, allowNull: false},
+      numOfTicketsSales: {type: Sequelize.INTEGER, allowNull: false},
+      numOfUsedTickets: {type: Sequelize.INTEGER, allowNull: false},
+      wasAirConditionGlitches: {type: Sequelize.BOOLEAN, defaultValue: false}
+  }};
+  
+  const generalPurposeDailyReportSchema = (Employee) => {
+    return {
+      // attributes
+      date: {type: Sequelize.DATE, primaryKey: true},
+      creatorEmployeeId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Employee,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      additionalProps : {type: Sequelize.JSON, allowNull: false}
+  }};
+  
+  const inventoryDailyReportSchema = (CafeteriaProduct,Employee) => {
+    return {
+      // attributes
+      date: {type: Sequelize.DATE, primaryKey: true},
+      productId: {type: Sequelize.INTEGER, primaryKey: true,
+        references: {
+          // This is a reference to another model
+          model: CafeteriaProduct,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      creatorEmployeeId: {type: Sequelize.INTEGER, 
+        references: {
+          // This is a reference to another model
+          model: Employee,
+     
+          // This is the column name of the referenced model
+          key: 'id'
+        }
+      },
+      quantitySold:  {type: Sequelize.INTEGER, allowNull: false},
+      quantityInStock:  {type: Sequelize.INTEGER, allowNull: false},
+      stockThrown:  {type: Sequelize.INTEGER, allowNull: false}
+  }};
 
 
   /*validate: {
@@ -80,5 +317,20 @@ const userSchema = () => {
       }
     }*/
 
+
+
+  
+
     exports.userSchema = userSchema
     exports.employeeSchema = employeeSchema;
+    exports.movieSchema = movieSchema;
+    exports.cafeteriaProductSchema = cafeteriaProductSchema;
+    exports.categorySchema = categorySchema;
+    exports.movieOrderSchema=movieOrderSchema;
+    exports.cafeteriaProductOrderSchema=cafeteriaProductOrderSchema;
+    exports.orderSchema=orderSchema;
+    exports.supplierSchema=supplierSchema;
+    exports.incomesDailyReportSchema=incomesDailyReportSchema;
+    exports.moviesDailyReportSchema=moviesDailyReportSchema;
+    exports.inventoryDailyReportSchema=inventoryDailyReportSchema;
+    exports.generalPurposeDailyReportSchema=generalPurposeDailyReportSchema;
