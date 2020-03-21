@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const mysql = require('mysql2');
-const {generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDailyReportSchema, incomesDailyReportSchema,
-     supplierSchema, movieSchema, cafeteriaProductSchema, categorySchema, movieOrderSchema, cafeteriaProductOrderSchema, orderSchema, 
+const { generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDailyReportSchema, incomesDailyReportSchema,
+    supplierSchema, movieSchema, cafeteriaProductSchema, categorySchema, movieOrderSchema, cafeteriaProductOrderSchema, orderSchema,
     userSchema, employeeSchema } = require("./Models");
 
 class DataBase {
@@ -13,7 +13,7 @@ class DataBase {
         this.isTestMode = false;
 
     }
-    
+
 
     static initDB(dbName) {
         if (this.isTestMode)
@@ -24,10 +24,10 @@ class DataBase {
                 host: 'localhost',
                 dialect: 'mysql'
             });
-            
+
             DataBase.initModels();
-    
-            this.models = { 
+
+            this.models = {
                 user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
                 order: this.Order, movie: this.Movie, cafeteriaProduct: this.CafeteriaProduct, movieOrder: this.MovieOrder,
                 cafeteriaProductOrder: this.CafeteriaProductOrder, generalPurposeDailyReport: this.GeneralPurposeDailyReport,
@@ -42,13 +42,16 @@ class DataBase {
     }
 
     static initModels() {
-        this.User = this.sequelize.define('user', userSchema(), {});
-        //define trigger after updating isUserRemoved
-        this.User.addHook('afterUpdate', async (user) => {
-            if(user.isUserRemoved){
-                await DataBase.update('employee',user.id,{ isEmployeeRemoved: true });
+        this.User = this.sequelize.define('user', userSchema(), {
+            hooks: {
+                //define trigger after updating isUserRemoved
+                afterBulkUpdate: async function (user) {
+                    if (user.attributes.isUserRemoved) {
+                        await DataBase.update('employee', user.where.id, { isEmployeeRemoved: true });
+                    }
+                }
             }
-          });
+        });
         this.Employee = this.sequelize.define('employee', employeeSchema(this.User), {});
         this.Supplier = this.sequelize.define('supplier', supplierSchema(), {});
         this.Category = this.sequelize.define('category', categorySchema(), {});
@@ -58,8 +61,8 @@ class DataBase {
         this.MovieOrder = this.sequelize.define('movie_order', movieOrderSchema(this.Movie, this.Order), {});
         this.CafeteriaProductOrder = this.sequelize.define('cafeteria_product_order', cafeteriaProductOrderSchema(this.CafeteriaProduct, this.Order), {});
         this.GeneralPurposeDailyReport = this.sequelize.define('general_purpose_daily_report', generalPurposeDailyReportSchema(this.Employee), {});
-        this.InventoryDailyReport = this.sequelize.define('inventory_daily_report', inventoryDailyReportSchema(this.CafeteriaProduct,this.Employee), {});
-        this.MoviesDailyReport = this.sequelize.define('movie_daily_reports', moviesDailyReportSchema(this.Movie,this.Employee), {});
+        this.InventoryDailyReport = this.sequelize.define('inventory_daily_report', inventoryDailyReportSchema(this.CafeteriaProduct, this.Employee), {});
+        this.MoviesDailyReport = this.sequelize.define('movie_daily_reports', moviesDailyReportSchema(this.Movie, this.Employee), {});
         this.IncomesDailyReport = this.sequelize.define('incomes_daily_report', incomesDailyReportSchema(this.Employee), {});
     }
 

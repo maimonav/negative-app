@@ -45,7 +45,8 @@ const userSchema = () => {
       }
     },
     movieKey: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
-    examinationRoom: {type: Sequelize.INTEGER, allowNull: false}
+    examinationRoom: {type: Sequelize.INTEGER, allowNull: false},
+    isMovieRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
   }};
 
 
@@ -66,7 +67,8 @@ const userSchema = () => {
     price: {type: Sequelize.INTEGER, allowNull: false},
     quantity: {type: Sequelize.INTEGER, allowNull: false},
     maxQuantity: {type: Sequelize.INTEGER, defaultValue: 4294967295},
-    minQuantity: {type: Sequelize.INTEGER, defaultValue: -1}
+    minQuantity: {type: Sequelize.INTEGER, defaultValue: -1},
+    isProductRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
   }};
 
   const categorySchema = () => {
@@ -75,6 +77,7 @@ const userSchema = () => {
       id: {type: Sequelize.INTEGER, primaryKey: true},
       parendId: {type: Sequelize.INTEGER, allowNull: false},
       name: {type: Sequelize.STRING, allowNull: false,notEmpty:true},
+      isCategoryUsed:  {type: Sequelize.BOOLEAN, defaultValue: false},
       isCategoryRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
   }};
 
@@ -120,7 +123,7 @@ const userSchema = () => {
           key: 'id'
         }
       },
-      isOrderRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+      isProvided: {type: Sequelize.BOOLEAN, defaultValue: false},
   }};
 
 
