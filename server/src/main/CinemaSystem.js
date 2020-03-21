@@ -142,6 +142,28 @@ class CinemaSystem {
   removeMovie(movieID, ActionIDOfTheOperation) {
     return "TODO: IMPLEMENT THIS.";
   }
+
+  addNewSupplier(
+    supplierID,
+    supplierName,
+    contactDetails,
+    ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  editSupplier(
+    supplierID,
+    supplierName,
+    contactDetails,
+    ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  removeSupplier(supplierID, supplierName, ActionIDOfTheOperation) {
+    return "TODO: IMPLEMENT THIS.";
+  }
 }
 
 module.exports = CinemaSystem;

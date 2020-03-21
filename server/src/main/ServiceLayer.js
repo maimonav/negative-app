@@ -9,6 +9,10 @@ class ServiceLayer {
     this.movies = new Map();
     this.movies.set("movie", 0);
     this.movieCounter = 1;
+    this.suppliers = new Map();
+    // just for example purposes
+    this.suppliers.set("supplier", 0);
+    this.supplierCounter = 1;
   }
 
   register(userName, password) {
@@ -169,6 +173,66 @@ class ServiceLayer {
       this.movieCounter--;
     }
     return res;
+  }
+
+  addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    if (this.suppliers.has(supplierName)) {
+      return "The supplier already exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.addNewSupplier(
+        this.supplierCounter,
+        supplierName,
+        contactDetails,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The supplier added successfully.") {
+        this.suppliers.set(supplierName, this.supplierCounter);
+        this.suppliers++;
+      }
+      return result;
+    }
+  }
+
+  editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    if (!this.suppliers.has(supplierName)) {
+      return "The supplier does not exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.editSupplier(
+        this.supplierCounter,
+        supplierName,
+        contactDetails,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The supplier edited successfully.") {
+        this.suppliers.set(supplierName, this.supplierCounter);
+      }
+      return result;
+    }
+  }
+
+  removeSupplier(supplierName, ActionIDOfTheOperation) {
+    if (!this.suppliers.has(supplierName)) {
+      return "The supplier does not exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.editSupplier(
+        this.supplierCounter,
+        supplierName,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The supplier removed successfully.") {
+        this.suppliers.set(supplierName, this.userCounter);
+      }
+      return result;
+    }
   }
 
   convertPermissions(permissions) {
