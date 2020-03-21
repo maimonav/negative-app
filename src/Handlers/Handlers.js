@@ -146,6 +146,34 @@ export function handleAddSupplier(name, contactDetails) {
     });
 }
 
+export function handleEditSupplier(name, contactDetails) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/editSupplier?name=${encodeURIComponent(
+      name
+    )}&contactDetails=${encodeURIComponent(
+      contactDetails
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveSupplier(name) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeSupplier?name=${encodeURIComponent(
+      name
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleEditMovie(movieName, category, key, examinationRoom) {
   const user = localStorage.getItem("username");
   fetch(
@@ -163,39 +191,11 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
     });
 }
 
-export function handleEditSupplier(name, contactDetails) {
-  const user = localStorage.getItem("username");
-  fetch(
-    `api/editSupplier?name=${encodeURIComponent(
-      name
-    )}&contactDetails=${encodeURIComponent(
-      contactDetails
-    )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
-}
-
 export function handleRemoveMovie(movieName) {
   const user = localStorage.getItem("username");
   fetch(
     `api/removeMovie?movieName=${encodeURIComponent(
       movieName
-    )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
-}
-
-export function handleRemoveSupplier(name) {
-  const user = localStorage.getItem("username");
-  fetch(
-    `api/removeSupplier?name=${encodeURIComponent(
-      name
     )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
