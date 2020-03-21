@@ -131,21 +131,6 @@ export function handleAddProduct(
     });
 }
 
-export function handleAddSupplier(name, contactDetails) {
-  const user = localStorage.getItem("username");
-  fetch(
-    `api/addNewSupplier?name=${encodeURIComponent(
-      name
-    )}&contactDetails=${encodeURIComponent(
-      contactDetails
-    )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
-}
-
 export function handleEditMovie(movieName, category, key, examinationRoom) {
   const user = localStorage.getItem("username");
   fetch(
@@ -163,10 +148,23 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
     });
 }
 
-export function handleEditSupplier(name, contactDetails) {
+export function handleRemoveMovie(movieName) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/editSupplier?name=${encodeURIComponent(
+    `api/removeMovie?movieName=${encodeURIComponent(
+      movieName
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleAddSupplier(name, contactDetails) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addNewSupplier?name=${encodeURIComponent(
       name
     )}&contactDetails=${encodeURIComponent(
       contactDetails
@@ -178,11 +176,13 @@ export function handleEditSupplier(name, contactDetails) {
     });
 }
 
-export function handleRemoveMovie(movieName) {
+export function handleEditSupplier(name, contactDetails) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/removeMovie?movieName=${encodeURIComponent(
-      movieName
+    `api/editSupplier?name=${encodeURIComponent(
+      name
+    )}&contactDetails=${encodeURIComponent(
+      contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
