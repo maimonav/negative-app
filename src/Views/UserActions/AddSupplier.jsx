@@ -57,7 +57,7 @@ export default class AddSupplier extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setPassword(event)}
+                      onChange={event => this.setContactDetails(event)}
                     />
                   </GridItem>
                 </GridContainer>

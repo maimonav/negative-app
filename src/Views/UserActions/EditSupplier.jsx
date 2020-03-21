@@ -35,7 +35,7 @@ export default class EditSupplier extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="success">
-                <h4>Add new supplier</h4>
+                <h4>Edit supplier</h4>
                 <p>Complete his profile</p>
               </CardHeader>
               <CardBody>
@@ -57,7 +57,7 @@ export default class EditSupplier extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setPassword(event)}
+                      onChange={event => this.setContactDetails(event)}
                     />
                   </GridItem>
                 </GridContainer>

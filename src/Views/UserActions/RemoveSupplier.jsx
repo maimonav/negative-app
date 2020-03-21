@@ -35,7 +35,7 @@ export default class RemoveSupplier extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="success">
-                <h4>Add new supplier</h4>
+                <h4>Remove supplier</h4>
                 <p>Complete his profile</p>
               </CardHeader>
               <CardBody>
@@ -48,16 +48,6 @@ export default class RemoveSupplier extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setName(event)}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Contact details"
-                      id="contactDetails"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setPassword(event)}
                     />
                   </GridItem>
                 </GridContainer>

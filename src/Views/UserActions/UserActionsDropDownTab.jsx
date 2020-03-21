@@ -7,7 +7,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {
   addEmployeePath,
   editEmployeePath,
-  removeEmployeePath
+  removeEmployeePath,
+  addSupplierPath,
+  editSupplierPath,
+  removeSupplierPath
 } from "../../consts/paths";
 
 export default function UserActionsDropDownTab(props) {
@@ -51,6 +54,21 @@ export default function UserActionsDropDownTab(props) {
         <Link to={removeEmployeePath}>
           <MenuItem value={3} onClick={handleClose}>
             Remove Employee
+          </MenuItem>
+        </Link>
+        <Link to={addSupplierPath}>
+          <MenuItem value={3} onClick={handleClose}>
+            Add New Supplier
+          </MenuItem>
+        </Link>
+        <Link to={editSupplierPath}>
+          <MenuItem value={3} onClick={handleClose}>
+            Edit Supplier
+          </MenuItem>
+        </Link>
+        <Link to={removeSupplierPath}>
+          <MenuItem value={3} onClick={handleClose}>
+            Remove Supplier
           </MenuItem>
         </Link>
       </Menu>
