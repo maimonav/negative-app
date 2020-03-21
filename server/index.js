@@ -84,20 +84,18 @@ app.get("/api/addNewSupplier", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-//not yet
-app.get("/api/editNewSupplier", (req, res) => {
+app.get("/api/editSupplier", (req, res) => {
   const name = req.query.name || "";
   const contactDetails = req.query.contactDetails || "";
   const user = req.query.user || "";
-  const result = service.addNewEmployee(name, contactDetails, user);
+  const result = service.editSupplier(name, contactDetails, user);
   res.send(JSON.stringify({ result }));
 });
-//not yet
-app.get("/api/removeNewSupplier", (req, res) => {
-  const name = req.query.userName || "";
-  const contactDetails = req.query.contactDetails || "";
+
+app.get("/api/removeSupplier", (req, res) => {
+  const name = req.query.name || "";
   const user = req.query.user || "";
-  const result = service.addNewEmployee(name, contactDetails, user);
+  const result = service.removeSupplier(name, user);
   res.send(JSON.stringify({ result }));
 });
 

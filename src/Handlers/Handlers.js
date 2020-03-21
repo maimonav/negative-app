@@ -105,7 +105,7 @@ export function handleRemoveEmployee(userName) {
 export function handleAddSupplier(name, contactDetails) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/addSupplier?name=${encodeURIComponent(
+    `api/addNewSupplier?name=${encodeURIComponent(
       name
     )}&contactDetails=${encodeURIComponent(
       contactDetails
@@ -120,7 +120,7 @@ export function handleAddSupplier(name, contactDetails) {
 export function handleEditSupplier(name, contactDetails) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/addSupplier?name=${encodeURIComponent(
+    `api/editSupplier?name=${encodeURIComponent(
       name
     )}&contactDetails=${encodeURIComponent(
       contactDetails
@@ -135,9 +135,9 @@ export function handleEditSupplier(name, contactDetails) {
 export function handleRemoveSupplier(name) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/addSupplier?name=${encodeURIComponent(name)}&user=${encodeURIComponent(
-      user
-    )}`
+    `api/removeSupplier?name=${encodeURIComponent(
+      name
+    )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
     .then(state => {
