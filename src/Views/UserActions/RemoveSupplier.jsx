@@ -36,7 +36,6 @@ export default class RemoveSupplier extends React.Component {
             <Card>
               <CardHeader color="success">
                 <h4>Remove supplier</h4>
-                <p>Complete his profile</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
