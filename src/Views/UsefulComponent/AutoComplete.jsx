@@ -7,7 +7,7 @@ export default function ComboBox(props) {
   const [value, setValue] = React.useState(null);
 
   const handleChange = (event, newValue) => {
-    props.setName(newValue.title);
+    props.setName((newValue && newValue.title) || "");
     setValue(newValue);
   };
 

@@ -1,4 +1,5 @@
 import React from "react";
+// eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom"; //DO NOT REMOVE ROUTER&LINK
 import {
   loginPath,
@@ -6,7 +7,9 @@ import {
   addEmployeePath,
   editEmployeePath,
   removeEmployeePath,
-  addProductPath
+  addProductPath,
+  editMoviePath,
+  removeMoviePath
 } from "../consts/paths";
 import {
   handleLogin,
@@ -14,7 +17,9 @@ import {
   handleAddEmployee,
   handleEditEmployee,
   handleRemoveEmployee,
-  handleAddProduct
+  handleAddProduct,
+  handleEditMovie,
+  handleRemoveMovie
 } from "../Handlers/Handlers";
 
 import {
@@ -23,7 +28,9 @@ import {
   AddEmployee,
   EditEmployee,
   RemoveEmployee,
-  AddProduct
+  AddProduct,
+  EditMovie,
+  RemoveMovie
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -71,7 +78,24 @@ export default function Routes(props) {
         />
       )}
       {props.isLogged && (
-        <Route path={addProductPath} component={() => <AddProduct handleAddProduct={handleAddProduct}/>} />
+        <Route
+          path={addProductPath}
+          component={() => <AddProduct handleAddProduct={handleAddProduct} />}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={editMoviePath}
+          component={() => <EditMovie handleEditMovie={handleEditMovie} />}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={removeMoviePath}
+          component={() => (
+            <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
+          )}
+        />
       )}
     </Switch>
   );

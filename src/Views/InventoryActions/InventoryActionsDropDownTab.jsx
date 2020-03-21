@@ -3,7 +3,11 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { addProductPath } from "../../consts/paths";
+import {
+  addProductPath,
+  editMoviePath,
+  removeMoviePath
+} from "../../consts/paths";
 
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -48,6 +52,16 @@ export default function InventoryActionsDropDownTab(props) {
             Remove Employee
           </MenuItem>
         </Link> */}
+        <Link to={editMoviePath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Edit Movie
+          </MenuItem>
+        </Link>
+        <Link to={removeMoviePath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Remove Movie
+          </MenuItem>
+        </Link>
       </Menu>
     </>
   );

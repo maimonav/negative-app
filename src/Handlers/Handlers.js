@@ -107,21 +107,53 @@ export function handleAddProduct(
   productPrice,
   productQuantity,
   maxQuantity,
-  minQuantity,productCategory
+  minQuantity,
+  productCategory
 ) {
   const user = localStorage.getItem("username");
   fetch(
     `api/addNewEmployee?productName=${encodeURIComponent(
       productName
-    )}&productPrice=${encodeURIComponent(productPrice)}&productQuantity=${encodeURIComponent(
-      productQuantity
-    )}
+    )}&productPrice=${encodeURIComponent(
+      productPrice
+    )}&productQuantity=${encodeURIComponent(productQuantity)}
       &maxQuantity=${encodeURIComponent(
         maxQuantity
-    )}&minQuantity=${encodeURIComponent(
+      )}&minQuantity=${encodeURIComponent(
       minQuantity
     )}&productCategory=${encodeURIComponent(
-      productCategory)}&user=${encodeURIComponent(user)}`
+      productCategory
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditMovie(movieName, category, key, examinationRoom) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/editMovie?movieName=${encodeURIComponent(
+      movieName
+    )}&category=${encodeURIComponent(category)}&key=${encodeURIComponent(
+      key
+    )}&examinationRoom=${encodeURIComponent(
+      examinationRoom
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveMovie(movieName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeMovie?movieName=${encodeURIComponent(
+      movieName
+    )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
     .then(state => {
