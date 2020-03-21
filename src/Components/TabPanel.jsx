@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Link } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
 import { loginPath, logoutPath } from "../consts/paths";
+import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 
 export default function TablPanel(props) {
   return (
@@ -23,6 +24,7 @@ export default function TablPanel(props) {
             </Link>
           )}
           {props.isLogged && <UserActionsDropDownTab></UserActionsDropDownTab>}
+          {props.isLogged && <InventoryActionsDropDownTab />}
         </Tabs>
       </Paper>
       <Routes {...props}></Routes>

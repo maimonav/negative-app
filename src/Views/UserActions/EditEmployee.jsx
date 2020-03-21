@@ -8,7 +8,11 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
+import SimpleSelect from "../UsefulComponent/SelectOptions";
+
 const style = { justifyContent: "center", top: "auto" };
+
+
 export default class EditEmployee extends React.Component {
   constructor(props) {
     super(props);
@@ -22,9 +26,9 @@ export default class EditEmployee extends React.Component {
     };
   }
 
-  setUsername(event) {
-    this.setState({ userName: event.target.value });
-  }
+  setUsername = event => {
+    this.setState({ userName: event });
+  };
 
   setPassword(event) {
     this.setState({ password: event.target.value });
@@ -46,6 +50,8 @@ export default class EditEmployee extends React.Component {
     this.setState({ contactDetails: event.target.value });
   }
 
+  names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
+
   render() {
     const {
       userName,
@@ -62,19 +68,24 @@ export default class EditEmployee extends React.Component {
             <Card>
               <CardHeader color="success">
                 <h4>Edit employee</h4>
-                <p>Edit the details you want</p>
+                <p>Change the details you want about the employee you choose</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
+                    <SimpleSelect
+                      names={this.names}
+                      placeHolder={"Employee Name"}
+                      setName={this.setUsername}
+                    />
+                    {/* <CustomInput
                       labelText="Username"
                       id="username"
                       formControlProps={{
                         fullWidth: true
                       }}
                       onChange={event => this.setUsername(event)}
-                    />
+                    /> */}
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
