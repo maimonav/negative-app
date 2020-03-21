@@ -8,6 +8,8 @@ import {
   editEmployeePath,
   removeEmployeePath,
   addProductPath,
+  editProductPath,
+  removeProductPath,
   editMoviePath,
   removeMoviePath,
   addSupplierPath,
@@ -22,6 +24,8 @@ import {
   handleEditEmployee,
   handleRemoveEmployee,
   handleAddProduct,
+  handleEditProduct,
+  handleRemoveProduct,
   handleEditMovie,
   handleRemoveMovie,
   handleAddSupplier,
@@ -40,7 +44,9 @@ import {
   RemoveMovie,
   AddSupplier,
   EditSupplier,
-  RemoveSupplier
+  RemoveSupplier,
+  EditProduct,
+  RemoveProduct
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -91,6 +97,18 @@ export default function Routes(props) {
         <Route
           path={addProductPath}
           component={() => <AddProduct handleAddProduct={handleAddProduct} />}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={editProductPath}
+          component={() => <EditProduct handleEditProduct={handleEditProduct}/>}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={removeProductPath}
+          component={() => <RemoveProduct handleRemoveProduct={handleRemoveProduct} />}
         />
       )}
       {props.isLogged && (

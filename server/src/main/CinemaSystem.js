@@ -164,6 +164,45 @@ class CinemaSystem {
   removeSupplier(supplierID, supplierName, ActionIDOfTheOperation) {
     return "TODO: IMPLEMENT THIS.";
   }
+
+  addNewProduct(
+    productId,
+    productName,
+    productPrice,
+    productQuantity,
+    minQuantity,
+    maxQuantity,
+    productCategoryn,
+    ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  editProduct(
+    productId,
+    productName,
+    productPrice,
+    productQuantity,
+    minQuantity,
+    maxQuantity,
+    productCategoryn,
+    ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  removeProduct(
+    productId,
+    productName,
+    productPrice,
+    productQuantity,
+    minQuantity,
+    maxQuantity,
+    productCategoryn,
+    ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
 }
 
 module.exports = CinemaSystem;

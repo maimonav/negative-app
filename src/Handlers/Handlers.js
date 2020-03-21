@@ -112,7 +112,7 @@ export function handleAddProduct(
 ) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/addNewEmployee?productName=${encodeURIComponent(
+    `api/addNewProduct?productName=${encodeURIComponent(
       productName
     )}&productPrice=${encodeURIComponent(
       productPrice
@@ -123,6 +123,47 @@ export function handleAddProduct(
       minQuantity
     )}&productCategory=${encodeURIComponent(
       productCategory
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditProduct(
+  productName,
+  productPrice,
+  productQuantity,
+  maxQuantity,
+  minQuantity,
+  productCategory
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/EditProduct?productName=${encodeURIComponent(
+      productName
+    )}&productPrice=${encodeURIComponent(
+      productPrice
+    )}&productQuantity=${encodeURIComponent(productQuantity)}
+      &maxQuantity=${encodeURIComponent(
+        maxQuantity
+      )}&minQuantity=${encodeURIComponent(
+      minQuantity
+    )}&productCategory=${encodeURIComponent(
+      productCategory
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveProduct(productName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeProduct?productName=${encodeURIComponent(productName)}
     )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())

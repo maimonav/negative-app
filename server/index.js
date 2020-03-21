@@ -122,6 +122,54 @@ app.get("/api/removeSupplier", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addNewProduct", (req, res) => {
+  const productName = req.query.productName || "";
+  const productPrice = req.query.productPrice || "";
+  const productQuantity = req.query.productQuantity || "";
+  const maxQuantity = req.query.maxQuantity || "";
+  const minQuantity = req.query.minQuantity || "";
+  const productCategory = req.query.productCategory || "";
+  const user = req.query.user || "";
+  const result = service.addNewProduct(
+    productName,
+    productPrice,
+    productQuantity,
+    maxQuantity,
+    minQuantity,
+    productCategory,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/editProduct", (req, res) => {
+  const productName = req.query.productName || "";
+  const productPrice = req.query.productPrice || "";
+  const maxQuantity = req.query.maxQuantity || "";
+  const minQuantity = req.query.minQuantity || "";
+  const productCategory = req.query.productCategory || "";
+  const user = req.query.user || "";
+  const result = service.editProduct(
+    productName,
+    productPrice,
+    maxQuantity,
+    minQuantity,
+    productCategory,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/removeProduct", (req, res) => {
+  const productName = req.query.productName || "";
+  const user = req.query.user || "";
+  const result = service.removeProduct(
+    productName,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );

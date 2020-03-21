@@ -4,6 +4,8 @@ import AddEmployee from "./UserActions/AddEmployee";
 import EditEmployee from "./UserActions/EditEmployee";
 import RemoveEmployee from "./UserActions/RemoveEmployee";
 import AddProduct from "./InventoryActions/AddProduct";
+import EditProduct from "./InventoryActions/EditProduct";
+import RemoveProduct from "./InventoryActions/RemoveProduct";
 import EditMovie from "./InventoryActions/EditMovie";
 import RemoveMovie from "./InventoryActions/RemoveMovie";
 import AddSupplier from "./UserActions/AddSupplier";
@@ -17,6 +19,8 @@ export {
   EditEmployee,
   RemoveEmployee,
   AddProduct,
+  EditProduct,
+  RemoveProduct,
   EditMovie,
   RemoveMovie,
   AddSupplier,

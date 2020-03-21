@@ -13,6 +13,9 @@ class ServiceLayer {
     // just for example purposes
     this.suppliers.set("supplier", 0);
     this.supplierCounter = 1;
+    this.products = new Map();
+    this.products.set("product", 0);
+    this.productsCounter = 1;
   }
 
   register(userName, password) {
@@ -230,6 +233,93 @@ class ServiceLayer {
       );
       if (result === "The supplier removed successfully.") {
         this.suppliers.set(supplierName, this.userCounter);
+      }
+      return result;
+    }
+  }
+
+  addNewProduct(
+    productName,
+    productPrice,
+    productQuantity,
+    minQuantity,
+    maxQuantity,
+    productCategory,
+    ActionIDOfTheOperation
+  ) {
+    if (this.products.has(productName)) {
+      return "The product already exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.addNewProduct(
+        this.productsCounter,
+        productName,
+        productPrice,
+        productQuantity,
+        minQuantity,
+        maxQuantity,
+        productCategory,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The product added successfully.") {
+        this.products.set(productName, this.productsCounter);
+        this.products++;
+      }
+      return result;
+    }
+  }
+
+  editProduct(
+    productName,
+    productPrice,
+    productQuantity,
+    minQuantity,
+    maxQuantity,
+    productCategory,
+    ActionIDOfTheOperation
+  ) {
+    if (!this.products.has(productName)) {
+      return "The product doesn't exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.editProduct(
+        this.productsCounter,
+        productName,
+        productPrice,
+        productQuantity,
+        minQuantity,
+        maxQuantity,
+        productCategory,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The product edited successfully.") {
+        this.products.set(productName, this.productsCounter);
+      }
+      return result;
+    }
+  }
+
+  removeProduct(
+    productName,
+    ActionIDOfTheOperation
+  ) {
+    if (!this.products.has(productName)) {
+      return "The product already exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.removeProduct(
+        this.productsCounter,
+        productName,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The product removed successfully.") {
+        this.products.delete(productName);
       }
       return result;
     }
