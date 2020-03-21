@@ -8,10 +8,9 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
-import SimpleSelect from "../UsefulComponent/SelectOptions";
-
+import ComboBox from "../UsefulComponent/AutoComplete";
+import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
-
 
 export default class EditEmployee extends React.Component {
   constructor(props) {
@@ -26,8 +25,8 @@ export default class EditEmployee extends React.Component {
     };
   }
 
-  setUsername = event => {
-    this.setState({ userName: event });
+  setUsername = userName => {
+    this.setState({ userName });
   };
 
   setPassword(event) {
@@ -50,8 +49,6 @@ export default class EditEmployee extends React.Component {
     this.setState({ contactDetails: event.target.value });
   }
 
-  names = ["Oliver Hansen", "Van Henry", "April Tucker", "Ralph Hubbard"];
-
   render() {
     const {
       userName,
@@ -73,20 +70,15 @@ export default class EditEmployee extends React.Component {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <SimpleSelect
-                      names={this.names}
-                      placeHolder={"Employee Name"}
+                    <ComboBox
+                      id={"userName"}
+                      items={exampleNames}
+                      boxLabel={"Choose employee"}
                       setName={this.setUsername}
                     />
-                    {/* <CustomInput
-                      labelText="Username"
-                      id="username"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setUsername(event)}
-                    /> */}
                   </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Password"

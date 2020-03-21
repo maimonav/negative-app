@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../UsefulComponent/AutoComplete";
-
+import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditMovie extends React.Component {
@@ -45,7 +45,7 @@ export default class EditMovie extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"movieName"}
-                      items={this.exampleNames}
+                      items={exampleNames}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
                     />

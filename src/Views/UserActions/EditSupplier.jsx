@@ -8,27 +8,29 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
+import ComboBox from "../UsefulComponent/AutoComplete";
+import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditSupplier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      supplierName: "",
       contactDetails: ""
     };
   }
 
-  setName(event) {
-    this.setState({ name: event.target.value });
-  }
+  setSupplierName = supplierName => {
+    this.setState({ supplierName });
+  };
 
   setContactDetails(event) {
     this.setState({ contactDetails: event.target.value });
   }
 
   render() {
-    const { name, contactDetails } = this.state;
+    const { supplierName, contactDetails } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -41,15 +43,15 @@ export default class EditSupplier extends React.Component {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Name"
-                      id="name"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setName(event)}
+                    <ComboBox
+                      id={"supplierName"}
+                      items={exampleNames}
+                      boxLabel={"Choose supplier"}
+                      setName={this.setSupplierName}
                     />
                   </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Contact details"
@@ -67,7 +69,7 @@ export default class EditSupplier extends React.Component {
                 <Button
                   color="success"
                   onClick={() =>
-                    this.props.handleEditSupplier(name, contactDetails)
+                    this.props.handleEditSupplier(supplierName, contactDetails)
                   }
                 >
                   Edit Supplier
