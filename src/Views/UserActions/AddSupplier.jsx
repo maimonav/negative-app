@@ -14,13 +14,13 @@ export default class AddSupplier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "",
+      supplierName: "",
       contactDetails: ""
     };
   }
 
-  setName(event) {
-    this.setState({ name: event.target.value });
+  setSupplierName(event) {
+    this.setState({ supplierName: event.target.value });
   }
 
   setContactDetails(event) {
@@ -28,7 +28,7 @@ export default class AddSupplier extends React.Component {
   }
 
   render() {
-    const { name, contactDetails } = this.state;
+    const { supplierName, contactDetails } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -43,11 +43,11 @@ export default class AddSupplier extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Name"
-                      id="name"
+                      id="supplierName"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setName(event)}
+                      onChange={event => this.setSupplierName(event)}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -67,7 +67,7 @@ export default class AddSupplier extends React.Component {
                 <Button
                   color="success"
                   onClick={() =>
-                    this.props.handleAddSupplier(name, contactDetails)
+                    this.props.handleAddSupplier(supplierName, contactDetails)
                   }
                 >
                   Add New Supplier

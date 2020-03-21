@@ -2,12 +2,13 @@ import React from "react";
 // core components
 import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
-import CustomInput from "../../Components/CustomInput/CustomInput.js";
 import Button from "../../Components/CustomButtons/Button.js";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
+import ComboBox from "../UsefulComponent/AutoComplete";
+import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveEmployee extends React.Component {
@@ -18,9 +19,9 @@ export default class RemoveEmployee extends React.Component {
     };
   }
 
-  setUserId(event) {
-    this.setState({ userName: event.target.value });
-  }
+  setUsername = userName => {
+    this.setState({ userName });
+  };
 
   render() {
     const { userName } = this.state;
@@ -35,13 +36,11 @@ export default class RemoveEmployee extends React.Component {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="User Name"
-                      id="userName"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setUserId(event)}
+                    <ComboBox
+                      id={"userName"}
+                      items={exampleNames}
+                      boxLabel={"Choose supplier"}
+                      setName={this.setUsername}
                     />
                   </GridItem>
                 </GridContainer>
