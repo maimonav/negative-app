@@ -8,7 +8,7 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
-import SimpleSelect from "./SelectOptions";
+import SimpleSelect from "../UsefulComponent/SelectOptions";
 
 const style = { justifyContent: "center", top: "auto" };
 
