@@ -69,6 +69,14 @@ export default class AddProduct extends React.Component {
   };
 
   render() {
+    const {
+      productName,
+      productPrice,
+      productQuantity,
+      minQuantity,
+      maxQuantity,
+      productCategory
+    } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -133,7 +141,7 @@ export default class AddProduct extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.minQuantity(event)}
+                      onChange={event => this.setMinQuantity(event)}
                     />
                   </GridItem>
                 </GridContainer>
@@ -149,7 +157,19 @@ export default class AddProduct extends React.Component {
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="info" onClick={() => "hello"}>
+                <Button
+                  color="info"
+                  onClick={() =>
+                    this.props.handleAddProduct(
+                      productName,
+                      productPrice,
+                      productQuantity,
+                      minQuantity,
+                      maxQuantity,
+                      productCategory
+                    )
+                  }
+                >
                   Add New Product
                 </Button>
               </CardFooter>

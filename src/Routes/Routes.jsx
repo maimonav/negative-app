@@ -13,7 +13,8 @@ import {
   handleLogout,
   handleAddEmployee,
   handleEditEmployee,
-  handleRemoveEmployee
+  handleRemoveEmployee,
+  handleAddProduct
 } from "../Handlers/Handlers";
 
 import {
@@ -70,7 +71,7 @@ export default function Routes(props) {
         />
       )}
       {props.isLogged && (
-        <Route path={addProductPath} component={() => <AddProduct />} />
+        <Route path={addProductPath} component={() => <AddProduct handleAddProduct={handleAddProduct}/>} />
       )}
     </Switch>
   );

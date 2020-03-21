@@ -101,3 +101,30 @@ export function handleRemoveEmployee(userName) {
       alert(state.result);
     });
 }
+
+export function handleAddProduct(
+  productName,
+  productPrice,
+  productQuantity,
+  maxQuantity,
+  minQuantity,productCategory
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addNewEmployee?productName=${encodeURIComponent(
+      productName
+    )}&productPrice=${encodeURIComponent(productPrice)}&productQuantity=${encodeURIComponent(
+      productQuantity
+    )}
+      &maxQuantity=${encodeURIComponent(
+        maxQuantity
+    )}&minQuantity=${encodeURIComponent(
+      minQuantity
+    )}&productCategory=${encodeURIComponent(
+      productCategory)}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
