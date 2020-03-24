@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {
-  addEmployeePath,
-  editEmployeePath,
-  removeEmployeePath,
   addSupplierPath,
   editSupplierPath,
-  removeSupplierPath
+  removeSupplierPath,
+  manageEmployeesPath
 } from "../../consts/paths";
 
 export default function UserActionsDropDownTab(props) {
@@ -41,19 +39,9 @@ export default function UserActionsDropDownTab(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={addEmployeePath}>
+        <Link to={manageEmployeesPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Add New Employee
-          </MenuItem>
-        </Link>
-        <Link to={editEmployeePath}>
-          <MenuItem value={2} onClick={handleClose}>
-            Edit Employee
-          </MenuItem>
-        </Link>
-        <Link to={removeEmployeePath}>
-          <MenuItem value={3} onClick={handleClose}>
-            Remove Employee
+            Manage Employees
           </MenuItem>
         </Link>
         <Link to={addSupplierPath}>

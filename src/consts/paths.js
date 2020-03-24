@@ -1,5 +1,6 @@
 export const loginPath = "/login";
 export const logoutPath = "/logout";
+export const manageEmployeesPath = "/manageEmployees";
 export const addEmployeePath = "/addEmployee";
 export const editEmployeePath = "/editEmployee";
 export const removeEmployeePath = "/removeEmployee";

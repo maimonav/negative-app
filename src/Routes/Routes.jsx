@@ -4,9 +4,7 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import {
   loginPath,
   logoutPath,
-  addEmployeePath,
-  editEmployeePath,
-  removeEmployeePath,
+  manageEmployeesPath,
   addProductPath,
   editProductPath,
   removeProductPath,
@@ -20,9 +18,6 @@ import {
 import {
   handleLogin,
   handleLogout,
-  handleAddEmployee,
-  handleEditEmployee,
-  handleRemoveEmployee,
   handleAddProduct,
   handleEditProduct,
   handleRemoveProduct,
@@ -36,9 +31,7 @@ import {
 import {
   Login,
   Logout,
-  AddEmployee,
-  EditEmployee,
-  RemoveEmployee,
+  ManageEmployees,
   AddProduct,
   EditMovie,
   RemoveMovie,
@@ -70,28 +63,7 @@ export default function Routes(props) {
         />
       )}
       {props.isLogged && (
-        <Route
-          path={addEmployeePath}
-          component={() => (
-            <AddEmployee handleAddEmployee={handleAddEmployee} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={editEmployeePath}
-          component={() => (
-            <EditEmployee handleEditEmployee={handleEditEmployee} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={removeEmployeePath}
-          component={() => (
-            <RemoveEmployee handleRemoveEmployee={handleRemoveEmployee} />
-          )}
-        />
+        <Route path={manageEmployeesPath} component={ManageEmployees} />
       )}
       {props.isLogged && (
         <Route
@@ -102,13 +74,17 @@ export default function Routes(props) {
       {props.isLogged && (
         <Route
           path={editProductPath}
-          component={() => <EditProduct handleEditProduct={handleEditProduct}/>}
+          component={() => (
+            <EditProduct handleEditProduct={handleEditProduct} />
+          )}
         />
       )}
       {props.isLogged && (
         <Route
           path={removeProductPath}
-          component={() => <RemoveProduct handleRemoveProduct={handleRemoveProduct} />}
+          component={() => (
+            <RemoveProduct handleRemoveProduct={handleRemoveProduct} />
+          )}
         />
       )}
       {props.isLogged && (

@@ -1,5 +1,7 @@
 import Login from "./Login";
 import Logout from "./Logout";
+import ManageEmployees from "./UserActions/ManageEmployees";
+import ShowEmployee from "./UserActions/ShowEmployee";
 import AddEmployee from "./UserActions/AddEmployee";
 import EditEmployee from "./UserActions/EditEmployee";
 import RemoveEmployee from "./UserActions/RemoveEmployee";
@@ -15,6 +17,8 @@ import RemoveSupplier from "./UserActions/RemoveSupplier";
 export {
   Login,
   Logout,
+  ManageEmployees,
+  ShowEmployee,
   AddEmployee,
   EditEmployee,
   RemoveEmployee,

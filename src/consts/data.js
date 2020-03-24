@@ -4,3 +4,13 @@ export const exampleNames = [
   { title: "supplier" },
   { title: "Ralph Hubbard" }
 ];
+
+const employeeDetails = {
+  password: "1234",
+  firstName: "aviv",
+  lastName: "maimon",
+  permissions: "Director",
+  contactDetails: "maimonaviv@gmail.com"
+};
+export const exampleEmployeesDetails = new Map();
+exampleEmployeesDetails.set("admin", employeeDetails);
