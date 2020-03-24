@@ -7,7 +7,7 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../UsefulComponent/AutoComplete";
+import ComboBox from "../../Components/AutoComplete";
 import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -15,7 +15,7 @@ export default class RemoveProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: "",
+      productName: ""
     };
   }
 
@@ -24,9 +24,7 @@ export default class RemoveProduct extends React.Component {
   };
 
   render() {
-    const {
-      productName,
-    } = this.state;
+    const { productName } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -51,11 +49,7 @@ export default class RemoveProduct extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() =>
-                    this.props.handleRemoveProduct(
-                      productName,
-                    )
-                  }
+                  onClick={() => this.props.handleRemoveProduct(productName)}
                 >
                   Remove Product
                 </Button>
