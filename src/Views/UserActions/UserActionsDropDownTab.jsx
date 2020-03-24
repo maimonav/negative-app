@@ -4,12 +4,7 @@ import { Link } from "react-router-dom";
 
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {
-  addSupplierPath,
-  editSupplierPath,
-  removeSupplierPath,
-  manageEmployeesPath
-} from "../../consts/paths";
+import { manageEmployeesPath, manageSuppliersPath } from "../../consts/paths";
 
 export default function UserActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -44,19 +39,9 @@ export default function UserActionsDropDownTab(props) {
             Manage Employees
           </MenuItem>
         </Link>
-        <Link to={addSupplierPath}>
-          <MenuItem value={3} onClick={handleClose}>
-            Add New Supplier
-          </MenuItem>
-        </Link>
-        <Link to={editSupplierPath}>
-          <MenuItem value={3} onClick={handleClose}>
-            Edit Supplier
-          </MenuItem>
-        </Link>
-        <Link to={removeSupplierPath}>
-          <MenuItem value={3} onClick={handleClose}>
-            Remove Supplier
+        <Link to={manageSuppliersPath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Manage Suppliers
           </MenuItem>
         </Link>
       </Menu>

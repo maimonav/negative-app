@@ -1,14 +1,9 @@
 export const loginPath = "/login";
 export const logoutPath = "/logout";
 export const manageEmployeesPath = "/manageEmployees";
-export const addEmployeePath = "/addEmployee";
-export const editEmployeePath = "/editEmployee";
-export const removeEmployeePath = "/removeEmployee";
+export const manageSuppliersPath = "/manageSuppliers";
 export const addProductPath = "/addProduct";
 export const editProductPath = "/editProduct";
 export const removeProductPath = "/removeProduct";
 export const editMoviePath = "/editMovie";
 export const removeMoviePath = "/removeMovie";
-export const addSupplierPath = "/addSupplier";
-export const editSupplierPath = "/editSupplier";
-export const removeSupplierPath = "/removeSupplier";

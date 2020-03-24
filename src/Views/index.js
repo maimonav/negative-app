@@ -10,6 +10,8 @@ import EditProduct from "./InventoryActions/EditProduct";
 import RemoveProduct from "./InventoryActions/RemoveProduct";
 import EditMovie from "./InventoryActions/EditMovie";
 import RemoveMovie from "./InventoryActions/RemoveMovie";
+import ShowSupplier from "./UserActions/ShowSupplier";
+import ManageSuppliers from "./UserActions/ManageSuppliers";
 import AddSupplier from "./UserActions/AddSupplier";
 import EditSupplier from "./UserActions/EditSupplier";
 import RemoveSupplier from "./UserActions/RemoveSupplier";
@@ -27,6 +29,8 @@ export {
   RemoveProduct,
   EditMovie,
   RemoveMovie,
+  ManageSuppliers,
+  ShowSupplier,
   AddSupplier,
   EditSupplier,
   RemoveSupplier

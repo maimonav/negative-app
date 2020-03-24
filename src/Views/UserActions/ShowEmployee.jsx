@@ -106,7 +106,7 @@ export default class ShowEmployee extends React.Component {
                       <TextField
                         id="filled-read-only-input"
                         defaultValue=""
-                        label="Contact detals"
+                        label="Contact details"
                         value={this.state.contactDetails}
                         InputProps={{
                           readOnly: true

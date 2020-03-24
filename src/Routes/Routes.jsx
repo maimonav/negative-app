@@ -10,9 +10,7 @@ import {
   removeProductPath,
   editMoviePath,
   removeMoviePath,
-  addSupplierPath,
-  editSupplierPath,
-  removeSupplierPath
+  manageSuppliersPath
 } from "../consts/paths";
 
 import {
@@ -22,22 +20,17 @@ import {
   handleEditProduct,
   handleRemoveProduct,
   handleEditMovie,
-  handleRemoveMovie,
-  handleAddSupplier,
-  handleEditSupplier,
-  handleRemoveSupplier
+  handleRemoveMovie
 } from "../Handlers/Handlers";
 
 import {
   Login,
   Logout,
   ManageEmployees,
+  ManageSuppliers,
   AddProduct,
   EditMovie,
   RemoveMovie,
-  AddSupplier,
-  EditSupplier,
-  RemoveSupplier,
   EditProduct,
   RemoveProduct
 } from "../Views/index";
@@ -64,6 +57,9 @@ export default function Routes(props) {
       )}
       {props.isLogged && (
         <Route path={manageEmployeesPath} component={ManageEmployees} />
+      )}
+      {props.isLogged && (
+        <Route path={manageSuppliersPath} component={ManageSuppliers} />
       )}
       {props.isLogged && (
         <Route
@@ -98,30 +94,6 @@ export default function Routes(props) {
           path={removeMoviePath}
           component={() => (
             <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={addSupplierPath}
-          component={() => (
-            <AddSupplier handleAddSupplier={handleAddSupplier} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={editSupplierPath}
-          component={() => (
-            <EditSupplier handleEditSupplier={handleEditSupplier} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={removeSupplierPath}
-          component={() => (
-            <RemoveSupplier handleRemoveSupplier={handleRemoveSupplier} />
           )}
         />
       )}
