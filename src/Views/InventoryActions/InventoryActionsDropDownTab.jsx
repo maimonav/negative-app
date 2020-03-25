@@ -4,11 +4,9 @@ import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {
-  addProductPath,
   editMoviePath,
   removeMoviePath,
-  editProductPath,
-  removeProductPath
+  manageInventoryPath
 } from "../../consts/paths";
 
 export default function InventoryActionsDropDownTab(props) {
@@ -39,19 +37,9 @@ export default function InventoryActionsDropDownTab(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={addProductPath}>
+        <Link to={manageInventoryPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Add New Product
-          </MenuItem>
-        </Link>
-        <Link to={editProductPath}>
-          <MenuItem value={1} onClick={handleClose}>
-            Edit Product
-          </MenuItem>
-        </Link>
-        <Link to={removeProductPath}>
-          <MenuItem value={1} onClick={handleClose}>
-            Remove Product
+            Manage Inventory
           </MenuItem>
         </Link>
         <Link to={editMoviePath}>

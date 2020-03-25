@@ -79,7 +79,7 @@ export default class AddEmployee extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="success">
+              <CardHeader color="info">
                 <h4>Add new employee</h4>
                 <p>Complete his profile</p>
               </CardHeader>
@@ -154,7 +154,7 @@ export default class AddEmployee extends React.Component {
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
-                  color="success"
+                  color="info"
                   onClick={() =>
                     this.props.handleAddEmployee(
                       userName,

@@ -48,7 +48,7 @@ export default class ShowEmployee extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="success">
+              <CardHeader color="info">
                 <h4>Show employee details</h4>
               </CardHeader>
               <CardBody>

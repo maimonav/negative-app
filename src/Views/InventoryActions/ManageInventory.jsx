@@ -11,19 +11,18 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import {
-  AddEmployee,
-  EditEmployee,
-  RemoveEmployee,
-  ShowEmployee
+  AddProduct,
+  EditProduct,
+  RemoveProduct
 } from "../index";
 import {
-  handleAddEmployee,
-  handleEditEmployee,
-  handleRemoveEmployee
+  handleAddProduct,
+  handleEditProduct,
+  handleRemoveProduct,
 } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class ManageEmployees extends React.Component {
+export default class ManageInventory extends React.Component {
   constructor(props) {
     super(props);
     this.state = { action: "show" };
@@ -40,7 +39,7 @@ export default class ManageEmployees extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Manage Employees</h4>
+                <h4>Manage Inventory</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer style={style}>
@@ -71,21 +70,21 @@ export default class ManageEmployees extends React.Component {
                   </Tooltip>
                 </GridContainer>
               </CardBody>
-              {this.state.action === "show" && <ShowEmployee></ShowEmployee>}
+              {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
               {this.state.action === "add" && (
-                <AddEmployee
-                  handleAddEmployee={handleAddEmployee}
-                ></AddEmployee>
+                <AddProduct
+                  handleAddProduct={handleAddProduct}
+                ></AddProduct>
               )}
               {this.state.action === "edit" && (
-                <EditEmployee
-                  handleEditEmployee={handleEditEmployee}
-                ></EditEmployee>
+                <EditProduct
+                  handleEditProduct={handleEditProduct}
+                ></EditProduct>
               )}
               {this.state.action === "delete" && (
-                <RemoveEmployee
-                  handleRemoveEmployee={handleRemoveEmployee}
-                ></RemoveEmployee>
+                <RemoveProduct
+                  handleRemoveProduct={handleRemoveProduct}
+                ></RemoveProduct>
               )}
             </Card>
           </GridItem>

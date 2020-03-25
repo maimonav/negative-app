@@ -30,7 +30,7 @@ export default class RemoveEmployee extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="success">
+              <CardHeader color="info">
                 <h4>Remove employee</h4>
               </CardHeader>
               <CardBody>
@@ -47,7 +47,7 @@ export default class RemoveEmployee extends React.Component {
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
-                  color="success"
+                  color="info"
                   onClick={() => this.props.handleRemoveEmployee(userName)}
                 >
                   Remove Employee

@@ -2,6 +2,7 @@ export const loginPath = "/login";
 export const logoutPath = "/logout";
 export const manageEmployeesPath = "/manageEmployees";
 export const manageSuppliersPath = "/manageSuppliers";
+export const manageInventoryPath = "/manageInventory";
 export const addProductPath = "/addProduct";
 export const editProductPath = "/editProduct";
 export const removeProductPath = "/removeProduct";

@@ -15,6 +15,7 @@ import ManageSuppliers from "./UserActions/ManageSuppliers";
 import AddSupplier from "./UserActions/AddSupplier";
 import EditSupplier from "./UserActions/EditSupplier";
 import RemoveSupplier from "./UserActions/RemoveSupplier";
+import ManageInventory from "./InventoryActions/ManageInventory";
 
 export {
   Login,
@@ -33,5 +34,6 @@ export {
   ShowSupplier,
   AddSupplier,
   EditSupplier,
-  RemoveSupplier
+  RemoveSupplier,
+  ManageInventory
 };

@@ -5,20 +5,15 @@ import {
   loginPath,
   logoutPath,
   manageEmployeesPath,
-  addProductPath,
-  editProductPath,
-  removeProductPath,
   editMoviePath,
   removeMoviePath,
-  manageSuppliersPath
+  manageSuppliersPath,
+  manageInventoryPath
 } from "../consts/paths";
 
 import {
   handleLogin,
   handleLogout,
-  handleAddProduct,
-  handleEditProduct,
-  handleRemoveProduct,
   handleEditMovie,
   handleRemoveMovie
 } from "../Handlers/Handlers";
@@ -28,11 +23,9 @@ import {
   Logout,
   ManageEmployees,
   ManageSuppliers,
-  AddProduct,
   EditMovie,
   RemoveMovie,
-  EditProduct,
-  RemoveProduct
+  ManageInventory
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -62,26 +55,7 @@ export default function Routes(props) {
         <Route path={manageSuppliersPath} component={ManageSuppliers} />
       )}
       {props.isLogged && (
-        <Route
-          path={addProductPath}
-          component={() => <AddProduct handleAddProduct={handleAddProduct} />}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={editProductPath}
-          component={() => (
-            <EditProduct handleEditProduct={handleEditProduct} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={removeProductPath}
-          component={() => (
-            <RemoveProduct handleRemoveProduct={handleRemoveProduct} />
-          )}
-        />
+        <Route path={manageInventoryPath} component={ManageInventory} />
       )}
       {props.isLogged && (
         <Route
