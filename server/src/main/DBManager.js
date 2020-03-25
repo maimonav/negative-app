@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const mysql = require('mysql2');
-const {generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDailyReportSchema, incomesDailyReportSchema,
-     supplierSchema, movieSchema, cafeteriaProductSchema, categorySchema, movieOrderSchema, cafeteriaProductOrderSchema, orderSchema, 
+const { generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDailyReportSchema, incomesDailyReportSchema,
+    supplierSchema, movieSchema, cafeteriaProductSchema, categorySchema, movieOrderSchema, cafeteriaProductOrderSchema, orderSchema,
     userSchema, employeeSchema } = require("./Models");
 
 class DataBase {
@@ -13,7 +13,7 @@ class DataBase {
         this.isTestMode = false;
 
     }
-    
+
 
     static initDB(dbName) {
         if (this.isTestMode)
@@ -24,15 +24,15 @@ class DataBase {
                 host: 'localhost',
                 dialect: 'mysql'
             });
-            
+
             DataBase.initModels();
-    
-            this.models = { 
+
+            this.models = {
                 user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
-                order: this.Order, movie: this.Movie, cafeteriaProduct: this.CafeteriaProduct, movieOrder: this.MovieOrder,
-                cafeteriaProductOrder: this.CafeteriaProductOrder, generalPurposeDailyReport: this.GeneralPurposeDailyReport,
-                inventoryDailyReport: this.InventoryDailyReport, moviesDailyReport: this.MoviesDailyReport,
-                incomesDailyReport: this.IncomesDailyReport
+                order: this.Order, movie: this.Movie, cafeteria_product: this.CafeteriaProduct, movie_order: this.MovieOrder,
+                cafeteria_product_order: this.CafeteriaProductOrder, general_purpose_daily_report: this.GeneralPurposeDailyReport,
+                inventory_daily_report: this.InventoryDailyReport, movie_daily_reports: this.MoviesDailyReport,
+                incomes_daily_report: this.IncomesDailyReport
             };
 
         } catch (error) {
@@ -41,26 +41,80 @@ class DataBase {
         return this.sequelize;
     }
 
+
     static initModels() {
-        this.User = this.sequelize.define('user', userSchema(), {});
-        //define trigger after updating isUserRemoved
-        this.User.addHook('afterUpdate', async (user) => {
-            if(user.isUserRemoved){
-                await DataBase.update('employee',user.id,{ isEmployeeRemoved: true });
+        this.User = this.sequelize.define('user', userSchema(), {
+            hooks: {
+                //define trigger after updating isUserRemoved
+                afterBulkUpdate: async (user) => {
+                    if (user.attributes.isUserRemoved) {
+                        await DataBase.update('employee', { id: user.where.id }, { isEmployeeRemoved: true });
+                    }
+                }
             }
-          });
+        });
         this.Employee = this.sequelize.define('employee', employeeSchema(this.User), {});
         this.Supplier = this.sequelize.define('supplier', supplierSchema(), {});
-        this.Category = this.sequelize.define('category', categorySchema(), {});
-        this.Order = this.sequelize.define('order', orderSchema(this.Employee, this.Supplier), {});
-        this.Movie = this.sequelize.define('movie', movieSchema(this.Category), {});
-        this.CafeteriaProduct = this.sequelize.define('cafeteria_product', cafeteriaProductSchema(this.Category), {});
-        this.MovieOrder = this.sequelize.define('movie_order', movieOrderSchema(this.Movie, this.Order), {});
-        this.CafeteriaProductOrder = this.sequelize.define('cafeteria_product_order', cafeteriaProductOrderSchema(this.CafeteriaProduct, this.Order), {});
+        this.Category = this.sequelize.define('category', categorySchema(), {
+            hooks: {
+                //define trigger category had been used
+                afterBulkUpdate: async (category) => {
+                    if (category.attributes.isCategoryRemoved) {
+                        await DataBase.getById('category', { id: category.where.id }).then(async (result) => {
+                            if (result.isCategoryUsed) {
+                                category.transaction.rollback();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+        this.Order = this.sequelize.define('order', orderSchema(this.Employee, this.Supplier), {
+            hooks: DataBase.getOrderHook('order')
+        });
+        this.Movie = this.sequelize.define('movie', movieSchema(this.Category), {
+            hooks: DataBase.getProductHook()
+        });
+        this.CafeteriaProduct = this.sequelize.define('cafeteria_product', cafeteriaProductSchema(this.Category), {
+            hooks: DataBase.getProductHook()
+        });
+        this.MovieOrder = this.sequelize.define('movie_order', movieOrderSchema(this.Movie, this.Order), {
+            hooks: DataBase.getOrderHook('movie_order')
+        });
+        this.CafeteriaProductOrder = this.sequelize.define('cafeteria_product_order', cafeteriaProductOrderSchema(this.CafeteriaProduct, this.Order), {
+            hooks: DataBase.getOrderHook('cafeteria_product_order')
+            
+        });
         this.GeneralPurposeDailyReport = this.sequelize.define('general_purpose_daily_report', generalPurposeDailyReportSchema(this.Employee), {});
-        this.InventoryDailyReport = this.sequelize.define('inventory_daily_report', inventoryDailyReportSchema(this.CafeteriaProduct,this.Employee), {});
-        this.MoviesDailyReport = this.sequelize.define('movie_daily_reports', moviesDailyReportSchema(this.Movie,this.Employee), {});
+        this.InventoryDailyReport = this.sequelize.define('inventory_daily_report', inventoryDailyReportSchema(this.CafeteriaProduct, this.Employee), {});
+        this.MoviesDailyReport = this.sequelize.define('movie_daily_reports', moviesDailyReportSchema(this.Movie, this.Employee), {});
         this.IncomesDailyReport = this.sequelize.define('incomes_daily_report', incomesDailyReportSchema(this.Employee), {});
+    }
+
+
+
+    static getOrderHook(model) {
+        return {
+            beforeBulkDestroy: async (order) => {
+                await DataBase.getById('order',{ id:  model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
+                    if (result.isProvided) {
+                        order.transaction.rollback();
+                    }
+                });
+            }
+        };
+    }
+
+    static getProductHook   () {
+        return {
+            afterCreate: async (product) => {
+                await DataBase.getById('category', { id: product.categoryId }).then(async (result) => {
+                    if (result != null && !result.isCategoryUsed) {
+                        DataBase.update('category', { id: result.id }, { isCategoryUsed: true });
+                    }
+                });
+            }
+        };
     }
 
     static init() {
@@ -117,14 +171,14 @@ class DataBase {
         });
     }
 
-    static getById(modelName, id) {
+    static getById(modelName, where) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
         return model.sync().then(() => {
             try {
                 return this.sequelize.transaction((t) => {
-                    let res = model.findByPk(id, { transaction: t });
+                    let res = model.findOne({ where: where, transaction: t });
                     return res;
                 })
                     .catch((error => console.log(error)));
@@ -134,14 +188,14 @@ class DataBase {
         });
     }
 
-    static update(modelName, id, element) {
+    static update(modelName, where, element) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
         return model.sync().then(() => {
             try {
                 return this.sequelize.transaction((t) => {
-                    return model.update(element, { where: { id: id }, transaction: t });
+                    return model.update(element, { where: where, transaction: t });
                 })
                     .catch((error => console.log(error)));
             } catch (error) {
@@ -150,6 +204,35 @@ class DataBase {
         });
     }
 
+
+    static remove(modelName, where) {
+        if (this.isTestMode)
+            return;
+        const model = this.models[modelName];
+        return model.sync().then(() => {
+            try {
+                return this.sequelize.transaction((t) => {
+                    return model.destroy({ where: where, transaction: t });
+                })
+                    .catch((error => console.log(error)));
+            } catch (error) {
+                console.log(error);
+            }
+        });
+    }
+
+
+
+    /*.then(() => {
+                        return this.sequelize.transaction((t2) => {
+                            return this.MovieOrder.destroy({ where: { orderId: id }, transaction: t2, individualHooks: true }).then(() => {
+                                return this.sequelize.transaction((t3) => {
+                                    return this.CafeteriaProductOrder.destroy({ where: { orderId: id }, transaction: t3, individualHooks: true });
+                                })
+                            })
+
+                        })
+                    }*/
 
 };
 
