@@ -193,12 +193,12 @@ const userSchema = () => {
         }
       },
       numOfTabsSales: {type: Sequelize.INTEGER, allowNull: false},
-      cafeteriaCashRevenues: {type: Sequelize.INTEGER, allowNull: false},
-      cafeteriaCreditCardRevenues: {type: Sequelize.INTEGER, allowNull: false},
-      ticketsCashRevenues: {type: Sequelize.INTEGER, allowNull: false},
-      ticketsCreditCardRevenues: {type: Sequelize.INTEGER, allowNull: false},
-      tabsCashRevenues: {type: Sequelize.INTEGER, allowNull: false},
-      tabsCreditCardRevenues: {type: Sequelize.INTEGER, allowNull: false},
+      cafeteriaCashRevenues: {type: Sequelize.DOUBLE, allowNull: false},
+      cafeteriaCreditCardRevenues: {type: Sequelize.DOUBLE, allowNull: false},
+      ticketsCashRevenues: {type: Sequelize.DOUBLE, allowNull: false},
+      ticketsCreditCardRevenues: {type: Sequelize.DOUBLE, allowNull: false},
+      tabsCashRevenues: {type: Sequelize.DOUBLE, allowNull: false},
+      tabsCreditCardRevenues: {type: Sequelize.DOUBLE, allowNull: false},
   }};
 
   

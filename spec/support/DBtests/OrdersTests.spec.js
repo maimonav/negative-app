@@ -118,6 +118,7 @@ async function addEmployee(id, permissions) {
   });
 
 }
+exports.addEmployee=addEmployee;
 
 
 async function updateSupplier() {
