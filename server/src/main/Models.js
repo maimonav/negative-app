@@ -47,10 +47,6 @@ const userSchema = () => {
     movieKey: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
     examinationRoom: {type: Sequelize.INTEGER, allowNull: false},
     isMovieRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
-<<<<<<< HEAD
-
-=======
->>>>>>> master
   }};
 
 
@@ -70,16 +66,10 @@ const userSchema = () => {
     },
     price: {type: Sequelize.DOUBLE, allowNull: false},
     quantity: {type: Sequelize.INTEGER, allowNull: false},
-<<<<<<< HEAD
     maxQuantity: {type: Sequelize.INTEGER, defaultValue: 1000000},
     minQuantity: {type: Sequelize.INTEGER, defaultValue: -1},
     isProductRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
 
-=======
-    maxQuantity: {type: Sequelize.INTEGER, defaultValue: 4294967295},
-    minQuantity: {type: Sequelize.INTEGER, defaultValue: -1},
-    isProductRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
->>>>>>> master
   }};
 
   const categorySchema = () => {
@@ -89,11 +79,7 @@ const userSchema = () => {
       parentId: {type: Sequelize.INTEGER, defaultValue: -1},
       name: {type: Sequelize.STRING, allowNull: false,notEmpty:true},
       isCategoryUsed:  {type: Sequelize.BOOLEAN, defaultValue: false},
-<<<<<<< HEAD
       isCategoryRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
-=======
-      isCategoryRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
->>>>>>> master
   }};
 
   const supplierSchema = () => {
@@ -138,11 +124,7 @@ const userSchema = () => {
           key: 'id'
         }
       },
-<<<<<<< HEAD
       isProvided: {type: Sequelize.BOOLEAN, defaultValue: false}
-=======
-      isProvided: {type: Sequelize.BOOLEAN, defaultValue: false},
->>>>>>> master
   }};
 
 
@@ -193,7 +175,7 @@ const userSchema = () => {
         }
       },
       expectedQuantity: {type: Sequelize.INTEGER, min:0, defaultValue: 0},
-      actualQuantity: {type: Sequelize.INTEGER, min:0,defaultValue: 0},
+      actualQuantity: {type: Sequelize.INTEGER, min:0,defaultValue: 0}
   }};
 
 
