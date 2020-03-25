@@ -11,46 +11,53 @@ import ComboBox from "../../Components/AutoComplete";
 import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class RemoveEmployee extends React.Component {
+export default class EditMovie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: ""
+      movieName: ""
     };
   }
 
-  setUsername = userName => {
-    this.setState({ userName });
+  setMovieName = movieName => {
+    this.setState({ movieName: movieName });
   };
 
+  exampleNames = [
+    { title: "movie" },
+    { title: "Van Henry" },
+    { title: "April Tucker" },
+    { title: "Ralph Hubbard" }
+  ];
+
   render() {
-    const { userName } = this.state;
+    const { movieName } = this.state;
     return (
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Remove employee</h4>
+                <h4>Edit movie</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"userName"}
+                      id={"movieName"}
                       items={exampleNames}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
+                      boxLabel={"Choose movie"}
+                      setName={this.setMovieName}
                     />
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter style={{ justifyContent: "center" }}>
+              <CardFooter>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveEmployee(userName)}
+                  onClick={() => this.props.handleRemoveMovie(movieName)}
                 >
-                  Remove Employee
+                  Remove Movie
                 </Button>
               </CardFooter>
             </Card>

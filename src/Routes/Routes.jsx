@@ -1,26 +1,31 @@
 import React from "react";
+// eslint-disable-next-line no-unused-vars
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom"; //DO NOT REMOVE ROUTER&LINK
 import {
   loginPath,
   logoutPath,
-  addEmployeePath,
-  editEmployeePath,
-  removeEmployeePath
+  manageEmployeesPath,
+  editMoviePath,
+  removeMoviePath,
+  manageSuppliersPath,
+  manageInventoryPath
 } from "../consts/paths";
+
 import {
   handleLogin,
   handleLogout,
-  handleAddEmployee,
-  handleEditEmployee,
-  handleRemoveEmployee
+  handleEditMovie,
+  handleRemoveMovie
 } from "../Handlers/Handlers";
 
 import {
   Login,
   Logout,
-  AddEmployee,
-  EditEmployee,
-  RemoveEmployee
+  ManageEmployees,
+  ManageSuppliers,
+  EditMovie,
+  RemoveMovie,
+  ManageInventory
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -44,26 +49,25 @@ export default function Routes(props) {
         />
       )}
       {props.isLogged && (
+        <Route path={manageEmployeesPath} component={ManageEmployees} />
+      )}
+      {props.isLogged && (
+        <Route path={manageSuppliersPath} component={ManageSuppliers} />
+      )}
+      {props.isLogged && (
+        <Route path={manageInventoryPath} component={ManageInventory} />
+      )}
+      {props.isLogged && (
         <Route
-          path={addEmployeePath}
-          component={() => (
-            <AddEmployee handleAddEmployee={handleAddEmployee} />
-          )}
+          path={editMoviePath}
+          component={() => <EditMovie handleEditMovie={handleEditMovie} />}
         />
       )}
       {props.isLogged && (
         <Route
-          path={editEmployeePath}
+          path={removeMoviePath}
           component={() => (
-            <EditEmployee handleEditEmployee={handleEditEmployee} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={removeEmployeePath}
-          component={() => (
-            <RemoveEmployee handleRemoveEmployee={handleRemoveEmployee} />
+            <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
           )}
         />
       )}

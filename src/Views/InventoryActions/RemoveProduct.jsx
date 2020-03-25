@@ -11,46 +11,47 @@ import ComboBox from "../../Components/AutoComplete";
 import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class RemoveEmployee extends React.Component {
+export default class RemoveProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: ""
+      productName: ""
     };
   }
 
-  setUsername = userName => {
-    this.setState({ userName });
+  setProuctName = name => {
+    this.setState({ productName: name });
   };
 
   render() {
-    const { userName } = this.state;
+    const { productName } = this.state;
     return (
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Remove employee</h4>
+                <h4>Remvoe Product</h4>
+                <p>Complete product's name</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"userName"}
+                      id={"productName"}
                       items={exampleNames}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
+                      boxLabel={"Choose product from the list"}
+                      setName={this.setProuctName}
                     />
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter style={{ justifyContent: "center" }}>
+              <CardFooter>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveEmployee(userName)}
+                  onClick={() => this.props.handleRemoveProduct(productName)}
                 >
-                  Remove Employee
+                  Remove Product
                 </Button>
               </CardFooter>
             </Card>

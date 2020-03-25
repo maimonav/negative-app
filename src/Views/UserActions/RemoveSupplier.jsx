@@ -11,46 +11,57 @@ import ComboBox from "../../Components/AutoComplete";
 import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class RemoveEmployee extends React.Component {
+export default class RemoveSupplier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: ""
+      supplierName: "",
+      contactDetails: ""
     };
   }
 
-  setUsername = userName => {
-    this.setState({ userName });
+  setSupplierName = supplierName => {
+    this.setState({ supplierName });
   };
 
+  setContactDetails(event) {
+    this.setState({ contactDetails: event.target.value });
+  }
+
   render() {
-    const { userName } = this.state;
+    const { supplierName, contactDetails } = this.state;
     return (
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Remove employee</h4>
+                <h4>Remove supplier</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"userName"}
+                      id={"supplierName"}
                       items={exampleNames}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
+                      boxLabel={"Choose supplier"}
+                      setName={this.setSupplierName}
                     />
                   </GridItem>
                 </GridContainer>
+                <GridContainer></GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveEmployee(userName)}
+                  onClick={() =>
+                    this.props.handleRemoveSupplier(
+                      supplierName,
+                      contactDetails
+                    )
+                  }
                 >
-                  Remove Employee
+                  Remove Supplier
                 </Button>
               </CardFooter>
             </Card>

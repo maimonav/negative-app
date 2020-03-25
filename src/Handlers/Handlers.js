@@ -101,3 +101,146 @@ export function handleRemoveEmployee(userName) {
       alert(state.result);
     });
 }
+
+export function handleAddProduct(
+  productName,
+  productPrice,
+  productQuantity,
+  maxQuantity,
+  minQuantity,
+  productCategory
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addNewProduct?productName=${encodeURIComponent(
+      productName
+    )}&productPrice=${encodeURIComponent(
+      productPrice
+    )}&productQuantity=${encodeURIComponent(productQuantity)}
+      &maxQuantity=${encodeURIComponent(
+        maxQuantity
+      )}&minQuantity=${encodeURIComponent(
+      minQuantity
+    )}&productCategory=${encodeURIComponent(
+      productCategory
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditProduct(
+  productName,
+  productPrice,
+  productQuantity,
+  maxQuantity,
+  minQuantity,
+  productCategory
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/EditProduct?productName=${encodeURIComponent(
+      productName
+    )}&productPrice=${encodeURIComponent(
+      productPrice
+    )}&productQuantity=${encodeURIComponent(productQuantity)}
+      &maxQuantity=${encodeURIComponent(
+        maxQuantity
+      )}&minQuantity=${encodeURIComponent(
+      minQuantity
+    )}&productCategory=${encodeURIComponent(
+      productCategory
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveProduct(productName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeProduct?productName=${encodeURIComponent(productName)}
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditMovie(movieName, category, key, examinationRoom) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/editMovie?movieName=${encodeURIComponent(
+      movieName
+    )}&category=${encodeURIComponent(category)}&key=${encodeURIComponent(
+      key
+    )}&examinationRoom=${encodeURIComponent(
+      examinationRoom
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveMovie(movieName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeMovie?movieName=${encodeURIComponent(
+      movieName
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleAddSupplier(name, contactDetails) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addNewSupplier?name=${encodeURIComponent(
+      name
+    )}&contactDetails=${encodeURIComponent(
+      contactDetails
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditSupplier(name, contactDetails) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/editSupplier?name=${encodeURIComponent(
+      name
+    )}&contactDetails=${encodeURIComponent(
+      contactDetails
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleRemoveSupplier(name) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeSupplier?name=${encodeURIComponent(
+      name
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}

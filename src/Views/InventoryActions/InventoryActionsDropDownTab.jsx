@@ -1,12 +1,15 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
-
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import { manageEmployeesPath, manageSuppliersPath } from "../../consts/paths";
+import {
+  editMoviePath,
+  removeMoviePath,
+  manageInventoryPath
+} from "../../consts/paths";
 
-export default function UserActionsDropDownTab(props) {
+export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = event => {
@@ -25,7 +28,7 @@ export default function UserActionsDropDownTab(props) {
         aria-haspopup="true"
         onClick={handleClick}
       >
-        User Actions
+        Inventory Actions
       </Button>
       <Menu
         id="drop-down-tab"
@@ -34,14 +37,19 @@ export default function UserActionsDropDownTab(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={manageEmployeesPath}>
+        <Link to={manageInventoryPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Manage Employees
+            Manage Inventory
           </MenuItem>
         </Link>
-        <Link to={manageSuppliersPath}>
+        <Link to={editMoviePath}>
           <MenuItem value={1} onClick={handleClose}>
-            Manage Suppliers
+            Edit Movie
+          </MenuItem>
+        </Link>
+        <Link to={removeMoviePath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Remove Movie
           </MenuItem>
         </Link>
       </Menu>
