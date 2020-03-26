@@ -172,6 +172,23 @@ export function handleRemoveProduct(productName) {
     });
 }
 
+export function handleAddMovie(movieName, category, key, examinationRoom) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addMovie?movieName=${encodeURIComponent(
+      movieName
+    )}&category=${encodeURIComponent(category)}&key=${encodeURIComponent(
+      key
+    )}&examinationRoom=${encodeURIComponent(
+      examinationRoom
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleEditMovie(movieName, category, key, examinationRoom) {
   const user = localStorage.getItem("username");
   fetch(

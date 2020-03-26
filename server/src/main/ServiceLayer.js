@@ -147,6 +147,22 @@ class ServiceLayer {
     return res;
   }
 
+  addMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
+    if (this.movies.has(movieName)) {
+      return "The movie already exist";
+    }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.addMovie(
+      this.movies.get(movieName),
+      category,
+      key,
+      examinationRoom,
+      this.users.get(ActionIDOfTheOperation)
+    );
+  }
+
   editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";

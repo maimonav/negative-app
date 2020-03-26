@@ -11,7 +11,8 @@ import {
   manageInventoryPath,
   manageCafeteriaPath,
   addCategoryPath,
-  removeCategoryPath
+  removeCategoryPath,
+  manageMoviesPath
 } from "../consts/paths";
 
 import {
@@ -33,7 +34,8 @@ import {
   ManageInventory,
   ManageCafeteria,
   AddCategory,
-  RemoveCategory
+  RemoveCategory,
+  ManageMovies
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -67,6 +69,9 @@ export default function Routes(props) {
       )}
       {props.isLogged && (
         <Route path={manageCafeteriaPath} component={ManageCafeteria} />
+      )}
+      {props.isLogged && (
+        <Route path={manageMoviesPath} component={ManageMovies} />
       )}
       {props.isLogged && (
         <Route

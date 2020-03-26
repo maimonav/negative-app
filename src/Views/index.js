@@ -8,6 +8,7 @@ import RemoveEmployee from "./UserActions/RemoveEmployee";
 import AddProduct from "./InventoryActions/AddProduct";
 import EditProduct from "./InventoryActions/EditProduct";
 import RemoveProduct from "./InventoryActions/RemoveProduct";
+import AddMovie from "./InventoryActions/AddMovie";
 import EditMovie from "./InventoryActions/EditMovie";
 import RemoveMovie from "./InventoryActions/RemoveMovie";
 import ShowSupplier from "./UserActions/ShowSupplier";
@@ -20,6 +21,7 @@ import ManageCafeteria from "./InventoryActions/ManageCafeteria";
 import AddCafeteriaOrder from "./InventoryActions/AddCafeteriaOrder";
 import AddCategory from "./InventoryActions/AddCategory";
 import RemoveCategory from "./InventoryActions/RemoveCategory";
+import ManageMovies from "./InventoryActions/ManageMovies";
 
 export {
   Login,
@@ -32,6 +34,8 @@ export {
   AddProduct,
   EditProduct,
   RemoveProduct,
+  ManageMovies,
+  AddMovie,
   EditMovie,
   RemoveMovie,
   ManageSuppliers,

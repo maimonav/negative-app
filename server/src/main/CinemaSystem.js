@@ -135,6 +135,10 @@ class CinemaSystem {
     return res;
   }
 
+  addMovie(movieID, category, key, examinationRoom, ActionIDOfTheOperation) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
   editMovie(movieID, category, key, examinationRoom, ActionIDOfTheOperation) {
     return "TODO: IMPLEMENT THIS.";
   }
@@ -204,19 +208,11 @@ class CinemaSystem {
     return "TODO: IMPLEMENT THIS.";
   }
 
-  addCategory(
-    categoryId,
-    categoryName,
-    ActionIDOfTheOperation
-  ) {
+  addCategory(categoryId, categoryName, ActionIDOfTheOperation) {
     return "TODO: IMPLEMENT THIS.";
   }
 
-  removeCategory(
-    categoryId,
-    categoryName,
-    ActionIDOfTheOperation
-  ) {
+  removeCategory(categoryId, categoryName, ActionIDOfTheOperation) {
     return "TODO: IMPLEMENT THIS.";
   }
 }
