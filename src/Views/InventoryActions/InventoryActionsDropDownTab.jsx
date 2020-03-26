@@ -6,7 +6,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {
   editMoviePath,
   removeMoviePath,
-  manageInventoryPath
+  manageInventoryPath,
+  manageCafeteriaPath,
+  addCategoryPath,
+  removeCategoryPath
 } from "../../consts/paths";
 
 export default function InventoryActionsDropDownTab(props) {
@@ -40,6 +43,21 @@ export default function InventoryActionsDropDownTab(props) {
         <Link to={manageInventoryPath}>
           <MenuItem value={1} onClick={handleClose}>
             Manage Inventory
+          </MenuItem>
+        </Link>
+        <Link to={manageCafeteriaPath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Manage Cafeteria
+          </MenuItem>
+        </Link>
+        <Link to={addCategoryPath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Add Category
+          </MenuItem>
+        </Link>
+        <Link to={removeCategoryPath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Remove Category
           </MenuItem>
         </Link>
         <Link to={editMoviePath}>

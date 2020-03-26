@@ -8,3 +8,7 @@ export const editProductPath = "/editProduct";
 export const removeProductPath = "/removeProduct";
 export const editMoviePath = "/editMovie";
 export const removeMoviePath = "/removeMovie";
+export const addCafeteriaOrderPath = "/addCafeteriaOrder";
+export const manageCafeteriaPath = "/manageCafeteria";
+export const addCategoryPath = "/addCategory";
+export const removeCategoryPath = "/removeCategory";
