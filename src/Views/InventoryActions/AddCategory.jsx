@@ -42,13 +42,13 @@ export default class AddCategory extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setCa(event)}
+                      onChange={event => this.setCategoryName(event)}
                     />
                   </GridItem>
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="info" onClick={() => "Clicked"}>
+                <Button color="info" onClick={() => this.props.handleAddCategory(categoryName)}>
                   Add New Category
                 </Button>
               </CardFooter>

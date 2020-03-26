@@ -170,6 +170,26 @@ app.get("/api/removeProduct", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addCategory", (req, res) => {
+  const categoryName = req.query.categoryName || "";
+  const user = req.query.user || "";
+  const result = service.addCategory(
+    categoryName,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/removeCategory", (req, res) => {
+  const categoryName = req.query.categoryName || "";
+  const user = req.query.user || "";
+  const result = service.removeCategory(
+    categoryName,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );

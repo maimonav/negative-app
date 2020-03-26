@@ -49,7 +49,7 @@ export default class RemoveCategory extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() => 'Not Yet'}
+                  onClick={() => this.props.handleRemoveCategory(categoryName)}
                 >
                   Remove Category
                 </Button>

@@ -18,7 +18,7 @@ import RemoveSupplier from "./UserActions/RemoveSupplier";
 import ManageInventory from "./InventoryActions/ManageInventory";
 import ManageCafeteria from "./InventoryActions/ManageCafeteria";
 import AddCafeteriaOrder from "./InventoryActions/AddCafeteriaOrder";
-import AddCategory from "./InventoryActions/AddNewCategory";
+import AddCategory from "./InventoryActions/AddCategory";
 import RemoveCategory from "./InventoryActions/RemoveCategory";
 
 export {

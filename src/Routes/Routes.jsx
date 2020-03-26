@@ -18,7 +18,9 @@ import {
   handleLogin,
   handleLogout,
   handleEditMovie,
-  handleRemoveMovie
+  handleRemoveMovie,
+  handleAddCategory,
+  handleRemoveCategory
 } from "../Handlers/Handlers";
 
 import {
@@ -69,13 +71,13 @@ export default function Routes(props) {
       {props.isLogged && (
         <Route
           path={addCategoryPath}
-          component={() => <AddCategory />}
+          component={() => <AddCategory handleAddCategory={handleAddCategory} />}
         />
       )}
       {props.isLogged && (
         <Route
           path={removeCategoryPath}
-          component={() => <RemoveCategory />}
+          component={() => <RemoveCategory handleRemoveCategory={handleRemoveCategory} />}
         />
       )}
       {props.isLogged && (

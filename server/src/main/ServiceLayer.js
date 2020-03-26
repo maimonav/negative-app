@@ -16,6 +16,9 @@ class ServiceLayer {
     this.products = new Map();
     this.products.set("product", 0);
     this.productsCounter = 1;
+    this.categories = new Map();
+    this.categories.set("category", 0);
+    this.categoriesCounter = 1;
   }
 
   register(userName, password) {
@@ -303,12 +306,9 @@ class ServiceLayer {
     }
   }
 
-  removeProduct(
-    productName,
-    ActionIDOfTheOperation
-  ) {
+  removeProduct(productName, ActionIDOfTheOperation) {
     if (!this.products.has(productName)) {
-      return "The product already exist";
+      return "The product does not exist";
     } else {
       if (!this.users.has(ActionIDOfTheOperation)) {
         return "The user performing the operation does not exist in the system";
@@ -320,6 +320,45 @@ class ServiceLayer {
       );
       if (result === "The product removed successfully.") {
         this.products.delete(productName);
+      }
+      return result;
+    }
+  }
+
+  addCategory(categoryName, ActionIDOfTheOperation) {
+    if (this.categories.has(categoryName)) {
+      return "The category already exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.addCategory(
+        this.productsCounter,
+        categoryName,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The category added successfully.") {
+        this.categories.set(categoryName, this.productsCounter);
+        this.categories++;
+      }
+      return result;
+    }
+  }
+
+  removeCategory(categoryName, ActionIDOfTheOperation) {
+    if (!this.categories.has(categoryName)) {
+      return "The category does not exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.removeCategory(
+        this.productsCounter,
+        categoryName,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The category added successfully.") {
+        this.categories.delete(categoryName);
       }
       return result;
     }

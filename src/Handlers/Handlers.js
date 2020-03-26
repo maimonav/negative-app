@@ -244,3 +244,33 @@ export function handleRemoveSupplier(name) {
       alert(state.result);
     });
 }
+
+
+export function handleAddCategory(categoryName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addCategory?name=${encodeURIComponent(
+      categoryName
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+
+export function handleRemoveCategory(categoryName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeCategory?name=${encodeURIComponent(
+      categoryName
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+
