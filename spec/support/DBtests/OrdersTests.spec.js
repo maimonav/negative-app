@@ -3,21 +3,22 @@ const { addCategory, addMovieAfterCategory, addProductAfterCategory } = require(
 
 const DB = require("../../../server/src/main/DBManager");
 
-async function addSupplier() {
+async function addSupplier(id, isTest) {
   console.log("START ADD SUPPLIER\n");
   await DB.add('supplier', {
-    id: 0,
+    id: id,
     name: "Shupersal",
     contactDetails: "089266584"
   });
-  await DB.getById('supplier', { id: 0 }).then((result) => {
-    expect(result.id).toBe(0);
-    expect(result.name).toBe("Shupersal");
-    expect(result.contactDetails).toBe("089266584");
-    expect(result.isSupplierRemoved).toBe(false);
-  });
+  if (isTest)
+    await DB.getById('supplier', { id: id }).then((result) => {
+      expect(result.id).toBe(id);
+      expect(result.name).toBe("Shupersal");
+      expect(result.contactDetails).toBe("089266584");
+      expect(result.isSupplierRemoved).toBe(null);
+    });
 }
-
+exports.addSupplier = addSupplier;
 
 
 async function addOrderBeforeSupplier() {
@@ -40,7 +41,7 @@ async function addOrderBeforeSupplier() {
 }
 
 
-async function addOrderAftereSupplierCreatorRecipient() {
+async function addOrderAftereSupplierCreatorRecipient(isTest) {
   console.log("START ADD ORDER AFTER\n");
 
   await DB.add('order', {
@@ -50,18 +51,18 @@ async function addOrderAftereSupplierCreatorRecipient() {
     recipientEmployeeId: 0,
     supplierId: 0
   });
-
-  await DB.getById('order', { id: 0 }).then((result) => {
-    expect(result.id).toBe(0);
-    expect(result.date).toEqual(new Date('2020-03-02 00:00:00'));
-    expect(result.creatorEmployeeId).toBe(0);
-    expect(result.recipientEmployeeId).toBe(0);
-    expect(result.supplierId).toBe(0);
-    expect(result.isProvided).toBe(false);
-  });
+  if (isTest)
+    await DB.getById('order', { id: 0 }).then((result) => {
+      expect(result.id).toBe(0);
+      expect(result.date).toEqual(new Date('2020-03-02 00:00:00'));
+      expect(result.creatorEmployeeId).toBe(0);
+      expect(result.recipientEmployeeId).toBe(0);
+      expect(result.supplierId).toBe(0);
+      expect(result.isProvided).toBe(false);
+    });
 
 }
-
+exports.addOrderAftereSupplierCreatorRecipient = addOrderAftereSupplierCreatorRecipient;
 async function addOrderBeforeRecipient() {
   console.log("START ADD ORDER BEFORE RECIPIENT\n");
   try {
@@ -118,7 +119,7 @@ async function addEmployee(id, permissions) {
   });
 
 }
-exports.addEmployee=addEmployee;
+exports.addEmployee = addEmployee;
 
 
 async function updateSupplier() {
@@ -136,14 +137,16 @@ async function updateSupplier() {
 
 
 
-async function removeSupplier() {
+async function removeSupplier(id,isTest) {
   console.log("START REMOVE SUPPLIER\n");
-  await DB.update('supplier', { id: 0 }, { isSupplierRemoved: true });
-  await DB.getById('supplier', { id: 0 }).then((result) => {
-    expect(result.isSupplierRemoved).toBe(true);
-  });
+  await DB.update('supplier', { id: id }, { isSupplierRemoved: new Date() });
+  if (isTest)
+    await DB.getById('supplier', { id: id }).then((result) => {
+      expect(result.isSupplierRemoved != null).toBe(true);
+    });
 
 }
+exports.removeSupplier = removeSupplier;
 
 
 
@@ -203,7 +206,7 @@ async function removeOrderAfterProvided(withMovies, withProducts) {
 }
 
 
-async function addProductsOrder() {
+async function addProductsOrder(isTest) {
   console.log("START ADD PRODUCTS TO ORDER\n");
   await addCategory(0, "fantasy");
   await addProductAfterCategory();
@@ -213,12 +216,13 @@ async function addProductsOrder() {
     productId: 0,
     expectedQuantity: 2
   });
-  await DB.getById('cafeteria_product_order', { orderId: 0, productId: 0 }).then((result) => {
-    expect(result.orderId).toBe(0);
-    expect(result.productId).toBe(0);
-    expect(result.expectedQuantity).toBe(2);
-    expect(result.actualQuantity).toBe(0);
-  });
+  if (isTest)
+    await DB.getById('cafeteria_product_order', { orderId: 0, productId: 0 }).then((result) => {
+      expect(result.orderId).toBe(0);
+      expect(result.productId).toBe(0);
+      expect(result.expectedQuantity).toBe(2);
+      expect(result.actualQuantity).toBe(0);
+    });
 
   await addMovieAfterCategory();
 
@@ -227,13 +231,15 @@ async function addProductsOrder() {
     movieId: 0,
     expectedQuantity: 1
   });
-  await DB.getById('movie_order', { orderId: 0, movieId: 0 }).then((result) => {
-    expect(result.orderId).toBe(0);
-    expect(result.movieId).toBe(0);
-    expect(result.expectedQuantity).toBe(1);
-    expect(result.actualQuantity).toBe(0);
-  });
+  if (isTest)
+    await DB.getById('movie_order', { orderId: 0, movieId: 0 }).then((result) => {
+      expect(result.orderId).toBe(0);
+      expect(result.movieId).toBe(0);
+      expect(result.expectedQuantity).toBe(1);
+      expect(result.actualQuantity).toBe(0);
+    });
 }
+exports.addProductsOrder = addProductsOrder;
 
 async function updateProductsOrder() {
   console.log("START UPDATE PRODUCTS TO ORDER\n");
@@ -254,7 +260,7 @@ async function updateProductsOrder() {
   });
 }
 
-describe("DB Unit Testing - suppliers, orders", function () {
+describe("DB Test - suppliers, orders", function () {
 
   let sequelize;
   beforeEach(async function () {
@@ -280,28 +286,28 @@ describe("DB Unit Testing - suppliers, orders", function () {
   it("add empty order & add supplier", async function () {
     await addEmployee(0, "MANAGER");
     await addOrderBeforeSupplier();
-    await addSupplier();
+    await addSupplier(0, true);
     await addOrderBeforeRecipient();
     await addOrderBeforeCreator();
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreatorRecipient(true);
 
   });
 
   it("update supplier", async function () {
-    await addSupplier();
+    await addSupplier(0);
     await updateSupplier();
 
   });
 
   it("remove supplier", async function () {
-    await addSupplier();
-    await removeSupplier();
+    await addSupplier(0);
+    await removeSupplier(0,true);
 
   });
 
   it("remove empty order before and after being supplied", async function () {
     await addEmployee(0, "MANAGER");
-    await addSupplier();
+    await addSupplier(0);
     await addOrderAftereSupplierCreatorRecipient();
     await removeOrderBeforeProvided(false, false);
     await addOrderAftereSupplierCreatorRecipient();
@@ -311,16 +317,16 @@ describe("DB Unit Testing - suppliers, orders", function () {
 
   it("add full order and add & update product_orders", async function () {
     await addEmployee(0, "MANAGER");
-    await addSupplier();
+    await addSupplier(0);
     await addOrderAftereSupplierCreatorRecipient();
-    await addProductsOrder();
+    await addProductsOrder(true);
     await updateProductsOrder();
   });
 
 
   it("remove full order includes products before provided", async function () {
     await addEmployee(0, "MANAGER");
-    await addSupplier();
+    await addSupplier(0);
     await addOrderAftereSupplierCreatorRecipient();
     await addProductsOrder();
     await removeOrderBeforeProvided(true, true);
@@ -328,7 +334,7 @@ describe("DB Unit Testing - suppliers, orders", function () {
 
   it("remove full order includes products after provided", async function () {
     await addEmployee(0, "MANAGER");
-    await addSupplier();
+    await addSupplier(0);
     await addOrderAftereSupplierCreatorRecipient();
     await addProductsOrder();
     await removeOrderAfterProvided(true, true);

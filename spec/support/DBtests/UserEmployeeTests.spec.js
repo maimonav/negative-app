@@ -1,7 +1,7 @@
 const { createConnection, connectAndCreate, dropAndClose } = require("../DBtests/connectAndCreate");
 const DB = require("../../../server/src/main/DBManager");
 
-async function addUser() {
+async function addUser(isTest) {
   console.log("START ADD USER\n");
   await DB.add('user', {
     id: 0,
@@ -9,15 +9,17 @@ async function addUser() {
     password: "admin",
     permissions: "ADMIN"
   });
-  await DB.getById('user', { id: 0 }).then((result) => {
-    expect(result.id).toBe(0);
-    expect(result.username).toBe("admin");
-    expect(result.password).toBe("admin");
-    expect(result.permissions).toBe("ADMIN");
-    expect(result.isUserRemoved).toBe(false);
+  if (isTest)
+    await DB.getById('user', { id: 0 }).then((result) => {
+      expect(result.id).toBe(0);
+      expect(result.username).toBe("admin");
+      expect(result.password).toBe("admin");
+      expect(result.permissions).toBe("ADMIN");
+      expect(result.isUserRemoved).toBe(null);
 
-  });
+    });
 }
+exports.addUser = addUser;
 
 
 async function addEmployeeWithoutUser() {
@@ -38,36 +40,40 @@ async function addEmployeeWithoutUser() {
 }
 
 
-async function addEmployee() {
+async function addEmployee(id,isTest) {
   console.log("START ADD EMPLOYEE\n");
   await DB.add('user', {
-    id: 1,
+    id: id,
     username: "manager",
     password: "manager",
     permissions: "MANAGER",
   });
-  await DB.getById('user', { id: 1 }).then((result) => {
-    expect(result.id).toBe(1);
-    expect(result.username).toBe("manager");
-    expect(result.password).toBe("manager");
-    expect(result.permissions).toBe("MANAGER");
-    expect(result.isUserRemoved).toBe(false);
-  });
+  if (isTest)
+    await DB.getById('user', { id: id }).then((result) => {
+      expect(result.id).toBe(id);
+      expect(result.username).toBe("manager");
+      expect(result.password).toBe("manager");
+      expect(result.permissions).toBe("MANAGER");
+      expect(result.isUserRemoved).toBe(null);
+    });
 
   await DB.add('employee', {
-    id: 1,
+    id: id,
     firstName: "Noa",
     lastName: "Cohen",
     contactDetails: '0508888888'
   });
-  await DB.getById('employee', { id: 1 }).then((result) => {
-    expect(result.id).toBe(1);
-    expect(result.firstName).toBe("Noa");
-    expect(result.lastName).toBe("Cohen");
-    expect(result.contactDetails).toBe("0508888888");
-    expect(result.isEmployeeRemoved).toBe(false);
-  });
+
+  if (isTest)
+    await DB.getById('employee', { id: id }).then((result) => {
+      expect(result.id).toBe(id);
+      expect(result.firstName).toBe("Noa");
+      expect(result.lastName).toBe("Cohen");
+      expect(result.contactDetails).toBe("0508888888");
+      expect(result.isEmployeeRemoved).toBe(null);
+    });
 }
+exports.addEmployee = addEmployee;
 
 async function updateUser() {
   console.log("START UPDATE USER\n");
@@ -91,45 +97,49 @@ async function updateEmployee() {
   });
 }
 
-async function removeUser() {
+async function removeUser(id,isTest) {
   console.log("START REMOVE USER\n");
-  await DB.update('user', { id: 1 }, { isUserRemoved: true });
-  await DB.getById('user', { id: 1 }).then((result) => {
-    expect(result.isUserRemoved).toBe(true);
-  });
+  await DB.update('user', { id: id }, { isUserRemoved: new Date() });
 
+  if (isTest) {
+    await DB.getById('user', { id: id }).then((result) => {
+      expect(result.isUserRemoved != null).toBe(true);
+    });
 
-  await DB.getById('employee', { id: 1 }).then((result) => {
-    expect(result.isEmployeeRemoved).toBe(true);
-  });
+    await DB.getById('employee', { id: id }).then((result) => {
+      expect(result.isEmployeeRemoved != null).toBe(true);
+    });
+  }
 }
+exports.removeUser = removeUser;
 
-
-async function removeEmployee() {
+async function removeEmployee(id,isTest) {
   console.log("START REMOVE EMPLOYEE\n");
   await DB.add('user', {
-    id: 2,
+    id: id,
     username: "manager",
     password: "manager",
     permissions: "MANAGER",
   });
 
   await DB.add('employee', {
-    id: 2,
+    id: id,
     firstName: "Noa",
     lastName: "Cohen",
     contactDetails: '0508888888'
   });
 
-  await DB.update('employee', { id: 2 }, { isEmployeeRemoved: true });
-  await DB.getById('employee', { id: 2 }).then((result) => {
-    expect(result.isEmployeeRemoved).toBe(true);
-  });
-  await DB.getById('user', { id: 2 }).then((result) => {
-    expect(result.isUserRemoved).toBe(false);
-  });
-
+  await DB.update('employee', { id: id }, { isEmployeeRemoved: true });
+  if (isTest) {
+    await DB.getById('employee', { id: id }).then((result) => {
+      expect(result.isEmployeeRemoved != null).toBe(true);
+    });
+    await DB.getById('user', { id: id }).then((result) => {
+      expect(result.isUserRemoved != null).toBe(false);
+    });
+  }
 }
+exports.removeEmployee = removeEmployee;
 
 describe("DB Unit Testing - user and employee", function () {
 
@@ -156,28 +166,28 @@ describe("DB Unit Testing - user and employee", function () {
 
 
   it("add user", async function () {
-    await addUser();
+    await addUser(true);
   });
 
   it("add employee", async function () {
     await addEmployeeWithoutUser();
     await addUser();
-    await addEmployee();
+    await addEmployee(1,true);
   });
 
 
   it("update user and employee", async function () {
     await addUser();
-    await addEmployee();
+    await addEmployee(1);
     await updateUser();
     await updateEmployee();
   });
 
   it("remove user and employee", async function () {
     await addUser();
-    await addEmployee();
-    await removeUser();
-    await removeEmployee();
+    await addEmployee(1);
+    await removeUser(1,true);
+    await removeEmployee(2,true);
   });
 
 

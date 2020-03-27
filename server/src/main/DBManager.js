@@ -31,7 +31,7 @@ class DataBase {
                 user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
                 order: this.Order, movie: this.Movie, cafeteria_product: this.CafeteriaProduct, movie_order: this.MovieOrder,
                 cafeteria_product_order: this.CafeteriaProductOrder, general_purpose_daily_report: this.GeneralPurposeDailyReport,
-                inventory_daily_report: this.InventoryDailyReport, movie_daily_reports: this.MoviesDailyReport,
+                inventory_daily_report: this.InventoryDailyReport, movie_daily_report: this.MoviesDailyReport,
                 incomes_daily_report: this.IncomesDailyReport
             };
 
@@ -87,7 +87,7 @@ class DataBase {
         });
         this.GeneralPurposeDailyReport = this.sequelize.define('general_purpose_daily_report', generalPurposeDailyReportSchema(this.Employee), {});
         this.InventoryDailyReport = this.sequelize.define('inventory_daily_report', inventoryDailyReportSchema(this.CafeteriaProduct, this.Employee), {});
-        this.MoviesDailyReport = this.sequelize.define('movie_daily_reports', moviesDailyReportSchema(this.Movie, this.Employee), {});
+        this.MoviesDailyReport = this.sequelize.define('movie_daily_report', moviesDailyReportSchema(this.Movie, this.Employee), {});
         this.IncomesDailyReport = this.sequelize.define('incomes_daily_report', incomesDailyReportSchema(this.Employee), {});
     }
 
@@ -222,17 +222,6 @@ class DataBase {
     }
 
 
-
-    /*.then(() => {
-                        return this.sequelize.transaction((t2) => {
-                            return this.MovieOrder.destroy({ where: { orderId: id }, transaction: t2, individualHooks: true }).then(() => {
-                                return this.sequelize.transaction((t3) => {
-                                    return this.CafeteriaProductOrder.destroy({ where: { orderId: id }, transaction: t3, individualHooks: true });
-                                })
-                            })
-
-                        })
-                    }*/
 
 };
 

@@ -9,7 +9,7 @@ const userSchema = () => {
     username: {type: Sequelize.STRING, notEmpty:true, allowNull: false},
     password: {type: Sequelize.STRING, notEmpty:true, allowNull: false},
     permissions: {type:Sequelize.ENUM('ADMIN', 'MANAGER','DEPUTY_MANAGER','SHIFT_MANAGER','EMPLOYEE'), allowNull: false,defaultValue: 'EMPLOYEE' },
-    isUserRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+    isUserRemoved: {type: Sequelize.DATE, defaultValue: null},
   }};
 
   const employeeSchema = (User) => {
@@ -27,7 +27,7 @@ const userSchema = () => {
     firstName: {type: Sequelize.STRING, notEmpty:true, allowNull: false,isAlpha: true},
     lastName: {type: Sequelize.STRING, notEmpty:true, allowNull: false,isAlpha: true},
     contactDetails: {type: Sequelize.STRING, notEmpty:true,  allowNull: false},
-    isEmployeeRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+    isEmployeeRemoved: {type: Sequelize.DATE, defaultValue: null},
   }};
 
   const movieSchema = (Category) => {
@@ -46,7 +46,7 @@ const userSchema = () => {
     },
     movieKey: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
     examinationRoom: {type: Sequelize.INTEGER, allowNull: false},
-    isMovieRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
+    isMovieRemoved: {type: Sequelize.DATE, defaultValue: null}
   }};
 
 
@@ -66,9 +66,9 @@ const userSchema = () => {
     },
     price: {type: Sequelize.DOUBLE, allowNull: false},
     quantity: {type: Sequelize.INTEGER, allowNull: false},
-    maxQuantity: {type: Sequelize.INTEGER, defaultValue: 1000000},
+    maxQuantity: {type: Sequelize.INTEGER, defaultValue: 9999999},
     minQuantity: {type: Sequelize.INTEGER, defaultValue: -1},
-    isProductRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
+    isProductRemoved: {type: Sequelize.DATE, defaultValue: null}
 
   }};
 
@@ -79,7 +79,7 @@ const userSchema = () => {
       parentId: {type: Sequelize.INTEGER, defaultValue: -1},
       name: {type: Sequelize.STRING, allowNull: false,notEmpty:true},
       isCategoryUsed:  {type: Sequelize.BOOLEAN, defaultValue: false},
-      isCategoryRemoved: {type: Sequelize.BOOLEAN, defaultValue: false}
+      isCategoryRemoved: {type: Sequelize.DATE, defaultValue: null}
   }};
 
   const supplierSchema = () => {
@@ -88,7 +88,7 @@ const userSchema = () => {
       id: {type: Sequelize.INTEGER, primaryKey: true},
       name: {type: Sequelize.STRING, notEmpty:true,allowNull: false},
       contactDetails: {type: Sequelize.STRING, notEmpty:true,  allowNull: false},
-      isSupplierRemoved: {type: Sequelize.BOOLEAN, defaultValue: false},
+      isSupplierRemoved: {type: Sequelize.DATE, defaultValue: null},
   }};
   
 
