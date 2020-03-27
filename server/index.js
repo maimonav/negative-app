@@ -76,6 +76,22 @@ app.get("/api/removeEmployee", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addMovie", (req, res) => {
+  const movieName = req.query.movieName || "";
+  const category = req.query.category || "";
+  const key = req.query.key || "";
+  const examinationRoom = req.query.examinationRoom || "";
+  const user = req.query.user || "";
+  const result = service.addMovie(
+    movieName,
+    category,
+    key,
+    examinationRoom,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
 app.get("/api/editMovie", (req, res) => {
   const movieName = req.query.movieName || "";
   const category = req.query.category || "";
@@ -165,6 +181,26 @@ app.get("/api/removeProduct", (req, res) => {
   const user = req.query.user || "";
   const result = service.removeProduct(
     productName,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/addCategory", (req, res) => {
+  const categoryName = req.query.categoryName || "";
+  const user = req.query.user || "";
+  const result = service.addCategory(
+    categoryName,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/removeCategory", (req, res) => {
+  const categoryName = req.query.categoryName || "";
+  const user = req.query.user || "";
+  const result = service.removeCategory(
+    categoryName,
     user
   );
   res.send(JSON.stringify({ result }));

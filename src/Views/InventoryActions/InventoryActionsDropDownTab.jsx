@@ -4,9 +4,11 @@ import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {
-  editMoviePath,
-  removeMoviePath,
-  manageInventoryPath
+  manageInventoryPath,
+  manageCafeteriaPath,
+  addCategoryPath,
+  removeCategoryPath,
+  manageMoviesPath
 } from "../../consts/paths";
 
 export default function InventoryActionsDropDownTab(props) {
@@ -42,14 +44,24 @@ export default function InventoryActionsDropDownTab(props) {
             Manage Inventory
           </MenuItem>
         </Link>
-        <Link to={editMoviePath}>
+        <Link to={manageCafeteriaPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Edit Movie
+            Manage Cafeteria
           </MenuItem>
         </Link>
-        <Link to={removeMoviePath}>
+        <Link to={manageMoviesPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Remove Movie
+            Manage Movies
+          </MenuItem>
+        </Link>
+        <Link to={addCategoryPath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Add Category
+          </MenuItem>
+        </Link>
+        <Link to={removeCategoryPath}>
+          <MenuItem value={1} onClick={handleClose}>
+            Remove Category
           </MenuItem>
         </Link>
       </Menu>
