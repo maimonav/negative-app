@@ -10,11 +10,11 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
-import {
-  AddCafeteriaOrder
-} from "../index";
+import { AddCafeteriaOrder, RemoveCafeteriaOrder } from "../index";
 import {
   handleAddProduct,
+  handleGetItemsByDates,
+  handleRemoveCafeteriaOrder
 } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -40,25 +40,25 @@ export default class ManageCafeteria extends React.Component {
               <CardBody>
                 <GridContainer style={style}>
                   <Tooltip title="Show" aria-label="show">
-                    <Fab color="primary" onClick={() => this.onChange("show")}>
+                    <Fab color="inherit" onClick={() => this.onChange("show")}>
                       <ShowIcon />
                     </Fab>
                   </Tooltip>
                   <Tooltip title="Add" aria-label="add">
-                    <Fab color="primary" onClick={() => this.onChange("add")}>
+                    <Fab color="inherit" onClick={() => this.onChange("add")}>
                       <AddIcon />
                     </Fab>
                   </Tooltip>
 
                   <Tooltip title="Edit" aria-label="edit">
-                    <Fab color="primary" onClick={() => this.onChange("edit")}>
+                    <Fab color="inherit" onClick={() => this.onChange("edit")}>
                       <EditIcon />
                     </Fab>
                   </Tooltip>
 
                   <Tooltip title="Delete" aria-label="delete">
                     <Fab
-                      color="primary"
+                      color="inherit"
                       onClick={() => this.onChange("delete")}
                     >
                       <DeleteIcon />
@@ -68,20 +68,19 @@ export default class ManageCafeteria extends React.Component {
               </CardBody>
               {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
               {this.state.action === "add" && (
-                <AddCafeteriaOrder
-                  handleAddProduct={handleAddProduct}
-                ></AddCafeteriaOrder>
+                <AddCafeteriaOrder handleAddProduct={handleAddProduct} />
               )}
               {/* {this.state.action === "edit" && (
                 <EditProduct
                   handleEditProduct={handleEditProduct}
                 ></EditProduct>
-              )}
-              {this.state.action === "delete" && (
-                <RemoveProduct
-                  handleRemoveProduct={handleRemoveProduct}
-                ></RemoveProduct>
               )} */}
+              {this.state.action === "delete" && (
+                <RemoveCafeteriaOrder
+                  handleGetItemsByDates={handleGetItemsByDates}
+                  handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
+                />
+              )}
             </Card>
           </GridItem>
         </GridContainer>

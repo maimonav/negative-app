@@ -135,7 +135,7 @@ class CinemaSystem {
     return res;
   }
 
-  addMovie(movieID, category, key, examinationRoom, ActionIDOfTheOperation) {
+  addMovie(movieID, category, key) {
     return "TODO: IMPLEMENT THIS.";
   }
 
