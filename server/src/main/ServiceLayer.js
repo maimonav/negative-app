@@ -19,6 +19,9 @@ class ServiceLayer {
     this.categories = new Map();
     this.categories.set("category", 0);
     this.categoriesCounter = 1;
+    this.orders = new Map();
+    this.orders.set("order", 0);
+    this.ordersCounter = 1;
   }
 
   register(userName, password) {
@@ -329,7 +332,7 @@ class ServiceLayer {
       }
       let result = this.cinemaSystem.removeProduct(
         this.productsCounter,
-        productName,
+        this.products.get(productName),
         this.users.get(ActionIDOfTheOperation)
       );
       if (result === "The product removed successfully.") {
@@ -347,7 +350,7 @@ class ServiceLayer {
         return "The user performing the operation does not exist in the system";
       }
       let result = this.cinemaSystem.addCategory(
-        this.productsCounter,
+        this.categoriesCounter,
         categoryName,
         this.users.get(ActionIDOfTheOperation)
       );
@@ -367,12 +370,60 @@ class ServiceLayer {
         return "The user performing the operation does not exist in the system";
       }
       let result = this.cinemaSystem.removeCategory(
-        this.productsCounter,
-        categoryName,
+        this.categoriesCounter,
+        this.categories.get(categoryName),
         this.users.get(ActionIDOfTheOperation)
       );
       if (result === "The category added successfully.") {
         this.categories.delete(categoryName);
+      }
+      return result;
+    }
+  }
+
+  addCafetriaOrder(
+    productName,
+    supplierName,
+    orderDate,
+    productPrice,
+    productQuantity,
+    ActionIDOfTheOperation
+  ) {
+    if (this.orders.has(productName)) {
+      return "The order already exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.addCafetriaOrder(
+        this.ordersCounter,
+        productName,
+        supplierName,
+        orderDate,
+        productPrice,
+        productQuantity,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The category added successfully.") {
+        this.orders.delete(productName);
+      }
+      return result;
+    }
+  }
+
+  removeCafetriaOrder(orderId, ActionIDOfTheOperation) {
+    if (!this.orders.has(orderId)) {
+      return "The order does not exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.removeCafetriaOrder(
+        orderId,
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (result === "The category added successfully.") {
+        this.orders.delete(orderId);
       }
       return result;
     }

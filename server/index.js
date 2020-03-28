@@ -175,6 +175,31 @@ app.get("/api/removeProduct", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addCafeteriaOrder", (req, res) => {
+  const productsName = req.query.productsName || "";
+  const supplierName = req.query.supplierName || "";
+  const orderDate = req.query.orderDate || "";
+  const productPrice = req.query.productPrice || "";
+  const productQuantity = req.query.productQuantity || "";
+  const user = req.query.user || "";
+  const result = service.addCafetriaOrder(
+    productsName,
+    supplierName,
+    orderDate,
+    productPrice,
+    productQuantity,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/removeCafeteriaOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
+  const user = req.query.user || "";
+  const result = service.removeCafetriaOrder(orderId, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.get("/api/addCategory", (req, res) => {
   const categoryName = req.query.categoryName || "";
   const user = req.query.user || "";
