@@ -26,7 +26,6 @@ class DataBase {
             });
 
             DataBase.initModels();
-
             this.models = {
                 user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
                 order: this.Order, movie: this.Movie, cafeteria_product: this.CafeteriaProduct, movie_order: this.MovieOrder,
@@ -47,7 +46,7 @@ class DataBase {
             hooks: {
                 //define trigger after updating isUserRemoved
                 afterBulkUpdate: async (user) => {
-                    if (user.attributes.isUserRemoved) {
+                    if (user.attributes.isUserRemoved && user.attributes.isUserRemoved != null) {
                         await DataBase.update('employee', { id: user.where.id }, { isEmployeeRemoved: true });
                     }
                 }
@@ -58,12 +57,21 @@ class DataBase {
         this.Category = this.sequelize.define('category', categorySchema(), {
             hooks: {
                 //define trigger category had been used
-                afterBulkUpdate: async (category) => {
-                    if (category.attributes.isCategoryRemoved) {
-                        await DataBase.getById('category', { id: category.where.id }).then(async (result) => {
-                            if (result.isCategoryUsed) {
-                                category.transaction.rollback();
-                            }
+                beforeBulkUpdate: async (category) => {
+                    if (category.attributes.isCategoryRemoved && category.attributes.isCategoryRemoved != null) {
+                        await this.CafeteriaProduct.sync({transaction : category.transaction}).then(async () => {
+                            await this.CafeteriaProduct.count({ categoryId: category.where.id }).then(async (resultProduct) => {
+                                if (resultProduct != 0)
+                                    category.transaction.rollback();
+
+                                else
+                                    await this.Movie.sync({transaction : category.transaction}).then(async () => {
+                                        await this.Movie.count({ categoryId: category.where.id }).then(async (resultMovie) => {
+                                            if (resultMovie != 0)
+                                                category.transaction.rollback();
+                                        });
+                                    });
+                            });
                         });
                     }
                 }
@@ -72,12 +80,8 @@ class DataBase {
         this.Order = this.sequelize.define('order', orderSchema(this.Employee, this.Supplier), {
             hooks: DataBase.getOrderHook('order')
         });
-        this.Movie = this.sequelize.define('movie', movieSchema(this.Category), {
-            hooks: DataBase.getProductHook()
-        });
-        this.CafeteriaProduct = this.sequelize.define('cafeteria_product', cafeteriaProductSchema(this.Category), {
-            hooks: DataBase.getProductHook()
-        });
+        this.Movie = this.sequelize.define('movie', movieSchema(this.Category), {});
+        this.CafeteriaProduct = this.sequelize.define('cafeteria_product', cafeteriaProductSchema(this.Category), {});
         this.MovieOrder = this.sequelize.define('movie_order', movieOrderSchema(this.Movie, this.Order), {
             hooks: DataBase.getOrderHook('movie_order')
         });
@@ -97,20 +101,8 @@ class DataBase {
         return {
             beforeBulkDestroy: async (order) => {
                 await DataBase.getById('order', { id: model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
-                    if (result.recipientEmployeeId !=null) {
+                    if (result.recipientEmployeeId != null) {
                         order.transaction.rollback();
-                    }
-                });
-            }
-        };
-    }
-
-    static getProductHook() {
-        return {
-            afterCreate: async (product) => {
-                await DataBase.getById('category', { id: product.categoryId }).then(async (result) => {
-                    if (result != null && !result.isCategoryUsed) {
-                        DataBase.update('category', { id: result.id }, { isCategoryUsed: true });
                     }
                 });
             }
@@ -188,6 +180,10 @@ class DataBase {
         });
     }
 
+
+
+
+
     static update(modelName, where, element) {
         if (this.isTestMode)
             return;
@@ -227,7 +223,7 @@ class DataBase {
         try {
             return this.sequelize.transaction((t) => {
                 return this.sequelize.query(destroyQuery, { t });
-         })
+            })
                 .catch((error => console.log(error)));
         } catch (error) {
             console.log(error);

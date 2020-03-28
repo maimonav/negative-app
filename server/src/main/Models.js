@@ -78,7 +78,6 @@ const userSchema = () => {
       id: {type: Sequelize.INTEGER, primaryKey: true},
       parentId: {type: Sequelize.INTEGER, defaultValue: -1},
       name: {type: Sequelize.STRING, allowNull: false,notEmpty:true},
-      isCategoryUsed:  {type: Sequelize.BOOLEAN, defaultValue: false},
       isCategoryRemoved: {type: Sequelize.DATE, defaultValue: null}
   }};
 
