@@ -9,7 +9,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetCafeteriaProducts } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
@@ -21,7 +21,16 @@ export default class AddCafeteriaOrder extends React.Component {
       productQuantity: "",
       supplierName: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetCafeteriaProducts(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ products: state.result });
+      });
+  };
 
   setProuctName = name => {
     this.setState({ productName: name });
@@ -60,7 +69,7 @@ export default class AddCafeteriaOrder extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"productName"}
-                      items={exampleNames}
+                      items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
                     />

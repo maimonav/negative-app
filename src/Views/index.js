@@ -19,7 +19,7 @@ import RemoveSupplier from "./UserActions/RemoveSupplier";
 import ManageInventory from "./InventoryActions/ManageInventory";
 import ManageCafeteria from "./InventoryActions/ManageCafeteria";
 import AddCafeteriaOrder from "./InventoryActions/AddCafeteriaOrder";
-import RemoveCafeteriaOrder from "./InventoryActions/RemveCafeteriaOrder";
+import RemoveCafeteriaOrder from "./InventoryActions/RemoveCafeteriaOrder";
 import AddCategory from "./InventoryActions/AddCategory";
 import RemoveCategory from "./InventoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/ManageMovies";
@@ -51,5 +51,5 @@ export {
   AddCafeteriaOrder,
   RemoveCafeteriaOrder,
   AddCategory,
-  RemoveCategory,
+  RemoveCategory
 };

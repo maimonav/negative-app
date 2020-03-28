@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetCafeteriaOrders } from "../../Handlers/Handlers";
 import SelectDates from "../../Components/SelectDates";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -21,11 +21,20 @@ export default class RemoveCafeteriaOrder extends React.Component {
       endDate: "",
       orderName: ""
     };
+    this.setInitialState();
     this.toggleBox = this.toggleBox.bind(this);
   }
 
+  setInitialState = () => {
+    handleGetCafeteriaOrders(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ orders: state.result });
+      });
+  };
+
   toggleBox() {
-    this.props.handleGetItemsByDates(this.state.startDate, this.state.endDate)
+    this.props.handleGetItemsByDates(this.state.startDate, this.state.endDate);
     this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
@@ -72,32 +81,35 @@ export default class RemoveCafeteriaOrder extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <Button
-                    color="info"
-                    onClick={this.toggleBox}
-                  >
+                  <Button color="info" onClick={this.toggleBox}>
                     Choose dates
                   </Button>
                 </GridContainer>
-                {isOpened && <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"orderName"}
-                      items={exampleNames}
-                      boxLabel={"Choose order from the list"}
-                      setName={this.setOrderName}
-                    />
-                  </GridItem>
-                </GridContainer>}
+                {isOpened && (
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"orderName"}
+                        items={this.state.orders}
+                        boxLabel={"Choose order from the list"}
+                        setName={this.setOrderName}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                )}
               </CardBody>
-              {isOpened && <CardFooter>
-                <Button
-                  color="info"
-                  onClick={() => this.props.handleRemoveCafeteriaOrder(orderName)}
-                >
-                  Remove Order
-                </Button>
-              </CardFooter>}
+              {isOpened && (
+                <CardFooter>
+                  <Button
+                    color="info"
+                    onClick={() =>
+                      this.props.handleRemoveCafeteriaOrder(orderName)
+                    }
+                  >
+                    Remove Order
+                  </Button>
+                </CardFooter>
+              )}
             </Card>
           </GridItem>
         </GridContainer>

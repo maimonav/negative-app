@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetInventoryProducts } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveProduct extends React.Component {
@@ -17,7 +17,16 @@ export default class RemoveProduct extends React.Component {
     this.state = {
       productName: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetInventoryProducts(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ products: state.result });
+      });
+  };
 
   setProuctName = name => {
     this.setState({ productName: name });
@@ -31,7 +40,7 @@ export default class RemoveProduct extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Remvoe Product</h4>
+                <h4>Remove Product</h4>
                 <p>Complete product's name</p>
               </CardHeader>
               <CardBody>
@@ -39,7 +48,7 @@ export default class RemoveProduct extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"productName"}
-                      items={exampleNames}
+                      items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
                     />

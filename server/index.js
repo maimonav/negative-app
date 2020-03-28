@@ -80,11 +80,7 @@ app.get("/api/addMovie", (req, res) => {
   const movieName = req.query.movieName || "";
   const category = req.query.category || "";
   const user = req.query.user || "";
-  const result = service.addMovie(
-    movieName,
-    category,
-    user
-  );
+  const result = service.addMovie(movieName, category, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -218,6 +214,12 @@ app.get("/api/getCategories", (req, res) => {
 });
 
 app.get("/api/getCafeteriaProducts", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getCafeteriaProducts(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getCafeteriaOrders", (req, res) => {
   const user = req.query.user || "";
   const result = service.getCafeteriaProducts(user);
   res.send(JSON.stringify({ result }));

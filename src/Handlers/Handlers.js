@@ -334,8 +334,12 @@ export function handleGetCategories(username) {
   return fetch(`/api/getCategories?user=${encodeURIComponent(username)}`);
 }
 
-export function handleCafeteriaProducts(username) {
+export function handleGetCafeteriaProducts(username) {
   return fetch(
     `/api/getCafeteriaProducts?user=${encodeURIComponent(username)}`
   );
+}
+
+export function handleGetCafeteriaOrders(username) {
+  return fetch(`/api/getCafeteriaOrders?user=${encodeURIComponent(username)}`);
 }

@@ -9,7 +9,10 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import {
+  handleGetInventoryProducts,
+  handleGetCategories
+} from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditProduct extends React.Component {
@@ -23,7 +26,21 @@ export default class EditProduct extends React.Component {
       minQuantity: "",
       productCategory: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetInventoryProducts(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ products: state.result });
+      });
+    handleGetCategories(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ categories: state.result });
+      });
+  };
 
   setProuctName = name => {
     this.setState({ productName: name });
@@ -72,7 +89,7 @@ export default class EditProduct extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"productName"}
-                      items={exampleNames}
+                      items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
                     />
@@ -82,7 +99,7 @@ export default class EditProduct extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"productCategory"}
-                      items={exampleNames}
+                      items={this.state.categories}
                       boxLabel={"Choose new category if you want"}
                       setName={this.setProductCategory}
                     />

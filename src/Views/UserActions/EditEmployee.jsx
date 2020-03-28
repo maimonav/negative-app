@@ -9,7 +9,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetEmployees } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditEmployee extends React.Component {
@@ -23,7 +23,16 @@ export default class EditEmployee extends React.Component {
       permission: "",
       contactDetails: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetEmployees(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ employees: state.result });
+      });
+  };
 
   setUsername = userName => {
     this.setState({ userName });
@@ -72,7 +81,7 @@ export default class EditEmployee extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"userName"}
-                      items={exampleNames}
+                      items={this.state.employees}
                       boxLabel={"Choose employee"}
                       setName={this.setUsername}
                     />

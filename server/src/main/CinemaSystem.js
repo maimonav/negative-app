@@ -236,6 +236,10 @@ class CinemaSystem {
     //TODO: IMPLEMENT THIS.
     return data.dataExample;
   }
+  getCafeteriaOrders() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
+  }
 }
 
 module.exports = CinemaSystem;

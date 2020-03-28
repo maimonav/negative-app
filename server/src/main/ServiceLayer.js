@@ -413,6 +413,13 @@ class ServiceLayer {
     return this.cinemaSystem.getCafeteriaProducts();
   }
 
+  getCafeteriaOrders(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getCafeteriaOrders();
+  }
+
   getInventoryProducts(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
