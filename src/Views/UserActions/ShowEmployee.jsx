@@ -65,7 +65,7 @@ export default class ShowEmployee extends React.Component {
                 <GridItem xs={12} sm={12} md={6}>
                   <ComboBox
                     id={"userName"}
-                    items={this.state.employees || []}
+                    items={this.state.employees}
                     boxLabel={"Choose employee"}
                     setName={this.setUsername}
                   />

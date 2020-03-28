@@ -9,7 +9,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetMovies, handleGetCategories } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditMovie extends React.Component {
@@ -21,7 +21,22 @@ export default class EditMovie extends React.Component {
       key: "",
       examinationRoom: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetMovies(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ movies: state.result });
+      });
+
+    handleGetCategories(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ categories: state.result });
+      });
+  };
 
   setMovieName = movieName => {
     this.setState({ movieName: movieName });
@@ -54,7 +69,7 @@ export default class EditMovie extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"movieName"}
-                      items={exampleNames}
+                      items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
                     />
@@ -64,7 +79,7 @@ export default class EditMovie extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"category"}
-                      items={exampleNames}
+                      items={this.state.categories}
                       boxLabel={"Choose category"}
                       setName={this.setCategory}
                     />

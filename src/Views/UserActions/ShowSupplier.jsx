@@ -56,7 +56,7 @@ export default class ShowSupplier extends React.Component {
                 <GridItem xs={12} sm={12} md={6}>
                   <ComboBox
                     id={"userName"}
-                    items={this.state.suppliers || []}
+                    items={this.state.suppliers}
                     boxLabel={"Choose Supplier"}
                     setName={this.setSupplierName}
                   />
