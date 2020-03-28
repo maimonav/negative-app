@@ -83,7 +83,7 @@ class DataBase {
         });
         this.CafeteriaProductOrder = this.sequelize.define('cafeteria_product_order', cafeteriaProductOrderSchema(this.CafeteriaProduct, this.Order), {
             hooks: DataBase.getOrderHook('cafeteria_product_order')
-            
+
         });
         this.GeneralPurposeDailyReport = this.sequelize.define('general_purpose_daily_report', generalPurposeDailyReportSchema(this.Employee), {});
         this.InventoryDailyReport = this.sequelize.define('inventory_daily_report', inventoryDailyReportSchema(this.CafeteriaProduct, this.Employee), {});
@@ -96,7 +96,7 @@ class DataBase {
     static getOrderHook(model) {
         return {
             beforeBulkDestroy: async (order) => {
-                await DataBase.getById('order',{ id:  model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
+                await DataBase.getById('order', { id: model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
                     if (result.isProvided) {
                         order.transaction.rollback();
                     }
@@ -105,7 +105,7 @@ class DataBase {
         };
     }
 
-    static getProductHook   () {
+    static getProductHook() {
         return {
             afterCreate: async (product) => {
                 await DataBase.getById('category', { id: product.categoryId }).then(async (result) => {
@@ -221,6 +221,33 @@ class DataBase {
         });
     }
 
+
+    static setDestroyTimer(table, afterCreate, deleteTime, eventTime, prop) {
+        let destroyQuery = DataBase.getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop);
+        try {
+            return this.sequelize.transaction((t) => {
+                return this.sequelize.query(destroyQuery, { t });
+         })
+                .catch((error => console.log(error)));
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+
+    static getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
+        let where = "";
+        if (afterCreate) {
+            where = "createdAt <= (CURRENT_TIMESTAMP - INTERVAL " + deleteTime + ");";
+        }
+        else {
+            where = prop + " IS NOT NULL AND " + prop + " <= (CURRENT_TIMESTAMP - INTERVAL " + deleteTime + ");";
+        }
+        return "CREATE EVENT IF NOT EXISTS delete_event_" + table + " " +
+            "ON SCHEDULE " +
+            "EVERY " + eventTime + " " +
+            "DO DELETE FROM " + table + " WHERE " + where;
+    }
 
 
 };
