@@ -28,7 +28,6 @@ async function addOrderBeforeSupplier() {
       id: 0,
       date: new Date('2020-03-02 00:00:00'),
       creatorEmployeeId: 0,
-      recipientEmployeeId: 0,
       supplierId: 0
     });
 
@@ -41,14 +40,13 @@ async function addOrderBeforeSupplier() {
 }
 
 
-async function addOrderAftereSupplierCreatorRecipient(isTest) {
+async function addOrderAftereSupplierCreator(isTest) {
   console.log("START ADD ORDER AFTER\n");
 
   await DB.add('order', {
     id: 0,
     date: new Date('2020-03-02 00:00:00'),
     creatorEmployeeId: 0,
-    recipientEmployeeId: 0,
     supplierId: 0
   });
   if (isTest)
@@ -56,31 +54,14 @@ async function addOrderAftereSupplierCreatorRecipient(isTest) {
       expect(result.id).toBe(0);
       expect(result.date).toEqual(new Date('2020-03-02 00:00:00'));
       expect(result.creatorEmployeeId).toBe(0);
-      expect(result.recipientEmployeeId).toBe(0);
+      expect(result.recipientEmployeeId).toBe(null);
       expect(result.supplierId).toBe(0);
-      expect(result.isProvided).toBe(false);
     });
 
 }
-exports.addOrderAftereSupplierCreatorRecipient = addOrderAftereSupplierCreatorRecipient;
-async function addOrderBeforeRecipient() {
-  console.log("START ADD ORDER BEFORE RECIPIENT\n");
-  try {
-    await DB.add('order', {
-      id: 0,
-      date: new Date('2020-03-02 00:00:00'),
-      creatorEmployeeId: 0,
-      recipientEmployeeId: 1,
-      supplierId: 0
-    });
-    await DB.getById('order', { id: 0 }).then((result) => {
-      if (result != null)
-        fail("addOrderBeforeRecipient failed");
-    });
-  }
-  catch (error) { }
 
-}
+exports.addOrderAftereSupplierCreator=addOrderAftereSupplierCreator;
+
 
 async function addOrderBeforeCreator() {
   console.log("START ADD ORDER BEFORE CREATOR\n");
@@ -89,7 +70,6 @@ async function addOrderBeforeCreator() {
       id: 0,
       date: new Date('2020-03-02 00:00:00'),
       creatorEmployeeId: 2,
-      recipientEmployeeId: 0,
       supplierId: 0
     });
     await DB.getById('order', { id: 0 }).then((result) => {
@@ -178,9 +158,9 @@ async function removeOrderBeforeProvided(withMovies, withProducts) {
 async function removeOrderAfterProvided(withMovies, withProducts) {
   console.log("START REMOVE ORDER AFTER\n");
 
-  await DB.update('order', { id: 0 }, { isProvided: true });
+  await DB.update('order', { id: 0 }, { recipientEmployeeId: 0 });
   await DB.getById('order', { id: 0 }).then((result) => {
-    expect(result.isProvided).toBe(true);
+    expect(result.recipientEmployeeId).toBe(0);
   });
 
 
@@ -287,9 +267,8 @@ describe("DB Test - suppliers, orders", function () {
     await addEmployee(0, "MANAGER");
     await addOrderBeforeSupplier();
     await addSupplier(0, true);
-    await addOrderBeforeRecipient();
     await addOrderBeforeCreator();
-    await addOrderAftereSupplierCreatorRecipient(true);
+    await addOrderAftereSupplierCreator(true);
 
   });
 
@@ -308,9 +287,9 @@ describe("DB Test - suppliers, orders", function () {
   it("remove empty order before and after being supplied", async function () {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await removeOrderBeforeProvided(false, false);
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await removeOrderAfterProvided(false, false);
 
   });
@@ -318,7 +297,7 @@ describe("DB Test - suppliers, orders", function () {
   it("add full order and add & update product_orders", async function () {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await addProductsOrder(true);
     await updateProductsOrder();
   });
@@ -327,7 +306,7 @@ describe("DB Test - suppliers, orders", function () {
   it("remove full order includes products before provided", async function () {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await addProductsOrder();
     await removeOrderBeforeProvided(true, true);
   });
@@ -335,7 +314,7 @@ describe("DB Test - suppliers, orders", function () {
   it("remove full order includes products after provided", async function () {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await addProductsOrder();
     await removeOrderAfterProvided(true, true);
 

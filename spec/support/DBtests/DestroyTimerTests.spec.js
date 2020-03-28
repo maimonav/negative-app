@@ -2,7 +2,7 @@ const { createConnection, connectAndCreate, dropAndClose } = require("./connectA
 const { addEmployee, removeEmployee } = require("./UserEmployeeTests.spec");
 const { addIncomesDailyReport, addMoviesDailyReport, addGeneralPurposeDailyReport, addInventoryDailyReport } = require("./ReportsTests.spec");
 const { addCategory, addMovieAfterCategory, addProductAfterCategory, removeMovie, removeProduct, removeCategoryBeforeUsed } = require("./ProductsTests.spec");
-const { addSupplier, removeSupplier, addOrderAftereSupplierCreatorRecipient, addProductsOrder } = require("./OrdersTests.spec");
+const { addSupplier, removeSupplier, addOrderAftereSupplierCreator } = require("./OrdersTests.spec");
 const DB = require("../../../server/src/main/DBManager");
 
 
@@ -109,7 +109,7 @@ describe("DB Test - destroy timer", function () {
   it("delete order after time test", async function (done) {
     await addSupplier(0);
     await addEmployee(0);
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await deleteModel('order', 'orders', true, { id: 0 }, 6000, done);
   });
 
@@ -118,7 +118,7 @@ describe("DB Test - destroy timer", function () {
     await addEmployee(0);
     await addCategory(0, "testCategory");
     await addMovieAfterCategory();
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await DB.add('movie_order', {
       orderId: 0,
       movieId: 0,
@@ -132,7 +132,7 @@ describe("DB Test - destroy timer", function () {
     await addEmployee(0);
     await addCategory(0, "testCategory");
     await addProductAfterCategory();
-    await addOrderAftereSupplierCreatorRecipient();
+    await addOrderAftereSupplierCreator();
     await DB.add('cafeteria_product_order', {
       orderId: 0,
       productId: 0,
