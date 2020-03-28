@@ -240,6 +240,15 @@ class CinemaSystem {
     //TODO: IMPLEMENT THIS.
     return data.dataExample;
   }
+
+  getSupplierDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.supplierDetails;
+  }
+  getEmployeeDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.employeeDetails;
+  }
 }
 
 module.exports = CinemaSystem;

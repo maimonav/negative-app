@@ -7,8 +7,10 @@ import TextField from "@material-ui/core/TextField";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
-import { handleGetSuppliers } from "../../Handlers/Handlers";
-import { exampleSuppliersDetails } from "../../consts/data";
+import {
+  handleGetSuppliers,
+  handleGetSupplierDetails
+} from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowSupplier extends React.Component {
@@ -30,17 +32,11 @@ export default class ShowSupplier extends React.Component {
 
   setSupplierName = supplierName => {
     this.setState({ supplierName });
-    const details = exampleSuppliersDetails.get(supplierName);
-
-    if (details) {
-      this.setState({
-        contactDetails: details.contactDetails || ""
+    handleGetSupplierDetails(supplierName, localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ contactDetails: state.result });
       });
-    } else {
-      this.setState({
-        contactDetails: ""
-      });
-    }
   };
 
   render() {

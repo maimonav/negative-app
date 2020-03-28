@@ -343,3 +343,19 @@ export function handleGetCafeteriaProducts(username) {
 export function handleGetCafeteriaOrders(username) {
   return fetch(`/api/getCafeteriaOrders?user=${encodeURIComponent(username)}`);
 }
+
+export function handleGetSupplierDetails(supplier, user) {
+  return fetch(
+    `/api/getSupplierDetails?supplier=${encodeURIComponent(
+      supplier
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetEmployeeDetails(employee, user) {
+  return fetch(
+    `/api/getEmployeeDetails?employee=${encodeURIComponent(
+      employee
+    )}&user=${encodeURIComponent(user)}`
+  );
+}

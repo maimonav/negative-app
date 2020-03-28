@@ -392,11 +392,33 @@ class ServiceLayer {
     return this.cinemaSystem.getSuppliers();
   }
 
+  getSupplierDetails(supplierName, ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    if (!this.suppliers.has(supplierName)) {
+      return "The supplier does not exist";
+    }
+    return this.cinemaSystem.getSupplierDetails(
+      this.suppliers.get(supplierName)
+    );
+  }
+
   getEmployees(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getEmployees();
+  }
+
+  getEmployeeDetails(employeeName, ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    if (!this.users.has(employeeName)) {
+      return "The employee does not exist";
+    }
+    return this.cinemaSystem.getEmployeeDetails(this.users.get(employeeName));
   }
 
   getCategories(ActionIDOfTheOperation) {

@@ -195,9 +195,23 @@ app.get("/api/getSuppliers", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/getSupplierDetails", (req, res) => {
+  const supplier = req.query.supplier || "";
+  const user = req.query.user || "";
+  const result = service.getSupplierDetails(supplier, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.get("/api/getEmployees", (req, res) => {
   const user = req.query.user || "";
   const result = service.getEmployees(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getEmployeeDetails", (req, res) => {
+  const employee = req.query.employee || "";
+  const user = req.query.user || "";
+  const result = service.getEmployeeDetails(employee, user);
   res.send(JSON.stringify({ result }));
 });
 
