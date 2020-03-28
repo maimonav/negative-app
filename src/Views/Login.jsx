@@ -30,7 +30,7 @@ class Login extends React.Component {
     return (
       <>
         <Box className="login-box">
-          Login To System
+          Login
           <form className={this.classes.root} noValidate autoComplete="off">
             <Box>
               <TextField
@@ -40,6 +40,7 @@ class Login extends React.Component {
               <TextField
                 label="Password"
                 onChange={event => this.setPassword(event)}
+                type="password"
               />
             </Box>
             <BaseButton
