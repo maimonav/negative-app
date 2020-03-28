@@ -304,12 +304,38 @@ export function handleGetItemsByDates(startDate, endDate) {
   fetch(
     `api/getItemsByDates?startDate=${encodeURIComponent(
       startDate
-    )}&endDate=${encodeURIComponent(
-      endDate
-    )}&user=${encodeURIComponent(user)}`
+    )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
     .then(state => {
       alert(state.result);
     });
+}
+
+export function handleGetSuppliers(username) {
+  return fetch(`/api/getSuppliers?user=${encodeURIComponent(username)}`);
+}
+
+export function handleGetEmployees(username) {
+  return fetch(`/api/getEmployees?user=${encodeURIComponent(username)}`);
+}
+
+export function handleGetMovies(username) {
+  return fetch(`/api/getMovies?user=${encodeURIComponent(username)}`);
+}
+
+export function handleGetInventoryProducts(username) {
+  return fetch(
+    `/api/getInventoryProducts?user=${encodeURIComponent(username)}`
+  );
+}
+
+export function handleGetCategories(username) {
+  return fetch(`/api/getCategories?user=${encodeURIComponent(username)}`);
+}
+
+export function handleCafeteriaProducts(username) {
+  return fetch(
+    `/api/getCafeteriaProducts?user=${encodeURIComponent(username)}`
+  );
 }

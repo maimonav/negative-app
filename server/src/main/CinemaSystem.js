@@ -1,5 +1,5 @@
+const data = require("../../consts/data");
 const DataBase = require("./DBManager");
-
 class CinemaSystem {
   constructor() {
     this.users = new Map();
@@ -214,6 +214,27 @@ class CinemaSystem {
 
   removeCategory(categoryId, categoryName, ActionIDOfTheOperation) {
     return "TODO: IMPLEMENT THIS.";
+  }
+
+  getSuppliers() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
+  }
+  getEmployees() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
+  }
+  getCategories() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
+  }
+  getCafeteriaProducts() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
+  }
+  getInventoryProducts() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
   }
 }
 

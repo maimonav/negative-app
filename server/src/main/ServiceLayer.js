@@ -378,6 +378,48 @@ class ServiceLayer {
     }
   }
 
+  getMovies(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getSuppliers();
+  }
+
+  getSuppliers(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getSuppliers();
+  }
+
+  getEmployees(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getEmployees();
+  }
+
+  getCategories(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getCategories();
+  }
+
+  getCafeteriaProducts(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getCafeteriaProducts();
+  }
+
+  getInventoryProducts(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getInventoryProducts();
+  }
+
   convertPermissions(permissions) {
     switch (permissions) {
       case "User":
