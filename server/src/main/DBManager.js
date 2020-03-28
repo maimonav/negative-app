@@ -97,7 +97,7 @@ class DataBase {
         return {
             beforeBulkDestroy: async (order) => {
                 await DataBase.getById('order', { id: model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
-                    if (result.isProvided) {
+                    if (result.recipientEmployeeId !=null) {
                         order.transaction.rollback();
                     }
                 });

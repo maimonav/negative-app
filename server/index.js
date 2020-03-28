@@ -79,14 +79,10 @@ app.get("/api/removeEmployee", (req, res) => {
 app.get("/api/addMovie", (req, res) => {
   const movieName = req.query.movieName || "";
   const category = req.query.category || "";
-  const key = req.query.key || "";
-  const examinationRoom = req.query.examinationRoom || "";
   const user = req.query.user || "";
   const result = service.addMovie(
     movieName,
     category,
-    key,
-    examinationRoom,
     user
   );
   res.send(JSON.stringify({ result }));

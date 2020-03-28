@@ -172,16 +172,14 @@ export function handleRemoveProduct(productName) {
     });
 }
 
-export function handleAddMovie(movieName, category, key, examinationRoom) {
+export function handleAddMovie(movieName, category) {
   const user = localStorage.getItem("username");
   fetch(
     `api/addMovie?movieName=${encodeURIComponent(
       movieName
-    )}&category=${encodeURIComponent(category)}&key=${encodeURIComponent(
-      key
-    )}&examinationRoom=${encodeURIComponent(
-      examinationRoom
-    )}&user=${encodeURIComponent(user)}`
+    )}&category=${encodeURIComponent(category)}&user=${encodeURIComponent(
+      user
+    )}`
   )
     .then(response => response.json())
     .then(state => {
@@ -262,7 +260,6 @@ export function handleRemoveSupplier(name) {
     });
 }
 
-
 export function handleAddCategory(categoryName) {
   const user = localStorage.getItem("username");
   fetch(
@@ -275,7 +272,6 @@ export function handleAddCategory(categoryName) {
       alert(state.result);
     });
 }
-
 
 export function handleRemoveCategory(categoryName) {
   const user = localStorage.getItem("username");
@@ -290,4 +286,30 @@ export function handleRemoveCategory(categoryName) {
     });
 }
 
+export function handleRemoveCafeteriaOrder(orderId) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeCafeteriaOrder?orderId=${encodeURIComponent(
+      orderId
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
 
+export function handleGetItemsByDates(startDate, endDate) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/getItemsByDates?startDate=${encodeURIComponent(
+      startDate
+    )}&endDate=${encodeURIComponent(
+      endDate
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}

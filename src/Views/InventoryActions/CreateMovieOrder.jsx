@@ -11,12 +11,13 @@ import ComboBox from "../../Components/AutoComplete";
 import { exampleNames } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class AddMovie extends React.Component {
+export default class CreateMovieOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       movieName: "",
-      category: "",
+      supplier: "",
+      cntactDetails: ""
     };
   }
 
@@ -24,19 +25,23 @@ export default class AddMovie extends React.Component {
     this.setState({ movieName: movieName });
   };
 
-  setCategory = category => {
-    this.setState({ category: category });
+  setCategory = supplier => {
+    this.setState({ supplier: supplier });
+  };
+    
+  setcntactDetails = cntactDetails => {
+    this.setState({ cntactDetails: cntactDetails });
   };
 
   render() {
-    const { movieName, category, key, examinationRoom } = this.state;
+    const { movieName, supplier } = this.state;
     return (
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Add New movie</h4>
+                <h4>Create New Movie Order</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -52,9 +57,9 @@ export default class AddMovie extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"category"}
+                      id={"supplier"}
                       items={exampleNames}
-                      boxLabel={"Choose category"}
+                      boxLabel={"Choose supplier"}
                       setName={this.setCategory}
                     />
                   </GridItem>
@@ -63,14 +68,9 @@ export default class AddMovie extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() =>
-                    this.props.handleAddMovie(
-                      movieName,
-                      category,
-                    )
-                  }
+                  onClick={() => this.props.handleAddMovie(movieName, supplier)}
                 >
-                  Add Movie
+                  Create New Order
                 </Button>
               </CardFooter>
             </Card>

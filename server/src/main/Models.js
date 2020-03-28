@@ -92,7 +92,7 @@ const userSchema = () => {
   }};
   
 
-  const orderSchema = (Employee,Supplier ) => {
+  const orderSchema = (Employee,Supplier) => {
     return {
       // attributes
       id: {type: Sequelize.INTEGER, primaryKey: true},
@@ -114,7 +114,7 @@ const userSchema = () => {
           // This is the column name of the referenced model
           key: 'id'
         }
-      },
+      ,defaultValue: null},
       supplierId: {type: Sequelize.INTEGER, 
         references: {
           // This is a reference to another model
@@ -124,7 +124,6 @@ const userSchema = () => {
           key: 'id'
         }
       },
-      isProvided: {type: Sequelize.BOOLEAN, defaultValue: false}
   }};
 
 

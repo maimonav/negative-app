@@ -1,7 +1,7 @@
 import React from "react";
 import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
-import ShowIcon from "@material-ui/icons/Visibility";
+import NoteAddIcon from '@material-ui/icons/NoteAdd';
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -10,7 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
-import { AddMovie, EditMovie, RemoveMovie } from "../index";
+import { CreateMovieOrder, AddMovie, EditMovie, RemoveMovie } from "../index";
 import {
   handleAddMovie,
   handleEditMovie,
@@ -39,26 +39,26 @@ export default class ManageMovies extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer style={style}>
-                  <Tooltip title="Show" aria-label="show">
-                    <Fab color="primary" onClick={() => this.onChange("show")}>
-                      <ShowIcon />
+                  <Tooltip title="Create" aria-label="create">
+                    <Fab color="inherit" onClick={() => this.onChange("create")}>
+                      <NoteAddIcon />
                     </Fab>
                   </Tooltip>
                   <Tooltip title="Add" aria-label="add">
-                    <Fab color="primary" onClick={() => this.onChange("add")}>
+                    <Fab color="inherit" onClick={() => this.onChange("add")}>
                       <AddIcon />
                     </Fab>
                   </Tooltip>
 
                   <Tooltip title="Edit" aria-label="edit">
-                    <Fab color="primary" onClick={() => this.onChange("edit")}>
+                    <Fab color="inherit" onClick={() => this.onChange("edit")}>
                       <EditIcon />
                     </Fab>
                   </Tooltip>
 
                   <Tooltip title="Delete" aria-label="delete">
                     <Fab
-                      color="primary"
+                      color="inherit"
                       onClick={() => this.onChange("delete")}
                     >
                       <DeleteIcon />
@@ -66,7 +66,7 @@ export default class ManageMovies extends React.Component {
                   </Tooltip>
                 </GridContainer>
               </CardBody>
-              {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
+              {this.state.action === "create" && <CreateMovieOrder />}
               {this.state.action === "add" && (
                 <AddMovie handleAddMovie={handleAddMovie} />
               )}
