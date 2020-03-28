@@ -40,7 +40,7 @@ export default class EditMovie extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Edit movie</h4>
+                <h4>Remove movie</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -50,6 +50,7 @@ export default class EditMovie extends React.Component {
                       items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

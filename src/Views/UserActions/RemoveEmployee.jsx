@@ -41,6 +41,7 @@ export default class RemoveEmployee extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose employee"}
                       setName={this.setUsername}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

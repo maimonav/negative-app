@@ -61,8 +61,20 @@ export default class AddCafeteriaOrder extends React.Component {
                     <ComboBox
                       id={"productName"}
                       items={exampleNames}
-                      boxLabel={"Choose product from the list"}
+                      boxLabel={"Choose products from the list"}
                       setName={this.setProuctName}
+                      isMultiple={true}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <ComboBox
+                      id={"supplierName"}
+                      items={exampleNames}
+                      boxLabel={"Choose supplier from the list"}
+                      setName={this.setSupplierName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

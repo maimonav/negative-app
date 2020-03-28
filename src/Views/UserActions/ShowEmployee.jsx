@@ -68,6 +68,7 @@ export default class ShowEmployee extends React.Component {
                     items={this.state.employees}
                     boxLabel={"Choose employee"}
                     setName={this.setUsername}
+                    isMultiple={false}
                   />
                 </GridItem>
                 {this.state.userName && (

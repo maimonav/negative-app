@@ -75,6 +75,7 @@ export default class EditProduct extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -85,6 +86,7 @@ export default class EditProduct extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose new category if you want"}
                       setName={this.setProductCategory}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

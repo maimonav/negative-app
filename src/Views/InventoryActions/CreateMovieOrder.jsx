@@ -28,7 +28,7 @@ export default class CreateMovieOrder extends React.Component {
   setCategory = supplier => {
     this.setState({ supplier: supplier });
   };
-    
+
   setcntactDetails = cntactDetails => {
     this.setState({ cntactDetails: cntactDetails });
   };
@@ -51,6 +51,7 @@ export default class CreateMovieOrder extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -61,6 +62,7 @@ export default class CreateMovieOrder extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose supplier"}
                       setName={this.setCategory}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

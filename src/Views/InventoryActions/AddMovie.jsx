@@ -46,6 +46,7 @@ export default class AddMovie extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -56,6 +57,7 @@ export default class AddMovie extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose category"}
                       setName={this.setCategory}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

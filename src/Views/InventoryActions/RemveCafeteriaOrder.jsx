@@ -86,6 +86,7 @@ export default class RemoveCafeteriaOrder extends React.Component {
                       items={exampleNames}
                       boxLabel={"Choose order from the list"}
                       setName={this.setOrderName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>}

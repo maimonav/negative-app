@@ -57,6 +57,7 @@ export default class EditSupplier extends React.Component {
                       items={this.state.suppliers}
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplierName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
