@@ -9,6 +9,8 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
+import SelectDates from "../../Components/SelectDates";
+import { exampleNames } from "../../consts/data";
 import {
   handleGetCafeteriaProducts,
   handleGetSuppliers
@@ -21,6 +23,7 @@ export default class AddCafeteriaOrder extends React.Component {
     this.state = {
       productName: "",
       orderDate: "",
+      productPrice: "",
       productQuantity: "",
       supplierName: ""
     };
@@ -44,25 +47,31 @@ export default class AddCafeteriaOrder extends React.Component {
     this.setState({ productName: name });
   };
 
-  setOrderDate(event) {
-    this.setState({ orderDate: event.target.value });
+  setOrderDate = date => {
+    this.setState({ orderDate: date });
+  };
+
+  setProuctPrice(event) {
+    this.setState({ productPrice: event.target.value });
   }
 
   setProuctQuantity(event) {
     this.setState({ productQuantity: event.target.value });
   }
 
-  setSupplierName(event) {
-    this.setState({ supplierName: event.target.value });
+  setSupplierName = (event) => {
+    this.setState({ supplierName: event });
   }
 
   render() {
     const {
       productName,
       orderDate,
+      productPrice,
       productQuantity,
       supplierName
     } = this.state;
+    const isEnabled =  productQuantity.length > 0 &&  productPrice.length > 0;
     return (
       <div>
         <GridContainer style={style}>
@@ -96,14 +105,23 @@ export default class AddCafeteriaOrder extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
+                  <GridItem >
+                    <SelectDates
+                      id={"add-order-date"}
+                      label={"Choose Order Date"}
+                      setDate={this.setOrderDate}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Product Price"
-                      id="orderDate"
+                      id="productPrice"
                       formControlProps={{
                         fullWidth: true
                       }}
-                      onChange={event => this.setOrderDate(event)}
+                      onChange={event => this.setProuctPrice(event)}
                     />
                   </GridItem>
                 </GridContainer>
