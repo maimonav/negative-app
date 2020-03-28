@@ -102,10 +102,6 @@ async function addProductAfterCategory(isTest) {
       expect(result.isProductRemoved).toBe(null);
 
     });
-
-    await DB.getById('category', { id: 0 }).then((result) => {
-      expect(result.isCategoryUsed).toBe(true);
-    });
   }
 }
 exports.addProductAfterCategory = addProductAfterCategory;
@@ -170,11 +166,12 @@ async function removeCategoryBeforeUsed(isTest) {
     });
 }
 exports.removeCategoryBeforeUsed = removeCategoryBeforeUsed;
+
 async function removeCategoryAfterUsed() {
   console.log("START REMOVE CATEGORY AFTER\n");
   await DB.update('category', { id: 0 }, { isCategoryRemoved: new Date() });
   await DB.getById('category', { id: 0 }).then((result) => {
-    expect(result.isCategoryRemoved).toBe(null);
+    expect(result.isCategoryRemoved != null).toBe(false);
   });
 
 }

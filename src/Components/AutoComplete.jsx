@@ -30,7 +30,6 @@ export default function ComboBox(props) {
           id={props.id}
           options={props.items}
           getOptionLabel={option => option.title}
-          defaultValue={[props.items[0]]}
           filterSelectedOptions
           renderInput={params => (
             <TextField

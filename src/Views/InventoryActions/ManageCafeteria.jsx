@@ -12,7 +12,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import { AddCafeteriaOrder, RemoveCafeteriaOrder } from "../index";
 import {
-  handleAddProduct,
+  handleAddCafeteriaOrder,
   handleGetItemsByDates,
   handleRemoveCafeteriaOrder
 } from "../../Handlers/Handlers";
@@ -68,7 +68,7 @@ export default class ManageCafeteria extends React.Component {
               </CardBody>
               {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
               {this.state.action === "add" && (
-                <AddCafeteriaOrder handleAddProduct={handleAddProduct} />
+                <AddCafeteriaOrder hadleAddCafeteriaOrder={handleAddCafeteriaOrder} />
               )}
               {/* {this.state.action === "edit" && (
                 <EditProduct

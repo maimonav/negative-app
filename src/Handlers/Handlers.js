@@ -286,6 +286,33 @@ export function handleRemoveCategory(categoryName) {
     });
 }
 
+export function handleAddCafeteriaOrder(
+  productsName,
+  supplierName,
+  orderDate,
+  productPrice,
+  productQuantity
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addCafeteriaOrder?productsName=${encodeURIComponent(
+      productsName
+    )}&supplierName=${encodeURIComponent(
+      supplierName
+    )}&orderDate=${encodeURIComponent(
+      orderDate
+    )}&productPrice=${encodeURIComponent(
+      productPrice
+    )}&productQuantity=${encodeURIComponent(
+      productQuantity
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleRemoveCafeteriaOrder(orderId) {
   const user = localStorage.getItem("username");
   fetch(
