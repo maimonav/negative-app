@@ -147,7 +147,7 @@ class ServiceLayer {
     return res;
   }
 
-  addMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
+  addMovie(movieName, category, ActionIDOfTheOperation) {
     if (this.movies.has(movieName)) {
       return "The movie already exist";
     }
@@ -156,9 +156,8 @@ class ServiceLayer {
     }
     return this.cinemaSystem.addMovie(
       this.movies.get(movieName),
-      category,
-      key,
-      examinationRoom,
+      movieName,
+      this.categories.get(category),
       this.users.get(ActionIDOfTheOperation)
     );
   }

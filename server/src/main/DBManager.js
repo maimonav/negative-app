@@ -223,6 +223,8 @@ class DataBase {
 
 
     static setDestroyTimer(table, afterCreate, deleteTime, eventTime, prop) {
+        if (this.isTestMode)
+        return;
         let destroyQuery = DataBase.getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop);
         try {
             return this.sequelize.transaction((t) => {
@@ -235,7 +237,7 @@ class DataBase {
     }
 
 
-    static getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
+    getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
         let where = "";
         if (afterCreate) {
             where = "createdAt <= (CURRENT_TIMESTAMP - INTERVAL " + deleteTime + ");";

@@ -44,8 +44,8 @@ const userSchema = () => {
         key: 'id'
       }
     },
-    movieKey: {type: Sequelize.STRING,notEmpty:true, allowNull: false},
-    examinationRoom: {type: Sequelize.INTEGER, allowNull: false},
+    movieKey: {type: Sequelize.STRING,notEmpty:true, defaultValue: null},
+    examinationRoom: {type: Sequelize.INTEGER, defaultValue: null},
     isMovieRemoved: {type: Sequelize.DATE, defaultValue: null}
   }};
 

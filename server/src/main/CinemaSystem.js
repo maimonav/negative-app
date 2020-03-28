@@ -3,10 +3,16 @@ const DataBase = require("./DBManager");
 class CinemaSystem {
   constructor() {
     this.users = new Map();
+    //testing purpose
     const { User, Employee } = {
       User: require("./User"),
       Employee: require("./Employee")
     };
+    
+    const InventoryManagement = require("./InventoryManagement");
+    this.inventoryManagement=new InventoryManagement();
+    
+
     const EmployeeManagement = require("./EmployeeManagement");
     this.employeeManagement = new EmployeeManagement();
     this.userOfflineMsg =
@@ -16,6 +22,7 @@ class CinemaSystem {
     DataBase.connectAndCreate().then(() => {
       DataBase.init();
       this.users.set(0, new User(0, "admin", "admin", [1, 2, 3, 4, 5]));
+      //testing purpose
       this.users.set(
         1,
         new Employee(
@@ -135,8 +142,15 @@ class CinemaSystem {
     return res;
   }
 
-  addMovie(movieID, category, key, examinationRoom, ActionIDOfTheOperation) {
-    return "TODO: IMPLEMENT THIS.";
+
+
+
+  addMovie(movieId,movieName, categoryId, ActionIDOfTheOperation) {
+    this.inventoryManagement.isExist('movie',movieId) ? "This movie already exists!" :
+    (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) ? this.userOfflineMsg :
+    !this.users.get(ActionIDOfTheOperation).permmisionCheck('DEPUTY_MANAGER') ? this.inappropriatePermissionsMsg :
+    this.inventoryManagement.isExist('category',categoryId) ? "Category doesn't exist!" :
+    this.inventoryManagement.addMovie(movieId,movieName,categoryId);
   }
 
   editMovie(movieID, category, key, examinationRoom, ActionIDOfTheOperation) {
