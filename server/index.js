@@ -79,16 +79,8 @@ app.get("/api/removeEmployee", (req, res) => {
 app.get("/api/addMovie", (req, res) => {
   const movieName = req.query.movieName || "";
   const category = req.query.category || "";
-  const key = req.query.key || "";
-  const examinationRoom = req.query.examinationRoom || "";
   const user = req.query.user || "";
-  const result = service.addMovie(
-    movieName,
-    category,
-    key,
-    examinationRoom,
-    user
-  );
+  const result = service.addMovie(movieName, category, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -179,30 +171,63 @@ app.get("/api/editProduct", (req, res) => {
 app.get("/api/removeProduct", (req, res) => {
   const productName = req.query.productName || "";
   const user = req.query.user || "";
-  const result = service.removeProduct(
-    productName,
-    user
-  );
+  const result = service.removeProduct(productName, user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/addCategory", (req, res) => {
   const categoryName = req.query.categoryName || "";
   const user = req.query.user || "";
-  const result = service.addCategory(
-    categoryName,
-    user
-  );
+  const result = service.addCategory(categoryName, user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/removeCategory", (req, res) => {
   const categoryName = req.query.categoryName || "";
   const user = req.query.user || "";
-  const result = service.removeCategory(
-    categoryName,
-    user
-  );
+  const result = service.removeCategory(categoryName, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getSuppliers", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getSuppliers(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getEmployees", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getEmployees(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getMovies", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getMovies(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getCategories", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getCategories(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getCafeteriaProducts", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getCafeteriaProducts(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getCafeteriaOrders", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getCafeteriaProducts(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getInventoryProducts", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getInventoryProducts(user);
   res.send(JSON.stringify({ result }));
 });
 

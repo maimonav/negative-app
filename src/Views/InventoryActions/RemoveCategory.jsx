@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetCategories } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveCategory extends React.Component {
@@ -17,7 +17,16 @@ export default class RemoveCategory extends React.Component {
     this.state = {
       categoryName: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetCategories(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ categories: state.result });
+      });
+  };
 
   setCategoryName = name => {
     this.setState({ categoryName: name });
@@ -39,9 +48,10 @@ export default class RemoveCategory extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"categoryName"}
-                      items={exampleNames}
+                      items={this.state.categories}
                       boxLabel={"Choose category from the list"}
                       setName={this.setCategoryName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

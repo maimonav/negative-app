@@ -147,7 +147,7 @@ class ServiceLayer {
     return res;
   }
 
-  addMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
+  addMovie(movieName, category, ActionIDOfTheOperation) {
     if (this.movies.has(movieName)) {
       return "The movie already exist";
     }
@@ -157,8 +157,6 @@ class ServiceLayer {
     return this.cinemaSystem.addMovie(
       this.movies.get(movieName),
       category,
-      key,
-      examinationRoom,
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -378,6 +376,55 @@ class ServiceLayer {
       }
       return result;
     }
+  }
+
+  getMovies(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getSuppliers();
+  }
+
+  getSuppliers(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getSuppliers();
+  }
+
+  getEmployees(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getEmployees();
+  }
+
+  getCategories(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getCategories();
+  }
+
+  getCafeteriaProducts(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getCafeteriaProducts();
+  }
+
+  getCafeteriaOrders(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getCafeteriaOrders();
+  }
+
+  getInventoryProducts(ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getInventoryProducts();
   }
 
   convertPermissions(permissions) {

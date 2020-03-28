@@ -12,16 +12,36 @@ export default function ComboBox(props) {
   };
 
   return (
-    <Autocomplete
-      value={value}
-      id={props.id}
-      options={props.items}
-      getOptionLabel={option => option.title}
-      style={{ width: 400 }}
-      renderInput={params => (
-        <TextField {...params} label={props.boxLabel} variant="outlined" />
+    <>
+      {!props.isMultiple && <Autocomplete
+        value={value}
+        id={props.id}
+        options={props.items}
+        getOptionLabel={option => option.title}
+        style={{ width: 400 }}
+        renderInput={params => (
+          <TextField {...params} label={props.boxLabel} variant="outlined" />
+        )}
+        onChange={handleChange}
+      />}
+      {props.isMultiple && (
+        <Autocomplete
+          multiple
+          id={props.id}
+          options={props.items}
+          getOptionLabel={option => option.title}
+          defaultValue={[props.items[0]]}
+          filterSelectedOptions
+          renderInput={params => (
+            <TextField
+              {...params}
+              variant="outlined"
+              label={props.boxLabel}
+              placeholder="Favorites"
+            />
+          )}
+        />
       )}
-      onChange={handleChange}
-    />
+    </>
   );
 }
