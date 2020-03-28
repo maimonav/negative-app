@@ -59,6 +59,7 @@ export default class ShowSupplier extends React.Component {
                     items={this.state.suppliers}
                     boxLabel={"Choose Supplier"}
                     setName={this.setSupplierName}
+                    isMultiple={false}
                   />
                 </GridItem>
                 {this.state.supplierName && (

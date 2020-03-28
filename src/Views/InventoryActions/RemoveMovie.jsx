@@ -50,6 +50,7 @@ export default class EditMovie extends React.Component {
                       items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

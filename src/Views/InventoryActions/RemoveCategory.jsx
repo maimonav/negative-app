@@ -51,6 +51,7 @@ export default class RemoveCategory extends React.Component {
                       items={this.state.categories}
                       boxLabel={"Choose category from the list"}
                       setName={this.setCategoryName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

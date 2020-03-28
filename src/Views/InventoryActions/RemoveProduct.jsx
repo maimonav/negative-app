@@ -51,6 +51,7 @@ export default class RemoveProduct extends React.Component {
                       items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

@@ -72,6 +72,7 @@ export default class EditMovie extends React.Component {
                       items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -82,6 +83,7 @@ export default class EditMovie extends React.Component {
                       items={this.state.categories}
                       boxLabel={"Choose category"}
                       setName={this.setCategory}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

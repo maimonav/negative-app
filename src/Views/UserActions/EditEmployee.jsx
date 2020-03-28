@@ -84,6 +84,7 @@ export default class EditEmployee extends React.Component {
                       items={this.state.employees}
                       boxLabel={"Choose employee"}
                       setName={this.setUsername}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

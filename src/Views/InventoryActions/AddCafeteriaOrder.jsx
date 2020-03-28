@@ -9,7 +9,10 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { handleGetCafeteriaProducts } from "../../Handlers/Handlers";
+import {
+  handleGetCafeteriaProducts,
+  handleGetSuppliers
+} from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
@@ -29,6 +32,11 @@ export default class AddCafeteriaOrder extends React.Component {
       .then(response => response.json())
       .then(state => {
         this.setState({ products: state.result });
+      });
+    handleGetSuppliers(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ suppliers: state.result });
       });
   };
 
@@ -72,6 +80,18 @@ export default class AddCafeteriaOrder extends React.Component {
                       items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
+                      isMultiple={true}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <ComboBox
+                      id={"supplierName"}
+                      items={this.state.suppliers}
+                      boxLabel={"Choose supplier from the list"}
+                      setName={this.setSupplierName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

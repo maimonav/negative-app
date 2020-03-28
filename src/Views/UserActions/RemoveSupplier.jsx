@@ -55,6 +55,7 @@ export default class RemoveSupplier extends React.Component {
                       items={this.state.suppliers}
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplierName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

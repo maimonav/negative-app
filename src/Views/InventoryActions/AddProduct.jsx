@@ -92,6 +92,7 @@ export default class AddProduct extends React.Component {
                       items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -102,6 +103,7 @@ export default class AddProduct extends React.Component {
                       items={this.state.categories}
                       boxLabel={"Choose category from the list"}
                       setName={this.setProductCategory}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

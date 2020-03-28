@@ -62,6 +62,7 @@ export default class CreateMovieOrder extends React.Component {
                       items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -72,6 +73,7 @@ export default class CreateMovieOrder extends React.Component {
                       items={this.state.suppliers}
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplier}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
