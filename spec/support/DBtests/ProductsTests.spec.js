@@ -8,9 +8,7 @@ async function addMovieBeforeCategory() {
     await DB.add('movie', {
       id: 0,
       name: "Spiderman",
-      categoryId: 0,
-      movieKey: "X123C",
-      examinationRoom: 5
+      categoryId: 0
     });
     await DB.getById('movie', { id: 0 }).then((result) => {
       if (result != null)
@@ -42,9 +40,7 @@ async function addMovieAfterCategory(isTest) {
   await DB.add('movie', {
     id: 0,
     name: "Spiderman",
-    categoryId: 0,
-    movieKey: "X123C",
-    examinationRoom: 5
+    categoryId: 0
   });
 
   if (isTest) {
@@ -52,8 +48,10 @@ async function addMovieAfterCategory(isTest) {
       expect(result.id).toBe(0);
       expect(result.name).toBe("Spiderman");
       expect(result.categoryId).toBe(0);
-      expect(result.movieKey).toBe("X123C");
-      expect(result.examinationRoom).toBe(5);
+      expect(result.movieKey).toBe(null);
+      expect(result.examinationRoom).toBe(null);
+      expect(result.isMovieRemoved).toBe(null);
+
     });
   }
 
