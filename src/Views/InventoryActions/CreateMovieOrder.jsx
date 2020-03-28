@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetMovies, handleGetSuppliers } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class CreateMovieOrder extends React.Component {
@@ -17,20 +17,31 @@ export default class CreateMovieOrder extends React.Component {
     this.state = {
       movieName: "",
       supplier: "",
-      cntactDetails: ""
+      contactDetails: ""
     };
+    this.setInitialState();
   }
 
-  setMovieName = movieName => {
-    this.setState({ movieName: movieName });
+  setInitialState = () => {
+    handleGetMovies(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ movies: state.result });
+      });
+
+    handleGetSuppliers(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ suppliers: state.result });
+      });
   };
 
-  setCategory = supplier => {
-    this.setState({ supplier: supplier });
+  setMovieName = movieName => {
+    this.setState({ movieName });
   };
-    
-  setcntactDetails = cntactDetails => {
-    this.setState({ cntactDetails: cntactDetails });
+
+  setSupplier = supplier => {
+    this.setState({ supplier });
   };
 
   render() {
@@ -48,9 +59,10 @@ export default class CreateMovieOrder extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"movieName"}
-                      items={exampleNames}
+                      items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -58,9 +70,10 @@ export default class CreateMovieOrder extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"supplier"}
-                      items={exampleNames}
+                      items={this.state.suppliers}
                       boxLabel={"Choose supplier"}
-                      setName={this.setCategory}
+                      setName={this.setSupplier}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>

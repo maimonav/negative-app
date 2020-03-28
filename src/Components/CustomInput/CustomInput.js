@@ -26,6 +26,7 @@ export default function CustomInput(props) {
     inputProps,
     error,
     success,
+    required,
     onChange
   } = props;
 
@@ -51,6 +52,7 @@ export default function CustomInput(props) {
           className={classes.labelRoot + labelClasses}
           htmlFor={id}
           {...labelProps}
+          required={required}
         >
           {labelText}
         </InputLabel>
@@ -81,5 +83,6 @@ CustomInput.propTypes = {
   inputProps: PropTypes.object,
   formControlProps: PropTypes.object,
   error: PropTypes.bool,
-  success: PropTypes.bool
+  success: PropTypes.bool,
+  required: PropTypes.bool
 };

@@ -7,7 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames, exampleSuppliersDetails } from "../../consts/data";
+import { handleGetSuppliers } from "../../Handlers/Handlers";
+import { exampleSuppliersDetails } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowSupplier extends React.Component {
@@ -16,12 +17,21 @@ export default class ShowSupplier extends React.Component {
     this.state = {
       supplierName: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetSuppliers(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ suppliers: state.result });
+      });
+  };
 
   setSupplierName = supplierName => {
     this.setState({ supplierName });
     const details = exampleSuppliersDetails.get(supplierName);
-    console.log(details);
+
     if (details) {
       this.setState({
         contactDetails: details.contactDetails || ""
@@ -46,9 +56,10 @@ export default class ShowSupplier extends React.Component {
                 <GridItem xs={12} sm={12} md={6}>
                   <ComboBox
                     id={"userName"}
-                    items={exampleNames}
+                    items={this.state.suppliers}
                     boxLabel={"Choose Supplier"}
                     setName={this.setSupplierName}
+                    isMultiple={false}
                   />
                 </GridItem>
                 {this.state.supplierName && (
@@ -58,7 +69,7 @@ export default class ShowSupplier extends React.Component {
                         id="filled-read-only-input"
                         defaultValue=""
                         label="Contact details"
-                        value={this.state.contactDetails}
+                        value={this.state.contactDetails || ""}
                         InputProps={{
                           readOnly: true
                         }}

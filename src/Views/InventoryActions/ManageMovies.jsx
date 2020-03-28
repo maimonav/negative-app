@@ -1,7 +1,7 @@
 import React from "react";
 import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
-import NoteAddIcon from '@material-ui/icons/NoteAdd';
+import NoteAddIcon from "@material-ui/icons/NoteAdd";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -40,7 +40,10 @@ export default class ManageMovies extends React.Component {
               <CardBody>
                 <GridContainer style={style}>
                   <Tooltip title="Create" aria-label="create">
-                    <Fab color="inherit" onClick={() => this.onChange("create")}>
+                    <Fab
+                      color="inherit"
+                      onClick={() => this.onChange("create")}
+                    >
                       <NoteAddIcon />
                     </Fab>
                   </Tooltip>

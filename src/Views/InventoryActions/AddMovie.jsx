@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetMovies, handleGetCategories } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovie extends React.Component {
@@ -16,20 +16,35 @@ export default class AddMovie extends React.Component {
     super(props);
     this.state = {
       movieName: "",
-      category: "",
+      category: ""
     };
+    this.setInitialState();
   }
 
+  setInitialState = () => {
+    handleGetMovies(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ movies: state.result });
+      });
+
+    handleGetCategories(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ categories: state.result });
+      });
+  };
+
   setMovieName = movieName => {
-    this.setState({ movieName: movieName });
+    this.setState({ movieName });
   };
 
   setCategory = category => {
-    this.setState({ category: category });
+    this.setState({ category });
   };
 
   render() {
-    const { movieName, category, key, examinationRoom } = this.state;
+    const { movieName, category } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -43,9 +58,10 @@ export default class AddMovie extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"movieName"}
-                      items={exampleNames}
+                      items={this.state.movies}
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -53,9 +69,10 @@ export default class AddMovie extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"category"}
-                      items={exampleNames}
+                      items={this.state.categories}
                       boxLabel={"Choose category"}
                       setName={this.setCategory}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -63,12 +80,7 @@ export default class AddMovie extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() =>
-                    this.props.handleAddMovie(
-                      movieName,
-                      category,
-                    )
-                  }
+                  onClick={() => this.props.handleAddMovie(movieName, category)}
                 >
                   Add Movie
                 </Button>

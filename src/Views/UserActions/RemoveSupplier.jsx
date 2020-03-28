@@ -8,7 +8,7 @@ import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
-import { exampleNames } from "../../consts/data";
+import { handleGetSuppliers } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveSupplier extends React.Component {
@@ -18,7 +18,16 @@ export default class RemoveSupplier extends React.Component {
       supplierName: "",
       contactDetails: ""
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetSuppliers(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ suppliers: state.result });
+      });
+  };
 
   setSupplierName = supplierName => {
     this.setState({ supplierName });
@@ -43,9 +52,10 @@ export default class RemoveSupplier extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"supplierName"}
-                      items={exampleNames}
+                      items={this.state.suppliers}
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplierName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
