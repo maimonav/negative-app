@@ -233,7 +233,7 @@ class DataBase {
     }
 
 
-    getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
+    static getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
         let where = "";
         if (afterCreate) {
             where = "createdAt <= (CURRENT_TIMESTAMP - INTERVAL " + deleteTime + ");";
