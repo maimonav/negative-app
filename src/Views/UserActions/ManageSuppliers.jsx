@@ -38,25 +38,37 @@ export default class ManageSuppliers extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card>
+            <Card style={style}>
               <CardHeader color="info">
                 <h4>Manage Suppliers</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer style={style}>
                   <Tooltip title="Show" aria-label="show">
-                    <Fab color="inherit" onClick={() => this.onChange("show")}>
+                    <Fab
+                      color="inherit"
+                      size="small"
+                      onClick={() => this.onChange("show")}
+                    >
                       <ShowIcon />
                     </Fab>
                   </Tooltip>
                   <Tooltip title="Add" aria-label="add">
-                    <Fab color="inherit" onClick={() => this.onChange("add")}>
+                    <Fab
+                      color="inherit"
+                      size="small"
+                      onClick={() => this.onChange("add")}
+                    >
                       <AddIcon />
                     </Fab>
                   </Tooltip>
 
                   <Tooltip title="Edit" aria-label="edit">
-                    <Fab color="inherit" onClick={() => this.onChange("edit")}>
+                    <Fab
+                      color="inherit"
+                      size="small"
+                      onClick={() => this.onChange("edit")}
+                    >
                       <EditIcon />
                     </Fab>
                   </Tooltip>
@@ -64,6 +76,7 @@ export default class ManageSuppliers extends React.Component {
                   <Tooltip title="Delete" aria-label="delete">
                     <Fab
                       color="inherit"
+                      size="small"
                       onClick={() => this.onChange("delete")}
                     >
                       <DeleteIcon />

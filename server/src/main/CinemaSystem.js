@@ -245,6 +245,22 @@ class CinemaSystem {
     return "TODO: IMPLEMENT THIS.";
   }
 
+  addCafetriaOrder(
+    orderId,
+    productName,
+    supplierName,
+    orderDate,
+    productPrice,
+    productQuantity,
+    ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  removeCafetriaOrder(orderId, ActionIDOfTheOperation) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
   getSuppliers() {
     //TODO: IMPLEMENT THIS.
     return data.dataExample;
@@ -268,6 +284,15 @@ class CinemaSystem {
   getCafeteriaOrders() {
     //TODO: IMPLEMENT THIS.
     return data.dataExample;
+  }
+
+  getSupplierDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.supplierDetails;
+  }
+  getEmployeeDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.employeeDetails;
   }
 }
 

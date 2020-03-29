@@ -125,7 +125,7 @@ export default class EditEmployee extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Permission - type: User, Shift Manager, Deputy Directo, Director"
+                      labelText="Permission - type: User, Shift Manager, Deputy Director, Director"
                       id="permission"
                       formControlProps={{
                         fullWidth: true

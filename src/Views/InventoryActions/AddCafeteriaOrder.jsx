@@ -22,10 +22,10 @@ export default class AddCafeteriaOrder extends React.Component {
     super(props);
     this.state = {
       productName: "",
+      supplierName: "",
       orderDate: "",
       productPrice: "",
-      productQuantity: "",
-      supplierName: ""
+      productQuantity: ""
     };
     this.setInitialState();
   }
@@ -59,19 +59,18 @@ export default class AddCafeteriaOrder extends React.Component {
     this.setState({ productQuantity: event.target.value });
   }
 
-  setSupplierName = (event) => {
+  setSupplierName = event => {
     this.setState({ supplierName: event });
-  }
+  };
 
   render() {
     const {
       productName,
+      supplierName,
       orderDate,
       productPrice,
-      productQuantity,
-      supplierName
+      productQuantity
     } = this.state;
-    const isEnabled =  productQuantity.length > 0 &&  productPrice.length > 0;
     return (
       <div>
         <GridContainer style={style}>
@@ -105,7 +104,7 @@ export default class AddCafeteriaOrder extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem >
+                  <GridItem>
                     <SelectDates
                       id={"add-order-date"}
                       label={"Choose Order Date"}
@@ -137,21 +136,20 @@ export default class AddCafeteriaOrder extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Set Product Max Quantity"
-                      id="productMaxQuantity"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setSupplierName(event)}
-                    />
-                  </GridItem>
-                </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="info" onClick={() => "Clicked"}>
+                <Button
+                  color="info"
+                  onClick={() =>
+                    this.props.hadleAddCafeteriaOrder(
+                      productName,
+                      supplierName,
+                      orderDate,
+                      productPrice,
+                      productQuantity
+                    )
+                  }
+                >
                   Add New Order
                 </Button>
               </CardFooter>

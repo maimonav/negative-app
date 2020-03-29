@@ -286,6 +286,33 @@ export function handleRemoveCategory(categoryName) {
     });
 }
 
+export function handleAddCafeteriaOrder(
+  productsName,
+  supplierName,
+  orderDate,
+  productPrice,
+  productQuantity
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addCafeteriaOrder?productsName=${encodeURIComponent(
+      productsName
+    )}&supplierName=${encodeURIComponent(
+      supplierName
+    )}&orderDate=${encodeURIComponent(
+      orderDate
+    )}&productPrice=${encodeURIComponent(
+      productPrice
+    )}&productQuantity=${encodeURIComponent(
+      productQuantity
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleRemoveCafeteriaOrder(orderId) {
   const user = localStorage.getItem("username");
   fetch(
@@ -342,4 +369,20 @@ export function handleGetCafeteriaProducts(username) {
 
 export function handleGetCafeteriaOrders(username) {
   return fetch(`/api/getCafeteriaOrders?user=${encodeURIComponent(username)}`);
+}
+
+export function handleGetSupplierDetails(supplier, user) {
+  return fetch(
+    `/api/getSupplierDetails?supplier=${encodeURIComponent(
+      supplier
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetEmployeeDetails(employee, user) {
+  return fetch(
+    `/api/getEmployeeDetails?employee=${encodeURIComponent(
+      employee
+    )}&user=${encodeURIComponent(user)}`
+  );
 }

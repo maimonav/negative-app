@@ -7,8 +7,10 @@ import TextField from "@material-ui/core/TextField";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
-import { handleGetEmployees } from "../../Handlers/Handlers";
-import { exampleEmployeesDetails } from "../../consts/data";
+import {
+  handleGetEmployees,
+  handleGetEmployeeDetails
+} from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowEmployee extends React.Component {
@@ -30,26 +32,11 @@ export default class ShowEmployee extends React.Component {
 
   setUsername = userName => {
     this.setState({ userName });
-    const details = exampleEmployeesDetails.get(userName);
-
-    if (details) {
-      this.setState({
-        password: details.password || "",
-        firstName: details.firstName || "",
-        lastName: details.lastName || "",
-        permissions: details.permissions || "",
-        contactDetails: details.contactDetails || ""
+    handleGetEmployeeDetails(userName, localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ employee: state.result });
       });
-      console.log(details);
-    } else {
-      this.setState({
-        password: "",
-        firstName: "",
-        lastName: "",
-        permissions: "",
-        contactDetails: ""
-      });
-    }
   };
 
   render() {
@@ -71,14 +58,14 @@ export default class ShowEmployee extends React.Component {
                     isMultiple={false}
                   />
                 </GridItem>
-                {this.state.userName && (
+                {this.state.userName && this.state.employee && (
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={8}>
                       <TextField
                         id="filled-read-only-input"
                         defaultValue=""
                         label="Password"
-                        value={this.state.password}
+                        value={this.state.employee.password || ""}
                         InputProps={{
                           readOnly: true
                         }}
@@ -88,7 +75,7 @@ export default class ShowEmployee extends React.Component {
                         id="filled-read-only-input"
                         defaultValue=""
                         label="First name"
-                        value={this.state.firstName}
+                        value={this.state.employee.firstName || ""}
                         InputProps={{
                           readOnly: true
                         }}
@@ -98,7 +85,7 @@ export default class ShowEmployee extends React.Component {
                         id="filled-read-only-input"
                         defaultValue=""
                         label="Last name"
-                        value={this.state.lastName}
+                        value={this.state.employee.lastName || ""}
                         InputProps={{
                           readOnly: true
                         }}
@@ -108,7 +95,7 @@ export default class ShowEmployee extends React.Component {
                         id="filled-read-only-input"
                         defaultValue=""
                         label="Permissions"
-                        value={this.state.permissions}
+                        value={this.state.employee.permissions || ""}
                         InputProps={{
                           readOnly: true
                         }}
@@ -118,7 +105,7 @@ export default class ShowEmployee extends React.Component {
                         id="filled-read-only-input"
                         defaultValue=""
                         label="Contact details"
-                        value={this.state.contactDetails}
+                        value={this.state.employee.contactDetails || ""}
                         InputProps={{
                           readOnly: true
                         }}

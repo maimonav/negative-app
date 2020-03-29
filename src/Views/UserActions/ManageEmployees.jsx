@@ -45,18 +45,30 @@ export default class ManageEmployees extends React.Component {
               <CardBody>
                 <GridContainer style={style}>
                   <Tooltip title="Show" aria-label="show">
-                    <Fab color="inherit" onClick={() => this.onChange("show")}>
+                    <Fab
+                      color="inherit"
+                      size="small"
+                      onClick={() => this.onChange("show")}
+                    >
                       <ShowIcon />
                     </Fab>
                   </Tooltip>
                   <Tooltip title="Add" aria-label="add">
-                    <Fab color="inherit" onClick={() => this.onChange("add")}>
+                    <Fab
+                      color="inherit"
+                      size="small"
+                      onClick={() => this.onChange("add")}
+                    >
                       <AddIcon />
                     </Fab>
                   </Tooltip>
 
                   <Tooltip title="Edit" aria-label="edit">
-                    <Fab color="inherit" onClick={() => this.onChange("edit")}>
+                    <Fab
+                      color="inherit"
+                      size="small"
+                      onClick={() => this.onChange("edit")}
+                    >
                       <EditIcon />
                     </Fab>
                   </Tooltip>
@@ -64,6 +76,7 @@ export default class ManageEmployees extends React.Component {
                   <Tooltip title="Delete" aria-label="delete">
                     <Fab
                       color="inherit"
+                      size="small"
                       onClick={() => this.onChange("delete")}
                     >
                       <DeleteIcon />
