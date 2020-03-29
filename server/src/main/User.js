@@ -20,11 +20,23 @@ class User {
         else if (permissions.includes(2))
             permissionToDB = 'SHIFT_MANAGER';
         }
-
+        this.isUserRemoved = null;
         DataBase.add('user', { id: id, username: userName, password: password, permissions: permissionToDB });
+        DataBase.setDestroyTimer('users',false,'2 YEAR','1 DAY','isUserRemoved');
 
     }
 
+
+    
+    removeUser = () => {
+        if (this.isUserRemoved == null) {
+            this.isUserRemoved = new Date();
+            DataBase.update('user', { id: this.id }, { isUserRemoved: this.isUserRemoved });
+            return true;
+        }
+        else
+            return false;
+    }
 
     login(userName, password) {
         console.log(userName, this.sha256(userName + password));
@@ -54,7 +66,7 @@ class User {
         return this.Loggedin;
     }
 
-    permmisionCheck(permissionRequired) {
+    permissionCheck(permissionRequired) {
         return this.permissions.includes(permissionRequired);
     }
 

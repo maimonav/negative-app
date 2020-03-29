@@ -1,4 +1,5 @@
 const DataBase = require("./DBManager");
+const Product = require("./Product");
 
 
 class CafeteriaProduct extends Product {
@@ -15,10 +16,20 @@ class CafeteriaProduct extends Product {
         DataBase.setDestroyTimer('cafeteria_products',false,'2 YEAR','1 DAY','isProductRemoved');
     }
 
+    
+    removeMovie = () => {
+        if (this.isProductRemoved == null) {
+            this.isProductRemoved = new Date();
+            DataBase.update('cafeteria_product', { id: this.id }, { isProductRemoved: this.isProductRemoved });
+            return true;
+        }
+        else
+            return false;
+    }
 
     equals(toCompare) {
         return (
-            super(toCompare) &&
+            super.equals(toCompare) &&
             toCompare.price === this.price &&
             toCompare.quantity === this.quantity &&
             toCompare.maxQuantity === this.maxQuantity &&

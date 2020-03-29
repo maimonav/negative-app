@@ -53,7 +53,7 @@ describe("addEmployeeTest", () => {
     it('UnitTest-addEmployee Test on class EmployeeManagemnt', () => {
         let test = employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails);
         test.password = admin.password;
-        expect(test).toEqual(admin);
+        expect(test.equals(admin)).toBe(true);
         expect(employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails)).toBe("The employee already exist");
     });
 

@@ -8,10 +8,10 @@ class CinemaSystem {
       User: require("./User"),
       Employee: require("./Employee")
     };
-    
+
     const InventoryManagement = require("./InventoryManagement");
-    this.inventoryManagement=new InventoryManagement();
-    
+    this.inventoryManagement = new InventoryManagement();
+
 
     const EmployeeManagement = require("./EmployeeManagement");
     this.employeeManagement = new EmployeeManagement();
@@ -76,7 +76,7 @@ class CinemaSystem {
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     )
       return this.userOfflineMsg;
-    if (!this.users.get(ActionIDOfTheOperation).permmisionCheck(3))
+    if (!this.users.get(ActionIDOfTheOperation).permissionCheck(3))
       return this.inappropriatePermissionsMsg;
     let employee = this.employeeManagement.addNewEmployee(
       userID,
@@ -109,7 +109,7 @@ class CinemaSystem {
     )
       return this.userOfflineMsg;
     if (
-      !this.users.get(ActionIDOfTheOperation).permmisionCheck(3) &&
+      !this.users.get(ActionIDOfTheOperation).permissionCheck(3) &&
       ActionIDOfTheOperation !== employeeID
     )
       return this.inappropriatePermissionsMsg;
@@ -130,7 +130,7 @@ class CinemaSystem {
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     )
       return this.userOfflineMsg;
-    if (!this.users.get(ActionIDOfTheOperation).permmisionCheck(3))
+    if (!this.users.get(ActionIDOfTheOperation).permissionCheck(3))
       return this.inappropriatePermissionsMsg;
     if (employeeID === ActionIDOfTheOperation)
       return "A user cannot erase himself";
@@ -142,23 +142,38 @@ class CinemaSystem {
     return res;
   }
 
-
-
-
-  addMovie(movieId,movieName, categoryId, ActionIDOfTheOperation) {
-    this.inventoryManagement.isExist('movie',movieId) ? "This movie already exists!" :
-    (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) ? this.userOfflineMsg :
-    !this.users.get(ActionIDOfTheOperation).permmisionCheck('DEPUTY_MANAGER') ? this.inappropriatePermissionsMsg :
-    this.inventoryManagement.isExist('category',categoryId) ? "Category doesn't exist!" :
-    this.inventoryManagement.addMovie(movieId,movieName,categoryId);
+  checkUser(ActionIDOfTheOperation, permission) {
+    if ((!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()))
+      return this.userOfflineMsg;
+    if (!this.users.get(ActionIDOfTheOperation).permissionCheck(permission))
+      return this.inappropriatePermissionsMsg;
+    return null;
   }
 
-  editMovie(movieID, category, key, examinationRoom, ActionIDOfTheOperation) {
-    return "TODO: IMPLEMENT THIS.";
+
+
+
+  addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return this.inventoryManagement.addMovie(movieId, movieName, categoryId);
+
+  }
+
+  //TODO
+  editMovie(movieID, categoryId, key, examinationRoom, ActionIDOfTheOperation) {
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return this.inventoryManagement.editMovie(movieID, categoryId, key, examinationRoom);
   }
 
   removeMovie(movieID, ActionIDOfTheOperation) {
-    return "TODO: IMPLEMENT THIS.";
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return this.inventoryManagement.removeMovie(movieID);
   }
 
   addNewSupplier(

@@ -12,8 +12,8 @@ class Supplier {
     }
 
     removeSupplier = () => {
-        if (isSupplierRemoved == null) {
-            isSupplierRemoved = new Date();
+        if (this.isSupplierRemoved == null) {
+            this.isSupplierRemoved = new Date();
             DataBase.update('supplier', { id: this.id }, { isSupplierRemoved: this.isSupplierRemoved });
             return true;
         }

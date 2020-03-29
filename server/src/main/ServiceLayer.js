@@ -149,17 +149,24 @@ class ServiceLayer {
 
   addMovie(movieName, category, ActionIDOfTheOperation) {
     if (this.movies.has(movieName)) {
-      return "The movie already exist";
+      return "The movie already exists";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.addMovie(
-      this.movies.get(movieName),
+    if(!this.categories.has(category))
+      return "The category does not exist";
+    let result =  this.cinemaSystem.addMovie(
+      this.movieCounter,
       movieName,
       this.categories.get(category),
       this.users.get(ActionIDOfTheOperation)
     );
+    if (result === "The movie was added successfully") {
+      this.movies.set(movieName, this.movieCounter);
+      this.movieCounter++;
+    }
+    return result;
   }
 
   editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
@@ -169,11 +176,14 @@ class ServiceLayer {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
+    if (!this.categories.has(category)) {
+      return "The category does not exist";
+    }
     return this.cinemaSystem.editMovie(
       this.movies.get(movieName),
-      category,
+      this.categories.get(category),
       key,
-      examinationRoom,
+      parseInt(examinationRoom),
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -185,7 +195,7 @@ class ServiceLayer {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
-    let res = this.cinemaSystem.editMovie(
+    let res = this.cinemaSystem.removeMovie(
       this.movies.get(movieName),
       this.users.get(ActionIDOfTheOperation)
     );

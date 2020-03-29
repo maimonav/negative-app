@@ -4,21 +4,31 @@ const DataBase = require("./DBManager");
 class Order {
 
     constructor(id, date, creatorEmployeeId , supplierId) {
-        super(id, name, categoryId);
         this.id = id;
         this.date = date;
         this.creatorEmployeeId = creatorEmployeeId;
         this.recipientEmployeeId = null;
-        DataBase.add('movie', { id: id, name: name, categoryId: categoryId });
-        DataBase.setDestroyTimer('movies',false,'2 YEAR','1 DAY','isMovieRemoved');
+        this.supplierId = supplierId;
+        this.productOrders = new Map();
+        DataBase.add('order', { id: id, date: date, creatorEmployeeId: creatorEmployeeId, supplierId:supplierId });
+        DataBase.setDestroyTimer('orders',true,'1 YEAR','1 DAY');
     }
     
+    //TODO:: might be changed
+    removeOrder = () => {
+        this.productOrders.forEach(async (productOrder)=> await productOrder.removeOrder(this.id))
+        DataBase.remove('order', { id: this.id });
+    }
+
+    //TODO
     equals(toCompare) {
         return (
-            super(toCompare) &&
-            toCompare.movieKey === this.movieKey &&
-            toCompare.examinationRoom === this.examinationRoom &&
-            toCompare.isMovieRemoved === this.isMovieRemoved 
+            toCompare.id === this.id &&
+            toCompare.date === this.date &&
+            toCompare.creatorEmployeeId === this.creatorEmployeeId &&
+            toCompare.recipientEmployeeId === this.recipientEmployeeId &&
+            toCompare.supplierId === this.supplierId // &&
+           // toCompare.productOrders === this.productOrders 
         );
     }
 }
