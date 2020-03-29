@@ -69,8 +69,7 @@ describe("Movie Operations Tests", () => {
         result = inventoryManagement.editMovie(1);
         expect(result).toBe("Category doesn't exist");
         inventoryManagement.categories.set(1, null);
-        result = inventoryManagement.editMovie(1, 1, "", 1);
-        expect(result).toBe("Theater doesn't exist");
+
 
 
         inventoryManagement = new InventoryManagement();
@@ -134,9 +133,6 @@ describe("Movie Operations Tests", () => {
         result = serviceLayer.editMovie("Movie", "fantasy","","1", "User");
         expect(result).toBe("Category doesn't exist");
         serviceLayer.cinemaSystem.inventoryManagement.categories.set(1, null);
-        result = serviceLayer.editMovie("Movie", "fantasy","","1", "User");
-        expect(result).toBe("Theater doesn't exist");
-        serviceLayer.cinemaSystem.inventoryManagement.theaters.push(1);
         let movieExpected = new Movie(1, "Movie", 1);
         movieExpected.movieKey="";
         movieExpected.examinationRoom=1;

@@ -8,7 +8,6 @@ class InventoryManagemnt {
         this.orders = new Map();
         this.suppliers = new Map();
         this.categories = new Map();
-        this.theaters = [];
     }
 
     addMovie(movieId, name, categoryId) {
@@ -25,8 +24,6 @@ class InventoryManagemnt {
             return "The movie does not exist";
         if (!this.categories.has(categoryId))
             return "Category doesn't exist";
-        if (!this.theaters.includes(examinationRoom))
-            return "Theater doesn't exist";
         return this.products.get(movieId).editMovie(categoryId, key, examinationRoom);
     }
 
