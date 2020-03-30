@@ -19,6 +19,7 @@ export default function BaseButton(props) {
         variant="outlined"
         color="primary"
         onClick={() => props.onClick()}
+        {...props}
       >
         {props.name}
       </Button>

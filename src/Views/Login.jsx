@@ -35,16 +35,19 @@ class Login extends React.Component {
             <Box>
               <TextField
                 label="Username"
+                data-hook="username"
                 onChange={event => this.setUsername(event)}
               />
               <TextField
                 label="Password"
                 onChange={event => this.setPassword(event)}
+                data-hook="password"
                 type="password"
               />
             </Box>
             <BaseButton
               name="Login"
+              data-hook="loginButton"
               onClick={() =>
                 this.props.handleLogin(
                   this.state.username,

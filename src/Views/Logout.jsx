@@ -22,6 +22,7 @@ class Logout extends React.Component {
         <BaseButton
           name="Logout"
           onClick={() => this.props.handleLogout(this.props.onLogout)}
+          data-hook="logoutButton"
         />
       </form>
     );
