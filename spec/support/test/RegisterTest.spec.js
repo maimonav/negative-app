@@ -14,8 +14,8 @@ describe("CinemaSystem", () => {
         DB.testModeOn();
         correctUserName = "yuval";
         correctPassword = "123456";
-        correctPermission=[1,2,3,4];
-        user = new User(1, correctUserName, correctPassword,correctPermission);
+        correctPermission = [1, 2, 3, 4];
+        user = new User(1, correctUserName, correctPassword, correctPermission);
         cinemaSystem = new CinemaSystem();
         servicelayer = new ServiceLayer();
     });
@@ -32,15 +32,15 @@ describe("CinemaSystem", () => {
     it('UnitTest-register Test on class ServiceLayer', () => {
         spyOn(cinemaSystem, 'register').and.returnValue('dummy');
         servicelayer.cinemaSystem = cinemaSystem;
-        expect(servicelayer.userCounter).toBe(1);
+        expect(servicelayer.userCounter).toBe(3);
         expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('dummy');
 
     });
 
     it('Integration-register Test on class ServiceLayer', () => {
-        expect(servicelayer.userCounter).toBe(1);
+        expect(servicelayer.userCounter).toBe(3);
         expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('The user registered successfully.');
-        expect(servicelayer.userCounter).toBe(2);
+        expect(servicelayer.userCounter).toBe(4);
         expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('The user already Exist');
     });
 
