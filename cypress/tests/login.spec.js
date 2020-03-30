@@ -1,6 +1,9 @@
-const { wait } = require("@testing-library/react");
-
-context("Actions", () => {
+import {
+  userNameHook,
+  passwordHook,
+  loginHook
+} from "../../src/consts/data-hooks";
+context("Login", () => {
   beforeEach(() => {
     cy.startSystem();
   });
@@ -11,15 +14,15 @@ context("Actions", () => {
   });
 
   it("login to system successfully", () => {
-    cy.get("[data-hook=username]")
+    cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type("admin");
 
-    cy.get("[data-hook=password]")
+    cy.get(`[data-hook=${passwordHook}]`)
       .click()
       .type("admin");
 
-    cy.get("[data-hook=loginButton]").click();
+    cy.get(`[data-hook=${loginHook}]`).click();
   });
 
   beforeEach(() => {

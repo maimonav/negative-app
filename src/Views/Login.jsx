@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import BaseButton from "../Components/Button";
 import { Box } from "@material-ui/core";
+import { userNameHook, passwordHook, loginHook } from "../consts/data-hooks";
 import "./Login.scss";
 
 class Login extends React.Component {
@@ -35,19 +36,19 @@ class Login extends React.Component {
             <Box>
               <TextField
                 label="Username"
-                data-hook="username"
+                data-hook={userNameHook}
                 onChange={event => this.setUsername(event)}
               />
               <TextField
                 label="Password"
                 onChange={event => this.setPassword(event)}
-                data-hook="password"
+                data-hook={passwordHook}
                 type="password"
               />
             </Box>
             <BaseButton
               name="Login"
-              data-hook="loginButton"
+              data-hook={loginHook}
               onClick={() =>
                 this.props.handleLogin(
                   this.state.username,

@@ -10,7 +10,6 @@ import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
 import SelectDates from "../../Components/SelectDates";
-import { exampleNames } from "../../consts/data";
 import {
   handleGetCafeteriaProducts,
   handleGetSuppliers

@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BaseButton from "../Components/Button";
-
+import { logoutHook } from "../consts/data-hooks";
 class Logout extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +22,7 @@ class Logout extends React.Component {
         <BaseButton
           name="Logout"
           onClick={() => this.props.handleLogout(this.props.onLogout)}
-          data-hook="logoutButton"
+          data-hook={logoutHook}
         />
       </form>
     );

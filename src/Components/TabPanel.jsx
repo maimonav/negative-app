@@ -7,7 +7,7 @@ import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
 import { loginPath, logoutPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
-
+import { logoutTabHook } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
     <Router>
@@ -20,7 +20,7 @@ export default function TablPanel(props) {
           )}
           {props.isLogged && (
             <Link to={logoutPath}>
-              <Tab label="Logout" data-hook="logoutTab" />
+              <Tab label="Logout" data-hook={logoutTabHook} />
             </Link>
           )}
           {props.isLogged && <UserActionsDropDownTab></UserActionsDropDownTab>}
