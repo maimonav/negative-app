@@ -15,6 +15,7 @@
     "date-fns": "^2.11.0",
     "history": "^4.10.1",
     "jasmine": "^3.5.0",
+    "log-to-file": "^2.0.2",
     "moment": "^2.24.0",
     "mysql2": "^2.1.0",
     "node-sass": "^4.13.1",
