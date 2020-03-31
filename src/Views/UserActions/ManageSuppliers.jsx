@@ -21,7 +21,12 @@ import {
   handleEditSupplier,
   handleRemoveSupplier
 } from "../../Handlers/Handlers";
-import { addActionHook } from "../../consts/data-hooks";
+import {
+  showActionHook,
+  addActionHook,
+  editActionHook,
+  removeActionHook
+} from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ManageSuppliers extends React.Component {
@@ -50,6 +55,7 @@ export default class ManageSuppliers extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("show")}
+                      data-hook={showActionHook}
                     >
                       <ShowIcon />
                     </Fab>
@@ -70,6 +76,7 @@ export default class ManageSuppliers extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("edit")}
+                      data-hook={editActionHook}
                     >
                       <EditIcon />
                     </Fab>
@@ -80,6 +87,7 @@ export default class ManageSuppliers extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("delete")}
+                      data-hook={removeActionHook}
                     >
                       <DeleteIcon />
                     </Fab>

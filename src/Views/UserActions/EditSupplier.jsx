@@ -10,6 +10,7 @@ import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
 import { handleGetSuppliers } from "../../Handlers/Handlers";
+import { userNameHook, contactDetailsHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditSupplier extends React.Component {
@@ -58,6 +59,7 @@ export default class EditSupplier extends React.Component {
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplierName}
                       isMultiple={false}
+                      data-hook={userNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -70,6 +72,7 @@ export default class EditSupplier extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setContactDetails(event)}
+                      data-hook={contactDetailsHook}
                     />
                   </GridItem>
                 </GridContainer>

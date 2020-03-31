@@ -11,6 +11,7 @@ import {
   handleGetSuppliers,
   handleGetSupplierDetails
 } from "../../Handlers/Handlers";
+import { userNameHook, contactDetailsHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowSupplier extends React.Component {
@@ -56,6 +57,7 @@ export default class ShowSupplier extends React.Component {
                     boxLabel={"Choose Supplier"}
                     setName={this.setSupplierName}
                     isMultiple={false}
+                    data-hook={userNameHook}
                   />
                 </GridItem>
                 {this.state.supplierName && (
@@ -70,6 +72,7 @@ export default class ShowSupplier extends React.Component {
                           readOnly: true
                         }}
                         variant="filled"
+                        data-hook={contactDetailsHook}
                       />
                     </GridItem>
                   </GridContainer>
