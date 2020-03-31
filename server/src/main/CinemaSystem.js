@@ -1,5 +1,7 @@
 const data = require("../../consts/data");
 const DataBase = require("./DBManager");
+const ReportController = require("./ReportController");
+
 class CinemaSystem {
   constructor() {
     this.users = new Map();
@@ -18,6 +20,8 @@ class CinemaSystem {
     this.userOfflineMsg =
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
+
+    ReportController.init();
 
     DataBase.connectAndCreate().then(() => {
       DataBase.init();
