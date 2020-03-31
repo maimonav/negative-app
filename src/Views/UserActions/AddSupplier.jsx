@@ -8,6 +8,7 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
+import { userNameHook, contactDetailsHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddSupplier extends React.Component {
@@ -47,6 +48,7 @@ export default class AddSupplier extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      data-hook={userNameHook}
                       onChange={event => this.setSupplierName(event)}
                     />
                   </GridItem>
@@ -57,6 +59,7 @@ export default class AddSupplier extends React.Component {
                       formControlProps={{
                         fullWidth: true
                       }}
+                      data-hook={contactDetailsHook}
                       onChange={event => this.setContactDetails(event)}
                     />
                   </GridItem>

@@ -29,6 +29,7 @@ export default function InventoryActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
+        {...props}
       >
         Inventory Actions
       </Button>

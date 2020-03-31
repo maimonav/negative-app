@@ -21,6 +21,7 @@ import {
   handleEditSupplier,
   handleRemoveSupplier
 } from "../../Handlers/Handlers";
+import { addActionHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ManageSuppliers extends React.Component {
@@ -58,6 +59,7 @@ export default class ManageSuppliers extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("add")}
+                      data-hook={addActionHook}
                     >
                       <AddIcon />
                     </Fab>

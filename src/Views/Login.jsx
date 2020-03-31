@@ -3,7 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import BaseButton from "../Components/Button";
 import { Box } from "@material-ui/core";
-import { userNameHook, passwordHook, loginHook } from "../consts/data-hooks";
+import {
+  userNameHook,
+  passwordHook,
+  actionButtonHook
+} from "../consts/data-hooks";
 import "./Login.scss";
 
 class Login extends React.Component {
@@ -48,7 +52,7 @@ class Login extends React.Component {
             </Box>
             <BaseButton
               name="Login"
-              data-hook={loginHook}
+              data-hook={actionButtonHook}
               onClick={() =>
                 this.props.handleLogin(
                   this.state.username,

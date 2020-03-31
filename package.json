@@ -29,7 +29,8 @@
     "build": "react-scripts build",
     "test": "jasmine",
     "eject": "react-scripts eject",
-    "server": "node-env-run server --exec nodemon | pino-colada"
+    "server": "node-env-run server --exec nodemon | pino-colada",
+    "ui-tests": "npx cypress open"
   },
   "proxy": "http://localhost:3001",
   "eslintConfig": {
