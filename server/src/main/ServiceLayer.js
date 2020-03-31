@@ -24,6 +24,13 @@ class ServiceLayer {
     this.ordersCounter = 1;
   }
 
+  isInputValid(param){
+      if(param===undefined || param === '' )
+        return false;
+      return true;
+  };
+
+
   register(userName, password) {
     if (this.users.has(userName)) {
       return "The user already Exist";
@@ -151,6 +158,12 @@ class ServiceLayer {
   }
 
   addMovie(movieName, category, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid':
+    !this.isInputValid(category) ? 'Category is not valid':
+    !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid': 'Valid'
+    if(validationResult !== 'Valid')
+      return validationResult;
+
     if (this.movies.has(movieName)) {
       return "The movie already exists";
     }
@@ -173,6 +186,15 @@ class ServiceLayer {
   }
 
   editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid':
+    !this.isInputValid(category) ? 'Category is not valid':
+    !this.isInputValid(key) ? 'Key is not valid':
+    !this.isInputValid(examinationRoom) ? 'Examination Room is not valid':
+    !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid': 'Valid'
+    if(validationResult !== 'Valid')
+      return validationResult;
+    
+    
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";
     }
@@ -192,6 +214,12 @@ class ServiceLayer {
   }
 
   removeMovie(movieName, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid':
+    !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid': 'Valid'
+    if(validationResult !== 'Valid')
+      return validationResult;
+    
+    
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";
     }
