@@ -9,7 +9,6 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
 import {
   AddEmployee,
   EditEmployee,
@@ -43,16 +42,16 @@ export default class ManageEmployees extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={6}>
             <Card>
               <CardHeader color="info">
-                <h4>Manage Employees</h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer style={style}>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={5}>
+                    <h4>Manage Employees</h4>
+                  </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("show")}
                       data-hook={showActionHook}
@@ -62,7 +61,7 @@ export default class ManageEmployees extends React.Component {
                   </Tooltip>
                   <Tooltip title="Add" aria-label="add">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("add")}
                       data-hook={addActionHook}
@@ -73,7 +72,7 @@ export default class ManageEmployees extends React.Component {
 
                   <Tooltip title="Edit" aria-label="edit">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
                       data-hook={editActionHook}
@@ -84,7 +83,7 @@ export default class ManageEmployees extends React.Component {
 
                   <Tooltip title="Delete" aria-label="delete">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
                       data-hook={removeActionHook}
@@ -93,7 +92,7 @@ export default class ManageEmployees extends React.Component {
                     </Fab>
                   </Tooltip>
                 </GridContainer>
-              </CardBody>
+              </CardHeader>
               {this.state.action === "show" && <ShowEmployee></ShowEmployee>}
               {this.state.action === "add" && (
                 <AddEmployee

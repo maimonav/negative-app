@@ -22,7 +22,7 @@ const style = { justifyContent: "center", top: "auto" };
 export default class ManageMovies extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "show" };
+    this.state = { action: "create" };
   }
 
   onChange = action => {
@@ -33,16 +33,16 @@ export default class ManageMovies extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={6}>
             <Card>
               <CardHeader color="info">
-                <h4>Manage Movies</h4>
-              </CardHeader>
-              <CardBody>
-                <GridContainer style={style}>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={5}>
+                    <h4>Manage Movies</h4>
+                  </GridItem>
                   <Tooltip title="Create" aria-label="create">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("create")}
                     >
@@ -51,7 +51,7 @@ export default class ManageMovies extends React.Component {
                   </Tooltip>
                   <Tooltip title="Add" aria-label="add">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("add")}
                     >
@@ -61,7 +61,7 @@ export default class ManageMovies extends React.Component {
 
                   <Tooltip title="Edit" aria-label="edit">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
                       data-hook={editActionHook}
@@ -72,7 +72,7 @@ export default class ManageMovies extends React.Component {
 
                   <Tooltip title="Delete" aria-label="delete">
                     <Fab
-                      color="inherit"
+                      color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
                       data-hook={removeActionHook}
@@ -81,7 +81,7 @@ export default class ManageMovies extends React.Component {
                     </Fab>
                   </Tooltip>
                 </GridContainer>
-              </CardBody>
+              </CardHeader>
               {this.state.action === "create" && <CreateMovieOrder />}
               {this.state.action === "add" && (
                 <AddMovie handleAddMovie={handleAddMovie} />
