@@ -21,6 +21,12 @@ import {
   handleEditEmployee,
   handleRemoveEmployee
 } from "../../Handlers/Handlers";
+import {
+  showActionHook,
+  addActionHook,
+  editActionHook,
+  removeActionHook
+} from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ManageEmployees extends React.Component {
@@ -49,6 +55,7 @@ export default class ManageEmployees extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("show")}
+                      data-hook={showActionHook}
                     >
                       <ShowIcon />
                     </Fab>
@@ -58,6 +65,7 @@ export default class ManageEmployees extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("add")}
+                      data-hook={addActionHook}
                     >
                       <AddIcon />
                     </Fab>
@@ -68,6 +76,7 @@ export default class ManageEmployees extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("edit")}
+                      data-hook={editActionHook}
                     >
                       <EditIcon />
                     </Fab>
@@ -78,6 +87,7 @@ export default class ManageEmployees extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("delete")}
+                      data-hook={removeActionHook}
                     >
                       <DeleteIcon />
                     </Fab>

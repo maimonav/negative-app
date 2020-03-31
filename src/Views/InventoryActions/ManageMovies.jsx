@@ -16,6 +16,7 @@ import {
   handleEditMovie,
   handleRemoveMovie
 } from "../../Handlers/Handlers";
+import { editActionHook, removeActionHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ManageMovies extends React.Component {
@@ -63,6 +64,7 @@ export default class ManageMovies extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("edit")}
+                      data-hook={editActionHook}
                     >
                       <EditIcon />
                     </Fab>
@@ -73,6 +75,7 @@ export default class ManageMovies extends React.Component {
                       color="inherit"
                       size="small"
                       onClick={() => this.onChange("delete")}
+                      data-hook={removeActionHook}
                     >
                       <DeleteIcon />
                     </Fab>

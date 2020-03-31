@@ -11,6 +11,7 @@ import {
   handleGetEmployees,
   handleGetEmployeeDetails
 } from "../../Handlers/Handlers";
+import { userNameHook, contactDetailsHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowEmployee extends React.Component {
@@ -56,6 +57,7 @@ export default class ShowEmployee extends React.Component {
                     boxLabel={"Choose employee"}
                     setName={this.setUsername}
                     isMultiple={false}
+                    data-hook={userNameHook}
                   />
                 </GridItem>
                 {this.state.userName && this.state.employee && (
@@ -110,6 +112,7 @@ export default class ShowEmployee extends React.Component {
                           readOnly: true
                         }}
                         variant="filled"
+                        data-hook={contactDetailsHook}
                       />
                     </GridItem>
                   </GridContainer>

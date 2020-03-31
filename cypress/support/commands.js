@@ -2,7 +2,6 @@ import {
   userNameHook,
   passwordHook,
   actionButtonHook,
-  userActionsTabHook,
   logoutTabHook
 } from "../../src/consts/data-hooks";
 
@@ -28,7 +27,6 @@ Cypress.Commands.add("logout", () => {
 });
 
 Cypress.Commands.add("accessTab", tab => {
-  cy.get(`[data-hook=${userActionsTabHook}]`).click();
   cy.get(`[data-hook=${tab}]`).click();
 });
 
