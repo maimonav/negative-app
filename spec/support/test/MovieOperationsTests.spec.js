@@ -5,6 +5,20 @@ const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
 
 
+
+
+function validate(serviceLayer, method, params) {
+    Object.keys(params).forEach((key)=>{
+        let withEmptyParam = Object.keys(params).map((k) => ( k === key ? '' : params[k] ));
+        let withUndefinedParam = Object.keys(params).map((k) => ( k === key ? undefined : params[k] ));
+        let expected = key + 'is not valid';
+        expect(method.apply(serviceLayer, withEmptyParam)).toBe(expected)
+        expect(method.apply(serviceLayer, withUndefinedParam)).toBe(expected)
+
+    })
+}
+
+
 describe("Movie Operations Tests", () => {
 
     beforeAll(() => {
@@ -14,6 +28,10 @@ describe("Movie Operations Tests", () => {
 
     it('UnitTest addMovie - Service Layer', () => {
         let serviceLayer = new ServiceLayer();
+        //Input validation
+        validate(serviceLayer,serviceLayer.addMovie,{'Movie Name ':'Movie','Category ':'fantasy','Username ':'User'})
+
+
         serviceLayer.movies.set("Movie", 1);
         let result = serviceLayer.addMovie("Movie", "fantasy", "User");
         expect(result).toBe("The movie already exists");
@@ -25,9 +43,15 @@ describe("Movie Operations Tests", () => {
     });
     it('UnitTest editMovie, removeMovie - Service Layer', () => {
         let serviceLayer = new ServiceLayer();
-        testServiceFunctions(serviceLayer, () => serviceLayer.editMovie("Movie", "fantasy", "", "", "User"));
+
+        //Input validation
+        validate(serviceLayer,serviceLayer.editMovie,{'Movie Name ':'Movie','Category ':'fantasy','Key ':"key","Examination Room ":"0",'Username ':'User'})
+        validate(serviceLayer,serviceLayer.removeMovie,{'Movie Name ':'Movie','Username ':'User'})
+
+
+        testServiceFunctions(serviceLayer, () => serviceLayer.editMovie("Movie", "fantasy", "key", "0", "User"));
         serviceLayer.users.set("User", 1);
-        result = serviceLayer.editMovie("Movie", "fantasy", "", "", "User");
+        result = serviceLayer.editMovie("Movie", "fantasy", "key", "0", "User");
         expect(result).toBe("The category does not exist");
         serviceLayer = new ServiceLayer();
         testServiceFunctions(serviceLayer, () => serviceLayer.removeMovie("Movie", "User"));
@@ -49,7 +73,7 @@ describe("Movie Operations Tests", () => {
         inventoryManagement.products.set(1, null);
         let result = inventoryManagement.addMovie(1, "", 1, 1);
         expect(result).toBe("This movie already exists");
-        inventoryManagement.products= new Map();
+        inventoryManagement.products = new Map();
         result = inventoryManagement.addMovie(1, "", 1, 1);
         expect(result).toBe("Category doesn't exist");
         inventoryManagement.categories.set(1, null);
@@ -90,7 +114,7 @@ describe("Movie Operations Tests", () => {
 
         //remove
         expect(expectedMovie.removeMovie()).toBe("The movie removed successfully");
-        expect(expectedMovie.isMovieRemoved!=null).toBe(true);
+        expect(expectedMovie.isMovieRemoved != null).toBe(true);
         expect(expectedMovie.removeMovie()).toBe("The movie was already removed");
 
     });
@@ -100,13 +124,13 @@ describe("Movie Operations Tests", () => {
         let serviceLayer = new ServiceLayer();
         serviceLayer.users.set("User", 1);
         serviceLayer.categories.set("fantasy", 1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, ()=>serviceLayer.addMovie("Movie", "fantasy", "User"));
+        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addMovie("Movie", "fantasy", "User"));
         let user = { isLoggedin: () => true, permissionCheck: () => true }
         serviceLayer.cinemaSystem.users.set(1, user);
         serviceLayer.cinemaSystem.inventoryManagement.products.set(1, null);
         let result = serviceLayer.addMovie("Movie", "fantasy", "User");
         expect(result).toBe("This movie already exists");
-        serviceLayer.cinemaSystem.inventoryManagement.products=new Map();
+        serviceLayer.cinemaSystem.inventoryManagement.products = new Map();
         result = serviceLayer.addMovie("anotherMovie", "fantasy", "User");
         expect(result).toBe("Category doesn't exist");
         serviceLayer.cinemaSystem.inventoryManagement.categories.set(1, null);
@@ -124,52 +148,54 @@ describe("Movie Operations Tests", () => {
         serviceLayer.movies.set("Movie", 1);
         serviceLayer.users.set("User", 1);
         serviceLayer.categories.set("fantasy", 1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, ()=>serviceLayer.editMovie("Movie", "fantasy","","1", "User"));
+        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User"));
         user = { isLoggedin: () => true, permissionCheck: () => true }
         serviceLayer.cinemaSystem.users.set(1, user);
-        result = serviceLayer.editMovie("Movie", "fantasy","","1", "User");
+        result = serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User");
         expect(result).toBe("The movie does not exist");
         serviceLayer.cinemaSystem.inventoryManagement.products.set(1, new Movie(1, "Movie", 1));
-        result = serviceLayer.editMovie("Movie", "fantasy","","1", "User");
+        result = serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User");
         expect(result).toBe("Category doesn't exist");
         serviceLayer.cinemaSystem.inventoryManagement.categories.set(1, null);
         let movieExpected = new Movie(1, "Movie", 1);
-        movieExpected.movieKey="";
-        movieExpected.examinationRoom=1;
-        result = serviceLayer.editMovie("Movie", "fantasy","","1", "User");
+        movieExpected.movieKey = "key";
+        movieExpected.examinationRoom = 1;
+        result = serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User");
         expect(result).toBe("The movie was edited successfully");
         let movieActual = serviceLayer.cinemaSystem.inventoryManagement.products.get(1);
         expect(movieActual.equals(movieExpected)).toBe(true);
 
     });
 
-    
+
     it('Integration removeMovie', () => {
         let serviceLayer = new ServiceLayer();
         serviceLayer.movies.set("Movie", 1);
         serviceLayer.users.set("User", 1);
         serviceLayer.categories.set("fantasy", 1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, ()=>serviceLayer.removeMovie("Movie","User"));
+        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.removeMovie("Movie", "User"));
         user = { isLoggedin: () => true, permissionCheck: () => true }
         serviceLayer.cinemaSystem.users.set(1, user);
-        result = serviceLayer.removeMovie("Movie","User");
+        result = serviceLayer.removeMovie("Movie", "User");
         expect(result).toBe("The movie does not exist");
-        serviceLayer.cinemaSystem.inventoryManagement.products.set(1,new Movie(1,"Movie",1));
-        result = serviceLayer.removeMovie("Movie","User");
+        serviceLayer.cinemaSystem.inventoryManagement.products.set(1, new Movie(1, "Movie", 1));
+        result = serviceLayer.removeMovie("Movie", "User");
         expect(result).toBe("The movie removed successfully");
         let movieActual = serviceLayer.cinemaSystem.inventoryManagement.products.get(1);
-        expect(movieActual.isMovieRemoved!=null).toBe(true);
-        result = serviceLayer.removeMovie("Movie","User");
+        expect(movieActual.isMovieRemoved != null).toBe(true);
+        result = serviceLayer.removeMovie("Movie", "User");
         expect(result).toBe("The movie does not exist");
 
     });
- 
+
 
 
 
 
 
 });
+
+
 
 function testServiceFunctions(serviceLayer, method) {
     let result = method();
