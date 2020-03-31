@@ -9,6 +9,7 @@ import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import ComboBox from "../../Components/AutoComplete";
 import { handleGetMovies } from "../../Handlers/Handlers";
+import { movieNameHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditMovie extends React.Component {
@@ -51,6 +52,7 @@ export default class EditMovie extends React.Component {
                       boxLabel={"Choose movie"}
                       setName={this.setMovieName}
                       isMultiple={false}
+                      data-hook={movieNameHook}
                     />
                   </GridItem>
                 </GridContainer>

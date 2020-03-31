@@ -1,4 +1,5 @@
 import {
+  userActionsTabHook,
   userNameHook,
   contactDetailsHook,
   actionButtonHook,
@@ -11,6 +12,7 @@ import {
 
 const user = "admin";
 const supplier = "supplier";
+const contactDetails = "test@gmail.com";
 context("Manage Suppliers", () => {
   beforeEach(() => {
     cy.startSystem();
@@ -18,6 +20,7 @@ context("Manage Suppliers", () => {
   });
 
   it("show supplier", () => {
+    cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
     cy.chooseAction(showActionHook);
 
@@ -31,6 +34,7 @@ context("Manage Suppliers", () => {
   });
 
   it("add new supplier", () => {
+    cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
     cy.chooseAction(addActionHook);
 
@@ -40,12 +44,13 @@ context("Manage Suppliers", () => {
 
     cy.get(`[data-hook=${contactDetailsHook}]`)
       .click()
-      .type("test@gmail.com");
+      .type(contactDetails);
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
   it("edit supplier", () => {
+    cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
     cy.chooseAction(editActionHook);
 
@@ -57,12 +62,13 @@ context("Manage Suppliers", () => {
 
     cy.get(`[data-hook=${contactDetailsHook}]`)
       .click()
-      .type("test@gmail.com");
+      .type(contactDetails);
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
   it("remove supplier", () => {
+    cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
     cy.chooseAction(removeActionHook);
 
