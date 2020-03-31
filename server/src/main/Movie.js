@@ -17,7 +17,7 @@ class Movie extends Product {
         this.movieKey = key;
         this.examinationRoom = examinationRoom;
         DataBase.update('movie', { id: this.id }, { categoryId: this.categoryId, movieKey:key,examinationRoom:examinationRoom });
-        return "The movie was edited successfully";
+        return "The movie edited successfully";
     }
 
     removeMovie = () => {
@@ -27,7 +27,7 @@ class Movie extends Product {
             return "The movie removed successfully";
         }
         else
-            return "The movie was already removed";
+            return "The movie already removed";
     }
 
     equals(toCompare) {

@@ -24,10 +24,10 @@ class ServiceLayer {
     this.ordersCounter = 1;
   }
 
-  isInputValid(param){
-      if(param===undefined || param === '' )
-        return false;
-      return true;
+  isInputValid(param) {
+    if (param === undefined || param === '')
+      return false;
+    return true;
   };
 
 
@@ -158,10 +158,10 @@ class ServiceLayer {
   }
 
   addMovie(movieName, category, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid':
-    !this.isInputValid(category) ? 'Category is not valid':
-    !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid': 'Valid'
-    if(validationResult !== 'Valid')
+    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid' :
+      !this.isInputValid(category) ? 'Category is not valid' :
+        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
       return validationResult;
 
     if (this.movies.has(movieName)) {
@@ -170,15 +170,15 @@ class ServiceLayer {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
-    if(!this.categories.has(category))
+    if (!this.categories.has(category))
       return "The category does not exist";
-    let result =  this.cinemaSystem.addMovie(
+    let result = this.cinemaSystem.addMovie(
       this.movieCounter,
       movieName,
       this.categories.get(category),
       this.users.get(ActionIDOfTheOperation)
     );
-    if (result === "The movie was added successfully") {
+    if (result === "The movie added successfully") {
       this.movies.set(movieName, this.movieCounter);
       this.movieCounter++;
     }
@@ -186,15 +186,15 @@ class ServiceLayer {
   }
 
   editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid':
-    !this.isInputValid(category) ? 'Category is not valid':
-    !this.isInputValid(key) ? 'Key is not valid':
-    !this.isInputValid(examinationRoom) ? 'Examination Room is not valid':
-    !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid': 'Valid'
-    if(validationResult !== 'Valid')
+    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid' :
+      !this.isInputValid(category) ? 'Category is not valid' :
+        !this.isInputValid(key) ? 'Key is not valid' :
+          !this.isInputValid(examinationRoom) ? 'Examination Room is not valid' :
+            !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
       return validationResult;
-    
-    
+
+
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";
     }
@@ -214,12 +214,12 @@ class ServiceLayer {
   }
 
   removeMovie(movieName, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid':
-    !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid': 'Valid'
-    if(validationResult !== 'Valid')
+    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid' :
+      !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
       return validationResult;
-    
-    
+
+
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";
     }
@@ -232,69 +232,86 @@ class ServiceLayer {
     );
     if (res === "The movie removed successfully") {
       this.movies.delete(movieName);
-      this.movieCounter--;
     }
     return res;
   }
 
   addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(supplierName) ? 'Supplier Name is not valid' :
+      !this.isInputValid(contactDetails) ? 'Contact Details is not valid' :
+        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
+      return validationResult;
+
+
     if (this.suppliers.has(supplierName)) {
-      return "The supplier already exist";
-    } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.addNewSupplier(
-        this.supplierCounter,
-        supplierName,
-        contactDetails,
-        this.users.get(ActionIDOfTheOperation)
-      );
-      if (result === "The supplier added successfully.") {
-        this.suppliers.set(supplierName, this.supplierCounter);
-        this.suppliers++;
-      }
-      return result;
+      return "The supplier already exists";
     }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    let result = this.cinemaSystem.addNewSupplier(
+      this.supplierCounter,
+      supplierName,
+      contactDetails,
+      this.users.get(ActionIDOfTheOperation)
+    );
+    if (result === "The supplier added successfully") {
+      this.suppliers.set(supplierName, this.supplierCounter);
+      this.supplierCounter++;
+    }
+    return result;
+
   }
 
   editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(supplierName) ? 'Supplier Name is not valid' :
+      !this.isInputValid(contactDetails) ? 'Contact Details is not valid' :
+        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
+      return validationResult;
+
+
     if (!this.suppliers.has(supplierName)) {
       return "The supplier does not exist";
-    } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.editSupplier(
-        this.supplierCounter,
-        supplierName,
-        contactDetails,
-        this.users.get(ActionIDOfTheOperation)
-      );
-      if (result === "The supplier edited successfully.") {
-        this.suppliers.set(supplierName, this.supplierCounter);
-      }
-      return result;
     }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    let result = this.cinemaSystem.editSupplier(
+      this.supplierCounter,
+      supplierName,
+      contactDetails,
+      this.users.get(ActionIDOfTheOperation)
+    );
+    if (result === "The supplier edited successfully") {
+      this.suppliers.set(supplierName, this.supplierCounter);
+    }
+    return result;
+
   }
 
   removeSupplier(supplierName, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(supplierName) ? 'Supplier Name is not valid' :
+      !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
+      return validationResult;
+
+
     if (!this.suppliers.has(supplierName)) {
       return "The supplier does not exist";
-    } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.editSupplier(
-        this.supplierCounter,
-        supplierName,
-        this.users.get(ActionIDOfTheOperation)
-      );
-      if (result === "The supplier removed successfully.") {
-        this.suppliers.set(supplierName, this.userCounter);
-      }
-      return result;
     }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    let result = this.cinemaSystem.removeSupplier(
+      this.supplierCounter,
+      this.users.get(ActionIDOfTheOperation)
+    );
+    if (result === "The supplier removed successfully") {
+      this.suppliers.delete(supplierName);
+    }
+    return result;
   }
 
   addNewProduct(
@@ -324,7 +341,7 @@ class ServiceLayer {
       );
       if (result === "The product added successfully.") {
         this.products.set(productName, this.productsCounter);
-        this.products++;
+        this.productsCounter++;
       }
       return result;
     }
@@ -394,8 +411,8 @@ class ServiceLayer {
         this.users.get(ActionIDOfTheOperation)
       );
       if (result === "The category added successfully.") {
-        this.categories.set(categoryName, this.productsCounter);
-        this.categories++;
+        this.categories.set(categoryName, this.categoriesCounter);
+        this.categoriesCounter++;
       }
       return result;
     }

@@ -11,19 +11,29 @@ class Supplier {
         DataBase.setDestroyTimer('suppliers', false, "2 YEAR", "1 DAY", 'isSupplierRemoved');
     }
 
+
+    editSupplier = (name, contactDetails) => {
+        super.name = name;
+        this.contactDetails = contactDetails;
+        DataBase.update('supplier', { id: this.id }, { name: name, contactDetails: contactDetails});
+        return "The supplier edited successfully";
+    }
+
+
     removeSupplier = () => {
         if (this.isSupplierRemoved == null) {
             this.isSupplierRemoved = new Date();
             DataBase.update('supplier', { id: this.id }, { isSupplierRemoved: this.isSupplierRemoved });
-            return true;
+            return "The supplier removed successfully";
         }
         else
-            return false;
+            return "The supplier already removed";
     }
 
 
     equals(toCompare) {
         return (
+            toCompare.id === this.id &&
             toCompare.name === this.name &&
             toCompare.contactDetails === this.contactDetails &&
             toCompare.isSupplierRemoved === this.isSupplierRemoved

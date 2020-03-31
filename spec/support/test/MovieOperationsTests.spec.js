@@ -17,7 +17,7 @@ function validate(serviceLayer, method, params) {
 
     })
 }
-
+exports.validate=validate;
 
 describe("Movie Operations Tests", () => {
 
@@ -77,10 +77,10 @@ describe("Movie Operations Tests", () => {
         result = inventoryManagement.addMovie(1, "", 1, 1);
         expect(result).toBe("Category doesn't exist");
         inventoryManagement.categories.set(1, null);
-        let movieExpected = new Movie(2, "", 1);
-        result = inventoryManagement.addMovie(2, "", 1);
-        expect(result).toBe("The movie was added successfully");
-        let movieActual = inventoryManagement.products.get(2);
+        let movieExpected = new Movie(1, "", 1);
+        result = inventoryManagement.addMovie(1, "", 1);
+        expect(result).toBe("The movie added successfully");
+        let movieActual = inventoryManagement.products.get(1);
         expect(movieActual.equals(movieExpected)).toBe(true);
 
     });
@@ -108,14 +108,14 @@ describe("Movie Operations Tests", () => {
         expectedMovie.movieKey = "key";
         expectedMovie.examinationRoom = 1;
         let actualMovie = new Movie(1, "Movie", 1);
-        expect(actualMovie.editMovie(1, "key", 1)).toBe("The movie was edited successfully");
+        expect(actualMovie.editMovie(1, "key", 1)).toBe("The movie edited successfully");
         expect(expectedMovie.equals(actualMovie)).toBe(true);
 
 
         //remove
         expect(expectedMovie.removeMovie()).toBe("The movie removed successfully");
         expect(expectedMovie.isMovieRemoved != null).toBe(true);
-        expect(expectedMovie.removeMovie()).toBe("The movie was already removed");
+        expect(expectedMovie.removeMovie()).toBe("The movie already removed");
 
     });
 
@@ -136,7 +136,7 @@ describe("Movie Operations Tests", () => {
         serviceLayer.cinemaSystem.inventoryManagement.categories.set(1, null);
         let movieExpected = new Movie(1, "anotherMovie", 1);
         result = serviceLayer.addMovie("anotherMovie", "fantasy", "User");
-        expect(result).toBe("The movie was added successfully");
+        expect(result).toBe("The movie added successfully");
         let movieActual = serviceLayer.cinemaSystem.inventoryManagement.products.get(1);
         expect(movieActual.equals(movieExpected)).toBe(true);
         result = serviceLayer.addMovie("anotherMovie", "fantasy", "User");
@@ -161,7 +161,7 @@ describe("Movie Operations Tests", () => {
         movieExpected.movieKey = "key";
         movieExpected.examinationRoom = 1;
         result = serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User");
-        expect(result).toBe("The movie was edited successfully");
+        expect(result).toBe("The movie edited successfully");
         let movieActual = serviceLayer.cinemaSystem.inventoryManagement.products.get(1);
         expect(movieActual.equals(movieExpected)).toBe(true);
 
@@ -217,3 +217,4 @@ function testCinemaFunctions(cinemaSystem, method) {
     result = method();
     expect(result).toBe("User does not have proper permissions");
 }
+exports.testCinemaFunctions=testCinemaFunctions;

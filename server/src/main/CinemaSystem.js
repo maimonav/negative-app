@@ -182,7 +182,12 @@ class CinemaSystem {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    return "TODO: IMPLEMENT THIS.";
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return this.inventoryManagement.addNewSupplier(supplierID,
+      supplierName,
+      contactDetails);
   }
 
   editSupplier(
@@ -191,11 +196,20 @@ class CinemaSystem {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    return "TODO: IMPLEMENT THIS.";
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return this.inventoryManagement.editSupplier(supplierID,
+      supplierName,
+      contactDetails);
   }
 
-  removeSupplier(supplierID, supplierName, ActionIDOfTheOperation) {
-    return "TODO: IMPLEMENT THIS.";
+  removeSupplier(supplierID, ActionIDOfTheOperation) {
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return this.inventoryManagement.removeSupplier(supplierID);
+
   }
 
   addNewProduct(
