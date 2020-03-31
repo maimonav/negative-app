@@ -1,7 +1,7 @@
 const data = require("../../consts/data");
 const DataBase = require("./DBManager");
 const User = require("./User");
-const logger = require("log-to-file");
+const logger = require('simple-node-logger').createSimpleLogger('project.log');
 
 class CinemaSystem {
     constructor() {
@@ -18,8 +18,7 @@ class CinemaSystem {
 
         const EmployeeManagement = require("./EmployeeManagement");
         this.employeeManagement = new EmployeeManagement();
-        this.userOfflineMsg =
-            "The operation cannot be completed - the user is not connected to the system";
+        this.userOfflineMsg = "The operation cannot be completed - the user is not connected to the system";
         this.inappropriatePermissionsMsg = "User does not have proper permissions";
 
         DataBase.connectAndCreate().then(() => {
@@ -63,7 +62,7 @@ class CinemaSystem {
         if (this.users.has(id)) return "The id is already exists";
         const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
         if (argCheckRes !== "") {
-            logger('CinemaSystem - register - ', argCheckRes);
+            logger.info('CinemaSystem - register - ' + argCheckRes);
             return argCheckRes;
         }
         this.users.set(id, new User(id, userName, password, permissions));
@@ -82,77 +81,69 @@ class CinemaSystem {
 
     addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (this.users.has(userID)) return "The id is already exists";
-        if (!this.users.has(ActionIDOfTheOperation) ||
-            !this.users.get(ActionIDOfTheOperation).isLoggedin()
-        )
+        if (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) {
+            logger.info('CinemaSystem - addNewEmployee - ' + this.userOfflineMsg);
             return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(3))
+        }
+        if (!this.users.get(ActionIDOfTheOperation).permissionCheck('DEPUTY_MANAGER')) {
+            logger.info('CinemaSystem - addNewEmployee - ' + userName + " " + this.inappropriatePermissionsMsg);
             return this.inappropriatePermissionsMsg;
-        let employee = this.employeeManagement.addNewEmployee(
-            userID,
-            userName,
-            password,
-            permissions,
-            firstName,
-            lastName,
-            contactDetails
-        );
-        if (employee === "The employee already exist")
+        }
+        const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
+        if (argCheckRes !== "") {
+            logger.info('CinemaSystem - register - ' + argCheckRes);
+            return argCheckRes;
+        }
+        let employee = this.employeeManagement.addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails);
+        if (employee === "The employee already exist") {
+            logger.info('CinemaSystem - addNewEmployee - The employee' + userName + "already exist ");
             return "The id is already exists";
+        }
         this.users.set(userID, employee);
         return "The employee registered successfully.";
     }
 
-    editEmployee(
-        employeeID,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        ActionIDOfTheOperation
-    ) {
+    editEmployee(employeeID, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (!this.users.has(employeeID)) return "The id is not exists";
-        if (!this.users.has(ActionIDOfTheOperation) ||
-            !this.users.get(ActionIDOfTheOperation).isLoggedin()
-        )
+        if (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) {
+            logger.info('CinemaSystem - editEmployee - ' + this.userOfflineMsg);
             return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(3) &&
-            ActionIDOfTheOperation !== employeeID
-        )
+        }
+        if (!this.users.get(ActionIDOfTheOperation).permissionCheck('DEPUTY_MANAGER') || ActionIDOfTheOperation !== employeeID) {
+            logger.info('CinemaSystem - editEmployee - ' + userName + " " + this.inappropriatePermissionsMsg);
             return this.inappropriatePermissionsMsg;
-        return this.employeeManagement.editEmployee(
-            employeeID,
-            password,
-            permissions,
-            firstName,
-            lastName,
-            contactDetails
-        );
+        }
+        return this.employeeManagement.editEmployee(employeeID, password, permissions, firstName, lastName, contactDetails);
     }
 
     deleteEmployee(employeeID, ActionIDOfTheOperation) {
         if (!this.users.has(employeeID)) return "The id is not exists";
-        if (!this.users.has(ActionIDOfTheOperation) ||
-            !this.users.get(ActionIDOfTheOperation).isLoggedin()
-        )
+        if (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) {
+            logger.info('CinemaSystem - deleteEmployee - ' + this.userOfflineMsg);
             return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(3))
+        }
+        if (!this.users.get(ActionIDOfTheOperation).permissionCheck('DEPUTY_MANAGER')) {
+            logger.info('CinemaSystem - deleteEmployee - ' + this.inappropriatePermissionsMsg);
             return this.inappropriatePermissionsMsg;
-        if (employeeID === ActionIDOfTheOperation)
+        }
+        if (employeeID === ActionIDOfTheOperation) {
+            logger.info('CinemaSystem - deleteEmployee - A user cannot erase himself');
             return "A user cannot erase himself";
-        if (this.users.get(employeeID).isLoggedin())
+        }
+        if (this.users.get(employeeID).isLoggedin()) {
+            logger.info('CinemaSystem - deleteEmployee - A user cannot delete a logged in user');
             return "You cannot delete a logged in user";
+        }
         let res = this.employeeManagement.deleteEmployee(employeeID);
         if (res === "Successfully deleted employee data deletion")
             this.users.delete(employeeID);
         return res;
     }
 
-    checkUser(ActionIDOfTheOperation, permission) {
+    checkUser(ActionIDOfTheOperation, permissionRequired) {
         if ((!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()))
             return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(permission))
+        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(permissionRequired))
             return this.inappropriatePermissionsMsg;
         return null;
     }

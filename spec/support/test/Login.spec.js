@@ -16,8 +16,8 @@ describe("LoginTest", () => {
         DB.testModeOn();
         correctUserName = "yuval";
         correctPassword = "123456";
-        permissions=[1,2,3,4];
-        user = new User(1, correctUserName, correctPassword,permissions);
+        permissions = [1, 2, 3, 4];
+        user = new User(1, correctUserName, correctPassword, permissions);
         cinemaSystem = new CinemaSystem();
         cinemaSystem.users.set(1, user);
         servicelayer = new ServiceLayer();

@@ -1,5 +1,5 @@
 const CinemaSystem = require("./CinemaSystem");
-const logger = require('log-to-file');
+const logger = require('simple-node-logger').createSimpleLogger('project.log');
 
 class ServiceLayer {
     constructor() {
@@ -27,7 +27,7 @@ class ServiceLayer {
 
     register(userName, password) {
         if (this.users.has(userName)) {
-            logger('The registration process failed - the ', userName, ' exists on the system.')
+            logger.info('ServiceLayer - The registration process failed - the ' + userName + ' exists on the system.')
             return "The user already Exist";
         } else {
             const result = this.cinemaSystem.register(this.userCounter, userName, password, 'EMPLOYEE');
@@ -41,12 +41,9 @@ class ServiceLayer {
 
     login(userName, password) {
         if (this.users.has(userName)) {
-            return this.cinemaSystem.login(
-                userName,
-                password,
-                this.users.get(userName)
-            );
+            return this.cinemaSystem.login(userName, password, this.users.get(userName));
         }
+        logger.info('ServiceLayer - The login process failed - the ' + userName + ' isn\'t exists on the system.');
         return "Incorrect user name.";
     }
 
@@ -54,6 +51,7 @@ class ServiceLayer {
         if (this.users.has(userName)) {
             return this.cinemaSystem.logout(this.users.get(userName));
         }
+        logger.info('ServiceLayer - The logout process failed - the ' + userName + ' isn\'t exists on the system.');
         return "Incorrect user name.";
     }
 
@@ -62,37 +60,16 @@ class ServiceLayer {
             console.log(`m[${key}] = ${value}`);
         });
     }
-    addNewEmployee(
-        userName,
-        password,
-        firstName,
-        lastName,
-        permissions,
-        contactDetails,
-        ActionIDofTheOperation
-    ) {
+    addNewEmployee(userName, password, firstName, lastName, permissions, contactDetails, ActionIDofTheOperation) {
         if (this.users.has(userName)) {
+            logger.info('ServiceLayer - The addNewEmployee process failed - the ' + userName + ' exists on the system.')
             return "The user already exist";
         } else {
             if (!this.users.has(ActionIDofTheOperation)) {
+                logger.info('ServiceLayer - The addNewEmployee process failed - the ' + ActionIDofTheOperation + ' , who initiated the operation, does not exist in the system');
                 return "The user performing the operation does not exist in the system";
             }
-            let convertedPermission = this.convertPermissions(permissions);
-            if (
-                convertedPermission === undefined ||
-                !Array.isArray(convertedPermission)
-            )
-                return "No permissions were received for the user";
-            let result = this.cinemaSystem.addNewEmployee(
-                this.userCounter,
-                userName,
-                password,
-                convertedPermission,
-                firstName,
-                lastName,
-                contactDetails,
-                this.users.get(ActionIDofTheOperation)
-            );
+            let result = this.cinemaSystem.addNewEmployee(this.userCounter, userName, password, permissions, firstName, lastName, contactDetails, this.users.get(ActionIDofTheOperation));
             if (result === "The employee registered successfully.") {
                 this.users.set(userName, this.userCounter);
                 this.userCounter++;
@@ -101,46 +78,28 @@ class ServiceLayer {
         }
     }
 
-    editEmployee(
-        userName,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        ActionIDOfTheOperation
-    ) {
-        console.log("\n", ActionIDOfTheOperation, "\n");
-        console.log("\n", userName, "\n");
-
+    editEmployee(userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (!this.users.has(userName)) {
+            logger.info('ServiceLayer - editEmployee - The addNewEmployee process failed - the ' + userName + ' not exists on the system.');
             return "The employee does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info('ServiceLayer - The editEmployee process failed - the ' + ActionIDofTheOperation + ' , who initiated the operation, does not exist in the system');
             return "The user performing the operation does not exist in the system";
         }
-        return this.cinemaSystem.editEmployee(
-            this.users.get(userName),
-            password,
-            permissions,
-            firstName,
-            lastName,
-            contactDetails,
-            this.users.get(ActionIDOfTheOperation)
-        );
+        return this.cinemaSystem.editEmployee(this.users.get(userName), password, permissions, firstName, lastName, contactDetails, this.users.get(ActionIDOfTheOperation));
     }
 
     deleteEmployee(userName, ActionIDOfTheOperation) {
         if (!this.users.has(userName)) {
+            logger.info('ServiceLayer - deleteEmployee - The deleteEmployee process failed - the ' + userName + ' not exists on the system.');
             return "The employee does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info('ServiceLayer - The deleteEmployee process failed - the ' + ActionIDOfTheOperation + ' , who initiated the operation, does not exist in the system');
             return "The user performing the operation does not exist in the system";
         }
-        let res = this.cinemaSystem.deleteEmployee(
-            this.users.get(userName),
-            this.users.get(ActionIDOfTheOperation)
-        );
+        let res = this.cinemaSystem.deleteEmployee(this.users.get(userName), this.users.get(ActionIDOfTheOperation));
         if (res === "Successfully deleted employee data deletion")
             this.users.delete(userName);
         return res;
