@@ -10,6 +10,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import {
+  ShowCafeteriaOrder,
   AddCafeteriaOrder,
   EditCafeteriaOrder,
   RemoveCafeteriaOrder
@@ -24,7 +25,7 @@ const style = { justifyContent: "center", top: "auto" };
 export default class ManageCafeteria extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "add" };
+    this.state = { action: "show" };
   }
 
   onChange = action => {
@@ -82,7 +83,7 @@ export default class ManageCafeteria extends React.Component {
                   </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
+              {this.state.action === "show" && <ShowCafeteriaOrder />}
               {this.state.action === "add" && (
                 <AddCafeteriaOrder
                   hadleAddCafeteriaOrder={handleAddCafeteriaOrder}

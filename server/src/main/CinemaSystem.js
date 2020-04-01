@@ -321,6 +321,16 @@ class CinemaSystem {
     //TODO: IMPLEMENT THIS.
     return data.employeeDetails;
   }
+
+  getOrderDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.orderDetails;
+  }
+
+  getMovieDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.movieDetails;
+  }
 }
 
 module.exports = CinemaSystem;

@@ -412,3 +412,19 @@ export function handleGetEmployeeDetails(employee, user) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
+
+export function handleGetOrderDetails(order, user) {
+  return fetch(
+    `/api/getOrderDetails?order=${encodeURIComponent(
+      order
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetMovieDetails(movieName, user) {
+  return fetch(
+    `/api/getMovieDetails?movieName=${encodeURIComponent(
+      movieName
+    )}&user=${encodeURIComponent(user)}`
+  );
+}

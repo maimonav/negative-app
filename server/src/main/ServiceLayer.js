@@ -584,6 +584,26 @@ class ServiceLayer {
     return this.cinemaSystem.getInventoryProducts();
   }
 
+  getOrderDetails(orderId, ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    if (!this.orders.has(orderId)) {
+      return "The order does not exist";
+    }
+    return this.cinemaSystem.getOrderDetails(orderId);
+  }
+
+  getMovieDetails(movieName, ActionIDOfTheOperation) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    if (!this.movies.has(movieName)) {
+      return "The movie does not exist";
+    }
+    return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
+  }
+
   convertPermissions(permissions) {
     switch (permissions) {
       case "User":

@@ -299,6 +299,20 @@ app.get("/api/getProductsByOrder", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/getOrderDetails", (req, res) => {
+  const order = req.query.order || "";
+  const user = req.query.user || "";
+  const result = service.getOrderDetails(order, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getMovieDetails", (req, res) => {
+  const movieName = req.query.movieName || "";
+  const user = req.query.user || "";
+  const result = service.getMovieDetails(movieName, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );
