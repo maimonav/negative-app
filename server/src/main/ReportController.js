@@ -12,14 +12,14 @@ class ReportController {
     }
 
     static async getReport(report, date) {
-        return DataBase.getById(report,{date: date}).then((result) => {
-            if(result == null)
+        return DataBase.getById(report, { date: date }).then((result) => {
+            if (result == null)
                 return "The report does not exist"
             return result;
         });
     }
-    
-    static exportMonthlyHoursReportPerEmployee(date,employeeToSearchID,employeeId) { }
+
+    static exportMonthlyHoursReportPerEmployee(date, employeeToSearchID, employeeId) { }
     static exportDailyIncome(date) { }
     static exportDailyMovieReport(date) { }
     static exportDailyGeneralReport(date) { }
@@ -27,25 +27,44 @@ class ReportController {
 
 
     //general purpose fields - just from the list additionalProps[0] 
-    static getDailyReoprtFormat() {}
+    static getDailyReoprtFormat() { }
 
 
+    //TODO:: return msg of success/failure
 
+    static async addFieldToDailyReport(newField) {
+        await DataBase.findAll('general_purpose_daily_report', {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
+            .then(async (result) => {
+                //TODO:: return msg??
+                /*
+                if (result.length === 0) {
+                    let date = new Date().toISOString().substring(0, 10);
+                    await DataBase.add('general_purpose_daily_report', { date: new Date(date), additionalProps: [[newField], {}], creatorEmployeeId: null });
+                }
+                else {
+                    */
+                result[0].additionalProps[0] = result[0].additionalProps[0].concat(newField);
+                try{
+                await DataBase.update('general_purpose_daily_report', { date: result[0].date }, { additionalProps: result[0].additionalProps });
+                console.log()
+   
+            }catch(e){
+                    console.log()
 
-    static async addFieldToDailyReport(newField){
-        await DataBase.findAll('general_purpose_daily_report',{},{fn:'max',field:'date'}).then(async (result)=>{
-            let date = result[0].date;
-            let newProps = result[0].additionalProps[0].push(newField);
-            await DataBase.update('general_purpose_daily_report',{date:date},newProps);
-        });
+                }
+                
+                // }
+            });
 
     }
 
-    static async removeFieldFromDailyReport(fieldToRemove){
-        await DataBase.findAll('general_purpose_daily_report',{},{fn:'max',field:'date'}).then(async (result)=>{
-            let date = result[0].date;
-            let newProps = result[0].additionalProps[0].filter((value)=>(value === fieldToRemove));
-            await DataBase.update('general_purpose_daily_report',{date:date},newProps);
+    static async removeFieldFromDailyReport(fieldToRemove) {
+        await DataBase.findAll('general_purpose_daily_report', {}, { fn: 'max', field: 'date' }).then(async (result) => {
+            if (result.length !== 0) {
+                let date = result[0].date;
+                let newProps = result[0].additionalProps[0].filter((value) => (value === fieldToRemove));
+                await DataBase.update('general_purpose_daily_report', { date: date }, newProps);
+            }
         });
 
     }
@@ -53,3 +72,4 @@ class ReportController {
 
 }
 module.exports = ReportController;
+exports.DataBase = DataBase;

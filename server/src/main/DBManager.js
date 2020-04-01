@@ -59,13 +59,13 @@ class DataBase {
                 //define trigger category had been used
                 beforeBulkUpdate: async (category) => {
                     if (category.attributes.isCategoryRemoved && category.attributes.isCategoryRemoved != null) {
-                        await this.CafeteriaProduct.sync({transaction : category.transaction}).then(async () => {
+                        await this.CafeteriaProduct.sync({ transaction: category.transaction }).then(async () => {
                             await this.CafeteriaProduct.count({ categoryId: category.where.id }).then(async (resultProduct) => {
                                 if (resultProduct != 0)
                                     category.transaction.rollback();
 
                                 else
-                                    await this.Movie.sync({transaction : category.transaction}).then(async () => {
+                                    await this.Movie.sync({ transaction: category.transaction }).then(async () => {
                                         await this.Movie.count({ categoryId: category.where.id }).then(async (resultMovie) => {
                                             if (resultMovie != 0)
                                                 category.transaction.rollback();
@@ -173,7 +173,8 @@ class DataBase {
                     let res = model.findOne({ where: where, transaction: t });
                     return res;
                 })
-                    .catch((error => console.log(error)));
+                    .catch((error =>
+                        console.log(error)));
             } catch (error) {
                 console.log(error);
             }
@@ -193,7 +194,8 @@ class DataBase {
                 return this.sequelize.transaction((t) => {
                     return model.update(element, { where: where, transaction: t });
                 })
-                    .catch((error => console.log(error)));
+                    .catch((error => 
+                        console.log(error)));
             } catch (error) {
                 console.log(error);
             }
@@ -218,9 +220,36 @@ class DataBase {
     }
 
 
+    static findAll(modelName, where, attributes) {
+        if (this.isTestMode)
+            return;
+
+        let attributesArray = [[this.sequelize.fn(attributes.fn, this.sequelize.col(attributes.fnField)), attributes.fnField]];
+        attributes.fields && attributes.fields.forEach(e => {
+            attributesArray = attributesArray.concat(e);
+        })
+
+        const model = this.models[modelName];
+        return model.sync().then(() => {
+            try {
+                return this.sequelize.transaction((t) => {
+                    return model.findAll({
+                        attributes: attributesArray,
+                        where: where,
+                        transaction: t
+                    });
+                })
+                    .catch((error => console.log(error)));
+            } catch (error) {
+                console.log(error);
+            }
+        });
+    }
+
+
     static setDestroyTimer(table, afterCreate, deleteTime, eventTime, prop) {
         if (this.isTestMode)
-        return;
+            return;
         let destroyQuery = DataBase.getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop);
         try {
             return this.sequelize.transaction((t) => {
