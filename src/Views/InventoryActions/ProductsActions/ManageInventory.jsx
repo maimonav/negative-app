@@ -9,7 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import { AddProduct, EditProduct, RemoveProduct } from "../../index";
+import { AddProduct, EditProduct, RemoveProduct, ShowProductDetails } from "../../index";
 import {
   handleAddProduct,
   handleEditProduct,
@@ -20,7 +20,7 @@ const style = { justifyContent: "center", top: "auto" };
 export default class ManageInventory extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "add" };
+    this.state = { action: "show" };
   }
 
   onChange = action => {
@@ -78,7 +78,7 @@ export default class ManageInventory extends React.Component {
                   </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
+              {this.state.action === "show" && <ShowProductDetails /> }
               {this.state.action === "add" && (
                 <AddProduct handleAddProduct={handleAddProduct}></AddProduct>
               )}

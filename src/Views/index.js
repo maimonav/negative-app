@@ -5,6 +5,7 @@ import ShowEmployee from "./UserActions/EmployeeActions/ShowEmployee";
 import AddEmployee from "./UserActions/EmployeeActions/AddEmployee";
 import EditEmployee from "./UserActions/EmployeeActions/EditEmployee";
 import RemoveEmployee from "./UserActions/EmployeeActions/RemoveEmployee";
+import ShowProductDetails from "./InventoryActions/ProductsActions/ShowProductDetails";
 import AddProduct from "./InventoryActions/ProductsActions/AddProduct";
 import EditProduct from "./InventoryActions/ProductsActions/EditProduct";
 import RemoveProduct from "./InventoryActions/ProductsActions/RemoveProduct";
@@ -36,6 +37,7 @@ export {
   AddEmployee,
   EditEmployee,
   RemoveEmployee,
+  ShowProductDetails,
   AddProduct,
   EditProduct,
   RemoveProduct,

@@ -313,6 +313,13 @@ app.get("/api/getMovieDetails", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/getProductDetails", (req, res) => {
+  const productName = req.query.productName || "";
+  const user = req.query.user || "";
+  const result = service.getProductDetails(productName, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.listen(3001, () =>
   console.log("Express server is running on localhost:3001")
 );

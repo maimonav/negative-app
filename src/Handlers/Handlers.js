@@ -428,3 +428,11 @@ export function handleGetMovieDetails(movieName, user) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
+
+export function handleGetProductDetails(productName, user) {
+  return fetch(
+    `/api/getProductDetails?productName=${encodeURIComponent(
+      productName
+    )}&user=${encodeURIComponent(user)}`
+  );
+}

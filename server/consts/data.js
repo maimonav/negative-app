@@ -4,7 +4,8 @@ const dataExample = [
   { title: "admin" },
   { title: "supplier" },
   { title: "Ralph Hubbard" },
-  {title: "order"}
+  { title: "order" },
+  { title: "product" }
 ];
 
 const supplierDetails = "maimonaviv@gmail.com";
@@ -32,8 +33,18 @@ const movieDetails = {
   category: "Comedy",
 };
 
+const productDetails = {
+  productName: "Milk",
+  productCategory: "Milk",
+  productPrice: "6",
+  productQuantity: "100",
+  productMaxQunatity: "150",
+  productMimQunatity: "50",
+};
+
 exports.dataExample = dataExample;
 exports.supplierDetails = supplierDetails;
 exports.employeeDetails = employeeDetails;
 exports.orderDetails = orderDetails;
 exports.movieDetails = movieDetails;
+exports.productDetails = productDetails;

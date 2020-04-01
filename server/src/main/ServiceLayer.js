@@ -604,6 +604,17 @@ class ServiceLayer {
     return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
   }
 
+  getProductDetails(productName, ActionIDOfTheOperation) {
+    console.log('productName', productName);
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    if (!this.products.has(productName)) {
+      return "The product does not exist";
+    }
+    return this.cinemaSystem.getProductDetails(this.products.get(productName));
+  }
+
   convertPermissions(permissions) {
     switch (permissions) {
       case "User":
