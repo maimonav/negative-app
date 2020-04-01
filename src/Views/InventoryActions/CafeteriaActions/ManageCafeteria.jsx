@@ -9,10 +9,14 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import { AddCafeteriaOrder, RemoveCafeteriaOrder } from "../../index";
+import {
+  AddCafeteriaOrder,
+  EditCafeteriaOrder,
+  RemoveCafeteriaOrder
+} from "../../index";
 import {
   handleAddCafeteriaOrder,
-  handleGetItemsByDates,
+  handleEditCafeteriaOrder,
   handleRemoveCafeteriaOrder
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
@@ -84,14 +88,13 @@ export default class ManageCafeteria extends React.Component {
                   hadleAddCafeteriaOrder={handleAddCafeteriaOrder}
                 />
               )}
-              {/* {this.state.action === "edit" && (
-                <EditProduct
-                  handleEditProduct={handleEditProduct}
-                ></EditProduct>
-              )} */}
+              {this.state.action === "edit" && (
+                <EditCafeteriaOrder
+                  handleEditCafeteriaOrder={handleEditCafeteriaOrder}
+                />
+              )}
               {this.state.action === "delete" && (
                 <RemoveCafeteriaOrder
-                  handleGetItemsByDates={handleGetItemsByDates}
                   handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
                 />
               )}

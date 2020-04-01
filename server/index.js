@@ -179,14 +179,28 @@ app.get("/api/addCafeteriaOrder", (req, res) => {
   const productsName = req.query.productsName || "";
   const supplierName = req.query.supplierName || "";
   const orderDate = req.query.orderDate || "";
-  const productPrice = req.query.productPrice || "";
   const productQuantity = req.query.productQuantity || "";
   const user = req.query.user || "";
   const result = service.addCafetriaOrder(
     productsName,
     supplierName,
     orderDate,
-    productPrice,
+    productQuantity,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/editCafeteriaOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
+  const productsName = req.query.productsName || "";
+  const orderDate = req.query.orderDate || "";
+  const productQuantity = req.query.productQuantity || "";
+  const user = req.query.user || "";
+  const result = service.editCafetriaOrder(
+    orderId,
+    productsName,
+    orderDate,
     productQuantity,
     user
   );
@@ -267,6 +281,21 @@ app.get("/api/getCafeteriaOrders", (req, res) => {
 app.get("/api/getInventoryProducts", (req, res) => {
   const user = req.query.user || "";
   const result = service.getInventoryProducts(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getItemsByDates", (req, res) => {
+  const user = req.query.user || "";
+  const startDate = req.query.startDate || "";
+  const endDate = req.query.endDate || "";
+  const result = service.getCafeteriaOrders(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getProductsByOrder", (req, res) => {
+  const user = req.query.user || "";
+  const orderName = req.query.orderName || "";
+  const result = service.getCafeteriaProducts(user);
   res.send(JSON.stringify({ result }));
 });
 

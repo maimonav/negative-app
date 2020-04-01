@@ -24,6 +24,7 @@ import AddCategory from "./InventoryActions/ProductsActions/AddCategory";
 import RemoveCategory from "./InventoryActions/ProductsActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
 import CreateMovieOrder from "./InventoryActions/MoviesActions/CreateMovieOrder";
+import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 
 export {
   Login,
@@ -51,5 +52,6 @@ export {
   AddCafeteriaOrder,
   RemoveCafeteriaOrder,
   AddCategory,
-  RemoveCategory
+  RemoveCategory,
+  EditCafeteriaOrder
 };

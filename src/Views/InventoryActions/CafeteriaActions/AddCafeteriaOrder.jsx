@@ -23,7 +23,6 @@ export default class AddCafeteriaOrder extends React.Component {
       productName: "",
       supplierName: "",
       orderDate: "",
-      productPrice: "",
       productQuantity: ""
     };
     this.setInitialState();
@@ -50,10 +49,6 @@ export default class AddCafeteriaOrder extends React.Component {
     this.setState({ orderDate: date });
   };
 
-  setProuctPrice(event) {
-    this.setState({ productPrice: event.target.value });
-  }
-
   setProuctQuantity(event) {
     this.setState({ productQuantity: event.target.value });
   }
@@ -67,7 +62,6 @@ export default class AddCafeteriaOrder extends React.Component {
       productName,
       supplierName,
       orderDate,
-      productPrice,
       productQuantity
     } = this.state;
     return (
@@ -114,18 +108,6 @@ export default class AddCafeteriaOrder extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Product Price"
-                      id="productPrice"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setProuctPrice(event)}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
                       labelText="Product Quantity"
                       id="productQuantity"
                       formControlProps={{
@@ -144,7 +126,6 @@ export default class AddCafeteriaOrder extends React.Component {
                       productName,
                       supplierName,
                       orderDate,
-                      productPrice,
                       productQuantity
                     )
                   }

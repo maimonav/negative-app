@@ -268,9 +268,18 @@ class CinemaSystem {
     productName,
     supplierName,
     orderDate,
-    productPrice,
     productQuantity,
     ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  editCafetriaOrder(
+    orderId,
+    productsName,
+    orderDate,
+    productQuantity,
+    ActionIDOfTheOperatio
   ) {
     return "TODO: IMPLEMENT THIS.";
   }

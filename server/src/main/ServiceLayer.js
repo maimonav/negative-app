@@ -25,11 +25,9 @@ class ServiceLayer {
   }
 
   isInputValid(param) {
-    if (param === undefined || param === '')
-      return false;
+    if (param === undefined || param === "") return false;
     return true;
-  };
-
+  }
 
   register(userName, password) {
     if (this.users.has(userName)) {
@@ -121,9 +119,6 @@ class ServiceLayer {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    console.log("\n", ActionIDOfTheOperation, "\n");
-    console.log("\n", userName, "\n");
-
     if (!this.users.has(userName)) {
       return "The employee does not exist";
     }
@@ -158,11 +153,14 @@ class ServiceLayer {
   }
 
   addMovie(movieName, category, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid' :
-      !this.isInputValid(category) ? 'Category is not valid' :
-        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
-    if (validationResult !== 'Valid')
-      return validationResult;
+    let validationResult = !this.isInputValid(movieName)
+      ? "Movie Name is not valid"
+      : !this.isInputValid(category)
+      ? "Category is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
     if (this.movies.has(movieName)) {
       return "The movie already exists";
@@ -170,8 +168,7 @@ class ServiceLayer {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
-    if (!this.categories.has(category))
-      return "The category does not exist";
+    if (!this.categories.has(category)) return "The category does not exist";
     let result = this.cinemaSystem.addMovie(
       this.movieCounter,
       movieName,
@@ -186,14 +183,18 @@ class ServiceLayer {
   }
 
   editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid' :
-      !this.isInputValid(category) ? 'Category is not valid' :
-        !this.isInputValid(key) ? 'Key is not valid' :
-          !this.isInputValid(examinationRoom) ? 'Examination Room is not valid' :
-            !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
-    if (validationResult !== 'Valid')
-      return validationResult;
-
+    let validationResult = !this.isInputValid(movieName)
+      ? "Movie Name is not valid"
+      : !this.isInputValid(category)
+      ? "Category is not valid"
+      : !this.isInputValid(key)
+      ? "Key is not valid"
+      : !this.isInputValid(examinationRoom)
+      ? "Examination Room is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";
@@ -214,11 +215,12 @@ class ServiceLayer {
   }
 
   removeMovie(movieName, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(movieName) ? 'Movie Name is not valid' :
-      !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
-    if (validationResult !== 'Valid')
-      return validationResult;
-
+    let validationResult = !this.isInputValid(movieName)
+      ? "Movie Name is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
     if (!this.movies.has(movieName)) {
       return "The movie does not exist";
@@ -237,12 +239,14 @@ class ServiceLayer {
   }
 
   addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(supplierName) ? 'Supplier Name is not valid' :
-      !this.isInputValid(contactDetails) ? 'Contact Details is not valid' :
-        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
-    if (validationResult !== 'Valid')
-      return validationResult;
-
+    let validationResult = !this.isInputValid(supplierName)
+      ? "Supplier Name is not valid"
+      : !this.isInputValid(contactDetails)
+      ? "Contact Details is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
     if (this.suppliers.has(supplierName)) {
       return "The supplier already exists";
@@ -261,16 +265,17 @@ class ServiceLayer {
       this.supplierCounter++;
     }
     return result;
-
   }
 
   editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(supplierName) ? 'Supplier Name is not valid' :
-      !this.isInputValid(contactDetails) ? 'Contact Details is not valid' :
-        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
-    if (validationResult !== 'Valid')
-      return validationResult;
-
+    let validationResult = !this.isInputValid(supplierName)
+      ? "Supplier Name is not valid"
+      : !this.isInputValid(contactDetails)
+      ? "Contact Details is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
     if (!this.suppliers.has(supplierName)) {
       return "The supplier does not exist";
@@ -288,15 +293,15 @@ class ServiceLayer {
       this.suppliers.set(supplierName, this.supplierCounter);
     }
     return result;
-
   }
 
   removeSupplier(supplierName, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(supplierName) ? 'Supplier Name is not valid' :
-      !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
-    if (validationResult !== 'Valid')
-      return validationResult;
-
+    let validationResult = !this.isInputValid(supplierName)
+      ? "Supplier Name is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
     if (!this.suppliers.has(supplierName)) {
       return "The supplier does not exist";
@@ -441,7 +446,6 @@ class ServiceLayer {
     productName,
     supplierName,
     orderDate,
-    productPrice,
     productQuantity,
     ActionIDOfTheOperation
   ) {
@@ -456,13 +460,37 @@ class ServiceLayer {
         productName,
         supplierName,
         orderDate,
-        productPrice,
         productQuantity,
         this.users.get(ActionIDOfTheOperation)
       );
       if (result === "The category added successfully.") {
         this.orders.delete(productName);
       }
+      return result;
+    }
+  }
+
+  editCafetriaOrder(
+    orderId,
+    productsName,
+    orderDate,
+    productQuantity,
+    ActionIDOfTheOperation
+  ) {
+    if (!this.orders.has(orderId)) {
+      return "The order does not exist";
+    } else {
+      if (!this.users.has(ActionIDOfTheOperation)) {
+        return "The user performing the operation does not exist in the system";
+      }
+      let result = this.cinemaSystem.editCafetriaOrder(
+        this.ordersCounter,
+        orderId,
+        productsName,
+        orderDate,
+        productQuantity,
+        this.users.get(ActionIDOfTheOperation)
+      );
       return result;
     }
   }
