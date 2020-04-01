@@ -9,7 +9,6 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import CardBody from "../../../Components/Card/CardBody.js";
 import { AddProduct, EditProduct, RemoveProduct } from "../../index";
 import {
   handleAddProduct,

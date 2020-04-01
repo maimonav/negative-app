@@ -131,7 +131,7 @@ export default class AddEmployee extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Permission - type: User, Shift Manager, Deputy Directo, Director"
+                      labelText="Permission - type: ADMIN, MANAGER, DEPUTY MANAGER, SHIFT MANAGER, EMPLOYEE"
                       id="permission"
                       formControlProps={{
                         fullWidth: true
