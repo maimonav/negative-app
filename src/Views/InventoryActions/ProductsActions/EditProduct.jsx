@@ -1,21 +1,21 @@
 import React from "react";
 // core components
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
-import CustomInput from "../../Components/CustomInput/CustomInput.js";
-import Button from "../../Components/CustomButtons/Button.js";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../../Components/AutoComplete";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
+import Button from "../../../Components/CustomButtons/Button.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import CardBody from "../../../Components/Card/CardBody.js";
+import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetInventoryProducts,
   handleGetCategories
-} from "../../Handlers/Handlers";
+} from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class AddProduct extends React.Component {
+export default class EditProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -81,7 +81,7 @@ export default class AddProduct extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Add new Product</h4>
+                <h4>Edit Product</h4>
                 <p>Complete product's details</p>
               </CardHeader>
               <CardBody>
@@ -101,7 +101,7 @@ export default class AddProduct extends React.Component {
                     <ComboBox
                       id={"productCategory"}
                       items={this.state.categories}
-                      boxLabel={"Choose category from the list"}
+                      boxLabel={"Choose new category if you want"}
                       setName={this.setProductCategory}
                       isMultiple={false}
                     />
@@ -110,7 +110,7 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Product Price"
+                      labelText="Change Product Price"
                       id="productPrice"
                       formControlProps={{
                         fullWidth: true
@@ -122,7 +122,7 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Product Quantity"
+                      labelText="Change Product Quantity"
                       id="productQuantity"
                       formControlProps={{
                         fullWidth: true
@@ -134,7 +134,7 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Set Product Max Quantity"
+                      labelText="Change Product Max Quantity"
                       id="productMaxQuantity"
                       formControlProps={{
                         fullWidth: true
@@ -146,7 +146,7 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Set Product Min Quantity"
+                      labelText="Change Product Min Quantity"
                       id="productMinQuantity"
                       formControlProps={{
                         fullWidth: true
@@ -160,7 +160,7 @@ export default class AddProduct extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleAddProduct(
+                    this.props.handleEditProduct(
                       productName,
                       productPrice,
                       productQuantity,
@@ -170,7 +170,7 @@ export default class AddProduct extends React.Component {
                     )
                   }
                 >
-                  Add New Product
+                  Edit Product
                 </Button>
               </CardFooter>
             </Card>

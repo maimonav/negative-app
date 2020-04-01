@@ -1,26 +1,37 @@
 import React from "react";
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
 import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import { AddCafeteriaOrder, RemoveCafeteriaOrder } from "../index";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
 import {
-  handleAddCafeteriaOrder,
-  handleGetItemsByDates,
-  handleRemoveCafeteriaOrder
-} from "../../Handlers/Handlers";
+  AddSupplier,
+  EditSupplier,
+  RemoveSupplier,
+  ShowSupplier
+} from "../../index";
+import {
+  handleAddSupplier,
+  handleEditSupplier,
+  handleRemoveSupplier
+} from "../../../Handlers/Handlers";
+import {
+  showActionHook,
+  addActionHook,
+  editActionHook,
+  removeActionHook
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class ManageCafeteria extends React.Component {
+export default class ManageSuppliers extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "add" };
+    this.state = { action: "show" };
   }
 
   onChange = action => {
@@ -32,17 +43,18 @@ export default class ManageCafeteria extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={6}>
-            <Card>
+            <Card style={style}>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Cafeteria</h4>
+                    <h4>Manage Suppliers</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
                       color="default"
                       size="small"
                       onClick={() => this.onChange("show")}
+                      data-hook={showActionHook}
                     >
                       <ShowIcon />
                     </Fab>
@@ -52,6 +64,7 @@ export default class ManageCafeteria extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("add")}
+                      data-hook={addActionHook}
                     >
                       <AddIcon />
                     </Fab>
@@ -62,6 +75,7 @@ export default class ManageCafeteria extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
+                      data-hook={editActionHook}
                     >
                       <EditIcon />
                     </Fab>
@@ -72,28 +86,28 @@ export default class ManageCafeteria extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
+                      data-hook={removeActionHook}
                     >
                       <DeleteIcon />
                     </Fab>
                   </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
+              {this.state.action === "show" && <ShowSupplier></ShowSupplier>}
               {this.state.action === "add" && (
-                <AddCafeteriaOrder
-                  hadleAddCafeteriaOrder={handleAddCafeteriaOrder}
-                />
+                <AddSupplier
+                  handleAddSupplier={handleAddSupplier}
+                ></AddSupplier>
               )}
-              {/* {this.state.action === "edit" && (
-                <EditProduct
-                  handleEditProduct={handleEditProduct}
-                ></EditProduct>
-              )} */}
+              {this.state.action === "edit" && (
+                <EditSupplier
+                  handleEditSupplier={handleEditSupplier}
+                ></EditSupplier>
+              )}
               {this.state.action === "delete" && (
-                <RemoveCafeteriaOrder
-                  handleGetItemsByDates={handleGetItemsByDates}
-                  handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
-                />
+                <RemoveSupplier
+                  handleRemoveSupplier={handleRemoveSupplier}
+                ></RemoveSupplier>
               )}
             </Card>
           </GridItem>

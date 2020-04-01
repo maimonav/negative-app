@@ -1,34 +1,34 @@
 import React from "react";
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
 import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
 import {
-  AddSupplier,
-  EditSupplier,
-  RemoveSupplier,
-  ShowSupplier
-} from "../index";
+  AddEmployee,
+  EditEmployee,
+  RemoveEmployee,
+  ShowEmployee
+} from "../../index";
 import {
-  handleAddSupplier,
-  handleEditSupplier,
-  handleRemoveSupplier
-} from "../../Handlers/Handlers";
+  handleAddEmployee,
+  handleEditEmployee,
+  handleRemoveEmployee
+} from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
   removeActionHook
-} from "../../consts/data-hooks";
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class ManageSuppliers extends React.Component {
+export default class ManageEmployees extends React.Component {
   constructor(props) {
     super(props);
     this.state = { action: "show" };
@@ -43,11 +43,11 @@ export default class ManageSuppliers extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={6}>
-            <Card style={style}>
+            <Card>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Suppliers</h4>
+                    <h4>Manage Employees</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
@@ -93,21 +93,21 @@ export default class ManageSuppliers extends React.Component {
                   </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {this.state.action === "show" && <ShowSupplier></ShowSupplier>}
+              {this.state.action === "show" && <ShowEmployee></ShowEmployee>}
               {this.state.action === "add" && (
-                <AddSupplier
-                  handleAddSupplier={handleAddSupplier}
-                ></AddSupplier>
+                <AddEmployee
+                  handleAddEmployee={handleAddEmployee}
+                ></AddEmployee>
               )}
               {this.state.action === "edit" && (
-                <EditSupplier
-                  handleEditSupplier={handleEditSupplier}
-                ></EditSupplier>
+                <EditEmployee
+                  handleEditEmployee={handleEditEmployee}
+                ></EditEmployee>
               )}
               {this.state.action === "delete" && (
-                <RemoveSupplier
-                  handleRemoveSupplier={handleRemoveSupplier}
-                ></RemoveSupplier>
+                <RemoveEmployee
+                  handleRemoveEmployee={handleRemoveEmployee}
+                ></RemoveEmployee>
               )}
             </Card>
           </GridItem>

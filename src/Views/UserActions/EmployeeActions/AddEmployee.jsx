@@ -1,18 +1,34 @@
 import React from "react";
 // core components
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
-import CustomInput from "../../Components/CustomInput/CustomInput.js";
-import Button from "../../Components/CustomButtons/Button.js";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../../Components/AutoComplete";
-import { handleGetEmployees } from "../../Handlers/Handlers";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
+import Button from "../../../Components/CustomButtons/Button.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import CardBody from "../../../Components/Card/CardBody.js";
+import CardFooter from "../../../Components/Card/CardFooter.js";
 const style = { justifyContent: "center", top: "auto" };
+// const styles = {
+//   cardCategoryWhite: {
+//     color: "rgba(255,255,255,.62)",
+//     margin: "0",
+//     fontSize: "14px",
+//     marginTop: "0",
+//     marginBottom: "0"
+//   },
+//   cardTitleWhite: {
+//     color: "#FFFFFF",
+//     marginTop: "0px",
+//     minHeight: "auto",
+//     fontWeight: "300",
+//     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+//     marginBottom: "3px",
+//     textDecoration: "none"
+//   }
+// };
 
-export default class EditEmployee extends React.Component {
+export default class AddEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,20 +39,11 @@ export default class EditEmployee extends React.Component {
       permission: "",
       contactDetails: ""
     };
-    this.setInitialState();
   }
 
-  setInitialState = () => {
-    handleGetEmployees(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
-        this.setState({ employees: state.result });
-      });
-  };
-
-  setUsername = userName => {
-    this.setState({ userName });
-  };
+  setUsername(event) {
+    this.setState({ userName: event.target.value });
+  }
 
   setPassword(event) {
     this.setState({ password: event.target.value });
@@ -73,22 +80,21 @@ export default class EditEmployee extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Edit employee</h4>
-                <p>Change the details you want about the employee you choose</p>
+                <h4>Add new employee</h4>
+                <p>Complete his profile</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"userName"}
-                      items={this.state.employees}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
-                      isMultiple={false}
+                    <CustomInput
+                      labelText="Username"
+                      id="username"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      onChange={event => this.setUsername(event)}
                     />
                   </GridItem>
-                </GridContainer>
-                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Password"
@@ -125,7 +131,7 @@ export default class EditEmployee extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Permission - type: User, Shift Manager, Deputy Director, Director"
+                      labelText="Permission - type: User, Shift Manager, Deputy Directo, Director"
                       id="permission"
                       formControlProps={{
                         fullWidth: true
@@ -150,7 +156,7 @@ export default class EditEmployee extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleEditEmployee(
+                    this.props.handleAddEmployee(
                       userName,
                       password,
                       firstName,
@@ -160,7 +166,7 @@ export default class EditEmployee extends React.Component {
                     )
                   }
                 >
-                  Edit Employee
+                  Add New Employee
                 </Button>
               </CardFooter>
             </Card>

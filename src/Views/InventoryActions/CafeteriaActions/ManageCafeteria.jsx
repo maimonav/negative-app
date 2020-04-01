@@ -1,24 +1,23 @@
 import React from "react";
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
 import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import { AddProduct, EditProduct, RemoveProduct } from "../index";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import { AddCafeteriaOrder, RemoveCafeteriaOrder } from "../../index";
 import {
-  handleAddProduct,
-  handleEditProduct,
-  handleRemoveProduct
-} from "../../Handlers/Handlers";
+  handleAddCafeteriaOrder,
+  handleGetItemsByDates,
+  handleRemoveCafeteriaOrder
+} from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class ManageInventory extends React.Component {
+export default class ManageCafeteria extends React.Component {
   constructor(props) {
     super(props);
     this.state = { action: "add" };
@@ -37,7 +36,7 @@ export default class ManageInventory extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Inventory</h4>
+                    <h4>Manage Cafeteria</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
@@ -81,17 +80,20 @@ export default class ManageInventory extends React.Component {
               </CardHeader>
               {/* {this.state.action === "show" && <ShowEmployee></ShowEmployee>} */}
               {this.state.action === "add" && (
-                <AddProduct handleAddProduct={handleAddProduct}></AddProduct>
+                <AddCafeteriaOrder
+                  hadleAddCafeteriaOrder={handleAddCafeteriaOrder}
+                />
               )}
-              {this.state.action === "edit" && (
+              {/* {this.state.action === "edit" && (
                 <EditProduct
                   handleEditProduct={handleEditProduct}
                 ></EditProduct>
-              )}
+              )} */}
               {this.state.action === "delete" && (
-                <RemoveProduct
-                  handleRemoveProduct={handleRemoveProduct}
-                ></RemoveProduct>
+                <RemoveCafeteriaOrder
+                  handleGetItemsByDates={handleGetItemsByDates}
+                  handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
+                />
               )}
             </Card>
           </GridItem>
