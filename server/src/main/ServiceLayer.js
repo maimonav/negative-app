@@ -485,6 +485,25 @@ class ServiceLayer {
     }
   }
 
+
+  createDailyReport(date, records, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(date) ? 'Date is not valid' :
+      !this.isInputValid(records) ? 'Records is not valid' :
+        !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+    if (validationResult !== 'Valid')
+      return validationResult;
+    
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.createDailyReport(
+      date,
+      records,
+      this.users.get(ActionIDOfTheOperation)
+    );
+  }
+
+
   getMovies(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";

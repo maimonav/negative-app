@@ -279,6 +279,17 @@ class CinemaSystem {
     return "TODO: IMPLEMENT THIS.";
   }
 
+  createDailyReport(
+    date,
+    records,
+    ActionIDOfTheOperation
+  ) {
+    let result = this.checkUser(ActionIDOfTheOperation);
+    if (result != null)
+      return result;
+    return ReportController.createDailyReport(date,records);
+  }
+
   getSuppliers() {
     //TODO: IMPLEMENT THIS.
     return data.dataExample;

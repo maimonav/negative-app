@@ -11,6 +11,10 @@ class ReportController {
         DataBase.setDestroyTimer('incomes_daily_report', true, '1 YEAR', '1 DAY');
     }
 
+    static createDailyReport(date,records){
+        
+    }
+
     static async getReport(report, date) {
         return DataBase.getById(report, { date: date }).then((result) => {
             if (result == null)
