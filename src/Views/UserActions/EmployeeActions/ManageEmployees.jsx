@@ -1,31 +1,31 @@
 import React from "react";
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
 import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
 import {
   AddEmployee,
   EditEmployee,
   RemoveEmployee,
   ShowEmployee
-} from "../index";
+} from "../../index";
 import {
   handleAddEmployee,
   handleEditEmployee,
   handleRemoveEmployee
-} from "../../Handlers/Handlers";
+} from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
   removeActionHook
-} from "../../consts/data-hooks";
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ManageEmployees extends React.Component {

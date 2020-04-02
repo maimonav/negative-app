@@ -1,14 +1,14 @@
 import React from "react";
 // core components
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
-import Button from "../../Components/CustomButtons/Button.js";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../../Components/AutoComplete";
-import { handleGetMovies, handleGetCategories } from "../../Handlers/Handlers";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
+import Button from "../../../Components/CustomButtons/Button.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import CardBody from "../../../Components/Card/CardBody.js";
+import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
+import { handleGetMovies, handleGetCategories } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovie extends React.Component {

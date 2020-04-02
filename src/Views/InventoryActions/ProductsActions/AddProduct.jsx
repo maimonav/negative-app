@@ -1,53 +1,49 @@
 import React from "react";
 // core components
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
-import CustomInput from "../../Components/CustomInput/CustomInput.js";
-import Button from "../../Components/CustomButtons/Button.js";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../../Components/AutoComplete";
-import SelectDates from "../../Components/SelectDates";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
+import Button from "../../../Components/CustomButtons/Button.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import CardBody from "../../../Components/Card/CardBody.js";
+import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
 import {
-  handleGetCafeteriaProducts,
-  handleGetSuppliers
-} from "../../Handlers/Handlers";
+  handleGetInventoryProducts,
+  handleGetCategories
+} from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class AddCafeteriaOrder extends React.Component {
+export default class AddProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       productName: "",
-      supplierName: "",
-      orderDate: "",
       productPrice: "",
-      productQuantity: ""
+      productQuantity: "",
+      maxQuantity: "",
+      minQuantity: "",
+      productCategory: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
-    handleGetCafeteriaProducts(localStorage.getItem("username"))
+    handleGetInventoryProducts(localStorage.getItem("username"))
       .then(response => response.json())
       .then(state => {
         this.setState({ products: state.result });
       });
-    handleGetSuppliers(localStorage.getItem("username"))
+    handleGetCategories(localStorage.getItem("username"))
       .then(response => response.json())
       .then(state => {
-        this.setState({ suppliers: state.result });
+        this.setState({ categories: state.result });
       });
   };
 
   setProuctName = name => {
     this.setState({ productName: name });
-  };
-
-  setOrderDate = date => {
-    this.setState({ orderDate: date });
   };
 
   setProuctPrice(event) {
@@ -58,17 +54,26 @@ export default class AddCafeteriaOrder extends React.Component {
     this.setState({ productQuantity: event.target.value });
   }
 
-  setSupplierName = event => {
-    this.setState({ supplierName: event });
+  setMaxQuantity(event) {
+    this.setState({ maxQuantity: event.target.value });
+  }
+
+  setMinQuantity(event) {
+    this.setState({ minQuantity: event.target.value });
+  }
+
+  setProductCategory = name => {
+    this.setState({ productCategory: name });
   };
 
   render() {
     const {
       productName,
-      supplierName,
-      orderDate,
       productPrice,
-      productQuantity
+      productQuantity,
+      minQuantity,
+      maxQuantity,
+      productCategory
     } = this.state;
     return (
       <div>
@@ -76,8 +81,8 @@ export default class AddCafeteriaOrder extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Add new Cafeteria Order</h4>
-                <p>Complete order's details</p>
+                <h4>Add new Product</h4>
+                <p>Complete product's details</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
@@ -87,27 +92,18 @@ export default class AddCafeteriaOrder extends React.Component {
                       items={this.state.products}
                       boxLabel={"Choose product from the list"}
                       setName={this.setProuctName}
-                      isMultiple={true}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"supplierName"}
-                      items={this.state.suppliers}
-                      boxLabel={"Choose supplier from the list"}
-                      setName={this.setSupplierName}
+                      id={"productCategory"}
+                      items={this.state.categories}
+                      boxLabel={"Choose category from the list"}
+                      setName={this.setProductCategory}
                       isMultiple={false}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem>
-                    <SelectDates
-                      id={"add-order-date"}
-                      label={"Choose Order Date"}
-                      setDate={this.setOrderDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -135,21 +131,46 @@ export default class AddCafeteriaOrder extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Set Product Max Quantity"
+                      id="productMaxQuantity"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      onChange={event => this.setMaxQuantity(event)}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Set Product Min Quantity"
+                      id="productMinQuantity"
+                      formControlProps={{
+                        fullWidth: true
+                      }}
+                      onChange={event => this.setMinQuantity(event)}
+                    />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
               <CardFooter>
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.hadleAddCafeteriaOrder(
+                    this.props.handleAddProduct(
                       productName,
-                      supplierName,
-                      orderDate,
                       productPrice,
-                      productQuantity
+                      productQuantity,
+                      minQuantity,
+                      maxQuantity,
+                      productCategory
                     )
                   }
                 >
-                  Add New Order
+                  Add New Product
                 </Button>
               </CardFooter>
             </Card>

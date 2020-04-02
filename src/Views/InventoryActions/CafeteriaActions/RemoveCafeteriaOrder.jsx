@@ -1,15 +1,15 @@
 import React from "react";
 // core components
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
-import Button from "../../Components/CustomButtons/Button.js";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../../Components/AutoComplete";
-import { handleGetCafeteriaOrders } from "../../Handlers/Handlers";
-import SelectDates from "../../Components/SelectDates";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
+import Button from "../../../Components/CustomButtons/Button.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import CardBody from "../../../Components/Card/CardBody.js";
+import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
+import { handleGetItemsByDates } from "../../../Handlers/Handlers";
+import SelectDates from "../../../Components/SelectDates";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveCafeteriaOrder extends React.Component {
@@ -21,20 +21,18 @@ export default class RemoveCafeteriaOrder extends React.Component {
       endDate: "",
       orderName: ""
     };
-    this.setInitialState();
     this.toggleBox = this.toggleBox.bind(this);
   }
 
-  setInitialState = () => {
-    handleGetCafeteriaOrders(localStorage.getItem("username"))
+
+  handleGetItemsByDates = (startDate, endDate) => {
+    handleGetItemsByDates(startDate, endDate)
       .then(response => response.json())
-      .then(state => {
-        this.setState({ orders: state.result });
-      });
+      .then(state => this.setState({ orders: state.result }));
   };
 
   toggleBox() {
-    this.props.handleGetItemsByDates(this.state.startDate, this.state.endDate);
+    this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
     this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
@@ -70,8 +68,6 @@ export default class RemoveCafeteriaOrder extends React.Component {
                       setDate={this.setStartDate}
                     />
                   </GridItem>
-                </GridContainer>
-                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
                       id={"remove-end-date"}
@@ -80,11 +76,13 @@ export default class RemoveCafeteriaOrder extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
+                <GridContainer style={{ justifyContent: "center" }}>
                   <Button color="info" onClick={this.toggleBox}>
                     Choose dates
                   </Button>
                 </GridContainer>
+                </CardBody>
+                <CardBody>
                 {isOpened && (
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>

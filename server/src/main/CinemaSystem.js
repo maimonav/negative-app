@@ -268,9 +268,18 @@ class CinemaSystem {
     productName,
     supplierName,
     orderDate,
-    productPrice,
     productQuantity,
     ActionIDOfTheOperation
+  ) {
+    return "TODO: IMPLEMENT THIS.";
+  }
+
+  editCafetriaOrder(
+    orderId,
+    productsName,
+    orderDate,
+    productQuantity,
+    ActionIDOfTheOperatio
   ) {
     return "TODO: IMPLEMENT THIS.";
   }
@@ -322,6 +331,21 @@ class CinemaSystem {
   getEmployeeDetails() {
     //TODO: IMPLEMENT THIS.
     return data.employeeDetails;
+  }
+
+  getOrderDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.orderDetails;
+  }
+
+  getMovieDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.movieDetails;
+  }
+
+  getProductDetails() {
+    //TODO: IMPLEMENT THIS.
+    return data.productDetails;
   }
 }
 

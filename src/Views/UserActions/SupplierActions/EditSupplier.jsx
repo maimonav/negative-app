@@ -1,16 +1,16 @@
 import React from "react";
 // core components
-import GridItem from "../../Components/Grid/GridItem";
-import GridContainer from "../../Components/Grid/GridContainer.js";
-import CustomInput from "../../Components/CustomInput/CustomInput.js";
-import Button from "../../Components/CustomButtons/Button.js";
-import Card from "../../Components/Card/Card.js";
-import CardHeader from "../../Components/Card/CardHeader.js";
-import CardBody from "../../Components/Card/CardBody.js";
-import CardFooter from "../../Components/Card/CardFooter.js";
-import ComboBox from "../../Components/AutoComplete";
-import { handleGetSuppliers } from "../../Handlers/Handlers";
-import { userNameHook, contactDetailsHook } from "../../consts/data-hooks";
+import GridItem from "../../../Components/Grid/GridItem";
+import GridContainer from "../../../Components/Grid/GridContainer.js";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
+import Button from "../../../Components/CustomButtons/Button.js";
+import Card from "../../../Components/Card/Card.js";
+import CardHeader from "../../../Components/Card/CardHeader.js";
+import CardBody from "../../../Components/Card/CardBody.js";
+import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
+import { handleGetSuppliers } from "../../../Handlers/Handlers";
+import { userNameHook, contactDetailsHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditSupplier extends React.Component {
