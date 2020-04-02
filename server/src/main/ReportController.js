@@ -4,23 +4,26 @@ const DataBase = require("./DBManager");
 class ReportController {
 
 
-    static init() {
-        DataBase.setDestroyTimer('general_purpose_daily_report', true, '1 YEAR', '1 DAY');
-        DataBase.setDestroyTimer('inventory_daily_report', true, '1 YEAR', '1 DAY');
-        DataBase.setDestroyTimer('movie_daily_report', true, '1 YEAR', '1 DAY');
-        DataBase.setDestroyTimer('incomes_daily_report', true, '1 YEAR', '1 DAY');
+    static async init() {
+        await DataBase.setDestroyTimer('general_purpose_daily_report', true, '1 YEAR', '1 DAY');
+        await DataBase.setDestroyTimer('inventory_daily_report', true, '1 YEAR', '1 DAY');
+        await DataBase.setDestroyTimer('movie_daily_report', true, '1 YEAR', '1 DAY');
+        await DataBase.setDestroyTimer('incomes_daily_report', true, '1 YEAR', '1 DAY');
     }
+
 
     static async createDailyReport(type, records) {
         //validate type from enum of types
-        try {
-            await DataBase.add(type, records);
-            return "The report created successfully";
-        } catch (e) {
-            //TODO::
-            return "The report structure is not valid";
+        for(let i in records){
+            let result = await DataBase.add(type, records[i]);
+            if(result == 'error'){
+                return "The report can not be created"
+            }
         }
+        return "The report created successfully";
+    
     }
+
 
     static async getReport(report, date) {
         return DataBase.getById(report, { date: date }).then((result) => {

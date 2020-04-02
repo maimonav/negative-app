@@ -3,7 +3,7 @@ const DataBase = require("./DBManager");
 const ReportController = require("./ReportController");
 
 class CinemaSystem {
-  constructor() {
+  constructor(dbName) {
     this.users = new Map();
     //testing purpose
     const { User, Employee } = {
@@ -21,24 +21,15 @@ class CinemaSystem {
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
 
-    ReportController.init();
 
-    DataBase.connectAndCreate().then(() => {
-      DataBase.init();
-      this.users.set(0, new User(0, "admin", "admin", [1, 2, 3, 4, 5]));
-      //testing purpose
-      this.users.set(
-        1,
-        new Employee(
-          1,
-          "manager",
-          "manager",
-          [1, 2, 3, 4],
-          "Noa",
-          "Cohen",
-          "0508888888"
-        )
-      );
+
+    DataBase.connectAndCreate().then(async () => {
+      if (dbName)
+        DataBase.initDB(dbName);
+      else
+        DataBase.init();
+      this.users.set(0, new User(0, "admin", "admin", 'ADMIN'));
+      ReportController.init();
     });
   }
 
@@ -296,7 +287,7 @@ class CinemaSystem {
     let result = this.checkUser(ActionIDOfTheOperation);
     if (result != null)
       return result;
-    return ReportController.createDailyReport(type,records);
+    return ReportController.createDailyReport(type, records);
   }
 
   getSuppliers() {

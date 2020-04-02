@@ -6,6 +6,10 @@ const { generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDaily
 
 class DataBase {
 
+    static sequelize;
+    static models;
+    static isTestMode = false;
+
     static testModeOn() {
         this.isTestMode = true;
     }
@@ -14,18 +18,20 @@ class DataBase {
 
     }
 
+ 
+
 
     static initDB(dbName) {
         if (this.isTestMode)
             return;
         try {
-            this.isTestMode = false;
             this.sequelize = new Sequelize(dbName, 'root', 'admin', {
                 host: 'localhost',
                 dialect: 'mysql'
             });
 
             DataBase.initModels();
+
             this.models = {
                 user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
                 order: this.Order, movie: this.Movie, cafeteria_product: this.CafeteriaProduct, movie_order: this.MovieOrder,
@@ -112,7 +118,7 @@ class DataBase {
     static init() {
         if (this.isTestMode)
             return;
-        this.initDB('mydb');
+        return this.initDB('mydb');
     }
 
     static async connectAndCreate() {
@@ -155,10 +161,14 @@ class DataBase {
                 return this.sequelize.transaction((t) => {
                     return model.create(element, { transaction: t });
                 })
-                    .catch((error => console.log(error)));
+                    .catch((error =>{
+                        console.log(error);
+                        return 'error';
+                    }));
 
             } catch (error) {
                 console.log(error);
+                return 'error';
             }
         });
     }

@@ -107,6 +107,7 @@ async function testAddInventoryDailyReport(report, success) {
             });
         } catch (e) { }
 }
+exports.testAddInventoryDailyReport=testAddInventoryDailyReport;
 
 function testInventoryDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);

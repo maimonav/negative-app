@@ -1,8 +1,8 @@
 const CinemaSystem = require("./CinemaSystem");
 
 class ServiceLayer {
-  constructor() {
-    this.cinemaSystem = new CinemaSystem();
+  constructor(dbName) {
+    this.cinemaSystem = new CinemaSystem(dbName);
     this.users = new Map();
     this.users.set("admin", 0);
     this.userCounter = 3;
@@ -526,7 +526,7 @@ class ServiceLayer {
     }
     return this.cinemaSystem.createDailyReport(
       type,
-      records,
+      JSON.parse(records),
       this.users.get(ActionIDOfTheOperation)
     );
   }
