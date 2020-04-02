@@ -289,14 +289,14 @@ class CinemaSystem {
   }
 
   createDailyReport(
-    date,
+    type,
     records,
     ActionIDOfTheOperation
   ) {
     let result = this.checkUser(ActionIDOfTheOperation);
     if (result != null)
       return result;
-    return ReportController.createDailyReport(date,records);
+    return ReportController.createDailyReport(type,records);
   }
 
   getSuppliers() {

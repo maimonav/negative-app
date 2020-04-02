@@ -514,8 +514,8 @@ class ServiceLayer {
   }
 
 
-  createDailyReport(date, records, ActionIDOfTheOperation) {
-    let validationResult = !this.isInputValid(date) ? 'Date is not valid' :
+  createDailyReport(type, records, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(type) ? 'Type is not valid' :
       !this.isInputValid(records) ? 'Records is not valid' :
         !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
     if (validationResult !== 'Valid')
@@ -525,7 +525,7 @@ class ServiceLayer {
       return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.createDailyReport(
-      date,
+      type,
       records,
       this.users.get(ActionIDOfTheOperation)
     );

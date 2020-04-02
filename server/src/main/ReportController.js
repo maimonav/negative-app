@@ -11,8 +11,15 @@ class ReportController {
         DataBase.setDestroyTimer('incomes_daily_report', true, '1 YEAR', '1 DAY');
     }
 
-    static createDailyReport(date,records){
-        
+    static async createDailyReport(type, records) {
+        //validate type from enum of types
+        try {
+            await DataBase.add(type, records);
+            return "The report created successfully";
+        } catch (e) {
+            //TODO::
+            return "The report structure is not valid";
+        }
     }
 
     static async getReport(report, date) {
@@ -48,15 +55,15 @@ class ReportController {
                 else {
                     */
                 result[0].additionalProps[0] = result[0].additionalProps[0].concat(newField);
-                try{
-                await DataBase.update('general_purpose_daily_report', { date: result[0].date }, { additionalProps: result[0].additionalProps });
-                console.log()
-   
-            }catch(e){
+                try {
+                    await DataBase.update('general_purpose_daily_report', { date: result[0].date }, { additionalProps: result[0].additionalProps });
+                    console.log()
+
+                } catch (e) {
                     console.log()
 
                 }
-                
+
                 // }
             });
 

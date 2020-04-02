@@ -45,14 +45,24 @@ describe("Report Operations Tests", () => {
     /* it('UnitTest .. - Service Layer', () => {
  
      });
-     it('UnitTest .., .. - Service Layer', () => {
- 
-     });
- 
      it('UnitTest .., .. - Inventory Management', () => {
  
- 
      });*/
+
+    it('UnitTest createDailyReport - ReportController', () => {
+        let report = {
+            date: new Date('2020-03-02 00:00:00'),
+            productId: 0,
+            creatorEmployeeId: 1,
+            quantitySold: 4,
+            quantityInStock: 8,
+            stockThrown: 8
+        };
+        let result = ReportController.createDailyReport('inventory_daily_report',report)
+
+    });
+
+
 
 
 
