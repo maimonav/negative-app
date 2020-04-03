@@ -1,6 +1,6 @@
 const DB = require("../../../server/src/main/DBManager");
 
-describe("CinemaSystem", () => {
+describe("Register", () => {
     let user;
     let correctUserName;
     let correctPassword;
@@ -14,18 +14,18 @@ describe("CinemaSystem", () => {
         DB.testModeOn();
         correctUserName = "yuval";
         correctPassword = "123456";
-        correctPermission = [1, 2, 3, 4];
+        correctPermission = 'EMPLOYEE';
         user = new User(1, correctUserName, correctPassword, correctPermission);
         cinemaSystem = new CinemaSystem();
         servicelayer = new ServiceLayer();
     });
     it('UnitTest-register Test on class CinemaSystem', () => {
-        expect(cinemaSystem.register(user.id, correctUserName, correctPassword)).toBe('No permissions were received for the user');
-        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, 1)).toBe('No permissions were received for the user');
-        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, [])).toBe('No permissions were received for the user');
+        expect(cinemaSystem.register(user.id, correctUserName, correctPassword)).toBe('The following data provided is invalid: Permission ');
+        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, 1)).toBe('The following data provided is invalid: Permission ');
+        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, "USER")).toBe('The following data provided is invalid: Permission ');
 
-        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, [1, 2, 3])).toBe('The user registered successfully.');
-        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, [1, 2, 3])).toBe('The id is already exists');
+        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, 'EMPLOYEE')).toBe('The user registered successfully.');
+        expect(cinemaSystem.register(user.id, correctUserName, correctPassword, 'EMPLOYEE')).toBe('The id is already exists');
 
     })
 
@@ -33,15 +33,15 @@ describe("CinemaSystem", () => {
         spyOn(cinemaSystem, 'register').and.returnValue('dummy');
         servicelayer.cinemaSystem = cinemaSystem;
         expect(servicelayer.userCounter).toBe(3);
-        expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('dummy');
+        expect(servicelayer.register(correctUserName, correctPassword)).toBe('dummy');
 
     });
 
     it('Integration-register Test on class ServiceLayer', () => {
         expect(servicelayer.userCounter).toBe(3);
-        expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('The user registered successfully.');
+        expect(servicelayer.register(correctUserName, correctPassword)).toBe('The user registered successfully.');
         expect(servicelayer.userCounter).toBe(4);
-        expect(servicelayer.register(correctUserName, correctPassword, [1, 2, 3])).toBe('The user already Exist');
+        expect(servicelayer.register(correctUserName, correctPassword)).toBe('The user already Exist');
     });
 
 })

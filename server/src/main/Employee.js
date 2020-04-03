@@ -8,19 +8,21 @@ class Employee extends User {
         this.lastName = lastName;
         this.contactDetails = contactDetails;
         this.employeeShift = new Map();
-        this.isEmployeeRemoved =null;
-        DataBase.add('employee',{ id:id,firstName:firstName,lastName:lastName,contactDetails:contactDetails});
-        DataBase.setDestroyTimer('employees',false,'2 YEAR','1 DAY','isEmployeeRemoved');
+        this.isEmployeeRemoved = null;
+        DataBase.add('employee', { id: id, firstName: firstName, lastName: lastName, contactDetails: contactDetails });
+        DataBase.setDestroyTimer('employees', false, '2 YEAR', '1 DAY', 'isEmployeeRemoved');
 
 
     }
     editEmployee(password, permissions, firstName, lastName, contactDetails) {
-        super.password = password;
-        super.permissions = permissions;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.contactDetails = contactDetails;
-        this.employeeShift = new Map();
+        this.editUser(password, permissions);
+        if (firstName != undefined && firstName != '')
+            this.firstName = firstName;
+        if (lastName != undefined && lastName != '')
+            this.lastName = lastName;
+        if (contactDetails != undefined)
+            this.contactDetails = contactDetails;
+        DataBase.update('employee', { id: this.id }, { firstName: firstName, lastName: lastName, contactDetails: contactDetails });
     }
 
     removeEmployee = () => {
@@ -28,8 +30,7 @@ class Employee extends User {
             this.isEmployeeRemoved = new Date();
             DataBase.update('employee', { id: this.id }, { isEmployeeRemoved: this.isEmployeeRemoved });
             return true;
-        }
-        else
+        } else
             return false;
     }
 }

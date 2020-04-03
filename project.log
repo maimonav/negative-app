@@ -1,0 +1,119 @@
+18:10:14.230 INFO  ServiceLayer - The logout process failed - the yubal isn't exists on the system. 
+18:10:14.239 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+18:10:14.242 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+18:10:14.242 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+18:10:14.244 INFO  ServiceLayer - The logout process failed - the yubal isn't exists on the system. 
+18:10:15.101 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+18:10:15.102 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+18:10:15.102 INFO  User - login - The yuval already connected 
+18:10:15.111 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+18:10:15.111 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+18:10:15.112 INFO  User - login - The yuval already connected 
+18:10:15.113 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+18:10:15.117 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+18:10:16.541 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+18:10:16.555 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+18:10:16.562 INFO  EmployeeManagemnt- editEmployee - The -1 already exist 
+18:10:17.594 INFO  EmployeeManagemnt- deleteEmployee - The -1 does not exist 
+18:10:17.606 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+18:10:17.606 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:10:17.609 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+18:10:17.609 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:10:18.750 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:10:18.752 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+18:10:18.763 INFO  EmployeeManagemnt- addNewEmployee - The adminUserName already exist 
+18:11:30.602 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+18:11:30.603 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+18:11:30.603 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+18:11:30.603 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+18:11:30.603 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+18:11:30.603 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+18:11:30.604 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+18:11:30.604 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+18:11:30.604 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+18:11:35.114 INFO  EmployeeManagemnt- addNewEmployee - The adminUserName already exist 
+18:11:35.120 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+18:11:35.125 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:11:35.125 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+18:11:35.129 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+18:11:52.636 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+18:13:21.910 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+18:13:21.918 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:13:21.918 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+18:13:21.921 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+18:13:21.922 INFO  EmployeeManagemnt- addNewEmployee - The adminUserName already exist 
+18:13:21.923 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+18:13:21.923 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:13:21.924 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+18:13:25.477 INFO  CinemaSystem - deleteEmployee - A user cannot erase himself 
+18:13:25.478 INFO  CinemaSystem - deleteEmployee - User does not have proper permissions 
+18:13:25.484 INFO  EmployeeManagemnt- deleteEmployee - The -1 does not exist 
+18:13:25.485 INFO  CinemaSystem - deleteEmployee - A user cannot erase himself 
+18:13:25.485 INFO  CinemaSystem - deleteEmployee - User does not have proper permissions 
+18:13:25.488 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+18:13:25.488 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:13:25.489 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+18:13:25.489 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+18:13:27.360 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+18:13:27.367 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+18:13:27.368 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+18:13:27.371 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+18:13:27.372 INFO  EmployeeManagemnt- editEmployee - The -1 already exist 
+18:13:29.178 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.179 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.179 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+18:13:29.189 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.189 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.189 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+18:13:29.191 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.191 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.191 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+18:13:29.196 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.196 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.196 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+18:13:29.196 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.197 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.197 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+18:13:29.197 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.197 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+18:13:29.197 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+18:13:31.922 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+18:13:31.922 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+18:13:31.922 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+18:13:31.927 INFO  ServiceLayer - The registration process failed - the yuval exists on the system. 
+18:13:36.437 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.437 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.437 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:36.437 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.437 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.437 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:36.437 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.437 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.437 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:36.446 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.446 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.446 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:36.448 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.448 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.448 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:36.451 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.451 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:36.451 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:46.248 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:46.248 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:46.248 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:46.249 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:46.249 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:46.249 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:47.116 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:47.117 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:47.117 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:47.118 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:47.118 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:47.118 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:13:52.304 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:52.304 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:13:52.304 INFO  CinemaSystem - undefined - User does not have proper permissions 
+18:14:05.237 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:14:05.237 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+18:14:05.237 INFO  CinemaSystem - undefined - User does not have proper permissions 
