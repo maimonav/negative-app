@@ -30,7 +30,7 @@ class User {
     editUser = (password, permissions) => {
         if (password != undefined && password != '')
             this.password = password;
-        if (permissions != undefined && this.getPermissionTypeList()[permissions] >= 0)
+        if (permissions != undefined && User.getPermissionTypeList()[permissions] >= 0)
             this.permissions = permissions;
         DataBase.update('user', { id: this.id }, { password: this.password, permissions: this.permissions });
 
@@ -76,7 +76,7 @@ class User {
         );
     }
 
-    getPermissionTypeList() {
+    static getPermissionTypeList() {
         return permissionDictionery;
     }
 }

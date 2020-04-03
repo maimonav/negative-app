@@ -48,7 +48,8 @@ class CinemaSystem {
                 err += ', ';
             err += "Password ";
         }
-        if (permissions === undefined || !(['ADMIN', 'MANAGER', 'DEPUTY_MANAGER', 'SHIFT_MANAGER', 'EMPLOYEE'].includes(permissions))) {
+        let test = User.getPermissionTypeList()
+        if (permissions === undefined || !(User.getPermissionTypeList().hasOwnProperty(permissions))) {
             if (err !== "")
                 err += ', ';
             err += "Permission ";
@@ -75,10 +76,10 @@ class CinemaSystem {
     }
 
     logout(userId) {
-        if (!this.users.has(userId)) return "The user isn't exists";
-        return this.users.get(userId).logout();
-    }
-
+            if (!this.users.has(userId)) return "The user isn't exists";
+            return this.users.get(userId).logout();
+        }
+        //notes- checkuser
     addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation) {
         if (this.users.has(userID)) return "The id is already exists";
         if (!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()) {
@@ -140,11 +141,15 @@ class CinemaSystem {
         return res;
     }
 
-    checkUser(ActionIDOfTheOperation, permissionRequired) {
-        if ((!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin()))
+    checkUser(ActionIDOfTheOperation, permissionRequired, functionName) {
+        if ((!this.users.has(ActionIDOfTheOperation) || !this.users.get(ActionIDOfTheOperation).isLoggedin())) {
+            logger.info('CinemaSystem - ' + functionName + ' - ' + this.userOfflineMsg);
             return this.userOfflineMsg;
-        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(permissionRequired))
+        }
+        if (!this.users.get(ActionIDOfTheOperation).permissionCheck(permissionRequired)) {
+            logger.info('CinemaSystem - ' + functionName + ' - ' + this.inappropriatePermissionsMsg);
             return this.inappropriatePermissionsMsg;
+        }
         return null;
     }
 
@@ -152,7 +157,7 @@ class CinemaSystem {
 
 
     addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
-        let result = this.checkUser(ActionIDOfTheOperation);
+        let result = this.checkUser(ActionIDOfTheOperation, 'DEPUTY_MANAGER', 'addMovie');
         if (result != null)
             return result;
         return this.inventoryManagement.addMovie(movieId, movieName, categoryId);
@@ -161,14 +166,14 @@ class CinemaSystem {
 
     //TODO
     editMovie(movieID, categoryId, key, examinationRoom, ActionIDOfTheOperation) {
-        let result = this.checkUser(ActionIDOfTheOperation);
+        let result = this.checkUser(ActionIDOfTheOperation, 'DEPUTY_MANAGER', 'editMovie');
         if (result != null)
             return result;
         return this.inventoryManagement.editMovie(movieID, categoryId, key, examinationRoom);
     }
 
     removeMovie(movieID, ActionIDOfTheOperation) {
-        let result = this.checkUser(ActionIDOfTheOperation);
+        let result = this.checkUser(ActionIDOfTheOperation, 'DEPUTY_MANAGER', 'removeMovie');
         if (result != null)
             return result;
         return this.inventoryManagement.removeMovie(movieID);
