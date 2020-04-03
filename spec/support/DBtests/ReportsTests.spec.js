@@ -117,6 +117,7 @@ function testInventoryDailyReportResult(result, report) {
     expect(result.quantityInStock).toBe(report.quantityInStock);
     expect(result.stockThrown).toBe(report.stockThrown);
 }
+exports.testInventoryDailyReportResult=testInventoryDailyReportResult;
 
 async function updateIncomesDailyReport(report) {
     await addIncomesReport(report);
