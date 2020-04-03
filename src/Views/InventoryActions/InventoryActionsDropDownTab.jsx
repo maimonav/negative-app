@@ -10,6 +10,7 @@ import {
   removeCategoryPath,
   manageMoviesPath
 } from "../../consts/paths";
+import { moviesTabHook } from "../../consts/data-hooks";
 
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -29,6 +30,7 @@ export default function InventoryActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
+        {...props}
       >
         Inventory Actions
       </Button>
@@ -50,7 +52,7 @@ export default function InventoryActionsDropDownTab(props) {
           </MenuItem>
         </Link>
         <Link to={manageMoviesPath}>
-          <MenuItem value={1} onClick={handleClose}>
+          <MenuItem value={1} onClick={handleClose} data-hook={moviesTabHook}>
             Manage Movies
           </MenuItem>
         </Link>

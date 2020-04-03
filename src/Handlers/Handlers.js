@@ -290,7 +290,6 @@ export function handleAddCafeteriaOrder(
   productsName,
   supplierName,
   orderDate,
-  productPrice,
   productQuantity
 ) {
   const user = localStorage.getItem("username");
@@ -301,8 +300,30 @@ export function handleAddCafeteriaOrder(
       supplierName
     )}&orderDate=${encodeURIComponent(
       orderDate
-    )}&productPrice=${encodeURIComponent(
-      productPrice
+    )}&productQuantity=${encodeURIComponent(
+      productQuantity
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleEditCafeteriaOrder(
+  productsName,
+  orderId,
+  orderDate,
+  productQuantity
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/editCafeteriaOrder?orderId=${encodeURIComponent(
+      orderId
+    )}&productsName=${encodeURIComponent(
+      productsName
+    )}&orderDate=${encodeURIComponent(
+      orderDate
     )}&productQuantity=${encodeURIComponent(
       productQuantity
     )}&user=${encodeURIComponent(user)}`
@@ -328,15 +349,20 @@ export function handleRemoveCafeteriaOrder(orderId) {
 
 export function handleGetItemsByDates(startDate, endDate) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/getItemsByDates?startDate=${encodeURIComponent(
       startDate
     )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+}
+
+export function handleGetProductsByOrder(orderName) {
+  const user = localStorage.getItem("username");
+  return fetch(
+    `api/getProductsByOrder?orderName=${encodeURIComponent(
+      orderName
+    )}&user=${encodeURIComponent(user)}`
+  );
 }
 
 export function handleGetSuppliers(username) {
@@ -383,6 +409,30 @@ export function handleGetEmployeeDetails(employee, user) {
   return fetch(
     `/api/getEmployeeDetails?employee=${encodeURIComponent(
       employee
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetOrderDetails(order, user) {
+  return fetch(
+    `/api/getOrderDetails?order=${encodeURIComponent(
+      order
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetMovieDetails(movieName, user) {
+  return fetch(
+    `/api/getMovieDetails?movieName=${encodeURIComponent(
+      movieName
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetProductDetails(productName, user) {
+  return fetch(
+    `/api/getProductDetails?productName=${encodeURIComponent(
+      productName
     )}&user=${encodeURIComponent(user)}`
   );
 }

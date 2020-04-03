@@ -1,10 +1,10 @@
 const data = require("../../consts/data");
 const DataBase = require("./DBManager");
-const User = require("./User");
+const ReportController = require("./ReportController");
 const logger = require('simple-node-logger').createSimpleLogger('project.log');
-
+const User = require("./User");
 class CinemaSystem {
-    constructor() {
+    constructor(dbName) {
         this.users = new Map();
         //testing purpose
         const { User, Employee } = {
@@ -18,27 +18,21 @@ class CinemaSystem {
 
         const EmployeeManagement = require("./EmployeeManagement");
         this.employeeManagement = new EmployeeManagement();
-        this.userOfflineMsg = "The operation cannot be completed - the user is not connected to the system";
+        this.userOfflineMsg =
+            "The operation cannot be completed - the user is not connected to the system";
         this.inappropriatePermissionsMsg = "User does not have proper permissions";
 
-        DataBase.connectAndCreate().then(() => {
-            DataBase.init();
-            this.users.set(0, new User(0, "admin", "admin", [1, 2, 3, 4, 5]));
-            //testing purpose
-            this.users.set(
-                1,
-                new Employee(
-                    1,
-                    "manager",
-                    "manager", [1, 2, 3, 4],
-                    "Noa",
-                    "Cohen",
-                    "0508888888"
-                )
-            );
+
+
+        DataBase.connectAndCreate().then(async() => {
+            if (dbName)
+                DataBase.initDB(dbName);
+            else
+                DataBase.init();
+            this.users.set(0, new User(0, "admin", "admin", 'ADMIN'));
+            ReportController.init();
         });
     }
-
     UserDetailsCheck(userName, password, permissions) {
         let err = "";
         if (userName === undefined || userName === "")
@@ -185,7 +179,12 @@ class CinemaSystem {
         contactDetails,
         ActionIDOfTheOperation
     ) {
-        return "TODO: IMPLEMENT THIS.";
+        let result = this.checkUser(ActionIDOfTheOperation);
+        if (result != null)
+            return result;
+        return this.inventoryManagement.addNewSupplier(supplierID,
+            supplierName,
+            contactDetails);
     }
 
     editSupplier(
@@ -194,11 +193,20 @@ class CinemaSystem {
         contactDetails,
         ActionIDOfTheOperation
     ) {
-        return "TODO: IMPLEMENT THIS.";
+        let result = this.checkUser(ActionIDOfTheOperation);
+        if (result != null)
+            return result;
+        return this.inventoryManagement.editSupplier(supplierID,
+            supplierName,
+            contactDetails);
     }
 
-    removeSupplier(supplierID, supplierName, ActionIDOfTheOperation) {
-        return "TODO: IMPLEMENT THIS.";
+    removeSupplier(supplierID, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation);
+        if (result != null)
+            return result;
+        return this.inventoryManagement.removeSupplier(supplierID);
+
     }
 
     addNewProduct(
@@ -253,15 +261,46 @@ class CinemaSystem {
         productName,
         supplierName,
         orderDate,
-        productPrice,
         productQuantity,
         ActionIDOfTheOperation
     ) {
         return "TODO: IMPLEMENT THIS.";
     }
 
+    editCafetriaOrder(
+        orderId,
+        productsName,
+        orderDate,
+        productQuantity,
+        ActionIDOfTheOperatio
+    ) {
+        return "TODO: IMPLEMENT THIS.";
+    }
+
     removeCafetriaOrder(orderId, ActionIDOfTheOperation) {
         return "TODO: IMPLEMENT THIS.";
+    }
+
+    createDailyReport(
+        type,
+        records,
+        ActionIDOfTheOperation
+    ) {
+        let result = this.checkUser(ActionIDOfTheOperation);
+        if (result != null)
+            return result;
+        return ReportController.createDailyReport(type, records);
+    }
+
+    getReport(
+        type,
+        date,
+        ActionIDOfTheOperation
+    ) {
+        let result = this.checkUser(ActionIDOfTheOperation);
+        if (result != null)
+            return result;
+        return ReportController.getReport(type, date);
     }
 
     getSuppliers() {
@@ -296,6 +335,21 @@ class CinemaSystem {
     getEmployeeDetails() {
         //TODO: IMPLEMENT THIS.
         return data.employeeDetails;
+    }
+
+    getOrderDetails() {
+        //TODO: IMPLEMENT THIS.
+        return data.orderDetails;
+    }
+
+    getMovieDetails() {
+        //TODO: IMPLEMENT THIS.
+        return data.movieDetails;
+    }
+
+    getProductDetails() {
+        //TODO: IMPLEMENT THIS.
+        return data.productDetails;
     }
 }
 

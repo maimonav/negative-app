@@ -107,6 +107,7 @@ async function testAddInventoryDailyReport(report, success) {
             });
         } catch (e) { }
 }
+exports.testAddInventoryDailyReport=testAddInventoryDailyReport;
 
 function testInventoryDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
@@ -116,6 +117,7 @@ function testInventoryDailyReportResult(result, report) {
     expect(result.quantityInStock).toBe(report.quantityInStock);
     expect(result.stockThrown).toBe(report.stockThrown);
 }
+exports.testInventoryDailyReportResult=testInventoryDailyReportResult;
 
 async function updateIncomesDailyReport(report) {
     await addIncomesReport(report);
@@ -276,7 +278,7 @@ describe("DB Test - reports", function () {
         let report = {
             date: new Date('2020-03-02 00:00:00'),
             creatorEmployeeId: 1,
-            additionalProps: { "Cash counted": "true" }
+            additionalProps: [["Cash counted"],{ "Cash counted": "true" }]
         };
         await addEmployee(1, "MANAGER");
         await updateGeneralPurposeDailyReport(report);
@@ -339,7 +341,7 @@ describe("DB Test - reports", function () {
         let report = {
             date: new Date('2020-03-02 00:00:00'),
             creatorEmployeeId: 0,
-            additionalProps: { "Report Z taken": "true" }
+            additionalProps: [["Cash counted"],{ "Cash counted": "true" }]
         };
         let where = { date: new Date('2020-03-02 00:00:00') };
         await addEmployee(1, "MANAGER");
@@ -393,7 +395,7 @@ async function addGeneralPurposeDailyReport(isTest) {
     let report = {
         date: new Date('2020-03-02 00:00:00'),
         creatorEmployeeId: 0,
-        additionalProps: { "Report Z taken": "true" }
+        additionalProps: [["Cash counted"],{ "Cash counted": "true" }]
     };
     await addGeneralPurposeReport(report);
     if (isTest)

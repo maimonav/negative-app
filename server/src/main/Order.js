@@ -14,11 +14,16 @@ class Order {
         DataBase.setDestroyTimer('orders',true,'1 YEAR','1 DAY');
     }
     
-    //TODO:: might be changed
-    removeOrder = () => {
-        this.productOrders.forEach(async (productOrder)=> await productOrder.removeOrder(this.id))
-        DataBase.remove('order', { id: this.id });
-    }
+        //TODO:: might be changed
+        removeOrder = () => {
+            this.productOrders.forEach(async (productOrder)=> {
+            await productOrder.removeOrder(this.id).then((res)=>{
+                //if(res)
+            })
+            });
+            DataBase.remove('order', { id: this.id });
+        }
+    
 
     //TODO
     equals(toCompare) {

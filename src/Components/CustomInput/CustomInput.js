@@ -10,9 +10,7 @@ import Input from "@material-ui/core/Input";
 import Clear from "@material-ui/icons/Clear";
 import Check from "@material-ui/icons/Check";
 // core components
-import styles from '../../assets/jss/material-dashboard-react/components/customInputStyle.js';
-
-
+import styles from "../../assets/jss/material-dashboard-react/components/customInputStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -27,7 +25,8 @@ export default function CustomInput(props) {
     error,
     success,
     required,
-    onChange
+    onChange,
+    ...rest
   } = props;
 
   const labelClasses = classNames({
@@ -66,6 +65,7 @@ export default function CustomInput(props) {
         id={id}
         onChange={onChange}
         {...inputProps}
+        {...rest}
       />
       {error ? (
         <Clear className={classes.feedback + " " + classes.labelRootError} />
