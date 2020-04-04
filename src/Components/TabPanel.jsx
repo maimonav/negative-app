@@ -25,7 +25,11 @@ export default function TablPanel(props) {
           )}
           {props.isLogged && (
             <Link to={logoutPath}>
-              <Tab label="Logout" data-hook={logoutTabHook} />
+              <Tab
+                label="Logout"
+                data-hook={logoutTabHook}
+                style={{ textTransform: "none" }}
+              />
             </Link>
           )}
           {props.isLogged && (

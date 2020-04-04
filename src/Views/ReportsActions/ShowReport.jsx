@@ -50,7 +50,6 @@ export default class ShowReport extends React.Component {
   };
 
   render() {
-    console.log(this.state.reportData);
     return (
       <div>
         <GridContainer style={style}>

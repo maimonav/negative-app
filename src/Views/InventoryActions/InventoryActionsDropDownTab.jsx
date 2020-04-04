@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tab from "@material-ui/core/Tab";
 import {
   manageInventoryPath,
   manageCafeteriaPath,
@@ -30,6 +31,7 @@ export default function InventoryActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
+        style={{ textTransform: "none" }}
         {...props}
       >
         Inventory Actions
@@ -43,27 +45,27 @@ export default function InventoryActionsDropDownTab(props) {
       >
         <Link to={manageInventoryPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Manage Inventory
+            <Tab label="Manage Inventory" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
         <Link to={manageCafeteriaPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Manage Cafeteria
+            <Tab label="Manage Cafeteria" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
         <Link to={manageMoviesPath}>
           <MenuItem value={1} onClick={handleClose} data-hook={moviesTabHook}>
-            Manage Movies
+            <Tab label="Manage Movies" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
         <Link to={addCategoryPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Add Category
+            <Tab label="Add Category" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
         <Link to={removeCategoryPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Remove Category
+            <Tab label="Remove Category" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
       </Menu>

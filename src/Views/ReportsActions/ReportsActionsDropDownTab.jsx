@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tab from "@material-ui/core/Tab";
 import { showReportPath } from "../../consts/paths";
 
 export default function ReportsActionsDropDownTab(props) {
@@ -23,6 +24,7 @@ export default function ReportsActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
+        style={{ textTransform: "none" }}
         {...props}
       >
         Reports Actions
@@ -36,7 +38,7 @@ export default function ReportsActionsDropDownTab(props) {
       >
         <Link to={showReportPath}>
           <MenuItem value={1} onClick={handleClose}>
-            Show Report
+            <Tab label="Show Report" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
       </Menu>
