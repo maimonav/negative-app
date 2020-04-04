@@ -513,7 +513,7 @@ editProduct(
     let result = this.cinemaSystem.addMovieOrder(
         this.ordersCounter,
         date,
-        this.suppliers.has(supplierName),
+        this.suppliers.get(supplierName),
         moviesList,
         this.users.get(ActionIDOfTheOperation)
     );

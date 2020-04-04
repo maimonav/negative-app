@@ -30,9 +30,6 @@ class Order {
         this.productOrders.set(id, productOrder);
     }
 
-
-
-    //TODO
     equals(toCompare) {
         return (
             toCompare.id === this.id &&
