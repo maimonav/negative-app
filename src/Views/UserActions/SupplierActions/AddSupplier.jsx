@@ -35,8 +35,8 @@ export default class AddSupplier extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Add new supplier</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Add new supplier</h4>
                 <p>Complete his profile</p>
               </CardHeader>
               <CardBody>

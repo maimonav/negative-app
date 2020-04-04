@@ -29,8 +29,8 @@ export default class AddCategory extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Add new Category</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Add new Category</h4>
                 <p>Complete Category's details</p>
               </CardHeader>
               <CardBody>
@@ -48,7 +48,10 @@ export default class AddCategory extends React.Component {
                 </GridContainer>
               </CardBody>
               <CardFooter>
-                <Button color="info" onClick={() => this.props.handleAddCategory(categoryName)}>
+                <Button
+                  color="info"
+                  onClick={() => this.props.handleAddCategory(categoryName)}
+                >
                   Add New Category
                 </Button>
               </CardFooter>

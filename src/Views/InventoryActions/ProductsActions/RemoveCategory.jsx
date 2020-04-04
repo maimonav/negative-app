@@ -39,8 +39,8 @@ export default class RemoveCategory extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Remvoe Category</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Remove Category</h4>
                 <p>Complete category's name</p>
               </CardHeader>
               <CardBody>

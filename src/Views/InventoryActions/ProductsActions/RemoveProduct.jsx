@@ -39,8 +39,8 @@ export default class RemoveProduct extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Remove Product</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Remove Product</h4>
                 <p>Complete product's name</p>
               </CardHeader>
               <CardBody>

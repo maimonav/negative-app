@@ -26,7 +26,7 @@ export default function UserActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{ textTransform: "none", marginLeft: "15px" }}
+        style={{ textTransform: "none", minWidth: "150px" }}
         {...props}
       >
         User Actions
@@ -37,12 +37,19 @@ export default function UserActionsDropDownTab(props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        style={{
+          ...props.style,
+          marginTop: "34px",
+          marginLeft: "5px",
+          maxWidth: "175px"
+        }}
       >
         <Link to={manageEmployeesPath} style={style}>
           <MenuItem
             value={1}
             onClick={handleClose}
             data-hook={employeesTabHook}
+            style={{ justifyContent: "center" }}
           >
             <Tab label="Manage Employees" style={{ textTransform: "none" }} />
           </MenuItem>
@@ -52,6 +59,7 @@ export default function UserActionsDropDownTab(props) {
             value={1}
             onClick={handleClose}
             data-hook={suppliersTabHook}
+            style={{ justifyContent: "center" }}
           >
             <Tab label="Manage Suppliers" style={{ textTransform: "none" }} />
           </MenuItem>

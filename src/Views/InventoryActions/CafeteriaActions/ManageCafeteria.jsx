@@ -21,6 +21,7 @@ import {
   handleRemoveCafeteriaOrder
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
+const iconStyle = { marginTop: "-10px" };
 
 export default class ManageCafeteria extends React.Component {
   constructor(props) {
@@ -41,13 +42,14 @@ export default class ManageCafeteria extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Cafeteria</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Cafeteria</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
                       color="default"
                       size="small"
                       onClick={() => this.onChange("show")}
+                      style={iconStyle}
                     >
                       <ShowIcon />
                     </Fab>
@@ -57,6 +59,7 @@ export default class ManageCafeteria extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("add")}
+                      style={iconStyle}
                     >
                       <AddIcon />
                     </Fab>
@@ -67,6 +70,7 @@ export default class ManageCafeteria extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
+                      style={iconStyle}
                     >
                       <EditIcon />
                     </Fab>
@@ -77,6 +81,7 @@ export default class ManageCafeteria extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
+                      style={iconStyle}
                     >
                       <DeleteIcon />
                     </Fab>

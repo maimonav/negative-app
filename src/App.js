@@ -8,12 +8,13 @@ class App extends React.Component {
     super(props);
     const user = localStorage.getItem("username");
     this.state = {
-      isLogged: user ? true : false
+      isLogged: user ? true : false,
+      username: user ? user : ""
     };
   }
 
   onLogin = username => {
-    this.setState({ isLogged: true });
+    this.setState({ isLogged: true, username });
     localStorage.setItem("username", username);
   };
 
@@ -31,6 +32,7 @@ class App extends React.Component {
           isLogged={this.state.isLogged}
           onLogin={this.onLogin}
           onLogout={this.onLogout}
+          userName={this.state.username}
         ></TabPanel>
       );
     }

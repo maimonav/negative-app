@@ -14,6 +14,7 @@ import {
   logoutTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
+  console.log(localStorage.getItem("username"));
   return (
     <Router>
       <Paper square>
@@ -23,7 +24,15 @@ export default function TablPanel(props) {
               <Tab label="Login" />
             </Link>
           )}
-
+          {props.isLogged && (
+            <Tab
+              label={`Welcome back, ${props.userName}`}
+              style={{
+                textTransform: "none",
+                marginLeft: "15px"
+              }}
+            ></Tab>
+          )}
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}

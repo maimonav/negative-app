@@ -8,8 +8,8 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
-    handleGetCafeteriaOrders,
-    handleGetOrderDetails
+  handleGetCafeteriaOrders,
+  handleGetOrderDetails
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -35,7 +35,7 @@ export default class ShowCafeteriaOrders extends React.Component {
     handleGetOrderDetails(orderId, localStorage.getItem("username"))
       .then(response => response.json())
       .then(state => {
-          this.setState({ orderId: state.result });
+        this.setState({ orderId: state.result });
       });
   };
 
@@ -46,7 +46,7 @@ export default class ShowCafeteriaOrders extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Show order details</h4>
+                <h4 style={{ margin: "auto" }}>Show order details</h4>
               </CardHeader>
               <CardBody>
                 <GridItem xs={12} sm={12} md={6}>

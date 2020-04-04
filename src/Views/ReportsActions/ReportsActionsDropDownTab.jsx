@@ -25,7 +25,7 @@ export default function ReportsActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{ textTransform: "none" }}
+        style={{ textTransform: "none", minWidth: "150px" }}
         {...props}
       >
         Reports Actions
@@ -36,9 +36,18 @@ export default function ReportsActionsDropDownTab(props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        style={{
+          marginTop: "34px",
+          marginLeft: "5px",
+          maxWidth: "175px"
+        }}
       >
         <Link to={showReportPath} style={style}>
-          <MenuItem value={1} onClick={handleClose}>
+          <MenuItem
+            value={1}
+            onClick={handleClose}
+            style={{ justifyContent: "center" }}
+          >
             <Tab label="Show Report" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
