@@ -117,3 +117,4 @@
 18:14:05.237 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
 18:14:05.237 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
 18:14:05.237 INFO  CinemaSystem - undefined - User does not have proper permissions 
+13:32:17.549 INFO  User - logout - The user admin tried to disconnect but was not connected in the first place. 
