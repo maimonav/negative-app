@@ -7,9 +7,6 @@ class ServiceLayer {
         this.users = new Map();
         this.users.set("admin", 0);
         this.userCounter = 3;
-        this.movies = new Map();
-        this.movies.set("movie", 0);
-        this.movieCounter = 1;
         this.suppliers = new Map();
         // just for example purposes
         this.suppliers.set("supplier", 0);
@@ -119,7 +116,7 @@ class ServiceLayer {
                     "Valid";
         if (validationResult !== "Valid") return validationResult;
 
-        if (this.movies.has(movieName)) {
+        if (this.products.has(movieName)) {
             return "The movie already exists";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
@@ -127,14 +124,14 @@ class ServiceLayer {
         }
         if (!this.categories.has(category)) return "The category does not exist";
         let result = this.cinemaSystem.addMovie(
-            this.movieCounter,
+            this.productsCounter,
             movieName,
             this.categories.get(category),
             this.users.get(ActionIDOfTheOperation)
         );
         if (result === "The movie added successfully") {
-            this.movies.set(movieName, this.movieCounter);
-            this.movieCounter++;
+            this.products.set(movieName, this.productsCounter);
+            this.productsCounter++;
         }
         return result;
     }
@@ -153,7 +150,7 @@ class ServiceLayer {
                             "Valid";
         if (validationResult !== "Valid") return validationResult;
 
-        if (!this.movies.has(movieName)) {
+        if (!this.products.has(movieName)) {
             return "The movie does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
@@ -163,7 +160,7 @@ class ServiceLayer {
             return "The category does not exist";
         }
         return this.cinemaSystem.editMovie(
-            this.movies.get(movieName),
+            this.products.get(movieName),
             this.categories.get(category),
             key,
             parseInt(examinationRoom),
@@ -179,18 +176,18 @@ class ServiceLayer {
                 "Valid";
         if (validationResult !== "Valid") return validationResult;
 
-        if (!this.movies.has(movieName)) {
+        if (!this.products.has(movieName)) {
             return "The movie does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
         let res = this.cinemaSystem.removeMovie(
-            this.movies.get(movieName),
+            this.products.get(movieName),
             this.users.get(ActionIDOfTheOperation)
         );
         if (res === "The movie removed successfully") {
-            this.movies.delete(movieName);
+            this.products.delete(movieName);
         }
         return res;
     }
@@ -424,14 +421,15 @@ class ServiceLayer {
             return "The order already exist";
         if (!this.suppliers.has(supplierName))
             return "The supplier does not exist";
-        for(let i in moviesList){
-            if (!this.movies.has(moviesList[i]))
-                return "The movie does not exist";
-            movieList[i]=this.movies.get(moviesList[i]);
-        }  
+        moviesList = JSON.parse(moviesList);
+        for (let i in moviesList) {
+            if (!this.products.has(moviesList[i]))
+                return "Movie does not exist";
+            moviesList[i] = this.products.get(moviesList[i]);
+        }
         if (!this.users.has(ActionIDOfTheOperation))
             return "The user performing the operation does not exist in the system";
-        
+
         let result = this.cinemaSystem.addMovieOrder(
             this.ordersCounter,
             date,
@@ -439,7 +437,7 @@ class ServiceLayer {
             moviesList,
             this.users.get(ActionIDOfTheOperation)
         );
-        if(result === "The order added successfully"){
+        if (result === "The order added successfully") {
             this.orders.set(orderId, this.ordersCounter);
             this.ordersCounter++;
         }
@@ -638,10 +636,10 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        if (!this.movies.has(movieName)) {
+        if (!this.products.has(movieName)) {
             return "The movie does not exist";
         }
-        return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
+        return this.cinemaSystem.getMovieDetails(this.products.get(movieName));
     }
 
     getProductDetails(productName, ActionIDOfTheOperation) {

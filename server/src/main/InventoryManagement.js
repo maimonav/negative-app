@@ -79,7 +79,7 @@ class InventoryManagemnt {
         let date = new Date(strDate);
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
-        let order = new Order(orderId,this.suppliers.get(supplierId),date,creatorEmployeeId);
+        let order = new Order(orderId,supplierId,date,creatorEmployeeId);
         for(let i in movieIdList){
             this.products.get(movieIdList[i]).createOrder(order,1);
                 

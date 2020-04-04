@@ -1,5 +1,7 @@
 const DB = require("../../../server/src/main/DBManager");
+const Movie = require("../../../server/src/main/Movie");
 const MovieOrder = require("../../../server/src/main/MovieOrder");
+const Order = require("../../../server/src/main/Order");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
@@ -8,54 +10,39 @@ const { validate , testCinemaFunctions } = require("./MovieOperationsTests.spec"
 
 
 
-describe("Supplier Operations Tests", () => {
+describe("MovieOrder Operations Tests", () => {
 
     beforeAll(() => {
         DB.testModeOn();
     });
 
-/*
-    it('UnitTest addSupplier ,editSupplier, removeSupplier - Service Layer', () => {
+
+    it('UnitTest addMovieOrder  - Service Layer', () => {
         let serviceLayer = new ServiceLayer();
         //Input validation
-        validate(serviceLayer, serviceLayer.addNewSupplier, { 'Supplier Name ': 'Supplier', 'Contact Details ': '0500000000', 'Username ': 'User' })
-        validate(serviceLayer, serviceLayer.editSupplier, { 'Supplier Name ': 'Supplier', 'Contact Details ': '0500000000', 'Username ': 'User' })
-        validate(serviceLayer, serviceLayer.removeSupplier, { 'Supplier Name ': 'Supplier', 'Username ': 'User' })
-
-
-        testServiceFunctions(serviceLayer, (name) => serviceLayer.addNewSupplier(name, '0500000000', 'User'),true);
-        serviceLayer = new ServiceLayer();
-        testServiceFunctions(serviceLayer, (name) => serviceLayer.editSupplier(name, '0500000000', 'User'));
-        serviceLayer = new ServiceLayer();
-        testServiceFunctions(serviceLayer, (name) => serviceLayer.removeSupplier(name, 'User'));
-
-
+        validate(serviceLayer, serviceLayer.addMovieOrder, { 'Order ID ': 'Order', 'Date ': 'date','Supplier Name ':'Supplier','Movies List ':'["Movie"]', 'Username ': 'User' })
+        
+        serviceLayer.orders.set("Order", 1);
+        let result = serviceLayer.addMovieOrder('Order','date','Supplier', '["Movie"]', 'User');
+        expect(result).toBe("The order already exist");
+        serviceLayer.orders=new Map();
+        result = serviceLayer.addMovieOrder('Order','date','Supplier', '["Movie"]', 'User');
+        expect(result).toBe("The supplier does not exist");
+        serviceLayer.suppliers.set("Supplier", 1);
+        result = serviceLayer.addMovieOrder('Order','date','Supplier', '["Movie"]', 'User');
+        expect(result).toBe("Movie does not exist");
+        serviceLayer.products.set("Movie", 1);
+        result = serviceLayer.addMovieOrder('Order','date','Supplier', '["Movie"]', 'User');
+        expect(result).toBe("The user performing the operation does not exist in the system");
     });
 
 
-    it('UnitTest addSupplier, editSupplier, removeSupplier - Cinema System', () => {
+    it('UnitTest addMovieOrder - Cinema System', () => {
         let cinemaSystem = new CinemaSystem();
-        testCinemaFunctions(cinemaSystem, () => cinemaSystem.addNewSupplier(1, "", 1, 1));
-        cinemaSystem = new CinemaSystem();
-        testCinemaFunctions(cinemaSystem, () => cinemaSystem.editSupplier(1, 1, "", 1, 1));
-        cinemaSystem = new CinemaSystem();
-        testCinemaFunctions(cinemaSystem, () => cinemaSystem.removeSupplier(1, 1));
-
+        testCinemaFunctions(cinemaSystem, () => cinemaSystem.addMovieOrder(1,'',1,[],1));
     });
 
-    it('UnitTest addSupplier - Inventory Management', () => {
-        let inventoryManagement = new InventoryManagement();
-        inventoryManagement.suppliers.set(1, null);
-        let result = inventoryManagement.addNewSupplier(1, "Supplier", "050");
-        expect(result).toBe("This supplier already exists");
-        inventoryManagement.suppliers = new Map();
-        result = inventoryManagement.addNewSupplier(1, "Supplier", "050");
-        expect(result).toBe("The supplier added successfully");
-        let supplierExpected = new Supplier(1, "Supplier", "050");
-        let supplierActual = inventoryManagement.suppliers.get(1);
-        expect(supplierActual.equals(supplierExpected)).toBe(true);
 
-    });*/
 
     it('UnitTest addMovieOrder - Inventory Management', () => {
         let inventoryManagement = new InventoryManagement();
@@ -69,48 +56,25 @@ describe("Supplier Operations Tests", () => {
         inventoryManagement.suppliers.set(1, null);
         result = inventoryManagement.addMovieOrder(1,'test',1,[1]);
         expect(result).toBe("Movie does not exist");
-        inventoryManagement.movies.set(1, null);
+        let movie = new Movie(1);
+        inventoryManagement.products.set(1, movie);
         result = inventoryManagement.addMovieOrder(1,'test',1,[1]);
         expect(result).toBe("The order date is invalid");
-        result = inventoryManagement.addMovieOrder(1,todayDate.toISOString(),1,[1]);
+        result = inventoryManagement.addMovieOrder(1,todayDate.toISOString(),1,[1],1);
         expect(result).toBe("The order added successfully");
+        let actualOrder = inventoryManagement.orders.get(1);
+        let expectedOrder = new Order(1,1,todayDate,1);
+        let expectedMovie = new Movie(1);
+        let expectedMovieOrder = new MovieOrder(expectedMovie,expectedOrder);
+        expectedMovie.productOrders.set(1,expectedMovieOrder);
+        expectedOrder.productOrders.set(1,expectedMovieOrder);
+        expect(expectedOrder.equals(actualOrder)).toBe(true);
+
+    });
+
 
 /*
-        let supplierExpected = new Supplier(1, "Supplier", "050");
-        let supplierActual = inventoryManagement.suppliers.get(1);
-        expect(supplierActual.equals(supplierExpected)).toBe(true);*/
-
-    });
-
-    it('UnitTest editSupplier, removeSupplier - Inventory Management', () => {
-        let inventoryManagement = new InventoryManagement();
-        let result = inventoryManagement.editSupplier(1);
-        expect(result).toBe("The supplier does not exist");
-
-
-        inventoryManagement = new InventoryManagement();
-        result = inventoryManagement.removeSupplier(1);
-        expect(result).toBe("The supplier does not exist");
-
-    });
-
-    it('UnitTest editSupplier, removeSupplier - Supplier', () => {
-        //edit
-        let actualSupplier = new Supplier(1, "Supplier", "050");
-        let expectedSupplier = new Supplier(1, "Sup", "052");
-        expect(actualSupplier.editSupplier("Sup", "052")).toBe("The supplier edited successfully");
-        expect(expectedSupplier.equals(actualSupplier)).toBe(true);
-
-
-        //remove
-        expect(expectedSupplier.removeSupplier()).toBe("The supplier removed successfully");
-        expect(expectedSupplier.isSupplierRemoved != null).toBe(true);
-        expect(expectedSupplier.removeSupplier()).toBe("The supplier already removed");
-
-    });
-
-
-    it('Integration addSupplier', () => {
+    it('Integration addMovieOrder', () => {
         let serviceLayer = new ServiceLayer();
         serviceLayer.users.set("User", 1);
         testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addNewSupplier("Supplier", "050","User"));
@@ -167,30 +131,12 @@ describe("Supplier Operations Tests", () => {
 
     });
 
-
+*/
 
 
 
 
 });
 
-
-
-function testServiceFunctions(serviceLayer, method, isAdd) {
-    if (isAdd)
-        serviceLayer.suppliers.set("Supplier", 1);
-    let result = method("Supplier");
-    if (isAdd)
-        expect(result).toBe("The supplier already exists");
-    else{
-        expect(result).toBe("The supplier does not exist");
-        serviceLayer.suppliers.set("Supplier", 1);
-    }
-    if(isAdd)
-        result = method("anotherSupplier");
-    else
-        result = method("Supplier");
-    expect(result).toBe("The user performing the operation does not exist in the system");
-}
 
 
