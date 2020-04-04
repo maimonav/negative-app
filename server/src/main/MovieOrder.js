@@ -7,7 +7,7 @@ class MovieOrder {
         this.expectedQuantity = 1;
         this.order = order;
         this.movie = movie;
-        this.order.addProductOrder(this);
+        this.order.addProductOrder(movie.id,this);
         DataBase.add('movie_order', { orderId: order.id, movieId: movie.id });
         DataBase.setDestroyTimer('movie_orders', true, '1 YEAR', '1 DAY');
     }

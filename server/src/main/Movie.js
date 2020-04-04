@@ -15,8 +15,8 @@ class Movie extends Product {
     }
 
 
-    createOrder(order,quantity){
-        super.productOrders.set(order.id,new MovieOrder(this,order));
+    createOrder(order){
+        this.productOrders.set(order.id,new MovieOrder(this,order));
     }
 
 

@@ -32,7 +32,7 @@ describe("Movie Operations Tests", () => {
         validate(serviceLayer,serviceLayer.addMovie,{'Movie Name ':'Movie','Category ':'fantasy','Username ':'User'})
 
 
-        serviceLayer.movies.set("Movie", 1);
+        serviceLayer.products.set("Movie", 1);
         let result = serviceLayer.addMovie("Movie", "fantasy", "User");
         expect(result).toBe("The movie already exists");
         result = serviceLayer.addMovie("anotherMovie", "fantasy", "User");
@@ -145,7 +145,7 @@ describe("Movie Operations Tests", () => {
 
     it('Integration editMovie', () => {
         let serviceLayer = new ServiceLayer();
-        serviceLayer.movies.set("Movie", 1);
+        serviceLayer.products.set("Movie", 1);
         serviceLayer.users.set("User", 1);
         serviceLayer.categories.set("fantasy", 1);
         testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User"));
@@ -170,7 +170,7 @@ describe("Movie Operations Tests", () => {
 
     it('Integration removeMovie', () => {
         let serviceLayer = new ServiceLayer();
-        serviceLayer.movies.set("Movie", 1);
+        serviceLayer.products.set("Movie", 1);
         serviceLayer.users.set("User", 1);
         serviceLayer.categories.set("fantasy", 1);
         testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.removeMovie("Movie", "User"));
@@ -200,7 +200,7 @@ describe("Movie Operations Tests", () => {
 function testServiceFunctions(serviceLayer, method) {
     let result = method();
     expect(result).toBe("The movie does not exist");
-    serviceLayer.movies.set("Movie", 1);
+    serviceLayer.products.set("Movie", 1);
     result = method();
     expect(result).toBe("The user performing the operation does not exist in the system");
 }

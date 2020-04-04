@@ -7,9 +7,6 @@ class ServiceLayer {
     this.users = new Map();
     this.users.set("admin", 0);
     this.userCounter = 3;
-    this.movies = new Map();
-    this.movies.set("movie", 0);
-    this.movieCounter = 1;
     this.suppliers = new Map();
     // just for example purposes
     this.suppliers.set("supplier", 0);
@@ -199,7 +196,7 @@ class ServiceLayer {
       : "Valid";
     if (validationResult !== "Valid") return validationResult;
 
-    if (this.movies.has(movieName)) {
+    if (this.products.has(movieName)) {
       return "The movie already exists";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
@@ -207,14 +204,14 @@ class ServiceLayer {
     }
     if (!this.categories.has(category)) return "The category does not exist";
     let result = this.cinemaSystem.addMovie(
-      this.movieCounter,
+      this.productsCounter,
       movieName,
       this.categories.get(category),
       this.users.get(ActionIDOfTheOperation)
     );
     if (result === "The movie added successfully") {
-      this.movies.set(movieName, this.movieCounter);
-      this.movieCounter++;
+      this.products.set(movieName, this.productsCounter);
+      this.productsCounter++;
     }
     return result;
   }
@@ -233,7 +230,7 @@ class ServiceLayer {
       : "Valid";
     if (validationResult !== "Valid") return validationResult;
 
-    if (!this.movies.has(movieName)) {
+    if (!this.products.has(movieName)) {
       return "The movie does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
@@ -243,7 +240,7 @@ class ServiceLayer {
       return "The category does not exist";
     }
     return this.cinemaSystem.editMovie(
-      this.movies.get(movieName),
+      this.products.get(movieName),
       this.categories.get(category),
       key,
       parseInt(examinationRoom),
@@ -259,18 +256,18 @@ class ServiceLayer {
       : "Valid";
     if (validationResult !== "Valid") return validationResult;
 
-    if (!this.movies.has(movieName)) {
+    if (!this.products.has(movieName)) {
       return "The movie does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
     let res = this.cinemaSystem.removeMovie(
-      this.movies.get(movieName),
+      this.products.get(movieName),
       this.users.get(ActionIDOfTheOperation)
     );
     if (res === "The movie removed successfully") {
-      this.movies.delete(movieName);
+      this.products.delete(movieName);
     }
     return res;
   }
@@ -381,15 +378,15 @@ class ServiceLayer {
         productCategory,
         this.users.get(ActionIDOfTheOperation)
       );
-      if (result === "The product added successfully.") {
-        this.products.set(productName, this.productsCounter);
-        this.productsCounter++;
-      }
-      return result;
+if (result === "The product added successfully.") {
+    this.products.set(productName, this.productsCounter);
+    this.productsCounter++;
+}
+return result;
     }
   }
 
-  editProduct(
+editProduct(
     productName,
     productPrice,
     productQuantity,
@@ -397,21 +394,21 @@ class ServiceLayer {
     maxQuantity,
     productCategory,
     ActionIDOfTheOperation
-  ) {
+) {
     if (!this.products.has(productName)) {
-      return "The product doesn't exist";
+        return "The product doesn't exist";
     } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.editProduct(
-        this.productsCounter,
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let result = this.cinemaSystem.editProduct(
+            this.productsCounter,
+            productName,
+            productPrice,
+            productQuantity,
+            minQuantity,
+            maxQuantity,
+            productCategory,
         this.users.get(ActionIDOfTheOperation)
       );
       if (result === "The product edited successfully.") {
@@ -485,43 +482,47 @@ class ServiceLayer {
     supplierName,
     moviesList,
     ActionIDOfTheOperation
-  ) {
-    console.log("date: ", date);
-    let validationResult = !this.isInputValid(orderId)
-      ? "Order ID is not valid"
-      : !this.isInputValid(date)
-      ? "Date is not valid"
-      : !this.isInputValid(supplierName)
-      ? "Supplier Name is not valid"
-      : !this.isInputValid(moviesList)
-      ? "Movies List is not valid"
-      : !this.isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+) {
+    let validationResult = !this.isInputValid(orderId) ?
+        "Order ID is not valid" :
+        !this.isInputValid(date) ?
+            "Date is not valid" :
+            !this.isInputValid(supplierName) ?
+                "Supplier Name is not valid" :
+                !this.isInputValid(moviesList) ?
+                    "Movies List is not valid" :
+                    !this.isInputValid(ActionIDOfTheOperation) ?
+                        "Username is not valid" :
+                        "Valid";
     if (validationResult !== "Valid") return validationResult;
 
-    if (this.orders.has(orderId)) return "The order already exist";
-    if (!this.suppliers.has(supplierName)) return "The supplier does not exist";
+
+    if (this.orders.has(orderId))
+        return "The order already exist";
+    if (!this.suppliers.has(supplierName))
+        return "The supplier does not exist";
+    moviesList = JSON.parse(moviesList);
     for (let i in moviesList) {
-      if (!this.movies.has(moviesList[i])) return "The movie does not exist";
-      moviesList[i] = this.movies.get(moviesList[i]);
+        if (!this.products.has(moviesList[i]))
+            return "Movie does not exist";
+        moviesList[i] = this.products.get(moviesList[i]);
     }
     if (!this.users.has(ActionIDOfTheOperation))
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
 
     let result = this.cinemaSystem.addMovieOrder(
-      this.ordersCounter,
-      date,
-      this.suppliers.has(supplierName),
-      moviesList,
-      this.users.get(ActionIDOfTheOperation)
+        this.ordersCounter,
+        date,
+        this.suppliers.get(supplierName),
+        moviesList,
+        this.users.get(ActionIDOfTheOperation)
     );
     if (result === "The order added successfully") {
-      this.orders.set(orderId, this.ordersCounter);
-      this.ordersCounter++;
+        this.orders.set(orderId, this.ordersCounter);
+        this.ordersCounter++;
     }
     return result;
-  }
+}
 
   addCafeteriaOrder(
     orderId,
@@ -547,205 +548,205 @@ class ServiceLayer {
         supplierName,
         orderDate,
         this.users.get(ActionIDOfTheOperation)
-      );
-      if (result === "The category added successfully.") {
+    );
+    if (result === "The category added successfully.") {
         this.orders.set(this.ordersCounter);
         this.ordersCounter++;
-      }
-      return result;
     }
+    return result;
+}
   }
 
-  editCafeteriaOrder(
+editCafeteriaOrder(
     orderId,
     productsName,
     orderDate,
     productQuantity,
     ActionIDOfTheOperation
-  ) {
+) {
     if (!this.orders.has(orderId)) {
-      return "The order does not exist";
+        return "The order does not exist";
     } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.editCafetriaOrder(
-        this.ordersCounter,
-        orderId,
-        productsName,
-        orderDate,
-        productQuantity,
-        this.users.get(ActionIDOfTheOperation)
-      );
-      return result;
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let result = this.cinemaSystem.editCafetriaOrder(
+            this.ordersCounter,
+            orderId,
+            productsName,
+            orderDate,
+            productQuantity,
+            this.users.get(ActionIDOfTheOperation)
+        );
+        return result;
     }
-  }
+}
 
-  removeCafeteriaOrder(orderId, ActionIDOfTheOperation) {
+removeCafeteriaOrder(orderId, ActionIDOfTheOperation) {
     if (!this.orders.has(orderId)) {
-      return "The order does not exist";
+        return "The order does not exist";
     } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.removeCafetriaOrder(
-        orderId,
-        this.users.get(ActionIDOfTheOperation)
-      );
-      if (result === "The category added successfully.") {
-        this.orders.delete(orderId);
-      }
-      return result;
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let result = this.cinemaSystem.removeCafetriaOrder(
+            orderId,
+            this.users.get(ActionIDOfTheOperation)
+        );
+        if (result === "The category added successfully.") {
+            this.orders.delete(orderId);
+        }
+        return result;
     }
-  }
+}
 
-  createDailyReport(type, records, ActionIDOfTheOperation) {
+createDailyReport(type, records, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)
-      ? "Type is not valid"
-      : !this.isInputValid(records)
-      ? "Records is not valid"
-      : !this.isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Type is not valid"
+        : !this.isInputValid(records)
+            ? "Records is not valid"
+            : !this.isInputValid(ActionIDOfTheOperation)
+                ? "Username is not valid"
+                : "Valid";
     if (validationResult !== "Valid") return validationResult;
 
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.createDailyReport(
-      type,
-      JSON.parse(records),
-      this.users.get(ActionIDOfTheOperation)
+        type,
+        JSON.parse(records),
+        this.users.get(ActionIDOfTheOperation)
     );
-  }
+}
 
-  getReport(type, date, ActionIDOfTheOperation) {
+getReport(type, date, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)
-      ? "Type is not valid"
-      : !this.isInputValid(date)
-      ? "Date is not valid"
-      : !this.isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Type is not valid"
+        : !this.isInputValid(date)
+            ? "Date is not valid"
+            : !this.isInputValid(ActionIDOfTheOperation)
+                ? "Username is not valid"
+                : "Valid";
     if (validationResult !== "Valid") return validationResult;
 
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getReport(
-      type,
-      new Date(date),
-      this.users.get(ActionIDOfTheOperation)
+        type,
+        new Date(date),
+        this.users.get(ActionIDOfTheOperation)
     );
-  }
+}
 
-  getMovies(ActionIDOfTheOperation) {
+getMovies(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getSuppliers();
-  }
+}
 
-  getSuppliers(ActionIDOfTheOperation) {
+getSuppliers(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getSuppliers();
-  }
+}
 
-  getSupplierDetails(supplierName, ActionIDOfTheOperation) {
+getSupplierDetails(supplierName, ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     if (!this.suppliers.has(supplierName)) {
-      return "The supplier does not exist";
+        return "The supplier does not exist";
     }
     return this.cinemaSystem.getSupplierDetails(
-      this.suppliers.get(supplierName)
+        this.suppliers.get(supplierName)
     );
-  }
+}
 
-  getEmployees(ActionIDOfTheOperation) {
+getEmployees(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getEmployees();
-  }
+}
 
-  getEmployeeDetails(employeeName, ActionIDOfTheOperation) {
+getEmployeeDetails(employeeName, ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     if (!this.users.has(employeeName)) {
-      return "The employee does not exist";
+        return "The employee does not exist";
     }
     return this.cinemaSystem.getEmployeeDetails(this.users.get(employeeName));
-  }
+}
 
-  getCategories(ActionIDOfTheOperation) {
+getCategories(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getCategories();
-  }
+}
 
-  getCafeteriaProducts(ActionIDOfTheOperation) {
+getCafeteriaProducts(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getCafeteriaProducts();
-  }
+}
 
-  getCafeteriaOrders(ActionIDOfTheOperation) {
+getCafeteriaOrders(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getCafeteriaOrders();
-  }
+}
 
-  getInventoryProducts(ActionIDOfTheOperation) {
+getInventoryProducts(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getInventoryProducts();
-  }
+}
 
-  getOrderDetails(orderId, ActionIDOfTheOperation) {
+getOrderDetails(orderId, ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     if (!this.orders.has(orderId)) {
-      return "The order does not exist";
+        return "The order does not exist";
     }
     return this.cinemaSystem.getOrderDetails(orderId);
-  }
+}
 
-  getMovieDetails(movieName, ActionIDOfTheOperation) {
+getMovieDetails(movieName, ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
-    if (!this.movies.has(movieName)) {
-      return "The movie does not exist";
+    if (!this.products.has(movieName)) {
+        return "The movie does not exist";
     }
-    return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
-  }
+    return this.cinemaSystem.getMovieDetails(this.products.get(movieName));
+}
 
-  getProductDetails(productName, ActionIDOfTheOperation) {
+getProductDetails(productName, ActionIDOfTheOperation) {
     console.log("productName", productName);
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     if (!this.products.has(productName)) {
       return "The product does not exist";
     }
     return this.cinemaSystem.getProductDetails(this.products.get(productName));
-  }
+}
 
-  getReportTypes(ActionIDOfTheOperation) {
+getReportTypes(ActionIDOfTheOperation) {
     if (!this.users.has(ActionIDOfTheOperation)) {
-      return "The user performing the operation does not exist in the system";
+        return "The user performing the operation does not exist in the system";
     }
     return this.cinemaSystem.getReportTypes();
-  }
+}
 }
 module.exports = ServiceLayer;
