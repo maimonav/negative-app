@@ -353,7 +353,7 @@ export function handleGetItemsByDates(startDate, endDate) {
     `api/getItemsByDates?startDate=${encodeURIComponent(
       startDate
     )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(user)}`
-  )
+  );
 }
 
 export function handleGetProductsByOrder(orderName) {
@@ -434,5 +434,17 @@ export function handleGetProductDetails(productName, user) {
     `/api/getProductDetails?productName=${encodeURIComponent(
       productName
     )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetReportTypes(user) {
+  return fetch(`/api/getReportTypes?user=${encodeURIComponent(user)}`);
+}
+
+export function handleGetReport(reportType, date, user) {
+  return fetch(
+    `/api/getReport?reportType=${encodeURIComponent(
+      reportType
+    )}&date=${encodeURIComponent(date)}&user=${encodeURIComponent(user)}`
   );
 }

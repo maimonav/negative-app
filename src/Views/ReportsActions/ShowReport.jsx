@@ -8,15 +8,26 @@ import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
 import ReactVirtualizedTable from "../../Components/Tables/ReportTable";
+import { handleGetReportTypes, handleGetReport } from "../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reportType: ""
+      reportType: "",
+      date: new Date()
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetReportTypes(localStorage.getItem("username"))
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ types: state.result });
+      });
+  };
 
   setReportType = reportType => {
     this.setState({ reportType });
@@ -26,7 +37,20 @@ export default class ShowReport extends React.Component {
     this.setState({ date });
   };
 
+  setReport = () => {
+    handleGetReport(
+      this.state.reportType,
+      this.state.date,
+      localStorage.getItem("username")
+    )
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ reportData: state.result });
+      });
+  };
+
   render() {
+    console.log(this.state.reportData);
     return (
       <div>
         <GridContainer style={style}>
@@ -49,16 +73,23 @@ export default class ShowReport extends React.Component {
                     label={"Choose Date"}
                     setDate={this.setDate}
                     style={{ width: "auto" }}
+                    date={this.state.date}
                   />
                   <Button
                     color="info"
-                    onClick={() => {}}
+                    onClick={() => {
+                      this.setReport();
+                    }}
                     style={{ marginLeft: "15px", marginTop: "10px" }}
                   >
                     Show report
                   </Button>
                 </div>
-                <ReactVirtualizedTable />
+                {this.state.reportType &&
+                  this.state.date &&
+                  this.state.reportData && (
+                    <ReactVirtualizedTable reportData={this.state.reportData} />
+                  )}
               </CardBody>
             </Card>
           </GridItem>
