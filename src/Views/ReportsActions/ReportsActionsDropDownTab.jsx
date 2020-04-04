@@ -5,6 +5,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tab from "@material-ui/core/Tab";
 import { showReportPath } from "../../consts/paths";
+const style = { textDecoration: "none", color: "black" };
 
 export default function ReportsActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,7 +37,7 @@ export default function ReportsActionsDropDownTab(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={showReportPath}>
+        <Link to={showReportPath} style={style}>
           <MenuItem value={1} onClick={handleClose}>
             <Tab label="Show Report" style={{ textTransform: "none" }} />
           </MenuItem>

@@ -23,15 +23,7 @@ export default function TablPanel(props) {
               <Tab label="Login" />
             </Link>
           )}
-          {props.isLogged && (
-            <Link to={logoutPath}>
-              <Tab
-                label="Logout"
-                data-hook={logoutTabHook}
-                style={{ textTransform: "none" }}
-              />
-            </Link>
-          )}
+
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
@@ -42,6 +34,15 @@ export default function TablPanel(props) {
           )}
 
           {props.isLogged && <ReportsActionsDropDownTab />}
+          {props.isLogged && (
+            <Link to={logoutPath} style={{ marginLeft: "auto" }}>
+              <Tab
+                label="Logout"
+                data-hook={logoutTabHook}
+                style={{ textTransform: "none" }}
+              />
+            </Link>
+          )}
         </Tabs>
       </Paper>
       <Routes {...props}></Routes>

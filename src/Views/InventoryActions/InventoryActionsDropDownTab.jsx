@@ -12,6 +12,7 @@ import {
   manageMoviesPath
 } from "../../consts/paths";
 import { moviesTabHook } from "../../consts/data-hooks";
+const style = { textDecoration: "none", color: "black" };
 
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -43,27 +44,27 @@ export default function InventoryActionsDropDownTab(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={manageInventoryPath}>
+        <Link to={manageInventoryPath} style={style}>
           <MenuItem value={1} onClick={handleClose}>
             <Tab label="Manage Inventory" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={manageCafeteriaPath}>
+        <Link to={manageCafeteriaPath} style={style}>
           <MenuItem value={1} onClick={handleClose}>
             <Tab label="Manage Cafeteria" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={manageMoviesPath}>
+        <Link to={manageMoviesPath} style={style}>
           <MenuItem value={1} onClick={handleClose} data-hook={moviesTabHook}>
             <Tab label="Manage Movies" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={addCategoryPath}>
+        <Link to={addCategoryPath} style={style}>
           <MenuItem value={1} onClick={handleClose}>
             <Tab label="Add Category" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={removeCategoryPath}>
+        <Link to={removeCategoryPath} style={style}>
           <MenuItem value={1} onClick={handleClose}>
             <Tab label="Remove Category" style={{ textTransform: "none" }} />
           </MenuItem>

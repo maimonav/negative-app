@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import { manageEmployeesPath, manageSuppliersPath } from "../../consts/paths";
 import { employeesTabHook, suppliersTabHook } from "../../consts/data-hooks";
 import Tab from "@material-ui/core/Tab";
+const style = { textDecoration: "none", color: "black" };
 
 export default function UserActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -25,7 +26,7 @@ export default function UserActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
-        style={{ textTransform: "none" }}
+        style={{ textTransform: "none", marginLeft: "15px" }}
         {...props}
       >
         User Actions
@@ -37,7 +38,7 @@ export default function UserActionsDropDownTab(props) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <Link to={manageEmployeesPath}>
+        <Link to={manageEmployeesPath} style={style}>
           <MenuItem
             value={1}
             onClick={handleClose}
@@ -46,7 +47,7 @@ export default function UserActionsDropDownTab(props) {
             <Tab label="Manage Employees" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={manageSuppliersPath}>
+        <Link to={manageSuppliersPath} style={style}>
           <MenuItem
             value={1}
             onClick={handleClose}
