@@ -12,7 +12,6 @@ export default function ComboBox(props) {
   };
 
   const handleMultipleChange = (event, newValue) => {
-    console.log('newValue ', newValue[0].title)
     props.setName((newValue && newValue) || "");
     setValue(newValue);
   };

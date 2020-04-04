@@ -172,6 +172,22 @@ export function handleRemoveProduct(productName) {
     });
 }
 
+export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
+  const user = localStorage.getItem("username");
+  const orderId = `${user} , ${new Date()}`;
+  fetch(
+    `api/addMovieOrder?orderId=${encodeURIComponent(orderId)}
+    &orderDate=${encodeURIComponent(orderDate)}
+    &supplierName=${encodeURIComponent(supplierName)}
+    &moviesName=${encodeURIComponent(moviesName)}
+    &user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleAddMovie(movieName, category) {
   const user = localStorage.getItem("username");
   fetch(

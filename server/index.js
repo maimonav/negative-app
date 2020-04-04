@@ -76,6 +76,16 @@ app.get("/api/removeEmployee", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addMovieOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
+  const orderDate = req.query.orderDate || "";
+  const supplierName = req.query.supplierName || "";
+  const moviesName = req.query.moviesName || "";
+  const user = req.query.user || "";
+  const result = service.addMovieOrder(orderId, orderDate, supplierName, moviesName, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.get("/api/addMovie", (req, res) => {
   const movieName = req.query.movieName || "";
   const category = req.query.category || "";
