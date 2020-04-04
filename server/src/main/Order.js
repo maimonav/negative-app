@@ -1,4 +1,5 @@
 const DataBase = require("./DBManager");
+const Movie = require("./Movie");
 
 
 class Order {
@@ -16,15 +17,16 @@ class Order {
     
         //TODO:: might be changed
         removeOrder = () => {
-            this.productOrders.forEach(async (productOrder)=> {
+            /*this.productOrders.forEach(async (productOrder)=> {
             await productOrder.removeOrder(this.id).then((res)=>{
                 //if(res)
             })
-            });
+            });*/
             DataBase.remove('order', { id: this.id });
         }
-    
-
+        addProductOrder(product){
+            this.productOrders.set(product.id,product);
+        }
     //TODO
     equals(toCompare) {
         return (
@@ -32,8 +34,8 @@ class Order {
             toCompare.date === this.date &&
             toCompare.creatorEmployeeId === this.creatorEmployeeId &&
             toCompare.recipientEmployeeId === this.recipientEmployeeId &&
-            toCompare.supplierId === this.supplierId // &&
-           // toCompare.productOrders === this.productOrders 
+            toCompare.supplierId === this.supplierId  &&
+            toCompare.productOrders === this.productOrders 
         );
     }
 }

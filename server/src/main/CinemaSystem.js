@@ -209,6 +209,19 @@ class CinemaSystem {
 
     }
 
+    addMovieOrder(
+        orderId,
+        date,
+        supplierId,
+        movieIdList,
+        ActionIDOfTheOperation){
+        let result = this.checkUser(ActionIDOfTheOperation, 'DEPUTY_MANAGER', 'addMovieOrder');
+        if (result != null)
+            return result;
+        return this.inventoryManagement.addMovieOrder(orderId,date,supplierId,movieIdList, ActionIDOfTheOperation);
+
+    }
+
     addNewProduct(
         productId,
         productName,

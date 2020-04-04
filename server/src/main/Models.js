@@ -147,7 +147,7 @@ const userSchema = () => {
           key: 'id'
         }
       },
-      expectedQuantity: {type: Sequelize.INTEGER,min:0, defaultValue: 0},
+      expectedQuantity: {type: Sequelize.INTEGER,min:0, defaultValue: 1},
       actualQuantity: {type: Sequelize.INTEGER,min:0, defaultValue: 0},
   }};
 
