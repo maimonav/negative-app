@@ -172,6 +172,22 @@ export function handleRemoveProduct(productName) {
     });
 }
 
+export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
+  const user = localStorage.getItem("username");
+  const orderId = `${user} , ${new Date()}`;
+  fetch(
+    `api/addMovieOrder?orderId=${encodeURIComponent(orderId)}
+    &orderDate=${encodeURIComponent(orderDate)}
+    &supplierName=${encodeURIComponent(supplierName)}
+    &moviesName=${encodeURIComponent(moviesName)}
+    &user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleAddMovie(movieName, category) {
   const user = localStorage.getItem("username");
   fetch(
@@ -286,23 +302,18 @@ export function handleRemoveCategory(categoryName) {
     });
 }
 
-export function handleAddCafeteriaOrder(
-  productsName,
-  supplierName,
-  orderDate,
-  productQuantity
-) {
+export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
   const user = localStorage.getItem("username");
+  const orderId = `${user} , ${new Date()}`;
   fetch(
-    `api/addCafeteriaOrder?productsName=${encodeURIComponent(
+    `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
+    &productsName=${encodeURIComponent(
       productsName
     )}&supplierName=${encodeURIComponent(
       supplierName
-    )}&orderDate=${encodeURIComponent(
-      orderDate
-    )}&productQuantity=${encodeURIComponent(
-      productQuantity
-    )}&user=${encodeURIComponent(user)}`
+    )}&orderDate=${encodeURIComponent(orderDate)}&user=${encodeURIComponent(
+      user
+    )}`
   )
     .then(response => response.json())
     .then(state => {
@@ -353,7 +364,7 @@ export function handleGetItemsByDates(startDate, endDate) {
     `api/getItemsByDates?startDate=${encodeURIComponent(
       startDate
     )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(user)}`
-  )
+  );
 }
 
 export function handleGetProductsByOrder(orderName) {
@@ -434,5 +445,17 @@ export function handleGetProductDetails(productName, user) {
     `/api/getProductDetails?productName=${encodeURIComponent(
       productName
     )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetReportTypes(user) {
+  return fetch(`/api/getReportTypes?user=${encodeURIComponent(user)}`);
+}
+
+export function handleGetReport(reportType, date, user) {
+  return fetch(
+    `/api/getReport?reportType=${encodeURIComponent(
+      reportType
+    )}&date=${encodeURIComponent(date)}&user=${encodeURIComponent(user)}`
   );
 }

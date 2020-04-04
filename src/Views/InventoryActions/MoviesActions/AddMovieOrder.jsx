@@ -8,15 +8,20 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { handleGetMovies, handleGetSuppliers } from "../../../Handlers/Handlers";
+import SelectDates from "../../../Components/SelectDates";
+import {
+  handleGetMovies,
+  handleGetSuppliers
+} from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class CreateMovieOrder extends React.Component {
+export default class AddMovieOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieName: "",
+      moviesName: "",
       supplier: "",
+      orderDate: new Date(),
       contactDetails: ""
     };
     this.setInitialState();
@@ -36,16 +41,20 @@ export default class CreateMovieOrder extends React.Component {
       });
   };
 
-  setMovieName = movieName => {
-    this.setState({ movieName });
+  setMoviesName = moviesName => {
+    this.setState({ moviesName: moviesName.map(item => item.title) });
   };
 
   setSupplier = supplier => {
     this.setState({ supplier });
   };
 
+  setOrderDate = date => {
+    this.setState({ orderDate: date });
+  };
+
   render() {
-    const { movieName, supplier } = this.state;
+    const { orderDate, moviesName, supplier } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -56,13 +65,23 @@ export default class CreateMovieOrder extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
+                  <GridItem>
+                    <SelectDates
+                      id={"add-movie-order-date"}
+                      label={"Choose Movie Order Date"}
+                      setDate={this.setOrderDate}
+                      date={this.state.orderDate}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"movieName"}
+                      id={"moviesName"}
                       items={this.state.movies}
                       boxLabel={"Choose movie"}
-                      setName={this.setMovieName}
-                      isMultiple={false}
+                      setName={this.setMoviesName}
+                      isMultiple={true}
                     />
                   </GridItem>
                 </GridContainer>
@@ -81,7 +100,13 @@ export default class CreateMovieOrder extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleAddMovie(movieName, supplier)}
+                  onClick={() =>
+                    this.props.handleAddMovieOrder(
+                      orderDate,
+                      supplier,
+                      moviesName
+                    )
+                  }
                 >
                   Create New Order
                 </Button>

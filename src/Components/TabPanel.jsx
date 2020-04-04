@@ -7,6 +7,7 @@ import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
 import { loginPath, logoutPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
+import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
@@ -22,11 +23,7 @@ export default function TablPanel(props) {
               <Tab label="Login" />
             </Link>
           )}
-          {props.isLogged && (
-            <Link to={logoutPath}>
-              <Tab label="Logout" data-hook={logoutTabHook} />
-            </Link>
-          )}
+
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
@@ -34,6 +31,17 @@ export default function TablPanel(props) {
           )}
           {props.isLogged && (
             <InventoryActionsDropDownTab data-hook={inventoryActionsTabHook} />
+          )}
+
+          {props.isLogged && <ReportsActionsDropDownTab />}
+          {props.isLogged && (
+            <Link to={logoutPath} style={{ marginLeft: "auto" }}>
+              <Tab
+                label="Logout"
+                data-hook={logoutTabHook}
+                style={{ textTransform: "none" }}
+              />
+            </Link>
           )}
         </Tabs>
       </Paper>

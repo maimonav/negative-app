@@ -48,6 +48,7 @@ export default function RegularButton(props) {
       className={btnClasses}
       onClick={onClick}
       data-hook={actionButtonHook}
+      style={{ ...props.style, textTransform: "none" }}
     >
       {children}
     </Button>

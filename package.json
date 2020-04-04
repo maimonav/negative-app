@@ -15,7 +15,11 @@
     "date-fns": "^2.11.0",
     "history": "^4.10.1",
     "jasmine": "^3.5.0",
+<<<<<<< HEAD
     "lodash": "^4.17.15",
+=======
+    "material-table": "^1.57.2",
+>>>>>>> master
     "moment": "^2.24.0",
     "mysql2": "^2.1.0",
     "node-sass": "^4.13.1",
@@ -23,6 +27,7 @@
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^2.1.8",
+    "react-virtualized": "^9.21.2",
     "sequelize": "^5.21.3",
     "simple-node-logger": "^18.12.24"
   },

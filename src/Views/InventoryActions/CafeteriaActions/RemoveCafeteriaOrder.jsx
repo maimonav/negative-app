@@ -17,13 +17,12 @@ export default class RemoveCafeteriaOrder extends React.Component {
     super(props);
     this.state = {
       isOpened: false,
-      startDate: "",
-      endDate: "",
+      startDate: new Date(),
+      endDate: new Date(),
       orderName: ""
     };
     this.toggleBox = this.toggleBox.bind(this);
   }
-
 
   handleGetItemsByDates = (startDate, endDate) => {
     handleGetItemsByDates(startDate, endDate)
@@ -66,6 +65,7 @@ export default class RemoveCafeteriaOrder extends React.Component {
                       id={"remove-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
+                      date={this.state.startDate}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -73,6 +73,7 @@ export default class RemoveCafeteriaOrder extends React.Component {
                       id={"remove-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
+                      date={this.state.endDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -81,8 +82,8 @@ export default class RemoveCafeteriaOrder extends React.Component {
                     Choose dates
                   </Button>
                 </GridContainer>
-                </CardBody>
-                <CardBody>
+              </CardBody>
+              <CardBody>
                 {isOpened && (
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>

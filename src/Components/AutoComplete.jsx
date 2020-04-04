@@ -11,6 +11,11 @@ export default function ComboBox(props) {
     setValue(newValue);
   };
 
+  const handleMultipleChange = (event, newValue) => {
+    props.setName((newValue && newValue) || "");
+    setValue(newValue);
+  };
+
   return (
     <>
       {!props.isMultiple && (
@@ -42,6 +47,7 @@ export default function ComboBox(props) {
               placeholder="Favorites"
             />
           )}
+          onChange={handleMultipleChange}
         />
       )}
     </>

@@ -76,6 +76,16 @@ app.get("/api/removeEmployee", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/addMovieOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
+  const orderDate = req.query.orderDate || "";
+  const supplierName = req.query.supplierName || "";
+  const moviesName = req.query.moviesName || "";
+  const user = req.query.user || "";
+  const result = service.addMovieOrder(orderId, orderDate, supplierName, moviesName, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.get("/api/addMovie", (req, res) => {
   const movieName = req.query.movieName || "";
   const category = req.query.category || "";
@@ -176,18 +186,12 @@ app.get("/api/removeProduct", (req, res) => {
 });
 
 app.get("/api/addCafeteriaOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
   const productsName = req.query.productsName || "";
   const supplierName = req.query.supplierName || "";
   const orderDate = req.query.orderDate || "";
-  const productQuantity = req.query.productQuantity || "";
   const user = req.query.user || "";
-  const result = service.addCafetriaOrder(
-    productsName,
-    supplierName,
-    orderDate,
-    productQuantity,
-    user
-  );
+  const result = service.addCafeteriaOrder(orderId, productsName, supplierName, orderDate, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -317,6 +321,20 @@ app.get("/api/getProductDetails", (req, res) => {
   const productName = req.query.productName || "";
   const user = req.query.user || "";
   const result = service.getProductDetails(productName, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getReportTypes", (req, res) => {
+  const user = req.query.user || "";
+  const result = service.getReportTypes(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getReport", (req, res) => {
+  const reportType = req.query.reportType || "";
+  const date = req.query.date || "";
+  const user = req.query.user || "";
+  const result = service.getReport(reportType, date, user);
   res.send(JSON.stringify({ result }));
 });
 

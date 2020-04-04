@@ -22,10 +22,12 @@ export default class EditCafeteriaOrder extends React.Component {
     this.state = {
       orderId: "",
       productName: "",
-      orderDate: "",
+      orderDate: new Date(),
       productQuantity: "",
       isOpened: false,
-      openSecond: false
+      openSecond: false,
+      startDate: new Date(),
+      endDate: new Date()
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
@@ -103,6 +105,7 @@ export default class EditCafeteriaOrder extends React.Component {
                       id={"remove-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
+                      date={this.state.startDate}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -110,6 +113,7 @@ export default class EditCafeteriaOrder extends React.Component {
                       id={"remove-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
+                      date={this.state.endDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -153,6 +157,7 @@ export default class EditCafeteriaOrder extends React.Component {
                         id={"add-order-date"}
                         label={"Change Order Date"}
                         setDate={this.setOrderDate}
+                        date={this.state.orderDate}
                       />
                     </GridItem>
                   </GridContainer>
