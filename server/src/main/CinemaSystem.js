@@ -274,7 +274,6 @@ class CinemaSystem {
         productName,
         supplierName,
         orderDate,
-        productQuantity,
         ActionIDOfTheOperation
     ) {
         return "TODO: IMPLEMENT THIS.";

@@ -179,13 +179,11 @@ app.get("/api/addCafeteriaOrder", (req, res) => {
   const productsName = req.query.productsName || "";
   const supplierName = req.query.supplierName || "";
   const orderDate = req.query.orderDate || "";
-  const productQuantity = req.query.productQuantity || "";
   const user = req.query.user || "";
   const result = service.addCafetriaOrder(
     productsName,
     supplierName,
     orderDate,
-    productQuantity,
     user
   );
   res.send(JSON.stringify({ result }));

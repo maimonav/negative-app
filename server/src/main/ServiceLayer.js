@@ -447,13 +447,17 @@ class ServiceLayer {
     }
 
     addCafeteriaOrder(
-        productName,
+        productsName,
         supplierName,
         orderDate,
-        productQuantity,
         ActionIDOfTheOperation
     ) {
-        if (this.orders.has(productName)) {
+        for (let i = 0; i < productsName.length; i++){
+            if (this.products.has(i)) {
+                return "The product does not exist"
+            }
+        }
+        if (this.orders.has(productsName)) {
             return "The order already exist";
         } else {
             if (!this.users.has(ActionIDOfTheOperation)) {
@@ -461,14 +465,14 @@ class ServiceLayer {
             }
             let result = this.cinemaSystem.addCafetriaOrder(
                 this.ordersCounter,
-                productName,
+                productsName,
                 supplierName,
                 orderDate,
-                productQuantity,
                 this.users.get(ActionIDOfTheOperation)
             );
             if (result === "The category added successfully.") {
-                this.orders.delete(productName);
+                this.orders.set(this.ordersCounter);
+                this.ordersCounter++;
             }
             return result;
         }

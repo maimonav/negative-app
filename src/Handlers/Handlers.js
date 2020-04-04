@@ -290,7 +290,6 @@ export function handleAddCafeteriaOrder(
   productsName,
   supplierName,
   orderDate,
-  productQuantity
 ) {
   const user = localStorage.getItem("username");
   fetch(
@@ -300,8 +299,6 @@ export function handleAddCafeteriaOrder(
       supplierName
     )}&orderDate=${encodeURIComponent(
       orderDate
-    )}&productQuantity=${encodeURIComponent(
-      productQuantity
     )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
