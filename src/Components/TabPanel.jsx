@@ -7,6 +7,7 @@ import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
 import { loginPath, logoutPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
+import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
@@ -35,6 +36,8 @@ export default function TablPanel(props) {
           {props.isLogged && (
             <InventoryActionsDropDownTab data-hook={inventoryActionsTabHook} />
           )}
+
+          {props.isLogged && <ReportsActionsDropDownTab />}
         </Tabs>
       </Paper>
       <Routes {...props}></Routes>
