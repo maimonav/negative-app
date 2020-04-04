@@ -113,10 +113,10 @@ class ServiceLayer {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
             !this.isInputValid(category) ?
-            "Category is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
+                "Category is not valid" :
+                !this.isInputValid(ActionIDOfTheOperation) ?
+                    "Username is not valid" :
+                    "Valid";
         if (validationResult !== "Valid") return validationResult;
 
         if (this.movies.has(movieName)) {
@@ -143,14 +143,14 @@ class ServiceLayer {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
             !this.isInputValid(category) ?
-            "Category is not valid" :
-            !this.isInputValid(key) ?
-            "Key is not valid" :
-            !this.isInputValid(examinationRoom) ?
-            "Examination Room is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
+                "Category is not valid" :
+                !this.isInputValid(key) ?
+                    "Key is not valid" :
+                    !this.isInputValid(examinationRoom) ?
+                        "Examination Room is not valid" :
+                        !this.isInputValid(ActionIDOfTheOperation) ?
+                            "Username is not valid" :
+                            "Valid";
         if (validationResult !== "Valid") return validationResult;
 
         if (!this.movies.has(movieName)) {
@@ -175,8 +175,8 @@ class ServiceLayer {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
+                "Username is not valid" :
+                "Valid";
         if (validationResult !== "Valid") return validationResult;
 
         if (!this.movies.has(movieName)) {
@@ -199,10 +199,10 @@ class ServiceLayer {
         let validationResult = !this.isInputValid(supplierName) ?
             "Supplier Name is not valid" :
             !this.isInputValid(contactDetails) ?
-            "Contact Details is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
+                "Contact Details is not valid" :
+                !this.isInputValid(ActionIDOfTheOperation) ?
+                    "Username is not valid" :
+                    "Valid";
         if (validationResult !== "Valid") return validationResult;
 
         if (this.suppliers.has(supplierName)) {
@@ -228,10 +228,10 @@ class ServiceLayer {
         let validationResult = !this.isInputValid(supplierName) ?
             "Supplier Name is not valid" :
             !this.isInputValid(contactDetails) ?
-            "Contact Details is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
+                "Contact Details is not valid" :
+                !this.isInputValid(ActionIDOfTheOperation) ?
+                    "Username is not valid" :
+                    "Valid";
         if (validationResult !== "Valid") return validationResult;
 
         if (!this.suppliers.has(supplierName)) {
@@ -256,8 +256,8 @@ class ServiceLayer {
         let validationResult = !this.isInputValid(supplierName) ?
             "Supplier Name is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
+                "Username is not valid" :
+                "Valid";
         if (validationResult !== "Valid") return validationResult;
 
         if (!this.suppliers.has(supplierName)) {
@@ -399,7 +399,54 @@ class ServiceLayer {
         }
     }
 
-    addCafetriaOrder(
+    addMovieOrder(
+        orderId,
+        date,
+        supplierName,
+        moviesList,
+        ActionIDOfTheOperation
+    ) {
+        let validationResult = !this.isInputValid(orderId) ?
+            "Order ID is not valid" :
+            !this.isInputValid(date) ?
+                "Date is not valid" :
+                !this.isInputValid(supplierName) ?
+                    "Supplier Name is not valid" :
+                    !this.isInputValid(moviesList) ?
+                        "Movies List is not valid" :
+                        !this.isInputValid(ActionIDOfTheOperation) ?
+                            "Username is not valid" :
+                            "Valid";
+        if (validationResult !== "Valid") return validationResult;
+
+
+        if (this.orders.has(orderId))
+            return "The order already exist";
+        if (!this.suppliers.has(supplierName))
+            return "The supplier does not exist";
+        for(let i in moviesList){
+            if (!this.movies.has(moviesList[i]))
+                return "The movie does not exist";
+            movieList[i]=this.movies.get(moviesList[i]);
+        }  
+        if (!this.users.has(ActionIDOfTheOperation))
+            return "The user performing the operation does not exist in the system";
+        
+        let result = this.cinemaSystem.addMovieOrder(
+            this.ordersCounter,
+            date,
+            this.suppliers.has(supplierName),
+            moviesList,
+            this.users.get(ActionIDOfTheOperation)
+        );
+        if(result === "The order added successfully"){
+            this.orders.set(orderId, this.ordersCounter);
+            this.ordersCounter++;
+        }
+        return result;
+    }
+
+    addCafeteriaOrder(
         productName,
         supplierName,
         orderDate,
@@ -427,7 +474,7 @@ class ServiceLayer {
         }
     }
 
-    editCafetriaOrder(
+    editCafeteriaOrder(
         orderId,
         productsName,
         orderDate,
@@ -452,7 +499,7 @@ class ServiceLayer {
         }
     }
 
-    removeCafetriaOrder(orderId, ActionIDOfTheOperation) {
+    removeCafeteriaOrder(orderId, ActionIDOfTheOperation) {
         if (!this.orders.has(orderId)) {
             return "The order does not exist";
         } else {
@@ -474,7 +521,7 @@ class ServiceLayer {
     createDailyReport(type, records, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(type) ? 'Type is not valid' :
             !this.isInputValid(records) ? 'Records is not valid' :
-            !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+                !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
         if (validationResult !== 'Valid')
             return validationResult;
 
@@ -491,7 +538,7 @@ class ServiceLayer {
     getReport(type, date, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(type) ? 'Type is not valid' :
             !this.isInputValid(date) ? 'Date is not valid' :
-            !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
+                !this.isInputValid(ActionIDOfTheOperation) ? 'Username is not valid' : 'Valid'
         if (validationResult !== 'Valid')
             return validationResult;
 

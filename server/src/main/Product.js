@@ -4,6 +4,7 @@ class Product {
         this.id = id;
         this.name = name;
         this.categoryId = categoryId;
+        this.productOrders = new Map();
     }
 
     

@@ -1,4 +1,5 @@
 
+const Order = require('./Order');
 const Movie = require('./Movie');
 const Supplier = require('./Supplier');
 
@@ -60,6 +61,29 @@ class InventoryManagemnt {
 
     }
 
+
+    addMovieOrder(
+        orderId,
+        date,
+        supplierId,
+        movieIdList,
+        creatorEmployeeId) {
+        if (!this.orders.has(orderId))
+            return "The order does not exist";
+        if (!this.suppliers.has(supplierId))
+            return "The supplier does not exist";
+        for(let i in movieIdList){
+            if (!this.products.has(movieIdList[i]))
+                return "Movie does not exist";
+        }
+        let order = new Order(orderId,this.suppliers.get(supplierId),date,creatorEmployeeId)
+        for(let i in movieIdList){
+            this.products.get(movieIdList[i]).createOrder(order,1);
+                
+        }
+        this.orders.set(orderId,order);
+        return "The order added successfully";
+    }
 
 }
 module.exports = InventoryManagemnt;
