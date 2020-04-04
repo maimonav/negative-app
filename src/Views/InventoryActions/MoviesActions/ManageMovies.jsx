@@ -10,7 +10,7 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import { CreateMovieOrder, AddMovie, EditMovie, RemoveMovie, ShowMovieDetails } from "../../index";
+import { AddMovieOrder, AddMovie, EditMovie, RemoveMovie, ShowMovieDetails } from "../../index";
 import {
   handleAddMovie,
   handleEditMovie,
@@ -92,7 +92,7 @@ export default class ManageMovies extends React.Component {
                 </GridContainer>
               </CardHeader>
               {this.state.action === "show" && <ShowMovieDetails />}
-              {this.state.action === "create" && <CreateMovieOrder />}
+              {this.state.action === "create" && <AddMovieOrder />}
               {this.state.action === "add" && (
                 <AddMovie handleAddMovie={handleAddMovie} />
               )}

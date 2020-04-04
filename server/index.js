@@ -176,16 +176,12 @@ app.get("/api/removeProduct", (req, res) => {
 });
 
 app.get("/api/addCafeteriaOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
   const productsName = req.query.productsName || "";
   const supplierName = req.query.supplierName || "";
   const orderDate = req.query.orderDate || "";
   const user = req.query.user || "";
-  const result = service.addCafetriaOrder(
-    productsName,
-    supplierName,
-    orderDate,
-    user
-  );
+  const result = service.addCafeteriaOrder(orderId, productsName, supplierName, orderDate, user);
   res.send(JSON.stringify({ result }));
 });
 

@@ -90,7 +90,7 @@ class ServiceLayer {
             return "The employee does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info('ServiceLayer - The editEmployee process failed - the ' + ActionIDofTheOperation + ' , who initiated the operation, does not exist in the system');
+            logger.info('ServiceLayer - The editEmployee process failed - the ' + ActionIDOfTheOperation + ' , who initiated the operation, does not exist in the system');
             return "The user performing the operation does not exist in the system";
         }
         return this.cinemaSystem.editEmployee(this.users.get(userName), password, permissions, firstName, lastName, contactDetails, this.users.get(ActionIDOfTheOperation));
@@ -427,7 +427,7 @@ class ServiceLayer {
         for(let i in moviesList){
             if (!this.movies.has(moviesList[i]))
                 return "The movie does not exist";
-            movieList[i]=this.movies.get(moviesList[i]);
+            moviesList[i]=this.movies.get(moviesList[i]);
         }  
         if (!this.users.has(ActionIDOfTheOperation))
             return "The user performing the operation does not exist in the system";
@@ -447,6 +447,7 @@ class ServiceLayer {
     }
 
     addCafeteriaOrder(
+        orderId,
         productsName,
         supplierName,
         orderDate,
@@ -457,7 +458,7 @@ class ServiceLayer {
                 return "The product does not exist"
             }
         }
-        if (this.orders.has(productsName)) {
+        if (this.orders.has(orderId)) {
             return "The order already exist";
         } else {
             if (!this.users.has(ActionIDOfTheOperation)) {

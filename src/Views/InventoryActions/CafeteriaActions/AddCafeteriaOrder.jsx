@@ -13,7 +13,7 @@ import {
   handleGetCafeteriaProducts,
   handleGetSuppliers
 } from "../../../Handlers/Handlers";
-import MaterialTableDemo from "../../../Components/Tables/EditTable";
+import EditTable from "../../../Components/Tables/EditTable";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
@@ -114,7 +114,7 @@ export default class AddCafeteriaOrder extends React.Component {
                 {isOpened && (
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={15}>
-                      <MaterialTableDemo
+                      <EditTable
                         data={productsName}
                         setItems={this.setProductsWithQuantity}
                         openSecondBox={this.toggleSecondBox}

@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import { handleGetMovies, handleGetSuppliers } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class CreateMovieOrder extends React.Component {
+export default class AddMovieOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

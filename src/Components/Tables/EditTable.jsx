@@ -42,7 +42,7 @@ const tableIcons = {
   ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
-export default class MaterialTableDemo extends React.Component {
+export default class EditTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

@@ -286,20 +286,18 @@ export function handleRemoveCategory(categoryName) {
     });
 }
 
-export function handleAddCafeteriaOrder(
-  productsName,
-  supplierName,
-  orderDate,
-) {
+export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
   const user = localStorage.getItem("username");
+  const orderId = `${user} , ${new Date()}`;
   fetch(
-    `api/addCafeteriaOrder?productsName=${encodeURIComponent(
+    `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
+    &productsName=${encodeURIComponent(
       productsName
     )}&supplierName=${encodeURIComponent(
       supplierName
-    )}&orderDate=${encodeURIComponent(
-      orderDate
-    )}&user=${encodeURIComponent(user)}`
+    )}&orderDate=${encodeURIComponent(orderDate)}&user=${encodeURIComponent(
+      user
+    )}`
   )
     .then(response => response.json())
     .then(state => {
@@ -350,7 +348,7 @@ export function handleGetItemsByDates(startDate, endDate) {
     `api/getItemsByDates?startDate=${encodeURIComponent(
       startDate
     )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(user)}`
-  )
+  );
 }
 
 export function handleGetProductsByOrder(orderName) {
