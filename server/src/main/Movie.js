@@ -1,6 +1,6 @@
 const DataBase = require("./DBManager");
 const Product = require("./Product");
-const Product = require("./MovieOrder");
+const MovieOrder = require("./MovieOrder");
 
 
 class Movie extends Product {
