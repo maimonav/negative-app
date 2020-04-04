@@ -21,7 +21,7 @@ export default class AddMovieOrder extends React.Component {
     this.state = {
       moviesName: "",
       supplier: "",
-      orderDate: "",
+      orderDate: new Date(),
       contactDetails: ""
     };
     this.setInitialState();
@@ -70,6 +70,7 @@ export default class AddMovieOrder extends React.Component {
                       id={"add-movie-order-date"}
                       label={"Choose Movie Order Date"}
                       setDate={this.setOrderDate}
+                      date={this.state.orderDate}
                     />
                   </GridItem>
                 </GridContainer>

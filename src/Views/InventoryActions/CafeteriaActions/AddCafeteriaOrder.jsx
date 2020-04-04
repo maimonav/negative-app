@@ -22,7 +22,7 @@ export default class AddCafeteriaOrder extends React.Component {
     this.state = {
       productsName: "",
       supplierName: "",
-      orderDate: "",
+      orderDate: new Date(),
       productsWithQuantity: "",
       isOpened: false,
       openSecond: false
@@ -131,6 +131,7 @@ export default class AddCafeteriaOrder extends React.Component {
                         id={"add-order-date"}
                         label={"Choose Order Date"}
                         setDate={this.setOrderDate}
+                        date={this.state.orderDate}
                       />
                     </GridItem>
                   </GridContainer>
