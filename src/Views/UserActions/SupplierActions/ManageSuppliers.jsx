@@ -27,7 +27,12 @@ import {
   removeActionHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
-const iconStyle = { marginTop: "-10px" };
+const iconStyle = {
+  marginTop: "-10px",
+  boxShadow: "none",
+  backgroundColor: "unset",
+  color: "white"
+};
 
 export default class ManageSuppliers extends React.Component {
   constructor(props) {

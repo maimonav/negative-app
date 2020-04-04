@@ -21,7 +21,12 @@ import {
   handleRemoveProduct
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
-const iconStyle = { marginTop: "-10px" };
+const iconStyle = {
+  marginTop: "-10px",
+  boxShadow: "none",
+  backgroundColor: "unset",
+  color: "white"
+};
 
 export default class ManageInventory extends React.Component {
   constructor(props) {
