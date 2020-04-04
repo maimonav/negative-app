@@ -64,19 +64,22 @@ class InventoryManagemnt {
 
     addMovieOrder(
         orderId,
-        date,
+        strDate,
         supplierId,
         movieIdList,
         creatorEmployeeId) {
-        if (!this.orders.has(orderId))
-            return "The order does not exist";
+        if (this.orders.has(orderId))
+            return "This order already exists";
         if (!this.suppliers.has(supplierId))
             return "The supplier does not exist";
         for(let i in movieIdList){
             if (!this.products.has(movieIdList[i]))
                 return "Movie does not exist";
         }
-        let order = new Order(orderId,this.suppliers.get(supplierId),date,creatorEmployeeId)
+        let date = new Date(strDate);
+        if (isNaN(date.valueOf()))
+            return "The order date is invalid";
+        let order = new Order(orderId,this.suppliers.get(supplierId),date,creatorEmployeeId);
         for(let i in movieIdList){
             this.products.get(movieIdList[i]).createOrder(order,1);
                 
