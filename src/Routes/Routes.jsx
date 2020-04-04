@@ -12,7 +12,8 @@ import {
   manageCafeteriaPath,
   addCategoryPath,
   removeCategoryPath,
-  manageMoviesPath
+  manageMoviesPath,
+  showReportPath
 } from "../consts/paths";
 
 import {
@@ -35,7 +36,8 @@ import {
   ManageCafeteria,
   AddCategory,
   RemoveCategory,
-  ManageMovies
+  ManageMovies,
+  ShowReport
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -76,13 +78,17 @@ export default function Routes(props) {
       {props.isLogged && (
         <Route
           path={addCategoryPath}
-          component={() => <AddCategory handleAddCategory={handleAddCategory} />}
+          component={() => (
+            <AddCategory handleAddCategory={handleAddCategory} />
+          )}
         />
       )}
       {props.isLogged && (
         <Route
           path={removeCategoryPath}
-          component={() => <RemoveCategory handleRemoveCategory={handleRemoveCategory} />}
+          component={() => (
+            <RemoveCategory handleRemoveCategory={handleRemoveCategory} />
+          )}
         />
       )}
       {props.isLogged && (
@@ -99,6 +105,8 @@ export default function Routes(props) {
           )}
         />
       )}
+
+      {props.isLogged && <Route path={showReportPath} component={ShowReport} />}
     </Switch>
   );
 }
