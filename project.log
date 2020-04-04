@@ -119,3 +119,21 @@
 18:14:05.237 INFO  CinemaSystem - undefined - User does not have proper permissions 
 13:32:17.549 INFO  User - logout - The user admin tried to disconnect but was not connected in the first place. 
 14:20:08.918 INFO  User - logout - The user admin tried to disconnect but was not connected in the first place. 
+18:46:35.762 INFO  User - logout - The user admin tried to disconnect but was not connected in the first place. 
+19:20:43.139 INFO  User - logout - The user admin tried to disconnect but was not connected in the first place. 
+19:20:51.697 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:24:37.865 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+19:24:45.054 INFO  CinemaSystem - undefined - The operation cannot be completed - the user is not connected to the system 
+19:31:41.068 INFO  User - logout - The user admin tried to disconnect but was not connected in the first place. 
+19:33:43.243 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:33:44.302 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:33:44.715 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:33:44.884 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:33:45.053 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:33:49.191 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:43:34.670 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:43:35.267 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:43:35.436 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:43:35.604 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:43:35.782 INFO  CinemaSystem - undefined - User does not have proper permissions 
+19:48:01.998 INFO  CinemaSystem - undefined - User does not have proper permissions 

@@ -10,7 +10,7 @@ import moment from "moment";
 
 export default function SelectDates(props) {
   // The first commit of Material-UI
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedDate, setSelectedDate] = React.useState(props.date);
 
   const handleDateChange = date => {
     let dateSelected = moment(date);

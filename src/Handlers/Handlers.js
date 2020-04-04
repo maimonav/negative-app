@@ -447,3 +447,15 @@ export function handleGetProductDetails(productName, user) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
+
+export function handleGetReportTypes(user) {
+  return fetch(`/api/getReportTypes?user=${encodeURIComponent(user)}`);
+}
+
+export function handleGetReport(reportType, date, user) {
+  return fetch(
+    `/api/getReport?reportType=${encodeURIComponent(
+      reportType
+    )}&date=${encodeURIComponent(date)}&user=${encodeURIComponent(user)}`
+  );
+}
