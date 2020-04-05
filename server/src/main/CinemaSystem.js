@@ -91,9 +91,9 @@ class CinemaSystem {
     ) {
       logger.info(
         "CinemaSystem - addNewEmployee - " +
-          userName +
-          " " +
-          this.inappropriatePermissionsMsg
+        userName +
+        " " +
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -114,8 +114,8 @@ class CinemaSystem {
     if (employee === "The employee already exist") {
       logger.info(
         "CinemaSystem - addNewEmployee - The employee" +
-          userName +
-          "already exist "
+        userName +
+        "already exist "
       );
       return "The id is already exists";
     }
@@ -148,9 +148,9 @@ class CinemaSystem {
     ) {
       logger.info(
         "CinemaSystem - editEmployee - " +
-          userName +
-          " " +
-          this.inappropriatePermissionsMsg
+        userName +
+        " " +
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -216,9 +216,9 @@ class CinemaSystem {
     ) {
       logger.info(
         "CinemaSystem - " +
-          functionName +
-          " - " +
-          this.inappropriatePermissionsMsg
+        functionName +
+        " - " +
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -243,6 +243,28 @@ class CinemaSystem {
       date,
       supplierId,
       movieIdList,
+      ActionIDOfTheOperation
+    );
+  }
+
+  addCafeteriaOrder(
+    orderId,
+    date,
+    supplierId,
+    productsList,
+    ActionIDOfTheOperation
+  ) {
+    let result = this.checkUser(
+      ActionIDOfTheOperation,
+      "DEPUTY_MANAGER",
+      "addCafeteriaOrder"
+    );
+    if (result != null) return result;
+    return this.inventoryManagement.addCafeteriaOrder(
+      orderId,
+      date,
+      supplierId,
+      productsList,
       ActionIDOfTheOperation
     );
   }
@@ -289,7 +311,7 @@ class CinemaSystem {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    let result = this.checkUser(ActionIDOfTheOperation);
+    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "addNewSupplier");
     if (result != null) return result;
     return this.inventoryManagement.addNewSupplier(
       supplierID,
@@ -304,7 +326,7 @@ class CinemaSystem {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    let result = this.checkUser(ActionIDOfTheOperation);
+    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "editSupplier");
     if (result != null) return result;
     return this.inventoryManagement.editSupplier(
       supplierID,
@@ -314,7 +336,7 @@ class CinemaSystem {
   }
 
   removeSupplier(supplierID, ActionIDOfTheOperation) {
-    let result = this.checkUser(ActionIDOfTheOperation);
+    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "removeSupplier");
     if (result != null) return result;
     return this.inventoryManagement.removeSupplier(supplierID);
   }
@@ -366,39 +388,15 @@ class CinemaSystem {
     return "TODO: IMPLEMENT THIS.";
   }
 
-  addCafetriaOrder(
-    orderId,
-    productName,
-    supplierName,
-    orderDate,
-    productQuantity,
-    ActionIDOfTheOperation
-  ) {
-    return "TODO: IMPLEMENT THIS.";
-  }
-
-  editCafetriaOrder(
-    orderId,
-    productsName,
-    orderDate,
-    productQuantity,
-    ActionIDOfTheOperatio
-  ) {
-    return "TODO: IMPLEMENT THIS.";
-  }
-
-  removeCafetriaOrder(orderId, ActionIDOfTheOperation) {
-    return "TODO: IMPLEMENT THIS.";
-  }
 
   createDailyReport(type, records, ActionIDOfTheOperation) {
-    let result = this.checkUser(ActionIDOfTheOperation);
+    let result = this.checkUser(ActionIDOfTheOperation,"SHIFT_MANAGER", "createDailyReport");
     if (result != null) return result;
     return ReportController.createDailyReport(type, records);
   }
 
   getReport(type, date, ActionIDOfTheOperation) {
-    let result = this.checkUser(ActionIDOfTheOperation);
+    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "getReport");
     if (result != null) return result;
     return ReportController.getReport(type, date);
   }

@@ -41,7 +41,7 @@ class InventoryManagemnt {
         contactDetails) {
         if (this.suppliers.has(supplierID))
             return "This supplier already exists";
-        this.suppliers.set(supplierID, new Supplier(supplierID,supplierName,contactDetails));
+        this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
         return "The supplier added successfully"
     }
 
@@ -51,7 +51,7 @@ class InventoryManagemnt {
         contactDetails) {
         if (!this.suppliers.has(supplierID))
             return "The supplier does not exist";
-        return this.suppliers.get(supplierID).editSupplier(supplierName,contactDetails);
+        return this.suppliers.get(supplierID).editSupplier(supplierName, contactDetails);
     }
 
     removeSupplier(supplierID) {
@@ -72,19 +72,45 @@ class InventoryManagemnt {
             return "This order already exists";
         if (!this.suppliers.has(supplierId))
             return "The supplier does not exist";
-        for(let i in movieIdList){
+        for (let i in movieIdList) {
             if (!this.products.has(movieIdList[i]))
                 return "Movie does not exist";
         }
         let date = new Date(strDate);
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
-        let order = new Order(orderId,supplierId,date,creatorEmployeeId);
-        for(let i in movieIdList){
-            this.products.get(movieIdList[i]).createOrder(order,1);
-                
+        let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+        for (let i in movieIdList) {
+            this.products.get(movieIdList[i]).createOrder(order);
+
         }
-        this.orders.set(orderId,order);
+        this.orders.set(orderId, order);
+        return "The order added successfully";
+    }
+
+    addCafeteriaOrder(
+        orderId,
+        strDate,
+        supplierId,
+        productsList,
+        creatorEmployeeId) {
+        if (this.orders.has(orderId))
+            return "This order already exists";
+        if (!this.suppliers.has(supplierId))
+            return "The supplier does not exist";
+        for (let i in productsList) {
+            if (!this.products.has(productsList[i].id))
+                return "Product does not exist";
+        }
+        let date = new Date(strDate);
+        if (isNaN(date.valueOf()))
+            return "The order date is invalid";
+        let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+        for (let i in productsList) {
+            this.products.get(productsList[i].id).createOrder(order, productsList[i].quantity);
+
+        }
+        this.orders.set(orderId, order);
         return "The order added successfully";
     }
 
