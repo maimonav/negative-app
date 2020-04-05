@@ -47,7 +47,7 @@ export default class ShowSupplier extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Show Supplier details</h4>
+                <h4 style={{ margin: "auto" }}>Show Supplier details</h4>
               </CardHeader>
               <CardBody>
                 <GridItem xs={12} sm={12} md={6}>

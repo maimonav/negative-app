@@ -56,7 +56,7 @@ export default class ShowReport extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Show Report</h4>
+                <h4 style={{ margin: "auto" }}>Show Report</h4>
               </CardHeader>
               <CardBody>
                 <div style={{ display: "flex", alignItems: "flex-start" }}>

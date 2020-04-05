@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaProducts,
-  handleGetProductDetails,
+  handleGetProductDetails
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -46,7 +46,7 @@ export default class ShowProductDetails extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Show product details</h4>
+                <h4 style={{ margin: "auto" }}>Show product details</h4>
               </CardHeader>
               <CardBody>
                 <GridItem xs={12} sm={12} md={6}>

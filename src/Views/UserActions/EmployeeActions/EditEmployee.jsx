@@ -72,8 +72,8 @@ export default class EditEmployee extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Edit employee</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Edit employee</h4>
                 <p>Change the details you want about the employee you choose</p>
               </CardHeader>
               <CardBody>

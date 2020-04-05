@@ -88,8 +88,8 @@ export default class AddCafeteriaOrder extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Add new Cafeteria Order</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Add new Cafeteria Order</h4>
                 <p>Complete order's details</p>
               </CardHeader>
               <CardBody>

@@ -9,13 +9,24 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import { AddProduct, EditProduct, RemoveProduct, ShowProductDetails } from "../../index";
+import {
+  AddProduct,
+  EditProduct,
+  RemoveProduct,
+  ShowProductDetails
+} from "../../index";
 import {
   handleAddProduct,
   handleEditProduct,
   handleRemoveProduct
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
+const iconStyle = {
+  marginTop: "-10px",
+  boxShadow: "none",
+  backgroundColor: "unset",
+  color: "white"
+};
 
 export default class ManageInventory extends React.Component {
   constructor(props) {
@@ -36,13 +47,14 @@ export default class ManageInventory extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Inventory</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Inventory</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
                       color="default"
                       size="small"
                       onClick={() => this.onChange("show")}
+                      style={iconStyle}
                     >
                       <ShowIcon />
                     </Fab>
@@ -52,6 +64,7 @@ export default class ManageInventory extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("add")}
+                      style={iconStyle}
                     >
                       <AddIcon />
                     </Fab>
@@ -62,6 +75,7 @@ export default class ManageInventory extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
+                      style={iconStyle}
                     >
                       <EditIcon />
                     </Fab>
@@ -72,13 +86,14 @@ export default class ManageInventory extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
+                      style={iconStyle}
                     >
                       <DeleteIcon />
                     </Fab>
                   </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {this.state.action === "show" && <ShowProductDetails /> }
+              {this.state.action === "show" && <ShowProductDetails />}
               {this.state.action === "add" && (
                 <AddProduct handleAddProduct={handleAddProduct}></AddProduct>
               )}

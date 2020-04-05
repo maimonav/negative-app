@@ -2,10 +2,12 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import LogoutIcon from "@material-ui/icons/ExitToApp";
+import NotificationsIcon from "@material-ui/icons/Notifications";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
-import { loginPath, logoutPath } from "../consts/paths";
+import { loginPath, logoutPath, notificationPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import {
@@ -14,6 +16,7 @@ import {
   logoutTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
+  console.log(localStorage.getItem("username"));
   return (
     <Router>
       <Paper square>
@@ -23,7 +26,15 @@ export default function TablPanel(props) {
               <Tab label="Login" />
             </Link>
           )}
-
+          {props.isLogged && (
+            <Tab
+              label={`Welcome back, ${props.userName}`}
+              style={{
+                textTransform: "none",
+                marginLeft: "15px"
+              }}
+            ></Tab>
+          )}
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
@@ -35,12 +46,19 @@ export default function TablPanel(props) {
 
           {props.isLogged && <ReportsActionsDropDownTab />}
           {props.isLogged && (
-            <Link to={logoutPath} style={{ marginLeft: "auto" }}>
+            <Link to={notificationPath} style={{ marginLeft: "auto" }}>
               <Tab
-                label="Logout"
+                label={<NotificationsIcon></NotificationsIcon>}
                 data-hook={logoutTabHook}
-                style={{ textTransform: "none" }}
-              />
+              ></Tab>
+            </Link>
+          )}
+          {props.isLogged && (
+            <Link to={logoutPath}>
+              <Tab
+                label={<LogoutIcon></LogoutIcon>}
+                data-hook={logoutTabHook}
+              ></Tab>
             </Link>
           )}
         </Tabs>

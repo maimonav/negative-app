@@ -27,6 +27,12 @@ import {
   removeActionHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const iconStyle = {
+  marginTop: "-10px",
+  boxShadow: "none",
+  backgroundColor: "unset",
+  color: "white"
+};
 
 export default class ManageSuppliers extends React.Component {
   constructor(props) {
@@ -47,7 +53,7 @@ export default class ManageSuppliers extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Suppliers</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Suppliers</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
@@ -55,6 +61,7 @@ export default class ManageSuppliers extends React.Component {
                       size="small"
                       onClick={() => this.onChange("show")}
                       data-hook={showActionHook}
+                      style={iconStyle}
                     >
                       <ShowIcon />
                     </Fab>
@@ -65,6 +72,7 @@ export default class ManageSuppliers extends React.Component {
                       size="small"
                       onClick={() => this.onChange("add")}
                       data-hook={addActionHook}
+                      style={iconStyle}
                     >
                       <AddIcon />
                     </Fab>
@@ -76,6 +84,7 @@ export default class ManageSuppliers extends React.Component {
                       size="small"
                       onClick={() => this.onChange("edit")}
                       data-hook={editActionHook}
+                      style={iconStyle}
                     >
                       <EditIcon />
                     </Fab>
@@ -87,6 +96,7 @@ export default class ManageSuppliers extends React.Component {
                       size="small"
                       onClick={() => this.onChange("delete")}
                       data-hook={removeActionHook}
+                      style={iconStyle}
                     >
                       <DeleteIcon />
                     </Fab>

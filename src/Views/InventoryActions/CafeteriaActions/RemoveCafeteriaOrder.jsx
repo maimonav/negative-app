@@ -54,8 +54,8 @@ export default class RemoveCafeteriaOrder extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Remvoe Cafeteria Order</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Remvoe Cafeteria Order</h4>
                 <p>Choose order's number</p>
               </CardHeader>
               <CardBody>
