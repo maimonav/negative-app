@@ -36,7 +36,6 @@ describe("CafeteriaProductOrder Operations Tests", () => {
         expect(result).toBe("The user performing the operation does not exist in the system");
     });
 
-
     it('UnitTest addCafeteriaOrder - Cinema System', () => {
         let cinemaSystem = new CinemaSystem();
         testCinemaFunctions(cinemaSystem, () => cinemaSystem.addCafeteriaOrder(1,'',1,[{"id":1,"quantity":3}],1));
@@ -107,6 +106,8 @@ describe("CafeteriaProductOrder Operations Tests", () => {
         expectedProduct.productOrders.set(1,expectedCafeteriaProductOrder);
         expectedOrder.productOrders.set(1,expectedCafeteriaProductOrder);
         expect(expectedOrder.equals(actualOrder)).toBe(true);
+        result = serviceLayer.addCafeteriaOrder('Order',todayDate.toISOString(),'Supplier', '[{"name":"Product","quantity":"3"}]', 'User');
+        expect(result).toBe("The order already exist");
 
     });
 

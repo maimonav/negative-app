@@ -524,6 +524,29 @@ class ServiceLayer {
     return result;
   }
 
+  removeOrder(orderId, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(orderId)
+      ? "Order ID is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+        ? "Username is not valid"
+        : "Valid";
+    if (validationResult !== "Valid") return validationResult;
+
+
+
+    if (!this.orders.has(orderId))
+      return "The order does not exist";
+    if (!this.users.has(ActionIDOfTheOperation))
+      return "The user performing the operation does not exist in the system";
+    let result = this.cinemaSystem.removeOrder(
+      this.orders.get(orderId),
+      this.users.get(ActionIDOfTheOperation)
+    );
+    if (result === "The order removed successfully.")
+      this.orders.delete(orderId);
+    return result;
+  }
+
   addCafeteriaOrder(
     orderId,
     date,
@@ -597,23 +620,7 @@ class ServiceLayer {
     }
   }
 
-  removeCafeteriaOrder(orderId, ActionIDOfTheOperation) {
-    if (!this.orders.has(orderId)) {
-      return "The order does not exist";
-    } else {
-      if (!this.users.has(ActionIDOfTheOperation)) {
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.removeCafeteriaOrder(
-        orderId,
-        this.users.get(ActionIDOfTheOperation)
-      );
-      if (result === "The category added successfully.") {
-        this.orders.delete(orderId);
-      }
-      return result;
-    }
-  }
+
 
   createDailyReport(type, records, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)

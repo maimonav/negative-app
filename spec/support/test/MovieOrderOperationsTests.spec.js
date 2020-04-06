@@ -5,7 +5,9 @@ const Order = require("../../../server/src/main/Order");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
-const { validate , testCinemaFunctions } = require("./MovieOperationsTests.spec")
+const { validate , testCinemaFunctions } = require("./MovieOperationsTests.spec");
+
+
 
 
 
@@ -36,10 +38,25 @@ describe("MovieOrder Operations Tests", () => {
         expect(result).toBe("The user performing the operation does not exist in the system");
     });
 
+    it('UnitTest removeOrder - Service Layer', () => {
+        let serviceLayer = new ServiceLayer();
+        //Input validation
+        validate(serviceLayer, serviceLayer.removeOrder, { 'Order ID ': 'Order',  'Username ': 'User' })
+        
+        let result = serviceLayer.removeOrder('Order', 'User');
+        expect(result).toBe("The order does not exist");
+        serviceLayer.orders.set("Order", 1);
+        result = serviceLayer.removeOrder('Order','User');
+        expect(result).toBe("The user performing the operation does not exist in the system");
+    });
 
-    it('UnitTest addMovieOrder - Cinema System', () => {
+
+    it('UnitTest addMovieOrder, removeOrder - Cinema System', () => {
         let cinemaSystem = new CinemaSystem();
         testCinemaFunctions(cinemaSystem, () => cinemaSystem.addMovieOrder(1,'',1,[],1));
+
+        cinemaSystem = new CinemaSystem();
+        testCinemaFunctions(cinemaSystem, () => cinemaSystem.removeOrder(1,1));
     });
 
 
@@ -71,6 +88,23 @@ describe("MovieOrder Operations Tests", () => {
         expect(expectedOrder.equals(actualOrder)).toBe(true);
 
     });
+
+    it('UnitTest removeOrder - Inventory Management', () => {
+        let inventoryManagement = new InventoryManagement();
+        let result = inventoryManagement.removeOrder(1);
+        expect(result).toBe("This order does not exist");
+        let order = new Order();
+        order.recipientEmployeeId = 1;
+        inventoryManagement.orders.set(1, order);
+        result = inventoryManagement.removeOrder(1, 1);
+        expect(result).toBe("Removing supplied orders is not allowed");
+        inventoryManagement.orders.set(1, new Order());
+        result = inventoryManagement.removeOrder(1, 1);
+        expect(result).toBe("The order removed successfully");
+        expect(inventoryManagement.orders.has(1)).toBe(false);
+
+    });
+
 
 
 
@@ -107,14 +141,46 @@ describe("MovieOrder Operations Tests", () => {
         expectedMovie.productOrders.set(1,expectedMovieOrder);
         expectedOrder.productOrders.set(1,expectedMovieOrder);
         expect(expectedOrder.equals(actualOrder)).toBe(true);
+        result = serviceLayer.addMovieOrder('Order',todayDate.toISOString(),'Supplier', '["Movie"]', 'User');
+        expect(result).toBe("The order already exist");
+    });
+
+
+    it('Integration removeOrder',  () => {
+
+        let serviceLayer = new ServiceLayer('mydbtest');
+        serviceLayer.users.set("User", 1);
+        serviceLayer.orders.set("Order", 0);
+        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.removeOrder('Order', 'User'));
+        user = { isLoggedin: () => true, permissionCheck: () => true }
+        serviceLayer.cinemaSystem.users.set(1, user);
+
+
+        let result = serviceLayer.removeOrder('Order', 'User');
+        expect(result).toBe("This order does not exist");
+        order = new Order(0,0,new Date('2020-03-02 00:00:00'),0);
+        order.recipientEmployeeId = 1;
+        serviceLayer.cinemaSystem.inventoryManagement.orders.set(0, order);
+        result = serviceLayer.removeOrder('Order', 'User');
+        expect(result).toBe("Removing supplied orders is not allowed");
+
+        order.recipientEmployeeId = null;
+        let movie = new Movie(0,'movie',0);
+        let movieOrder = new MovieOrder(movie,order);
+        movie.productOrders.set(0,movieOrder);
+        order.productOrders.set(0,movieOrder);
+        serviceLayer.cinemaSystem.inventoryManagement.orders.set(0, order);
+        
+     
+        result = serviceLayer.removeOrder('Order', 'User');
+        expect(result).toBe("The order removed successfully");
+        expect(serviceLayer.cinemaSystem.inventoryManagement.orders.has(1)).toBe(false);
+        result = serviceLayer.removeOrder('Order', 'User');
+        expect(result).toBe("This order does not exist");
+
 
     });
 
 
-
-
-
 });
-
-
 

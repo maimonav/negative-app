@@ -18,12 +18,9 @@ class Order {
 
     //TODO:: might be changed
     removeOrder = () => {
-        /*this.productOrders.forEach(async (productOrder)=> {
-        await productOrder.removeOrder(this.id).then((res)=>{
-            //if(res)
-        })
-        });*/
         DataBase.remove('order', { id: this.id });
+        for(let i in this.productOrders)
+            this.productOrders[i].remove();
     }
 
     addProductOrder(id, productOrder) {

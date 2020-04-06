@@ -247,6 +247,17 @@ class CinemaSystem {
     );
   }
 
+  removeOrder(orderId, ActionIDOfTheOperation) {
+    let result = this.checkUser(
+      ActionIDOfTheOperation,
+      "DEPUTY_MANAGER",
+      "removeOrder"
+    );
+    if (result != null) return result;
+    return this.inventoryManagement.removeOrder(orderId);
+
+  }
+
   addCafeteriaOrder(
     orderId,
     date,
@@ -268,6 +279,8 @@ class CinemaSystem {
       ActionIDOfTheOperation
     );
   }
+
+
 
   addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
     let result = this.checkUser(
@@ -311,7 +324,7 @@ class CinemaSystem {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "addNewSupplier");
+    let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addNewSupplier");
     if (result != null) return result;
     return this.inventoryManagement.addNewSupplier(
       supplierID,
@@ -326,7 +339,7 @@ class CinemaSystem {
     contactDetails,
     ActionIDOfTheOperation
   ) {
-    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "editSupplier");
+    let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editSupplier");
     if (result != null) return result;
     return this.inventoryManagement.editSupplier(
       supplierID,
@@ -336,7 +349,7 @@ class CinemaSystem {
   }
 
   removeSupplier(supplierID, ActionIDOfTheOperation) {
-    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "removeSupplier");
+    let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeSupplier");
     if (result != null) return result;
     return this.inventoryManagement.removeSupplier(supplierID);
   }
@@ -390,13 +403,13 @@ class CinemaSystem {
 
 
   createDailyReport(type, records, ActionIDOfTheOperation) {
-    let result = this.checkUser(ActionIDOfTheOperation,"SHIFT_MANAGER", "createDailyReport");
+    let result = this.checkUser(ActionIDOfTheOperation, "SHIFT_MANAGER", "createDailyReport");
     if (result != null) return result;
     return ReportController.createDailyReport(type, records);
   }
 
   getReport(type, date, ActionIDOfTheOperation) {
-    let result = this.checkUser(ActionIDOfTheOperation,"DEPUTY_MANAGER", "getReport");
+    let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "getReport");
     if (result != null) return result;
     return ReportController.getReport(type, date);
   }

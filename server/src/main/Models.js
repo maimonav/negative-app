@@ -132,7 +132,7 @@ const userSchema = () => {
       orderId: {type: Sequelize.INTEGER, primaryKey: true,
         references: {
           // This is a reference to another model
-          model: Movie,
+          model: Order,
      
           // This is the column name of the referenced model
           key: 'id'
@@ -141,7 +141,7 @@ const userSchema = () => {
       movieId: {type: Sequelize.INTEGER, primaryKey: true,
         references: {
           // This is a reference to another model
-          model: Order,
+          model: Movie,
      
           // This is the column name of the referenced model
           key: 'id'
@@ -157,7 +157,7 @@ const userSchema = () => {
       orderId: {type: Sequelize.INTEGER, primaryKey: true,
         references: {
           // This is a reference to another model
-          model: CafeteriaProduct,
+          model: Order,
      
           // This is the column name of the referenced model
           key: 'id'
@@ -166,7 +166,7 @@ const userSchema = () => {
       productId: {type: Sequelize.INTEGER, primaryKey: true,
         references: {
           // This is a reference to another model
-          model: Order,
+          model: CafeteriaProduct,
      
           // This is the column name of the referenced model
           key: 'id'

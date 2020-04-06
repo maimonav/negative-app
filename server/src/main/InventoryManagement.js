@@ -88,6 +88,16 @@ class InventoryManagemnt {
         return "The order added successfully";
     }
 
+    removeOrder(orderId) {
+        if (!this.orders.has(orderId))
+            return "This order does not exist";
+        if(this.orders.get(orderId).recipientEmployeeId != null)
+            return "Removing supplied orders is not allowed";
+        this.orders.get(orderId).removeOrder();
+        this.orders.delete(orderId);
+        return "The order removed successfully"
+    }
+
     addCafeteriaOrder(
         orderId,
         strDate,

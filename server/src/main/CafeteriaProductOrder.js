@@ -11,6 +11,10 @@ class CafeteriaProductOrder {
         DataBase.add('cafeteria_product_order', { orderId: order.id, productId: product.id , expectedQuantity:quantity});
         DataBase.setDestroyTimer('cafeteria_product_orders', true, '1 YEAR', '1 DAY');
     }
+
+    remove(){
+        DataBase.remove('cafeteria_product_order', { orderId: order.id });
+    } 
     
     editCafeteriaProductOrder(actualQuantity){
         this.actualQuantity=actualQuantity;
