@@ -109,7 +109,7 @@ describe("DB Test - destroy timer", function () {
   it("delete order after time test", async function (done) {
     await addSupplier(0);
     await addEmployee(0);
-    await addOrderAftereSupplierCreator();
+    await addOrderAftereSupplierCreator(0);
     await deleteModel('order', 'orders', true, { id: 0 }, 6000, done);
   });
 
@@ -118,7 +118,7 @@ describe("DB Test - destroy timer", function () {
     await addEmployee(0);
     await addCategory(0, "testCategory");
     await addMovieAfterCategory();
-    await addOrderAftereSupplierCreator();
+    await addOrderAftereSupplierCreator(0);
     await DB.add('movie_order', {
       orderId: 0,
       movieId: 0,
@@ -132,7 +132,7 @@ describe("DB Test - destroy timer", function () {
     await addEmployee(0);
     await addCategory(0, "testCategory");
     await addProductAfterCategory();
-    await addOrderAftereSupplierCreator();
+    await addOrderAftereSupplierCreator(0);
     await DB.add('cafeteria_product_order', {
       orderId: 0,
       productId: 0,
