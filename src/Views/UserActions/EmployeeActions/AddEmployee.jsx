@@ -9,24 +9,6 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 const style = { justifyContent: "center", top: "auto" };
-// const styles = {
-//   cardCategoryWhite: {
-//     color: "rgba(255,255,255,.62)",
-//     margin: "0",
-//     fontSize: "14px",
-//     marginTop: "0",
-//     marginBottom: "0"
-//   },
-//   cardTitleWhite: {
-//     color: "#FFFFFF",
-//     marginTop: "0px",
-//     minHeight: "auto",
-//     fontWeight: "300",
-//     fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
-//     marginBottom: "3px",
-//     textDecoration: "none"
-//   }
-// };
 
 export default class AddEmployee extends React.Component {
   constructor(props) {
@@ -79,8 +61,8 @@ export default class AddEmployee extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Add new employee</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Add new employee</h4>
                 <p>Complete his profile</p>
               </CardHeader>
               <CardBody>

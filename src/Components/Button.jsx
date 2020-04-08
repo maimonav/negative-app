@@ -18,6 +18,7 @@ export default function BaseButton(props) {
       <Button
         variant="outlined"
         color="primary"
+        style={{ textTransform: "none" }}
         onClick={() => props.onClick()}
         {...props}
       >

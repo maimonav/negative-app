@@ -10,14 +10,27 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import { CreateMovieOrder, AddMovie, EditMovie, RemoveMovie, ShowMovieDetails } from "../../index";
 import {
+  AddMovieOrder,
+  AddMovie,
+  EditMovie,
+  RemoveMovie,
+  ShowMovieDetails
+} from "../../index";
+import {
+  handleAddMovieOrder,
   handleAddMovie,
   handleEditMovie,
   handleRemoveMovie
 } from "../../../Handlers/Handlers";
 import { editActionHook, removeActionHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const iconStyle = {
+  marginTop: "-10px",
+  boxShadow: "none",
+  backgroundColor: "unset",
+  color: "white"
+};
 
 export default class ManageMovies extends React.Component {
   constructor(props) {
@@ -38,13 +51,14 @@ export default class ManageMovies extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4>Manage Movies</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Movies</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
                       color="default"
                       size="small"
                       onClick={() => this.onChange("show")}
+                      style={iconStyle}
                     >
                       <ShowIcon />
                     </Fab>
@@ -54,6 +68,7 @@ export default class ManageMovies extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("create")}
+                      style={iconStyle}
                     >
                       <NoteAddIcon />
                     </Fab>
@@ -63,6 +78,7 @@ export default class ManageMovies extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("add")}
+                      style={iconStyle}
                     >
                       <AddIcon />
                     </Fab>
@@ -74,6 +90,7 @@ export default class ManageMovies extends React.Component {
                       size="small"
                       onClick={() => this.onChange("edit")}
                       data-hook={editActionHook}
+                      style={iconStyle}
                     >
                       <EditIcon />
                     </Fab>
@@ -85,6 +102,7 @@ export default class ManageMovies extends React.Component {
                       size="small"
                       onClick={() => this.onChange("delete")}
                       data-hook={removeActionHook}
+                      style={iconStyle}
                     >
                       <DeleteIcon />
                     </Fab>
@@ -92,7 +110,9 @@ export default class ManageMovies extends React.Component {
                 </GridContainer>
               </CardHeader>
               {this.state.action === "show" && <ShowMovieDetails />}
-              {this.state.action === "create" && <CreateMovieOrder />}
+              {this.state.action === "create" && (
+                <AddMovieOrder handleAddMovieOrder={handleAddMovieOrder} />
+              )}
               {this.state.action === "add" && (
                 <AddMovie handleAddMovie={handleAddMovie} />
               )}

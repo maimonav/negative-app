@@ -9,7 +9,10 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { handleGetMovies, handleGetCategories } from "../../../Handlers/Handlers";
+import {
+  handleGetMovies,
+  handleGetCategories
+} from "../../../Handlers/Handlers";
 import {
   movieNameHook,
   categoryNameHook,
@@ -67,8 +70,8 @@ export default class EditMovie extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Edit movie</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Edit movie</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>

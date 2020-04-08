@@ -1,5 +1,7 @@
 const DataBase = require("./DBManager");
 const Product = require("./Product");
+const MovieOrder = require("./MovieOrder");
+
 
 class Movie extends Product {
 
@@ -11,6 +13,12 @@ class Movie extends Product {
         DataBase.add('movie', { id: id, name: name, categoryId: categoryId });
         DataBase.setDestroyTimer('movies', false, '2 YEAR', '1 DAY', 'isMovieRemoved');
     }
+
+
+    createOrder(order){
+        this.productOrders.set(order.id,new MovieOrder(this,order));
+    }
+
 
     editMovie = (categoryId, key, examinationRoom) => {
         super.categoryId = categoryId;

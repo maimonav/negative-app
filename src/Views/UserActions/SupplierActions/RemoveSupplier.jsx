@@ -46,7 +46,7 @@ export default class RemoveSupplier extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Remove supplier</h4>
+                <h4 style={{ margin: "auto" }}>Remove supplier</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>

@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
+import Tab from "@material-ui/core/Tab";
 import {
   manageInventoryPath,
   manageCafeteriaPath,
@@ -11,6 +12,8 @@ import {
   manageMoviesPath
 } from "../../consts/paths";
 import { moviesTabHook } from "../../consts/data-hooks";
+const style = { textDecoration: "none", color: "black" };
+const menuStyle = { justifyContent: "center" };
 
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,6 +33,7 @@ export default function InventoryActionsDropDownTab(props) {
         aria-controls="drop-down-tab"
         aria-haspopup="true"
         onClick={handleClick}
+        style={{ textTransform: "none", minWidth: "150px" }}
         {...props}
       >
         Inventory Actions
@@ -40,30 +44,40 @@ export default function InventoryActionsDropDownTab(props) {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}
+        style={{
+          marginTop: "34px",
+          marginLeft: "5px",
+          maxWidth: "175px"
+        }}
       >
-        <Link to={manageInventoryPath}>
-          <MenuItem value={1} onClick={handleClose}>
-            Manage Inventory
+        <Link to={manageInventoryPath} style={style}>
+          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+            <Tab label="Manage Inventory" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={manageCafeteriaPath}>
-          <MenuItem value={1} onClick={handleClose}>
-            Manage Cafeteria
+        <Link to={manageCafeteriaPath} style={style}>
+          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+            <Tab label="Manage Cafeteria" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={manageMoviesPath}>
-          <MenuItem value={1} onClick={handleClose} data-hook={moviesTabHook}>
-            Manage Movies
+        <Link to={manageMoviesPath} style={style}>
+          <MenuItem
+            value={1}
+            onClick={handleClose}
+            data-hook={moviesTabHook}
+            style={menuStyle}
+          >
+            <Tab label="Manage Movies" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={addCategoryPath}>
-          <MenuItem value={1} onClick={handleClose}>
-            Add Category
+        <Link to={addCategoryPath} style={style}>
+          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+            <Tab label="Add Category" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={removeCategoryPath}>
-          <MenuItem value={1} onClick={handleClose}>
-            Remove Category
+        <Link to={removeCategoryPath} style={style}>
+          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+            <Tab label="Remove Category" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
       </Menu>

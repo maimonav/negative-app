@@ -8,7 +8,10 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { handleGetMovies, handleGetCategories } from "../../../Handlers/Handlers";
+import {
+  handleGetMovies,
+  handleGetCategories
+} from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovie extends React.Component {
@@ -50,8 +53,8 @@ export default class AddMovie extends React.Component {
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              <CardHeader color="info">
-                <h4>Add New movie</h4>
+              <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                <h4 style={{ margin: "auto" }}>Add New movie</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>

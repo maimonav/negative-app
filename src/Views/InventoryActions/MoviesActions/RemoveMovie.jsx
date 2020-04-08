@@ -41,7 +41,7 @@ export default class EditMovie extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info">
-                <h4>Remove movie</h4>
+                <h4 style={{ margin: "auto" }}>Remove movie</h4>
               </CardHeader>
               <CardBody>
                 <GridContainer>

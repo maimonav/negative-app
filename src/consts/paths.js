@@ -1,5 +1,6 @@
 export const loginPath = "/login";
 export const logoutPath = "/logout";
+export const notificationPath = "/notification";
 export const manageEmployeesPath = "/manageEmployees";
 export const manageSuppliersPath = "/manageSuppliers";
 export const manageInventoryPath = "/manageInventory";
@@ -13,7 +14,8 @@ export const editMoviePath = "/editMovie";
 export const removeMoviePath = "/removeMovie";
 export const manageCafeteriaPath = "/manageCafeteria";
 export const addCafeteriaOrderPath = "/addCafeteriaOrder";
-export const editCafeteriaOrderPath = "/editCafeteriaOrder"
+export const editCafeteriaOrderPath = "/editCafeteriaOrder";
 export const removeCafeteriaOrderPath = "/removeCafeteriaOrder";
 export const addCategoryPath = "/addCategory";
 export const removeCategoryPath = "/removeCategory";
+export const showReportPath = "/showReport";

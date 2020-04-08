@@ -1,5 +1,6 @@
 const DataBase = require("./DBManager");
 const Product = require("./Product");
+const CafeteriaProductOrder = require("./CafeteriaProductOrder");
 
 
 class CafeteriaProduct extends Product {
@@ -17,14 +18,18 @@ class CafeteriaProduct extends Product {
     }
 
     
-    removeMovie = () => {
+    createOrder(order,quantity){
+        this.productOrders.set(order.id,new CafeteriaProductOrder(this,order,quantity));
+    }
+
+    removeProduct = () => {
         if (this.isProductRemoved == null) {
             this.isProductRemoved = new Date();
             DataBase.update('cafeteria_product', { id: this.id }, { isProductRemoved: this.isProductRemoved });
-            return true;
+            return "The product removed successfully";
         }
         else
-            return false;
+            return "The product already removed";
     }
 
     equals(toCompare) {
