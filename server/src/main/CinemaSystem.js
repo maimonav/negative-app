@@ -6,10 +6,7 @@ class CinemaSystem {
   constructor(dbName) {
     this.users = new Map();
     //testing purpose
-    const { User, Employee } = {
-      User: require("./User"),
-      Employee: require("./Employee")
-    };
+    const User = require("./User")
 
     const InventoryManagement = require("./InventoryManagement");
     this.inventoryManagement = new InventoryManagement();
