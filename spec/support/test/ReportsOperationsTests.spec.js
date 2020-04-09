@@ -153,33 +153,45 @@ describe("Report Operations Unit Tests", () => {
 
 
 
-    /*
-     
-        it('UnitTest addField , removeField - ReportController', async () => {
-            //addField
-            await addEmployee(0);
-            let date = new Date().toISOString().substring(0, 10);
-     
-            await DB.add('general_purpose_daily_report', { date: new Date(date), additionalProps: [["oldField"], {}], creatorEmployeeId: 0 });
-            let expectedResult = { date: new Date(date), additionalProps: [["oldField", "Report Z taken"], {}], creatorEmployeeId: 0 };
-            ReportController.addFieldToDailyReport("Report Z taken");
-     
-     
-            let actualResult = await DB.getById('general_purpose_daily_report', { date: new Date(date) });
-            expect(expectedResult.date).toEqual(actualResult.date);
-            expect(expectedResult.additionalProps).toEqual(actualResult.additionalProps);
-            expect(expectedResult.creatorEmployeeId).toEqual(actualResult.creatorEmployeeId);
-     
-     
-     
-            
-                    //remove
-                    expect(expectedMovie.removeMovie()).toBe("The movie removed successfully");
-                    expect(expectedMovie.isMovieRemoved != null).toBe(true);
-                    expect(expectedMovie.removeMovie()).toBe("The movie already removed");
-     
-        });
-    */
+
+
+    it('UnitTest addField , removeField - ReportController', async () => {
+        //addField
+        let todayDate = new Date();
+        await addEmployee(0);
+
+
+        let reports = [{ date: todayDate, creatorEmployeeId: 0, additionalProps: [["oldField"], { "oldField": "true" }] }];
+
+
+        await createReport('general_purpose_daily_report', reports);
+        await ReportController.addFieldToDailyReport("Report Z taken");
+        reports[0].date = new Date(getSyncDateFormat(todayDate));
+        let actualResult = await ReportController.getReport('general_purpose_daily_report', todayDate);
+        let expectedResult = {
+            date: new Date(getSyncDateFormat(todayDate)),
+            additionalProps: [["oldField", "Report Z taken"], { "oldField": "true" }], creatorEmployeeId: 0
+        };
+
+
+        expect(expectedResult.date).toEqual(actualResult.date);
+        expect(expectedResult.additionalProps).toEqual(actualResult.additionalProps);
+        expect(expectedResult.creatorEmployeeId).toEqual(actualResult.creatorEmployeeId);
+
+
+
+        //remove
+
+        await ReportController.removeFieldFromDailyReport("Report Z taken");
+        actualResult = await ReportController.getReport('general_purpose_daily_report', todayDate);
+
+        expect(reports[0].date).toEqual(actualResult.date);
+        expect(reports[0].additionalProps).toEqual(actualResult.additionalProps);
+        expect(reports[0].creatorEmployeeId).toEqual(actualResult.creatorEmployeeId);
+
+
+    });
+
     it('Integration createDailyReport', async () => {
         let serviceLayer = new ServiceLayer('mydbtest');
         let records = JSON.stringify([]);

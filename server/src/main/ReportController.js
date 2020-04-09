@@ -34,7 +34,7 @@ class ReportController {
 
     static async createDailyReport(type, records) {
         //validate type from enum of types
-        if(!this.isValidType(type))
+        if (!this.isValidType(type))
             return "The requested report type is invalid"
         for (let i in records) {
             records[i].date = new Date(this.getSyncDateFormat(new Date(records[i].date)));
@@ -49,8 +49,8 @@ class ReportController {
 
 
     static async getReport(type, date) {
-        if(!this.isValidType(type))
-        return "The requested report type is invalid"
+        if (!this.isValidType(type))
+            return "The requested report type is invalid"
 
         if (!this.isValidDate(date))
             return "The requested report date is invalid"
@@ -85,29 +85,24 @@ class ReportController {
                 }
                 else {
                     */
-                result[0].additionalProps[0] = result[0].additionalProps[0].concat(newField);
-                try {
-                    await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: result[0].additionalProps });
-                    console.log()
-
-                } catch (e) {
-                    console.log()
-
-                }
+                let newProps = result[0].additionalProps[0].concat(newField);
+                await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
 
                 // }
             });
 
+
     }
 
     static async removeFieldFromDailyReport(fieldToRemove) {
-        await DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', field: 'date' }).then(async (result) => {
-            if (result.length !== 0) {
-                let date = result[0].date;
-                let newProps = result[0].additionalProps[0].filter((value) => (value === fieldToRemove));
-                await DataBase.update(this.types.GENERAL, { date: date }, newProps);
-            }
-        });
+        await DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
+            .then(async (result) => {
+                if (result.length !== 0) {
+                    let newProps = result[0].additionalProps[0].filter((value) => (value !== fieldToRemove));
+                    await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
+                }
+
+            });
 
     }
 
