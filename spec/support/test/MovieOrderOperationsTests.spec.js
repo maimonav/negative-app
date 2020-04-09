@@ -20,7 +20,7 @@ async function validate(serviceLayer, method, params) {
     })
 }
 
-exports.validate=validate;
+exports.asyncValidate=validate;
 
 async function testCinemaFunctions(cinemaSystem, method) {
     let result = await method();
@@ -35,7 +35,7 @@ async function testCinemaFunctions(cinemaSystem, method) {
     expect(result).toBe("User does not have proper permissions");
 }
 
-exports.testCinemaFunctions=testCinemaFunctions;
+exports.asyncTestCinemaFunctions=testCinemaFunctions;
 
 describe("MovieOrder Operations Tests", () => {
 

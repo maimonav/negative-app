@@ -620,7 +620,39 @@ class ServiceLayer {
     }
   }
 
+  removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(fieldToRemove)
+      ? "Field is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+        ? "Username is not valid"
+        : "Valid";
+    if (validationResult !== "Valid") return validationResult;
 
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.removeFieldFromDailyReport(
+      fieldToRemove,
+      this.users.get(ActionIDOfTheOperation)
+    );
+  }
+
+  addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+    let validationResult = !this.isInputValid(newField)
+      ? "Field is not valid"
+      : !this.isInputValid(ActionIDOfTheOperation)
+        ? "Username is not valid"
+        : "Valid";
+    if (validationResult !== "Valid") return validationResult;
+
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.addFieldToDailyReport(
+      newField,
+      this.users.get(ActionIDOfTheOperation)
+    );
+  }
 
   createDailyReport(type, records, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)
@@ -642,7 +674,7 @@ class ServiceLayer {
     );
   }
 
-  getReport(type, date, ActionIDOfTheOperation) {
+  async getReport(type, date, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)
       ? "Type is not valid"
       : !this.isInputValid(date)

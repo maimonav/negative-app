@@ -32,16 +32,18 @@ class ReportController {
         return Object.keys(this.types).some((k) => (this.types[k] === type));
     }
 
-    static async createDailyReport(type, records) {
+    static createDailyReport(type, records) {
         //validate type from enum of types
         if (!this.isValidType(type))
             return "The requested report type is invalid"
         for (let i in records) {
             records[i].date = new Date(this.getSyncDateFormat(new Date(records[i].date)));
-            let result = await DataBase.add(type, records[i]);
-            if (result == 'error') {
+            /*let result = */DataBase.add(type, records[i]).catch((res)=>{
+                console.log();
+            });
+            /*if (result == 'error') {
                 return "The report can not be created"
-            }
+            }*/
         }
         return "The report created successfully";
 
@@ -72,41 +74,31 @@ class ReportController {
     static getDailyReoprtFormat() { }
 
 
-    //TODO:: return msg of success/failure
-
-    static async addFieldToDailyReport(newField) {
-        await DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
+    //TODO:: result.length === 0 ??
+    static addFieldToDailyReport(newField) {
+        DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
             .then(async (result) => {
-                //TODO:: return msg??
-                /*
-                if (result.length === 0) {
-                    let date = new Date().toISOString().substring(0, 10);
-                    await DataBase.add(this.types.GENERAL, { date: new Date(date), additionalProps: [[newField], {}], creatorEmployeeId: null });
+                if (result.length !== 0) {
+                    let newProps = result[0].additionalProps[0].concat(newField);
+                    await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
                 }
-                else {
-                    */
-                let newProps = result[0].additionalProps[0].concat(newField);
-                await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
-
-                // }
             });
 
-
+        return "The report field added successfully";
     }
-
-    static async removeFieldFromDailyReport(fieldToRemove) {
-        await DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
+    //TODO:: result.length === 0 ??
+    static removeFieldFromDailyReport(fieldToRemove) {
+        DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
             .then(async (result) => {
                 if (result.length !== 0) {
                     let newProps = result[0].additionalProps[0].filter((value) => (value !== fieldToRemove));
                     await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
                 }
-
             });
+        return "The report field removed successfully";
 
     }
 
 
 }
 module.exports = ReportController;
-exports.DataBase = DataBase;

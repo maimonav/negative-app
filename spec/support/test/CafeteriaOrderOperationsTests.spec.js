@@ -5,7 +5,7 @@ const Order = require("../../../server/src/main/Order");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
-const { validate , testCinemaFunctions } = require("./MovieOrderOperationsTests.spec")
+const { asyncValidate , asyncTestCinemaFunctions } = require("./MovieOrderOperationsTests.spec")
 
 
 
@@ -20,7 +20,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
     it('UnitTest addCafeteriaOrder  - Service Layer', async () => {
         let serviceLayer = new ServiceLayer();
         //Input validation
-        await validate(serviceLayer, serviceLayer.addCafeteriaOrder, { 'Order ID ': 'Order', 'Date ': 'date','Supplier Name ':'Supplier','Products List ':'[{"name":"Product","quantity":"3"}]', 'Username ': 'User' })
+        await asyncValidate(serviceLayer, serviceLayer.addCafeteriaOrder, { 'Order ID ': 'Order', 'Date ': 'date','Supplier Name ':'Supplier','Products List ':'[{"name":"Product","quantity":"3"}]', 'Username ': 'User' })
         
         serviceLayer.orders.set("Order", 1);
         let result = await serviceLayer.addCafeteriaOrder('Order','date','Supplier', '[{"name":"Product","quantity":"3"}]', 'User');
@@ -38,7 +38,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
 
     it('UnitTest addCafeteriaOrder - Cinema System', async () => {
         let cinemaSystem = new CinemaSystem();
-        await testCinemaFunctions(cinemaSystem, () => cinemaSystem.addCafeteriaOrder(1,'',1,[{"id":1,"quantity":3}],1));
+        await asyncTestCinemaFunctions(cinemaSystem, () => cinemaSystem.addCafeteriaOrder(1,'',1,[{"id":1,"quantity":3}],1));
     });
 
 
@@ -79,7 +79,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
         serviceLayer.users.set("User", 1);
         serviceLayer.suppliers.set("Supplier", 1);
         serviceLayer.products.set("Product", 1);
-        await testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addCafeteriaOrder('Order','date','Supplier', '[{"name":"Product","quantity":"3"}]', 'User'));
+        await asyncTestCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addCafeteriaOrder('Order','date','Supplier', '[{"name":"Product","quantity":"3"}]', 'User'));
         let user = { isLoggedin: () => true, permissionCheck: () => true }
         serviceLayer.cinemaSystem.users.set(1, user);
 

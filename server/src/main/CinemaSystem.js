@@ -398,6 +398,18 @@ class CinemaSystem {
     return "TODO: IMPLEMENT THIS.";
   }
 
+  removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+    let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
+    if (result != null) return result;
+    return ReportController.removeFieldFromDailyReport(fieldToRemove);
+  }
+
+  addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+    let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
+    if (result != null) return result;
+    return ReportController.addFieldToDailyReport(newField);
+  }
+
 
   createDailyReport(type, records, ActionIDOfTheOperation) {
     let result = this.checkUser(ActionIDOfTheOperation, "SHIFT_MANAGER", "createDailyReport");
@@ -405,7 +417,7 @@ class CinemaSystem {
     return ReportController.createDailyReport(type, records);
   }
 
-  getReport(type, date, ActionIDOfTheOperation) {
+  async getReport(type, date, ActionIDOfTheOperation) {
     let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "getReport");
     if (result != null) return result;
     return ReportController.getReport(type, date);
