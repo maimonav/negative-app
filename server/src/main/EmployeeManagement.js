@@ -37,7 +37,33 @@ class EmployeeManagemnt {
         logger.info("EmployeeManagemnt- deleteEmployee - The deletion of " + employeeID + " data ended with failure");
         return "The deletion of employee data ended with failure";
     }
+    getEmployees() {
+        const output = {};
+        this.employeeDictionary.forEach(employee => {
+            let key = employee.id;
+            let value = {
+                userName: employee.userName,
+            };
+            output[key] = value;
+        });
+        return output;
+    }
 
+    getEmployeeDetails(employeeID) {
+        if (this.employeeDictionary.has(employeeID)) {
+            const employee = this.employeeDictionary.get(employeeID);
+            return {
+                id: employee.id,
+                userName: employee.userName,
+                password: employee.password,
+                firstName: employee.firstName,
+                lastName: employee.lastName,
+                permissions: employee.permissions,
+                contactDetails: employee.contactDetails
+            }
+        }
+        return {};
+    }
 
 }
 module.exports = EmployeeManagemnt;
