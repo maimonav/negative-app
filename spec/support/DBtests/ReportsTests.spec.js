@@ -40,6 +40,8 @@ async function testAddIncomesDailyReport(report, success) {
         } catch (e) { }
 
 }
+exports.testAddIncomesDailyReport=testAddIncomesDailyReport;
+
 function testIncomeDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
     expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
@@ -51,6 +53,7 @@ function testIncomeDailyReportResult(result, report) {
     expect(result.tabsCashRevenues).toBe(report.tabsCashRevenues);
     expect(result.tabsCreditCardRevenues).toBe(report.tabsCreditCardRevenues);
 }
+exports.testIncomeDailyReportResult=testIncomeDailyReportResult;
 
 async function testAddMoviesDailyReport(report, success) {
     if (success)
@@ -88,11 +91,16 @@ async function testAddGeneralPurposeDailyReport(report, success) {
             });
         } catch (e) { }
 }
+
+exports.testAddGeneralPurposeDailyReport=testAddGeneralPurposeDailyReport;
+
 function testGeneralPurposeDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
     expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
     expect(result.additionalProps).toEqual(report.additionalProps);
 }
+
+exports.testGeneralPurposeDailyReportResult=testGeneralPurposeDailyReportResult;
 
 async function testAddInventoryDailyReport(report, success) {
     if (success)
