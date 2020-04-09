@@ -225,7 +225,7 @@ class CinemaSystem {
     return null;
   }
 
-  addMovieOrder(
+  async addMovieOrder(
     orderId,
     date,
     supplierId,
@@ -247,7 +247,7 @@ class CinemaSystem {
     );
   }
 
-  removeOrder(orderId, ActionIDOfTheOperation) {
+  async removeOrder(orderId, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
@@ -258,7 +258,7 @@ class CinemaSystem {
 
   }
 
-  addCafeteriaOrder(
+  async addCafeteriaOrder(
     orderId,
     date,
     supplierId,

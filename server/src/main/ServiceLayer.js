@@ -476,7 +476,7 @@ class ServiceLayer {
     }
   }
 
-  addMovieOrder(
+  async addMovieOrder(
     orderId,
     date,
     supplierName,
@@ -510,7 +510,7 @@ class ServiceLayer {
     if (!this.users.has(ActionIDOfTheOperation))
       return "The user performing the operation does not exist in the system";
 
-    let result = this.cinemaSystem.addMovieOrder(
+    let result = await this.cinemaSystem.addMovieOrder(
       this.ordersCounter,
       date,
       this.suppliers.get(supplierName),
@@ -524,7 +524,7 @@ class ServiceLayer {
     return result;
   }
 
-  removeOrder(orderId, ActionIDOfTheOperation) {
+  async removeOrder(orderId, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(orderId)
       ? "Order ID is not valid"
       : !this.isInputValid(ActionIDOfTheOperation)
@@ -538,7 +538,7 @@ class ServiceLayer {
       return "The order does not exist";
     if (!this.users.has(ActionIDOfTheOperation))
       return "The user performing the operation does not exist in the system";
-    let result = this.cinemaSystem.removeOrder(
+    let result = await this.cinemaSystem.removeOrder(
       this.orders.get(orderId),
       this.users.get(ActionIDOfTheOperation)
     );
@@ -547,7 +547,7 @@ class ServiceLayer {
     return result;
   }
 
-  addCafeteriaOrder(
+  async addCafeteriaOrder(
     orderId,
     date,
     supplierName,
@@ -581,7 +581,7 @@ class ServiceLayer {
     }
     if (!this.users.has(ActionIDOfTheOperation))
       return "The user performing the operation does not exist in the system";
-    let result = this.cinemaSystem.addCafeteriaOrder(
+    let result = await this.cinemaSystem.addCafeteriaOrder(
       this.ordersCounter,
       date,
       this.suppliers.get(supplierName),
