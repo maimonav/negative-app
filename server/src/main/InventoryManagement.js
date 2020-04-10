@@ -123,58 +123,46 @@ class InventoryManagemnt {
         return "The order added successfully";
     }
     getSuppliers() {
-        const output = {};
+        const output = [];
         this.suppliers.forEach(supplier => {
-            const key = supplier.id;
-            const value = { 'name': supplier.name };
-            output[key] = value;
+            const value = { 'title': supplier.name };
+            output.push(value);
         });
         return output;
     }
 
     getCategories() {
-        const output = {};
+        const output = [];
         this.categories.forEach(category => {
-            const key = category.id;
-            const categoryParentName = (category.parentId === -1) ? -1 : (this.categories.get(category.parentId)).name;
             const value = {
-                'name': category.name,
-                'parent': categoryParentName
+                'title': category.name,
             }
-            output[key] = value;
+            output.push(value);
         });
-
         return output;
     }
 
     getCafeteriaProducts() {
-        const output = {};
+        const output = [];
         this.products.forEach(product => {
             if (product instanceof CafeteriaProduct) {
-                const key = product.id;
                 const value = {
-                    productName: product.name,
-                    productCategory: this.categories.get(product.categoryId).name,
-                    productPrice: product.price,
-                    productQuantity: product.quantity,
-                    productMaxQunatity: product.maxQuantity,
-                    productMimQunatity: product.minQuantity,
-                };
-                output[key] = value;
+                    'title': product.name
+                }
+                output.push(value);
             }
         });
         return output;
     }
 
     getMovies() {
-        const output = {};
+        const output = [];
         this.products.forEach(movie => {
             if (movie instanceof Movie) {
-                const key = movie.id;
                 const value = {
-                    'name': movie.name,
-                };
-                output[key] = value;
+                    'title': movie.name,
+                }
+                output.push(value);
             }
         });
         return output;

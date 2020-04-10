@@ -38,14 +38,14 @@ class EmployeeManagemnt {
         return "The deletion of employee data ended with failure";
     }
     getEmployees() {
-        const output = {};
+        const output = [];
         this.employeeDictionary.forEach(employee => {
-            let key = employee.id;
             let value = {
-                userName: employee.userName,
+                title: employee.userName,
             };
-            output[key] = value;
+            output.push(value);
         });
+        console.log(output.toString());
         return output;
     }
 
