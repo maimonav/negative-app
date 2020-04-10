@@ -12,14 +12,48 @@ class CafeteriaProduct extends Product {
         this.maxQuantity = maxQuantity ? maxQuantity : 9999999;
         this.minQuantity = minQuantity ? minQuantity : 0;
         this.isProductRemoved = null;
-        DataBase.add('cafeteria_product', { id: id, name: name, categoryId: categoryId, price: price, 
-            quantity: quantity, maxQuantity: maxQuantity , minQuantity:minQuantity});
-        DataBase.setDestroyTimer('cafeteria_products',false,'2 YEAR','1 DAY','isProductRemoved');
+        DataBase.add('cafeteria_product', {
+            id: id,
+            name: name,
+            categoryId: categoryId,
+            price: price,
+            quantity: quantity,
+            maxQuantity: maxQuantity,
+            minQuantity: minQuantity
+        });
+        DataBase.setDestroyTimer('cafeteria_products', false, '2 YEAR', '1 DAY', 'isProductRemoved');
     }
 
-    
-    createOrder(order,quantity){
-        this.productOrders.set(order.id,new CafeteriaProductOrder(this,order,quantity));
+
+    createOrder(order, quantity) {
+        this.productOrders.set(order.id, new CafeteriaProductOrder(this, order, quantity));
+    }
+
+    isNeedToUpdate(param, isQuantityFiled) {
+        if (param === undefined || param === "") return false;
+        if (isQuantityFiled && param < 0) return false;
+        return true;
+    }
+    editProduct(categoryId, price, quantity, maxQuantity, minQuantity) {
+        if (isNeedToUpdate(categoryId, false))
+            this.categoryId = categoryId;
+        if (isNeedToUpdate(price, true))
+            this.price = price;
+        if (isNeedToUpdate(quantity, true))
+            this.quantity = quantity;
+        if (isNeedToUpdate(maxQuantity, true))
+            this.maxQuantity = maxQuantity;
+        if (isNeedToUpdate(minQuantity, false))
+            this.minQuantity = minQuantity;
+        DataBase.update('cafeteria_product', { id: this.id }, {
+            name: this.name,
+            categoryId: this.categoryId,
+            price: this.price,
+            quantity: this.quantity,
+            maxQuantity: this.maxQuantity,
+            minQuantity: this.minQuantity
+        });
+        return 'Product details update successfully completed'
     }
 
     removeProduct = () => {
@@ -27,8 +61,7 @@ class CafeteriaProduct extends Product {
             this.isProductRemoved = new Date();
             DataBase.update('cafeteria_product', { id: this.id }, { isProductRemoved: this.isProductRemoved });
             return "The product removed successfully";
-        }
-        else
+        } else
             return "The product already removed";
     }
 
