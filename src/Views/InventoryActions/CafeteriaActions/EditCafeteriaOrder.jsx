@@ -2,7 +2,6 @@ import React from "react";
 // core components
 import GridItem from "../../../Components/Grid/GridItem";
 import GridContainer from "../../../Components/Grid/GridContainer.js";
-import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import Button from "../../../Components/CustomButtons/Button.js";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
@@ -10,9 +9,10 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
+import EditTable from "../../../Components/Tables/EditTable";
 import {
   handleGetItemsByDates,
-  handleGetProductsByOrder
+  handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -20,75 +20,86 @@ export default class EditCafeteriaOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      startDate: new Date(),
+      endDate: new Date(),
       orderId: "",
-      productName: "",
       orderDate: new Date(),
-      productQuantity: "",
+      updatedProducts: "",
       isOpened: false,
       openSecond: false,
-      startDate: new Date(),
-      endDate: new Date()
+      openThird: false,
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
+    this.toggleThirdBox = this.toggleThirdBox.bind(this);
   }
 
   handleGetItemsByDates = (startDate, endDate) => {
-    handleGetItemsByDates(startDate, endDate)
-      .then(response => response.json())
-      .then(state => this.setState({ orders: state.result }));
+    handleGetItemsByDates(localStorage.getItem("username"), startDate, endDate)
+      .then((response) => response.json())
+      .then((state) => this.setState({ orders: state.result }));
   };
 
-  handleGetProductsByOrder = orderId => {
-    handleGetProductsByOrder(orderId)
-      .then(response => response.json())
-      .then(state => this.setState({ products: state.result }));
+  handleGetProductAndQuntityByOrder = (orderId) => {
+    handleGetProductsAndQuantityByOrder(
+      localStorage.getItem("username"),
+      orderId
+    )
+      .then((response) => response.json())
+      .then((state) => this.setState({ productsWithQuantity: state.result }));
   };
 
   toggleBox() {
     this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
-    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
-    console.log("this.state.orderId: ", this.state.orderId);
-    this.handleGetProductsByOrder(this.state.orderId);
-    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
+    this.handleGetProductAndQuntityByOrder(this.state.orderId);
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
   }
 
-  setStartDate = date => {
+  toggleThirdBox() {
+    this.setState((oldState) => ({ openThird: !oldState.openThird }));
+  }
+
+  setStartDate = (date) => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = date => {
+  setEndDate = (date) => {
     this.setState({ endDate: date });
   };
 
-  setOrderName = name => {
+  setOrderName = (name) => {
     this.setState({ orderId: name });
-    this.toggleSecondBox();
   };
 
-  setProuctName = name => {
-    this.setState({ productName: name });
-  };
-
-  setOrderDate = date => {
+  setOrderDate = (date) => {
     this.setState({ orderDate: date });
   };
 
-  setProuctQuantity(event) {
-    this.setState({ productQuantity: event.target.value });
-  }
+  setProductsWithQuantity = (name) => {
+    this.setState({
+      updatedProducts: name,
+    });
+  };
+
+  columns = [
+    { title: "Product Name", field: "name" },
+    { title: "Quantity", field: "quantity" },
+    { title: "New Quantity", field: "new-quantity" },
+  ];
 
   render() {
     const {
       orderId,
-      productName,
+      productsWithQuantity,
       orderDate,
-      productQuantity,
+      updatedProducts,
       isOpened,
-      openSecond
+      openSecond,
+      openThird,
     } = this.state;
     return (
       <div>
@@ -103,7 +114,7 @@ export default class EditCafeteriaOrder extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
-                      id={"remove-start-date"}
+                      id={"choose-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
                       date={this.state.startDate}
@@ -111,7 +122,7 @@ export default class EditCafeteriaOrder extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
-                      id={"remove-end-date"}
+                      id={"chose-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
                       date={this.state.endDate}
@@ -124,8 +135,8 @@ export default class EditCafeteriaOrder extends React.Component {
                   </Button>
                 </GridContainer>
               </CardBody>
-              <CardBody>
-                {isOpened && (
+              {isOpened && (
+                <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                       <ComboBox
@@ -137,21 +148,15 @@ export default class EditCafeteriaOrder extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
-                )}
-              </CardBody>
+                  <GridContainer style={{ justifyContent: "center" }}>
+                    <Button color="info" onClick={this.toggleSecondBox}>
+                      Choose order
+                    </Button>
+                  </GridContainer>
+                </CardBody>
+              )}
               {openSecond && (
                 <CardBody>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <ComboBox
-                        id={"productName"}
-                        items={this.state.products}
-                        boxLabel={"Choose product from the list"}
-                        setName={this.setProuctName}
-                        isMultiple={true}
-                      />
-                    </GridItem>
-                  </GridContainer>
                   <GridContainer>
                     <GridItem>
                       <SelectDates
@@ -163,29 +168,27 @@ export default class EditCafeteriaOrder extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Product Quantity"
-                        id="productQuantity"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        onChange={event => this.setProuctQuantity(event)}
+                    <GridItem xs={12} sm={12} md={15}>
+                      <EditTable
+                        columns={this.columns}
+                        data={this.state.productsWithQuantity}
+                        setItems={this.setProductsWithQuantity}
+                        openSecondBox={this.toggleThirdBox}
                       />
                     </GridItem>
                   </GridContainer>
                 </CardBody>
               )}
-              {openSecond && (
+              {openThird && (
                 <CardFooter>
                   <Button
                     color="info"
                     onClick={() =>
                       this.props.handleEditCafeteriaOrder(
                         orderId,
-                        productName,
+                        productsWithQuantity,
                         orderDate,
-                        productQuantity
+                        updatedProducts
                       )
                     }
                   >

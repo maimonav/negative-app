@@ -20,7 +20,8 @@ import {
 import {
   handleAddCafeteriaOrder,
   handleEditCafeteriaOrder,
-  handleRemoveCafeteriaOrder
+  handleRemoveCafeteriaOrder,
+  handleConfirmCafeteriaOrder
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
@@ -122,7 +123,7 @@ export default class ManageCafeteria extends React.Component {
                 />
               )}
                {this.state.action === "confirm" && (
-                <ConfirmCafeteriaOrder />
+                <ConfirmCafeteriaOrder handleConfirmCafeteriaOrder={handleConfirmCafeteriaOrder} />
               )}
             </Card>
           </GridItem>

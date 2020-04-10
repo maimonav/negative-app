@@ -91,6 +91,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
       startDate,
       endDate,
       orderId,
+      updatedProducts,
       isOpened,
       openSecond,
       openThird,
@@ -165,7 +166,16 @@ export default class ConfirmCafeteriaOrder extends React.Component {
               )}
               {openThird && (
                 <CardFooter>
-                  <Button color="info" onClick={() => "Clicked"}>
+                  <Button
+                    color="info"
+                    onClick={() =>
+                      this.props.handleConfirmCafeteriaOrder(
+                        this.state.productsWithQuantity,
+                        orderId,
+                        updatedProducts
+                      )
+                    }
+                  >
                     Confirm Order
                   </Button>
                 </CardFooter>

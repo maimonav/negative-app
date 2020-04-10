@@ -209,15 +209,15 @@ app.get("/api/addCafeteriaOrder", (req, res) => {
 
 app.get("/api/editCafeteriaOrder", (req, res) => {
   const orderId = req.query.orderId || "";
-  const productsName = req.query.productsName || "";
+  const productsWithQuantity = req.query.productsWithQuantity || "";
   const orderDate = req.query.orderDate || "";
-  const productQuantity = req.query.productQuantity || "";
+  const updatedProducts = req.query.updatedProducts || "";
   const user = req.query.user || "";
   const result = service.editCafetriaOrder(
     orderId,
-    productsName,
+    productsWithQuantity,
     orderDate,
-    productQuantity,
+    updatedProducts,
     user
   );
   res.send(JSON.stringify({ result }));
@@ -226,7 +226,7 @@ app.get("/api/editCafeteriaOrder", (req, res) => {
 app.get("/api/removeCafeteriaOrder", (req, res) => {
   const orderId = req.query.orderId || "";
   const user = req.query.user || "";
-  const result = service.removeCafetriaOrder(orderId, user);
+  const result = service.removeOrder(orderId, user);
   res.send(JSON.stringify({ result }));
 });
 
