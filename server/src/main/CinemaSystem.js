@@ -342,43 +342,22 @@ class CinemaSystem {
         return this.inventoryManagement.removeSupplier(supplierID);
     }
 
-    addNewProduct(
-        productId,
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategoryn,
-        ActionIDOfTheOperation
-    ) {
-        return "TODO: IMPLEMENT THIS.";
+    addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCafeteriaProduct");
+        if (result != null) return result;
+        return this.inventoryManagement.addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity);
     }
 
-    editProduct(
-        productId,
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategoryn,
-        ActionIDOfTheOperation
-    ) {
-        return "TODO: IMPLEMENT THIS.";
+    editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editCafeteriaProduct");
+        if (result != null) return result;
+        return this.inventoryManagement.editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity);
     }
 
-    removeProduct(
-        productId,
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategoryn,
-        ActionIDOfTheOperation
-    ) {
-        return "TODO: IMPLEMENT THIS.";
+    removeCafeteriaProduct = (productId, ActionIDOfTheOperation) => {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeCafeteriaProduct");
+        if (result != null) return result;
+        return this.inventoryManagement.removeCafeteriaProduct(productId);
     }
 
     addCategory(categoryId, categoryName, ActionIDOfTheOperation) {

@@ -353,88 +353,73 @@ class ServiceLayer {
         return result;
     }
 
-    addNewProduct(
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
-        ActionIDOfTheOperation
-    ) {
+    addNewProduct(productName, productPrice, productQuantity, minQuantity, maxQuantity, productCategory, ActionIDOfTheOperation) {
         if (this.products.has(productName)) {
             return "The product already exist";
-        } else {
-            if (!this.users.has(ActionIDOfTheOperation)) {
-                return "The user performing the operation does not exist in the system";
-            }
-            let result = this.cinemaSystem.addNewProduct(
-                this.productsCounter,
-                productName,
-                productPrice,
-                productQuantity,
-                minQuantity,
-                maxQuantity,
-                productCategory,
-                this.users.get(ActionIDOfTheOperation)
-            );
-            if (result === "The product added successfully.") {
-                this.products.set(productName, this.productsCounter);
-                this.productsCounter++;
-            }
-            return result;
         }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let validationResult = !this.isInputValid(productName) ?
+            "Product name is not valid" :
+            !this.isInputValid(productPrice) ?
+            "Product price is not valid" :
+            !this.isInputValid(productQuantity) ?
+            "Product quantity is not valid" :
+            !this.isInputValid(productCategory) ?
+            "Product category is not valid" :
+            "Valid";
+        if (validationResult !== "Valid") return validationResult;
+        if (!this.categories.has(productCategory))
+            return "Product category does not exist";
+        let result = this.cinemaSystem.addCafeteriaProduct(this.productsCounter, productName,
+            this.categories.get(productCategory), productPrice, productQuantity, maxQuantity,
+            minQuantity, this.users.get(ActionIDOfTheOperation));
+        if (result === "The product added successfully.") {
+            this.products.set(productName, this.productsCounter);
+            this.productsCounter++;
+        }
+        return result;
     }
 
-    editProduct(
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
-        ActionIDOfTheOperation
-    ) {
+    editProduct(productName, productPrice, productQuantity, minQuantity, maxQuantity, productCategory,
+        ActionIDOfTheOperation) {
         if (!this.products.has(productName)) {
             return "The product doesn't exist";
-        } else {
-            if (!this.users.has(ActionIDOfTheOperation)) {
-                return "The user performing the operation does not exist in the system";
-            }
-            let result = this.cinemaSystem.editProduct(
-                this.productsCounter,
-                productName,
-                productPrice,
-                productQuantity,
-                minQuantity,
-                maxQuantity,
-                productCategory,
-                this.users.get(ActionIDOfTheOperation)
-            );
-            if (result === "The product edited successfully.") {
-                this.products.set(productName, this.productsCounter);
-            }
-            return result;
         }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let categoryID;
+        if (this.isInputValid(productCategory) && !this.categories.has(productCategory))
+            return "Product category does not exist";
+        else {
+            categoryID = this.categories.get(productCategory);
+        }
+        let result = this.cinemaSystem.editCafeteriaProduct(this.products.get(productName), categoryID, productPrice,
+            productQuantity, maxQuantity, minQuantity, this.users.get(ActionIDOfTheOperation));
+        if (result === "The product edited successfully.") {
+            this.products.set(productName, this.productsCounter);
+        }
+        return result;
     }
 
     removeProduct(productName, ActionIDOfTheOperation) {
         if (!this.products.has(productName)) {
             return "The product does not exist";
-        } else {
-            if (!this.users.has(ActionIDOfTheOperation)) {
-                return "The user performing the operation does not exist in the system";
-            }
-            let result = this.cinemaSystem.removeProduct(
-                this.productsCounter,
-                this.products.get(productName),
-                this.users.get(ActionIDOfTheOperation)
-            );
-            if (result === "The product removed successfully.") {
-                this.products.delete(productName);
-            }
-            return result;
         }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        let result = this.cinemaSystem.removeCafeteriaProduct(
+            this.products.get(productName),
+            this.users.get(ActionIDOfTheOperation)
+        );
+        if (result === "The product removed successfully.") {
+            this.products.delete(productName);
+        }
+        return result;
+
     }
 
     addCategory(categoryName, ActionIDOfTheOperation) {

@@ -1,6 +1,8 @@
 const Order = require('./Order');
 const Movie = require('./Movie');
 const Supplier = require('./Supplier');
+const CafeteriaProduct = require('./CafeteriaProduct');
+const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class InventoryManagemnt {
 
@@ -123,6 +125,31 @@ class InventoryManagemnt {
         }
         this.orders.set(orderId, order);
         return "The order added successfully";
+    }
+    addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity) {
+        if (this.products.has(productId)) return "This product already exists";
+        if (!this.categories.has(categoryID)) return "Category doesn't exist";
+        if (price <= 0) return "Product price must be greater than 0";
+        if (quantity < 0) return "Product quantity must be greater or equal to 0";
+        if (maxQuantity != undefined && minQuantity != undefined && maxQuantity <= minQuantity)
+            return 'Maximum product quantity must be greater than minimum product quantity';
+        const productToInsert = new CafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity);
+        if (productToInsert.initCafeteriaProduct() === "The operation failed - DB failure") {
+            logger.console.error("InventoryManagemnt - addCafeteriaProduct - The operation failed - DB failure");
+            return 'The operation failed - DB failure';
+        }
+        this.products.set(productToInsert.id, productToInsert);
+        return "The product was successfully added to the system";
+    }
+
+    editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity) {
+        if (!this.products.has(productId)) return "This product not exists";
+        return this.products.get(productId).editProduct(categoryId, price, quantity, maxQuantity, minQuantity);
+    }
+
+    removeCafeteriaProduct = (productId) => {
+        if (!this.products.has(productId)) return "This product not exists";
+        return this.products.get(productId).removeProduct();
     }
     getSuppliers() {
         const output = [];
