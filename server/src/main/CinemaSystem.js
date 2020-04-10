@@ -201,6 +201,7 @@ class CinemaSystem {
             .get(ActionIDOfTheOperation)
             .permissionCheck(permissionRequired)
         ) {
+
             logger.info(
                 "CinemaSystem - " +
                 functionName +
@@ -393,52 +394,39 @@ class CinemaSystem {
     }
 
     getSuppliers() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
+        return this.inventoryManagement.getSuppliers();
     }
     getEmployees() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
+        return this.employeeManagement.getEmployees();
     }
     getCategories() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
+        return this.inventoryManagement.getCategories();
     }
     getCafeteriaProducts() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
+        return this.inventoryManagement.getCafeteriaProducts();
     }
     getInventoryProducts() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
-    }
-    getCafeteriaOrders() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
+        return this.inventoryManagement.getInventoryProducts();
     }
 
     getSupplierDetails(supplierID) {
-        //TODO: IMPLEMENT THIS.
-        return data.supplierDetails;
+        return this.inventoryManagement.getSupplierDetails(supplierID);
     }
+
     getEmployeeDetails(employeeID) {
-        //TODO: IMPLEMENT THIS.
-        return data.employeeDetails;
+        return this.employeeManagement.getEmployeeDetails(employeeID);
     }
 
     getOrderDetails(orderId) {
-        //TODO: IMPLEMENT THIS.
-        return data.orderDetails;
+        return this.inventoryManagement.getOrderDetails(orderId);
     }
 
     getMovieDetails(movieID) {
-        //TODO: IMPLEMENT THIS.
-        return data.movieDetails;
+        return this.inventoryManagement.getMovieDetails(movieID);
     }
 
-    getProductDetails(productID) {
-        //TODO: IMPLEMENT THIS.
-        return data.productDetails;
+    getCafeteriaProductDetails(productID) {
+        return this.inventoryManagement.getCafeteriaProductDetails(productID);
     }
 
     getReportTypes() {

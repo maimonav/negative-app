@@ -679,120 +679,62 @@ class ServiceLayer {
         );
     }
 
-    getMovies(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getMovies() {
+        return this.cinemaSystem.getMovies();
+    }
+
+    getSuppliers() {
         return this.cinemaSystem.getSuppliers();
     }
 
-    getSuppliers(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        return this.cinemaSystem.getSuppliers();
-    }
-
-    getSupplierDetails(supplierName, ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getSupplierDetails(supplierName) {
         if (!this.suppliers.has(supplierName)) {
             return "The supplier does not exist";
         }
-        return this.cinemaSystem.getSupplierDetails(
-            this.suppliers.get(supplierName)
-        );
+        return this.cinemaSystem.getSupplierDetails(this.suppliers.get(supplierName));
     }
 
-    getEmployees(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getEmployees() {
         return this.cinemaSystem.getEmployees();
     }
 
-    getEmployeeDetails(employeeName, ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getEmployeeDetails(employeeName) {
         if (!this.users.has(employeeName)) {
             return "The employee does not exist";
         }
         return this.cinemaSystem.getEmployeeDetails(this.users.get(employeeName));
     }
 
-    getCategories(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getCategories() {
         return this.cinemaSystem.getCategories();
     }
 
-    getCafeteriaProducts(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getCafeteriaProducts() {
         return this.cinemaSystem.getCafeteriaProducts();
     }
 
-    getCafeteriaOrders(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getCafeteriaOrders() {
         return this.cinemaSystem.getCafeteriaOrders();
     }
 
-    getInventoryProducts(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+
+    getInventoryProducts() {
         return this.cinemaSystem.getInventoryProducts();
     }
 
-    getOrderDetails(orderId, ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
+    getOrderDetails(orderId) {
         if (!this.orders.has(orderId)) {
             return "The order does not exist";
         }
         return this.cinemaSystem.getOrderDetails(orderId);
     }
 
-    getMovieDetails(movieName, ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        if (!this.products.has(movieName)) {
+
+    getMovieDetails(movieName) {
+        if (!this.movies.has(movieName)) {
             return "The movie does not exist";
         }
-        return this.cinemaSystem.getMovieDetails(this.products.get(movieName));
-    }
-
-    getProductDetails(productName, ActionIDOfTheOperation) {
-        console.log("productName", productName);
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        if (!this.products.has(productName)) {
-            return "The product does not exist";
-        }
-        return this.cinemaSystem.getProductDetails(this.products.get(productName));
-    }
-
-    getReportTypes(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        return this.cinemaSystem.getReportTypes();
-    }
-
-    getProductsAndQuantityByOrder(ActionIDOfTheOperation, orderName) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        return this.cinemaSystem.getProductsAndQuantityByOrder();
+        return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
     }
 }
 module.exports = ServiceLayer;

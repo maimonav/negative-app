@@ -151,6 +151,131 @@ class InventoryManagemnt {
         if (!this.products.has(productId)) return "This product not exists";
         return this.products.get(productId).removeProduct();
     }
+    getSuppliers() {
+        const output = [];
+        this.suppliers.forEach(supplier => {
+            const value = { 'title': supplier.name };
+            output.push(value);
+        });
+        return output;
+    }
+
+    getCategories() {
+        const output = [];
+        this.categories.forEach(category => {
+            const value = {
+                'title': category.name,
+            }
+            output.push(value);
+        });
+        return output;
+    }
+
+    getCafeteriaProducts() {
+        const output = [];
+        this.products.forEach(product => {
+            if (product instanceof CafeteriaProduct) {
+                const value = {
+                    'title': product.name
+                }
+                output.push(value);
+            }
+        });
+        return output;
+    }
+
+    getMovies() {
+        const output = [];
+        this.products.forEach(movie => {
+            if (movie instanceof Movie) {
+                const value = {
+                    'title': movie.name,
+                }
+                output.push(value);
+            }
+        });
+        return output;
+    }
+
+    getInventoryProducts() {
+        const output = {};
+        let cafiteriaProducts = this.getCafeteriaProducts();
+        let movies = this.getMovies();
+
+        Object.keys(cafiteriaProducts).forEach(productID => {
+            output[productID] = { 'type': "CafeteriaProduct", 'product': cafiteriaProducts[productID] };
+        });
+
+        Object.keys(movies).forEach(productID => {
+            output[productID] = { 'type': "Movie", 'product': movies[productID] };
+        });
+
+        return output;
+    }
+
+    getSupplierDetails(supplierID) {
+        const output = {};
+        if (this.suppliers.has(supplierID)) {
+            const supplier = this.suppliers.get(supplierID);
+            return { 'id': supplier.id, 'name': supplier.name, 'contactDetails': supplier.contactDetails };
+        }
+        return output;
+    }
+
+    mapToObj(inputMap) {
+        let obj = {};
+
+        inputMap.forEach(function(value, key) {
+            obj[key] = value
+        });
+
+        return obj;
+    }
+
+    getOrderDetails(orderId) {
+        if (this.orders.has(orderId)) {
+            const order = this.orders.get(orderId);
+            const supplierName = (this.suppliers.has(order.supplierId)) ? this.suppliers.get(order.supplierId).name : -1;
+            return {
+                orderId: order.id,
+                orderDate: order.date,
+                supplierDetails: supplierName,
+                products: this.mapToObj(order.productOrders),
+            }
+        }
+        return {};
+    }
+
+    getMovieDetails(movieID) {
+        if (this.products.has(movieID)) {
+            const movie = this.products.get(movieID);
+            if (movie instanceof Movie) {
+                return {
+                    'movieName': movie.name,
+                    'category': this.categories.get(movie.categoryId).name,
+                    'movieKey': movie.movieKey,
+                    'examinationRoom': movie.examinationRoom
+                };
+            }
+        }
+        return {};
+    }
+
+    getCafeteriaProductDetails(productID) {
+        const output = {};
+        if (this.products.has(productID)) {
+            const product = this.products.get(productID);
+            return {
+                productName: product.name,
+                productCategory: this.categories.get(product.categoryId).name,
+                productPrice: product.price,
+                productQuantity: product.quantity,
+                productMaxQunatity: product.maxQuantity,
+                productMimQunatity: product.minQuantity,
+            }
+        }
+        return {};
+    }
 
 }
 module.exports = InventoryManagemnt;
