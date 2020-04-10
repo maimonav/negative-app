@@ -476,6 +476,11 @@ class CinemaSystem {
     //TODO: IMPLEMENT THIS.
     return data.dataExample;
   }
+
+  getProductsAndQuantityByOrder() {
+    //TODO: IMPLEMENT THIS.
+    return data.productsAndQuantity;
+  }
 }
 
 module.exports = CinemaSystem;

@@ -802,5 +802,12 @@ class ServiceLayer {
     }
     return this.cinemaSystem.getReportTypes();
   }
+
+  getProductsAndQuantityByOrder(ActionIDOfTheOperation, orderName) {
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      return "The user performing the operation does not exist in the system";
+    }
+    return this.cinemaSystem.getProductsAndQuantityByOrder();
+  }
 }
 module.exports = ServiceLayer;

@@ -358,6 +358,28 @@ export function handleRemoveCafeteriaOrder(orderId) {
     });
 }
 
+export function handleConfirmCafeteriaOrder(
+  productsName,
+  orderId,
+  updatedProductsAndQuantity,
+  productQuantity
+) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/confirmCafeteriaOrder?orderId=${encodeURIComponent(
+      orderId
+    )}&productsName=${encodeURIComponent(
+      productsName
+    )}&updatedProductsAndQuantity=${encodeURIComponent(
+      updatedProductsAndQuantity
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
 export function handleGetItemsByDates(startDate, endDate) {
   const user = localStorage.getItem("username");
   return fetch(
@@ -373,6 +395,14 @@ export function handleGetProductsByOrder(orderName) {
     `api/getProductsByOrder?orderName=${encodeURIComponent(
       orderName
     )}&user=${encodeURIComponent(user)}`
+  );
+}
+
+export function handleGetProductsAndQuantityByOrder(username, orderName) {
+  return fetch(
+    `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(
+      orderName
+    )}&user=${encodeURIComponent(username)}`
   );
 }
 

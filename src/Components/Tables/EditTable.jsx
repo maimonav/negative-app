@@ -39,19 +39,22 @@ const tableIcons = {
   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
 export default class EditTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: this.props.data,
-      columns: [
-        { title: "Product Name", field: "name" },
-        { title: "Quantity", field: "quantity" }
-      ]
+      data: "",
+      columns: this.props.columns,
     };
+  }
+
+  componentDidUpdate(prevprops) {
+    if (this.props.data !== prevprops.data) {
+      this.setState({ data: this.props.data });
+    }
   }
 
   handleOnclick = () => {
@@ -64,38 +67,40 @@ export default class EditTable extends React.Component {
     console.log("state.data: ", this.state.data);
     return (
       <>
-        <MaterialTable
-          title="Editable Example"
-          columns={columns}
-          data={data}
-          icons={tableIcons}
-          editable={{
-            onRowUpdate: (newData, oldData) =>
-              new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  if (oldData) {
-                    this.setState(prevState => {
+        {data && (
+          <MaterialTable
+            title="Editable Example"
+            columns={columns}
+            data={data}
+            icons={tableIcons}
+            editable={{
+              onRowUpdate: (newData, oldData) =>
+                new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                    if (oldData) {
+                      this.setState((prevState) => {
+                        const data = [...prevState.data];
+                        data[data.indexOf(oldData)] = newData;
+                        return { ...prevState, data };
+                      });
+                    }
+                  }, 600);
+                }),
+              onRowDelete: (oldData) =>
+                new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                    this.setState((prevState) => {
                       const data = [...prevState.data];
-                      data[data.indexOf(oldData)] = newData;
+                      data.splice(data.indexOf(oldData), 1);
                       return { ...prevState, data };
                     });
-                  }
-                }, 600);
-              }),
-            onRowDelete: oldData =>
-              new Promise(resolve => {
-                setTimeout(() => {
-                  resolve();
-                  this.setState(prevState => {
-                    const data = [...prevState.data];
-                    data.splice(data.indexOf(oldData), 1);
-                    return { ...prevState, data };
-                  });
-                }, 600);
-              })
-          }}
-        />
+                  }, 600);
+                }),
+            }}
+          />
+        )}
         <Button color="info" onClick={this.handleOnclick}>
           Finish Manage Products Quantity
         </Button>

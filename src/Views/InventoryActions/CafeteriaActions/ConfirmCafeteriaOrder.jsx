@@ -2,7 +2,6 @@ import React from "react";
 // core components
 import GridItem from "../../../Components/Grid/GridItem";
 import GridContainer from "../../../Components/Grid/GridContainer.js";
-import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import Button from "../../../Components/CustomButtons/Button.js";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
@@ -12,83 +11,89 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
   handleGetItemsByDates,
-  handleGetProductsByOrder
+  handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
+import EditTable from "../../../Components/Tables/EditTable";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class EditCafeteriaOrder extends React.Component {
+export default class ConfirmCafeteriaOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       orderId: "",
-      productName: "",
-      orderDate: new Date(),
-      productQuantity: "",
       isOpened: false,
       openSecond: false,
+      openThird: false,
       startDate: new Date(),
-      endDate: new Date()
+      endDate: new Date(),
+      updatedProducts: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
+    this.toggleThirdBox = this.toggleThirdBox.bind(this);
   }
 
   handleGetItemsByDates = (startDate, endDate) => {
     handleGetItemsByDates(startDate, endDate)
-      .then(response => response.json())
-      .then(state => this.setState({ orders: state.result }));
+      .then((response) => response.json())
+      .then((state) => this.setState({ orders: state.result }));
   };
 
-  handleGetProductsByOrder = orderId => {
-    handleGetProductsByOrder(orderId)
-      .then(response => response.json())
-      .then(state => this.setState({ products: state.result }));
+  handleGetProductAndQuntityByOrder = (orderId) => {
+    handleGetProductsAndQuantityByOrder(
+      localStorage.getItem("username"),
+      orderId
+    )
+      .then((response) => response.json())
+      .then((state) => this.setState({ productsWithQuantity: state.result }));
   };
 
   toggleBox() {
     this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
-    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
-    console.log("this.state.orderId: ", this.state.orderId);
-    this.handleGetProductsByOrder(this.state.orderId);
-    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
+    this.handleGetProductAndQuntityByOrder(this.state.orderId);
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
   }
 
-  setStartDate = date => {
+  toggleThirdBox() {
+    this.setState((oldState) => ({ openThird: !oldState.openThird }));
+  }
+
+  setStartDate = (date) => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = date => {
+  setEndDate = (date) => {
     this.setState({ endDate: date });
   };
 
-  setOrderName = name => {
+  setOrderName = (name) => {
     this.setState({ orderId: name });
-    this.toggleSecondBox();
   };
 
-  setProuctName = name => {
-    this.setState({ productName: name });
+  setProductsWithQuantity = (name) => {
+    this.setState({
+      updatedProducts: name,
+    });
   };
 
-  setOrderDate = date => {
-    this.setState({ orderDate: date });
-  };
-
-  setProuctQuantity(event) {
-    this.setState({ productQuantity: event.target.value });
-  }
+  columns = [
+    { title: "Product Name", field: "name" },
+    { title: "Quantity", field: "quantity" },
+    { title: "New Quantity", field: "new-quantity" },
+  ];
 
   render() {
     const {
+      startDate,
+      endDate,
       orderId,
-      productName,
-      orderDate,
-      productQuantity,
       isOpened,
-      openSecond
+      openSecond,
+      openThird,
     } = this.state;
     return (
       <div>
@@ -96,7 +101,7 @@ export default class EditCafeteriaOrder extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Edit Cafeteria Order</h4>
+                <h4 style={{ margin: "auto" }}>Confirm Cafeteria Order</h4>
                 <p>Complete order's changes</p>
               </CardHeader>
               <CardBody>
@@ -106,7 +111,7 @@ export default class EditCafeteriaOrder extends React.Component {
                       id={"remove-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
-                      date={this.state.startDate}
+                      date={startDate}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -114,7 +119,7 @@ export default class EditCafeteriaOrder extends React.Component {
                       id={"remove-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
-                      date={this.state.endDate}
+                      date={endDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -124,8 +129,8 @@ export default class EditCafeteriaOrder extends React.Component {
                   </Button>
                 </GridContainer>
               </CardBody>
-              <CardBody>
-                {isOpened && (
+              {isOpened && (
+                <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                       <ComboBox
@@ -137,59 +142,31 @@ export default class EditCafeteriaOrder extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
-                )}
-              </CardBody>
+                  <GridContainer style={{ justifyContent: "center" }}>
+                    <Button color="info" onClick={this.toggleSecondBox}>
+                      Choose order
+                    </Button>
+                  </GridContainer>
+                </CardBody>
+              )}
               {openSecond && (
                 <CardBody>
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <ComboBox
-                        id={"productName"}
-                        items={this.state.products}
-                        boxLabel={"Choose product from the list"}
-                        setName={this.setProuctName}
-                        isMultiple={true}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem>
-                      <SelectDates
-                        id={"add-order-date"}
-                        label={"Change Order Date"}
-                        setDate={this.setOrderDate}
-                        date={this.state.orderDate}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Product Quantity"
-                        id="productQuantity"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        onChange={event => this.setProuctQuantity(event)}
+                    <GridItem xs={12} sm={12} md={15}>
+                      <EditTable
+                        columns={this.columns}
+                        data={this.state.productsWithQuantity}
+                        setItems={this.setProductsWithQuantity}
+                        openSecondBox={this.toggleThirdBox}
                       />
                     </GridItem>
                   </GridContainer>
                 </CardBody>
               )}
-              {openSecond && (
+              {openThird && (
                 <CardFooter>
-                  <Button
-                    color="info"
-                    onClick={() =>
-                      this.props.handleEditCafeteriaOrder(
-                        orderId,
-                        productName,
-                        orderDate,
-                        productQuantity
-                      )
-                    }
-                  >
-                    Edit Order
+                  <Button color="info" onClick={() => "Clicked"}>
+                    Confirm Order
                   </Button>
                 </CardFooter>
               )}
