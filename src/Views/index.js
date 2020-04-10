@@ -29,6 +29,7 @@ import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
 import AddMovieOrder from "./InventoryActions/MoviesActions/AddMovieOrder";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 import ShowReport from "./ReportsActions/ShowReport";
+import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
 
 export {
   Login,
@@ -61,5 +62,6 @@ export {
   AddCategory,
   RemoveCategory,
   EditCafeteriaOrder,
-  ShowReport
+  ShowReport,
+  ConfirmCafeteriaOrder
 };

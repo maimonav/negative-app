@@ -201,6 +201,7 @@ class CinemaSystem {
             .get(ActionIDOfTheOperation)
             .permissionCheck(permissionRequired)
         ) {
+
             logger.info(
                 "CinemaSystem - " +
                 functionName +
@@ -212,7 +213,7 @@ class CinemaSystem {
         return null;
     }
 
-    addMovieOrder(
+    async addMovieOrder(
         orderId,
         date,
         supplierId,
@@ -234,7 +235,7 @@ class CinemaSystem {
         );
     }
 
-    removeOrder(orderId, ActionIDOfTheOperation) {
+    async removeOrder(orderId, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
             "DEPUTY_MANAGER",
@@ -245,7 +246,7 @@ class CinemaSystem {
 
     }
 
-    addCafeteriaOrder(
+    async addCafeteriaOrder(
         orderId,
         date,
         supplierId,
@@ -388,6 +389,18 @@ class CinemaSystem {
         return "TODO: IMPLEMENT THIS.";
     }
 
+    removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
+        if (result != null) return result;
+        return ReportController.removeFieldFromDailyReport(fieldToRemove);
+    }
+
+    addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
+        if (result != null) return result;
+        return ReportController.addFieldToDailyReport(newField);
+    }
+
 
     createDailyReport(type, records, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "SHIFT_MANAGER", "createDailyReport");
@@ -395,7 +408,7 @@ class CinemaSystem {
         return ReportController.createDailyReport(type, records);
     }
 
-    getReport(type, date, ActionIDOfTheOperation) {
+    async getReport(type, date, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "getReport");
         if (result != null) return result;
         return ReportController.getReport(type, date);
@@ -440,6 +453,11 @@ class CinemaSystem {
     getReportTypes() {
         //TODO: IMPLEMENT THIS.
         return data.dataExample;
+    }
+
+    getProductsAndQuantityByOrder() {
+        //TODO: IMPLEMENT THIS.
+        return data.productsAndQuantity;
     }
 }
 

@@ -18,7 +18,7 @@ class DataBase {
 
     }
 
- 
+
 
 
     static initDB(dbName) {
@@ -42,6 +42,7 @@ class DataBase {
 
         } catch (error) {
             console.log(error);
+            return 'error';
         }
         return this.sequelize;
     }
@@ -139,6 +140,7 @@ class DataBase {
             console.log("Database created");
         } catch (error) {
             console.log(error);
+            return 'error';
         }
     }
 
@@ -149,6 +151,7 @@ class DataBase {
             await this.sequelize.close();
         } catch (error) {
             console.log(error);
+            return 'error';
         }
     }
 
@@ -161,7 +164,7 @@ class DataBase {
                 return this.sequelize.transaction((t) => {
                     return model.create(element, { transaction: t });
                 })
-                    .catch((error =>{
+                    .catch((error => {
                         console.log(error);
                         return 'error';
                     }));
@@ -183,10 +186,14 @@ class DataBase {
                     let res = model.findOne({ where: where, transaction: t });
                     return res;
                 })
-                    .catch((error =>
-                        console.log(error)));
+                    .catch((error => {
+                        console.log(error);
+                        return 'error';
+                    }));
+
             } catch (error) {
                 console.log(error);
+                return 'error';
             }
         });
     }
@@ -204,10 +211,14 @@ class DataBase {
                 return this.sequelize.transaction((t) => {
                     return model.update(element, { where: where, transaction: t });
                 })
-                    .catch((error => 
-                        console.log(error)));
+                    .catch((error => {
+                        console.log(error);
+                        return 'error';
+                    }));
+
             } catch (error) {
                 console.log(error);
+                return 'error';
             }
         });
     }
@@ -222,9 +233,14 @@ class DataBase {
                 return this.sequelize.transaction((t) => {
                     return model.destroy({ where: where, transaction: t });
                 })
-                    .catch((error => console.log(error)));
+                    .catch((error => {
+                        console.log(error);
+                        return 'error';
+                    }));
+
             } catch (error) {
                 console.log(error);
+                return 'error';
             }
         });
     }
@@ -249,9 +265,14 @@ class DataBase {
                         transaction: t
                     });
                 })
-                    .catch((error => console.log(error)));
+                    .catch((error => {
+                        console.log(error);
+                        return 'error';
+                    }));
+
             } catch (error) {
                 console.log(error);
+                return 'error';
             }
         });
     }
@@ -265,9 +286,14 @@ class DataBase {
             return this.sequelize.transaction((t) => {
                 return this.sequelize.query(destroyQuery, { t });
             })
-                .catch((error => console.log(error)));
+                .catch((error => {
+                    console.log(error);
+                    return 'error';
+                }));
+
         } catch (error) {
             console.log(error);
+            return 'error';
         }
     }
 

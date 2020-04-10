@@ -476,7 +476,7 @@ class ServiceLayer {
         }
     }
 
-    addMovieOrder(
+    async addMovieOrder(
         orderId,
         date,
         supplierName,
@@ -510,7 +510,7 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation))
             return "The user performing the operation does not exist in the system";
 
-        let result = this.cinemaSystem.addMovieOrder(
+        let result = await this.cinemaSystem.addMovieOrder(
             this.ordersCounter,
             date,
             this.suppliers.get(supplierName),
@@ -524,7 +524,7 @@ class ServiceLayer {
         return result;
     }
 
-    removeOrder(orderId, ActionIDOfTheOperation) {
+    async removeOrder(orderId, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(orderId) ?
             "Order ID is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
@@ -538,7 +538,7 @@ class ServiceLayer {
             return "The order does not exist";
         if (!this.users.has(ActionIDOfTheOperation))
             return "The user performing the operation does not exist in the system";
-        let result = this.cinemaSystem.removeOrder(
+        let result = await this.cinemaSystem.removeOrder(
             this.orders.get(orderId),
             this.users.get(ActionIDOfTheOperation)
         );
@@ -547,7 +547,7 @@ class ServiceLayer {
         return result;
     }
 
-    addCafeteriaOrder(
+    async addCafeteriaOrder(
         orderId,
         date,
         supplierName,
@@ -581,7 +581,7 @@ class ServiceLayer {
         }
         if (!this.users.has(ActionIDOfTheOperation))
             return "The user performing the operation does not exist in the system";
-        let result = this.cinemaSystem.addCafeteriaOrder(
+        let result = await this.cinemaSystem.addCafeteriaOrder(
             this.ordersCounter,
             date,
             this.suppliers.get(supplierName),
@@ -620,7 +620,39 @@ class ServiceLayer {
         }
     }
 
+    removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+        let validationResult = !this.isInputValid(fieldToRemove) ?
+            "Field is not valid" :
+            !this.isInputValid(ActionIDOfTheOperation) ?
+            "Username is not valid" :
+            "Valid";
+        if (validationResult !== "Valid") return validationResult;
 
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        return this.cinemaSystem.removeFieldFromDailyReport(
+            fieldToRemove,
+            this.users.get(ActionIDOfTheOperation)
+        );
+    }
+
+    addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+        let validationResult = !this.isInputValid(newField) ?
+            "Field is not valid" :
+            !this.isInputValid(ActionIDOfTheOperation) ?
+            "Username is not valid" :
+            "Valid";
+        if (validationResult !== "Valid") return validationResult;
+
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            return "The user performing the operation does not exist in the system";
+        }
+        return this.cinemaSystem.addFieldToDailyReport(
+            newField,
+            this.users.get(ActionIDOfTheOperation)
+        );
+    }
 
     createDailyReport(type, records, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(type) ?
@@ -642,7 +674,7 @@ class ServiceLayer {
         );
     }
 
-    getReport(type, date, ActionIDOfTheOperation) {
+    async getReport(type, date, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(type) ?
             "Type is not valid" :
             !this.isInputValid(date) ?
@@ -718,13 +750,6 @@ class ServiceLayer {
             return "The movie does not exist";
         }
         return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
-    }
-
-    getReportTypes(ActionIDOfTheOperation) {
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        return this.cinemaSystem.getReportTypes();
     }
 }
 module.exports = ServiceLayer;

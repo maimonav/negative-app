@@ -8,6 +8,7 @@ const ReportController = require("../../../server/src/main/ReportController");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const { validate, testCinemaFunctions } = require("./MovieOperationsTests.spec");
+const { asyncValidate, asyncTestCinemaFunctions } = require("./MovieOrderOperationsTests.spec");
 
 
 
@@ -32,7 +33,7 @@ describe("Report Operations Unit Tests", () => {
     });
 
 
-    it('UnitTest createDailyReport, getReport - Service Layer', () => {
+    it('UnitTest createDailyReport, getReport - Service Layer', async () => {
         let serviceLayer = new ServiceLayer();
         let records = JSON.stringify([{
             date: new Date('2020-03-02 14:35:00'),
@@ -44,15 +45,18 @@ describe("Report Operations Unit Tests", () => {
         }]);
 
         validate(serviceLayer, serviceLayer.createDailyReport, { 'Type ': 'type', 'Records ': records, 'Username ': 'User' });
-        validate(serviceLayer, serviceLayer.getReport, { 'Type ': 'type', 'Date ': 'date', 'Username ': 'User' });
+        await asyncValidate(serviceLayer, serviceLayer.getReport, { 'Type ': 'type', 'Date ': 'date', 'Username ': 'User' });
 
         testServiceFunctions(() => serviceLayer.createDailyReport("type", records, "User"));
-        testServiceFunctions(() => serviceLayer.getReport("type", 'date', "User"));
+        let result = await serviceLayer.getReport("type", 'date', "User")
+        expect(result).toBe("The user performing the operation does not exist in the system");
 
 
     });
 
-    it('UnitTest createDailyReport, getReport - Cinema System', () => {
+    it('UnitTest createDailyReport, getReport - Cinema System', async (done) => {
+        setTimeout(done, 2000);
+
         let cinemaSystem = new CinemaSystem();
         let records = [{
             date: new Date('2020-03-02 14:35:00'),
@@ -64,69 +68,80 @@ describe("Report Operations Unit Tests", () => {
         }];
         testCinemaFunctions(cinemaSystem, () => cinemaSystem.createDailyReport('type', records, 1));
         cinemaSystem = new CinemaSystem();
-        testCinemaFunctions(cinemaSystem, () => cinemaSystem.getReport("type", 'date', 1));
+        await asyncTestCinemaFunctions(cinemaSystem, () => cinemaSystem.getReport("type", 'date', 1));
 
     });
 
 
-    it('UnitTest createDailyReport - ReportController', async () => {
+    it('UnitTest createDailyReport - ReportController', async (done) => {
+        setTimeout(done, 5000);
+
         let todayDate = new Date();
         await addEmployee(0);
         await addCategory(0, "Snacks");
         await addProductAfterCategory();
 
+        let testFunctions = [testAddInventoryDailyReport, testAddIncomesDailyReport, testAddGeneralPurposeDailyReport];
+        let types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
+        let reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 0, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
+            date: todayDate, creatorEmployeeId: 0, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
+            ticketsCashRevenues: 20.0, ticketsCreditCardRevenues: 20.0, tabsCashRevenues: 20.0, tabsCreditCardRevenues: 20.0
+        }, { date: todayDate, creatorEmployeeId: 0, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
+
+        for (let i in types) {
+
+            records = [reports[i]];
+            result = ReportController.createDailyReport(types[i], records);
+            expect(result).toBe("The report created successfully");
+            setTimeout(() => {
+                testFunctions[i](reports[i], true);
+            }, (i + 1) * 1000);
+
+        }
+
+        /*
+
         let report = [{ date: todayDate, productId: 0, creatorEmployeeId: 0, quantitySold: 4 }];
-        await createReport('inventory_daily_report', report, testAddInventoryDailyReport, (report) => {
+        createReport('inventory_daily_report', report, testAddInventoryDailyReport, (report) => {
             report[0].quantityInStock = 8; report[0].stockThrown = 8;
         }, true);
         report = [{
             date: todayDate, creatorEmployeeId: 0, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
             ticketsCashRevenues: 20.0, ticketsCreditCardRevenues: 20.0
         }];
-        await createReport('incomes_daily_report', report, testAddIncomesDailyReport, (report) => {
+        createReport('incomes_daily_report', report, testAddIncomesDailyReport, (report) => {
             report[0].tabsCashRevenues = 20.0; report[0].tabsCreditCardRevenues = 20.0;
         }, true);
         report = [{ date: todayDate, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
-        await createReport('general_purpose_daily_report', report, testAddGeneralPurposeDailyReport, (report) => {
+        createReport('general_purpose_daily_report', report, testAddGeneralPurposeDailyReport, (report) => {
             report[0].creatorEmployeeId = 0;
-        }, true);
+        }, true);*/
 
-    });
 
-    it('UnitTest getReport - ReportController', async () => {
-        let todayDate = new Date();
+
+    }, 8000);
+
+    it('UnitTest getReport - ReportController', async (done) => {
+        setTimeout(done, 6000);
 
 
         let result = await ReportController.getReport('lol', 'test');
         expect(result).toBe('The requested report type is invalid');
+        let todayDate;
+        let types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
 
-        result = await ReportController.getReport('lol', 'test');
-        expect(result).toBe('The requested report type is invalid');
-
-
-        result = await ReportController.getReport('inventory_daily_report', 'test');
-        expect(result).toBe('The requested report date is invalid');
-
-        result = await ReportController.getReport('incomes_daily_report', 'test');
-        expect(result).toBe('The requested report date is invalid');
-
-        result = await ReportController.getReport('general_purpose_daily_report', 'test');
-        expect(result).toBe('The requested report date is invalid');
+        for (let i in types) {
+            let type = types[i];
+            result = await ReportController.getReport(type, 'test');
+            expect(result).toBe('The requested report date is invalid');
 
 
-        let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2))
-        result = await ReportController.getReport('inventory_daily_report', date);
-        expect(result).toBe('The requested report date is invalid');
+            todayDate = new Date();
+            let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2))
+            result = await ReportController.getReport(type, date);
+            expect(result).toBe('The requested report date is invalid');
+        }
 
-        todayDate = new Date();
-        date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2))
-        result = await ReportController.getReport('incomes_daily_report', date);
-        expect(result).toBe('The requested report date is invalid');
-
-        todayDate = new Date();
-        date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2))
-        result = await ReportController.getReport('general_purpose_daily_report', date);
-        expect(result).toBe('The requested report date is invalid');
 
         todayDate = new Date();
         await addEmployee(0);
@@ -134,53 +149,81 @@ describe("Report Operations Unit Tests", () => {
         await addProductAfterCategory();
 
 
-        testFunctions = [testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult];
-        types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
-        reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 0, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
+        let testFunctions = [testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult];
+        let reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 0, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
             date: todayDate, creatorEmployeeId: 0, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
             ticketsCashRevenues: 20.0, ticketsCreditCardRevenues: 20.0, tabsCashRevenues: 20.0, tabsCreditCardRevenues: 20.0
         }, { date: todayDate, creatorEmployeeId: 0, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
 
         for (let i in types) {
-            await createReport(types[i], [reports[i]]);
+            ReportController.createDailyReport(types[i], [reports[i]]);
             reports[i].date = new Date(getSyncDateFormat(todayDate));
-            result = await ReportController.getReport(types[i], todayDate);
-            testFunctions[i](result, reports[i]);
+            setTimeout(async () => {
+                result = await ReportController.getReport(types[i], todayDate);
+                testFunctions[i](result, reports[i]);
+            }, (i + 1) * 1000);
         }
 
 
+    }, 7000);
+
+
+
+
+
+    it('UnitTest addField , removeField - ReportController', async (done) => {
+        setTimeout(done, 3000);
+
+        //addField
+        let todayDate = new Date();
+        await addEmployee(0);
+
+
+        let reports = [{ date: todayDate, creatorEmployeeId: 0, additionalProps: [["oldField"], { "oldField": "true" }] }];
+        ReportController.createDailyReport('general_purpose_daily_report', reports);
+
+
+
+        setTimeout(() => {
+            let result = ReportController.addFieldToDailyReport("Report Z taken");
+            expect(result).toEqual("The report field added successfully");
+
+            reports[0].date = new Date(getSyncDateFormat(todayDate));
+            setTimeout(async () => {
+                let actualResult = await ReportController.getReport('general_purpose_daily_report', todayDate);
+                let expectedResult = {
+                    date: new Date(getSyncDateFormat(todayDate)),
+                    additionalProps: [["oldField", "Report Z taken"], { "oldField": "true" }], creatorEmployeeId: 0
+                };
+
+
+                expect(expectedResult.date).toEqual(actualResult.date);
+                expect(expectedResult.additionalProps).toEqual(actualResult.additionalProps);
+                expect(expectedResult.creatorEmployeeId).toEqual(actualResult.creatorEmployeeId);
+
+                //remove
+                result = ReportController.removeFieldFromDailyReport("Report Z taken");
+                expect(result).toEqual("The report field removed successfully");
+
+                setTimeout(async () => {
+                    actualResult = await ReportController.getReport('general_purpose_daily_report', todayDate);
+
+                    expect(reports[0].date).toEqual(actualResult.date);
+                    expect(reports[0].additionalProps).toEqual(actualResult.additionalProps);
+                    expect(reports[0].creatorEmployeeId).toEqual(actualResult.creatorEmployeeId);
+                }, 500);
+            }, 500);
+
+
+
+        }, 500);
+
     });
 
+    it('Integration createDailyReport', async (done) => {
 
 
-    /*
-     
-        it('UnitTest addField , removeField - ReportController', async () => {
-            //addField
-            await addEmployee(0);
-            let date = new Date().toISOString().substring(0, 10);
-     
-            await DB.add('general_purpose_daily_report', { date: new Date(date), additionalProps: [["oldField"], {}], creatorEmployeeId: 0 });
-            let expectedResult = { date: new Date(date), additionalProps: [["oldField", "Report Z taken"], {}], creatorEmployeeId: 0 };
-            ReportController.addFieldToDailyReport("Report Z taken");
-     
-     
-            let actualResult = await DB.getById('general_purpose_daily_report', { date: new Date(date) });
-            expect(expectedResult.date).toEqual(actualResult.date);
-            expect(expectedResult.additionalProps).toEqual(actualResult.additionalProps);
-            expect(expectedResult.creatorEmployeeId).toEqual(actualResult.creatorEmployeeId);
-     
-     
-     
-            
-                    //remove
-                    expect(expectedMovie.removeMovie()).toBe("The movie removed successfully");
-                    expect(expectedMovie.isMovieRemoved != null).toBe(true);
-                    expect(expectedMovie.removeMovie()).toBe("The movie already removed");
-     
-        });
-    */
-    it('Integration createDailyReport', async () => {
+        setTimeout(done, 3000);
         let serviceLayer = new ServiceLayer('mydbtest');
         let records = JSON.stringify([]);
         serviceLayer.users.set("User", 1);
@@ -190,38 +233,32 @@ describe("Report Operations Unit Tests", () => {
         await addProductAfterCategory();
         let user = { isLoggedin: () => true, permissionCheck: () => true };
         serviceLayer.cinemaSystem.users.set(1, user);
-        let result = await serviceLayer.createDailyReport("lol", records, "User");
+        let result = serviceLayer.createDailyReport("lol", records, "User");
         expect(result).toBe("The requested report type is invalid");
 
-
-        todayDate = new Date();
-        await addEmployee(0);
-        await addCategory(0, "Snacks");
-        await addProductAfterCategory();
-
-        types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
-        reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 0, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
-            date: todayDate, creatorEmployeeId: 0, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
+        let todayDate = new Date();
+        let types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
+        let reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 1, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
+            date: todayDate, creatorEmployeeId: 1, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
             ticketsCashRevenues: 20.0, ticketsCreditCardRevenues: 20.0, tabsCashRevenues: 20.0, tabsCreditCardRevenues: 20.0
-        }, { date: todayDate, creatorEmployeeId: 0, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
+        }, { date: todayDate, creatorEmployeeId: 1, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
 
         for (let i in types) {
 
             records = JSON.stringify([reports[i]]);
-            result = await serviceLayer.createDailyReport(types[i], records, "User");
+            result = serviceLayer.createDailyReport(types[i], records, "User");
             expect(result).toBe("The report created successfully");
-
-            result = await serviceLayer.createDailyReport(types[i], records, "User");
-            expect(result).toBe("The report can not be created");
 
         }
 
 
 
-
     });
 
-    it('Integration getReport', async () => {
+    it('Integration getReport', async (done) => {
+        setTimeout(done, 4000);
+
+
         //add report
         let serviceLayer = new ServiceLayer('mydbtest');
         serviceLayer.users.set("User", 1);
@@ -229,48 +266,124 @@ describe("Report Operations Unit Tests", () => {
         serviceLayer.cinemaSystem.users.set(1, user);
 
 
-        let todayDate = new Date();
-        await addEmployee(0);
+        await addEmployee(1);
         await addCategory(0, "Snacks");
         await addProductAfterCategory();
-
-        testFunctions = [testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult];
-        types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
-        reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 0, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
-            date: todayDate, creatorEmployeeId: 0, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
+        let todayDate = new Date();
+        let types = ['inventory_daily_report', 'incomes_daily_report', 'general_purpose_daily_report'];
+        let reports = [{ date: todayDate, productId: 0, creatorEmployeeId: 1, quantitySold: 4, quantityInStock: 8, stockThrown: 8 }, {
+            date: todayDate, creatorEmployeeId: 1, numOfTabsSales: 0, cafeteriaCashRevenues: 20.0, cafeteriaCreditCardRevenues: 20.0,
             ticketsCashRevenues: 20.0, ticketsCreditCardRevenues: 20.0, tabsCashRevenues: 20.0, tabsCreditCardRevenues: 20.0
-        }, { date: todayDate, creatorEmployeeId: 0, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
+        }, { date: todayDate, creatorEmployeeId: 1, additionalProps: [["Cash counted"], { "Cash counted": "true" }] }];
+        let testFunctions = [testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult];
 
         for (let i in types) {
-
             records = JSON.stringify([reports[i]]);
-            result = await serviceLayer.createDailyReport(types[i], records, "User");
-            expect(result).toBe("The report created successfully");
-
+            result = serviceLayer.createDailyReport(types[i], records, "User");
         }
 
 
 
         //get report
-        serviceLayer = new ServiceLayer('mydbtest');
-        serviceLayer.users.set("User", 1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.getReport("test", "test", "User"));
-        user = { isLoggedin: () => true, permissionCheck: () => true };
-        serviceLayer.cinemaSystem.users.set(1, user);
-        result = await serviceLayer.getReport("test", "test", "User");
-        expect(result).toBe("The requested report type is invalid");
+        serviceLayer.cinemaSystem.users.delete(1);
+        asyncTestCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.getReport("test", "test", "User"));
+        setTimeout(async () => {
+            user = { isLoggedin: () => true, permissionCheck: () => true };
+            serviceLayer.cinemaSystem.users.set(1, user);
+            result = await serviceLayer.getReport("test", "test", "User");
+            expect(result).toBe("The requested report type is invalid");
 
-        for (let i in types) {
-            result = await serviceLayer.getReport(types[i], "test", "User");
-            expect(result).toBe("The requested report date is invalid");
-            result = await serviceLayer.getReport(types[i], todayDate, "User");
-            reports[i].date = new Date(getSyncDateFormat(todayDate));
-            testFunctions[i](result, reports[i]);
-
-        }
+            for (let i in types) {
+                result = await serviceLayer.getReport(types[i], "test", "User");
+                expect(result).toBe("The requested report date is invalid");
+                result = await serviceLayer.getReport(types[i], todayDate, "User");
+                reports[i].date = new Date(getSyncDateFormat(todayDate));
+                testFunctions[i](result, reports[i]);
+            }
+        }, 2000);
 
 
     });
+
+
+
+    it('Integration addField', async (done) => {
+        setTimeout(done, 4000);
+
+
+        //add report
+        let serviceLayer = new ServiceLayer('mydbtest');
+        serviceLayer.users.set("User", 1);
+        let user = { isLoggedin: () => true, permissionCheck: () => true };
+        serviceLayer.cinemaSystem.users.set(1, user);
+        await addEmployee(1);
+        let todayDate = new Date();
+        let report = { date: todayDate, creatorEmployeeId: 1, additionalProps: [["Cash counted"], { "Cash counted": "true" }] };
+        records = JSON.stringify([report]);
+        serviceLayer.createDailyReport('general_purpose_daily_report', records, "User");
+
+        //add field
+        serviceLayer.cinemaSystem.users.delete(1);
+        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addFieldToDailyReport("test", "User"));
+
+        //get report
+
+        setTimeout(async () => {
+            user = { isLoggedin: () => true, permissionCheck: () => true };
+            serviceLayer.cinemaSystem.users.set(1, user);
+            result = serviceLayer.addFieldToDailyReport('new_field', "User");
+            expect(result).toBe("The report field added successfully");
+            setTimeout(async () => {
+                result = await serviceLayer.getReport("general_purpose_daily_report", todayDate, "User");
+                report.date = new Date(getSyncDateFormat(todayDate));
+                report.additionalProps = [["Cash counted", "new_field"], { "Cash counted": "true" }];
+                testGeneralPurposeDailyReportResult(result, report);
+            }, 500);
+        }, 2000);
+
+
+    });
+
+    
+    it('Integration removeField', async (done) => {
+        setTimeout(done, 4000);
+
+
+        //add report
+        let serviceLayer = new ServiceLayer('mydbtest');
+        serviceLayer.users.set("User", 1);
+        let user = { isLoggedin: () => true, permissionCheck: () => true };
+        serviceLayer.cinemaSystem.users.set(1, user);
+        await addEmployee(1);
+        let todayDate = new Date();
+        let report = { date: todayDate, creatorEmployeeId: 1, additionalProps: [["Cash counted", "new_field"], { "Cash counted": "true" }] };
+        records = JSON.stringify([report]);
+        serviceLayer.createDailyReport('general_purpose_daily_report', records, "User");
+
+        //remove field
+        serviceLayer.cinemaSystem.users.delete(1);
+        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.removeFieldFromDailyReport("test", "User"));
+
+        //get report
+
+        setTimeout(async () => {
+            user = { isLoggedin: () => true, permissionCheck: () => true };
+            serviceLayer.cinemaSystem.users.set(1, user);
+            result = serviceLayer.removeFieldFromDailyReport('new_field', "User");
+            expect(result).toBe("The report field removed successfully");
+            setTimeout(async () => {
+                result = await serviceLayer.getReport("general_purpose_daily_report", todayDate, "User");
+                report.date = new Date(getSyncDateFormat(todayDate));
+                report.additionalProps = [["Cash counted"], { "Cash counted": "true" }];
+                testGeneralPurposeDailyReportResult(result, report);
+            }, 500);
+        }, 2000);
+
+
+    });
+
+
+
 
 
 });
@@ -283,22 +396,21 @@ function testServiceFunctions(method) {
 }
 
 function getSyncDateFormat(date) { return date.toISOString().substring(0, 10); }
-
-async function createReport(type, report, method, customizer, isTest) {
+/*
+function createReport(type, report, method, customizer, isTest) {
     if (isTest) {
-        let result = await ReportController.createDailyReport('lol', report);
+        let result = ReportController.createDailyReport('lol', report);
         expect(result).toBe('The requested report type is invalid');
-        result = await ReportController.createDailyReport(type, report);
-        expect(result).toBe('The report can not be created');
-        await method(report[0], false);
+    /*    result = ReportController.createDailyReport(type, report);
+        setTimeOut(()=>{method(report[0], false)},500);
     }
     if (customizer) {
         customizer(report);
     }
-    result = await ReportController.createDailyReport(type, report);
+    result = ReportController.createDailyReport(type, report);
     if (isTest) {
         expect(result).toBe('The report created successfully');
-        await method(report[0], true);
+        setTimeOut(()=>{method(report[0], true);},500);
     }
 }
-
+*/

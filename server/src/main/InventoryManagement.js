@@ -61,7 +61,7 @@ class InventoryManagemnt {
     }
 
 
-    addMovieOrder(
+    async addMovieOrder(
         orderId,
         strDate,
         supplierId,
@@ -79,6 +79,7 @@ class InventoryManagemnt {
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
         let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+        await order.initOrder();
         for (let i in movieIdList) {
             this.products.get(movieIdList[i]).createOrder(order);
 
@@ -87,17 +88,17 @@ class InventoryManagemnt {
         return "The order added successfully";
     }
 
-    removeOrder(orderId) {
+    async removeOrder(orderId) {
         if (!this.orders.has(orderId))
             return "This order does not exist";
         if (this.orders.get(orderId).recipientEmployeeId != null)
             return "Removing supplied orders is not allowed";
-        this.orders.get(orderId).removeOrder();
+        await this.orders.get(orderId).removeOrder();
         this.orders.delete(orderId);
         return "The order removed successfully"
     }
 
-    addCafeteriaOrder(
+    async addCafeteriaOrder(
         orderId,
         strDate,
         supplierId,
@@ -115,6 +116,7 @@ class InventoryManagemnt {
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
         let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+        await order.initOrder();
         for (let i in productsList) {
             this.products.get(productsList[i].id).createOrder(order, productsList[i].quantity);
 

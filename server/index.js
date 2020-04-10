@@ -82,7 +82,13 @@ app.get("/api/addMovieOrder", (req, res) => {
   const supplierName = req.query.supplierName || "";
   const moviesName = req.query.moviesName || "";
   const user = req.query.user || "";
-  const result = service.addMovieOrder(orderId, orderDate, supplierName, moviesName, user);
+  const result = service.addMovieOrder(
+    orderId,
+    orderDate,
+    supplierName,
+    moviesName,
+    user
+  );
   res.send(JSON.stringify({ result }));
 });
 
@@ -191,21 +197,27 @@ app.get("/api/addCafeteriaOrder", (req, res) => {
   const supplierName = req.query.supplierName || "";
   const orderDate = req.query.orderDate || "";
   const user = req.query.user || "";
-  const result = service.addCafeteriaOrder(orderId, productsName, supplierName, orderDate, user);
+  const result = service.addCafeteriaOrder(
+    orderId,
+    productsName,
+    supplierName,
+    orderDate,
+    user
+  );
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/editCafeteriaOrder", (req, res) => {
   const orderId = req.query.orderId || "";
-  const productsName = req.query.productsName || "";
+  const productsWithQuantity = req.query.productsWithQuantity || "";
   const orderDate = req.query.orderDate || "";
-  const productQuantity = req.query.productQuantity || "";
+  const updatedProducts = req.query.updatedProducts || "";
   const user = req.query.user || "";
   const result = service.editCafetriaOrder(
     orderId,
-    productsName,
+    productsWithQuantity,
     orderDate,
-    productQuantity,
+    updatedProducts,
     user
   );
   res.send(JSON.stringify({ result }));
@@ -214,7 +226,21 @@ app.get("/api/editCafeteriaOrder", (req, res) => {
 app.get("/api/removeCafeteriaOrder", (req, res) => {
   const orderId = req.query.orderId || "";
   const user = req.query.user || "";
-  const result = service.removeCafetriaOrder(orderId, user);
+  const result = service.removeOrder(orderId, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/confirmCafeteriaOrder", (req, res) => {
+  const orderId = req.query.orderId || "";
+  const productsName = req.query.productsName || "";
+  const updatedProductsAndQuantity = req.query.updatedProductsAndQuantity || "";
+  const user = req.query.user || "";
+  const result = service.editCafetriaOrder(
+    orderId,
+    productsName,
+    updatedProductsAndQuantity,
+    user
+  );
   res.send(JSON.stringify({ result }));
 });
 
@@ -321,6 +347,13 @@ app.get("/api/getProductDetails", (req, res) => {
   const productName = req.query.productName || "";
   const user = req.query.user || "";
   const result = service.getProductDetails(productName, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getProductAndQuntityByOrder", (req, res) => {
+  const user = req.query.user || "";
+  const orderName = req.query.orderName || "";
+  const result = service.getProductsAndQuantityByOrder(user, orderName);
   res.send(JSON.stringify({ result }));
 });
 

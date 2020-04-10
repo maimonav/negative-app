@@ -5,7 +5,7 @@ const dataExample = [
   { title: "supplier" },
   { title: "Ralph Hubbard" },
   { title: "order" },
-  { title: "product" }
+  { title: "product" },
 ];
 
 const supplierDetails = "maimonaviv@gmail.com";
@@ -15,7 +15,7 @@ const employeeDetails = {
   firstName: "aviv",
   lastName: "maimon",
   permissions: "Director",
-  contactDetails: "maimonaviv@gmail.com"
+  contactDetails: "maimonaviv@gmail.com",
 };
 
 const orderDetails = {
@@ -23,7 +23,7 @@ const orderDetails = {
   orderDate: "21/03/2020",
   supplierDetails: "Shufersal",
   products: "milk, snacks, drinks",
-  productQuantity: "10, 50, 50"
+  productQuantity: "10, 50, 50",
 };
 
 const movieDetails = {
@@ -42,9 +42,16 @@ const productDetails = {
   productMimQunatity: "50",
 };
 
+const productsAndQuantity = [
+  { name: "Milk", quantity: "10" },
+  { name: "Bamba", quantity: "30" },
+  { name: "Popcorn", quantity: "50" },
+];
+
 exports.dataExample = dataExample;
 exports.supplierDetails = supplierDetails;
 exports.employeeDetails = employeeDetails;
 exports.orderDetails = orderDetails;
 exports.movieDetails = movieDetails;
 exports.productDetails = productDetails;
+exports.productsAndQuantity = productsAndQuantity;

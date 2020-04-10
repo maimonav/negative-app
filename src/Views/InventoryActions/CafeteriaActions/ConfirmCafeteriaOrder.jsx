@@ -9,25 +9,24 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
-import EditTable from "../../../Components/Tables/EditTable";
 import {
   handleGetItemsByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
+import EditTable from "../../../Components/Tables/EditTable";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class EditCafeteriaOrder extends React.Component {
+export default class ConfirmCafeteriaOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
       orderId: "",
-      orderDate: new Date(),
-      updatedProducts: "",
       isOpened: false,
       openSecond: false,
       openThird: false,
+      startDate: new Date(),
+      endDate: new Date(),
+      updatedProducts: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
@@ -35,7 +34,7 @@ export default class EditCafeteriaOrder extends React.Component {
   }
 
   handleGetItemsByDates = (startDate, endDate) => {
-    handleGetItemsByDates(localStorage.getItem("username"), startDate, endDate)
+    handleGetItemsByDates(startDate, endDate)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };
@@ -75,10 +74,6 @@ export default class EditCafeteriaOrder extends React.Component {
     this.setState({ orderId: name });
   };
 
-  setOrderDate = (date) => {
-    this.setState({ orderDate: date });
-  };
-
   setProductsWithQuantity = (name) => {
     this.setState({
       updatedProducts: name,
@@ -93,9 +88,9 @@ export default class EditCafeteriaOrder extends React.Component {
 
   render() {
     const {
+      startDate,
+      endDate,
       orderId,
-      productsWithQuantity,
-      orderDate,
       updatedProducts,
       isOpened,
       openSecond,
@@ -107,25 +102,25 @@ export default class EditCafeteriaOrder extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Edit Cafeteria Order</h4>
+                <h4 style={{ margin: "auto" }}>Confirm Cafeteria Order</h4>
                 <p>Complete order's changes</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
-                      id={"choose-start-date"}
+                      id={"remove-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
-                      date={this.state.startDate}
+                      date={startDate}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
-                      id={"chose-end-date"}
+                      id={"remove-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
-                      date={this.state.endDate}
+                      date={endDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -158,16 +153,6 @@ export default class EditCafeteriaOrder extends React.Component {
               {openSecond && (
                 <CardBody>
                   <GridContainer>
-                    <GridItem>
-                      <SelectDates
-                        id={"add-order-date"}
-                        label={"Change Order Date"}
-                        setDate={this.setOrderDate}
-                        date={this.state.orderDate}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
                     <GridItem xs={12} sm={12} md={15}>
                       <EditTable
                         columns={this.columns}
@@ -184,15 +169,14 @@ export default class EditCafeteriaOrder extends React.Component {
                   <Button
                     color="info"
                     onClick={() =>
-                      this.props.handleEditCafeteriaOrder(
+                      this.props.handleConfirmCafeteriaOrder(
+                        this.state.productsWithQuantity,
                         orderId,
-                        productsWithQuantity,
-                        orderDate,
                         updatedProducts
                       )
                     }
                   >
-                    Edit Order
+                    Confirm Order
                   </Button>
                 </CardFooter>
               )}
