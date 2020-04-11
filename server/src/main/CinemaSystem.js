@@ -360,14 +360,22 @@ class CinemaSystem {
         return this.inventoryManagement.removeCafeteriaProduct(productId);
     }
 
-    addCategory(categoryId, categoryName, ActionIDOfTheOperation) {
-        return "TODO: IMPLEMENT THIS.";
+    addCategory(categoryId, categoryName, parentID, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCategory");
+        if (result != null) return result;
+        return this.inventoryManagement.addCategory(categoryId, categoryName, parentID);
     }
 
-    removeCategory(categoryId, categoryName, ActionIDOfTheOperation) {
-        return "TODO: IMPLEMENT THIS.";
+    editCategory(categoryId, parentID, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editCategory");
+        if (result != null) return result;
+        return this.inventoryManagement.editCategory(categoryId, parentID);
     }
-
+    removeCategory(categoryId, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeCategory");
+        if (result != null) return result;
+        return this.inventoryManagement.removeCategory(categoryId);
+    }
     removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
         if (result != null) return result;

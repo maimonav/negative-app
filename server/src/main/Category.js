@@ -7,8 +7,21 @@ class Category {
         this.name = name;
         this.parentId = (parentId === undefined) ? -1 : parentId;
         this.isCategoryRemoved = null;
-        DataBase.add('category', { id: id, name: name, parentId: parentId });
-        DataBase.setDestroyTimer('categories', false,"2 YEAR","1 DAY",'isCategoryRemoved');
+
+    }
+
+    initCategory() {
+        let res = DataBase.add('category', { id: this.id, name: this.name, parentId: this.parentId });
+        if (res === 'error')
+            return "The operation failed - DB failure";
+        res = DataBase.setDestroyTimer('categories', false, "2 YEAR", "1 DAY", 'isCategoryRemoved');
+        if (res === 'error')
+            return "The operation failed - DB failure";
+        return "";
+    }
+
+    editCategory = (parentId) => {
+        this.parentId = parentId;
     }
 
     removeCategory = () => {
@@ -16,8 +29,7 @@ class Category {
             this.isCategoryRemoved = new Date();
             DataBase.update('category', { id: this.id }, { isCategoryRemoved: this.isCategoryRemoved });
             return true;
-        }
-        else
+        } else
             return false;
     }
 

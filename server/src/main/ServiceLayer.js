@@ -375,9 +375,11 @@ class ServiceLayer {
         let result = this.cinemaSystem.addCafeteriaProduct(this.productsCounter, productName,
             this.categories.get(productCategory), productPrice, productQuantity, maxQuantity,
             minQuantity, this.users.get(ActionIDOfTheOperation));
-        if (result === "The product added successfully.") {
+        if (result === "The product was successfully added to the system") {
             this.products.set(productName, this.productsCounter);
             this.productsCounter++;
+        } else {
+            logger.info('ServiceLayer- addNewProduct - ' + result);
         }
         return result;
     }
@@ -398,9 +400,6 @@ class ServiceLayer {
         }
         let result = this.cinemaSystem.editCafeteriaProduct(this.products.get(productName), categoryID, productPrice,
             productQuantity, maxQuantity, minQuantity, this.users.get(ActionIDOfTheOperation));
-        if (result === "The product edited successfully.") {
-            this.products.set(productName, this.productsCounter);
-        }
         return result;
     }
 
@@ -415,50 +414,80 @@ class ServiceLayer {
             this.products.get(productName),
             this.users.get(ActionIDOfTheOperation)
         );
-        if (result === "The product removed successfully.") {
+        if (result === "The product removed successfully") {
             this.products.delete(productName);
+        } else {
+            logger.info('ServiceLayer- removeProduct - ' + result);
         }
         return result;
 
     }
 
-    addCategory(categoryName, ActionIDOfTheOperation) {
+    addCategory(categoryName, ActionIDOfTheOperation, parentName) {
         if (this.categories.has(categoryName)) {
+            logger.info('ServiceLayer- addCategory - ' + "The category already exist");
             return "The category already exist";
-        } else {
-            if (!this.users.has(ActionIDOfTheOperation)) {
-                return "The user performing the operation does not exist in the system";
-            }
-            let result = this.cinemaSystem.addCategory(
-                this.categoriesCounter,
-                categoryName,
-                this.users.get(ActionIDOfTheOperation)
-            );
-            if (result === "The category added successfully.") {
-                this.categories.set(categoryName, this.categoriesCounter);
-                this.categoriesCounter++;
-            }
-            return result;
         }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info('ServiceLayer- addCategory - ' + "The user performing the operation does not exist in the system");
+            return "The user performing the operation does not exist in the system";
+        }
+        let parentId;
+        if (parentName !== undefined) {
+            if (this.categories.has(parentName))
+                parentId = this.categories.get(parentName);
+            else {
+                logger.info('ServiceLayer- addCategory - ' + "The parent " + parentName + " does not exist");
+                return "The parent " + parentName + " does not exist";
+            }
+        }
+
+        let result = this.cinemaSystem.addCategory(this.categoriesCounter, categoryName, parentId, this.users.get(ActionIDOfTheOperation));
+        if (result === "The category was successfully added to the system") {
+            this.categories.set(categoryName, this.categoriesCounter);
+            this.categoriesCounter++;
+        }
+        return result;
+    }
+
+
+    editCategory(categoryName, ActionIDOfTheOperation, parentName) {
+        if (!this.categories.has(categoryName)) {
+            logger.info('ServiceLayer- editCategory - ' + "The category doesn't exist");
+            return "The category doesn't exist";
+        }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info('ServiceLayer- editCategory - ' + "The user performing the operation does not exist in the system");
+            return "The user performing the operation does not exist in the system";
+        }
+        let parentId;
+        if (parentName !== undefined) {
+            if (this.categories.has(parentName))
+                parentId = this.categories.get(parentName);
+            else {
+                logger.info('ServiceLayer- editCategory - ' + "The parent " + parentName + " does not exist");
+                return "The parent " + parentName + " does not exist";
+            }
+        }
+        return this.cinemaSystem.editCategory(this.categories.get(categoryName), parentId, this.users.get(ActionIDOfTheOperation));
+
     }
 
     removeCategory(categoryName, ActionIDOfTheOperation) {
         if (!this.categories.has(categoryName)) {
-            return "The category does not exist";
-        } else {
-            if (!this.users.has(ActionIDOfTheOperation)) {
-                return "The user performing the operation does not exist in the system";
-            }
-            let result = this.cinemaSystem.removeCategory(
-                this.categoriesCounter,
-                this.categories.get(categoryName),
-                this.users.get(ActionIDOfTheOperation)
-            );
-            if (result === "The category added successfully.") {
-                this.categories.delete(categoryName);
-            }
-            return result;
+            logger.info('ServiceLayer- editCategory - ' + "The category doesn't exist");
+            return "The category doesn't exist";
         }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info('ServiceLayer- editCategory - ' + "The user performing the operation does not exist in the system");
+            return "The user performing the operation does not exist in the system";
+        }
+        let result = this.cinemaSystem.removeCategory(this.categories.get(categoryName), this.users.get(ActionIDOfTheOperation));
+        if (result === "The category was successfully removed") {
+            this.categories.delete(categoryName);
+        }
+        return result;
+
     }
 
     async addMovieOrder(
