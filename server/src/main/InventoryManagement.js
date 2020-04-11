@@ -2,6 +2,7 @@ const Order = require('./Order');
 const Movie = require('./Movie');
 const Supplier = require('./Supplier');
 const CafeteriaProduct = require('./CafeteriaProduct');
+const Category = require('./Category');
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class InventoryManagemnt {
@@ -149,6 +150,7 @@ class InventoryManagemnt {
 
     removeCafeteriaProduct = (productId) => {
         if (!this.products.has(productId)) return "This product not exists";
+        this.products.delete(productId);
         return this.products.get(productId).removeProduct();
     }
     getSuppliers() {
@@ -276,6 +278,58 @@ class InventoryManagemnt {
         }
         return {};
     }
+
+    addCategory(categoryId, categoryName, parentID) {
+        if (this.categories.has(categoryId)) {
+            this.writeToLog('info', 'addCategory', 'The Category ' + categoryId + ' already exist');
+            return "The Category ID already exist"
+        }
+        if (parentID !== undefined && !this.categories.has(parentID)) {
+            this.writeToLog('info', 'addCategory', 'The parent category ' + parentID + ' doesn\'t exist');
+            return "The parent category  doesn't exist"
+        }
+        const categoryToInsert = new Category(categoryId, categoryName.parentID);
+        if (categoryToInsert.initCategory() === "The operation failed - DB failure") {
+            this.writeToLog('error', 'addCategory', 'The operation failed - DB failure')
+            return 'The operation failed - DB failure';
+        }
+        this.categories.set(categoryToInsert.id, categoryToInsert);
+        return "The category was successfully added to the system";
+    }
+
+    editCategory(categoryId, parentID) {
+        if (!this.categories.has(categoryId)) {
+            this.writeToLog('info', 'editCategory', 'The Category ' + categoryId + ' doesn\'t exist');
+            return "The Category ID doesn\'t exist"
+        }
+        if (parentID !== undefined && !this.categories.has(parentID) && parentID != -1) {
+            this.writeToLog('info', 'editCategory', 'The parent category ' + parentID + ' doesn\'t exist');
+            return "The parent category  doesn't exist"
+        }
+        this.categories.get(categoryId).editCategory(parentID);
+        return "The category was successfully updateded";
+    }
+    removeCategory(categoryId) {
+        if (!this.categories.has(categoryId)) {
+            this.writeToLog('info', 'removeCategory', 'The Category ' + categoryId + ' doesn\'t exist');
+            return "The Category ID doesn\'t exist"
+        }
+        const categoryToRemove = this.categories.get(categoryId);
+        this.categories.forEach(category => {
+            if (category.parentId === categoryToRemove.id)
+                category.editCategory(categoryToRemove.parentId);
+        })
+        if (categoryToRemove.removeCategory()) {
+            this.categories.delete(categoryId);
+            return 'The category was successfully removed'
+        }
+        return 'The category already removed'
+    }
+
+    writeToLog(type, functionName, msg) {
+        logger.log(type, 'InventoryManagemnt - ' + functionName + ' - ' + msg);
+    }
+
 
 }
 module.exports = InventoryManagemnt;
