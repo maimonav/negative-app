@@ -1,5 +1,5 @@
+const mysql = require('mysql2');
 const DB = require("../../../server/src/main/DBManager");
-const { createConnection, connectAndCreate, dropAndClose } = require("./../DBtests/connectAndCreate");
 const { testAddInventoryDailyReport, testAddIncomesDailyReport, testAddGeneralPurposeDailyReport,
     testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult } = require("./../DBtests/ReportsTests.spec");
 const { addCategory, addProductAfterCategory } = require("./../DBtests/ProductsTests.spec");
@@ -16,16 +16,16 @@ describe("Report Operations Unit Tests", () => {
     let sequelize;
     beforeEach(async function () {
         //create connection & mydb
-        var con = createConnection();
-        await connectAndCreate(con);
-        sequelize = await DB.initDB('mydbTest');
-    });
-
-    afterEach(async function () {
+        await DB.connectAndCreate('mydbTest');
+        sequelize = DB.initDB('mydbTest');
+      });
+    
+      afterEach(async function () {
         //create connection & drop mydb
-        con = createConnection();
-        await dropAndClose(con);
-    });
+        await DB.close();
+        await DB.connection.promise().query("DROP DATABASE mydbTest");
+        console.log("Database deleted");
+      });
 
     it("init", async function () {
         //Testing connection

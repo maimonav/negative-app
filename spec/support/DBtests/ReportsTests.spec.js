@@ -1,4 +1,3 @@
-const { createConnection, connectAndCreate, dropAndClose } = require("./connectAndCreate");
 const { addEmployee } = require("./OrdersTests.spec");
 const { addCategory, addMovieAfterCategory, addProductAfterCategory } = require("./ProductsTests.spec");
 const DB = require("../../../server/src/main/DBManager");
@@ -6,24 +5,16 @@ const DB = require("../../../server/src/main/DBManager");
 
 
 async function addIncomesReport(report) {
-    try {
-        await DB.add('incomes_daily_report', report);
-    } catch (e) { }
+    await DB.add('incomes_daily_report', report);
 }
 async function addMoviesReport(report) {
-    try {
-        await DB.add('movie_daily_report', report);
-    } catch (e) { }
+    await DB.add('movie_daily_report', report);
 }
 async function addGeneralPurposeReport(report) {
-    try {
-        await DB.add('general_purpose_daily_report', report);
-    } catch (e) { }
+    await DB.add('general_purpose_daily_report', report);
 }
 async function addInventoryReport(report) {
-    try {
-        await DB.add('inventory_daily_report', report);
-    } catch (e) { }
+    await DB.add('inventory_daily_report', report);
 }
 
 async function testAddIncomesDailyReport(report, success) {
@@ -31,16 +22,17 @@ async function testAddIncomesDailyReport(report, success) {
         await DB.getById('incomes_daily_report', { date: report.date }).then((result) => {
             testIncomeDailyReportResult(result, report);
         });
-    else
-        try {
-            await DB.getById('incomes_daily_report', { date: report.date }).then((result) => {
-                if (result != null)
-                    fail("testAddIncomesDailyReport failed");
-            });
-        } catch (e) { }
+    else {
+        await DB.getById('incomes_daily_report', { date: report.date }).then((result) => {
+            if (typeof result == 'string')
+                expect(result.includes("Database Error: Cannot complete action."));
+            else if (result != null)
+                fail("testAddIncomesDailyReport failed");
+        });
+    }
 
 }
-exports.testAddIncomesDailyReport=testAddIncomesDailyReport;
+exports.testAddIncomesDailyReport = testAddIncomesDailyReport;
 
 function testIncomeDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
@@ -53,20 +45,21 @@ function testIncomeDailyReportResult(result, report) {
     expect(result.tabsCashRevenues).toBe(report.tabsCashRevenues);
     expect(result.tabsCreditCardRevenues).toBe(report.tabsCreditCardRevenues);
 }
-exports.testIncomeDailyReportResult=testIncomeDailyReportResult;
+exports.testIncomeDailyReportResult = testIncomeDailyReportResult;
 
 async function testAddMoviesDailyReport(report, success) {
     if (success)
         await DB.getById('movie_daily_report', { date: report.date }).then((result) => {
             testMoviesDailyReportResult(result, report);
         });
-    else
-        try {
-            await DB.getById('movie_daily_report', { date: report.date }).then((result) => {
-                if (result != null)
-                    fail("testAddMoviesDailyReport failed");
-            });
-        } catch (e) { }
+    else {
+        await DB.getById('movie_daily_report', { date: report.date }).then((result) => {
+            if (typeof result == 'string')
+                expect(result.includes("Database Error: Cannot complete action."));
+            else if (result != null)
+                fail("testAddMoviesDailyReport failed");
+        });
+    }
 }
 function testMoviesDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
@@ -83,16 +76,17 @@ async function testAddGeneralPurposeDailyReport(report, success) {
         await DB.getById('general_purpose_daily_report', { date: report.date }).then((result) => {
             testGeneralPurposeDailyReportResult(result, report);
         });
-    else
-        try {
-            await DB.getById('general_purpose_daily_report', { date: report.date }).then((result) => {
-                if (result != null)
-                    fail("testAddGeneralPurposeDailyReport failed");
-            });
-        } catch (e) { }
+    else {
+        await DB.getById('general_purpose_daily_report', { date: report.date }).then((result) => {
+            if (typeof result == 'string')
+                expect(result.includes("Database Error: Cannot complete action."));
+            else if (result != null)
+                fail("testAddGeneralPurposeDailyReport failed");
+        });
+    }
 }
 
-exports.testAddGeneralPurposeDailyReport=testAddGeneralPurposeDailyReport;
+exports.testAddGeneralPurposeDailyReport = testAddGeneralPurposeDailyReport;
 
 function testGeneralPurposeDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
@@ -100,22 +94,23 @@ function testGeneralPurposeDailyReportResult(result, report) {
     expect(result.additionalProps).toEqual(report.additionalProps);
 }
 
-exports.testGeneralPurposeDailyReportResult=testGeneralPurposeDailyReportResult;
+exports.testGeneralPurposeDailyReportResult = testGeneralPurposeDailyReportResult;
 
 async function testAddInventoryDailyReport(report, success) {
     if (success)
         await DB.getById('inventory_daily_report', { date: report.date }).then((result) => {
             testInventoryDailyReportResult(result, report);
         });
-    else
-        try {
-            await DB.getById('inventory_daily_report', { date: report.date }).then((result) => {
-                if (result != null)
-                    fail("testAddInventoryDailyReport failed");
-            });
-        } catch (e) { }
+    else {
+        await DB.getById('inventory_daily_report', { date: report.date }).then((result) => {
+            if (typeof result == 'string')
+                expect(result.includes("Database Error: Cannot complete action."));
+            else if (result != null)
+                fail("testAddInventoryDailyReport failed");
+        });
+    }
 }
-exports.testAddInventoryDailyReport=testAddInventoryDailyReport;
+exports.testAddInventoryDailyReport = testAddInventoryDailyReport;
 
 function testInventoryDailyReportResult(result, report) {
     expect(result.date).toEqual(report.date);
@@ -125,7 +120,7 @@ function testInventoryDailyReportResult(result, report) {
     expect(result.quantityInStock).toBe(report.quantityInStock);
     expect(result.stockThrown).toBe(report.stockThrown);
 }
-exports.testInventoryDailyReportResult=testInventoryDailyReportResult;
+exports.testInventoryDailyReportResult = testInventoryDailyReportResult;
 
 async function updateIncomesDailyReport(report) {
     await addIncomesReport(report);
@@ -214,16 +209,17 @@ describe("DB Test - reports", function () {
     let sequelize;
     beforeEach(async function () {
         //create connection & mydb
-        var con = createConnection();
-        await connectAndCreate(con);
-        sequelize = await DB.initDB('mydbTest');
-    });
+        await DB.connectAndCreate('mydbTest');
+        sequelize = DB.initDB('mydbTest');
+      });
 
     afterEach(async function () {
         //create connection & drop mydb
-        con = createConnection();
-        await dropAndClose(con);
+        await DB.close();
+        await DB.connection.promise().query("DROP DATABASE mydbTest");
+        console.log("Database deleted");
     });
+
 
 
     it("init", async function () {
@@ -286,7 +282,7 @@ describe("DB Test - reports", function () {
         let report = {
             date: new Date('2020-03-02 00:00:00'),
             creatorEmployeeId: 1,
-            additionalProps: [["Cash counted"],{ "Cash counted": "true" }]
+            additionalProps: [["Cash counted"], { "Cash counted": "true" }]
         };
         await addEmployee(1, "MANAGER");
         await updateGeneralPurposeDailyReport(report);
@@ -349,7 +345,7 @@ describe("DB Test - reports", function () {
         let report = {
             date: new Date('2020-03-02 00:00:00'),
             creatorEmployeeId: 0,
-            additionalProps: [["Cash counted"],{ "Cash counted": "true" }]
+            additionalProps: [["Cash counted"], { "Cash counted": "true" }]
         };
         let where = { date: new Date('2020-03-02 00:00:00') };
         await addEmployee(1, "MANAGER");
@@ -403,7 +399,7 @@ async function addGeneralPurposeDailyReport(isTest) {
     let report = {
         date: new Date('2020-03-02 00:00:00'),
         creatorEmployeeId: 0,
-        additionalProps: [["Cash counted"],{ "Cash counted": "true" }]
+        additionalProps: [["Cash counted"], { "Cash counted": "true" }]
     };
     await addGeneralPurposeReport(report);
     if (isTest)

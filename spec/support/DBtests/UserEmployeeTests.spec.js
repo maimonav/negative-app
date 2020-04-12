@@ -1,8 +1,16 @@
-const { createConnection, connectAndCreate, dropAndClose } = require("../DBtests/connectAndCreate");
 const DB = require("../../../server/src/main/DBManager");
+
 
 async function addUser(isTest) {
   console.log("START ADD USER\n");
+
+
+  if (isTest)
+    await DB.getById('user', { id: 0 }).then((result) => {
+      if (result != null)
+        fail("addUser failed");
+    });
+
   await DB.add('user', {
     id: 0,
     username: "admin",
@@ -23,25 +31,36 @@ exports.addUser = addUser;
 
 
 async function addEmployeeWithoutUser() {
-  try {
-    await DB.add('employee', {
-      id: 1,
-      firstName: "Noa",
-      lastName: "Cohen",
-      contactDetails: '0508888888'
-    });
 
-    await DB.getById('employee', { id: 1 }).then((result) => {
-      if (result != null)
-        fail("addEmployeeWithoutUser failed");
-    });
-  }
-  catch (error) { }
+  let returnMsg = await DB.add('employee', {
+    id: 1,
+    firstName: "Noa",
+    lastName: "Cohen",
+    contactDetails: '0508888888'
+  });
+
+  expect(typeof returnMsg).toBe("string");
+  expect(returnMsg.includes("Database Error: Cannot complete action."))
+
+  returnMsg = await DB.getById('employee', { id: 1 })
+
+  expect(typeof returnMsg).toBe("string");
+  expect(returnMsg.includes("Database Error: Cannot complete action."))
 }
 
 
-async function addEmployee(id,isTest) {
+
+async function addEmployee(id, isTest) {
   console.log("START ADD EMPLOYEE\n");
+
+
+  if (isTest)
+    await DB.getById('user', { id: id }).then((result) => {
+      if (result != null)
+        fail("addEmployee failed");
+    });
+
+
   await DB.add('user', {
     id: id,
     username: "manager",
@@ -55,6 +74,12 @@ async function addEmployee(id,isTest) {
       expect(result.password).toBe("manager");
       expect(result.permissions).toBe("MANAGER");
       expect(result.isUserRemoved).toBe(null);
+    });
+
+  if (isTest)
+    await DB.getById('employee', { id: id }).then((result) => {
+      if (result != null)
+        fail("addEmployee failed");
     });
 
   await DB.add('employee', {
@@ -97,7 +122,7 @@ async function updateEmployee() {
   });
 }
 
-async function removeUser(id,isTest) {
+async function removeUser(id, isTest) {
   console.log("START REMOVE USER\n");
   await DB.update('user', { id: id }, { isUserRemoved: new Date() });
 
@@ -113,7 +138,7 @@ async function removeUser(id,isTest) {
 }
 exports.removeUser = removeUser;
 
-async function removeEmployee(id,isTest) {
+async function removeEmployee(id, isTest) {
   console.log("START REMOVE EMPLOYEE\n");
   await DB.add('user', {
     id: id,
@@ -147,16 +172,17 @@ describe("DB Unit Testing - user and employee", function () {
   let sequelize;
   beforeEach(async function () {
     //create connection & mydb
-    var con = createConnection();
-    await connectAndCreate(con);
-    sequelize = await DB.initDB('mydbTest');
+    await DB.connectAndCreate('mydbTest');
+    sequelize = DB.initDB('mydbTest');
   });
 
   afterEach(async function () {
     //create connection & drop mydb
-    con = createConnection();
-    await dropAndClose(con);
+    await DB.close();
+    await DB.connection.promise().query("DROP DATABASE mydbTest");
+    console.log("Database deleted");
   });
+
 
 
   it("init", async function () {
@@ -172,7 +198,7 @@ describe("DB Unit Testing - user and employee", function () {
   it("add employee", async function () {
     await addEmployeeWithoutUser();
     await addUser();
-    await addEmployee(1,true);
+    await addEmployee(1, true);
   });
 
 
@@ -186,8 +212,8 @@ describe("DB Unit Testing - user and employee", function () {
   it("remove user and employee", async function () {
     await addUser();
     await addEmployee(1);
-    await removeUser(1,true);
-    await removeEmployee(2,true);
+    await removeUser(1, true);
+    await removeEmployee(2, true);
   });
 
 

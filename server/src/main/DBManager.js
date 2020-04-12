@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize');
 const mysql = require('mysql2');
+var uniqid = require('uniqid');
+
 const { generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDailyReportSchema, incomesDailyReportSchema,
     supplierSchema, movieSchema, cafeteriaProductSchema, categorySchema, movieOrderSchema, cafeteriaProductOrderSchema, orderSchema,
     userSchema, employeeSchema } = require("./Models");
@@ -7,6 +9,7 @@ const { generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDaily
 class DataBase {
 
     static sequelize;
+    static connection;
     static models;
     static isTestMode = false;
 
@@ -18,32 +21,60 @@ class DataBase {
 
     }
 
+    static connectionMsg = 'Database Error: Unable to connect to the database.';
+
+    static errorHandler(error) {
+        console.log(error);
+        let handler = error ? this.errorsHandling[error.name] : undefined;
+        let msg = handler ? handler(error) :
+            'Database Error: Cannot complete action.';
+        ;
+        return msg + '\nError ID: ' + uniqid();
+    }
+
+    //TODO:: add log
+    static errorsHandling = {
+
+        //errors/validation
+        SequelizeUniqueConstraintError: (error) =>
+            'Database Error: Unique constraint is violated in the database.', //validation, dupplicate primary key - programmers
+
+        //errors/database
+        SequelizeForeignKeyConstraintError: (error) =>
+            'Database Error: Foreign key constraint is violated in the database.', //link to foreign key while does not exist      
+
+        //errors/connection
+        SequelizeConnectionRefusedError: (error) =>
+            this.connectionMsg + ' MySql server has stopped running.', //mysql server stopped 
+        SequelizeAccessDeniedError: (error) =>
+            this.connectionMsg + ' Refused due to insufficient privileges'
+            + ' - Password to database should be checked.' // wrong password
+
+    };
 
 
 
-    static initDB(dbName) {
+    static initDB() {
         if (this.isTestMode)
             return;
-        try {
-            this.sequelize = new Sequelize(dbName, 'root', 'admin', {
-                host: 'localhost',
-                dialect: 'mysql'
-            });
 
-            DataBase.initModels();
+        //try {
 
-            this.models = {
-                user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
-                order: this.Order, movie: this.Movie, cafeteria_product: this.CafeteriaProduct, movie_order: this.MovieOrder,
-                cafeteria_product_order: this.CafeteriaProductOrder, general_purpose_daily_report: this.GeneralPurposeDailyReport,
-                inventory_daily_report: this.InventoryDailyReport, movie_daily_report: this.MoviesDailyReport,
-                incomes_daily_report: this.IncomesDailyReport
-            };
+        DataBase.initModels();
 
-        } catch (error) {
+        this.models = {
+            user: this.User, employee: this.Employee, supplier: this.Supplier, category: this.Category,
+            order: this.Order, movie: this.Movie, cafeteria_product: this.CafeteriaProduct, movie_order: this.MovieOrder,
+            cafeteria_product_order: this.CafeteriaProductOrder, general_purpose_daily_report: this.GeneralPurposeDailyReport,
+            inventory_daily_report: this.InventoryDailyReport, movie_daily_report: this.MoviesDailyReport,
+            incomes_daily_report: this.IncomesDailyReport
+        };
+
+        /*} catch (error) {
             console.log(error);
             return 'error';
-        }
+        }*/
+
         return this.sequelize;
     }
 
@@ -116,42 +147,50 @@ class DataBase {
         };
     }
 
-    static init() {
+
+    static async connectAndCreate(dbName, password) {
         if (this.isTestMode)
             return;
-        return this.initDB('mydb');
+
+        this.sequelize = new Sequelize(dbName,"root",
+            password ? password : "admin", {
+            host: "localhost",
+            dialect: 'mysql'
+        });
+
+            try {
+                this.connection = mysql.createConnection({
+                    host:  "localhost",
+                    user:  "root",
+                    password: password ? password : "admin"
+                });
+
+
+
+                await this.connection.connect(async function (error) {
+                    if (error) 
+                        throw error;
+                    console.log("Connected!");
+                });
+
+
+                await this.connection.promise().query("CREATE DATABASE " + (dbName ? dbName : 'mydb'));
+                console.log("Database created");
+            } catch (error) {
+                console.log(error);
+                return 'error';
+            }
+
+
     }
 
-    static async connectAndCreate() {
-        if (this.isTestMode)
-            return;
-        try {
-            const con = mysql.createConnection({
-                host: "localhost",
-                user: "root",
-                password: "admin"
-            });
-
-            await con.connect(async function (err) {
-                if (err) throw err;
-                console.log("Connected!");
-            });
-            await con.promise().query("CREATE DATABASE mydb");
-            console.log("Database created");
-        } catch (error) {
-            console.log(error);
-            return 'error';
-        }
-    }
-
-    async close() {
+    static async close() {
         if (this.isTestMode)
             return;
         try {
             await this.sequelize.close();
         } catch (error) {
-            console.log(error);
-            return 'error';
+            return this.errorHandler(error);
         }
     }
 
@@ -165,14 +204,14 @@ class DataBase {
                     return model.create(element, { transaction: t });
                 })
                     .catch((error => {
-                        console.log(error);
-                        return 'error';
+                        return this.errorHandler(error);
                     }));
 
             } catch (error) {
-                console.log(error);
-                return 'error';
+                return this.errorHandler(error);
             }
+        }).catch((error) => {
+            return this.errorHandler(error);
         });
     }
 
@@ -187,14 +226,14 @@ class DataBase {
                     return res;
                 })
                     .catch((error => {
-                        console.log(error);
-                        return 'error';
+                        return this.errorHandler(error);
                     }));
 
             } catch (error) {
-                console.log(error);
-                return 'error';
+                return this.errorHandler(error);
             }
+        }).catch((error) => {
+            return this.errorHandler(error);
         });
     }
 
@@ -212,14 +251,14 @@ class DataBase {
                     return model.update(element, { where: where, transaction: t });
                 })
                     .catch((error => {
-                        console.log(error);
-                        return 'error';
+                        return this.errorHandler(error);
                     }));
 
             } catch (error) {
-                console.log(error);
-                return 'error';
+                return this.errorHandler(error);
             }
+        }).catch((error) => {
+            return this.errorHandler(error);
         });
     }
 
@@ -234,14 +273,14 @@ class DataBase {
                     return model.destroy({ where: where, transaction: t });
                 })
                     .catch((error => {
-                        console.log(error);
-                        return 'error';
+                        return this.errorHandler(error);
                     }));
 
             } catch (error) {
-                console.log(error);
-                return 'error';
+                return this.errorHandler(error);
             }
+        }).catch((error) => {
+            return this.errorHandler(error);
         });
     }
 
@@ -266,14 +305,14 @@ class DataBase {
                     });
                 })
                     .catch((error => {
-                        console.log(error);
-                        return 'error';
+                        return this.errorHandler(error);
                     }));
 
             } catch (error) {
-                console.log(error);
-                return 'error';
+                return this.errorHandler(error);
             }
+        }).catch((error) => {
+            return this.errorHandler(error);
         });
     }
 
@@ -287,13 +326,11 @@ class DataBase {
                 return this.sequelize.query(destroyQuery, { t });
             })
                 .catch((error => {
-                    console.log(error);
-                    return 'error';
+                    return this.errorHandler(error);
                 }));
 
         } catch (error) {
-            console.log(error);
-            return 'error';
+            return this.errorHandler(error);
         }
     }
 
@@ -311,6 +348,10 @@ class DataBase {
             "EVERY " + eventTime + " " +
             "DO DELETE FROM " + table + " WHERE " + where;
     }
+
+
+
+
 
 
 };

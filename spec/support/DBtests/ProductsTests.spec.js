@@ -1,22 +1,21 @@
-const { createConnection, connectAndCreate, dropAndClose } = require("./connectAndCreate");
 const DB = require("../../../server/src/main/DBManager");
 
 
 async function addMovieBeforeCategory() {
   console.log("START ADD MOVIE BEFORE\n");
-  try {
-    await DB.add('movie', {
-      id: 0,
-      name: "Spiderman",
-      categoryId: 0
-    });
-    await DB.getById('movie', { id: 0 }).then((result) => {
-      if (result != null)
-        fail("addMovieBeforeCategory failed");
-    });
-  }
-  catch (error) { }
+  await DB.add('movie', {
+    id: 0,
+    name: "Spiderman",
+    categoryId: 0
+  });
+  await DB.getById('movie', { id: 0 }).then((result) => {
+    if (typeof result == 'string')
+      expect(result.includes("Database Error: Cannot complete action."));
+    else if (result != null)
+      fail("addMovieBeforeCategory failed");
+  });
 }
+
 
 async function addCategory(id, name, isTest) {
   console.log("START ADD CATEGORY\n");
@@ -59,24 +58,23 @@ async function addMovieAfterCategory(isTest) {
 exports.addMovieAfterCategory = addMovieAfterCategory;
 async function addProductBeforeCategory() {
   console.log("START ADD PRODUCT BEFORE\n");
-  try {
-
-    await DB.add('cafeteria_product', {
-      id: 0,
-      name: "Coke",
-      categoryId: 0,
-      price: 5.90,
-      quantity: 20,
-      maxQuantity: 45,
-      minQuantity: 10
-    });
-    await DB.getById('cafeteria_product', { id: 0 }).then((result) => {
-      if (result != null)
-        fail("addProductBeforeCategory failed");
-    });
-  }
-  catch (error) { }
+  await DB.add('cafeteria_product', {
+    id: 0,
+    name: "Coke",
+    categoryId: 0,
+    price: 5.90,
+    quantity: 20,
+    maxQuantity: 45,
+    minQuantity: 10
+  });
+  await DB.getById('cafeteria_product', { id: 0 }).then((result) => {
+    if (typeof result == 'string')
+      expect(result.includes("Database Error: Cannot complete action."));
+    else if (result != null)
+      fail("addProductBeforeCategory failed");
+  });
 }
+
 
 async function addProductAfterCategory(isTest) {
   console.log("START ADD PRODUCT AFTER\n");
@@ -191,15 +189,15 @@ describe("DB Test - movies, products, category", function () {
   let sequelize;
   beforeEach(async function () {
     //create connection & mydb
-    var con = createConnection();
-    await connectAndCreate(con);
-    sequelize = await DB.initDB('mydbTest');
+    await DB.connectAndCreate('mydbTest');
+    sequelize = DB.initDB('mydbTest');
   });
 
   afterEach(async function () {
     //create connection & drop mydb
-    con = createConnection();
-    await dropAndClose(con);
+    await DB.close();
+    await DB.connection.promise().query("DROP DATABASE mydbTest");
+    console.log("Database deleted");
   });
 
 

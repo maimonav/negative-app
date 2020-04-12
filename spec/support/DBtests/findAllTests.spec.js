@@ -1,4 +1,3 @@
-const { createConnection, connectAndCreate, dropAndClose } = require("./connectAndCreate");
 const DB = require("../../../server/src/main/DBManager");
 const { addEmployee } = require("./UserEmployeeTests.spec");
 
@@ -10,16 +9,17 @@ describe("DB Unit Testing - findAll", function () {
   let sequelize;
   beforeEach(async function () {
     //create connection & mydb
-    var con = createConnection();
-    await connectAndCreate(con);
-    sequelize = await DB.initDB('mydbTest');
+    await DB.connectAndCreate('mydbTest');
+    sequelize = DB.initDB('mydbTest');
   });
 
   afterEach(async function () {
     //create connection & drop mydb
-    con = createConnection();
-    await dropAndClose(con);
+    await DB.close();
+    await DB.connection.promise().query("DROP DATABASE mydbTest");
+    console.log("Database deleted");
   });
+
 
 
   it("init", async function () {

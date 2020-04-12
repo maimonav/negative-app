@@ -1,4 +1,3 @@
-const { createConnection, connectAndCreate, dropAndClose } = require("./connectAndCreate");
 const { addEmployee, removeEmployee } = require("./UserEmployeeTests.spec");
 const { addIncomesDailyReport, addMoviesDailyReport, addGeneralPurposeDailyReport, addInventoryDailyReport } = require("./ReportsTests.spec");
 const { addCategory, addMovieAfterCategory, addProductAfterCategory, removeMovie, removeProduct, removeCategoryBeforeUsed } = require("./ProductsTests.spec");
@@ -24,18 +23,17 @@ describe("DB Test - destroy timer", function () {
 
   beforeEach(async function () {
     //create connection & mydb
-    var con = createConnection();
-    await connectAndCreate(con);
-    sequelize = await DB.initDB('mydbTest');
-    let t = new Date()
-
+    await DB.connectAndCreate('mydbTest');
+    sequelize = DB.initDB('mydbTest');
   });
 
   afterEach(async function () {
     //create connection & drop mydb
-    con = createConnection();
-    await dropAndClose(con);
+    await DB.close();
+    await DB.connection.promise().query("DROP DATABASE mydbTest");
+    console.log("Database deleted");
   });
+
 
   it("delete incomes reports after time test", async function (done) {
     await addIncomesDailyReport();

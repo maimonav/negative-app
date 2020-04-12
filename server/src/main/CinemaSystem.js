@@ -18,9 +18,8 @@ class CinemaSystem {
             "The operation cannot be completed - the user is not connected to the system";
         this.inappropriatePermissionsMsg = "User does not have proper permissions";
 
-        DataBase.connectAndCreate().then(async() => {
-            if (dbName) DataBase.initDB(dbName);
-            else DataBase.init();
+        DataBase.connectAndCreate(dbName ? dbName : undefined).then(async () => {
+            DataBase.initDB();
             this.users.set(0, new User(0, "admin", "admin", "ADMIN"));
             ReportController.init();
         });
@@ -61,10 +60,10 @@ class CinemaSystem {
     }
 
     logout(userId) {
-            if (!this.users.has(userId)) return "The user isn't exists";
-            return this.users.get(userId).logout();
-        }
-        //notes- checkuser
+        if (!this.users.has(userId)) return "The user isn't exists";
+        return this.users.get(userId).logout();
+    }
+    //notes- checkuser
     addNewEmployee(
         userID,
         userName,

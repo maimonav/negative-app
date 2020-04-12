@@ -1,6 +1,4 @@
-const { createConnection, connectAndCreate, dropAndClose } = require("./connectAndCreate");
 const { addCategory, addMovieAfterCategory, addProductAfterCategory } = require("./ProductsTests.spec");
-
 const DB = require("../../../server/src/main/DBManager");
 
 async function addSupplier(id, isTest) {
@@ -23,24 +21,24 @@ exports.addSupplier = addSupplier;
 
 async function addOrderBeforeSupplier() {
   console.log("START ADD ORDER BEFORE SUPPLIER\n");
-  try {
-    await DB.add('order', {
-      id: 0,
-      date: new Date('2020-03-02 00:00:00'),
-      creatorEmployeeId: 0,
-      supplierId: 0
-    });
+  await DB.add('order', {
+    id: 0,
+    date: new Date('2020-03-02 00:00:00'),
+    creatorEmployeeId: 0,
+    supplierId: 0
+  });
 
-    await DB.getById('order', { id: 0 }).then((result) => {
-      if (result != null)
-        fail("addOrderBeforeSupplier failed");
-    });
-  }
-  catch (error) { }
+  await DB.getById('order', { id: 0 }).then((result) => {
+    if (typeof result == 'string')
+      expect(result.includes("Database Error: Cannot complete action."));
+    else if (result != null)
+      fail("addOrderBeforeSupplier failed");
+  });
+
 }
 
 
-async function addOrderAftereSupplierCreator(creatorId,isTest) {
+async function addOrderAftereSupplierCreator(creatorId, isTest) {
   console.log("START ADD ORDER AFTER\n");
 
   await DB.add('order', {
@@ -60,25 +58,27 @@ async function addOrderAftereSupplierCreator(creatorId,isTest) {
 
 }
 
-exports.addOrderAftereSupplierCreator=addOrderAftereSupplierCreator;
+exports.addOrderAftereSupplierCreator = addOrderAftereSupplierCreator;
 
 
 async function addOrderBeforeCreator() {
   console.log("START ADD ORDER BEFORE CREATOR\n");
-  try {
-    await DB.add('order', {
-      id: 0,
-      date: new Date('2020-03-02 00:00:00'),
-      creatorEmployeeId: 2,
-      supplierId: 0
-    });
-    await DB.getById('order', { id: 0 }).then((result) => {
-      if (result != null)
-        fail("addOrderBeforeCreator failed");
-    });
-  }
-  catch (error) { }
+
+  await DB.add('order', {
+    id: 0,
+    date: new Date('2020-03-02 00:00:00'),
+    creatorEmployeeId: 2,
+    supplierId: 0
+  });
+  await DB.getById('order', { id: 0 }).then((result) => {
+    if (typeof result == 'string')
+      expect(result.includes("Database Error: Cannot complete action."));
+    else if (result != null)
+      fail("addOrderBeforeCreator failed");
+  });
 }
+
+
 
 
 
@@ -117,7 +117,7 @@ async function updateSupplier() {
 
 
 
-async function removeSupplier(id,isTest) {
+async function removeSupplier(id, isTest) {
   console.log("START REMOVE SUPPLIER\n");
   await DB.update('supplier', { id: id }, { isSupplierRemoved: new Date() });
   if (isTest)
@@ -245,15 +245,15 @@ describe("DB Test - suppliers, orders", function () {
   let sequelize;
   beforeEach(async function () {
     //create connection & mydb
-    var con = createConnection();
-    await connectAndCreate(con);
-    sequelize = await DB.initDB('mydbTest');
+    await DB.connectAndCreate('mydbTest');
+    sequelize = DB.initDB('mydbTest');
   });
 
   afterEach(async function () {
     //create connection & drop mydb
-    con = createConnection();
-    await dropAndClose(con);
+    await DB.close();
+    await DB.connection.promise().query("DROP DATABASE mydbTest");
+    console.log("Database deleted");
   });
 
 
@@ -268,7 +268,7 @@ describe("DB Test - suppliers, orders", function () {
     await addOrderBeforeSupplier();
     await addSupplier(0, true);
     await addOrderBeforeCreator();
-    await addOrderAftereSupplierCreator(0,true);
+    await addOrderAftereSupplierCreator(0, true);
 
   });
 
@@ -280,7 +280,7 @@ describe("DB Test - suppliers, orders", function () {
 
   it("remove supplier", async function () {
     await addSupplier(0);
-    await removeSupplier(0,true);
+    await removeSupplier(0, true);
 
   });
 
