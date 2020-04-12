@@ -152,7 +152,7 @@ class DataBase {
         if (this.isTestMode)
             return;
 
-        this.sequelize = new Sequelize(dbName,"root",
+        this.sequelize = new Sequelize(dbName ? dbName : 'mydb',"root",
             password ? password : "admin", {
             host: "localhost",
             dialect: 'mysql'
