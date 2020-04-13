@@ -55,7 +55,14 @@ class InventoryManagemnt {
         contactDetails) {
         if (this.suppliers.has(supplierID))
             return "This supplier already exists";
-        let result = await DataBase.add('supplier', { id: supplierID, name: supplierName, contactDetails: contactDetails });
+        let destroyObject = {
+            table: 'suppliers',
+            afterCreate: false,
+            deleteTime: '2 YEAR',
+            eventTime: '1 DAY',
+            prop: 'isSupplierRemoved'
+        };
+        let result = await DataBase.add('supplier', { id: supplierID, name: supplierName, contactDetails: contactDetails }, true, destroyObject);
         if (typeof result !== "string") {
             this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
             return "The supplier added successfully"

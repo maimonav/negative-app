@@ -93,7 +93,7 @@ describe("DB Test - destroy timer", function () {
       deleteTime: "3 SECOND",
       eventTime: "1 SECOND",
       prop: 'isMovieRemoved'
-  }
+    }
     await DB.add('cafeteria_product', {
       id: 0,
       name: "Coke",
@@ -102,7 +102,7 @@ describe("DB Test - destroy timer", function () {
       quantity: 20,
       maxQuantity: 45,
       minQuantity: 10
-    },true,destroyObject);
+    }, true, destroyObject);
     await removeMovie();
     await deleteModel('movie', 'movies', false, { id: 0 }, 6000, done, 'isMovieRemoved');
   });
@@ -115,7 +115,18 @@ describe("DB Test - destroy timer", function () {
   });
 
   it("delete supplier after time test", async function (done) {
-    await addSupplier(0);
+    let destroyObject = {
+      table: 'suppliers',
+      afterCreate: false,
+      deleteTime: "3 SECOND",
+      eventTime: "1 SECOND",
+      prop: 'isSupplierRemoved'
+    }
+    await DB.add('supplier', {
+      id: 0,
+      name: "Shupersal",
+      contactDetails: "089266584"
+    }, true, destroyObject);
     await removeSupplier(0);
     await deleteModel('supplier', 'suppliers', false, { id: 0 }, 6000, done, 'isSupplierRemoved');
   });

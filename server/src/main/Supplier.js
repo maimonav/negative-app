@@ -7,7 +7,6 @@ class Supplier {
         this.name = name;
         this.contactDetails = contactDetails;
         this.isSupplierRemoved = null;
-        DataBase.setDestroyTimer('suppliers', false, "2 YEAR", "1 DAY", 'isSupplierRemoved');
     }
 
 
