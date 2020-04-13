@@ -15,9 +15,6 @@ class Order {
         DataBase.setDestroyTimer('orders', true, '1 YEAR', '1 DAY');
     }
 
-    async initOrder(){
-        await DataBase.add('order', { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
-    }
 
     async removeOrder(){
         await DataBase.remove('order', { id: this.id });
