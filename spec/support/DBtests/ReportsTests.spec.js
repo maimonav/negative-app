@@ -5,25 +5,25 @@ const DB = require("../../../server/src/main/DBManager");
 
 
 async function addIncomesReport(report) {
-    await DB.add('incomes_daily_report', report);
+    await DB.singleAdd('incomes_daily_report', report);
 }
 async function addMoviesReport(report) {
-    await DB.add('movie_daily_report', report);
+    await DB.singleAdd('movie_daily_report', report);
 }
 async function addGeneralPurposeReport(report) {
-    await DB.add('general_purpose_daily_report', report);
+    await DB.singleAdd('general_purpose_daily_report', report);
 }
 async function addInventoryReport(report) {
-    await DB.add('inventory_daily_report', report);
+    await DB.singleAdd('inventory_daily_report', report);
 }
 
 async function testAddIncomesDailyReport(report, success) {
     if (success)
-        await DB.getById('incomes_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('incomes_daily_report', { date: report.date }).then((result) => {
             testIncomeDailyReportResult(result, report);
         });
     else {
-        await DB.getById('incomes_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('incomes_daily_report', { date: report.date }).then((result) => {
             if (typeof result == 'string')
                 expect(result.includes("Database Error: Cannot complete action."));
             else if (result != null)
@@ -49,11 +49,11 @@ exports.testIncomeDailyReportResult = testIncomeDailyReportResult;
 
 async function testAddMoviesDailyReport(report, success) {
     if (success)
-        await DB.getById('movie_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('movie_daily_report', { date: report.date }).then((result) => {
             testMoviesDailyReportResult(result, report);
         });
     else {
-        await DB.getById('movie_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('movie_daily_report', { date: report.date }).then((result) => {
             if (typeof result == 'string')
                 expect(result.includes("Database Error: Cannot complete action."));
             else if (result != null)
@@ -73,11 +73,11 @@ function testMoviesDailyReportResult(result, report) {
 
 async function testAddGeneralPurposeDailyReport(report, success) {
     if (success)
-        await DB.getById('general_purpose_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('general_purpose_daily_report', { date: report.date }).then((result) => {
             testGeneralPurposeDailyReportResult(result, report);
         });
     else {
-        await DB.getById('general_purpose_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('general_purpose_daily_report', { date: report.date }).then((result) => {
             if (typeof result == 'string')
                 expect(result.includes("Database Error: Cannot complete action."));
             else if (result != null)
@@ -98,11 +98,11 @@ exports.testGeneralPurposeDailyReportResult = testGeneralPurposeDailyReportResul
 
 async function testAddInventoryDailyReport(report, success) {
     if (success)
-        await DB.getById('inventory_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('inventory_daily_report', { date: report.date }).then((result) => {
             testInventoryDailyReportResult(result, report);
         });
     else {
-        await DB.getById('inventory_daily_report', { date: report.date }).then((result) => {
+        await DB.singleGetById('inventory_daily_report', { date: report.date }).then((result) => {
             if (typeof result == 'string')
                 expect(result.includes("Database Error: Cannot complete action."));
             else if (result != null)
@@ -124,39 +124,39 @@ exports.testInventoryDailyReportResult = testInventoryDailyReportResult;
 
 async function updateIncomesDailyReport(report) {
     await addIncomesReport(report);
-    await DB.update('incomes_daily_report', { date: report.date }, report);
+    await DB.singleUpdate('incomes_daily_report', { date: report.date }, report);
 }
 async function updateMoviesDailyReport(report) {
     await addMoviesReport(report);
-    await DB.update('movie_daily_report', { date: report.date }, report);
+    await DB.singleUpdate('movie_daily_report', { date: report.date }, report);
 }
 async function updateGeneralPurposeDailyReport(report) {
     await addGeneralPurposeReport(report);
-    await DB.update('general_purpose_daily_report', { date: report.date }, report);
+    await DB.singleUpdate('general_purpose_daily_report', { date: report.date }, report);
 }
 async function updateInventoryDailyReport(report) {
     await addInventoryReport(report);
-    await DB.update('inventory_daily_report', { date: report.date }, report);
+    await DB.singleUpdate('inventory_daily_report', { date: report.date }, report);
 }
 
 async function testUpdateIncomesDailyReport(report) {
-    await DB.getById('incomes_daily_report', { date: report.date }).then((result) => {
+    await DB.singleGetById('incomes_daily_report', { date: report.date }).then((result) => {
         testIncomeDailyReportResult(result, report);
     });
 
 }
 async function testUpdateMoviesDailyReport(report) {
-    await DB.getById('movie_daily_report', { date: report.date }).then((result) => {
+    await DB.singleGetById('movie_daily_report', { date: report.date }).then((result) => {
         testMoviesDailyReportResult(result, report);
     });
 }
 async function testUpdateGeneralPurposeDailyReport(report) {
-    await DB.getById('general_purpose_daily_report', { date: report.date }).then((result) => {
+    await DB.singleGetById('general_purpose_daily_report', { date: report.date }).then((result) => {
         testGeneralPurposeDailyReportResult(result, report);
     });
 }
 async function testUpdateInventoryDailyReport(report) {
-    await DB.getById('inventory_daily_report', { date: report.date }).then((result) => {
+    await DB.singleGetById('inventory_daily_report', { date: report.date }).then((result) => {
         testInventoryDailyReportResult(result, report);
     });
 }
@@ -164,41 +164,41 @@ async function testUpdateInventoryDailyReport(report) {
 
 async function removeIncomesDailyReport(report, where) {
     await addIncomesReport(report);
-    await DB.remove('incomes_daily_report', where);
+    await DB.singleRemove('incomes_daily_report', where);
 }
 async function removeMoviesDailyReport(report, where) {
     await addMoviesReport(report);
-    await DB.remove('movie_daily_report', where);
+    await DB.singleRemove('movie_daily_report', where);
 }
 async function removeGeneralPurposeDailyReport(report, where) {
     await addGeneralPurposeReport(report);
-    await DB.remove('general_purpose_daily_report', where);
+    await DB.singleRemove('general_purpose_daily_report', where);
 }
 async function removeInventoryDailyReport(report, where) {
     await addInventoryReport(report);
-    await DB.remove('inventory_daily_report', where);
+    await DB.singleRemove('inventory_daily_report', where);
 }
 
 async function testRemoveIncomesDailyReport(where) {
-    await DB.getById('incomes_daily_report', where).then((result) => {
+    await DB.singleGetById('incomes_daily_report', where).then((result) => {
         if (result != null)
             fail("removeIncomesDailyReport failed");
     });
 }
 async function testRemoveMoviesDailyReport(where) {
-    await DB.getById('movie_daily_report', where).then((result) => {
+    await DB.singleGetById('movie_daily_report', where).then((result) => {
         if (result != null)
             fail("removeMoviesDailyReport failed");
     });
 }
 async function testRemoveGeneralPurposeDailyReport(where) {
-    await DB.getById('general_purpose_daily_report', where).then((result) => {
+    await DB.singleGetById('general_purpose_daily_report', where).then((result) => {
         if (result != null)
             fail("removeGeneralPurposeDailyReport failed");
     });
 }
 async function testRemoveInventoryDailyReport(where) {
-    await DB.getById('inventory_daily_report', where).then((result) => {
+    await DB.singleGetById('inventory_daily_report', where).then((result) => {
         if (result != null)
             fail("removeInventoryDailyReport failed");
     });
@@ -210,7 +210,7 @@ describe("DB Test - reports", function () {
     beforeEach(async function () {
         //create connection & mydb
         await DB.connectAndCreate('mydbTest');
-        sequelize = DB.initDB('mydbTest');
+        sequelize = await DB.initDB('mydbTest');
       });
 
     afterEach(async function () {

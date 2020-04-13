@@ -10,7 +10,7 @@ describe("DB Unit Testing - findAll", function () {
   beforeEach(async function () {
     //create connection & mydb
     await DB.connectAndCreate('mydbTest');
-    sequelize = DB.initDB('mydbTest');
+    sequelize = await DB.initDB('mydbTest');
   });
 
   afterEach(async function () {

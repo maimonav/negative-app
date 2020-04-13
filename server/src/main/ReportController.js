@@ -12,10 +12,10 @@ class ReportController {
 
 
     static async init() {
-        await DataBase.setDestroyTimer(this.types.GENERAL, true, '1 YEAR', '1 DAY');
-        await DataBase.setDestroyTimer(this.types.INVENTORY, true, '1 YEAR', '1 DAY');
-        await DataBase.setDestroyTimer(this.types.MOVIES, true, '1 YEAR', '1 DAY');
-        await DataBase.setDestroyTimer(this.types.INCOMES, true, '1 YEAR', '1 DAY');
+        await DataBase.singleSetDestroyTimer(this.types.GENERAL, true, '1 YEAR', '1 DAY');
+        await DataBase.singleSetDestroyTimer(this.types.INVENTORY, true, '1 YEAR', '1 DAY');
+        await DataBase.singleSetDestroyTimer(this.types.MOVIES, true, '1 YEAR', '1 DAY');
+        await DataBase.singleSetDestroyTimer(this.types.INCOMES, true, '1 YEAR', '1 DAY');
     }
 
     static getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
@@ -38,7 +38,7 @@ class ReportController {
             return "The requested report type is invalid"
         for (let i in records) {
             records[i].date = new Date(this.getSyncDateFormat(new Date(records[i].date)));
-            /*let result = */DataBase.add(type, records[i]).catch((res)=>{
+            /*let result = */DataBase.singleAdd(type, records[i]).catch((res)=>{
                 console.log();
             });
             /*if (result == 'error') {
@@ -56,7 +56,7 @@ class ReportController {
 
         if (!this.isValidDate(date))
             return "The requested report date is invalid"
-        return DataBase.getById(type, { date: new Date(this.getSyncDateFormat(new Date(date))) }).then((result) => {
+        return DataBase.singleGetById(type, { date: new Date(this.getSyncDateFormat(new Date(date))) }).then((result) => {
             if (result == null)
                 return "The report does not exist"
             return result;
@@ -76,11 +76,11 @@ class ReportController {
 
     //TODO:: result.length === 0 ??
     static addFieldToDailyReport(newField) {
-        DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
+        DataBase.singleFindAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
             .then(async (result) => {
                 if (result.length !== 0) {
                     let newProps = result[0].additionalProps[0].concat(newField);
-                    await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
+                    await DataBase.singleUpdate(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
                 }
             });
 
@@ -88,11 +88,11 @@ class ReportController {
     }
     //TODO:: result.length === 0 ??
     static removeFieldFromDailyReport(fieldToRemove) {
-        DataBase.findAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
+        DataBase.singleFindAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
             .then(async (result) => {
                 if (result.length !== 0) {
                     let newProps = result[0].additionalProps[0].filter((value) => (value !== fieldToRemove));
-                    await DataBase.update(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
+                    await DataBase.singleUpdate(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
                 }
             });
         return "The report field removed successfully";

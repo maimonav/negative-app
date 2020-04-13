@@ -44,6 +44,7 @@ class DataBase {
             'Database Error: Foreign key constraint is violated in the database.', //link to foreign key while does not exist      
 
         //errors/connection
+        SequelizeConnectionError: (error) => this.connectionMsg,
         SequelizeConnectionRefusedError: (error) =>
             this.connectionMsg + ' MySql server has stopped running.', //mysql server stopped 
         SequelizeAccessDeniedError: (error) =>
@@ -54,12 +55,23 @@ class DataBase {
 
 
 
-    static initDB() {
+    static async initDB(dbName, password) {
         if (this.isTestMode)
             return;
 
-        //try {
 
+        this.sequelize = new Sequelize(dbName ? dbName : 'mydb', "root",
+            password ? password : "admin", {
+            host: "localhost",
+            dialect: 'mysql'
+        });
+
+        try {
+            await this.sequelize.authenticate();
+        } catch (error) {
+            return this.errorHandler(error);
+        }
+        
         DataBase.initModels();
 
         this.models = {
@@ -70,10 +82,17 @@ class DataBase {
             incomes_daily_report: this.IncomesDailyReport
         };
 
-        /*} catch (error) {
-            console.log(error);
-            return 'error';
-        }*/
+        try {
+            const keys = Object.keys(this.models);
+            for (let idx in keys)
+                await DataBase.models[keys[idx]].sync();
+
+
+        } catch (error) {
+            return this.errorHandler(error);
+        }
+
+        
 
         return this.sequelize;
     }
@@ -152,12 +171,6 @@ class DataBase {
         if (this.isTestMode)
             return;
 
-        this.sequelize = new Sequelize(dbName ? dbName : 'mydb', "root",
-            password ? password : "admin", {
-            host: "localhost",
-            dialect: 'mysql'
-        });
-
         try {
             this.connection = mysql.createConnection({
                 host: "localhost",
@@ -168,8 +181,9 @@ class DataBase {
 
 
             await this.connection.connect(async function (error) {
-                if (error)
+                if (error) {
                     throw error;
+                }
                 console.log("Connected!");
             });
 
@@ -214,44 +228,44 @@ class DataBase {
     }
 
     static add(params, t, model) {
-        return model.sync().then(() => {
-            return model.create(params.element, { transaction: t });
-        })
+        //return model.sync().then(() => {
+        return model.create(params.element, { transaction: t });
+        /*})
             .catch((error => {
                 return this.errorHandler(error);
-            }));
+            }));*/
     }
 
 
     static getById(params, t, model) {
-        return model.sync().then(() => {
+        //return model.sync().then(() => {
 
-            let res = model.findOne({ where: params.where, transaction: t });
-            return res;
-        })
+        let res = model.findOne({ where: params.where, transaction: t });
+        return res;
+        /*})
             .catch((error => {
                 return this.errorHandler(error);
-            }));
+            }));*/
     }
 
     static update(params, t, model) {
-        return model.sync().then(() => {
+        //return model.sync().then(() => {
 
-            return model.update(params.element, { where: params.where, transaction: t });
-        })
+        return model.update(params.element, { where: params.where, transaction: t });
+        /*})
             .catch((error => {
                 return this.errorHandler(error);
-            }));
+            }));*/
     }
 
     static remove(params, t, model) {
-        return model.sync().then(() => {
+        //return model.sync().then(() => {
 
-            return model.destroy({ where: params.where, transaction: t });
-        })
-            .catch((error => {
-                return this.errorHandler(error);
-            }));
+        return model.destroy({ where: params.where, transaction: t });
+        /* })
+             .catch((error => {
+                 return this.errorHandler(error);
+             }));*/
 
     }
 
@@ -263,16 +277,16 @@ class DataBase {
             attributesArray = attributesArray.concat(e);
         })
 
-        return model.sync().then(() => {
-            return model.findAll({
-                attributes: attributesArray,
-                where: params.where,
-                transaction: t
-            });
-        })
+        //return model.sync().then(() => {
+        return model.findAll({
+            attributes: attributesArray,
+            where: params.where,
+            transaction: t
+        });
+        /*})
             .catch((error => {
                 return this.errorHandler(error);
-            }));
+            }));*/
     }
 
     static setDestroyTimer(params, t) {
@@ -293,12 +307,12 @@ class DataBase {
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                return model.sync().then(() => {
-                    return model.create(element, { transaction: t });
-                })
-                    .catch((error => {
-                        return this.errorHandler(error);
-                    }));
+                //  return model.sync().then(() => {
+                return model.create(element, { transaction: t });
+                /* })
+                     .catch((error => {
+                         return this.errorHandler(error);
+                     }));*/
 
 
             }).catch((error) => {
@@ -315,13 +329,13 @@ class DataBase {
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                return model.sync().then(() => {
-                    let res = model.findOne({ where: where, transaction: t });
-                    return res;
-                })
+                //return model.sync().then(() => {
+                let res = model.findOne({ where: where, transaction: t });
+                return res;
+                /*})
                     .catch((error => {
                         return this.errorHandler(error);
-                    }));
+                    }));*/
 
 
             }).catch((error) => {
@@ -342,13 +356,13 @@ class DataBase {
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                return model.sync().then(() => {
+                // return model.sync().then(() => {
 
-                    return model.update(element, { where: where, transaction: t });
-                })
-                    .catch((error => {
-                        return this.errorHandler(error);
-                    }));
+                return model.update(element, { where: where, transaction: t });
+                /*  })
+                     .catch((error => {
+                          return this.errorHandler(error);
+                      }));*/
 
 
             }).catch((error) => {
@@ -366,13 +380,13 @@ class DataBase {
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                return model.sync().then(() => {
+                //return model.sync().then(() => {
 
-                    return model.destroy({ where: where, transaction: t });
-                })
-                    .catch((error => {
-                        return this.errorHandler(error);
-                    }));
+                return model.destroy({ where: where, transaction: t });
+                /* })
+                     .catch((error => {
+                         return this.errorHandler(error);
+                     }));*/
 
 
             }).catch((error) => {
@@ -395,16 +409,16 @@ class DataBase {
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                return model.sync().then(() => {
-                    return model.findAll({
-                        attributes: attributesArray,
-                        where: where,
-                        transaction: t
-                    });
-                })
-                    .catch((error => {
-                        return this.errorHandler(error);
-                    }));
+                //return model.sync().then(() => {
+                return model.findAll({
+                    attributes: attributesArray,
+                    where: where,
+                    transaction: t
+                });
+                /*  })
+                      .catch((error => {
+                          return this.errorHandler(error);
+                      }));*/
 
 
             }).catch((error) => {

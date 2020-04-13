@@ -6,7 +6,7 @@ const DB = require("../../../server/src/main/DBManager");
 
 
 async function getReport(model, where, isRecordExists, failMsg) {
-  await DB.getById(model, where).then((result) => {
+  await DB.singleGetById(model, where).then((result) => {
     let cond = isRecordExists ? result == null : result != null;
     if (cond)
       fail(failMsg);
@@ -24,7 +24,7 @@ describe("DB Test - destroy timer", function () {
   beforeEach(async function () {
     //create connection & mydb
     await DB.connectAndCreate('mydbTest');
-    sequelize = DB.initDB('mydbTest');
+    sequelize = await DB.initDB('mydbTest');
   });
 
   afterEach(async function () {
@@ -62,7 +62,7 @@ describe("DB Test - destroy timer", function () {
   });
 
   it("delete user after time test", async function (done) {
-    await DB.add('user', {
+    await DB.singleAdd('user', {
       id: 0,
       username: "admin",
       password: "admin",
@@ -117,7 +117,7 @@ describe("DB Test - destroy timer", function () {
     await addCategory(0, "testCategory");
     await addMovieAfterCategory();
     await addOrderAftereSupplierCreator(0);
-    await DB.add('movie_order', {
+    await DB.singleAdd('movie_order', {
       orderId: 0,
       movieId: 0,
       expectedQuantity: 1
@@ -131,7 +131,7 @@ describe("DB Test - destroy timer", function () {
     await addCategory(0, "testCategory");
     await addProductAfterCategory();
     await addOrderAftereSupplierCreator(0);
-    await DB.add('cafeteria_product_order', {
+    await DB.singleAdd('cafeteria_product_order', {
       orderId: 0,
       productId: 0,
       expectedQuantity: 2
@@ -142,7 +142,7 @@ describe("DB Test - destroy timer", function () {
 });
 async function deleteModel(model, table, afterCreate, where, time, done, prop) {
   setTimeout(done, time);
-  await DB.setDestroyTimer(table, afterCreate, "3 SECOND", "1 SECOND", prop)
+  await DB.singleSetDestroyTimer(table, afterCreate, "3 SECOND", "1 SECOND", prop)
   await getReport(model, where, true, table + " - before event failed").then(async () => {
     setTimeout(async function () {
       await getReport(model, where, false, table + " - after event failed");

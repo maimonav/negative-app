@@ -9,6 +9,25 @@ class Supplier {
         this.isSupplierRemoved = null;
     }
 
+    async initSupplier(){
+        let add = {
+            name: 'add',
+            model: 'supplier',
+            params: { element: { id: this.id, name: this.name, contactDetails: this.contactDetails } }
+        };
+        let setDestroyTimer = {
+            name: 'setDestroyTimer',
+            params: {
+                table: 'suppliers',
+                afterCreate: false,
+                deleteTime: '2 YEAR',
+                eventTime: '1 DAY',
+                prop: 'isSupplierRemoved'
+            }
+        };
+        return await DataBase.executeActions([add, setDestroyTimer]);
+    }
+
 
     async editSupplier(name, contactDetails){
         super.name = name;

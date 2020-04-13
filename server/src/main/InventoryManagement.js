@@ -20,24 +20,10 @@ class InventoryManagemnt {
             return "This movie already exists";
         if (!this.categories.has(categoryId))
             return "Category doesn't exist";
-        let add = {
-            name: 'add',
-            model: 'movie',
-            params: { element: { id: movieId, name: name, categoryId: categoryId } }
-        };
-        let setDestroyTimer = {
-            name: 'setDestroyTimer',
-            params: {
-                table: 'movies',
-                afterCreate: false,
-                deleteTime: '2 YEAR',
-                eventTime: '1 DAY',
-                prop: 'isMovieRemoved'
-            }
-        };
-        let result = await DataBase.executeActions([add, setDestroyTimer]);
+        let movie = new Movie(movieId, name, categoryId);
+        let result = await movie.initMovie();
         if (typeof result !== "string") {
-            this.products.set(movieId, new Movie(movieId, name, categoryId));
+            this.products.set(movieId, movie);
             return "The movie added successfully"
         }
         return "The movie cannot be added\n" + result;
@@ -63,24 +49,10 @@ class InventoryManagemnt {
         contactDetails) {
         if (this.suppliers.has(supplierID))
             return "This supplier already exists";
-        let add = {
-            name: 'add',
-            model: 'supplier',
-            params: { element: { id: supplierID, name: supplierName, contactDetails: contactDetails } }
-        };
-        let setDestroyTimer = {
-            name: 'setDestroyTimer',
-            params: {
-                table: 'suppliers',
-                afterCreate: false,
-                deleteTime: '2 YEAR',
-                eventTime: '1 DAY',
-                prop: 'isSupplierRemoved'
-            }
-        };
-        let result = await DataBase.executeActions([add, setDestroyTimer]);
+        let supplier = new Supplier(supplierID, supplierName, contactDetails);
+        let result = await supplier.initSupplier();
         if (typeof result !== "string") {
-            this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
+            this.suppliers.set(supplierID, supplier);
             return "The supplier added successfully"
         }
         return "The supplier cannot be added\n" + result;

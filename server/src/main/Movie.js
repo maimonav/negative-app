@@ -13,6 +13,27 @@ class Movie extends Product {
     }
 
 
+
+    async initMovie() {
+        let add = {
+            name: 'add',
+            model: 'movie',
+            params: { element: { id: this.id, name: this.name, categoryId: this.categoryId } }
+        };
+        let setDestroyTimer = {
+            name: 'setDestroyTimer',
+            params: {
+                table: 'movies',
+                afterCreate: false,
+                deleteTime: '2 YEAR',
+                eventTime: '1 DAY',
+                prop: 'isMovieRemoved'
+            }
+        };
+        return await DataBase.executeActions([add, setDestroyTimer]);
+
+    }
+
     createOrder(order) {
         this.productOrders.set(order.id, new MovieOrder(this, order));
     }

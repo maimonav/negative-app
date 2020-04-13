@@ -42,10 +42,13 @@ async function addEmployeeWithoutUser() {
   expect(typeof returnMsg).toBe("string");
   expect(returnMsg.includes("Database Error: Cannot complete action."))
 
-  returnMsg = await DB.singleGetById('employee', { id: 1 })
 
-  expect(typeof returnMsg).toBe("string");
-  expect(returnMsg.includes("Database Error: Cannot complete action."))
+  await DB.singleGetById('employee', { id: 1 }).then((result) => {
+    if (result != null)
+      fail("addEmployeeWithoutUser failed");
+  });
+
+
 }
 
 
@@ -169,11 +172,15 @@ exports.removeEmployee = removeEmployee;
 describe("DB Unit Testing - user and employee", function () {
 
 
+
+
   let sequelize;
+
+
   beforeEach(async function () {
     //create connection & mydb
     await DB.connectAndCreate('mydbTest');
-    sequelize = DB.initDB('mydbTest');
+    sequelize = await DB.initDB('mydbTest');
   });
 
   afterEach(async function () {

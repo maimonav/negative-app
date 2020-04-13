@@ -16,7 +16,7 @@ describe("Report Operations Unit Tests", () => {
     beforeEach(async function () {
         //create connection & mydb
         await DB.connectAndCreate('mydbTest');
-        sequelize = DB.initDB('mydbTest');
+        sequelize = await DB.initDB('mydbTest');
       });
     
       afterEach(async function () {
