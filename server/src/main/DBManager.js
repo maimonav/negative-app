@@ -152,34 +152,34 @@ class DataBase {
         if (this.isTestMode)
             return;
 
-        this.sequelize = new Sequelize(dbName ? dbName : 'mydb',"root",
+        this.sequelize = new Sequelize(dbName ? dbName : 'mydb', "root",
             password ? password : "admin", {
             host: "localhost",
             dialect: 'mysql'
         });
 
-            try {
-                this.connection = mysql.createConnection({
-                    host:  "localhost",
-                    user:  "root",
-                    password: password ? password : "admin"
-                });
+        try {
+            this.connection = mysql.createConnection({
+                host: "localhost",
+                user: "root",
+                password: password ? password : "admin"
+            });
 
 
 
-                await this.connection.connect(async function (error) {
-                    if (error) 
-                        throw error;
-                    console.log("Connected!");
-                });
+            await this.connection.connect(async function (error) {
+                if (error)
+                    throw error;
+                console.log("Connected!");
+            });
 
 
-                await this.connection.promise().query("CREATE DATABASE " + (dbName ? dbName : 'mydb'));
-                console.log("Database created");
-            } catch (error) {
-                console.log(error);
-                return 'error';
-            }
+            await this.connection.promise().query("CREATE DATABASE " + (dbName ? dbName : 'mydb'));
+            console.log("Database created");
+        } catch (error) {
+            console.log(error);
+            return 'error';
+        }
 
 
     }
@@ -194,39 +194,42 @@ class DataBase {
         }
     }
 
-    static add(modelName, element, IsWithDestroyEvent , destroyObject) {
+    static add(modelName, element, IsWithDestroyEvent, destroyObject) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
-        return model.sync().then(() => {
-            try {
-                return this.sequelize.transaction(async (t) => {
-                    if(IsWithDestroyEvent){
-                        let destroyQuery = destroyObject && DataBase.getDestroyQuery(destroyObject.table, destroyObject.afterCreate, 
+        try {
+            return this.sequelize.transaction((t) => {
+                return model.sync().then(async () => {
+
+                    if (IsWithDestroyEvent) {
+                        let destroyQuery = destroyObject && DataBase.getDestroyQuery(destroyObject.table, destroyObject.afterCreate,
                             destroyObject.deleteTime, destroyObject.eventTime, destroyObject.prop);
-                            await this.sequelize.query(destroyQuery, { t });
-                        }
+                        await this.sequelize.query(destroyQuery, { t });
+                    }
                     return model.create(element, { transaction: t });
                 })
                     .catch((error => {
                         return this.errorHandler(error);
                     }));
 
-            } catch (error) {
+
+            }).catch((error) => {
                 return this.errorHandler(error);
-            }
-        }).catch((error) => {
+            });
+        } catch (error) {
             return this.errorHandler(error);
-        });
+        }
     }
 
     static getById(modelName, where) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
-        return model.sync().then(() => {
-            try {
-                return this.sequelize.transaction((t) => {
+        try {
+            return this.sequelize.transaction((t) => {
+                return model.sync().then(() => {
+
                     let res = model.findOne({ where: where, transaction: t });
                     return res;
                 })
@@ -234,12 +237,13 @@ class DataBase {
                         return this.errorHandler(error);
                     }));
 
-            } catch (error) {
+
+            }).catch((error) => {
                 return this.errorHandler(error);
-            }
-        }).catch((error) => {
+            });
+        } catch (error) {
             return this.errorHandler(error);
-        });
+        }
     }
 
 
@@ -250,43 +254,47 @@ class DataBase {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
-        return model.sync().then(() => {
-            try {
-                return this.sequelize.transaction((t) => {
+        try {
+            return this.sequelize.transaction((t) => {
+                return model.sync().then(() => {
+
                     return model.update(element, { where: where, transaction: t });
                 })
                     .catch((error => {
                         return this.errorHandler(error);
                     }));
 
-            } catch (error) {
+
+            }).catch((error) => {
                 return this.errorHandler(error);
-            }
-        }).catch((error) => {
+            });
+        } catch (error) {
             return this.errorHandler(error);
-        });
+        }
     }
 
 
     static remove(modelName, where) {
         if (this.isTestMode)
             return;
-        const model = this.models[modelName];
-        return model.sync().then(() => {
-            try {
-                return this.sequelize.transaction((t) => {
+        try {
+            return this.sequelize.transaction((t) => {
+                const model = this.models[modelName];
+                return model.sync().then(() => {
+
                     return model.destroy({ where: where, transaction: t });
                 })
                     .catch((error => {
                         return this.errorHandler(error);
                     }));
 
-            } catch (error) {
+
+            }).catch((error) => {
                 return this.errorHandler(error);
-            }
-        }).catch((error) => {
+            });
+        } catch (error) {
             return this.errorHandler(error);
-        });
+        }
     }
 
 
@@ -300,9 +308,9 @@ class DataBase {
         })
 
         const model = this.models[modelName];
-        return model.sync().then(() => {
-            try {
-                return this.sequelize.transaction((t) => {
+        try {
+            return this.sequelize.transaction((t) => {
+                return model.sync().then(() => {
                     return model.findAll({
                         attributes: attributesArray,
                         where: where,
@@ -313,12 +321,13 @@ class DataBase {
                         return this.errorHandler(error);
                     }));
 
-            } catch (error) {
+
+            }).catch((error) => {
                 return this.errorHandler(error);
-            }
-        }).catch((error) => {
+            });
+        } catch (error) {
             return this.errorHandler(error);
-        });
+        }
     }
 
 
