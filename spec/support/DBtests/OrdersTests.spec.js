@@ -3,13 +3,13 @@ const DB = require("../../../server/src/main/DBManager");
 
 async function addSupplier(id, isTest) {
   console.log("START ADD SUPPLIER\n");
-  await DB.add('supplier', {
+  await DB.singleAdd('supplier', {
     id: id,
     name: "Shupersal",
     contactDetails: "089266584"
   });
   if (isTest)
-    await DB.getById('supplier', { id: id }).then((result) => {
+    await DB.singleGetById('supplier', { id: id }).then((result) => {
       expect(result.id).toBe(id);
       expect(result.name).toBe("Shupersal");
       expect(result.contactDetails).toBe("089266584");
@@ -21,14 +21,14 @@ exports.addSupplier = addSupplier;
 
 async function addOrderBeforeSupplier() {
   console.log("START ADD ORDER BEFORE SUPPLIER\n");
-  await DB.add('order', {
+  await DB.singleAdd('order', {
     id: 0,
     date: new Date('2020-03-02 00:00:00'),
     creatorEmployeeId: 0,
     supplierId: 0
   });
 
-  await DB.getById('order', { id: 0 }).then((result) => {
+  await DB.singleGetById('order', { id: 0 }).then((result) => {
     if (typeof result == 'string')
       expect(result.includes("Database Error: Cannot complete action."));
     else if (result != null)
@@ -41,14 +41,14 @@ async function addOrderBeforeSupplier() {
 async function addOrderAftereSupplierCreator(creatorId, isTest) {
   console.log("START ADD ORDER AFTER\n");
 
-  await DB.add('order', {
+  await DB.singleAdd('order', {
     id: 0,
     date: new Date('2020-03-02 00:00:00'),
     creatorEmployeeId: creatorId,
     supplierId: 0
   });
   if (isTest)
-    await DB.getById('order', { id: 0 }).then((result) => {
+    await DB.singleGetById('order', { id: 0 }).then((result) => {
       expect(result.id).toBe(0);
       expect(result.date).toEqual(new Date('2020-03-02 00:00:00'));
       expect(result.creatorEmployeeId).toBe(creatorId);
@@ -64,13 +64,13 @@ exports.addOrderAftereSupplierCreator = addOrderAftereSupplierCreator;
 async function addOrderBeforeCreator() {
   console.log("START ADD ORDER BEFORE CREATOR\n");
 
-  await DB.add('order', {
+  await DB.singleAdd('order', {
     id: 0,
     date: new Date('2020-03-02 00:00:00'),
     creatorEmployeeId: 2,
     supplierId: 0
   });
-  await DB.getById('order', { id: 0 }).then((result) => {
+  await DB.singleGetById('order', { id: 0 }).then((result) => {
     if (typeof result == 'string')
       expect(result.includes("Database Error: Cannot complete action."));
     else if (result != null)
@@ -84,14 +84,14 @@ async function addOrderBeforeCreator() {
 
 async function addEmployee(id, permissions) {
   console.log("START ADD EMPLOYEE\n");
-  await DB.add('user', {
+  await DB.singleAdd('user', {
     id: id,
     username: "employee" + id,
     password: "employee",
     permissions: permissions,
   });
 
-  await DB.add('employee', {
+  await DB.singleAdd('employee', {
     id: id,
     firstName: "Noa",
     lastName: "Cohen",
@@ -104,8 +104,8 @@ exports.addEmployee = addEmployee;
 
 async function updateSupplier() {
   console.log("START UPDATE SUPPLIER\n");
-  await DB.update('supplier', { id: 0 }, { name: "Mega", contactDetails: "0500000000" });
-  await DB.getById('supplier', { id: 0 }).then((result) => {
+  await DB.singleUpdate('supplier', { id: 0 }, { name: "Mega", contactDetails: "0500000000" });
+  await DB.singleGetById('supplier', { id: 0 }).then((result) => {
     expect(result.id).toBe(0);
     expect(result.name).toBe("Mega");
     expect(result.contactDetails).toBe("0500000000");
@@ -119,9 +119,9 @@ async function updateSupplier() {
 
 async function removeSupplier(id, isTest) {
   console.log("START REMOVE SUPPLIER\n");
-  await DB.update('supplier', { id: id }, { isSupplierRemoved: new Date() });
+  await DB.singleUpdate('supplier', { id: id }, { isSupplierRemoved: new Date() });
   if (isTest)
-    await DB.getById('supplier', { id: id }).then((result) => {
+    await DB.singleGetById('supplier', { id: id }).then((result) => {
       expect(result.isSupplierRemoved != null).toBe(true);
     });
 
@@ -133,21 +133,21 @@ exports.removeSupplier = removeSupplier;
 async function removeOrderBeforeProvided(withMovies, withProducts) {
   console.log("START REMOVE ORDER BEFORE\n");
   if (withMovies) {
-    await DB.remove('movie_order', { orderId: 0 });
-    await DB.getById('movie_order', { orderId: 0 }).then((result) => {
+    await DB.singleRemove('movie_order', { orderId: 0 });
+    await DB.singleGetById('movie_order', { orderId: 0 }).then((result) => {
       if (result != null)
         fail("removeOrderBeforeProvided - movie_order - failed");
     });
   }
   if (withProducts) {
-    await DB.remove('cafeteria_product_order', { orderId: 0 });
-    await DB.getById('cafeteria_product_order', { orderId: 0 }).then((result) => {
+    await DB.singleRemove('cafeteria_product_order', { orderId: 0 });
+    await DB.singleGetById('cafeteria_product_order', { orderId: 0 }).then((result) => {
       if (result != null)
         fail("removeOrderBeforeProvided - cafeteria_product_order - failed");
     });
   }
-  await DB.remove('order', { id: 0 });
-  await DB.getById('order', { id: 0 }).then((result) => {
+  await DB.singleRemove('order', { id: 0 });
+  await DB.singleGetById('order', { id: 0 }).then((result) => {
     if (result != null)
       fail("removeOrderBeforeProvided failed");
   });
@@ -158,28 +158,28 @@ async function removeOrderBeforeProvided(withMovies, withProducts) {
 async function removeOrderAfterProvided(withMovies, withProducts) {
   console.log("START REMOVE ORDER AFTER\n");
 
-  await DB.update('order', { id: 0 }, { recipientEmployeeId: 0 });
-  await DB.getById('order', { id: 0 }).then((result) => {
+  await DB.singleUpdate('order', { id: 0 }, { recipientEmployeeId: 0 });
+  await DB.singleGetById('order', { id: 0 }).then((result) => {
     expect(result.recipientEmployeeId).toBe(0);
   });
 
 
   if (withMovies) {
-    await DB.remove('movie_order', { orderId: 0 });
-    await DB.getById('movie_order', { orderId: 0 }).then((result) => {
+    await DB.singleRemove('movie_order', { orderId: 0 });
+    await DB.singleGetById('movie_order', { orderId: 0 }).then((result) => {
       if (result == null)
         fail("removeOrderAfterProvided - movie_order - failed");
     });
   }
   if (withProducts) {
-    await DB.remove('cafeteria_product_order', { orderId: 0 });
-    await DB.getById('cafeteria_product_order', { orderId: 0 }).then((result) => {
+    await DB.singleRemove('cafeteria_product_order', { orderId: 0 });
+    await DB.singleGetById('cafeteria_product_order', { orderId: 0 }).then((result) => {
       if (result == null)
         fail("removeOrderAfterProvided - cafeteria_product_order - failed");
     });
   }
-  await DB.remove('order', { id: 0 });
-  await DB.getById('order', { id: 0 }).then((result) => {
+  await DB.singleRemove('order', { id: 0 });
+  await DB.singleGetById('order', { id: 0 }).then((result) => {
     if (result == null)
       fail("removeOrderAfterProvided failed");
   });
@@ -191,13 +191,13 @@ async function addProductsOrder(isTest) {
   await addCategory(0, "fantasy");
   await addProductAfterCategory();
 
-  await DB.add('cafeteria_product_order', {
+  await DB.singleAdd('cafeteria_product_order', {
     orderId: 0,
     productId: 0,
     expectedQuantity: 2
   });
   if (isTest)
-    await DB.getById('cafeteria_product_order', { orderId: 0, productId: 0 }).then((result) => {
+    await DB.singleGetById('cafeteria_product_order', { orderId: 0, productId: 0 }).then((result) => {
       expect(result.orderId).toBe(0);
       expect(result.productId).toBe(0);
       expect(result.expectedQuantity).toBe(2);
@@ -206,13 +206,13 @@ async function addProductsOrder(isTest) {
 
   await addMovieAfterCategory();
 
-  await DB.add('movie_order', {
+  await DB.singleAdd('movie_order', {
     orderId: 0,
     movieId: 0,
     expectedQuantity: 1
   });
   if (isTest)
-    await DB.getById('movie_order', { orderId: 0, movieId: 0 }).then((result) => {
+    await DB.singleGetById('movie_order', { orderId: 0, movieId: 0 }).then((result) => {
       expect(result.orderId).toBe(0);
       expect(result.movieId).toBe(0);
       expect(result.expectedQuantity).toBe(1);
@@ -223,16 +223,16 @@ exports.addProductsOrder = addProductsOrder;
 
 async function updateProductsOrder() {
   console.log("START UPDATE PRODUCTS TO ORDER\n");
-  await DB.update('cafeteria_product_order', { orderId: 0, productId: 0 }, { expectedQuantity: 3, actualQuantity: 3 });
-  await DB.getById('cafeteria_product_order', { orderId: 0, productId: 0 }).then((result) => {
+  await DB.singleUpdate('cafeteria_product_order', { orderId: 0, productId: 0 }, { expectedQuantity: 3, actualQuantity: 3 });
+  await DB.singleGetById('cafeteria_product_order', { orderId: 0, productId: 0 }).then((result) => {
     expect(result.orderId).toBe(0);
     expect(result.productId).toBe(0);
     expect(result.expectedQuantity).toBe(3);
     expect(result.actualQuantity).toBe(3);
   });
 
-  await DB.update('movie_order', { orderId: 0, movieId: 0 }, { actualQuantity: 1 });
-  await DB.getById('movie_order', { orderId: 0, movieId: 0 }).then((result) => {
+  await DB.singleUpdate('movie_order', { orderId: 0, movieId: 0 }, { actualQuantity: 1 });
+  await DB.singleGetById('movie_order', { orderId: 0, movieId: 0 }).then((result) => {
     expect(result.orderId).toBe(0);
     expect(result.movieId).toBe(0);
     expect(result.expectedQuantity).toBe(1);

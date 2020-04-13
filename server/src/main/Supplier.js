@@ -7,14 +7,13 @@ class Supplier {
         this.name = name;
         this.contactDetails = contactDetails;
         this.isSupplierRemoved = null;
-        DataBase.setDestroyTimer('suppliers', false, "2 YEAR", "1 DAY", 'isSupplierRemoved');
     }
 
 
     async editSupplier(name, contactDetails){
         super.name = name;
         this.contactDetails = contactDetails;
-        let result = await DataBase.update('supplier', { id: this.id }, { name: name, contactDetails: contactDetails});
+        let result = await DataBase.singleUpdate('supplier', { id: this.id }, { name: name, contactDetails: contactDetails});
         return typeof result === 'string' ? "The supplier cannot be edited\n" + result
             : "The supplier edited successfully";
     }
@@ -23,7 +22,7 @@ class Supplier {
     async removeSupplier(){
         if (this.isSupplierRemoved == null) {
             this.isSupplierRemoved = new Date();
-            let result = await DataBase.update('supplier', { id: this.id }, { isSupplierRemoved: this.isSupplierRemoved });
+            let result = await DataBase.singleUpdate('supplier', { id: this.id }, { isSupplierRemoved: this.isSupplierRemoved });
             return typeof result === 'string' ? "The supplier cannot be removed\n" + result
             : "The supplier removed successfully";
         }

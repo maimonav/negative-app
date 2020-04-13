@@ -11,10 +11,10 @@ class Category {
     }
 
     initCategory() {
-        let res = DataBase.add('category', { id: this.id, name: this.name, parentId: this.parentId });
+        let res = DataBase.singleAdd('category', { id: this.id, name: this.name, parentId: this.parentId });
         if (res === 'error')
             return "The operation failed - DB failure";
-        res = DataBase.setDestroyTimer('categories', false, "2 YEAR", "1 DAY", 'isCategoryRemoved');
+        res = DataBase.singleSetDestroyTimer('categories', false, "2 YEAR", "1 DAY", 'isCategoryRemoved');
         if (res === 'error')
             return "The operation failed - DB failure";
         return "";
@@ -22,12 +22,13 @@ class Category {
 
     editCategory = (parentId) => {
         this.parentId = parentId;
+        //TODO update in db
     }
 
     removeCategory = () => {
         if (this.isCategoryRemoved == null) {
             this.isCategoryRemoved = new Date();
-            DataBase.update('category', { id: this.id }, { isCategoryRemoved: this.isCategoryRemoved });
+            DataBase.singleUpdate('category', { id: this.id }, { isCategoryRemoved: this.isCategoryRemoved });
             return true;
         } else
             return false;

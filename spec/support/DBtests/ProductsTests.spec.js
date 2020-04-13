@@ -3,12 +3,12 @@ const DB = require("../../../server/src/main/DBManager");
 
 async function addMovieBeforeCategory() {
   console.log("START ADD MOVIE BEFORE\n");
-  await DB.add('movie', {
+  await DB.singleAdd('movie', {
     id: 0,
     name: "Spiderman",
     categoryId: 0
   });
-  await DB.getById('movie', { id: 0 }).then((result) => {
+  await DB.singleGetById('movie', { id: 0 }).then((result) => {
     if (typeof result == 'string')
       expect(result.includes("Database Error: Cannot complete action."));
     else if (result != null)
@@ -19,12 +19,12 @@ async function addMovieBeforeCategory() {
 
 async function addCategory(id, name, isTest) {
   console.log("START ADD CATEGORY\n");
-  await DB.add('category', {
+  await DB.singleAdd('category', {
     id: id,
     name: name
   });
   if (isTest) {
-    await DB.getById('category', { id: id }).then((result) => {
+    await DB.singleGetById('category', { id: id }).then((result) => {
       expect(result.id).toBe(id);
       expect(result.parentId).toBe(-1);
       expect(result.name).toBe(name);
@@ -36,14 +36,14 @@ exports.addCategory = addCategory;
 async function addMovieAfterCategory(isTest) {
   console.log("START ADD MOVIE AFTER\n");
 
-  await DB.add('movie', {
+  await DB.singleAdd('movie', {
     id: 0,
     name: "Spiderman",
     categoryId: 0
   });
 
   if (isTest) {
-    await DB.getById('movie', { id: 0 }).then((result) => {
+    await DB.singleGetById('movie', { id: 0 }).then((result) => {
       expect(result.id).toBe(0);
       expect(result.name).toBe("Spiderman");
       expect(result.categoryId).toBe(0);
@@ -58,7 +58,7 @@ async function addMovieAfterCategory(isTest) {
 exports.addMovieAfterCategory = addMovieAfterCategory;
 async function addProductBeforeCategory() {
   console.log("START ADD PRODUCT BEFORE\n");
-  await DB.add('cafeteria_product', {
+  await DB.singleAdd('cafeteria_product', {
     id: 0,
     name: "Coke",
     categoryId: 0,
@@ -67,7 +67,7 @@ async function addProductBeforeCategory() {
     maxQuantity: 45,
     minQuantity: 10
   });
-  await DB.getById('cafeteria_product', { id: 0 }).then((result) => {
+  await DB.singleGetById('cafeteria_product', { id: 0 }).then((result) => {
     if (typeof result == 'string')
       expect(result.includes("Database Error: Cannot complete action."));
     else if (result != null)
@@ -79,7 +79,7 @@ async function addProductBeforeCategory() {
 async function addProductAfterCategory(isTest) {
   console.log("START ADD PRODUCT AFTER\n");
 
-  await DB.add('cafeteria_product', {
+  await DB.singleAdd('cafeteria_product', {
     id: 0,
     name: "Coke",
     categoryId: 0,
@@ -89,7 +89,7 @@ async function addProductAfterCategory(isTest) {
     minQuantity: 10
   });
   if (isTest) {
-    await DB.getById('cafeteria_product', { id: 0 }).then((result) => {
+    await DB.singleGetById('cafeteria_product', { id: 0 }).then((result) => {
       expect(result.id).toBe(0);
       expect(result.name).toBe("Coke");
       expect(result.categoryId).toBe(0);
@@ -106,8 +106,8 @@ exports.addProductAfterCategory = addProductAfterCategory;
 async function updateMovie() {
   console.log("START UPDATE MOVIE\n");
   await addCategory(1, "superhero", false);
-  await DB.update('movie', { id: 0 }, { name: "The Spiderman", categoryId: 1, movieKey: "X124C", examinationRoom: 4 });
-  await DB.getById('movie', { id: 0 }).then((result) => {
+  await DB.singleUpdate('movie', { id: 0 }, { name: "The Spiderman", categoryId: 1, movieKey: "X124C", examinationRoom: 4 });
+  await DB.singleGetById('movie', { id: 0 }).then((result) => {
     expect(result.id).toBe(0);
     expect(result.name).toBe("The Spiderman");
     expect(result.categoryId).toBe(1);
@@ -119,9 +119,9 @@ async function updateMovie() {
 
 async function removeMovie(isTest) {
   console.log("START REMOVE MOVIE\n");
-  await DB.update('movie', { id: 0 }, { isMovieRemoved: new Date() });
+  await DB.singleUpdate('movie', { id: 0 }, { isMovieRemoved: new Date() });
   if (isTest)
-    await DB.getById('movie', { id: 0 }).then((result) => {
+    await DB.singleGetById('movie', { id: 0 }).then((result) => {
       expect(result.isMovieRemoved != null).toBe(true);
     });
 
@@ -132,8 +132,8 @@ exports.removeMovie = removeMovie;
 async function updateProduct() {
   console.log("START UPDATE PRODUCT\n");
   await addCategory(1, "snacks", false);
-  await DB.update('cafeteria_product', { id: 0 }, { name: "KitKat", categoryId: 1, price: 4.90, quantity: 16, maxQuantity: 50, minQuantity: 0 });
-  await DB.getById('cafeteria_product', { id: 0 }).then((result) => {
+  await DB.singleUpdate('cafeteria_product', { id: 0 }, { name: "KitKat", categoryId: 1, price: 4.90, quantity: 16, maxQuantity: 50, minQuantity: 0 });
+  await DB.singleGetById('cafeteria_product', { id: 0 }).then((result) => {
     expect(result.id).toBe(0);
     expect(result.name).toBe("KitKat");
     expect(result.categoryId).toBe(1);
@@ -147,9 +147,9 @@ async function updateProduct() {
 
 async function removeProduct(isTest) {
   console.log("START REMOVE PRODUCT\n");
-  await DB.update('cafeteria_product', { id: 0 }, { isProductRemoved: new Date() });
+  await DB.singleUpdate('cafeteria_product', { id: 0 }, { isProductRemoved: new Date() });
   if (isTest)
-    await DB.getById('cafeteria_product', { id: 0 }).then((result) => {
+    await DB.singleGetById('cafeteria_product', { id: 0 }).then((result) => {
       expect(result.isProductRemoved != null).toBe(true);
     });
 
@@ -157,9 +157,9 @@ async function removeProduct(isTest) {
 exports.removeProduct = removeProduct;
 async function removeCategoryBeforeUsed(isTest) {
   console.log("START REMOVE CATEGORY BEFORE\n");
-  await DB.update('category', { id: 1 }, { isCategoryRemoved: new Date() });
+  await DB.singleUpdate('category', { id: 1 }, { isCategoryRemoved: new Date() });
   if (isTest)
-    await DB.getById('category', { id: 1 }).then((result) => {
+    await DB.singleGetById('category', { id: 1 }).then((result) => {
       expect(result.isCategoryRemoved != null).toBe(true);
     });
 }
@@ -167,8 +167,8 @@ exports.removeCategoryBeforeUsed = removeCategoryBeforeUsed;
 
 async function removeCategoryAfterUsed() {
   console.log("START REMOVE CATEGORY AFTER\n");
-  await DB.update('category', { id: 0 }, { isCategoryRemoved: new Date() });
-  await DB.getById('category', { id: 0 }).then((result) => {
+  await DB.singleUpdate('category', { id: 0 }, { isCategoryRemoved: new Date() });
+  await DB.singleGetById('category', { id: 0 }).then((result) => {
     expect(result.isCategoryRemoved != null).toBe(false);
   });
 
@@ -176,8 +176,8 @@ async function removeCategoryAfterUsed() {
 
 async function updateCategory() {
   console.log("START UPDATE CATEGORY\n");
-  await DB.update('category', { id: 0 }, { name: "Snacks" });
-  await DB.getById('category', { id: 0 }).then((result) => {
+  await DB.singleUpdate('category', { id: 0 }, { name: "Snacks" });
+  await DB.singleGetById('category', { id: 0 }).then((result) => {
     expect(result.id).toBe(0);
     expect(result.name).toBe("Snacks");
   });

@@ -20,14 +20,22 @@ class InventoryManagemnt {
             return "This movie already exists";
         if (!this.categories.has(categoryId))
             return "Category doesn't exist";
-        let destroyObject = {
-            table: 'movies',
-            afterCreate: false,
-            deleteTime: '2 YEAR',
-            eventTime: '1 DAY',
-            prop: 'isMovieRemoved'
+        let add = {
+            name: 'add',
+            model: 'movie',
+            params: { element: { id: movieId, name: name, categoryId: categoryId } }
         };
-        let result = await DataBase.add('movie', { id: movieId, name: name, categoryId: categoryId }, true, destroyObject);
+        let setDestroyTimer = {
+            name: 'setDestroyTimer',
+            params: {
+                table: 'movies',
+                afterCreate: false,
+                deleteTime: '2 YEAR',
+                eventTime: '1 DAY',
+                prop: 'isMovieRemoved'
+            }
+        };
+        let result = await DataBase.executeActions([add, setDestroyTimer]);
         if (typeof result !== "string") {
             this.products.set(movieId, new Movie(movieId, name, categoryId));
             return "The movie added successfully"
@@ -55,7 +63,22 @@ class InventoryManagemnt {
         contactDetails) {
         if (this.suppliers.has(supplierID))
             return "This supplier already exists";
-        let result = await DataBase.add('supplier', { id: supplierID, name: supplierName, contactDetails: contactDetails });
+        let add = {
+            name: 'add',
+            model: 'supplier',
+            params: { element: { id: supplierID, name: supplierName, contactDetails: contactDetails } }
+        };
+        let setDestroyTimer = {
+            name: 'setDestroyTimer',
+            params: {
+                table: 'suppliers',
+                afterCreate: false,
+                deleteTime: '2 YEAR',
+                eventTime: '1 DAY',
+                prop: 'isSupplierRemoved'
+            }
+        };
+        let result = await DataBase.executeActions([add, setDestroyTimer]);
         if (typeof result !== "string") {
             this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
             return "The supplier added successfully"

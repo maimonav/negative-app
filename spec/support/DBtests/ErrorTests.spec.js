@@ -11,7 +11,7 @@ describe("DB Error Tests", function () {
  it("Connect - wrong password", async function () {
   await DB.connectAndCreate('mydbtest','lalala');
   sequelize = DB.initDB('mydbTest');
-  let returnedMsg = await DB.add('user', {
+  let returnedMsg = await DB.singleAdd('user', {
     id: 0,
     username: "admin",
     password: "admin",
@@ -27,13 +27,13 @@ describe("DB Error Tests", function () {
     await DB.connectAndCreate('mydbtest');
     sequelize = DB.initDB('mydbTest');
 
-    await DB.add('user', {
+    await DB.singleAdd('user', {
       id: 0,
       username: "admin",
       password: "admin",
       permissions: "ADMIN"
     });
-    let returnedMsg = await DB.add('user', {
+    let returnedMsg = await DB.singleAdd('user', {
       id: 0,
       username: "admin",
       password: "admin",
@@ -50,7 +50,7 @@ describe("DB Error Tests", function () {
     //Testing connection
     await DB.connectAndCreate('mydbtest');
     sequelize = DB.initDB('mydbTest');
-    let returnedMsg = await DB.add('movie', {
+    let returnedMsg = await DB.singleAdd('movie', {
       id: 0,
       name: "Spiderman",
       categoryId: 1
@@ -58,11 +58,11 @@ describe("DB Error Tests", function () {
     expect(typeof returnedMsg).toBe('string');
     expect(returnedMsg.includes('Database Error: Cannot complete action.')).toBe(true);
   
-    await DB.add('category', {
+    await DB.singleAdd('category', {
       id: 0,
       name: 'category'
     });
-    returnedMsg = await DB.add('movie', {
+    returnedMsg = await DB.singleAdd('movie', {
       id: 0,
       name: "Spiderman",
       categoryId: 1

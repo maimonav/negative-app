@@ -12,8 +12,8 @@ class User {
         this.permissions = permissions;
         this.Loggedin = false;
         this.isUserRemoved = null;
-        DataBase.add('user', { id: id, username: userName, password: password, permissions: permissions });
-        DataBase.setDestroyTimer('users', false, '2 YEAR', '1 DAY', 'isUserRemoved');
+        DataBase.singleAdd('user', { id: id, username: userName, password: password, permissions: permissions });
+        DataBase.singleSetDestroyTimer('users', false, '2 YEAR', '1 DAY', 'isUserRemoved');
     }
 
 
@@ -21,7 +21,7 @@ class User {
     removeUser = () => {
         if (this.isUserRemoved == null) {
             this.isUserRemoved = new Date();
-            DataBase.update('user', { id: this.id }, { isUserRemoved: this.isUserRemoved });
+            DataBase.singleUpdate('user', { id: this.id }, { isUserRemoved: this.isUserRemoved });
             return true;
         } else
             return false;
@@ -32,7 +32,7 @@ class User {
             this.password = password;
         if (permissions != undefined && User.getPermissionTypeList()[permissions] >= 0)
             this.permissions = permissions;
-        DataBase.update('user', { id: this.id }, { password: this.password, permissions: this.permissions });
+        DataBase.singleUpdate('user', { id: this.id }, { password: this.password, permissions: this.permissions });
 
     }
 

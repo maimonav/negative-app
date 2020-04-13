@@ -22,7 +22,7 @@ class Movie extends Product {
         super.categoryId = categoryId;
         this.movieKey = key;
         this.examinationRoom = examinationRoom;
-        let result = await DataBase.update('movie', { id: this.id }, { categoryId: this.categoryId, movieKey: key, examinationRoom: examinationRoom });
+        let result = await DataBase.singleUpdate('movie', { id: this.id }, { categoryId: this.categoryId, movieKey: key, examinationRoom: examinationRoom });
         return typeof result === 'string' ? "The movie cannot be edited\n" + result
             : "The movie edited successfully";
     }
@@ -30,7 +30,7 @@ class Movie extends Product {
     async removeMovie() {
         if (this.isMovieRemoved == null) {
             this.isMovieRemoved = new Date();
-            let result = await DataBase.update('movie', { id: this.id }, { isMovieRemoved: this.isMovieRemoved });
+            let result = await DataBase.singleUpdate('movie', { id: this.id }, { isMovieRemoved: this.isMovieRemoved });
             return typeof result === 'string' ? "The movie cannot be removed\n" + result
                 : "The movie removed successfully";
         }

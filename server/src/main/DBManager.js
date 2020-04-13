@@ -85,7 +85,7 @@ class DataBase {
                 //define trigger after updating isUserRemoved
                 afterBulkUpdate: async (user) => {
                     if (user.attributes.isUserRemoved && user.attributes.isUserRemoved != null) {
-                        await DataBase.update('employee', { id: user.where.id }, { isEmployeeRemoved: true });
+                        await DataBase.singleUpdate('employee', { id: user.where.id }, { isEmployeeRemoved: true });
                     }
                 }
             }
@@ -138,7 +138,7 @@ class DataBase {
     static getOrderHook(model) {
         return {
             beforeBulkDestroy: async (order) => {
-                await DataBase.getById('order', { id: model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
+                await DataBase.singleGetById('order', { id: model === 'order' ? order.where.id : order.where.orderId }).then(async (result) => {
                     if (result.recipientEmployeeId != null) {
                         order.transaction.rollback();
                     }
@@ -194,19 +194,106 @@ class DataBase {
         }
     }
 
-    static add(modelName, element, IsWithDestroyEvent, destroyObject) {
+    static executeActions(actionsList) {
+        if (this.isTestMode)
+            return;
+        try {
+            return this.sequelize.transaction((t) => {
+                for (let i in actionsList) {
+                    const action = actionsList[i];
+                    const model = action.model ? this.models[action.model] : undefined;
+                    action.name(action.params, t, model);
+                }
+
+            }).catch((error) => {
+                return this.errorHandler(error);
+            });
+        } catch (error) {
+            return this.errorHandler(error);
+        }
+    }
+
+    static add(params, t, model) {
+        return model.sync().then(() => {
+            return model.create(params.element, { transaction: t });
+        })
+            .catch((error => {
+                return this.errorHandler(error);
+            }));
+    }
+
+
+    static getById(params, t, model) {
+        return model.sync().then(() => {
+
+            let res = model.findOne({ where: params.where, transaction: t });
+            return res;
+        })
+            .catch((error => {
+                return this.errorHandler(error);
+            }));
+    }
+
+    static update(params, t, model) {
+        return model.sync().then(() => {
+
+            return model.update(params.element, { where: params.where, transaction: t });
+        })
+            .catch((error => {
+                return this.errorHandler(error);
+            }));
+    }
+
+    static remove(params, t, model) {
+        return model.sync().then(() => {
+
+            return model.destroy({ where: params.where, transaction: t });
+        })
+            .catch((error => {
+                return this.errorHandler(error);
+            }));
+
+    }
+
+
+    static findAll(params, t, model) {
+        const attributes = params.attributes;
+        let attributesArray = [[this.sequelize.fn(attributes.fn, this.sequelize.col(attributes.fnField)), attributes.fnField]];
+        attributes.fields && attributes.fields.forEach(e => {
+            attributesArray = attributesArray.concat(e);
+        })
+
+        return model.sync().then(() => {
+            return model.findAll({
+                attributes: attributesArray,
+                where: params.where,
+                transaction: t
+            });
+        })
+            .catch((error => {
+                return this.errorHandler(error);
+            }));
+    }
+
+    static setDestroyTimer(params, t) {
+        let destroyQuery = DataBase.getDestroyQuery(params.table, params.afterCreate, params.deleteTime,
+            params.eventTime, params.prop);
+        return this.sequelize.query(destroyQuery, { t })
+
+            .catch((error => {
+                return this.errorHandler(error);
+            }));
+    }
+
+
+
+    static singleAdd(modelName, element) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                return model.sync().then(async () => {
-
-                    if (IsWithDestroyEvent) {
-                        let destroyQuery = destroyObject && DataBase.getDestroyQuery(destroyObject.table, destroyObject.afterCreate,
-                            destroyObject.deleteTime, destroyObject.eventTime, destroyObject.prop);
-                        await this.sequelize.query(destroyQuery, { t });
-                    }
+                return model.sync().then(() => {
                     return model.create(element, { transaction: t });
                 })
                     .catch((error => {
@@ -222,14 +309,13 @@ class DataBase {
         }
     }
 
-    static getById(modelName, where) {
+    static singleGetById(modelName, where) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
                 return model.sync().then(() => {
-
                     let res = model.findOne({ where: where, transaction: t });
                     return res;
                 })
@@ -250,7 +336,7 @@ class DataBase {
 
 
 
-    static update(modelName, where, element) {
+    static singleUpdate(modelName, where, element) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
@@ -274,12 +360,12 @@ class DataBase {
     }
 
 
-    static remove(modelName, where) {
+    static singleRemove(modelName, where) {
         if (this.isTestMode)
             return;
+        const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
-                const model = this.models[modelName];
                 return model.sync().then(() => {
 
                     return model.destroy({ where: where, transaction: t });
@@ -298,7 +384,7 @@ class DataBase {
     }
 
 
-    static findAll(modelName, where, attributes) {
+    static singleFindAll(modelName, where, attributes) {
         if (this.isTestMode)
             return;
 
@@ -306,7 +392,6 @@ class DataBase {
         attributes.fields && attributes.fields.forEach(e => {
             attributesArray = attributesArray.concat(e);
         })
-
         const model = this.models[modelName];
         try {
             return this.sequelize.transaction((t) => {
@@ -331,7 +416,7 @@ class DataBase {
     }
 
 
-    static setDestroyTimer(table, afterCreate, deleteTime, eventTime, prop) {
+    static singleSetDestroyTimer(table, afterCreate, deleteTime, eventTime, prop) {
         if (this.isTestMode)
             return;
         let destroyQuery = DataBase.getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop);

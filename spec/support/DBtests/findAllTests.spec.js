@@ -31,15 +31,15 @@ describe("DB Unit Testing - findAll", function () {
   it("findAll - employee", async function () {
     await addEmployee(0);
     await addEmployee(1);
-    let result = await DB.findAll('employee',{},{ fn: 'max', fnField: 'id' });
+    let result = await DB.singleFindAll('employee',{},{ fn: 'max', fnField: 'id' });
     expect(result[0].id).toBe(1);
   });
 
   it("findAll - general purpose report", async function () {
     await addEmployee(0);
-    await DB.add('general_purpose_daily_report', { date: new Date("2016-01-01"), additionalProps: [["oldField"], {}],creatorEmployeeId:0 });
-    await DB.add('general_purpose_daily_report', { date: new Date("2015-01-01"), additionalProps: [["oldField"], {}],creatorEmployeeId:0 });
-    let result = await DB.findAll('general_purpose_daily_report',{},{ fn: 'max', fnField: 'date' , fields: ['additionalProps']});
+    await DB.singleAdd('general_purpose_daily_report', { date: new Date("2016-01-01"), additionalProps: [["oldField"], {}],creatorEmployeeId:0 });
+    await DB.singleAdd('general_purpose_daily_report', { date: new Date("2015-01-01"), additionalProps: [["oldField"], {}],creatorEmployeeId:0 });
+    let result = await DB.singleFindAll('general_purpose_daily_report',{},{ fn: 'max', fnField: 'date' , fields: ['additionalProps']});
     expect(result[0].date).toEqual(new Date("2016-01-01"));
     expect(result[0].additionalProps).toEqual([["oldField"], {}]);
 
