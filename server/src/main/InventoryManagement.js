@@ -20,12 +20,19 @@ class InventoryManagemnt {
             return "This movie already exists";
         if (!this.categories.has(categoryId))
             return "Category doesn't exist";
-        let result = await DataBase.add('movie', { id: movieId, name: name, categoryId: categoryId });
+        let destroyObject = {
+            table: 'movies',
+            afterCreate: false,
+            deleteTime: '2 YEAR',
+            eventTime: '1 DAY',
+            prop: 'isMovieRemoved'
+        };
+        let result = await DataBase.add('movie', { id: movieId, name: name, categoryId: categoryId }, true, destroyObject);
         if (typeof result !== "string") {
             this.products.set(movieId, new Movie(movieId, name, categoryId));
             return "The movie added successfully"
         }
-        return "The movie cannot be added\n"+ result;
+        return "The movie cannot be added\n" + result;
     }
 
     async editMovie(movieId, categoryId, key, examinationRoom) {

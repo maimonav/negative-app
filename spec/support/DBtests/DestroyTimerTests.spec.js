@@ -87,6 +87,22 @@ describe("DB Test - destroy timer", function () {
   it("delete movie after time test", async function (done) {
     await addCategory(0, "testCategory");
     await addMovieAfterCategory();
+    let destroyObject = {
+      table: 'movies',
+      afterCreate: false,
+      deleteTime: "3 SECOND",
+      eventTime: "1 SECOND",
+      prop: 'isMovieRemoved'
+  }
+    await DB.add('cafeteria_product', {
+      id: 0,
+      name: "Coke",
+      categoryId: 0,
+      price: 5.90,
+      quantity: 20,
+      maxQuantity: 45,
+      minQuantity: 10
+    },true,destroyObject);
     await removeMovie();
     await deleteModel('movie', 'movies', false, { id: 0 }, 6000, done, 'isMovieRemoved');
   });

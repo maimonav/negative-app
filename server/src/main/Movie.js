@@ -10,7 +10,6 @@ class Movie extends Product {
         this.movieKey = null;
         this.examinationRoom = null;
         this.isMovieRemoved = null;
-        DataBase.setDestroyTimer('movies', false, '2 YEAR', '1 DAY', 'isMovieRemoved');
     }
 
 

@@ -194,13 +194,18 @@ class DataBase {
         }
     }
 
-    static add(modelName, element) {
+    static add(modelName, element, IsWithDestroyEvent , destroyObject) {
         if (this.isTestMode)
             return;
         const model = this.models[modelName];
         return model.sync().then(() => {
             try {
-                return this.sequelize.transaction((t) => {
+                return this.sequelize.transaction(async (t) => {
+                    if(IsWithDestroyEvent){
+                        let destroyQuery = destroyObject && DataBase.getDestroyQuery(destroyObject.table, destroyObject.afterCreate, 
+                            destroyObject.deleteTime, destroyObject.eventTime, destroyObject.prop);
+                            await this.sequelize.query(destroyQuery, { t });
+                        }
                     return model.create(element, { transaction: t });
                 })
                     .catch((error => {
@@ -348,9 +353,6 @@ class DataBase {
             "EVERY " + eventTime + " " +
             "DO DELETE FROM " + table + " WHERE " + where;
     }
-
-
-
 
 
 
