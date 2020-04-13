@@ -115,7 +115,7 @@ class DataBase {
     static async setDestroyTimer(params, t) {
         let destroyQuery = DataBase.getDestroyQuery(params.table, params.afterCreate, params.deleteTime,
             params.eventTime, params.prop);
-        return this.sequelize.query(destroyQuery, { t })
+        return DataBase.sequelize.query(destroyQuery, { t })
             .catch((error => {
                 return this.errorHandler(error);
             }));

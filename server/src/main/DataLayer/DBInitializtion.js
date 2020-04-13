@@ -22,19 +22,19 @@ async function setDestroyTimerForAllTables() {
     let inventoryReportObj = { table: 'inventory_daily_reports', afterCreate: true, deleteTime: '1 YEAR', eventTime: '1 DAY' };
     let generalReportObj = { table: 'general_purpose_daily_reports', afterCreate: true, deleteTime: '1 YEAR', eventTime: '1 DAY' };
     await DataBase.executeActions([
-        { name: 'setDestroyTimer', params: userObj },
-        { name: 'setDestroyTimer', params: employeeObj },
-        { name: 'setDestroyTimer', params: movieObj },
-        { name: 'setDestroyTimer', params: productObj },
-        { name: 'setDestroyTimer', params: categoryObj },
-        { name: 'setDestroyTimer', params: supplierObj },
-        { name: 'setDestroyTimer', params: orderObj },
-        { name: 'setDestroyTimer', params: productOrderObj },
-        { name: 'setDestroyTimer', params: movieOrderObj },
-        { name: 'setDestroyTimer', params: moviesReportObj },
-        { name: 'setDestroyTimer', params: incomesReportObj },
-        { name: 'setDestroyTimer', params: inventoryReportObj },
-        { name: 'setDestroyTimer', params: generalReportObj }
+        { name: DataBase.setDestroyTimer, params: userObj },
+        { name: DataBase.setDestroyTimer, params: employeeObj },
+        { name: DataBase.setDestroyTimer, params: movieObj },
+        { name: DataBase.setDestroyTimer, params: productObj },
+        { name: DataBase.setDestroyTimer, params: categoryObj },
+        { name: DataBase.setDestroyTimer, params: supplierObj },
+        { name: DataBase.setDestroyTimer, params: orderObj },
+        { name: DataBase.setDestroyTimer, params: productOrderObj },
+        { name: DataBase.setDestroyTimer, params: movieOrderObj },
+        { name: DataBase.setDestroyTimer, params: moviesReportObj },
+        { name: DataBase.setDestroyTimer, params: incomesReportObj },
+        { name: DataBase.setDestroyTimer, params: inventoryReportObj },
+        { name: DataBase.setDestroyTimer, params: generalReportObj }
     ]);
 
 
@@ -75,7 +75,7 @@ async function initDB(dbName, password) {
             await DataBase.models[keys[idx]].sync();
         }
 
-        if (dbName && dbName.toLowerCase() !== 'mydbtest')
+        if (dbName === undefined || dbName.toLowerCase() !== 'mydbtest')
             await setDestroyTimerForAllTables();
 
 
