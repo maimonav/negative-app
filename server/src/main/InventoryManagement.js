@@ -49,17 +49,21 @@ class InventoryManagemnt {
         return this.products.get(movieId).removeMovie();
     }
 
-    addNewSupplier(
+    async addNewSupplier(
         supplierID,
         supplierName,
         contactDetails) {
         if (this.suppliers.has(supplierID))
             return "This supplier already exists";
-        this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
-        return "The supplier added successfully"
+        let result = await DataBase.add('supplier', { id: supplierID, name: supplierName, contactDetails: contactDetails });
+        if (typeof result !== "string") {
+            this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
+            return "The supplier added successfully"
+        }
+        return "The supplier cannot be added\n" + result;
     }
 
-    editSupplier(
+    async editSupplier(
         supplierID,
         supplierName,
         contactDetails) {
@@ -68,7 +72,7 @@ class InventoryManagemnt {
         return this.suppliers.get(supplierID).editSupplier(supplierName, contactDetails);
     }
 
-    removeSupplier(supplierID) {
+    async removeSupplier(supplierID) {
         if (!this.suppliers.has(supplierID))
             return "The supplier does not exist";
         return this.suppliers.get(supplierID).removeSupplier();
