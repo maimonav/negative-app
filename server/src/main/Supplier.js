@@ -7,6 +7,7 @@ class Supplier {
         this.name = name;
         this.contactDetails = contactDetails;
         this.isSupplierRemoved = null;
+<<<<<<< HEAD
     }
 
     async initSupplier(){
@@ -26,6 +27,8 @@ class Supplier {
             }
         };
         return await DataBase.executeActions([add, setDestroyTimer]);
+=======
+>>>>>>> master
     }
 
 

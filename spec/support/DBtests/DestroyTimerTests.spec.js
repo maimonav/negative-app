@@ -99,7 +99,18 @@ describe("DB Test - destroy timer", function () {
   });
 
   it("delete supplier after time test", async function (done) {
-    await addSupplier(0);
+    let destroyObject = {
+      table: 'suppliers',
+      afterCreate: false,
+      deleteTime: "3 SECOND",
+      eventTime: "1 SECOND",
+      prop: 'isSupplierRemoved'
+    }
+    await DB.add('supplier', {
+      id: 0,
+      name: "Shupersal",
+      contactDetails: "089266584"
+    }, true, destroyObject);
     await removeSupplier(0);
     await deleteModel('supplier', 'suppliers', false, { id: 0 }, 6000, done, 'isSupplierRemoved');
   });
