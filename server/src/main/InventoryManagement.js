@@ -90,11 +90,15 @@ class InventoryManagemnt {
         let date = new Date(strDate);
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
+        let result = await DataBase.add('order', { id: this.orderId, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
+        if(typeof result === 'string')
+            return "The order cannot be added\n" + result;
         let order = new Order(orderId, supplierId, date, creatorEmployeeId);
-        await order.initOrder();
         for (let i in movieIdList) {
-            this.products.get(movieIdList[i]).createOrder(order);
-
+            result = await this.products.get(movieIdList[i]).createOrder(order);
+            if(typeof result === 'string'){
+                return "The order cannot be added\n" + result;
+            }
         }
         this.orders.set(orderId, order);
         return "The order added successfully";
