@@ -1,5 +1,4 @@
 const Order = require('./Order');
-const DataBase = require("./DBManager");
 const Movie = require('./Movie');
 const Supplier = require('./Supplier');
 const CafeteriaProduct = require('./CafeteriaProduct');

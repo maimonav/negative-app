@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 const logger = require('simple-node-logger').createSimpleLogger('project.log');
 const permissionDictionery = { 'ADMIN': 5, 'MANAGER': 4, 'DEPUTY_MANAGER': 3, 'SHIFT_MANAGER': 2, 'EMPLOYEE': 1 }
 
@@ -13,7 +13,6 @@ class User {
         this.Loggedin = false;
         this.isUserRemoved = null;
         DataBase.singleAdd('user', { id: id, username: userName, password: password, permissions: permissions });
-        DataBase.singleSetDestroyTimer('users', false, '2 YEAR', '1 DAY', 'isUserRemoved');
     }
 
 

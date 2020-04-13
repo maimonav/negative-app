@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 
 
 class Category {
@@ -12,9 +12,6 @@ class Category {
 
     initCategory() {
         let res = DataBase.singleAdd('category', { id: this.id, name: this.name, parentId: this.parentId });
-        if (res === 'error')
-            return "The operation failed - DB failure";
-        res = DataBase.singleSetDestroyTimer('categories', false, "2 YEAR", "1 DAY", 'isCategoryRemoved');
         if (res === 'error')
             return "The operation failed - DB failure";
         return "";

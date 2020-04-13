@@ -1,5 +1,5 @@
 const { addCategory, addMovieAfterCategory, addProductAfterCategory } = require("./ProductsTests.spec");
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 
 async function addSupplier(id, isTest) {
   console.log("START ADD SUPPLIER\n");

@@ -1,5 +1,5 @@
 const User = require("./User");
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 
 class Employee extends User {
     constructor(id, userName, password, permissions, firstName, lastName, contactDetails) {
@@ -10,8 +10,6 @@ class Employee extends User {
         this.employeeShift = new Map();
         this.isEmployeeRemoved = null;
         DataBase.singleAdd('employee', { id: id, firstName: firstName, lastName: lastName, contactDetails: contactDetails });
-        DataBase.singleSetDestroyTimer('employees', false, '2 YEAR', '1 DAY', 'isEmployeeRemoved');
-
 
     }
     editEmployee(password, permissions, firstName, lastName, contactDetails) {

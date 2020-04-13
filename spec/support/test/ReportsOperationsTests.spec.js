@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { testAddInventoryDailyReport, testAddIncomesDailyReport, testAddGeneralPurposeDailyReport,
     testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult } = require("./../DBtests/ReportsTests.spec");
 const { addCategory, addProductAfterCategory } = require("./../DBtests/ProductsTests.spec");

@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 const Product = require("./Product");
 const CafeteriaProductOrder = require("./CafeteriaProductOrder");
 
@@ -24,9 +24,6 @@ class CafeteriaProduct extends Product {
             maxQuantity: this.maxQuantity,
             minQuantity: this.minQuantity
         });
-        if (res === 'error')
-            return "The operation failed - DB failure";
-        res = DataBase.setDestroyTimer('cafeteria_products', false, '2 YEAR', '1 DAY', 'isProductRemoved');
         if (res === 'error')
             return "The operation failed - DB failure";
         return "";

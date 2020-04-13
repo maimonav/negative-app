@@ -1,4 +1,4 @@
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 const CafeteriaProduct = require("../../../server/src/main/CafeteriaProduct");
 const CafeteriaProductOrder = require("../../../server/src/main/CafeteriaProductOrder");
 const Order = require("../../../server/src/main/Order");

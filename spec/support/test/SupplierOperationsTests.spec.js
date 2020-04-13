@@ -1,4 +1,4 @@
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 const Supplier = require("../../../server/src/main/Supplier");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");

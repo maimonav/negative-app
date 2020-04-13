@@ -1,6 +1,6 @@
 const { addEmployee } = require("./OrdersTests.spec");
 const { addCategory, addMovieAfterCategory, addProductAfterCategory } = require("./ProductsTests.spec");
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 
 
 

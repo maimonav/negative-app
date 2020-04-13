@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 const _ = require('lodash');
 
 
@@ -12,11 +12,10 @@ class Order {
         this.recipientEmployeeId = null;
         this.supplierId = supplierId;
         this.productOrders = new Map();
-        DataBase.setDestroyTimer('orders', true, '1 YEAR', '1 DAY');
     }
 
     async initOrder(){
-        await DataBase.add('order', { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
+        return await DataBase.singleAdd('order', { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
     }
 
     async removeOrder(){

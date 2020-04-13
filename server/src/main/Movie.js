@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 const Product = require("./Product");
 const MovieOrder = require("./MovieOrder");
 
@@ -15,23 +15,7 @@ class Movie extends Product {
 
 
     async initMovie() {
-        let add = {
-            name: 'add',
-            model: 'movie',
-            params: { element: { id: this.id, name: this.name, categoryId: this.categoryId } }
-        };
-        let setDestroyTimer = {
-            name: 'setDestroyTimer',
-            params: {
-                table: 'movies',
-                afterCreate: false,
-                deleteTime: '2 YEAR',
-                eventTime: '1 DAY',
-                prop: 'isMovieRemoved'
-            }
-        };
-        return await DataBase.executeActions([add, setDestroyTimer]);
-
+        return DataBase.singleAdd( 'movie',{ id: this.id, name: this.name, categoryId: this.categoryId } );
     }
 
     createOrder(order) {

@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 
 
 class Supplier {
@@ -10,22 +10,7 @@ class Supplier {
     }
 
     async initSupplier(){
-        let add = {
-            name: 'add',
-            model: 'supplier',
-            params: { element: { id: this.id, name: this.name, contactDetails: this.contactDetails } }
-        };
-        let setDestroyTimer = {
-            name: 'setDestroyTimer',
-            params: {
-                table: 'suppliers',
-                afterCreate: false,
-                deleteTime: '2 YEAR',
-                eventTime: '1 DAY',
-                prop: 'isSupplierRemoved'
-            }
-        };
-        return await DataBase.executeActions([add, setDestroyTimer]);
+        return DataBase.singleAdd('supplier',{ id: this.id, name: this.name, contactDetails: this.contactDetails });
     }
 
 

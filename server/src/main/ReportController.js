@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 
 
 class ReportController {
@@ -10,13 +10,6 @@ class ReportController {
         INCOMES: 'incomes_daily_report'
     }
 
-
-    static async init() {
-        await DataBase.singleSetDestroyTimer(this.types.GENERAL, true, '1 YEAR', '1 DAY');
-        await DataBase.singleSetDestroyTimer(this.types.INVENTORY, true, '1 YEAR', '1 DAY');
-        await DataBase.singleSetDestroyTimer(this.types.MOVIES, true, '1 YEAR', '1 DAY');
-        await DataBase.singleSetDestroyTimer(this.types.INCOMES, true, '1 YEAR', '1 DAY');
-    }
 
     static getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 

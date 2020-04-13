@@ -2,7 +2,7 @@ const { addEmployee, removeEmployee } = require("./UserEmployeeTests.spec");
 const { addIncomesDailyReport, addMoviesDailyReport, addGeneralPurposeDailyReport, addInventoryDailyReport } = require("./ReportsTests.spec");
 const { addCategory, addMovieAfterCategory, addProductAfterCategory, removeMovie, removeProduct, removeCategoryBeforeUsed } = require("./ProductsTests.spec");
 const { addSupplier, removeSupplier, addOrderAftereSupplierCreator } = require("./OrdersTests.spec");
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 
 
 async function getReport(model, where, isRecordExists, failMsg) {
@@ -106,7 +106,7 @@ describe("DB Test - destroy timer", function () {
       eventTime: "1 SECOND",
       prop: 'isSupplierRemoved'
     }
-    await DB.add('supplier', {
+    await DB.singleAdd('supplier', {
       id: 0,
       name: "Shupersal",
       contactDetails: "089266584"

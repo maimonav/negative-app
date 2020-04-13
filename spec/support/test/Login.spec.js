@@ -1,4 +1,4 @@
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 
 
 describe("LoginTest", () => {
