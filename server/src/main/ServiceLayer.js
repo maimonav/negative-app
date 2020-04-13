@@ -272,7 +272,7 @@ class ServiceLayer {
         return res;
     }
 
-    addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    async addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(supplierName) ?
             "Supplier Name is not valid" :
             !this.isInputValid(contactDetails) ?
@@ -288,7 +288,7 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        let result = this.cinemaSystem.addNewSupplier(
+        let result = await this.cinemaSystem.addNewSupplier(
             this.supplierCounter,
             supplierName,
             contactDetails,
@@ -301,7 +301,7 @@ class ServiceLayer {
         return result;
     }
 
-    editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    async editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(supplierName) ?
             "Supplier Name is not valid" :
             !this.isInputValid(contactDetails) ?
@@ -317,19 +317,15 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        let result = this.cinemaSystem.editSupplier(
+        return this.cinemaSystem.editSupplier(
             this.supplierCounter,
             supplierName,
             contactDetails,
             this.users.get(ActionIDOfTheOperation)
         );
-        if (result === "The supplier edited successfully") {
-            this.suppliers.set(supplierName, this.supplierCounter);
-        }
-        return result;
     }
 
-    removeSupplier(supplierName, ActionIDOfTheOperation) {
+    async removeSupplier(supplierName, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(supplierName) ?
             "Supplier Name is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
@@ -343,7 +339,7 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        let result = this.cinemaSystem.removeSupplier(
+        let result = await this.cinemaSystem.removeSupplier(
             this.supplierCounter,
             this.users.get(ActionIDOfTheOperation)
         );

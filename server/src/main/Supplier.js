@@ -7,24 +7,25 @@ class Supplier {
         this.name = name;
         this.contactDetails = contactDetails;
         this.isSupplierRemoved = null;
-        DataBase.add('supplier', { id: id, name: name, contactDetails: contactDetails });
         DataBase.setDestroyTimer('suppliers', false, "2 YEAR", "1 DAY", 'isSupplierRemoved');
     }
 
 
-    editSupplier = (name, contactDetails) => {
+    async editSupplier(name, contactDetails){
         super.name = name;
         this.contactDetails = contactDetails;
-        DataBase.update('supplier', { id: this.id }, { name: name, contactDetails: contactDetails});
-        return "The supplier edited successfully";
+        let result = await DataBase.update('supplier', { id: this.id }, { name: name, contactDetails: contactDetails});
+        return typeof result === 'string' ? "The supplier cannot be edited\n" + result
+            : "The supplier edited successfully";
     }
 
 
-    removeSupplier = () => {
+    async removeSupplier(){
         if (this.isSupplierRemoved == null) {
             this.isSupplierRemoved = new Date();
-            DataBase.update('supplier', { id: this.id }, { isSupplierRemoved: this.isSupplierRemoved });
-            return "The supplier removed successfully";
+            let result = await DataBase.update('supplier', { id: this.id }, { isSupplierRemoved: this.isSupplierRemoved });
+            return typeof result === 'string' ? "The supplier cannot be removed\n" + result
+            : "The supplier removed successfully";
         }
         else
             return "The supplier already removed";

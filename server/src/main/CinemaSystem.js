@@ -305,7 +305,7 @@ class CinemaSystem {
         return this.inventoryManagement.removeMovie(movieID);
     }
 
-    addNewSupplier(
+    async addNewSupplier(
         supplierID,
         supplierName,
         contactDetails,
@@ -320,7 +320,7 @@ class CinemaSystem {
         );
     }
 
-    editSupplier(
+    async editSupplier(
         supplierID,
         supplierName,
         contactDetails,
@@ -335,7 +335,7 @@ class CinemaSystem {
         );
     }
 
-    removeSupplier(supplierID, ActionIDOfTheOperation) {
+    async removeSupplier(supplierID, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeSupplier");
         if (result != null) return result;
         return this.inventoryManagement.removeSupplier(supplierID);
