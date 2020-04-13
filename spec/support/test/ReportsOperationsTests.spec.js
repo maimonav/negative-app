@@ -8,7 +8,6 @@ const ReportController = require("../../../server/src/main/ReportController");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const { validate, testCinemaFunctions } = require("./MovieOperationsTests.spec");
-const { asyncValidate, asyncTestCinemaFunctions } = require("./MovieOrderOperationsTests.spec");
 
 
 
@@ -44,8 +43,8 @@ describe("Report Operations Unit Tests", () => {
             stockThrown: 8
         }]);
 
-        validate(serviceLayer, serviceLayer.createDailyReport, { 'Type ': 'type', 'Records ': records, 'Username ': 'User' });
-        await asyncValidate(serviceLayer, serviceLayer.getReport, { 'Type ': 'type', 'Date ': 'date', 'Username ': 'User' });
+        await validate(serviceLayer, serviceLayer.createDailyReport, { 'Type ': 'type', 'Records ': records, 'Username ': 'User' });
+        await validate(serviceLayer, serviceLayer.getReport, { 'Type ': 'type', 'Date ': 'date', 'Username ': 'User' });
 
         testServiceFunctions(() => serviceLayer.createDailyReport("type", records, "User"));
         let result = await serviceLayer.getReport("type", 'date', "User")
@@ -66,9 +65,9 @@ describe("Report Operations Unit Tests", () => {
             quantityInStock: 8,
             stockThrown: 8
         }];
-        testCinemaFunctions(cinemaSystem, () => cinemaSystem.createDailyReport('type', records, 1));
+        await testCinemaFunctions(cinemaSystem, () => cinemaSystem.createDailyReport('type', records, 1));
         cinemaSystem = new CinemaSystem();
-        await asyncTestCinemaFunctions(cinemaSystem, () => cinemaSystem.getReport("type", 'date', 1));
+        await testCinemaFunctions(cinemaSystem, () => cinemaSystem.getReport("type", 'date', 1));
 
     });
 
@@ -227,7 +226,7 @@ describe("Report Operations Unit Tests", () => {
         let serviceLayer = new ServiceLayer('mydbtest');
         let records = JSON.stringify([]);
         serviceLayer.users.set("User", 1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.createDailyReport("type", records, "User"));
+        await testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.createDailyReport("type", records, "User"));
         await addEmployee(1);
         await addCategory(0, "Snacks");
         await addProductAfterCategory();
@@ -286,7 +285,7 @@ describe("Report Operations Unit Tests", () => {
 
         //get report
         serviceLayer.cinemaSystem.users.delete(1);
-        asyncTestCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.getReport("test", "test", "User"));
+        await testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.getReport("test", "test", "User"));
         setTimeout(async () => {
             user = { isLoggedin: () => true, permissionCheck: () => true };
             serviceLayer.cinemaSystem.users.set(1, user);
@@ -324,7 +323,7 @@ describe("Report Operations Unit Tests", () => {
 
         //add field
         serviceLayer.cinemaSystem.users.delete(1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addFieldToDailyReport("test", "User"));
+        await testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.addFieldToDailyReport("test", "User"));
 
         //get report
 
@@ -362,7 +361,7 @@ describe("Report Operations Unit Tests", () => {
 
         //remove field
         serviceLayer.cinemaSystem.users.delete(1);
-        testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.removeFieldFromDailyReport("test", "User"));
+        await testCinemaFunctions(serviceLayer.cinemaSystem, () => serviceLayer.removeFieldFromDailyReport("test", "User"));
 
         //get report
 

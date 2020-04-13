@@ -186,7 +186,7 @@ class ServiceLayer {
             this.users.delete(userName);
         return res;
     }
-    addMovie(movieName, category, ActionIDOfTheOperation) {
+    async addMovie(movieName, category, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
             !this.isInputValid(category) ?
@@ -203,7 +203,7 @@ class ServiceLayer {
             return "The user performing the operation does not exist in the system";
         }
         if (!this.categories.has(category)) return "The category does not exist";
-        let result = this.cinemaSystem.addMovie(
+        let result = await this.cinemaSystem.addMovie(
             this.productsCounter,
             movieName,
             this.categories.get(category),
@@ -216,7 +216,7 @@ class ServiceLayer {
         return result;
     }
 
-    editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
+    async editMovie(movieName, category, key, examinationRoom, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
             !this.isInputValid(category) ?
@@ -248,7 +248,7 @@ class ServiceLayer {
         );
     }
 
-    removeMovie(movieName, ActionIDOfTheOperation) {
+    async removeMovie(movieName, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
@@ -262,7 +262,7 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        let res = this.cinemaSystem.removeMovie(
+        let res = await this.cinemaSystem.removeMovie(
             this.products.get(movieName),
             this.users.get(ActionIDOfTheOperation)
         );

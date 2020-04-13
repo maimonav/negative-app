@@ -269,7 +269,7 @@ class CinemaSystem {
 
 
 
-    addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
+    async addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
             "DEPUTY_MANAGER",
@@ -280,7 +280,7 @@ class CinemaSystem {
     }
 
     //TODO
-    editMovie(movieID, categoryId, key, examinationRoom, ActionIDOfTheOperation) {
+    async editMovie(movieID, categoryId, key, examinationRoom, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
             "DEPUTY_MANAGER",
@@ -295,7 +295,7 @@ class CinemaSystem {
         );
     }
 
-    removeMovie(movieID, ActionIDOfTheOperation) {
+    async removeMovie(movieID, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
             "DEPUTY_MANAGER",

@@ -1,4 +1,5 @@
 const Order = require('./Order');
+const DataBase = require("./DBManager");
 const Movie = require('./Movie');
 const Supplier = require('./Supplier');
 const CafeteriaProduct = require('./CafeteriaProduct');
@@ -14,16 +15,20 @@ class InventoryManagemnt {
         this.categories = new Map();
     }
 
-    addMovie(movieId, name, categoryId) {
+    async addMovie(movieId, name, categoryId) {
         if (this.products.has(movieId))
             return "This movie already exists";
         if (!this.categories.has(categoryId))
             return "Category doesn't exist";
-        this.products.set(movieId, new Movie(movieId, name, categoryId));
-        return "The movie added successfully"
+        let result = await DataBase.add('movie', { id: movieId, name: name, categoryId: categoryId });
+        if (typeof result !== "string") {
+            this.products.set(movieId, new Movie(movieId, name, categoryId));
+            return "The movie added successfully"
+        }
+        return "The movie cannot be added\n"+ result;
     }
 
-    editMovie(movieId, categoryId, key, examinationRoom) {
+    async editMovie(movieId, categoryId, key, examinationRoom) {
         if (!this.products.has(movieId))
             return "The movie does not exist";
         if (!this.categories.has(categoryId))
@@ -31,7 +36,7 @@ class InventoryManagemnt {
         return this.products.get(movieId).editMovie(categoryId, key, examinationRoom);
     }
 
-    removeMovie(movieId) {
+    async removeMovie(movieId) {
         if (!this.products.has(movieId))
             return "The movie does not exist";
         return this.products.get(movieId).removeMovie();
@@ -227,7 +232,7 @@ class InventoryManagemnt {
     mapToObj(inputMap) {
         let obj = {};
 
-        inputMap.forEach(function(value, key) {
+        inputMap.forEach(function (value, key) {
             obj[key] = value
         });
 

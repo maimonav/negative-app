@@ -10,29 +10,30 @@ class Movie extends Product {
         this.movieKey = null;
         this.examinationRoom = null;
         this.isMovieRemoved = null;
-        DataBase.add('movie', { id: id, name: name, categoryId: categoryId });
         DataBase.setDestroyTimer('movies', false, '2 YEAR', '1 DAY', 'isMovieRemoved');
     }
 
 
-    createOrder(order){
-        this.productOrders.set(order.id,new MovieOrder(this,order));
+    createOrder(order) {
+        this.productOrders.set(order.id, new MovieOrder(this, order));
     }
 
 
-    editMovie = (categoryId, key, examinationRoom) => {
+    async editMovie(categoryId, key, examinationRoom) {
         super.categoryId = categoryId;
         this.movieKey = key;
         this.examinationRoom = examinationRoom;
-        DataBase.update('movie', { id: this.id }, { categoryId: this.categoryId, movieKey:key,examinationRoom:examinationRoom });
-        return "The movie edited successfully";
+        let result = await DataBase.update('movie', { id: this.id }, { categoryId: this.categoryId, movieKey: key, examinationRoom: examinationRoom });
+        return typeof result === 'string' ? "The movie cannot be edited\n" + result
+            : "The movie edited successfully";
     }
 
-    removeMovie = () => {
+    async removeMovie() {
         if (this.isMovieRemoved == null) {
             this.isMovieRemoved = new Date();
-            DataBase.update('movie', { id: this.id }, { isMovieRemoved: this.isMovieRemoved });
-            return "The movie removed successfully";
+            let result = await DataBase.update('movie', { id: this.id }, { isMovieRemoved: this.isMovieRemoved });
+            return typeof result === 'string' ? "The movie cannot be removed\n" + result
+                : "The movie removed successfully";
         }
         else
             return "The movie already removed";
