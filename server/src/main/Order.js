@@ -14,12 +14,9 @@ class Order {
         this.productOrders = new Map();
     }
 
-<<<<<<< HEAD
-=======
     async initOrder(){
         return await DataBase.singleAdd('order', { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
     }
->>>>>>> master
 
     async removeOrder(){
         await DataBase.remove('order', { id: this.id });
