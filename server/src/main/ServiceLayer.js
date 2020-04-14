@@ -630,7 +630,7 @@ class ServiceLayer {
         }
     }
 
-    removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+    async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(fieldToRemove) ?
             "Field is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
@@ -647,7 +647,7 @@ class ServiceLayer {
         );
     }
 
-    addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+    async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(newField) ?
             "Field is not valid" :
             !this.isInputValid(ActionIDOfTheOperation) ?
@@ -664,7 +664,7 @@ class ServiceLayer {
         );
     }
 
-    createDailyReport(type, records, ActionIDOfTheOperation) {
+    async createDailyReport(type, records, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(type) ?
             "Type is not valid" :
             !this.isInputValid(records) ?

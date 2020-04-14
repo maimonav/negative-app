@@ -99,7 +99,7 @@ class InventoryManagemnt {
         let actionsList = [orderObject];
         for (let i in movieIdList) {
             let movieId = movieIdList[i];
-            actionsList = actionsList.concat({ name: DB.add, model: 'movie_order', params: { orderId: orderId, movieId: movieId } });
+            actionsList = actionsList.concat({ name: DB.add, model: 'movie_order', params: { element: { orderId: orderId, movieId: movieId } } });
         }
         let result = await DB.executeActions(actionsList);
         if (typeof result === 'string')
@@ -121,13 +121,13 @@ class InventoryManagemnt {
             return "This order does not exist";
         if (this.orders.get(orderId).recipientEmployeeId != null)
             return "Removing supplied orders is not allowed";
-        
-        
+
+
         let order = this.orders.get(orderId);
 
         //Database
         let actionsList = order.getOrderRemovingObjectsList();
-       
+
         let result = await DB.executeActions(actionsList);
         if (typeof result === 'string')
             return "The order cannot be removed\n" + result;
@@ -164,7 +164,7 @@ class InventoryManagemnt {
         for (let i in productsList) {
             let productId = productsList[i].id
             let quantity = productsList[i].quantity;
-            actionsList = actionsList.concat({ name: DB.add, model: 'cafeteria_product_order', params: { orderId: orderId, productId: productId, expectedQuantity: quantity } });
+            actionsList = actionsList.concat({ name: DB.add, model: 'cafeteria_product_order', params: { element: { orderId: orderId, productId: productId, expectedQuantity: quantity } } });
         }
         let result = await DB.executeActions(actionsList);
         if (typeof result === 'string')
@@ -175,7 +175,7 @@ class InventoryManagemnt {
             let productId = productsList[i].id
             let quantity = productsList[i].quantity;
             let product = this.products.get(productId);
-            let productOrder = product.createOrder(order,quantity);
+            let productOrder = product.createOrder(order, quantity);
             order.productOrders.set(productId, productOrder);
         }
         this.orders.set(orderId, order);

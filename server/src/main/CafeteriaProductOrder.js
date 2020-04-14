@@ -9,8 +9,8 @@ class CafeteriaProductOrder {
         this.product = product;
     }
 
-   
-    getOrderRemovingObject = () => ({name: DataBase.remove, model:'cafeteria_product_order' ,params: { orderId: this.order.id }});
+
+    getOrderRemovingObject = () => ({ name: DataBase.remove, model: 'cafeteria_product_order', params: { where: { orderId: this.order.id } } });
 
 
     remove() {

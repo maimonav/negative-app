@@ -25,19 +25,20 @@ class ReportController {
         return Object.keys(this.types).some((k) => (this.types[k] === type));
     }
 
-    static createDailyReport(type, records) {
+    static async  createDailyReport(type, records) {
         //validate type from enum of types
         if (!this.isValidType(type))
             return "The requested report type is invalid"
+
+        let actionsList = [];
         for (let i in records) {
             records[i].date = new Date(this.getSyncDateFormat(new Date(records[i].date)));
-            /*let result = */DataBase.singleAdd(type, records[i]).catch((res)=>{
-                console.log();
-            });
-            /*if (result == 'error') {
-                return "The report can not be created"
-            }*/
+            actionsList = actionsList.concat({ name: DataBase.add, model: type, params: { element: records[i] } });
         }
+        let result = await DataBase.executeActions(actionsList);
+        if (typeof result === 'string')
+            return "The report cannot be created\n" + result;
+
         return "The report created successfully";
 
     }
@@ -49,11 +50,13 @@ class ReportController {
 
         if (!this.isValidDate(date))
             return "The requested report date is invalid"
-        return DataBase.singleGetById(type, { date: new Date(this.getSyncDateFormat(new Date(date))) }).then((result) => {
-            if (result == null)
-                return "The report does not exist"
-            return result;
-        });
+        let result = await DataBase.singleGetById(type, { date: new Date(this.getSyncDateFormat(new Date(date))) });
+        if (typeof result === 'string')
+            return "There was a problem getting the report\n" + result;
+        if (result === null)
+            return "The report does not exist"
+        return result;
+
     }
 
     static exportMonthlyHoursReportPerEmployee(date, employeeToSearchID, employeeId) { }
@@ -67,27 +70,31 @@ class ReportController {
     static getDailyReoprtFormat() { }
 
 
-    //TODO:: result.length === 0 ??
-    static addFieldToDailyReport(newField) {
-        DataBase.singleFindAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
-            .then(async (result) => {
-                if (result.length !== 0) {
-                    let newProps = result[0].additionalProps[0].concat(newField);
-                    await DataBase.singleUpdate(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
-                }
-            });
+    static async  addFieldToDailyReport(newField) {
 
+        let result = await DataBase.singleFindAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] });
+        if (typeof result === 'string')
+            return "The report field cannot be added\n" + result;
+        if (result.length === 0)
+            return "The report field cannot be added";
+        let newProps = result[0].additionalProps[0].concat(newField);
+        result = await DataBase.singleUpdate(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
+        if (typeof result === 'string')
+            return "The report field cannot be added\n" + result;
         return "The report field added successfully";
+
     }
-    //TODO:: result.length === 0 ??
-    static removeFieldFromDailyReport(fieldToRemove) {
-        DataBase.singleFindAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] })
-            .then(async (result) => {
-                if (result.length !== 0) {
-                    let newProps = result[0].additionalProps[0].filter((value) => (value !== fieldToRemove));
-                    await DataBase.singleUpdate(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
-                }
-            });
+
+    static async  removeFieldFromDailyReport(fieldToRemove) {
+        let result = await DataBase.singleFindAll(this.types.GENERAL, {}, { fn: 'max', fnField: 'date', fields: ['additionalProps'] });
+        if (typeof result === 'string')
+            return "The report field cannot be removed\n" + result;
+        if (result.length === 0)
+            return "The report field cannot be removed";
+        let newProps = result[0].additionalProps[0].filter((value) => (value !== fieldToRemove));
+        result = await DataBase.singleUpdate(this.types.GENERAL, { date: result[0].date }, { additionalProps: [newProps, result[0].additionalProps[1]] });
+        if (typeof result === 'string')
+            return "The report field cannot be removed\n" + result;
         return "The report field removed successfully";
 
     }

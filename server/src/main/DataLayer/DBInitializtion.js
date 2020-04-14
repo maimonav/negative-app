@@ -5,6 +5,8 @@ const { generalPurposeDailyReportSchema, inventoryDailyReportSchema, moviesDaily
 const Sequelize = require('sequelize');
 const mysql = require('mysql2');
 
+
+
 async function setDestroyTimerForAllTables() {
 
     let userObj = { table: 'users', prop: 'isUserRemoved', deleteTime: '2 YEAR', eventTime: '1 DAY' };
@@ -56,7 +58,7 @@ async function initDB(dbName, password) {
     try {
         await DataBase.sequelize.authenticate();
     } catch (error) {
-        return DataBase.errorHandler.apply(DataBase,[error]);
+        return DataBase.errorHandler.apply(DataBase, [error]);
     }
 
     initModels();
@@ -78,9 +80,17 @@ async function initDB(dbName, password) {
         if (dbName === undefined || dbName.toLowerCase() !== 'mydbtest')
             await setDestroyTimerForAllTables();
 
+        // Init general report - empty fields
+        let todayDate = new Date();
+        let date = new Date(todayDate.setDate(todayDate.getDate() - 1))
+        await DataBase.singleAdd('general_purpose_daily_report', {
+            date: date.toISOString().substring(0, 10),
+            creatorEmployeeId: 0,
+            additionalProps: [[], {}]
+        });
 
     } catch (error) {
-        return DataBase.errorHandler.apply(DataBase,[error]);
+        return DataBase.errorHandler.apply(DataBase, [error]);
     }
 
 

@@ -374,20 +374,20 @@ class CinemaSystem {
         if (result != null) return result;
         return this.inventoryManagement.removeCategory(categoryId);
     }
-    removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+    async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
         if (result != null) return result;
         return ReportController.removeFieldFromDailyReport(fieldToRemove);
     }
 
-    addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+    async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "createDailyReport");
         if (result != null) return result;
         return ReportController.addFieldToDailyReport(newField);
     }
 
 
-    createDailyReport(type, records, ActionIDOfTheOperation) {
+    async createDailyReport(type, records, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "SHIFT_MANAGER", "createDailyReport");
         if (result != null) return result;
         return ReportController.createDailyReport(type, records);

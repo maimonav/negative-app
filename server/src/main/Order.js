@@ -15,24 +15,24 @@ class Order {
     }
 
 
-    getOrderAdditionObject = () => ({name: DataBase.add, model:'order' ,params: { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId } });
+    getOrderAdditionObject = () => ({ name: DataBase.add, model: 'order', params: { element: { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId } } });
 
     getOrderRemovingObjectsList = () => {
-        let list = [{name: DataBase.remove, model:'order' ,params: { id: this.id } }];
-        this.productOrders.forEach((productOrder)=> {
+        let list = [{ name: DataBase.remove, model: 'order', params: { where: { id: this.id } } }];
+        this.productOrders.forEach((productOrder) => {
             list = list.concat(productOrder.getOrderRemovingObject());
         });
         return list;
     };
 
     removeProductOrders = () => {
-        this.productOrders.forEach((productOrder)=> {
+        this.productOrders.forEach((productOrder) => {
             productOrder.remove();
         });
     }
 
 
-   
+
     equals(toCompare) {
         return (
             toCompare.id === this.id &&
@@ -43,7 +43,7 @@ class Order {
             _.isEqualWith(toCompare.productOrders, this.productOrders, function (val1, val2) {
                 if (_.isFunction(val1) && _.isFunction(val2)) {
                     return val1.toString() === val2.toString();
-                } 
+                }
             }));
     }
 }
