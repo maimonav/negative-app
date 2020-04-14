@@ -357,12 +357,6 @@ app.get("/api/getProductAndQuntityByOrder", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/getReportTypes", (req, res) => {
-  const user = req.query.user || "";
-  const result = service.getReportTypes(user);
-  res.send(JSON.stringify({ result }));
-});
-
 app.get("/api/getReport", (req, res) => {
   const reportType = req.query.reportType || "";
   const date = req.query.date || "";

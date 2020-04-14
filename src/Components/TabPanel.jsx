@@ -16,7 +16,6 @@ import {
   logoutTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
-  console.log(localStorage.getItem("username"));
   return (
     <Router>
       <Paper square>

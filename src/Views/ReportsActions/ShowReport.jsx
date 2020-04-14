@@ -8,7 +8,8 @@ import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
 import ReactVirtualizedTable from "../../Components/Tables/ReportTable";
-import { handleGetReportTypes, handleGetReport } from "../../Handlers/Handlers";
+import { handleGetReport } from "../../Handlers/Handlers";
+import { reportsTypes } from "../../consts/consts";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -18,16 +19,7 @@ export default class ShowReport extends React.Component {
       reportType: "",
       date: new Date()
     };
-    this.setInitialState();
   }
-
-  setInitialState = () => {
-    handleGetReportTypes(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
-        this.setState({ types: state.result });
-      });
-  };
 
   setReportType = reportType => {
     this.setState({ reportType });
@@ -45,6 +37,7 @@ export default class ShowReport extends React.Component {
     )
       .then(response => response.json())
       .then(state => {
+        console.log(state.result);
         this.setState({ reportData: state.result });
       });
   };
@@ -62,7 +55,7 @@ export default class ShowReport extends React.Component {
                 <div style={{ display: "flex", alignItems: "flex-start" }}>
                   <ComboBox
                     id={"reportType"}
-                    items={this.state.types || []}
+                    items={reportsTypes || []}
                     boxLabel={"Choose type"}
                     setName={this.setReportType}
                     isMultiple={false}
