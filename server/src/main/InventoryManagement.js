@@ -1,5 +1,4 @@
 const Order = require('./Order');
-const DataBase = require("./DBManager");
 const Movie = require('./Movie');
 const Supplier = require('./Supplier');
 const CafeteriaProduct = require('./CafeteriaProduct');
@@ -20,9 +19,10 @@ class InventoryManagemnt {
             return "This movie already exists";
         if (!this.categories.has(categoryId))
             return "Category doesn't exist";
-        let result = await DataBase.add('movie', { id: movieId, name: name, categoryId: categoryId });
+        let movie = new Movie(movieId, name, categoryId);
+        let result = await movie.initMovie();
         if (typeof result !== "string") {
-            this.products.set(movieId, new Movie(movieId, name, categoryId));
+            this.products.set(movieId, movie);
             return "The movie added successfully"
         }
         return "The movie cannot be added\n" + result;
@@ -48,9 +48,10 @@ class InventoryManagemnt {
         contactDetails) {
         if (this.suppliers.has(supplierID))
             return "This supplier already exists";
-        let result = await DataBase.add('supplier', { id: supplierID, name: supplierName, contactDetails: contactDetails });
+        let supplier = new Supplier(supplierID, supplierName, contactDetails);
+        let result = await supplier.initSupplier();
         if (typeof result !== "string") {
-            this.suppliers.set(supplierID, new Supplier(supplierID, supplierName, contactDetails));
+            this.suppliers.set(supplierID, supplier);
             return "The supplier added successfully"
         }
         return "The supplier cannot be added\n" + result;

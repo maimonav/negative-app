@@ -1,4 +1,4 @@
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 
 
 async function addUser(isTest) {
@@ -6,19 +6,19 @@ async function addUser(isTest) {
 
 
   if (isTest)
-    await DB.getById('user', { id: 0 }).then((result) => {
+    await DB.singleGetById('user', { id: 0 }).then((result) => {
       if (result != null)
         fail("addUser failed");
     });
 
-  await DB.add('user', {
+  await DB.singleAdd('user', {
     id: 0,
     username: "admin",
     password: "admin",
     permissions: "ADMIN"
   });
   if (isTest)
-    await DB.getById('user', { id: 0 }).then((result) => {
+    await DB.singleGetById('user', { id: 0 }).then((result) => {
       expect(result.id).toBe(0);
       expect(result.username).toBe("admin");
       expect(result.password).toBe("admin");
@@ -32,7 +32,7 @@ exports.addUser = addUser;
 
 async function addEmployeeWithoutUser() {
 
-  let returnMsg = await DB.add('employee', {
+  let returnMsg = await DB.singleAdd('employee', {
     id: 1,
     firstName: "Noa",
     lastName: "Cohen",
@@ -42,10 +42,13 @@ async function addEmployeeWithoutUser() {
   expect(typeof returnMsg).toBe("string");
   expect(returnMsg.includes("Database Error: Cannot complete action."))
 
-  returnMsg = await DB.getById('employee', { id: 1 })
 
-  expect(typeof returnMsg).toBe("string");
-  expect(returnMsg.includes("Database Error: Cannot complete action."))
+  await DB.singleGetById('employee', { id: 1 }).then((result) => {
+    if (result != null)
+      fail("addEmployeeWithoutUser failed");
+  });
+
+
 }
 
 
@@ -55,20 +58,20 @@ async function addEmployee(id, isTest) {
 
 
   if (isTest)
-    await DB.getById('user', { id: id }).then((result) => {
+    await DB.singleGetById('user', { id: id }).then((result) => {
       if (result != null)
         fail("addEmployee failed");
     });
 
 
-  await DB.add('user', {
+  await DB.singleAdd('user', {
     id: id,
     username: "manager",
     password: "manager",
     permissions: "MANAGER",
   });
   if (isTest)
-    await DB.getById('user', { id: id }).then((result) => {
+    await DB.singleGetById('user', { id: id }).then((result) => {
       expect(result.id).toBe(id);
       expect(result.username).toBe("manager");
       expect(result.password).toBe("manager");
@@ -77,12 +80,12 @@ async function addEmployee(id, isTest) {
     });
 
   if (isTest)
-    await DB.getById('employee', { id: id }).then((result) => {
+    await DB.singleGetById('employee', { id: id }).then((result) => {
       if (result != null)
         fail("addEmployee failed");
     });
 
-  await DB.add('employee', {
+  await DB.singleAdd('employee', {
     id: id,
     firstName: "Noa",
     lastName: "Cohen",
@@ -90,7 +93,7 @@ async function addEmployee(id, isTest) {
   });
 
   if (isTest)
-    await DB.getById('employee', { id: id }).then((result) => {
+    await DB.singleGetById('employee', { id: id }).then((result) => {
       expect(result.id).toBe(id);
       expect(result.firstName).toBe("Noa");
       expect(result.lastName).toBe("Cohen");
@@ -102,8 +105,8 @@ exports.addEmployee = addEmployee;
 
 async function updateUser() {
   console.log("START UPDATE USER\n");
-  await DB.update('user', { id: 1 }, { username: "noa", password: "noa", permissions: "DEPUTY_MANAGER" });
-  await DB.getById('user', { id: 1 }).then((result) => {
+  await DB.singleUpdate('user', { id: 1 }, { username: "noa", password: "noa", permissions: "DEPUTY_MANAGER" });
+  await DB.singleGetById('user', { id: 1 }).then((result) => {
     expect(result.id).toBe(1);
     expect(result.username).toBe("noa");
     expect(result.password).toBe("noa");
@@ -113,8 +116,8 @@ async function updateUser() {
 
 async function updateEmployee() {
   console.log("START UPDATE EMPLOYEE\n");
-  await DB.update('employee', { id: 1 }, { firstName: "Noam", lastName: "Chen", contactDetails: "0500000000" });
-  await DB.getById('employee', { id: 1 }).then((result) => {
+  await DB.singleUpdate('employee', { id: 1 }, { firstName: "Noam", lastName: "Chen", contactDetails: "0500000000" });
+  await DB.singleGetById('employee', { id: 1 }).then((result) => {
     expect(result.id).toBe(1);
     expect(result.firstName).toBe("Noam");
     expect(result.lastName).toBe("Chen");
@@ -124,14 +127,14 @@ async function updateEmployee() {
 
 async function removeUser(id, isTest) {
   console.log("START REMOVE USER\n");
-  await DB.update('user', { id: id }, { isUserRemoved: new Date() });
+  await DB.singleUpdate('user', { id: id }, { isUserRemoved: new Date() });
 
   if (isTest) {
-    await DB.getById('user', { id: id }).then((result) => {
+    await DB.singleGetById('user', { id: id }).then((result) => {
       expect(result.isUserRemoved != null).toBe(true);
     });
 
-    await DB.getById('employee', { id: id }).then((result) => {
+    await DB.singleGetById('employee', { id: id }).then((result) => {
       expect(result.isEmployeeRemoved != null).toBe(true);
     });
   }
@@ -140,26 +143,26 @@ exports.removeUser = removeUser;
 
 async function removeEmployee(id, isTest) {
   console.log("START REMOVE EMPLOYEE\n");
-  await DB.add('user', {
+  await DB.singleAdd('user', {
     id: id,
     username: "manager",
     password: "manager",
     permissions: "MANAGER",
   });
 
-  await DB.add('employee', {
+  await DB.singleAdd('employee', {
     id: id,
     firstName: "Noa",
     lastName: "Cohen",
     contactDetails: '0508888888'
   });
 
-  await DB.update('employee', { id: id }, { isEmployeeRemoved: true });
+  await DB.singleUpdate('employee', { id: id }, { isEmployeeRemoved: true });
   if (isTest) {
-    await DB.getById('employee', { id: id }).then((result) => {
+    await DB.singleGetById('employee', { id: id }).then((result) => {
       expect(result.isEmployeeRemoved != null).toBe(true);
     });
-    await DB.getById('user', { id: id }).then((result) => {
+    await DB.singleGetById('user', { id: id }).then((result) => {
       expect(result.isUserRemoved != null).toBe(false);
     });
   }
@@ -169,11 +172,15 @@ exports.removeEmployee = removeEmployee;
 describe("DB Unit Testing - user and employee", function () {
 
 
+
+
   let sequelize;
+
+
   beforeEach(async function () {
     //create connection & mydb
     await DB.connectAndCreate('mydbTest');
-    sequelize = DB.initDB('mydbTest');
+    sequelize = await DB.initDB('mydbTest');
   });
 
   afterEach(async function () {

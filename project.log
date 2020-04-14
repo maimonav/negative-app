@@ -137,3 +137,163 @@
 19:43:35.604 INFO  CinemaSystem - undefined - User does not have proper permissions 
 19:43:35.782 INFO  CinemaSystem - undefined - User does not have proper permissions 
 19:48:01.998 INFO  CinemaSystem - undefined - User does not have proper permissions 
+21:52:18.279 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+21:52:18.279 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+21:52:18.279 INFO  User - login - The yuval already connected 
+21:52:18.309 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+21:52:18.309 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+21:52:18.309 INFO  User - login - The yuval already connected 
+21:52:18.356 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+21:52:18.403 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+21:52:18.489 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+21:52:18.537 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+21:52:18.565 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+21:52:18.615 INFO  EmployeeManagemnt- editEmployee - The -1 already exist 
+21:52:18.686 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+22:10:50.637 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.641 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.641 INFO  CinemaSystem - addNewSupplier - User does not have proper permissions 
+22:10:50.641 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.641 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.644 INFO  CinemaSystem - editSupplier - User does not have proper permissions 
+22:10:50.644 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.644 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.644 INFO  CinemaSystem - removeSupplier - User does not have proper permissions 
+22:10:50.653 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.654 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.654 INFO  CinemaSystem - addNewSupplier - User does not have proper permissions 
+22:10:50.655 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.655 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.655 INFO  CinemaSystem - editSupplier - User does not have proper permissions 
+22:10:50.659 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.659 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+22:10:50.659 INFO  CinemaSystem - removeSupplier - User does not have proper permissions 
+22:10:55.366 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+22:10:55.366 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+22:10:55.366 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+22:11:02.792 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+22:11:02.792 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+22:11:02.792 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+22:11:14.266 INFO  ServiceLayer - The registration process failed - the yuval exists on the system. 
+22:11:14.271 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+22:11:14.271 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+22:11:14.271 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+22:11:15.507 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.512 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.513 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+22:11:15.525 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.526 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.526 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+22:11:15.532 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.532 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.532 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+22:11:15.533 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.533 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:15.533 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+22:11:17.021 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.024 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.024 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+22:11:17.029 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.029 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.030 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+22:11:17.031 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.031 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.032 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+22:11:17.033 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.033 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.033 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+22:11:17.033 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.033 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.033 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+22:11:17.033 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.033 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+22:11:17.034 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+22:11:17.351 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+22:11:17.351 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+22:11:17.351 INFO  CinemaSystem - getReport - User does not have proper permissions 
+22:11:19.336 INFO  ServiceLayer - The logout process failed - the yubal isn't exists on the system. 
+22:11:19.342 INFO  ServiceLayer - The logout process failed - the yubal isn't exists on the system. 
+22:11:19.344 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+22:11:19.344 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+22:11:19.349 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+22:11:20.824 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+22:11:20.825 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+22:11:20.825 INFO  User - login - The yuval already connected 
+22:11:20.832 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+22:11:20.832 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+22:11:20.832 INFO  User - login - The yuval already connected 
+22:11:20.836 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+22:11:20.842 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+22:11:22.002 INFO  EmployeeManagemnt- editEmployee - The -1 already exist 
+22:11:22.007 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+22:11:22.011 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+22:11:22.014 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+22:11:22.015 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+22:11:22.059 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+22:11:22.059 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+22:11:22.059 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+22:11:23.177 INFO  CinemaSystem - deleteEmployee - A user cannot erase himself 
+22:11:23.179 INFO  CinemaSystem - deleteEmployee - User does not have proper permissions 
+22:11:23.185 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+22:11:23.185 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+22:11:23.187 INFO  EmployeeManagemnt- deleteEmployee - The -1 does not exist 
+22:11:23.190 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+22:11:23.190 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+22:11:23.195 INFO  CinemaSystem - deleteEmployee - A user cannot erase himself 
+22:11:23.195 INFO  CinemaSystem - deleteEmployee - User does not have proper permissions 
+22:11:24.208 INFO  CinemaSystem - removeCategory - The operation cannot be completed - the user is not connected to the system 
+22:11:24.214 INFO  CinemaSystem - editCategory - The operation cannot be completed - the user is not connected to the system 
+22:11:24.216 INFO  ServiceLayer- editCategory - The category doesn't exist 
+22:11:24.216 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+22:11:24.216 INFO  ServiceLayer- editCategory - The parent dummy does not exist 
+22:11:24.218 INFO  ServiceLayer- addCategory - The user performing the operation does not exist in the system 
+22:11:24.218 INFO  ServiceLayer- addCategory - The parent dummy does not exist 
+22:11:24.221 INFO  InventoryManagemnt - addCategory - The parent category 0 doesn't exist 
+22:11:24.221 INFO  InventoryManagemnt - addCategory - The Category 0 already exist 
+22:11:24.222 INFO  InventoryManagemnt - editCategory - The parent category -3 doesn't exist 
+22:11:24.222 INFO  InventoryManagemnt - editCategory - The Category -3 doesn't exist 
+22:11:24.224 INFO  ServiceLayer- addCategory - The user performing the operation does not exist in the system 
+22:11:24.224 INFO  ServiceLayer- addCategory - The parent Dairy does not exist 
+22:11:24.225 INFO  ServiceLayer- editCategory - The category doesn't exist 
+22:11:24.225 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+22:11:24.225 INFO  ServiceLayer- editCategory - The parent dummy does not exist 
+22:11:24.227 INFO  CinemaSystem - editCategory - The operation cannot be completed - the user is not connected to the system 
+22:11:24.228 INFO  InventoryManagemnt - removeCategory - The Category -3 doesn't exist 
+22:11:24.229 INFO  CinemaSystem - addCategory - The operation cannot be completed - the user is not connected to the system 
+22:11:24.231 INFO  CinemaSystem - removeCategory - The operation cannot be completed - the user is not connected to the system 
+22:11:24.232 INFO  ServiceLayer- editCategory - The category doesn't exist 
+22:11:24.232 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+22:11:24.233 INFO  CinemaSystem - addCategory - The operation cannot be completed - the user is not connected to the system 
+22:11:24.235 INFO  ServiceLayer- editCategory - The category doesn't exist 
+22:11:24.235 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+22:11:25.518 INFO  CinemaSystem - addCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+22:11:25.518 INFO  CinemaSystem - addCafeteriaProduct - User does not have proper permissions 
+22:11:25.527 INFO  CinemaSystem - editCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+22:11:25.527 INFO  CinemaSystem - editCafeteriaProduct - User does not have proper permissions 
+22:11:25.530 INFO  CinemaSystem - removeCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+22:11:25.530 INFO  CinemaSystem - removeCafeteriaProduct - User does not have proper permissions 
+22:11:25.536 INFO  CinemaSystem - removeCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+22:11:25.536 INFO  CinemaSystem - removeCafeteriaProduct - User does not have proper permissions 
+22:11:25.538 INFO  ServiceLayer- addNewProduct - dummy 
+22:11:25.548 INFO  CinemaSystem - addCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+22:11:25.548 INFO  CinemaSystem - addCafeteriaProduct - User does not have proper permissions 
+22:11:25.550 INFO  ServiceLayer- removeProduct - dummy 
+22:11:25.554 INFO  CinemaSystem - editCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+22:11:25.554 INFO  CinemaSystem - editCafeteriaProduct - User does not have proper permissions 
+22:11:27.096 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:27.100 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:27.100 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+22:11:27.109 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:27.110 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+22:11:27.110 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+22:11:29.236 INFO  CinemaSystem - register - The following data provided is invalid: Permission  
+22:11:29.237 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+22:11:29.238 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+22:11:29.246 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+22:11:29.251 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+22:11:29.252 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+22:11:29.256 INFO  EmployeeManagemnt- addNewEmployee - The adminUserName already exist 
+22:11:29.257 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+22:11:31.105 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+22:11:31.105 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+22:11:31.105 INFO  CinemaSystem - getReport - User does not have proper permissions 

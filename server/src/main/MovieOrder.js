@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 
 class MovieOrder {
 
@@ -8,9 +8,13 @@ class MovieOrder {
         this.order = order;
         this.movie = movie;
         this.order.addProductOrder(movie.id,this);
-        DataBase.add('movie_order', { orderId: order.id, movieId: movie.id });
-        DataBase.setDestroyTimer('movie_orders', true, '1 YEAR', '1 DAY');
     }
+
+    async initMovieOrder(){
+        return DataBase.singleAdd('movie_order', { orderId: order.id, movieId: movie.id });
+    }
+
+
     
     remove(){
         DataBase.remove('movie_order', { orderId: order.id });

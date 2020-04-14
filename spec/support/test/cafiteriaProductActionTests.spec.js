@@ -7,7 +7,7 @@ describe("cafitriaProductActionTest", () => {
     const InventoryManagement = require("../../../server/src/main/InventoryManagement");
     const CafeteriaProduct = require("../../../server/src/main/CafeteriaProduct");
     const Category = require("../../../server/src/main/Category");
-    const DB = require("../../../server/src/main/DBManager");
+    const DB = require("../../../server/src/main/DataLayer/DBManager");
 
     let p1;
     let inventoryManagement;

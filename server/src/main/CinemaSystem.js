@@ -1,5 +1,5 @@
 const data = require("../../consts/data");
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 const ReportController = require("./ReportController");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 const User = require("./User");
@@ -19,9 +19,8 @@ class CinemaSystem {
         this.inappropriatePermissionsMsg = "User does not have proper permissions";
 
         DataBase.connectAndCreate(dbName ? dbName : undefined).then(async () => {
-            DataBase.initDB();
+            await DataBase.initDB(dbName ? dbName : undefined);
             this.users.set(0, new User(0, "admin", "admin", "ADMIN"));
-            ReportController.init();
         });
     }
     UserDetailsCheck(userName, password, permissions) {

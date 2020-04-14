@@ -1,39 +1,29 @@
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 
 
 
 describe("DB Error Tests", function () {
 
 
-  let sequelize;
-
-
- it("Connect - wrong password", async function () {
-  await DB.connectAndCreate('mydbtest','lalala');
-  sequelize = DB.initDB('mydbTest');
-  let returnedMsg = await DB.add('user', {
-    id: 0,
-    username: "admin",
-    password: "admin",
-    permissions: "ADMIN"
-  });
-  expect(typeof returnedMsg).toBe('string');
-    expect(returnedMsg.includes(DB.connectionMsg + ' Refused due to insufficient privileges'
-    + ' - Password to database should be checked.')).toBe(true);
+  it("Connect - wrong password", async function () {
+    await DB.connectAndCreate('mydbTest', 'lalala');
+    let returnedMsg = await DB.initDB('mydbTest');
+    expect(typeof returnedMsg).toBe('string');
+    expect(returnedMsg.includes(DB.connectionMsg)).toBe(true);
   });
 
   it("Duplicate primary key", async function () {
     //Testing connection
     await DB.connectAndCreate('mydbtest');
-    sequelize = DB.initDB('mydbTest');
+    await DB.initDB('mydbTest');
 
-    await DB.add('user', {
+    await DB.singleAdd('user', {
       id: 0,
       username: "admin",
       password: "admin",
       permissions: "ADMIN"
     });
-    let returnedMsg = await DB.add('user', {
+    let returnedMsg = await DB.singleAdd('user', {
       id: 0,
       username: "admin",
       password: "admin",
@@ -49,20 +39,8 @@ describe("DB Error Tests", function () {
   it("Foreign key and general Msg", async function () {
     //Testing connection
     await DB.connectAndCreate('mydbtest');
-    sequelize = DB.initDB('mydbTest');
-    let returnedMsg = await DB.add('movie', {
-      id: 0,
-      name: "Spiderman",
-      categoryId: 1
-    });
-    expect(typeof returnedMsg).toBe('string');
-    expect(returnedMsg.includes('Database Error: Cannot complete action.')).toBe(true);
-  
-    await DB.add('category', {
-      id: 0,
-      name: 'category'
-    });
-    returnedMsg = await DB.add('movie', {
+    await DB.initDB('mydbTest');
+    let returnedMsg = await DB.singleAdd('movie', {
       id: 0,
       name: "Spiderman",
       categoryId: 1
@@ -72,7 +50,7 @@ describe("DB Error Tests", function () {
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE mydbTest");
   });
-  
+
 
 
 

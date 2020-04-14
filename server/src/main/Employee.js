@@ -1,5 +1,5 @@
 const User = require("./User");
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 
 class Employee extends User {
     constructor(id, userName, password, permissions, firstName, lastName, contactDetails) {
@@ -9,9 +9,7 @@ class Employee extends User {
         this.contactDetails = contactDetails;
         this.employeeShift = new Map();
         this.isEmployeeRemoved = null;
-        DataBase.add('employee', { id: id, firstName: firstName, lastName: lastName, contactDetails: contactDetails });
-        DataBase.setDestroyTimer('employees', false, '2 YEAR', '1 DAY', 'isEmployeeRemoved');
-
+        DataBase.singleAdd('employee', { id: id, firstName: firstName, lastName: lastName, contactDetails: contactDetails });
 
     }
     editEmployee(password, permissions, firstName, lastName, contactDetails) {
@@ -22,13 +20,13 @@ class Employee extends User {
             this.lastName = lastName;
         if (contactDetails != undefined)
             this.contactDetails = contactDetails;
-        DataBase.update('employee', { id: this.id }, { firstName: firstName, lastName: lastName, contactDetails: contactDetails });
+        DataBase.singleUpdate('employee', { id: this.id }, { firstName: firstName, lastName: lastName, contactDetails: contactDetails });
     }
 
     removeEmployee = () => {
         if (this.isEmployeeRemoved == null) {
             this.isEmployeeRemoved = new Date();
-            DataBase.update('employee', { id: this.id }, { isEmployeeRemoved: this.isEmployeeRemoved });
+            DataBase.singleUpdate('employee', { id: this.id }, { isEmployeeRemoved: this.isEmployeeRemoved });
             return true;
         } else
             return false;

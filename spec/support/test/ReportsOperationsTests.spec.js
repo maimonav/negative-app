@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { testAddInventoryDailyReport, testAddIncomesDailyReport, testAddGeneralPurposeDailyReport,
     testInventoryDailyReportResult, testIncomeDailyReportResult, testGeneralPurposeDailyReportResult } = require("./../DBtests/ReportsTests.spec");
 const { addCategory, addProductAfterCategory } = require("./../DBtests/ProductsTests.spec");
@@ -16,7 +16,7 @@ describe("Report Operations Unit Tests", () => {
     beforeEach(async function () {
         //create connection & mydb
         await DB.connectAndCreate('mydbTest');
-        sequelize = DB.initDB('mydbTest');
+        sequelize = await DB.initDB('mydbTest');
       });
     
       afterEach(async function () {
@@ -57,17 +57,17 @@ describe("Report Operations Unit Tests", () => {
         setTimeout(done, 2000);
 
         let cinemaSystem = new CinemaSystem();
-        let records = [{
+        /*let records = [{
             date: new Date('2020-03-02 14:35:00'),
             productId: 0,
             creatorEmployeeId: 0,
             quantitySold: 4,
             quantityInStock: 8,
             stockThrown: 8
-        }];
-        await testCinemaFunctions(cinemaSystem, () => cinemaSystem.createDailyReport('type', records, 1));
-        cinemaSystem = new CinemaSystem();
-        await testCinemaFunctions(cinemaSystem, () => cinemaSystem.getReport("type", 'date', 1));
+        }];*/
+        //await testCinemaFunctions(cinemaSystem, async () => cinemaSystem.createDailyReport('type', records, 1));
+        //cinemaSystem = new CinemaSystem();
+        await testCinemaFunctions(cinemaSystem, async () => cinemaSystem.getReport("type", 'date', 1));
 
     });
 

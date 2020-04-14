@@ -1,4 +1,4 @@
-const DataBase = require("./DBManager");
+const DataBase = require("./DataLayer/DBManager");
 const Product = require("./Product");
 const MovieOrder = require("./MovieOrder");
 
@@ -10,9 +10,13 @@ class Movie extends Product {
         this.movieKey = null;
         this.examinationRoom = null;
         this.isMovieRemoved = null;
-        DataBase.setDestroyTimer('movies', false, '2 YEAR', '1 DAY', 'isMovieRemoved');
     }
 
+
+
+    async initMovie() {
+        return DataBase.singleAdd( 'movie',{ id: this.id, name: this.name, categoryId: this.categoryId } );
+    }
 
     createOrder(order) {
         this.productOrders.set(order.id, new MovieOrder(this, order));
@@ -23,7 +27,7 @@ class Movie extends Product {
         super.categoryId = categoryId;
         this.movieKey = key;
         this.examinationRoom = examinationRoom;
-        let result = await DataBase.update('movie', { id: this.id }, { categoryId: this.categoryId, movieKey: key, examinationRoom: examinationRoom });
+        let result = await DataBase.singleUpdate('movie', { id: this.id }, { categoryId: this.categoryId, movieKey: key, examinationRoom: examinationRoom });
         return typeof result === 'string' ? "The movie cannot be edited\n" + result
             : "The movie edited successfully";
     }
@@ -31,7 +35,7 @@ class Movie extends Product {
     async removeMovie() {
         if (this.isMovieRemoved == null) {
             this.isMovieRemoved = new Date();
-            let result = await DataBase.update('movie', { id: this.id }, { isMovieRemoved: this.isMovieRemoved });
+            let result = await DataBase.singleUpdate('movie', { id: this.id }, { isMovieRemoved: this.isMovieRemoved });
             return typeof result === 'string' ? "The movie cannot be removed\n" + result
                 : "The movie removed successfully";
         }

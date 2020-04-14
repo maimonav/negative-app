@@ -1,4 +1,4 @@
-const DB = require("../../../server/src/main/DBManager");
+const DB = require("../../../server/src/main/DataLayer/DBManager");
 const Movie = require("../../../server/src/main/Movie");
 const MovieOrder = require("../../../server/src/main/MovieOrder");
 const Order = require("../../../server/src/main/Order");
