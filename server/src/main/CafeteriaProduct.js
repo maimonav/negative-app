@@ -31,7 +31,9 @@ class CafeteriaProduct extends Product {
 
 
     createOrder(order, quantity) {
-        this.productOrders.set(order.id, new CafeteriaProductOrder(this, order, quantity));
+        let productOrder = new CafeteriaProductOrder(this, order, quantity)
+        this.productOrders.set(order.id, productOrder);
+        return productOrder;
     }
 
     isNeedToUpdate(param, isQuantityFiled) {

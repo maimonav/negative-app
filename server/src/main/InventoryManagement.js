@@ -1,5 +1,6 @@
 const Order = require('./Order');
 const Movie = require('./Movie');
+let DB = require('./DataLayer/DBManager')
 const Supplier = require('./Supplier');
 const CafeteriaProduct = require('./CafeteriaProduct');
 const Category = require('./Category');
@@ -91,15 +92,25 @@ class InventoryManagemnt {
         let date = new Date(strDate);
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
-        let result = await DataBase.add('order', { id: this.orderId, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
-        if(typeof result === 'string')
-            return "The order cannot be added\n" + result;
         let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+
+        //Database
+        let orderObject = order.getOrderAdditionObject();
+        let actionsList = [orderObject];
         for (let i in movieIdList) {
-            result = await this.products.get(movieIdList[i]).createOrder(order);
-            if(typeof result === 'string'){
-                return "The order cannot be added\n" + result;
-            }
+            let movieId = movieIdList[i];
+            actionsList = actionsList.concat({ name: DB.add, model: 'movie_order', params: { orderId: orderId, movieId: movieId } });
+        }
+        let result = await DB.executeActions(actionsList);
+        if (typeof result === 'string')
+            return "The order cannot be added\n" + result;
+
+        //System
+        for (let i in movieIdList) {
+            let movieId = movieIdList[i];
+            let movie = this.products.get(movieId);
+            let movieOrder = movie.createOrder(order);
+            order.productOrders.set(movieId, movieOrder);
         }
         this.orders.set(orderId, order);
         return "The order added successfully";
@@ -110,7 +121,19 @@ class InventoryManagemnt {
             return "This order does not exist";
         if (this.orders.get(orderId).recipientEmployeeId != null)
             return "Removing supplied orders is not allowed";
-        await this.orders.get(orderId).removeOrder();
+        
+        
+        let order = this.orders.get(orderId);
+
+        //Database
+        let actionsList = order.getOrderRemovingObjectsList();
+       
+        let result = await DB.executeActions(actionsList);
+        if (typeof result === 'string')
+            return "The order cannot be removed\n" + result;
+
+        //System
+        this.orders.get(orderId).removeProductOrders();
         this.orders.delete(orderId);
         return "The order removed successfully"
     }
@@ -132,15 +155,35 @@ class InventoryManagemnt {
         let date = new Date(strDate);
         if (isNaN(date.valueOf()))
             return "The order date is invalid";
-        let order = new Order(orderId, supplierId, date, creatorEmployeeId);
-        await order.initOrder();
-        for (let i in productsList) {
-            this.products.get(productsList[i].id).createOrder(order, productsList[i].quantity);
 
+        let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+
+        //Database
+        let orderObject = order.getOrderAdditionObject();
+        let actionsList = [orderObject];
+        for (let i in productsList) {
+            let productId = productsList[i].id
+            let quantity = productsList[i].quantity;
+            actionsList = actionsList.concat({ name: DB.add, model: 'cafeteria_product_order', params: { orderId: orderId, productId: productId, expectedQuantity: quantity } });
+        }
+        let result = await DB.executeActions(actionsList);
+        if (typeof result === 'string')
+            return "The order cannot be added\n" + result;
+
+        //System
+        for (let i in productsList) {
+            let productId = productsList[i].id
+            let quantity = productsList[i].quantity;
+            let product = this.products.get(productId);
+            let productOrder = product.createOrder(order,quantity);
+            order.productOrders.set(productId, productOrder);
         }
         this.orders.set(orderId, order);
         return "The order added successfully";
+
     }
+
+
     addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity) {
         if (this.products.has(productId)) return "This product already exists";
         if (!this.categories.has(categoryID)) return "Category doesn't exist";

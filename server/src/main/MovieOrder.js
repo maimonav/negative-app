@@ -7,21 +7,18 @@ class MovieOrder {
         this.expectedQuantity = 1;
         this.order = order;
         this.movie = movie;
-        this.order.addProductOrder(movie.id,this);
-    }
-
-    async initMovieOrder(){
-        return DataBase.singleAdd('movie_order', { orderId: order.id, movieId: movie.id });
     }
 
 
-    
-    remove(){
-        DataBase.remove('movie_order', { orderId: order.id });
-    } 
+    getOrderRemovingObject = () => ({ name: DataBase.remove, model: 'movie_order', params: { orderId: this.order.id } });
 
-    editMovieOrder(actualQuantity){
-        this.actualQuantity=actualQuantity;
+
+    remove() {
+        this.movie.removeOrder(this.order.id);
+    }
+
+    editMovieOrder(actualQuantity) {
+        this.actualQuantity = actualQuantity;
     }
 
     equals(toCompare) {

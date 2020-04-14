@@ -15,11 +15,14 @@ class Movie extends Product {
 
 
     async initMovie() {
-        return DataBase.singleAdd( 'movie',{ id: this.id, name: this.name, categoryId: this.categoryId } );
+        return DataBase.singleAdd('movie', { id: this.id, name: this.name, categoryId: this.categoryId });
     }
 
+
     createOrder(order) {
-        this.productOrders.set(order.id, new MovieOrder(this, order));
+        let movieOrder = new MovieOrder(this, order);
+        this.productOrders.set(order.id, movieOrder);
+        return movieOrder;
     }
 
 

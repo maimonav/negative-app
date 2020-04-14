@@ -7,16 +7,14 @@ class CafeteriaProductOrder {
         this.expectedQuantity = quantity;
         this.order = order;
         this.product = product;
-        this.order.addProductOrder(product.id, this);
     }
 
    
-    async initCafeteriaProductOrder() {
-        return DataBase.singleAdd('cafeteria_product_order', { orderId: order.id, productId: product.id, expectedQuantity: quantity });
-    }
+    getOrderRemovingObject = () => ({name: DataBase.remove, model:'cafeteria_product_order' ,params: { orderId: this.order.id }});
+
 
     remove() {
-        DataBase.singleRemove('cafeteria_product_order', { orderId: order.id });
+        product.removeOrder(order.id);
     }
 
     editCafeteriaProductOrder(actualQuantity) {

@@ -183,7 +183,7 @@ describe("MovieOrder Operations Tests", () => {
 
         let result = await serviceLayer.removeOrder('Order', 'User');
         expect(result).toBe("This order does not exist");
-        order = new Order(0,0,new Date('2020-03-02 00:00:00'),0);
+        let order = new Order(0,0,new Date('2020-03-02 00:00:00'),0);
         order.recipientEmployeeId = 1;
         serviceLayer.cinemaSystem.inventoryManagement.orders.set(0, order);
         result = await serviceLayer.removeOrder('Order', 'User');
@@ -200,6 +200,7 @@ describe("MovieOrder Operations Tests", () => {
         result = await serviceLayer.removeOrder('Order', 'User');
         expect(result).toBe("The order removed successfully");
         expect(serviceLayer.cinemaSystem.inventoryManagement.orders.has(1)).toBe(false);
+        expect(movie.productOrders.has(0)).toBe(false);
         result = await serviceLayer.removeOrder('Order', 'User');
         expect(result).toBe("This order does not exist");
 

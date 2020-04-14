@@ -14,20 +14,25 @@ class Order {
         this.productOrders = new Map();
     }
 
-    async initOrder(){
-        return await DataBase.singleAdd('order', { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId });
+
+    getOrderAdditionObject = () => ({name: DataBase.add, model:'order' ,params: { id: this.id, date: this.date, creatorEmployeeId: this.creatorEmployeeId, supplierId: this.supplierId } });
+
+    getOrderRemovingObjectsList = () => {
+        let list = [{name: DataBase.remove, model:'order' ,params: { id: this.id } }];
+        this.productOrders.forEach((productOrder)=> {
+            list = list.concat(productOrder.getOrderRemovingObject());
+        });
+        return list;
+    };
+
+    removeProductOrders = () => {
+        this.productOrders.forEach((productOrder)=> {
+            productOrder.remove();
+        });
     }
 
-    async removeOrder(){
-        await DataBase.remove('order', { id: this.id });
-        for(let i in this.productOrders)
-            this.productOrders[i].remove();
-    }
 
-    addProductOrder(id, productOrder) {
-        this.productOrders.set(id, productOrder);
-    }
-
+   
     equals(toCompare) {
         return (
             toCompare.id === this.id &&

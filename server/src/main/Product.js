@@ -7,14 +7,18 @@ class Product {
         this.productOrders = new Map();
     }
 
-    
-equals(toCompare) {
-    return (
-        toCompare.id === this.id &&
-        toCompare.name === this.name &&
-        toCompare.categoryId === this.categoryId 
-    );
-}
+
+    removeOrder(orderId) {
+        this.productOrders.delete(orderId);
+    }
+
+    equals(toCompare) {
+        return (
+            toCompare.id === this.id &&
+            toCompare.name === this.name &&
+            toCompare.categoryId === this.categoryId
+        );
+    }
 
 
 }
