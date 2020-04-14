@@ -15,7 +15,7 @@ class CafeteriaProduct extends Product {
     }
 
     initCafeteriaProduct() {
-        let res = DataBase.add('cafeteria_product', {
+        let res = DataBase.singleAdd('cafeteria_product', {
             id: this.id,
             name: this.name,
             categoryId: this.categoryId,
@@ -52,7 +52,7 @@ class CafeteriaProduct extends Product {
             this.maxQuantity = maxQuantity;
         if (this.isNeedToUpdate(minQuantity, false))
             this.minQuantity = minQuantity;
-        DataBase.update('cafeteria_product', { id: this.id }, {
+        DataBase.singleUpdate('cafeteria_product', { id: this.id }, {
             name: this.name,
             categoryId: this.categoryId,
             price: this.price,
@@ -66,7 +66,7 @@ class CafeteriaProduct extends Product {
     removeProduct() {
         if (this.isProductRemoved == null) {
             this.isProductRemoved = new Date();
-            DataBase.update('cafeteria_product', { id: this.id }, { isProductRemoved: this.isProductRemoved });
+            DataBase.singleUpdate('cafeteria_product', { id: this.id }, { isProductRemoved: this.isProductRemoved });
             return "The product removed successfully";
         } else
             return "The product already removed";
