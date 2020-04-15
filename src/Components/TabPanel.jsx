@@ -7,7 +7,7 @@ import NotificationsIcon from "@material-ui/icons/Notifications";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
-import { loginPath, logoutPath, notificationPath } from "../consts/paths";
+import { logoutPath, notificationPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import {
@@ -16,16 +16,10 @@ import {
   logoutTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
-  console.log(localStorage.getItem("username"));
   return (
     <Router>
       <Paper square>
         <Tabs indicatorColor="primary" aria-label="tabs">
-          {!props.isLogged && (
-            <Link to={loginPath}>
-              <Tab label="Login" />
-            </Link>
-          )}
           {props.isLogged && (
             <Tab
               label={`Welcome back, ${props.userName}`}

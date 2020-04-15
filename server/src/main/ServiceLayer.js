@@ -73,7 +73,7 @@ class ServiceLayer {
   // eslint-disable-next-line no-dupe-class-members
   isLoggedIn(userName) {
     if (this.users.has(userName)) {
-      return this.cinemaSystem.isLoggedIn(this.users.get(userName));
+      return this.cinemaSystem.isLoggedin(this.users.get(userName));
     }
   }
 
