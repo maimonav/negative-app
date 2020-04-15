@@ -31,7 +31,7 @@ class ServiceLayer {
     return true;
   }
 
-  register(userName, password) {
+  async register(userName, password) {
     if (this.users.has(userName)) {
       logger.info(
         "ServiceLayer - The registration process failed - the " +
@@ -40,7 +40,7 @@ class ServiceLayer {
       );
       return "The user already Exist";
     } else {
-      const result = this.cinemaSystem.register(
+      const result = await this.cinemaSystem.register(
         this.userCounter,
         userName,
         password,
