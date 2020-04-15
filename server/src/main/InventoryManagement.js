@@ -29,6 +29,7 @@ class InventoryManagemnt {
   async editMovie(movieId, categoryId, key, examinationRoom) {
     if (!this.products.has(movieId)) return "The movie does not exist";
     if (!this.categories.has(categoryId)) return "Category doesn't exist";
+    if (examinationRoom < 0) return "The examination room is invalid";
     return this.products
       .get(movieId)
       .editMovie(categoryId, key, examinationRoom);
@@ -136,6 +137,7 @@ class InventoryManagemnt {
     for (let i in productsList) {
       if (!this.products.has(productsList[i].id))
         return "Product does not exist";
+      if (productsList[i].quantity < 0) return "Quantity inserted is invalid";
     }
     let date = new Date(strDate);
     if (isNaN(date.valueOf())) return "The order date is invalid";
