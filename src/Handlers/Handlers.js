@@ -490,6 +490,6 @@ export function handleGetReport(reportType, date, user) {
   );
 }
 
-export function handleIsLoggedIn(user) {
-  return fetch(`/api/isLoggedIn?user=${encodeURIComponent(user)}`);
+export function handleIsLoggedIn(username) {
+  return fetch(`/api/isLoggedIn?username=${encodeURIComponent(username)}`);
 }
