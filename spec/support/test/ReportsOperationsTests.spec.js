@@ -238,15 +238,14 @@ describe("Report Operations Unit Tests", () => {
         additionalProps: [["oldField"], { oldField: "true" }],
       },
     ];
-    await ReportController.createDailyReport(
+    let result = await ReportController.createDailyReport(
       "general_purpose_daily_report",
       reports
     );
+    expect(result).toBe("The report created successfully");
 
     setTimeout(async () => {
-      let result = await ReportController.addFieldToDailyReport(
-        "Report Z taken"
-      );
+      result = await ReportController.addFieldToDailyReport("Report Z taken");
       expect(result).toEqual("The report field added successfully");
 
       reports[0].date = new Date(getSyncDateFormat(todayDate));
@@ -291,9 +290,9 @@ describe("Report Operations Unit Tests", () => {
           expect(reports[0].creatorEmployeeId).toEqual(
             actualResult.creatorEmployeeId
           );
-        }, 500);
-      }, 500);
-    }, 500);
+        }, 600);
+      }, 600);
+    }, 600);
   });
 
   it("Integration createDailyReport", async (done) => {
