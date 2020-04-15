@@ -90,12 +90,14 @@ export default class AddEmployee extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
+                      type="password"
                       labelText="Password"
                       id="password"
                       formControlProps={{
                         fullWidth: true
                       }}
                       onChange={event => this.setPassword(event)}
+                      autoComplete="new-password"
                     />
                   </GridItem>
                 </GridContainer>
@@ -133,7 +135,6 @@ export default class AddEmployee extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer></GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button

@@ -107,6 +107,7 @@ export default class EditEmployee extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setPassword(event)}
+                      autoComplete="new-password"
                     />
                   </GridItem>
                 </GridContainer>

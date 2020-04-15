@@ -42,12 +42,14 @@ class Login extends React.Component {
                 label="Username"
                 data-hook={userNameHook}
                 onChange={event => this.setUsername(event)}
+                id="loginusername"
               />
               <TextField
                 label="Password"
                 onChange={event => this.setPassword(event)}
                 data-hook={passwordHook}
                 type="password"
+                id="loginpassword"
               />
             </Box>
             <BaseButton
