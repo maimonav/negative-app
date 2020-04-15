@@ -58,6 +58,11 @@ class CinemaSystem {
     return "The user registered successfully.";
   }
 
+  isLoggedin(userId) {
+    if (!this.users.has(userId)) return "The user isn't exists";
+    return this.users.get(userId).isLoggedin();
+  }
+
   login(userName, password, userId) {
     if (!this.users.has(userId)) return "The user isn't exists";
     return this.users.get(userId).login(userName, password);
@@ -143,12 +148,12 @@ class CinemaSystem {
     if (
       !this.users
         .get(ActionIDOfTheOperation)
-        .permissionCheck("DEPUTY_MANAGER") ||
+        .permissionCheck("DEPUTY_MANAGER") &&
       ActionIDOfTheOperation !== employeeID
     ) {
       logger.info(
         "CinemaSystem - editEmployee - " +
-          userName +
+          employeeID +
           " " +
           this.inappropriatePermissionsMsg
       );

@@ -44,7 +44,9 @@ class EmployeeManagemnt {
   ) {
     if (!this.employeeDictionary.has(employeeID)) {
       logger.info(
-        "EmployeeManagemnt- editEmployee - The " + employeeID + " already exist"
+        "EmployeeManagemnt- editEmployee - The " +
+          employeeID +
+          " does not exist"
       );
       return "The employee does not exist in the system.";
     }
@@ -75,9 +77,9 @@ class EmployeeManagemnt {
   }
   getEmployees() {
     const output = [];
-    this.employeeDictionary.forEach((employee) => {
+    this.employeeDictionary.forEach(employee => {
       let value = {
-        title: employee.userName,
+        title: employee.userName
       };
       output.push(value);
     });
@@ -95,7 +97,7 @@ class EmployeeManagemnt {
         firstName: employee.firstName,
         lastName: employee.lastName,
         permissions: employee.permissions,
-        contactDetails: employee.contactDetails,
+        contactDetails: employee.contactDetails
       };
     }
     return {};

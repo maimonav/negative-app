@@ -21,21 +21,21 @@ class Employee extends User {
       id: id,
       firstName: firstName,
       lastName: lastName,
-      contactDetails: contactDetails,
+      contactDetails: contactDetails
     });
   }
   editEmployee(password, permissions, firstName, lastName, contactDetails) {
     this.editUser(password, permissions);
-    if (firstName != undefined && firstName != "") this.firstName = firstName;
-    if (lastName != undefined && lastName != "") this.lastName = lastName;
-    if (contactDetails != undefined) this.contactDetails = contactDetails;
+    if (firstName !== undefined && firstName !== "") this.firstName = firstName;
+    if (lastName !== undefined && lastName !== "") this.lastName = lastName;
+    if (contactDetails !== undefined) this.contactDetails = contactDetails;
     DataBase.singleUpdate(
       "employee",
       { id: this.id },
       {
         firstName: firstName,
         lastName: lastName,
-        contactDetails: contactDetails,
+        contactDetails: contactDetails
       }
     );
   }

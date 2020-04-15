@@ -70,6 +70,13 @@ class ServiceLayer {
     return "Incorrect user name.";
   }
 
+  // eslint-disable-next-line no-dupe-class-members
+  isLoggedIn(userName) {
+    if (this.users.has(userName)) {
+      return this.cinemaSystem.isLoggedIn(this.users.get(userName));
+    }
+  }
+
   logout(userName) {
     if (this.users.has(userName)) {
       return this.cinemaSystem.logout(this.users.get(userName));

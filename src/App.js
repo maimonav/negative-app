@@ -1,17 +1,24 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
 import { Login } from "./Views";
-import { handleLogin } from "./Handlers/Handlers";
+import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    const user = localStorage.getItem("username");
-    this.state = {
-      isLogged: user ? true : false,
-      username: user ? user : ""
-    };
+    this.state = {};
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    const user = localStorage.getItem("username");
+    handleIsLoggedIn(user)
+      .then(response => response.json())
+      .then(state => {
+        const isLogged = Boolean(state.result);
+        this.setState({ isLogged, username: isLogged ? user : "" });
+      });
+  };
 
   onLogin = username => {
     this.setState({ isLogged: true, username });

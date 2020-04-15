@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
-service.initSeviceLayer().then((result) => {
+service.initSeviceLayer().then(result => {
   if (typeof result === "string") {
     //TODO::
   }
@@ -12,6 +12,12 @@ service.initSeviceLayer().then((result) => {
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
+
+app.get("/api/isLoggedIn", (req, res) => {
+  const username = req.query.username || "";
+  const result = service.isLoggedIn(username);
+  res.send(JSON.stringify({ result }));
+});
 
 app.get("/api/login", (req, res) => {
   const username = req.query.username || "";
