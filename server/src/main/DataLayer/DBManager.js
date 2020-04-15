@@ -48,7 +48,10 @@ class DataBase {
 
     };
 
-
+    static async initGeneralReport() {
+        const DBInitial = require('./DBInitializtion');
+        return DBInitial.initGeneralReport();
+    }
 
     static async initDB(dbName, password) {
         const DBInitial = require('./DBInitializtion');

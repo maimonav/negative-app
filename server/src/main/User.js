@@ -12,10 +12,11 @@ class User {
         this.permissions = permissions;
         this.Loggedin = false;
         this.isUserRemoved = null;
-        DataBase.singleAdd('user', { id: id, username: userName, password: password, permissions: permissions });
     }
 
-
+    async initUser(){
+        return DataBase.singleAdd('user', { id: this.id, username: this.userName, password: this.password, permissions: this.permissions });
+    }
 
     removeUser = () => {
         if (this.isUserRemoved == null) {

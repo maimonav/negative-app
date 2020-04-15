@@ -257,7 +257,7 @@ const generalPurposeDailyReportSchema = (Employee) => {
     // attributes
     date: { type: Sequelize.DATE, primaryKey: true },
     creatorEmployeeId: {
-      type: Sequelize.INTEGER, allowNull: false,
+      type: Sequelize.INTEGER, 
       references: {
         // This is a reference to another model
         model: Employee,

@@ -401,9 +401,6 @@ async function addGeneralPurposeDailyReport(isTest) {
         creatorEmployeeId: 0,
         additionalProps: [["Cash counted"], { "Cash counted": "true" }]
     };
-    await addGeneralPurposeReport(report);
-    if (isTest)
-        await testAddGeneralPurposeDailyReport(report, false);
     await addEmployee(0, "MANAGER");
     await addGeneralPurposeReport(report);
     if (isTest)

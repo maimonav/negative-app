@@ -80,14 +80,7 @@ async function initDB(dbName, password) {
         if (dbName === undefined || dbName.toLowerCase() !== 'mydbtest')
             await setDestroyTimerForAllTables();
 
-        // Init general report - empty fields
-        let todayDate = new Date();
-        let date = new Date(todayDate.setDate(todayDate.getDate() - 1))
-        await DataBase.singleAdd('general_purpose_daily_report', {
-            date: date.toISOString().substring(0, 10),
-            creatorEmployeeId: 0,
-            additionalProps: [[], {}]
-        });
+        await initGeneralReport();
 
     } catch (error) {
         return DataBase.errorHandler.apply(DataBase, [error]);
@@ -98,6 +91,15 @@ async function initDB(dbName, password) {
     return DataBase.sequelize;
 }
 
+async function initGeneralReport(){
+     // Init general report - empty fields
+     let todayDate = new Date();
+     let date = new Date(todayDate.setDate(todayDate.getDate() - 1))
+     await DataBase.singleAdd('general_purpose_daily_report', {
+         date: date.toISOString().substring(0, 10),
+         additionalProps: [[], {}]
+     });
+}
 
 async function connectAndCreate(dbName, password) {
     if (DataBase.isTestMode)
@@ -195,7 +197,6 @@ function initModels() {
     DataBase.MoviesDailyReport = DataBase.sequelize.define('movie_daily_report', moviesDailyReportSchema(DataBase.Movie, DataBase.Employee), {});
     DataBase.IncomesDailyReport = DataBase.sequelize.define('incomes_daily_report', incomesDailyReportSchema(DataBase.Employee), {});
 }
-
 
 
 exports.initDB = initDB;

@@ -3,6 +3,11 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
+service.initSeviceLayer().then((result) => {
+  if (typeof result === "string") {
+    //TODO::
+  }
+});
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
