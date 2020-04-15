@@ -75,16 +75,21 @@ class ReportController {
     let result = await DataBase.singleFindAll(
       this.types.GENERAL,
       {},
-      { fn: "max", fnField: "date", fields: ["additionalProps"] }
+      { fn: "max", fnField: "date" }
     );
     if (typeof result === "string")
       return "The report field cannot be added\n" + result;
     if (result.length === 0) return "The report field cannot be added";
-    let newProps = result[0].additionalProps[0].concat(newField);
+    result = await DataBase.singleGetById(this.types.GENERAL, {
+      date: new Date(result[0].date),
+    });
+    if (typeof result === "string")
+      return "The report field cannot be added\n" + result;
+    let newProps = result.additionalProps[0].concat(newField);
     result = await DataBase.singleUpdate(
       this.types.GENERAL,
-      { date: result[0].date },
-      { additionalProps: [newProps, result[0].additionalProps[1]] }
+      { date: new Date(result.date) },
+      { additionalProps: [newProps, result.additionalProps[1]] }
     );
     if (typeof result === "string")
       return "The report field cannot be added\n" + result;
@@ -95,18 +100,23 @@ class ReportController {
     let result = await DataBase.singleFindAll(
       this.types.GENERAL,
       {},
-      { fn: "max", fnField: "date", fields: ["additionalProps"] }
+      { fn: "max", fnField: "date" }
     );
     if (typeof result === "string")
       return "The report field cannot be removed\n" + result;
-    if (result.length === 0) return "The report field cannot be removed";
-    let newProps = result[0].additionalProps[0].filter(
+    if (result.length === 0) return "The report field cannot be added";
+    result = await DataBase.singleGetById(this.types.GENERAL, {
+      date: new Date(result[0].date),
+    });
+    if (typeof result === "string")
+      return "The report field cannot be added\n" + result;
+    let newProps = result.additionalProps[0].filter(
       (value) => value !== fieldToRemove
     );
     result = await DataBase.singleUpdate(
       this.types.GENERAL,
-      { date: result[0].date },
-      { additionalProps: [newProps, result[0].additionalProps[1]] }
+      { date: new Date(result.date) },
+      { additionalProps: [newProps, result.additionalProps[1]] }
     );
     if (typeof result === "string")
       return "The report field cannot be removed\n" + result;
