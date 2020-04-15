@@ -45,7 +45,6 @@ export default function Routes(props) {
     <Switch>
       {!props.isLogged && (
         <Route
-          exact
           path={loginPath}
           component={() => (
             <Login handleLogin={handleLogin} onLogin={props.onLogin} />

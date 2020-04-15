@@ -13,7 +13,8 @@ import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDro
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
-  logoutTabHook
+  logoutTabHook,
+  notificationTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
@@ -43,7 +44,7 @@ export default function TablPanel(props) {
             <Link to={notificationPath} style={{ marginLeft: "auto" }}>
               <Tab
                 label={<NotificationsIcon></NotificationsIcon>}
-                data-hook={logoutTabHook}
+                data-hook={notificationTabHook}
               ></Tab>
             </Link>
           )}
