@@ -116,35 +116,25 @@ describe("Movie Operations Tests", () => {
     let inventoryManagement = new InventoryManagement();
     let result = await inventoryManagement.editMovie(1);
     expect(result).toBe("The movie does not exist");
-    inventoryManagement.products.set(1, null);
+    let actualMovie = new Movie(1, "Movie", 1);
+    inventoryManagement.products.set(1, actualMovie);
     result = await inventoryManagement.editMovie(1);
     expect(result).toBe("Category doesn't exist");
     inventoryManagement.categories.set(1, null);
-    result = await inventoryManagement.editMovie(1, 1, "test", -1);
+    result = await inventoryManagement.editMovie(1, 1, "key", -1);
     expect(result).toBe("The examination room is invalid");
-
-    inventoryManagement = new InventoryManagement();
-    result = await inventoryManagement.removeMovie(1);
-    expect(result).toBe("The movie does not exist");
-  });
-
-  it("UnitTest editMovie, removeMovie - Movie", async () => {
-    //edit
+    result = await inventoryManagement.editMovie(1, 1, "key", 1);
+    expect(result).toBe("The movie edited successfully");
     let expectedMovie = new Movie(1, "Movie", 1);
     expectedMovie.movieKey = "key";
     expectedMovie.examinationRoom = 1;
-    let actualMovie = new Movie(1, "Movie", 1);
-    expect(await actualMovie.editMovie(1, "key", 1)).toBe(
-      "The movie edited successfully"
-    );
-    expect(expectedMovie.equals(actualMovie)).toBe(true);
+    expect(actualMovie.equals(expectedMovie)).toBe(true);
 
-    //remove
-    expect(await expectedMovie.removeMovie()).toBe(
-      "The movie removed successfully"
-    );
-    expect(expectedMovie.isMovieRemoved != null).toBe(true);
-    expect(await expectedMovie.removeMovie()).toBe("The movie already removed");
+    result = await inventoryManagement.removeMovie(1);
+    expect(result).toBe("The movie removed successfully");
+    expect(inventoryManagement.products.has(1)).toBe(false);
+    result = await inventoryManagement.removeMovie(1);
+    expect(result).toBe("The movie does not exist");
   });
 
   it("Integration addMovie", async () => {
@@ -248,10 +238,9 @@ describe("Movie Operations Tests", () => {
     );
     result = await serviceLayer.removeMovie("Movie", "User");
     expect(result).toBe("The movie removed successfully");
-    let movieActual = serviceLayer.cinemaSystem.inventoryManagement.products.get(
-      1
+    expect(serviceLayer.cinemaSystem.inventoryManagement.products.has(1)).toBe(
+      false
     );
-    expect(movieActual.isMovieRemoved != null).toBe(true);
     result = await serviceLayer.removeMovie("Movie", "User");
     expect(result).toBe("The movie does not exist");
   });

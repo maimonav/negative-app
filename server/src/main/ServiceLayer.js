@@ -2,8 +2,8 @@ const CinemaSystem = require("./CinemaSystem");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class ServiceLayer {
-  constructor(dbName) {
-    this.cinemaSystem = new CinemaSystem(dbName);
+  constructor() {
+    this.cinemaSystem = new CinemaSystem();
     this.users = new Map();
     this.userCounter = 3;
     this.suppliers = new Map();
@@ -23,7 +23,7 @@ class ServiceLayer {
 
   async initSeviceLayer(dbName) {
     this.users.set("admin", 0);
-    await this.cinemaSystem.initCinemaSystem(dbName);
+    return this.cinemaSystem.initCinemaSystem(dbName);
   }
 
   isInputValid(param) {

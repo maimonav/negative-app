@@ -5,7 +5,7 @@ const permissionDictionery = {
   MANAGER: 4,
   DEPUTY_MANAGER: 3,
   SHIFT_MANAGER: 2,
-  EMPLOYEE: 1
+  EMPLOYEE: 1,
 };
 
 class User {
@@ -24,7 +24,7 @@ class User {
       id: this.id,
       username: this.userName,
       password: this.password,
-      permissions: this.permissions
+      permissions: this.permissions,
     });
   }
 

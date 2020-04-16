@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
-service.initSeviceLayer().then(result => {
+service.initSeviceLayer().then((result) => {
   if (typeof result === "string") {
     //TODO::
   }
@@ -382,6 +382,6 @@ app.get("/api/getReport", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.listen(3001, () =>
-  console.log("Express server is running on localhost:3001")
-);
+app.listen(3001, () => {
+  console.log("Express server is running on localhost:3001");
+});
