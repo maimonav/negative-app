@@ -12,12 +12,16 @@ class App extends React.Component {
 
   setInitialState = () => {
     const user = localStorage.getItem("username");
-    handleIsLoggedIn(user)
-      .then(response => response.json())
-      .then(state => {
-        const isLogged = Boolean(state.result);
-        this.setState({ isLogged, username: isLogged ? user : "" });
-      });
+    if (user) {
+      handleIsLoggedIn(user)
+        .then(response => response.json())
+        .then(state => {
+          const isLogged = Boolean(state.result);
+          const username = isLogged ? user : "";
+          this.setState({ isLogged, username });
+          localStorage.setItem("username", username);
+        });
+    }
   };
 
   onLogin = username => {

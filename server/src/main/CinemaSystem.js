@@ -1,13 +1,18 @@
 const data = require("../../consts/data");
 const DataBase = require("./DataLayer/DBManager");
 const ReportController = require("./ReportController");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const simpleLogger = require("simple-node-logger");
+const logger = simpleLogger.createSimpleLogger("project.log");
+const DBlogger = simpleLogger.createSimpleLogger({
+    logFilePath: "database.log",
+    timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
+});
 const User = require("./User");
 const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
 
 class CinemaSystem {
-    constructor(dbName) {
+    constructor() {
         this.users = new Map();
         this.inventoryManagement = new InventoryManagement();
         this.employeeManagement = new EmployeeManagement();
@@ -17,11 +22,39 @@ class CinemaSystem {
     }
 
     async initCinemaSystem(dbName) {
-        await DataBase.connectAndCreate(dbName ? dbName : undefined);
-        await DataBase.initDB(dbName ? dbName : undefined);
+        //Turn database off
+        DataBase.testModeOn();
+
+        let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
+        if (typeof result === "string") {
+            DBlogger.info(
+                "CinemaSystem - initCinemaSystem - connectAndCreate - ",
+                result
+            );
+            return "Server initialization error\n" + result;
+        }
+        result = await DataBase.initDB(dbName ? dbName : undefined);
+        if (typeof result === "string") {
+            DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
+            return "Server initialization error\n" + result;
+        }
         let admin = new User(0, "admin", "admin", "ADMIN");
         this.users.set(0, admin);
-        await admin.initUser();
+        result = await DataBase.singleGetById("user", { id: 0 });
+        if (typeof result === "string") {
+            DBlogger.info(
+                "CinemaSystem - initCinemaSystem - isAdminExists -",
+                result
+            );
+            return "Server initialization error\n" + result;
+        }
+        if (result == null) {
+            result = await admin.initUser();
+            if (typeof result === "string") {
+                DBlogger.info("CinemaSystem - initCinemaSystem - initUser -", result);
+                return "Server initialization error\n" + result;
+            }
+        }
     }
 
     UserDetailsCheck(userName, password, permissions) {
@@ -41,21 +74,6 @@ class CinemaSystem {
         }
         if (err !== "") err = "The following data provided is invalid: " + err;
         return err;
-    }
-
-    async register(id, userName, password, permissions) {
-        if (this.users.has(id)) return "The id is already exists";
-        const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
-        if (argCheckRes !== "") {
-            logger.info("CinemaSystem - register - " + argCheckRes);
-            return argCheckRes;
-        }
-        let user = new User(id, userName, password, permissions);
-        let result = await user.initUser();
-        if (typeof result === "string")
-            return "The user cannot be registered\n" + result;
-        this.users.set(id, user);
-        return "The user registered successfully.";
     }
 
     isLoggedin(userId) {

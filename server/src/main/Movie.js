@@ -28,7 +28,7 @@ class Movie extends Product {
     super.categoryId = categoryId;
     this.movieKey = key;
     this.examinationRoom = examinationRoom;
-    let result = await DataBase.singleUpdate(
+    return DataBase.singleUpdate(
       "movie",
       { id: this.id },
       {
@@ -37,23 +37,15 @@ class Movie extends Product {
         examinationRoom: examinationRoom,
       }
     );
-    return typeof result === "string"
-      ? "The movie cannot be edited\n" + result
-      : "The movie edited successfully";
   }
 
   async removeMovie() {
-    if (this.isMovieRemoved == null) {
-      this.isMovieRemoved = new Date();
-      let result = await DataBase.singleUpdate(
-        "movie",
-        { id: this.id },
-        { isMovieRemoved: this.isMovieRemoved }
-      );
-      return typeof result === "string"
-        ? "The movie cannot be removed\n" + result
-        : "The movie removed successfully";
-    } else return "The movie already removed";
+    this.isMovieRemoved = new Date();
+    return DataBase.singleUpdate(
+      "movie",
+      { id: this.id },
+      { isMovieRemoved: this.isMovieRemoved }
+    );
   }
 
   equals(toCompare) {

@@ -6,6 +6,7 @@ export const passwordHook = "passwordField";
 export const contactDetailsHook = "contactDetailsField";
 export const keyHook = "keyField";
 export const examinationRoomHook = "examinationRoomField";
+export const notificationTabHook = "notificationTab";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";

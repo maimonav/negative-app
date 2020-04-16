@@ -66,16 +66,6 @@ export default class ShowEmployee extends React.Component {
                       <TextField
                         id="filled-read-only-input"
                         defaultValue=""
-                        label="Password"
-                        value={this.state.employee.password || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="filled-read-only-input"
-                        defaultValue=""
                         label="First name"
                         value={this.state.employee.firstName || ""}
                         InputProps={{

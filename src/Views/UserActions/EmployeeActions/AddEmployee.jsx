@@ -8,6 +8,8 @@ import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
+import { permissions } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddEmployee extends React.Component {
@@ -39,9 +41,9 @@ export default class AddEmployee extends React.Component {
     this.setState({ lastName: event.target.value });
   }
 
-  setPermission(event) {
-    this.setState({ permission: event.target.value });
-  }
+  setPermission = permission => {
+    this.setState({ permission });
+  };
 
   setContactDetails(event) {
     this.setState({ contactDetails: event.target.value });
@@ -68,6 +70,15 @@ export default class AddEmployee extends React.Component {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
+                    <ComboBox
+                      id="permission"
+                      items={permissions}
+                      boxLabel={"Choose permission"}
+                      setName={this.setPermission}
+                      isMultiple={false}
+                    />
+                  </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Username"
                       id="username"
@@ -79,12 +90,14 @@ export default class AddEmployee extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
+                      type="password"
                       labelText="Password"
                       id="password"
                       formControlProps={{
                         fullWidth: true
                       }}
                       onChange={event => this.setPassword(event)}
+                      autoComplete="new-password"
                     />
                   </GridItem>
                 </GridContainer>
@@ -113,16 +126,6 @@ export default class AddEmployee extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Permission - type: ADMIN, MANAGER, DEPUTY MANAGER, SHIFT MANAGER, EMPLOYEE"
-                      id="permission"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setPermission(event)}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
                       labelText="Contact Details"
                       id="contactDetails"
                       formControlProps={{
@@ -132,7 +135,6 @@ export default class AddEmployee extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer></GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button

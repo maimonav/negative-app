@@ -10,6 +10,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetEmployees } from "../../../Handlers/Handlers";
+import { permissions } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditEmployee extends React.Component {
@@ -50,9 +51,9 @@ export default class EditEmployee extends React.Component {
     this.setState({ lastName: event.target.value });
   }
 
-  setPermission(event) {
-    this.setState({ permission: event.target.value });
-  }
+  setPermission = permission => {
+    this.setState({ permission });
+  };
 
   setContactDetails(event) {
     this.setState({ contactDetails: event.target.value });
@@ -87,6 +88,15 @@ export default class EditEmployee extends React.Component {
                       isMultiple={false}
                     />
                   </GridItem>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <ComboBox
+                      id="permission"
+                      items={permissions}
+                      boxLabel={"Choose permission"}
+                      setName={this.setPermission}
+                      isMultiple={false}
+                    />
+                  </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
@@ -97,6 +107,7 @@ export default class EditEmployee extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setPassword(event)}
+                      autoComplete="new-password"
                     />
                   </GridItem>
                 </GridContainer>
@@ -123,16 +134,6 @@ export default class EditEmployee extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Permission - type: ADMIN, MANAGER, DEPUTY MANAGER, SHIFT MANAGER, EMPLOYEE"
-                      id="permission"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setPermission(event)}
-                    />
-                  </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Contact Details"

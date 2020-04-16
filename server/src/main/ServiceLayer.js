@@ -2,8 +2,8 @@ const CinemaSystem = require("./CinemaSystem");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class ServiceLayer {
-    constructor(dbName) {
-        this.cinemaSystem = new CinemaSystem(dbName);
+    constructor() {
+        this.cinemaSystem = new CinemaSystem();
         this.users = new Map();
         this.userCounter = 3;
         this.suppliers = new Map();
@@ -23,7 +23,7 @@ class ServiceLayer {
 
     async initSeviceLayer(dbName) {
         this.users.set("admin", 0);
-        await this.cinemaSystem.initCinemaSystem(dbName);
+        return this.cinemaSystem.initCinemaSystem(dbName);
     }
 
     isInputValid(param) {
@@ -38,7 +38,7 @@ class ServiceLayer {
                 userName +
                 " exists on the system."
             );
-            return "The user already Exists";
+            return "The user already Exist";
         } else {
             const result = await this.cinemaSystem.register(
                 this.userCounter,
@@ -73,7 +73,7 @@ class ServiceLayer {
     // eslint-disable-next-line no-dupe-class-members
     isLoggedIn(userName) {
         if (this.users.has(userName)) {
-            return this.cinemaSystem.isLoggedIn(this.users.get(userName));
+            return this.cinemaSystem.isLoggedin(this.users.get(userName));
         }
     }
 
@@ -94,6 +94,7 @@ class ServiceLayer {
             console.log(`m[${key}] = ${value}`);
         });
     }
+
     async addNewEmployee(userName, password, firstName, lastName, permissions, contactDetails, ActionIDofTheOperation) {
         if (this.users.has(userName)) {
             logger.info("ServiceLayer - The addNewEmployee process failed - the " +
