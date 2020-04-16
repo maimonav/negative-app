@@ -40,7 +40,7 @@ class Employee extends User {
         const tmpLastName = this.lastName;
         const tmpContactDetails = this.contactDetails;
         let needToUpdate = false;
-        if (this.isNeedToEdit(firstName.trim())) {
+        if (this.isNeedToEdit(firstName)) {
             needToUpdate = true;
             logger.info('firstName - ' + firstName + 'isNeedToEdit ' + this.isNeedToEdit(firstName));
             this.firstName = firstName;

@@ -59,8 +59,8 @@ describe("EditEmployeeTest", () => {
     it('UnitTest-EditEmployee Test on class ServiceLayer', async() => {
         spyOn(cinemaSystem, 'editEmployee').and.returnValue('dummy');
         servicelayer.cinemaSystem = cinemaSystem;
-        expect(servicelayer.editEmployee(-1, adminPassword, "Director", fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
-        expect(servicelayer.editEmployee(adminUserName, "Director", adminPassword, fname, lname, contactDetails, adminUserName)).toEqual("dummy");
+        expect(await servicelayer.editEmployee(-1, adminPassword, "Director", fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
+        expect(await servicelayer.editEmployee(adminUserName, "Director", adminPassword, fname, lname, contactDetails, adminUserName)).toEqual("dummy");
 
     });
 
