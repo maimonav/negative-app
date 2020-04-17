@@ -27,10 +27,7 @@ class CinemaSystem {
 
         let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
         if (typeof result === "string") {
-            DBlogger.info(
-                "CinemaSystem - initCinemaSystem - connectAndCreate - ",
-                result
-            );
+            DBlogger.info("CinemaSystem - initCinemaSystem - connectAndCreate - ", result);
             return "Server initialization error\n" + result;
         }
         result = await DataBase.initDB(dbName ? dbName : undefined);
@@ -111,7 +108,6 @@ class CinemaSystem {
         }
         let employee = await this.employeeManagement.addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails);
         if (typeof employee === "string") {
-            logger.info("CinemaSystem - addNewEmployee - The employee" + userName + "already exist ");
             return employee;
         }
         this.users.set(userID, employee);
@@ -331,66 +327,22 @@ class CinemaSystem {
         return this.inventoryManagement.removeSupplier(supplierID);
     }
 
-    addCafeteriaProduct(
-        productId,
-        name,
-        categoryID,
-        price,
-        quantity,
-        maxQuantity,
-        minQuantity,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "addCafeteriaProduct"
-        );
+    async addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCafeteriaProduct");
         if (result != null) return result;
-        return this.inventoryManagement.addCafeteriaProduct(
-            productId,
-            name,
-            categoryID,
-            price,
-            quantity,
-            maxQuantity,
-            minQuantity
-        );
+        return await this.inventoryManagement.addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity);
     }
 
-    editCafeteriaProduct(
-        productId,
-        categoryId,
-        price,
-        quantity,
-        maxQuantity,
-        minQuantity,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "editCafeteriaProduct"
-        );
+    async editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editCafeteriaProduct");
         if (result != null) return result;
-        return this.inventoryManagement.editCafeteriaProduct(
-            productId,
-            categoryId,
-            price,
-            quantity,
-            maxQuantity,
-            minQuantity
-        );
+        return await this.inventoryManagement.editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity);
     }
 
-    removeCafeteriaProduct = (productId, ActionIDOfTheOperation) => {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "removeCafeteriaProduct"
-        );
+    async removeCafeteriaProduct(productId, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeCafeteriaProduct");
         if (result != null) return result;
-        return this.inventoryManagement.removeCafeteriaProduct(productId);
+        return await this.inventoryManagement.removeCafeteriaProduct(productId);
     };
 
     addCategory(categoryId, categoryName, parentID, ActionIDOfTheOperation) {

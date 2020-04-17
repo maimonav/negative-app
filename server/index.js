@@ -40,7 +40,7 @@ app.get("/api/register", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addNewEmployee", (req, res) => {
+app.get("/api/addNewEmployee", async(req, res) => {
     const userName = req.query.userName || "";
     const password = req.query.password || "";
     const firstName = req.query.firstName || "";
@@ -48,7 +48,7 @@ app.get("/api/addNewEmployee", (req, res) => {
     const permission = req.query.permission || "";
     const contactDetails = req.query.contactDetails || "";
     const user = req.query.user || "";
-    const result = service.addNewEmployee(
+    const result = await service.addNewEmployee(
         userName,
         password,
         firstName,
@@ -60,30 +60,23 @@ app.get("/api/addNewEmployee", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/editEmployee", (req, res) => {
+app.get("/api/editEmployee", async(req, res) => {
     const userName = req.query.userName || "";
-    const password = req.query.password || "";
-    const firstName = req.query.firstName || "";
-    const lastName = req.query.lastName || "";
-    const permission = req.query.permission || "";
-    const contactDetails = req.query.contactDetails || "";
+    const password = req.query.password || null;
+    const firstName = req.query.firstName || null;
+    const lastName = req.query.lastName || null;
+    const permission = req.query.permission || null;
+    const contactDetails = req.query.contactDetails || null;
     const user = req.query.user || "";
-    const result = service.editEmployee(
-        userName,
-        password,
-        firstName,
-        lastName,
-        permission,
-        contactDetails,
-        user
-    );
+    const result = await service.editEmployee(userName, password, permission,
+        firstName, lastName, contactDetails, user);
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/removeEmployee", (req, res) => {
+app.get("/api/removeEmployee", async(req, res) => {
     const userName = req.query.userName || "";
     const user = req.query.user || "";
-    const result = service.deleteEmployee(userName, user);
+    const result = await service.deleteEmployee(userName, user);
     res.send(JSON.stringify({ result }));
 });
 

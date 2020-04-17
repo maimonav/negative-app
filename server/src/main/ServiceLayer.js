@@ -325,15 +325,7 @@ class ServiceLayer {
         return result;
     }
 
-    addNewProduct(
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
-        ActionIDOfTheOperation
-    ) {
+    async addNewProduct(productName, productPrice, productQuantity, minQuantity, maxQuantity, productCategory, ActionIDOfTheOperation) {
         if (this.products.has(productName)) {
             return "The product already exist";
         }
@@ -352,7 +344,7 @@ class ServiceLayer {
         if (validationResult !== "Valid") return validationResult;
         if (!this.categories.has(productCategory))
             return "Product category does not exist";
-        let result = this.cinemaSystem.addCafeteriaProduct(
+        let result = await this.cinemaSystem.addCafeteriaProduct(
             this.productsCounter,
             productName,
             this.categories.get(productCategory),
@@ -371,15 +363,7 @@ class ServiceLayer {
         return result;
     }
 
-    editProduct(
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
-        ActionIDOfTheOperation
-    ) {
+    async editProduct(productName, productPrice, productQuantity, minQuantity, maxQuantity, productCategory, ActionIDOfTheOperation) {
         if (!this.products.has(productName)) {
             return "The product doesn't exist";
         }
@@ -395,26 +379,18 @@ class ServiceLayer {
         else {
             categoryID = this.categories.get(productCategory);
         }
-        let result = this.cinemaSystem.editCafeteriaProduct(
-            this.products.get(productName),
-            categoryID,
-            productPrice,
-            productQuantity,
-            maxQuantity,
-            minQuantity,
-            this.users.get(ActionIDOfTheOperation)
-        );
-        return result;
+        return await this.cinemaSystem.editCafeteriaProduct(this.products.get(productName), categoryID, productPrice, productQuantity, maxQuantity,
+            minQuantity, this.users.get(ActionIDOfTheOperation));
     }
 
-    removeProduct(productName, ActionIDOfTheOperation) {
+    async removeProduct(productName, ActionIDOfTheOperation) {
         if (!this.products.has(productName)) {
             return "The product does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        let result = this.cinemaSystem.removeCafeteriaProduct(
+        let result = await this.cinemaSystem.removeCafeteriaProduct(
             this.products.get(productName),
             this.users.get(ActionIDOfTheOperation)
         );
