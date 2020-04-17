@@ -13,11 +13,14 @@ class EmployeeManagemnt {
             return "The employee already exist";
         }
         let employee = new Employee(userID, userName, password, permissions, firstName, lastName, contactDetails);
-        if (employee.init()) {
-            this.employeeDictionary.set(userID, employee);
-            return employee;
+        let result = await employee.init();
+        if (typeof result === 'string') {
+            this.writeToLog('error', 'addNewEmployee', result);
+            return result;
+
         }
-        return "The added new employee operation failed- DB Problem";
+        this.employeeDictionary.set(userID, employee);
+        return employee;
     }
 
     async editEmployee(employeeID, password, permissions, firstName, lastName, contactDetails) {

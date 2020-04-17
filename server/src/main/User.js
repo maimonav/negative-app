@@ -33,6 +33,10 @@ class User {
         return true;
     }
 
+    getUserActionDB(name) {
+        return { name: DataBase.add };
+    }
+
     async removeUser() {
         if (this.isUserRemoved == null) {
             this.isUserRemoved = new Date();
@@ -46,11 +50,10 @@ class User {
         return false;
     };
 
-    editUser = async(password, permissions) => {
+    editUser = (password, permissions) => {
         const tmpPassword = this.password;
         const tmpPermission = this.permissions;
         let needToUpdate = false;
-        let result;
         if (this.isNeedToEdit(password)) {
             this.password = this.sha256(this.userName + password);
             needToUpdate = true;
@@ -59,17 +62,9 @@ class User {
             this.permissions = permissions;
             needToUpdate = true;
         }
-        if (needToUpdate)
-            result = await DataBase.singleUpdate(
-                "user", { id: this.id }, { password: this.password, permissions: this.permissions }
-            );
-        if (typeof result === "string") {
-            this.password = tmpPassword;
-            this.permissions = tmpPermission;
-            this.writeToLog('error', 'editUser', ' DB Problem - ' + result);
-            return false;
-        }
-        return true
+
+        return { needToUpdate: needToUpdate, tmpPassword: tmpPassword, tmpPermission: tmpPermission };
+
     };
 
 
