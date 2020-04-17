@@ -53,145 +53,145 @@ describe("CategoryOperationsTest", () => {
         expect(categoryRemovedDate).toEqual(curDate);
     });
 
-    it('UnitTest-InventoryManegment- addCategory', () => {
+    it('UnitTest-InventoryManegment- addCategory', async() => {
         inventoryManagement.categories = new Map();
-        expect(inventoryManagement.addCategory(category.id, category.name, (category.id * -1))).toEqual("The parent category  doesn't exist");
-        expect(inventoryManagement.addCategory(category.id, category.name)).toEqual("The category was successfully added to the system");
-        expect(inventoryManagement.addCategory(category.id, category.name)).toEqual("The Category ID already exist");
+        expect(await inventoryManagement.addCategory(category.id, category.name, (category.id * -1))).toEqual("The parent category  doesn't exist");
+        expect(await inventoryManagement.addCategory(category.id, category.name)).toEqual("The category was successfully added to the system");
+        expect(await inventoryManagement.addCategory(category.id, category.name)).toEqual("The Category ID already exist");
     });
 
-    it('UnitTest-InventoryManegment- editCategory', () => {
+    it('UnitTest-InventoryManegment- editCategory', async() => {
         category.parentId = -1;
-        expect(inventoryManagement.editCategory(category.id, (-3))).toEqual("The parent category  doesn't exist");
-        expect(inventoryManagement.editCategory((category.id - 3), category.id)).toEqual("The Category ID doesn\'t exist");
-        expect(inventoryManagement.editCategory(category.id, parentCategory.id)).toEqual("The category was successfully updateded");
+        expect(await inventoryManagement.editCategory(category.id, (-3))).toEqual("The parent category  doesn't exist");
+        expect(await inventoryManagement.editCategory((category.id - 3), category.id)).toEqual("The Category ID doesn\'t exist");
+        expect(await inventoryManagement.editCategory(category.id, parentCategory.id)).toEqual("The category was successfully updateded");
         expect(category.parentId).toEqual(parentCategory.id);
 
     });
 
-    it('UnitTest-InventoryManegment- removeCategory', () => {
-        expect(inventoryManagement.removeCategory(-3)).toEqual("The Category ID doesn\'t exist");
-        expect(inventoryManagement.removeCategory(category.id)).toEqual("The category was successfully removed");
+    it('UnitTest-InventoryManegment- removeCategory', async() => {
+        expect(await inventoryManagement.removeCategory(-3)).toEqual("The Category ID doesn\'t exist");
+        expect(await inventoryManagement.removeCategory(category.id)).toEqual("The category was successfully removed");
     });
-    it('UnitTest-CinemaSystem- addCategory', () => {
+    it('UnitTest-CinemaSystem- addCategory', async() => {
         inventoryManagement.categories = new Map();
         spyOn(inventoryManagement, 'addCategory').and.returnValue('dummy');
-        expect(cinemaSystem.addCategory(category.id, category.name, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
-        expect(cinemaSystem.addCategory(category.id, category.name, category.parentId, admin.id)).toEqual("dummy");
+        expect(await cinemaSystem.addCategory(category.id, category.name, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.addCategory(category.id, category.name, category.parentId, admin.id)).toEqual("dummy");
     });
 
-    it('UnitTest-CinemaSystem- editCategory', () => {
+    it('UnitTest-CinemaSystem- editCategory', async() => {
         inventoryManagement.categories = new Map();
         spyOn(inventoryManagement, 'editCategory').and.returnValue('dummy');
-        expect(cinemaSystem.editCategory(category.id, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
-        expect(cinemaSystem.editCategory(category.id, category.parentId, admin.id)).toEqual("dummy");
+        expect(await cinemaSystem.editCategory(category.id, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.editCategory(category.id, category.parentId, admin.id)).toEqual("dummy");
     });
 
-    it('UnitTest-CinemaSystem- removeCategory', () => {
+    it('UnitTest-CinemaSystem- removeCategory', async() => {
         inventoryManagement.categories = new Map();
         spyOn(inventoryManagement, 'removeCategory').and.returnValue('dummy');
-        expect(cinemaSystem.removeCategory(category.id, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
-        expect(cinemaSystem.removeCategory(category.id, admin.id)).toEqual("dummy");
+        expect(await cinemaSystem.removeCategory(category.id, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.removeCategory(category.id, admin.id)).toEqual("dummy");
     });
 
 
-    it('UnitTest-ServiceLayer- addCategory', () => {
+    it('UnitTest-ServiceLayer- addCategory', async() => {
         serviceLayer.categories = new Map();
         serviceLayer.categories.set(parentCategory.name, parentCategory.id);
         const child = new Category(2, 'milk', category.id);
         spyOn(cinemaSystem, 'addCategory').and.returnValue('The category was successfully added to the system');
-        expect(serviceLayer.addCategory(category.id, admin.userName - 10, category.name)).toEqual("The user performing the operation does not exist in the system");
-        expect(serviceLayer.addCategory(child.name, admin.userName, category.name)).toEqual("The parent " + category.name + " does not exist");
+        expect(await serviceLayer.addCategory(category.id, admin.userName - 10, category.name)).toEqual("The user performing the operation does not exist in the system");
+        expect(await serviceLayer.addCategory(child.name, admin.userName, category.name)).toEqual("The parent " + category.name + " does not exist");
         let counter = serviceLayer.categoriesCounter;
-        expect(serviceLayer.addCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully added to the system");
+        expect(await serviceLayer.addCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully added to the system");
         expect(counter === serviceLayer.categoriesCounter - 1 && serviceLayer.categories.has(category.name)).toEqual(true);
 
     });
 
-    it('UnitTest-ServiceLayer- editCategory', () => {
+    it('UnitTest-ServiceLayer- editCategory', async() => {
         serviceLayer.categories = new Map();
         const child = new Category(2, 'milk', category.id);
         serviceLayer.categories.set(parentCategory.name, parentCategory.id);
         serviceLayer.categories.set(category.name, category.id);
         serviceLayer.categories.set(child.name, child.id);
         spyOn(cinemaSystem, 'editCategory').and.returnValue('The category was successfully updateded');
-        expect(serviceLayer.editCategory("dummy", admin.userName, category.name)).toEqual("The category doesn't exist");
-        expect(serviceLayer.editCategory(category.name, 'dummy', parentCategory.name)).toEqual("The user performing the operation does not exist in the system");
-        expect(serviceLayer.editCategory(child.name, admin.userName, 'dummy')).toEqual("The parent dummy does not exist");
-        expect(serviceLayer.editCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully updateded");
+        expect(await serviceLayer.editCategory("dummy", admin.userName, category.name)).toEqual("The category doesn't exist");
+        expect(await serviceLayer.editCategory(category.name, 'dummy', parentCategory.name)).toEqual("The user performing the operation does not exist in the system");
+        expect(await serviceLayer.editCategory(child.name, admin.userName, 'dummy')).toEqual("The parent dummy does not exist");
+        expect(await serviceLayer.editCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully updateded");
     });
 
-    it('UnitTest-ServiceLayer- removeCategory', () => {
+    it('UnitTest-ServiceLayer- removeCategory', async() => {
         serviceLayer.categories = new Map();
         const child = new Category(2, 'milk', category.id);
         serviceLayer.categories.set(parentCategory.name, parentCategory.id);
         serviceLayer.categories.set(category.name, category.id);
         serviceLayer.categories.set(child.name, child.id);
         spyOn(cinemaSystem, 'removeCategory').and.returnValue('The category was successfully removed');
-        expect(serviceLayer.removeCategory("dummy", admin.userName)).toEqual("The category doesn't exist");
-        expect(serviceLayer.removeCategory(category.name, 'dummy')).toEqual("The user performing the operation does not exist in the system");
+        expect(await serviceLayer.removeCategory("dummy", admin.userName)).toEqual("The category doesn't exist");
+        expect(await serviceLayer.removeCategory(category.name, 'dummy')).toEqual("The user performing the operation does not exist in the system");
         expect(serviceLayer.categories.has(category.name)).toEqual(true);
-        expect(serviceLayer.removeCategory(category.name, admin.userName)).toEqual("The category was successfully removed");
+        expect(await serviceLayer.removeCategory(category.name, admin.userName)).toEqual("The category was successfully removed");
         expect(serviceLayer.categories.has(category.name)).toEqual(false);
     });
 
     // =================================INTEGRATION==========================================================================================
 
-    it('integration-CinemaSystem- addCategory', () => {
+    it('integration-CinemaSystem- addCategory', async() => {
         inventoryManagement.categories.delete(category.id);
-        expect(cinemaSystem.addCategory(category.id, category.name, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
-        expect(cinemaSystem.addCategory(category.id, category.name, category.parentId, admin.id)).toEqual("The category was successfully added to the system");
+        expect(await cinemaSystem.addCategory(category.id, category.name, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.addCategory(category.id, category.name, category.parentId, admin.id)).toEqual("The category was successfully added to the system");
         expect(inventoryManagement.categories.has(category.id)).toEqual(true);
     });
 
-    it('integration-CinemaSystem- editCategory', () => {
-        expect(cinemaSystem.editCategory(category.id, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
-        expect(cinemaSystem.editCategory(category.id, category.parentId, admin.id)).toEqual("The category was successfully updateded");
+    it('integration-CinemaSystem- editCategory', async() => {
+        expect(await cinemaSystem.editCategory(category.id, category.parentId, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.editCategory(category.id, category.parentId, admin.id)).toEqual("The category was successfully updateded");
     });
 
-    it('integration-CinemaSystem- removeCategory', () => {
-        expect(cinemaSystem.removeCategory(category.id, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
-        expect(cinemaSystem.removeCategory(category.id, admin.id)).toEqual("The category was successfully removed");
+    it('integration-CinemaSystem- removeCategory', async() => {
+        expect(await cinemaSystem.removeCategory(category.id, ((admin.id - 10)))).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.removeCategory(category.id, admin.id)).toEqual("The category was successfully removed");
         expect(inventoryManagement.categories.has(category.id)).toEqual(false);
     });
 
 
-    it('integration-ServiceLayer- addCategory', () => {
+    it('integration-ServiceLayer- addCategory', async() => {
         inventoryManagement.categories.delete(category.id);
         serviceLayer.categories.set(parentCategory.name, parentCategory.id);
         serviceLayer.categories.delete(category.name);
         const child = new Category(2, 'milk', category.id);
         serviceLayer.categoriesCounter = 10;
-        expect(serviceLayer.addCategory(category.id, admin.userName - 10, category.name)).toEqual("The user performing the operation does not exist in the system");
-        expect(serviceLayer.addCategory(child.name, admin.userName, 'dummy')).toEqual("The parent dummy does not exist");
+        expect(await serviceLayer.addCategory(category.id, admin.userName - 10, category.name)).toEqual("The user performing the operation does not exist in the system");
+        expect(await serviceLayer.addCategory(child.name, admin.userName, 'dummy')).toEqual("The parent dummy does not exist");
         let counter = serviceLayer.categoriesCounter;
-        expect(serviceLayer.addCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully added to the system");
+        expect(await serviceLayer.addCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully added to the system");
         expect(counter === serviceLayer.categoriesCounter - 1 && serviceLayer.categories.has(category.name)).toEqual(true);
 
     });
 
-    it('integration-ServiceLayer- editCategory', () => {
+    it('integration-ServiceLayer- editCategory', async() => {
         serviceLayer.categories = new Map();
         const child = new Category(2, 'milk', category.id);
         serviceLayer.categories.set(parentCategory.name, parentCategory.id);
         serviceLayer.categories.set(category.name, category.id);
         serviceLayer.categories.set(child.name, child.id);
-        expect(serviceLayer.editCategory("dummy", admin.userName, category.name)).toEqual("The category doesn't exist");
-        expect(serviceLayer.editCategory(category.name, 'dummy', parentCategory.name)).toEqual("The user performing the operation does not exist in the system");
-        expect(serviceLayer.editCategory(child.name, admin.userName, 'dummy')).toEqual("The parent dummy does not exist");
-        expect(serviceLayer.editCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully updateded");
+        expect(await serviceLayer.editCategory("dummy", admin.userName, category.name)).toEqual("The category doesn't exist");
+        expect(await serviceLayer.editCategory(category.name, 'dummy', parentCategory.name)).toEqual("The user performing the operation does not exist in the system");
+        expect(await serviceLayer.editCategory(child.name, admin.userName, 'dummy')).toEqual("The parent dummy does not exist");
+        expect(await serviceLayer.editCategory(category.name, admin.userName, parentCategory.name)).toEqual("The category was successfully updateded");
     });
 
-    it('integration-ServiceLayer- removeCategory', () => {
+    it('integration-ServiceLayer- removeCategory', async() => {
         serviceLayer.categories = new Map();
         const child = new Category(2, 'milk', category.id);
         serviceLayer.categories.set(parentCategory.name, parentCategory.id);
         serviceLayer.categories.set(category.name, category.id);
         serviceLayer.categories.set(child.name, child.id);
-        expect(serviceLayer.removeCategory("dummy", admin.userName)).toEqual("The category doesn't exist");
-        expect(serviceLayer.removeCategory(category.name, 'dummy')).toEqual("The user performing the operation does not exist in the system");
+        expect(await serviceLayer.removeCategory("dummy", admin.userName)).toEqual("The category doesn't exist");
+        expect(await serviceLayer.removeCategory(category.name, 'dummy')).toEqual("The user performing the operation does not exist in the system");
         expect(serviceLayer.categories.has(category.name)).toEqual(true);
-        expect(serviceLayer.removeCategory(category.name, admin.userName)).toEqual("The category was successfully removed");
+        expect(await serviceLayer.removeCategory(category.name, admin.userName)).toEqual("The category was successfully removed");
         expect(serviceLayer.categories.has(category.name)).toEqual(false);
     });
 });

@@ -15,7 +15,7 @@ class ServiceLayer {
         this.productsCounter = 1;
         this.categories = new Map();
         this.categories.set("category", 0);
-        this.categoriesCounter = 1;
+        this.categoriesCounter = 2;
         this.orders = new Map();
         this.orders.set("order", 0);
         this.ordersCounter = 1;
@@ -402,7 +402,7 @@ class ServiceLayer {
         return result;
     }
 
-    addCategory(categoryName, ActionIDOfTheOperation, parentName) {
+    async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
         if (this.categories.has(categoryName)) {
             logger.info(
                 "ServiceLayer- addCategory - " + "The category already exist"
@@ -431,7 +431,7 @@ class ServiceLayer {
             }
         }
 
-        let result = this.cinemaSystem.addCategory(
+        let result = await this.cinemaSystem.addCategory(
             this.categoriesCounter,
             categoryName,
             parentId,
@@ -444,7 +444,7 @@ class ServiceLayer {
         return result;
     }
 
-    editCategory(categoryName, ActionIDOfTheOperation, parentName) {
+    async editCategory(categoryName, ActionIDOfTheOperation, parentName) {
         if (!this.categories.has(categoryName)) {
             logger.info(
                 "ServiceLayer- editCategory - " + "The category doesn't exist"
@@ -472,14 +472,14 @@ class ServiceLayer {
                 return "The parent " + parentName + " does not exist";
             }
         }
-        return this.cinemaSystem.editCategory(
+        return await this.cinemaSystem.editCategory(
             this.categories.get(categoryName),
             parentId,
             this.users.get(ActionIDOfTheOperation)
         );
     }
 
-    removeCategory(categoryName, ActionIDOfTheOperation) {
+    async removeCategory(categoryName, ActionIDOfTheOperation) {
         if (!this.categories.has(categoryName)) {
             logger.info(
                 "ServiceLayer- editCategory - " + "The category doesn't exist"
@@ -493,7 +493,7 @@ class ServiceLayer {
             );
             return "The user performing the operation does not exist in the system";
         }
-        let result = this.cinemaSystem.removeCategory(
+        let result = await this.cinemaSystem.removeCategory(
             this.categories.get(categoryName),
             this.users.get(ActionIDOfTheOperation)
         );

@@ -345,38 +345,23 @@ class CinemaSystem {
         return await this.inventoryManagement.removeCafeteriaProduct(productId);
     };
 
-    addCategory(categoryId, categoryName, parentID, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "addCategory"
-        );
+    async addCategory(categoryId, categoryName, parentID, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCategory");
         if (result != null) return result;
-        return this.inventoryManagement.addCategory(
-            categoryId,
-            categoryName,
-            parentID
-        );
+        return await this.inventoryManagement.addCategory(categoryId, categoryName, parentID);
     }
 
-    editCategory(categoryId, parentID, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "editCategory"
-        );
+    async editCategory(categoryId, parentID, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editCategory");
         if (result != null) return result;
-        return this.inventoryManagement.editCategory(categoryId, parentID);
+        return await this.inventoryManagement.editCategory(categoryId, parentID);
     }
-    removeCategory(categoryId, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "removeCategory"
-        );
+    async removeCategory(categoryId, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeCategory");
         if (result != null) return result;
-        return this.inventoryManagement.removeCategory(categoryId);
+        return await this.inventoryManagement.removeCategory(categoryId);
     }
+
     async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,

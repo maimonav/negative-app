@@ -534,75 +534,129 @@ class InventoryManagemnt {
         return {};
     }
 
-    addCategory(categoryId, categoryName, parentID) {
+    async addCategory(categoryId, categoryName, parentID) {
         if (this.categories.has(categoryId)) {
-            this.writeToLog(
-                "info",
-                "addCategory",
-                "The Category " + categoryId + " already exist"
-            );
+            this.writeToLog("info", "addCategory", "The Category " + categoryId + " already exist");
             return "The Category ID already exist";
         }
         if (parentID !== undefined && !this.categories.has(parentID)) {
-            this.writeToLog(
-                "info",
-                "addCategory",
-                "The parent category " + parentID + " doesn't exist"
-            );
+            this.writeToLog("info", "addCategory", "The parent category " + parentID + " doesn't exist");
             return "The parent category  doesn't exist";
         }
         const categoryToInsert = new Category(categoryId, categoryName.parentID);
-        if (
-            categoryToInsert.initCategory() === "The operation failed - DB failure"
-        ) {
-            this.writeToLog(
-                "error",
-                "addCategory",
-                "The operation failed - DB failure"
-            );
-            return "The operation failed - DB failure";
+        let result = await categoryToInsert.initCategory();
+        if (typeof result === 'string') {
+            this.writeToLog("error", "addCategory", "The operation failed - DB failure" + result);
+            return result;
         }
         this.categories.set(categoryToInsert.id, categoryToInsert);
         return "The category was successfully added to the system";
     }
 
-    editCategory(categoryId, parentID) {
+    async editCategory(categoryId, parentID) {
         if (!this.categories.has(categoryId)) {
-            this.writeToLog(
-                "info",
-                "editCategory",
-                "The Category " + categoryId + " doesn't exist"
-            );
+            this.writeToLog("info", "editCategory", "The Category " + categoryId + " doesn't exist");
             return "The Category ID doesn't exist";
         }
-        if (
-            parentID !== undefined &&
-            !this.categories.has(parentID) &&
-            parentID != -1
-        ) {
-            this.writeToLog(
-                "info",
-                "editCategory",
-                "The parent category " + parentID + " doesn't exist"
-            );
+        if (parentID !== undefined && !this.categories.has(parentID) && parentID != -1) {
+            this.writeToLog("info", "editCategory", "The parent category " + parentID + " doesn't exist");
             return "The parent category  doesn't exist";
         }
-        this.categories.get(categoryId).editCategory(parentID);
+        let result = await this.categories.get(categoryId).editCategory(parentID);
+        if (typeof result === 'string') {
+            this.writeToLog("error", "editCategory", "The operation failed - DB failure" + result);
+            return result;
+        }
         return "The category was successfully updateded";
     }
-    removeCategory(categoryId) {
+    async removeCategory(categoryId) {
         if (!this.categories.has(categoryId)) {
-            this.writeToLog(
-                "info",
-                "removeCategory",
-                "The Category " + categoryId + " doesn't exist"
-            );
+            this.writeToLog("info", "removeCategory", "The Category " + categoryId + " doesn't exist");
             return "The Category ID doesn't exist";
         }
         const categoryToRemove = this.categories.get(categoryId);
+        if (categoryToRemove.isCategoryRemoved !== null) {
+            writeToLog('info', 'removeCategory', 'The category already removed')
+            return 'The category already removed';
+        }
+        //DB
+        let DBActionList = [];
+        //Product category setup;
+        this.products.forEach((product) => {
+            if (product.categoryId === categoryToRemove.id) {
+                if (product instanceof CafeteriaProduct) {
+                    DBActionList.push({
+                        name: DB.update,
+                        model: 'cafeteria_product',
+                        params: {
+                            where: {
+                                id: product.id
+                            },
+                            element: {
+                                categoryId: categoryToRemove.parentId,
+                            }
+                        }
+                    });
+                } else {
+                    DBActionList.push({
+                        name: DB.update,
+                        model: 'movie',
+                        params: {
+                            where: {
+                                id: product.id
+                            },
+                            element: {
+                                categoryId: categoryToRemove.parentId
+                            }
+                        }
+                    });
+                }
+
+            }
+        });
+        //categories tree arrnge
         this.categories.forEach((category) => {
             if (category.parentId === categoryToRemove.id)
-                category.editCategory(categoryToRemove.parentId);
+                DBActionList.push({
+                    name: DB.update,
+                    model: 'category',
+                    params: {
+                        where: {
+                            id: category.id
+                        },
+                        element: {
+                            parentId: categoryToRemove.parentId,
+                        }
+                    }
+                });
+        });
+        //remove the category from DB
+        DBActionList.push({
+            name: DB.update,
+            model: 'category',
+            params: {
+                where: {
+                    id: categoryId
+                },
+                element: {
+                    isCategoryRemoved: new Date()
+                }
+            }
+        });
+
+        let result = await DB.executeActions(DBActionList);
+        if (typeof result === 'string') {
+            this.writeToLog('error', 'removeCategory', 'DB failure - ' + result);
+            return 'DB failure - ' + result
+        }
+        this.products.forEach((product) => {
+            if (product.categoryId === categoryToRemove.id) {
+                product.categoryId = categoryToRemove.parentId;
+            }
+        })
+        this.categories.forEach((category) => {
+            if (category.parentId === categoryToRemove.id)
+                category.parentId = categoryToRemove.parentId;
         });
         if (categoryToRemove.removeCategory()) {
             this.categories.delete(categoryId);

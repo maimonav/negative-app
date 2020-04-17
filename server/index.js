@@ -150,7 +150,7 @@ app.get("/api/removeSupplier", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addNewProduct", (req, res) => {
+app.get("/api/addNewProduct", async(req, res) => {
     const productName = req.query.productName || "";
     const productPrice = req.query.productPrice || "";
     const productQuantity = req.query.productQuantity || "";
@@ -158,7 +158,7 @@ app.get("/api/addNewProduct", (req, res) => {
     const minQuantity = req.query.minQuantity || "";
     const productCategory = req.query.productCategory || "";
     const user = req.query.user || "";
-    const result = service.addNewProduct(
+    const result = await service.addNewProduct(
         productName,
         productPrice,
         productQuantity,
@@ -170,14 +170,14 @@ app.get("/api/addNewProduct", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/editProduct", (req, res) => {
+app.get("/api/editProduct", async(req, res) => {
     const productName = req.query.productName || "";
     const productPrice = req.query.productPrice || "";
     const maxQuantity = req.query.maxQuantity || "";
     const minQuantity = req.query.minQuantity || "";
     const productCategory = req.query.productCategory || "";
     const user = req.query.user || "";
-    const result = service.editProduct(
+    const result = await service.editProduct(
         productName,
         productPrice,
         maxQuantity,
@@ -188,20 +188,20 @@ app.get("/api/editProduct", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/removeProduct", (req, res) => {
+app.get("/api/removeProduct", async(req, res) => {
     const productName = req.query.productName || "";
     const user = req.query.user || "";
-    const result = service.removeProduct(productName, user);
+    const result = await service.removeProduct(productName, user);
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addCafeteriaOrder", (req, res) => {
+app.get("/api/addCafeteriaOrder", async(req, res) => {
     const orderId = req.query.orderId || "";
     const productsName = req.query.productsName || "";
     const supplierName = req.query.supplierName || "";
     const orderDate = req.query.orderDate || "";
     const user = req.query.user || "";
-    const result = service.addCafeteriaOrder(
+    const result = await service.addCafeteriaOrder(
         orderId,
         productsName,
         supplierName,
@@ -248,17 +248,17 @@ app.get("/api/confirmCafeteriaOrder", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addCategory", (req, res) => {
+app.get("/api/addCategory", async(req, res) => {
     const categoryName = req.query.categoryName || "";
     const user = req.query.user || "";
-    const result = service.addCategory(categoryName, user);
+    const result = await service.addCategory(categoryName, user);
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/removeCategory", (req, res) => {
+app.get("/api/removeCategory", async(req, res) => {
     const categoryName = req.query.categoryName || "";
     const user = req.query.user || "";
-    const result = service.removeCategory(categoryName, user);
+    const result = await service.removeCategory(categoryName, user);
     res.send(JSON.stringify({ result }));
 });
 
