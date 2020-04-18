@@ -75,7 +75,6 @@ export default class AddProduct extends React.Component {
       maxQuantity,
       productCategory,
     } = this.state;
-    console.log("products: ", this.state.products);
     return (
       <div>
         <GridContainer style={style}>

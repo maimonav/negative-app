@@ -294,7 +294,7 @@ export function handleAddCategory(categoryName, parentName) {
 export function handleEditCategory(categoryName, parentName) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/editCategory?name=${encodeURIComponent(
+    `api/editCategory?categoryName=${encodeURIComponent(
       categoryName
     )}&parentName=${encodeURIComponent(parentName)}&user=${encodeURIComponent(
       user
@@ -309,7 +309,7 @@ export function handleEditCategory(categoryName, parentName) {
 export function handleRemoveCategory(categoryName) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/removeCategory?name=${encodeURIComponent(
+    `api/removeCategory?categoryName=${encodeURIComponent(
       categoryName
     )}&user=${encodeURIComponent(user)}`
   )
