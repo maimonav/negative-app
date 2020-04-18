@@ -5,6 +5,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tab from "@material-ui/core/Tab";
 import { showReportPath } from "../../consts/paths";
+import { showReportTabHook } from "../../consts/data-hooks";
 const style = { textDecoration: "none", color: "black" };
 
 export default function ReportsActionsDropDownTab(props) {
@@ -47,8 +48,13 @@ export default function ReportsActionsDropDownTab(props) {
             value={1}
             onClick={handleClose}
             style={{ justifyContent: "center" }}
+            d
           >
-            <Tab label="Show Report" style={{ textTransform: "none" }} />
+            <Tab
+              label="Show Report"
+              style={{ textTransform: "none" }}
+              data-hook={showReportTabHook}
+            />
           </MenuItem>
         </Link>
       </Menu>

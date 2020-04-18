@@ -14,7 +14,8 @@ import {
   userActionsTabHook,
   inventoryActionsTabHook,
   logoutTabHook,
-  notificationTabHook
+  notificationTabHook,
+  reportsActionsTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
@@ -39,7 +40,9 @@ export default function TablPanel(props) {
             <InventoryActionsDropDownTab data-hook={inventoryActionsTabHook} />
           )}
 
-          {props.isLogged && <ReportsActionsDropDownTab />}
+          {props.isLogged && (
+            <ReportsActionsDropDownTab data-hook={reportsActionsTabHook} />
+          )}
           {props.isLogged && (
             <Link to={notificationPath} style={{ marginLeft: "auto" }}>
               <Tab

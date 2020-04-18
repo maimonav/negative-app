@@ -14,12 +14,14 @@ export const notificationTabHook = "notificationTab";
 //Tabs
 export const userActionsTabHook = "userActionsTab";
 export const inventoryActionsTabHook = "inventoryActionsTab";
+export const reportsActionsTabHook = "reportsActionsTab";
 export const employeesTabHook = "employeesTab";
 export const suppliersTabHook = "suppliersTab";
 export const moviesTabHook = "moviesTab";
 export const inventoryTabHook = "inventoryTab";
 export const ordersTabHook = "ordersTab";
 export const categoriesTabHook = "categoriesTab";
+export const showReportTabHook = "showReportTab";
 export const logoutTabHook = "logoutTab";
 
 //Actions

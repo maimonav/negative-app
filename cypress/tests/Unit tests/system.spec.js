@@ -1,12 +1,14 @@
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
+  reportsActionsTabHook,
   employeesTabHook,
   suppliersTabHook,
   inventoryTabHook,
   ordersTabHook,
   moviesTabHook,
   categoriesTabHook,
+  showReportTabHook,
   logoutTabHook
 } from "../../../src/consts/data-hooks";
 const user = "admin";
@@ -48,6 +50,11 @@ context("Click all tabs", () => {
   it("Manage Categories", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(categoriesTabHook);
+  });
+
+  it("Show report", () => {
+    cy.accessTab(reportsActionsTabHook);
+    cy.accessTab(showReportTabHook);
   });
 
   afterEach(() => {
