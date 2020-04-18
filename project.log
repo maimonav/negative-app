@@ -299,3 +299,9 @@
 22:11:31.105 INFO  CinemaSystem - getReport - User does not have proper permissions 
 18:01:14.503 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
 19:39:29.437 INFO  User - login - The admin already connected 
+20:03:06.663 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+20:03:08.151 INFO  ServiceLayer- editMovie - Movie Name is not valid 
+20:03:09.610 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+20:04:08.055 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+20:04:09.549 INFO  ServiceLayer- editMovie - Movie Name is not valid 
+20:04:11.042 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
