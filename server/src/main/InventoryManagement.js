@@ -388,15 +388,11 @@ class InventoryManagemnt {
             );
             return "Product quantity must be greater or equal to 0";
         }
-        if (
-            typeof maxQuantity !== "undefined" &&
-            typeof minQuantity !== "undefined" &&
-            maxQuantity <= minQuantity
-        ) {
+        if (typeof maxQuantity === 'number' && typeof minQuantity === 'number' && maxQuantity <= minQuantity) {
             this.writeToLog(
                 "info",
                 "addCafeteriaProduct",
-                "Maximum product quantity must be greater than minimum product quantity"
+                "Maximum product (" + maxQuantity + ") quantity must be greater than minimum (" + minQuantity + ") product quantity"
             );
             return "Maximum product quantity must be greater than minimum product quantity";
         }
@@ -568,13 +564,16 @@ class InventoryManagemnt {
     getCafeteriaProductDetails(productID) {
         const output = {};
         if (this.products.has(productID)) {
+            let productMaxQuantityToRepresnt;
             const product = this.products.get(productID);
+            if (product.maxQuantity !== 9999999)
+                productMaxQuantityToRepresnt = product.maxQuantity;
             return {
                 productName: product.name,
                 productCategory: this.categories.get(product.categoryId).name,
                 productPrice: product.price,
                 productQuantity: product.quantity,
-                productMaxQunatity: product.maxQuantity,
+                productMaxQunatity: productMaxQuantityToRepresnt,
                 productMimQunatity: product.minQuantity,
             };
         }
@@ -598,7 +597,7 @@ class InventoryManagemnt {
             );
             return "The parent category  doesn't exist";
         }
-        const categoryToInsert = new Category(categoryId, categoryName.parentID);
+        const categoryToInsert = new Category(categoryId, categoryName, parentID);
         let result = await categoryToInsert.initCategory();
         if (typeof result === "string") {
             this.writeToLog(

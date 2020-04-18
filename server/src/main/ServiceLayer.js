@@ -425,6 +425,7 @@ class ServiceLayer {
             return "The product doesn't exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info("The user " + ActionIDOfTheOperation + " performing the operation does not exist in the system")
             return "The user performing the operation does not exist in the system";
         }
         let categoryID;
@@ -834,12 +835,20 @@ class ServiceLayer {
         return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
     }
 
+
+    getProductDetails(productName) {
+        if (!this.products.has(productName)) {
+            return "The product does not exist";
+        }
+        return this.cinemaSystem.getCafeteriaProductDetails(this.products.get(productName));
+    }
+
     getProductsByOrder() {
         return this.cinemaSystem.getProductsByOrder();
     }
 
     getOrdersByDates(startDate, endDate) {
-        return this.cinemaSystem.getOrdersByDates();
+        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
     }
 
     getProductsAndQuantityByOrder(orderName) {
