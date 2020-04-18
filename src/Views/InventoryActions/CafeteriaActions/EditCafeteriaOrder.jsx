@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import EditTable from "../../../Components/Tables/EditTable";
 import {
-  handleGetItemsByDates,
+  handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
@@ -34,8 +34,8 @@ export default class EditCafeteriaOrder extends React.Component {
     this.toggleThirdBox = this.toggleThirdBox.bind(this);
   }
 
-  handleGetItemsByDates = (startDate, endDate) => {
-    handleGetItemsByDates(localStorage.getItem("username"), startDate, endDate)
+  handleGetOrdersByDates = (startDate, endDate) => {
+    handleGetOrdersByDates(localStorage.getItem("username"), startDate, endDate)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };
@@ -50,7 +50,7 @@ export default class EditCafeteriaOrder extends React.Component {
   };
 
   toggleBox() {
-    this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
+    this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
     this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 

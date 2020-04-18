@@ -19,15 +19,15 @@ describe("cafitriaProductActionTest", () => {
     beforeEach(() => {
         DB.testModeOn();
         category = new Category(0, "Dairy", -1);
-        p1 = new CafeteriaProduct(-1, "milk", category.id, 10, 1);
+        p1 = new CafeteriaProduct(-1, "milk", category.id, 10, 1, null);
         inventoryManagement = new InventoryManagement();
         inventoryManagement.categories.set(category.id, category);
-        cinemaSystem = new CinemaSystem('');
+        cinemaSystem = new CinemaSystem('mydb');
         admin = new Employee(0, 'admin', '123456', 'ADMIN', 'admin', 'admin', '');
         cinemaSystem.inventoryManagement = inventoryManagement;
         cinemaSystem.users.set(admin.id, admin);
 
-        serviceLayer = new ServiceLayer("");
+        serviceLayer = new ServiceLayer("mydb");
         serviceLayer.users = new Map();
         serviceLayer.products = new Map();
         serviceLayer.categories = new Map();
@@ -37,7 +37,6 @@ describe("cafitriaProductActionTest", () => {
         serviceLayer.cinemaSystem = cinemaSystem;
         serviceLayer.categories.set(category.name, category.id);
     });
-
     it('UnitTest-CafeteriaProduct edit', () => {
         p1.categoryId = -1;
         expect(p1.name).toBe("milk");
@@ -52,6 +51,19 @@ describe("cafitriaProductActionTest", () => {
         expect(p1.quantity).toBe(2);
         expect(p1.maxQuantity).toBe(9999999);
         expect(p1.minQuantity).toBe(10);
+        p1.editProduct(null, null, null, 20) //no update needed
+        expect(p1.categoryId).toBe(-3);
+        expect(p1.price).toBe(20);
+        expect(p1.quantity).toBe(2);
+        expect(p1.maxQuantity).toBe(20);
+        expect(p1.minQuantity).toBe(10);
+        p1.editProduct(null, null, null, 1, 22) //no update needed
+        expect(p1.categoryId).toBe(-3);
+        expect(p1.price).toBe(20);
+        expect(p1.quantity).toBe(2);
+        expect(p1.maxQuantity).toBe(20);
+        expect(p1.minQuantity).toBe(10);
+
     });
 
     it('UnitTest-CafeteriaProduct remove', () => {
@@ -65,88 +77,88 @@ describe("cafitriaProductActionTest", () => {
         expect(p1RemovedDate).toEqual(curDate);
     });
 
-    it('UnitTest-InventoryManagement addCafeteriaProduct', () => {
-        expect(inventoryManagement.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity)).toEqual("Category doesn't exist");
-        expect(inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, -1, p1.quantity)).toEqual("Product price must be greater than 0");
-        expect(inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, -1)).toEqual("Product quantity must be greater or equal to 0");
-        expect(inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity, 1, 2)).toEqual("Maximum product quantity must be greater than minimum product quantity");
-        expect(inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("The product was successfully added to the system");
-        expect(inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("This product already exists");
+    it('UnitTest-InventoryManagement addCafeteriaProduct', async() => {
+        expect(await inventoryManagement.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity)).toEqual("Category doesn't exist");
+        expect(await inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, -1, p1.quantity)).toEqual("Product price must be greater than 0");
+        expect(await inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, -1)).toEqual("Product quantity must be greater or equal to 0");
+        expect(await inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity, 1, 2)).toEqual("Maximum product quantity must be greater than minimum product quantity");
+        expect(await inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("The product was successfully added to the system");
+        expect(await inventoryManagement.addCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("This product already exists");
     });
 
-    it('UnitTest-InventoryManagement editCafeteriaProduct', () => {
+    it('UnitTest-InventoryManagement editCafeteriaProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
         spyOn(p1, 'editProduct').and.returnValue('dummy');
-        expect(inventoryManagement.editCafeteriaProduct(p1.id - 1, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("This product not exists");
-        expect(inventoryManagement.editCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("dummy");
+        expect(await inventoryManagement.editCafeteriaProduct(p1.id - 1, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("This product not exists");
+        expect(await inventoryManagement.editCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("dummy");
     });
 
-    it('UnitTest-InventoryManagement removeCafeteriaProduct', () => {
+    it('UnitTest-InventoryManagement removeCafeteriaProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
         spyOn(p1, 'removeProduct').and.returnValue('dummy');
-        expect(inventoryManagement.removeCafeteriaProduct(p1.id - 1)).toEqual("This product not exists");
-        expect(inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("dummy"); //in the integration need to add more line like this
+        expect(await inventoryManagement.removeCafeteriaProduct(p1.id - 1)).toEqual("This product not exists");
+        expect(await inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("dummy"); //in the integration need to add more line like this
     });
 
-    it('UnitTest-cinemaSystem- addCafeteriaProduct', () => {
+    it('UnitTest-cinemaSystem- addCafeteriaProduct', async() => {
         spyOn(inventoryManagement, 'addCafeteriaProduct').and.returnValue('dummy');
-        expect(cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
         admin.permissions = 'EMPLOYEE';
-        expect(cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual('dummy');
+        expect(await cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual('dummy');
 
     });
 
-    it('UnitTest-cinemaSystem- editCafeteriaProduct', () => {
+    it('UnitTest-cinemaSystem- editCafeteriaProduct', async() => {
         spyOn(inventoryManagement, 'editCafeteriaProduct').and.returnValue('dummy');
-        expect(cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
         admin.permissions = 'EMPLOYEE';
-        expect(cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual('dummy');
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual('dummy');
 
     });
 
-    it('UnitTest-cinemaSystem- removeCafeteriaProduct', () => {
+    it('UnitTest-cinemaSystem- removeCafeteriaProduct', async() => {
         spyOn(inventoryManagement, 'removeCafeteriaProduct').and.returnValue('dummy');
-        expect(cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
         admin.permissions = 'EMPLOYEE';
-        expect(cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual('dummy');
+        expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual('dummy');
 
     });
 
-    it('UnitTest-ServiceLayer- addNewProduct', () => {
+    it('UnitTest-ServiceLayer- addNewProduct', async() => {
         spyOn(cinemaSystem, 'addCafeteriaProduct').and.returnValue('dummy');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
-        expect(serviceLayer.addNewProduct('', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product name is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, '', p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product price is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, '', 0, 100, category.name, admin.userName)).toEqual('Product quantity is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, '', admin.userName)).toEqual('Product category is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name + 'aaa', admin.userName)).toEqual('Product category does not exist');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('dummy');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
+        expect(await serviceLayer.addNewProduct('', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product name is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, '', p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product price is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, '', 0, 100, category.name, admin.userName)).toEqual('Product quantity is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, '', admin.userName)).toEqual('Product category is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name + 'aaa', admin.userName)).toEqual('Product category does not exist');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('dummy');
     });
 
-    it('UnitTest-ServiceLayer- editProduct', () => {
+    it('UnitTest-ServiceLayer- editProduct', async() => {
         spyOn(cinemaSystem, 'editCafeteriaProduct').and.returnValue('dummy');
         serviceLayer.products.set(p1.name, p1.id);
-        expect(serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
-        expect(serviceLayer.editProduct('dummy', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('The product doesn\'t exist');
-        expect(serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, 'dummy', admin.userName)).toEqual('Product category does not exist');
-        expect(serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('dummy');
+        expect(await serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
+        expect(await serviceLayer.editProduct('dummy', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('The product doesn\'t exist');
+        expect(await serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, 'dummy', admin.userName)).toEqual('Product category does not exist');
+        expect(await serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('dummy');
     });
 
-    it('UnitTest-ServiceLayer- removeProduct', () => {
+    it('UnitTest-ServiceLayer- removeProduct', async() => {
         spyOn(cinemaSystem, 'removeCafeteriaProduct').and.returnValue('dummy');
         serviceLayer.products.set(p1.name, p1.id);
-        expect(serviceLayer.removeProduct(p1.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
-        expect(serviceLayer.removeProduct('dummy', admin.userName)).toEqual('The product does not exist');
-        expect(serviceLayer.removeProduct(p1.name, admin.userName)).toEqual('dummy');
+        expect(await serviceLayer.removeProduct(p1.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
+        expect(await serviceLayer.removeProduct('dummy', admin.userName)).toEqual('The product does not exist');
+        expect(await serviceLayer.removeProduct(p1.name, admin.userName)).toEqual('dummy');
     });
 
 
@@ -154,82 +166,80 @@ describe("cafitriaProductActionTest", () => {
     // ==================INTEGRATION ====================================================================================
 
 
-    it('Integration-InventoryManagement editCafeteriaProduct', () => {
+    it('Integration-InventoryManagement editCafeteriaProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
-        expect(inventoryManagement.editCafeteriaProduct(p1.id - 1, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("This product not exists");
-        expect(inventoryManagement.editCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("Product details update successfully completed");
+        expect(await inventoryManagement.editCafeteriaProduct(p1.id - 1, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("This product not exists");
+        expect(await inventoryManagement.editCafeteriaProduct(p1.id, p1.name, p1.categoryId, p1.price, p1.quantity)).toEqual("Product details update successfully completed");
     });
 
-    it('Integration-InventoryManagement removeCafeteriaProduct', () => {
+    it('Integration-InventoryManagement removeCafeteriaProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
-        expect(inventoryManagement.removeCafeteriaProduct(p1.id - 1)).toEqual("This product not exists");
-        expect(inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("The product removed successfully"); //in the integration need to add more line like this
-        expect(inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("The product already removed");
+        expect(await inventoryManagement.removeCafeteriaProduct(p1.id - 1)).toEqual("This product not exists");
+        expect(await inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("The product removed successfully"); //in the integration need to add more line like this
+        expect(await inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("The product already removed");
 
     });
 
-    it('Integration-cinemaSystem- addCafeteriaProduct', () => {
-        expect(cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
+    it('Integration-cinemaSystem- addCafeteriaProduct', async() => {
+        expect(await cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
         admin.permissions = 'EMPLOYEE';
-        expect(cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.addCafeteriaProduct(p1.id, p1.name, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(cinemaSystem.addCafeteriaProduct(p1.id, p1.name, category.id, p1.price, p1.quantity, 1, 0, admin.id)).toEqual('The product was successfully added to the system');
+        expect(await cinemaSystem.addCafeteriaProduct(p1.id, p1.name, category.id, p1.price, p1.quantity, 1, 0, admin.id)).toEqual('The product was successfully added to the system');
 
     });
 
-    it('Integration-cinemaSystem- editCafeteriaProduct', () => {
+    it('Integration-cinemaSystem- editCafeteriaProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
-        expect(cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
         admin.permissions = 'EMPLOYEE';
-        expect(cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual("Product details update successfully completed");
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual("Product details update successfully completed");
 
     });
 
-    it('Integration-cinemaSystem- removeCafeteriaProduct', () => {
+    it('Integration-cinemaSystem- removeCafeteriaProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
-        expect(cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
         admin.permissions = 'EMPLOYEE';
-        expect(cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual('The product removed successfully');
+        expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual('The product removed successfully');
 
     });
 
-    it('Integration-ServiceLayer- addNewProduct', () => {
+    it('Integration-ServiceLayer- addNewProduct', async() => {
         admin.Loggedin = true;
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
-        expect(serviceLayer.addNewProduct('', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product name is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, '', p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product price is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, '', 0, 100, category.name, admin.userName)).toEqual('Product quantity is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, '', admin.userName)).toEqual('Product category is not valid');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name + 'aaa', admin.userName)).toEqual('Product category does not exist');
-        expect(serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('The product was successfully added to the system');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
+        expect(await serviceLayer.addNewProduct('', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product name is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, '', p1.quantity, 0, 100, category.name, admin.userName)).toEqual('Product price is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, '', 0, 100, category.name, admin.userName)).toEqual('Product quantity is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, '', admin.userName)).toEqual('Product category is not valid');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name + 'aaa', admin.userName)).toEqual('Product category does not exist');
+        expect(await serviceLayer.addNewProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('The product was successfully added to the system');
     });
 
-    it('Integration-ServiceLayer- editProduct', () => {
+    it('Integration-ServiceLayer- editProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
         serviceLayer.products.set(p1.name, p1.id);
         admin.Loggedin = true;
-        expect(serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
-        expect(serviceLayer.editProduct('dummy', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('The product doesn\'t exist');
-        expect(serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, 'dummy', admin.userName)).toEqual('Product category does not exist');
-        expect(serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual("Product details update successfully completed");
+        expect(await serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
+        expect(await serviceLayer.editProduct('dummy', p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual('The product doesn\'t exist');
+        expect(await serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, 'dummy', admin.userName)).toEqual('Product category does not exist');
+        expect(await serviceLayer.editProduct(p1.name, p1.price, p1.quantity, 0, 100, category.name, admin.userName)).toEqual("Product details update successfully completed");
     });
 
-    it('Integration-ServiceLayer- removeProduct', () => {
+    it('Integration-ServiceLayer- removeProduct', async() => {
         inventoryManagement.products.set(p1.id, p1);
         serviceLayer.products.set(p1.name, p1.id);
         admin.Loggedin = true;
         serviceLayer.products.set(p1.name, p1.id);
-        expect(serviceLayer.removeProduct(p1.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
-        expect(serviceLayer.removeProduct('dummy', admin.userName)).toEqual('The product does not exist');
-        expect(serviceLayer.removeProduct(p1.name, admin.userName)).toEqual('The product removed successfully');
+        expect(await serviceLayer.removeProduct(p1.name, admin.userName + 'aaa')).toEqual('The user performing the operation does not exist in the system');
+        expect(await serviceLayer.removeProduct('dummy', admin.userName)).toEqual('The product does not exist');
+        expect(await serviceLayer.removeProduct(p1.name, admin.userName)).toEqual('The product removed successfully');
     });
-
-
 });

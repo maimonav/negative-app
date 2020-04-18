@@ -15,7 +15,7 @@ class ServiceLayer {
     this.productsCounter = 1;
     this.categories = new Map();
     this.categories.set("category", 0);
-    this.categoriesCounter = 1;
+    this.categoriesCounter = 2;
     this.orders = new Map();
     this.orders.set("order", 0);
     this.ordersCounter = 1;
@@ -94,7 +94,8 @@ class ServiceLayer {
       console.log(`m[${key}] = ${value}`);
     });
   }
-  addNewEmployee(
+
+  async addNewEmployee(
     userName,
     password,
     firstName,
@@ -109,35 +110,34 @@ class ServiceLayer {
           userName +
           " exists on the system."
       );
-      return "The user already exist";
-    } else {
-      if (!this.users.has(ActionIDofTheOperation)) {
-        logger.info(
-          "ServiceLayer - The addNewEmployee process failed - the " +
-            ActionIDofTheOperation +
-            " , who initiated the operation, does not exist in the system"
-        );
-        return "The user performing the operation does not exist in the system";
-      }
-      let result = this.cinemaSystem.addNewEmployee(
-        this.userCounter,
-        userName,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        this.users.get(ActionIDofTheOperation)
-      );
-      if (result === "The employee registered successfully.") {
-        this.users.set(userName, this.userCounter);
-        this.userCounter++;
-      }
-      return result;
+      return "The user already exists";
     }
+    if (!this.users.has(ActionIDofTheOperation)) {
+      logger.info(
+        "ServiceLayer - The addNewEmployee process failed - the " +
+          ActionIDofTheOperation +
+          " , who initiated the operation, does not exist in the system"
+      );
+      return "The user performing the operation does not exist in the system";
+    }
+    let result = await this.cinemaSystem.addNewEmployee(
+      this.userCounter,
+      userName,
+      password,
+      permissions,
+      firstName,
+      lastName,
+      contactDetails,
+      this.users.get(ActionIDofTheOperation)
+    );
+    if (result === "The employee added successfully.") {
+      this.users.set(userName, this.userCounter);
+      this.userCounter++;
+    }
+    return result;
   }
 
-  editEmployee(
+  async editEmployee(
     userName,
     password,
     permissions,
@@ -162,7 +162,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.editEmployee(
+    return await this.cinemaSystem.editEmployee(
       this.users.get(userName),
       password,
       permissions,
@@ -172,7 +172,7 @@ class ServiceLayer {
       this.users.get(ActionIDOfTheOperation)
     );
   }
-  deleteEmployee(userName, ActionIDOfTheOperation) {
+  async deleteEmployee(userName, ActionIDOfTheOperation) {
     if (!this.users.has(userName)) {
       logger.info(
         "ServiceLayer - deleteEmployee - The deleteEmployee process failed - the " +
@@ -189,7 +189,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    let res = this.cinemaSystem.deleteEmployee(
+    let res = await this.cinemaSystem.deleteEmployee(
       this.users.get(userName),
       this.users.get(ActionIDOfTheOperation)
     );
@@ -197,6 +197,7 @@ class ServiceLayer {
       this.users.delete(userName);
     return res;
   }
+
   async addMovie(movieName, category, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(movieName)
       ? "Movie Name is not valid"
@@ -444,7 +445,7 @@ class ServiceLayer {
     return result;
   }
 
-  addNewProduct(
+  async addNewProduct(
     productName,
     productPrice,
     productQuantity,
@@ -471,7 +472,7 @@ class ServiceLayer {
     if (validationResult !== "Valid") return validationResult;
     if (!this.categories.has(productCategory))
       return "Product category does not exist";
-    let result = this.cinemaSystem.addCafeteriaProduct(
+    let result = await this.cinemaSystem.addCafeteriaProduct(
       this.productsCounter,
       productName,
       this.categories.get(productCategory),
@@ -490,7 +491,7 @@ class ServiceLayer {
     return result;
   }
 
-  editProduct(
+  async editProduct(
     productName,
     productPrice,
     productQuantity,
@@ -514,7 +515,7 @@ class ServiceLayer {
     else {
       categoryID = this.categories.get(productCategory);
     }
-    let result = this.cinemaSystem.editCafeteriaProduct(
+    return await this.cinemaSystem.editCafeteriaProduct(
       this.products.get(productName),
       categoryID,
       productPrice,
@@ -523,17 +524,16 @@ class ServiceLayer {
       minQuantity,
       this.users.get(ActionIDOfTheOperation)
     );
-    return result;
   }
 
-  removeProduct(productName, ActionIDOfTheOperation) {
+  async removeProduct(productName, ActionIDOfTheOperation) {
     if (!this.products.has(productName)) {
       return "The product does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
       return "The user performing the operation does not exist in the system";
     }
-    let result = this.cinemaSystem.removeCafeteriaProduct(
+    let result = await this.cinemaSystem.removeCafeteriaProduct(
       this.products.get(productName),
       this.users.get(ActionIDOfTheOperation)
     );
@@ -545,11 +545,9 @@ class ServiceLayer {
     return result;
   }
 
-  addCategory(categoryName, ActionIDOfTheOperation, parentName) {
+  async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
     if (this.categories.has(categoryName)) {
-      logger.info(
-        "ServiceLayer- addCategory - " + "The category already exist"
-      );
+      logger.info("ServiceLayer- addCategory - ", "The category already exist");
       return "The category already exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
@@ -560,7 +558,11 @@ class ServiceLayer {
       return "The user performing the operation does not exist in the system";
     }
     let parentId;
-    if (parentName !== undefined) {
+    if (
+      typeof parentName !== "undefined" &&
+      parentName !== null &&
+      (typeof parentName !== "string" || parentName !== "" || parentName !== "")
+    ) {
       if (this.categories.has(parentName))
         parentId = this.categories.get(parentName);
       else {
@@ -574,7 +576,7 @@ class ServiceLayer {
       }
     }
 
-    let result = this.cinemaSystem.addCategory(
+    let result = await this.cinemaSystem.addCategory(
       this.categoriesCounter,
       categoryName,
       parentId,
@@ -587,10 +589,11 @@ class ServiceLayer {
     return result;
   }
 
-  editCategory(categoryName, ActionIDOfTheOperation, parentName) {
+  async editCategory(categoryName, ActionIDOfTheOperation, parentName) {
     if (!this.categories.has(categoryName)) {
       logger.info(
-        "ServiceLayer- editCategory - " + "The category doesn't exist"
+        "ServiceLayer- editCategory - ",
+        "The category doesn't exist"
       );
       return "The category doesn't exist";
     }
@@ -615,17 +618,18 @@ class ServiceLayer {
         return "The parent " + parentName + " does not exist";
       }
     }
-    return this.cinemaSystem.editCategory(
+    return await this.cinemaSystem.editCategory(
       this.categories.get(categoryName),
       parentId,
       this.users.get(ActionIDOfTheOperation)
     );
   }
 
-  removeCategory(categoryName, ActionIDOfTheOperation) {
+  async removeCategory(categoryName, ActionIDOfTheOperation) {
     if (!this.categories.has(categoryName)) {
       logger.info(
-        "ServiceLayer- editCategory - " + "The category doesn't exist"
+        "ServiceLayer- editCategory - ",
+        "The category doesn't exist"
       );
       return "The category doesn't exist";
     }
@@ -636,7 +640,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    let result = this.cinemaSystem.removeCategory(
+    let result = await this.cinemaSystem.removeCategory(
       this.categories.get(categoryName),
       this.users.get(ActionIDOfTheOperation)
     );
@@ -989,8 +993,8 @@ class ServiceLayer {
     return this.cinemaSystem.getCafeteriaProducts();
   }
 
-  getCafeteriaOrders() {
-    return this.cinemaSystem.getCafeteriaOrders();
+  getCafeteriaOrders(startDate, endDate) {
+    return this.cinemaSystem.getCafeteriaOrders(startDate, endDate);
   }
 
   getInventoryProducts() {
@@ -1009,6 +1013,18 @@ class ServiceLayer {
       return "The movie does not exist";
     }
     return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
+  }
+
+  getProductsByOrder() {
+    return this.cinemaSystem.getProductsByOrder();
+  }
+
+  getOrdersByDates(startDate, endDate) {
+    return this.cinemaSystem.getOrdersByDates();
+  }
+
+  getProductsAndQuantityByOrder(orderName) {
+    return this.cinemaSystem.getProductsAndQuantityByOrder();
   }
 }
 module.exports = ServiceLayer;

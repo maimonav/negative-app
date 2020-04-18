@@ -8,7 +8,7 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { handleGetItemsByDates } from "../../../Handlers/Handlers";
+import { handleGetOrdersByDates } from "../../../Handlers/Handlers";
 import SelectDates from "../../../Components/SelectDates";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -19,31 +19,31 @@ export default class RemoveCafeteriaOrder extends React.Component {
       isOpened: false,
       startDate: new Date(),
       endDate: new Date(),
-      orderName: ""
+      orderName: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
   }
 
-  handleGetItemsByDates = (startDate, endDate) => {
-    handleGetItemsByDates(startDate, endDate)
-      .then(response => response.json())
-      .then(state => this.setState({ orders: state.result }));
+  handleGetOrdersByDates = (startDate, endDate) => {
+    handleGetOrdersByDates(startDate, endDate)
+      .then((response) => response.json())
+      .then((state) => this.setState({ orders: state.result }));
   };
 
   toggleBox() {
-    this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
-    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
+    this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
-  setOrderName = name => {
+  setOrderName = (name) => {
     this.setState({ orderName: name });
   };
 
-  setStartDate = date => {
+  setStartDate = (date) => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = date => {
+  setEndDate = (date) => {
     this.setState({ endDate: date });
   };
 

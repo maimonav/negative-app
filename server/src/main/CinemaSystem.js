@@ -64,7 +64,6 @@ class CinemaSystem {
       if (err !== "") err += ", ";
       err += "Password ";
     }
-    let test = User.getPermissionTypeList();
     if (
       permissions === undefined ||
       !User.getPermissionTypeList().hasOwnProperty(permissions)
@@ -74,21 +73,6 @@ class CinemaSystem {
     }
     if (err !== "") err = "The following data provided is invalid: " + err;
     return err;
-  }
-
-  async register(id, userName, password, permissions) {
-    if (this.users.has(id)) return "The id is already exists";
-    const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
-    if (argCheckRes !== "") {
-      logger.info("CinemaSystem - register - " + argCheckRes);
-      return argCheckRes;
-    }
-    let user = new User(id, userName, password, permissions);
-    let result = await user.initUser();
-    if (typeof result === "string")
-      return "The user cannot be registered\n" + result;
-    this.users.set(id, user);
-    return "The user registered successfully.";
   }
 
   isLoggedin(userId) {
@@ -106,7 +90,7 @@ class CinemaSystem {
     return this.users.get(userId).logout();
   }
   //notes- checkuser
-  addNewEmployee(
+  async addNewEmployee(
     userID,
     userName,
     password,
@@ -124,8 +108,20 @@ class CinemaSystem {
       logger.info("CinemaSystem - addNewEmployee - " + this.userOfflineMsg);
       return this.userOfflineMsg;
     }
+    const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
+    if (argCheckRes !== "") {
+      logger.info("CinemaSystem - addNewEmployee - " + argCheckRes);
+      return argCheckRes;
+    }
+    //If the operator does not have the permission of a deputy manager or if he is not admin and also tries to add someone his own higher permission.
     if (
-      !this.users.get(ActionIDOfTheOperation).permissionCheck("DEPUTY_MANAGER")
+      !this.users
+        .get(ActionIDOfTheOperation)
+        .permissionCheck("DEPUTY_MANAGER") ||
+      (this.users.get(ActionIDOfTheOperation).getPermissionValue() <=
+        User.getPermissionTypeList[permissions] &&
+        this.users.get(ActionIDOfTheOperation).getPermissionValue() !==
+          User.getPermissionTypeList["ADMIN"])
     ) {
       logger.info(
         "CinemaSystem - addNewEmployee - " +
@@ -135,12 +131,7 @@ class CinemaSystem {
       );
       return this.inappropriatePermissionsMsg;
     }
-    const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
-    if (argCheckRes !== "") {
-      logger.info("CinemaSystem - register - " + argCheckRes);
-      return argCheckRes;
-    }
-    let employee = this.employeeManagement.addNewEmployee(
+    let employee = await this.employeeManagement.addNewEmployee(
       userID,
       userName,
       password,
@@ -149,19 +140,14 @@ class CinemaSystem {
       lastName,
       contactDetails
     );
-    if (employee === "The employee already exist") {
-      logger.info(
-        "CinemaSystem - addNewEmployee - The employee" +
-          userName +
-          "already exist "
-      );
-      return "The id is already exists";
+    if (typeof employee === "string") {
+      return employee;
     }
     this.users.set(userID, employee);
-    return "The employee registered successfully.";
+    return "The employee added successfully.";
   }
 
-  editEmployee(
+  async editEmployee(
     employeeID,
     password,
     permissions,
@@ -192,7 +178,7 @@ class CinemaSystem {
       );
       return this.inappropriatePermissionsMsg;
     }
-    return this.employeeManagement.editEmployee(
+    return await this.employeeManagement.editEmployee(
       employeeID,
       password,
       permissions,
@@ -202,7 +188,7 @@ class CinemaSystem {
     );
   }
 
-  deleteEmployee(employeeID, ActionIDOfTheOperation) {
+  async deleteEmployee(employeeID, ActionIDOfTheOperation) {
     if (!this.users.has(employeeID)) return "The id is not exists";
     if (
       !this.users.has(ActionIDOfTheOperation) ||
@@ -231,7 +217,7 @@ class CinemaSystem {
       );
       return "You cannot delete a logged in user";
     }
-    let res = this.employeeManagement.deleteEmployee(employeeID);
+    let res = await this.employeeManagement.deleteEmployee(employeeID);
     if (res === "Successfully deleted employee data deletion")
       this.users.delete(employeeID);
     return res;
@@ -407,7 +393,7 @@ class CinemaSystem {
     return this.inventoryManagement.removeSupplier(supplierID);
   }
 
-  addCafeteriaProduct(
+  async addCafeteriaProduct(
     productId,
     name,
     categoryID,
@@ -423,7 +409,7 @@ class CinemaSystem {
       "addCafeteriaProduct"
     );
     if (result != null) return result;
-    return this.inventoryManagement.addCafeteriaProduct(
+    return await this.inventoryManagement.addCafeteriaProduct(
       productId,
       name,
       categoryID,
@@ -434,7 +420,7 @@ class CinemaSystem {
     );
   }
 
-  editCafeteriaProduct(
+  async editCafeteriaProduct(
     productId,
     categoryId,
     price,
@@ -449,7 +435,7 @@ class CinemaSystem {
       "editCafeteriaProduct"
     );
     if (result != null) return result;
-    return this.inventoryManagement.editCafeteriaProduct(
+    return await this.inventoryManagement.editCafeteriaProduct(
       productId,
       categoryId,
       price,
@@ -459,48 +445,54 @@ class CinemaSystem {
     );
   }
 
-  removeCafeteriaProduct = (productId, ActionIDOfTheOperation) => {
+  async removeCafeteriaProduct(productId, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
       "removeCafeteriaProduct"
     );
     if (result != null) return result;
-    return this.inventoryManagement.removeCafeteriaProduct(productId);
-  };
+    return await this.inventoryManagement.removeCafeteriaProduct(productId);
+  }
 
-  addCategory(categoryId, categoryName, parentID, ActionIDOfTheOperation) {
+  async addCategory(
+    categoryId,
+    categoryName,
+    parentID,
+    ActionIDOfTheOperation
+  ) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
       "addCategory"
     );
     if (result != null) return result;
-    return this.inventoryManagement.addCategory(
+    return await this.inventoryManagement.addCategory(
       categoryId,
       categoryName,
       parentID
     );
   }
 
-  editCategory(categoryId, parentID, ActionIDOfTheOperation) {
+  async editCategory(categoryId, parentID, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
       "editCategory"
     );
     if (result != null) return result;
-    return this.inventoryManagement.editCategory(categoryId, parentID);
+    return await this.inventoryManagement.editCategory(categoryId, parentID);
   }
-  removeCategory(categoryId, ActionIDOfTheOperation) {
+  async removeCategory(categoryId, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
       "removeCategory"
     );
     if (result != null) return result;
-    return this.inventoryManagement.removeCategory(categoryId);
+    return await this.inventoryManagement.removeCategory(categoryId);
   }
+
   async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
@@ -585,6 +577,16 @@ class CinemaSystem {
   getProductsAndQuantityByOrder() {
     //TODO: IMPLEMENT THIS.
     return data.productsAndQuantity;
+  }
+
+  getProductsByOrder() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
+  }
+
+  getOrdersByDates() {
+    //TODO: IMPLEMENT THIS.
+    return data.dataExample;
   }
 }
 

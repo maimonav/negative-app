@@ -51,53 +51,53 @@ describe("addEmployeeTest", () => {
 
     });
 
-    it('UnitTest-addEmployee Test on class EmployeeManagemnt', () => {
-        let test = employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails);
+    it('UnitTest-addEmployee Test on class EmployeeManagemnt', async() => {
+        let test = await employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails);
         test.password = admin.password;
         expect(test.equals(admin)).toBe(true);
-        expect(employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails)).toBe("The employee already exist");
+        expect(await employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails)).toBe("The employee already exist");
     });
 
-    it('UnitTest-addEmployee Test on class CinimaSystem', () => {
-        spyOn(employeeManagemnt, 'addNewEmployee').and.returnValue('dummy');
-        expect(cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, usercontactDetails, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
+    it('UnitTest-addEmployee Test on class CinimaSystem', async() => {
+        spyOn(employeeManagemnt, 'addNewEmployee').and.returnValue(1);
+        expect(await cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, usercontactDetails, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
 
         admin.Loggedin = true;
-        expect(cinemaSystem.addNewEmployee(userID, userUserName, userPassword, adminpermissions, userfname, userlname, contactDetails, adminID)).toEqual("The employee registered successfully.");
-        expect(cinemaSystem.addNewEmployee(userID, userUserName, userPassword, adminpermissions, userfname, userlname, contactDetails, adminID)).toEqual('The id is already exists');
+        expect(await cinemaSystem.addNewEmployee(userID, userUserName, userPassword, adminpermissions, userfname, userlname, contactDetails, adminID)).toEqual("The employee added successfully.");
+        expect(await cinemaSystem.addNewEmployee(userID, userUserName, userPassword, adminpermissions, userfname, userlname, contactDetails, adminID)).toEqual('The id is already exists');
 
     });
 
-    it('UnitTest-addEmployee Test on class ServiceLayer', () => {
-        spyOn(cinemaSystem, 'addNewEmployee').and.returnValue("The employee registered successfully.");
+    it('UnitTest-addEmployee Test on class ServiceLayer', async() => {
+        spyOn(cinemaSystem, 'addNewEmployee').and.returnValue("The employee added successfully.");
         servicelayer.cinemaSystem = cinemaSystem;
         expectedUserCounter = servicelayer.userCounter + 1;
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, "dummy")).toEqual("The user performing the operation does not exist in the system");
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The employee registered successfully.");
-        expect(servicelayer.userCounter).toEqual(expectedUserCounter);
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The user already exist");
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, "dummy")).toEqual("The user performing the operation does not exist in the system");
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The employee added successfully.");
+        expect(await servicelayer.userCounter).toEqual(expectedUserCounter);
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The user already exists");
 
     });
 
 
 
-    it('Integration-addEmployee Test on class CinimaSystem', () => {
-        expect(cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, usercontactDetails, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
+    it('Integration-addEmployee Test on class CinimaSystem', async() => {
+        expect(await cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, usercontactDetails, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
 
         admin.Loggedin = true;
-        expect(cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, contactDetails, adminID)).toEqual("The employee registered successfully.");
-        expect(cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, contactDetails, adminID)).toEqual('The id is already exists');
+        expect(await cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, contactDetails, adminID)).toEqual("The employee added successfully.");
+        expect(await cinemaSystem.addNewEmployee(userID, userUserName, userPassword, userpermissions, userfname, userlname, contactDetails, adminID)).toEqual('The id is already exists');
 
     });
 
-    it('Integration-addEmployee Test on class ServiceLayer', () => {
+    it('Integration-addEmployee Test on class ServiceLayer', async() => {
         admin.Loggedin = true;
-        expectedUserCounter = servicelayer.userCounter + 1;
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, "not good permmision", usercontactDetails, adminUserName)).toEqual('The following data provided is invalid: Permission ');
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, "dummy")).toEqual("The user performing the operation does not exist in the system");
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The employee registered successfully.");
+        const expectedUserCounter = servicelayer.userCounter + 1;
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, "not good permmision", usercontactDetails, adminUserName)).toEqual('The following data provided is invalid: Permission ');
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, "dummy")).toEqual("The user performing the operation does not exist in the system");
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The employee added successfully.");
         expect(servicelayer.userCounter).toEqual(expectedUserCounter);
-        expect(servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The user already exist");
+        expect(await servicelayer.addNewEmployee(userUserName, userPassword, userfname, userlname, userpermissions, usercontactDetails, adminUserName)).toEqual("The user already exists");
 
     });
 });

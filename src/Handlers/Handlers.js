@@ -4,8 +4,8 @@ export function handleLogin(username, password, onLogin) {
       username
     )}&password=${encodeURIComponent(password)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       if (state.result === "User Logged in succesfully.") {
         onLogin(username);
       }
@@ -16,8 +16,8 @@ export function handleLogin(username, password, onLogin) {
 export function handleLogout(onLogout) {
   const username = localStorage.getItem("username");
   fetch(`/api/logout?username=${encodeURIComponent(username)}`)
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       onLogout();
       alert(state.result);
     });
@@ -29,8 +29,8 @@ export function handleRegister(username, password) {
       username
     )}&password=${encodeURIComponent(password)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -56,8 +56,8 @@ export function handleAddEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -83,8 +83,8 @@ export function handleEditEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -96,8 +96,8 @@ export function handleRemoveEmployee(userName) {
       userName
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -125,8 +125,8 @@ export function handleAddProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -154,8 +154,8 @@ export function handleEditProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -166,8 +166,8 @@ export function handleRemoveProduct(productName) {
     `api/removeProduct?productName=${encodeURIComponent(productName)}
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -182,8 +182,8 @@ export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
     &moviesName=${encodeURIComponent(moviesName)}
     &user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -197,8 +197,8 @@ export function handleAddMovie(movieName, category) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -214,8 +214,8 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
       examinationRoom
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -227,8 +227,8 @@ export function handleRemoveMovie(movieName) {
       movieName
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -242,8 +242,8 @@ export function handleAddSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -257,8 +257,8 @@ export function handleEditSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -270,21 +270,38 @@ export function handleRemoveSupplier(name) {
       name
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
 
-export function handleAddCategory(categoryName) {
+export function handleAddCategory(categoryName, parentName) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/addCategory?name=${encodeURIComponent(
+    `api/addCategory?categoryName=${encodeURIComponent(
       categoryName
-    )}&user=${encodeURIComponent(user)}`
+    )}&parentName=${encodeURIComponent(parentName)}&user=${encodeURIComponent(
+      user
+    )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
+      alert(state.result);
+    });
+}
+
+export function handleEditCategory(categoryName, parentName) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/editCategory?categoryName=${encodeURIComponent(
+      categoryName
+    )}&parentName=${encodeURIComponent(parentName)}&user=${encodeURIComponent(
+      user
+    )}`
+  )
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -292,12 +309,12 @@ export function handleAddCategory(categoryName) {
 export function handleRemoveCategory(categoryName) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/removeCategory?name=${encodeURIComponent(
+    `api/removeCategory?categoryName=${encodeURIComponent(
       categoryName
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -315,8 +332,8 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -339,8 +356,8 @@ export function handleEditCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -352,8 +369,8 @@ export function handleRemoveCafeteriaOrder(orderId) {
       orderId
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -374,15 +391,15 @@ export function handleConfirmCafeteriaOrder(
       updatedProductsAndQuantity
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
 
-export function handleGetItemsByDates(userName, startDate, endDate) {
+export function handleGetOrdersByDates(userName, startDate, endDate) {
   return fetch(
-    `api/getItemsByDates?startDate=${encodeURIComponent(
+    `api/getOrdersByDates?startDate=${encodeURIComponent(
       startDate
     )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(
       userName

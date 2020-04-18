@@ -54,50 +54,50 @@ describe("DeleteEmployeeTest", () => {
 
     });
 
-    it('UnitTest-DeleteEmployee Test on class EmployeeManager', () => {
-        expect(employeeManagemnt.deleteEmployee(-1)).toEqual("The employee does not exist in the system.");
-        expect(employeeManagemnt.deleteEmployee(userID)).toEqual("Successfully deleted employee data deletion");
+    it('UnitTest-DeleteEmployee Test on class EmployeeManager', async() => {
+        expect(await employeeManagemnt.deleteEmployee(-1)).toEqual("The employee does not exist in the system.");
+        expect(await employeeManagemnt.deleteEmployee(userID)).toEqual("Successfully deleted employee data deletion");
 
     });
-    it('UnitTest-DeleteEmployee Test on class CinemaSystem', () => {
+    it('UnitTest-DeleteEmployee Test on class CinemaSystem', async() => {
         spyOn(employeeManagemnt, 'deleteEmployee').and.returnValue('dummy');
         cinemaSystem.employeeManagement = employeeManagemnt;
         admin.Loggedin = true;
-        expect(cinemaSystem.deleteEmployee(adminID, adminID)).toEqual("A user cannot erase himself");
+        expect(await cinemaSystem.deleteEmployee(adminID, adminID)).toEqual("A user cannot erase himself");
         user.Loggedin = true;
-        expect(cinemaSystem.deleteEmployee(adminID, userID)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.deleteEmployee(adminID, userID)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         user.Loggedin = false;
-        expect(cinemaSystem.deleteEmployee(-1, adminID)).toEqual("The id is not exists");
-        expect(cinemaSystem.deleteEmployee(userID, adminID)).toEqual("dummy");
+        expect(await cinemaSystem.deleteEmployee(-1, adminID)).toEqual("The id is not exists");
+        expect(await cinemaSystem.deleteEmployee(userID, adminID)).toEqual("dummy");
 
     });
 
-    it('UnitTest-DeleteEmployee Test on class ServiceLayer', () => {
+    it('UnitTest-DeleteEmployee Test on class ServiceLayer', async() => {
         spyOn(cinemaSystem, 'deleteEmployee').and.returnValue('dummy');
         servicelayer.cinemaSystem = cinemaSystem;
         admin.Loggedin = true;
-        expect(servicelayer.deleteEmployee("dummy", adminUserName)).toEqual("The employee does not exist");
-        expect(servicelayer.deleteEmployee(userUserName, "dummy")).toEqual("The user performing the operation does not exist in the system");
-        expect(servicelayer.deleteEmployee(userUserName, adminUserName)).toEqual("dummy");
+        expect(await servicelayer.deleteEmployee("dummy", adminUserName)).toEqual("The employee does not exist");
+        expect(await servicelayer.deleteEmployee(userUserName, "dummy")).toEqual("The user performing the operation does not exist in the system");
+        expect(await servicelayer.deleteEmployee(userUserName, adminUserName)).toEqual("dummy");
 
     });
 
-    it('integration-DeleteEmployee Test on class CinemaSystem', () => {
+    it('integration-DeleteEmployee Test on class CinemaSystem', async() => {
         admin.Loggedin = true;
-        expect(cinemaSystem.deleteEmployee(adminID, adminID)).toEqual("A user cannot erase himself");
+        expect(await cinemaSystem.deleteEmployee(adminID, adminID)).toEqual("A user cannot erase himself");
         user.Loggedin = true;
-        expect(cinemaSystem.deleteEmployee(adminID, userID)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
+        expect(await cinemaSystem.deleteEmployee(adminID, userID)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         user.Loggedin = false;
-        expect(cinemaSystem.deleteEmployee(-1, adminID)).toEqual("The id is not exists");
-        expect(cinemaSystem.deleteEmployee(userID, adminID)).toEqual("Successfully deleted employee data deletion");
+        expect(await cinemaSystem.deleteEmployee(-1, adminID)).toEqual("The id is not exists");
+        expect(await cinemaSystem.deleteEmployee(userID, adminID)).toEqual("Successfully deleted employee data deletion");
 
     });
 
-    it('integration-DeleteEmployee Test on class ServiceLayer', () => {
+    it('integration-DeleteEmployee Test on class ServiceLayer', async() => {
         admin.Loggedin = true;
-        expect(servicelayer.deleteEmployee("dummy", adminUserName)).toEqual("The employee does not exist");
-        expect(servicelayer.deleteEmployee(userUserName, "dummy")).toEqual("The user performing the operation does not exist in the system");
-        expect(servicelayer.deleteEmployee(userUserName, adminUserName)).toEqual("Successfully deleted employee data deletion");
+        expect(await servicelayer.deleteEmployee("dummy", adminUserName)).toEqual("The employee does not exist");
+        expect(await servicelayer.deleteEmployee(userUserName, "dummy")).toEqual("The user performing the operation does not exist in the system");
+        expect(await servicelayer.deleteEmployee(userUserName, adminUserName)).toEqual("Successfully deleted employee data deletion");
     });
 
 });

@@ -34,48 +34,70 @@ describe("EditEmployeeTest", () => {
         cinemaSystem.employeeManagement = employeeManagemnt;
         servicelayer.cinemaSystem = cinemaSystem;
     });
-    it('UnitTest-EditEmployee Test on class Employee', () => {
-        admin.editEmployee(adminUserName, permissions, "yuval", lname, contactDetails);
+    it('UnitTest-EditEmployee Test on class Employee', async() => {
+        await admin.editEmployee(null, null, "yuval");
         expect(admin.firstName).toEqual("yuval");
     });
 
-    it('UnitTest-EditEmployee Test on class EmployeeManager', () => {
-        expect(employeeManagemnt.editEmployee(-1, permissions, fname, lname, contactDetails)).toEqual("The employee does not exist in the system.");
-        expect(employeeManagemnt.editEmployee(adminID, permissions, fname, lname, contactDetails)).toEqual("Employee editing data ended successfully");
+    it('UnitTest-EditEmployee Test on class EmployeeManager', async() => {
+        expect(await employeeManagemnt.editEmployee(-1, permissions, fname, lname, contactDetails)).toEqual("The employee does not exist in the system.");
+        expect(await employeeManagemnt.editEmployee(adminID, null, null, 'dummy')).toEqual("The Employee edited successfully");
+        expect(admin.firstName).toEqual('dummy');
 
     });
 
-    it('UnitTest-EditEmployee Test on class CinemaSystem', () => {
+    it('UnitTest-EditEmployee Test on class CinemaSystem', async() => {
         spyOn(employeeManagemnt, 'editEmployee').and.returnValue('dummy');
         cinemaSystem.employeeManagement = employeeManagemnt;
-        expect(cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
+        expect(await cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
-        expect(cinemaSystem.editEmployee("dummy user name", adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The id is not exists");
-        expect(cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual("dummy");
+        expect(await cinemaSystem.editEmployee("dummy user name", adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The id is not exists");
+        expect(await cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual("dummy");
 
     });
 
-    it('UnitTest-EditEmployee Test on class ServiceLayer', () => {
+    it('UnitTest-EditEmployee Test on class ServiceLayer', async() => {
         spyOn(cinemaSystem, 'editEmployee').and.returnValue('dummy');
         servicelayer.cinemaSystem = cinemaSystem;
-        expect(servicelayer.editEmployee(-1, adminPassword, "Director", fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
-        expect(servicelayer.editEmployee(adminUserName, "Director", adminPassword, fname, lname, contactDetails, adminUserName)).toEqual("dummy");
+        expect(await servicelayer.editEmployee(-1, adminPassword, "Director", fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
+        expect(await servicelayer.editEmployee(adminUserName, "Director", adminPassword, fname, lname, contactDetails, adminUserName)).toEqual("dummy");
 
     });
 
-    it('integration-EditEmployee Test on class CinemaSystem', () => {
-        expect(cinemaSystem.editEmployee(adminID, adminPassword, fname, lname, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
+    it('integration-EditEmployee Test on class CinemaSystem', async() => {
+        expect(await cinemaSystem.editEmployee(adminID, adminPassword, fname, lname, contactDetails, adminID)).toEqual(cinemaSystem.userOfflineMsg);
         admin.Loggedin = true;
-        expect(cinemaSystem.editEmployee("dummy user name", adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The id is not exists");
-        expect(cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual("Employee editing data ended successfully");
+        expect(await cinemaSystem.editEmployee("dummy user name", adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The id is not exists");
+        expect(await cinemaSystem.editEmployee(adminID, adminPassword, permissions, fname, lname, contactDetails, adminID)).toEqual("The Employee edited successfully");
 
 
     });
 
-    it('integration-EditEmployee Test on class ServiceLayer', () => {
+    it('integration-EditEmployee Test on class ServiceLayer', async() => {
         admin.Loggedin = true;
-        expect(servicelayer.editEmployee(-1, adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
-        expect(servicelayer.editEmployee(adminUserName, adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("Employee editing data ended successfully");
+        expect(await servicelayer.editEmployee(-1, adminPassword, permissions, fname, lname, contactDetails, adminUserName)).toEqual("The employee does not exist");
+        expect(await servicelayer.editEmployee(adminUserName, null, null, 'dummy', null, null, adminUserName)).toEqual("The Employee edited successfully");
+        expect(servicelayer.users.has(adminUserName)).toEqual(true);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.has(servicelayer.users.get(adminUserName))).toEqual(true);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).firstName).toEqual('dummy');
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).lastName).toEqual(lname);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).contactDetails).toEqual(contactDetails);
+
+        expect(await servicelayer.editEmployee(adminUserName, null, null, fname, null, null, adminUserName)).toEqual("The Employee edited successfully");
+        expect(await servicelayer.editEmployee(adminUserName, null, null, null, null, 'dummy', adminUserName)).toEqual("The Employee edited successfully");
+        expect(servicelayer.users.has(adminUserName)).toEqual(true);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.has(servicelayer.users.get(adminUserName))).toEqual(true);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).firstName).toEqual(fname);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).lastName).toEqual(lname);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).contactDetails).toEqual('dummy');
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).permissions).toEqual(permissions);
+
+        expect(await servicelayer.editEmployee(adminUserName, null, null, null, null, contactDetails, adminUserName)).toEqual("The Employee edited successfully");
+        expect(await servicelayer.editEmployee(adminUserName, null, "EMPLOYEE", null, null, contactDetails, adminUserName)).toEqual("The Employee edited successfully");
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).firstName).toEqual(fname);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).lastName).toEqual(lname);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).contactDetails).toEqual(contactDetails);
+        expect(servicelayer.cinemaSystem.employeeManagement.employeeDictionary.get(servicelayer.users.get(adminUserName)).permissions).toEqual('EMPLOYEE');
 
     });
 
