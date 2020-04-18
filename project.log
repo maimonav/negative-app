@@ -297,3 +297,4 @@
 22:11:31.105 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
 22:11:31.105 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
 22:11:31.105 INFO  CinemaSystem - getReport - User does not have proper permissions 
+18:01:14.503 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
