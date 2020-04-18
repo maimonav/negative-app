@@ -19,6 +19,22 @@ context("Manage Suppliers", () => {
     cy.login(user, user);
   });
 
+  it("add new supplier", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(suppliersTabHook);
+    cy.chooseAction(addActionHook);
+
+    cy.get(`[data-hook=${userNameHook}`)
+      .click()
+      .type(supplier);
+
+    cy.get(`[data-hook=${contactDetailsHook}]`)
+      .click()
+      .type(contactDetails);
+
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
+
   it("show supplier", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
@@ -31,22 +47,6 @@ context("Manage Suppliers", () => {
       .type("{enter}");
 
     cy.get(`[data-hook=${contactDetailsHook}]`);
-  });
-
-  it("add new supplier", () => {
-    cy.accessTab(userActionsTabHook);
-    cy.accessTab(suppliersTabHook);
-    cy.chooseAction(addActionHook);
-
-    cy.get(`[data-hook=${userNameHook}`)
-      .click()
-      .type("test");
-
-    cy.get(`[data-hook=${contactDetailsHook}]`)
-      .click()
-      .type(contactDetails);
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
   it("edit supplier", () => {

@@ -8,8 +8,7 @@ class ServiceLayer {
     this.userCounter = 3;
     this.suppliers = new Map();
     // just for example purposes
-    this.suppliers.set("supplier", 0);
-    this.supplierCounter = 1;
+    this.supplierCounter = 0;
     this.products = new Map();
     this.products.set("product", 0);
     this.productsCounter = 1;
@@ -381,28 +380,15 @@ class ServiceLayer {
       : !this.isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
-    if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- editSupplier - ", validationResult);
-      return validationResult;
-    }
+    if (validationResult !== "Valid") return validationResult;
     if (!this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- editSupplier - The supplier " +
-          supplierName +
-          " does not exist"
-      );
       return "The supplier does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- editSupplier - The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
-      );
       return "The user performing the operation does not exist in the system";
     }
-    return await this.cinemaSystem.editSupplier(
-      this.supplierCounter,
+    return this.cinemaSystem.editSupplier(
+      this.suppliers.get(supplierName),
       supplierName,
       contactDetails,
       this.users.get(ActionIDOfTheOperation)
@@ -415,28 +401,16 @@ class ServiceLayer {
       : !this.isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
-    if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- removeSupplier - ", validationResult);
-      return validationResult;
-    }
+    if (validationResult !== "Valid") return validationResult;
+
     if (!this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- removeSupplier - The supplier " +
-          supplierName +
-          " does not exist"
-      );
       return "The supplier does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- removeSupplier - The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
-      );
       return "The user performing the operation does not exist in the system";
     }
     let result = await this.cinemaSystem.removeSupplier(
-      this.supplierCounter,
+      this.suppliers.get(supplierName),
       this.users.get(ActionIDOfTheOperation)
     );
     if (result === "The supplier removed successfully") {
