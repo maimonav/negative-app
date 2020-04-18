@@ -8,7 +8,7 @@ class ServiceLayer {
     this.userCounter = 3;
     this.suppliers = new Map();
     // just for example purposes
-    this.supplierCounter = 1;
+    this.supplierCounter = 0;
     this.products = new Map();
     this.products.set("product", 0);
     this.productsCounter = 1;

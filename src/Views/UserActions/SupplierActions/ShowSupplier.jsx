@@ -36,7 +36,7 @@ export default class ShowSupplier extends React.Component {
     handleGetSupplierDetails(supplierName, localStorage.getItem("username"))
       .then(response => response.json())
       .then(state => {
-        this.setState({ contactDetails: state.result.contactDetails || "" });
+        this.setState({ contactDetails: state.result || "" });
       });
   };
 
