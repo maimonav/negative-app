@@ -23,7 +23,7 @@ class CinemaSystem {
 
   async initCinemaSystem(dbName) {
     //Turn database off
-    DataBase.testModeOn();
+    //DataBase.testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
     if (typeof result === "string") {
