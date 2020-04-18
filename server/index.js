@@ -409,6 +409,14 @@ app.get("/api/getProductDetails", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
+app.get("/api/getCategoryDetails", (req, res) => {
+  const categoryName =
+    (req.query.categoryName && req.query.categoryName.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = service.getCategoryDetails(categoryName, user);
+  res.send(JSON.stringify({ result }));
+});
+
 app.get("/api/getProductAndQuntityByOrder", (req, res) => {
     const user = (req.query.user && req.query.user.trim()) || "";
     const orderName = (req.query.orderName && req.query.orderName.trim()) || "";

@@ -7,9 +7,7 @@ import Tab from "@material-ui/core/Tab";
 import {
   manageInventoryPath,
   manageCafeteriaPath,
-  addCategoryPath,
-  editCategoryPath,
-  removeCategoryPath,
+  manageCategoriesPath,
   manageMoviesPath,
 } from "../../consts/paths";
 import { moviesTabHook } from "../../consts/data-hooks";
@@ -71,19 +69,14 @@ export default function InventoryActionsDropDownTab(props) {
             <Tab label="Manage Movies" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
-        <Link to={addCategoryPath} style={style}>
-          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab label="Add Category" style={{ textTransform: "none" }} />
-          </MenuItem>
-        </Link>
-        <Link to={editCategoryPath} style={style}>
-          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab label="Edit Category" style={{ textTransform: "none" }} />
-          </MenuItem>
-        </Link>
-        <Link to={removeCategoryPath} style={style}>
-          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab label="Remove Category" style={{ textTransform: "none" }} />
+        <Link to={manageCategoriesPath} style={style}>
+          <MenuItem
+            value={1}
+            onClick={handleClose}
+            data-hook={moviesTabHook}
+            style={menuStyle}
+          >
+            <Tab label="Manage Categories" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
       </Menu>

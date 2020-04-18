@@ -23,14 +23,16 @@ import ManageCafeteria from "./InventoryActions/CafeteriaActions/ManageCafeteria
 import ShowCafeteriaOrder from "./InventoryActions/CafeteriaActions/ShowCafeteriaOrders";
 import AddCafeteriaOrder from "./InventoryActions/CafeteriaActions/AddCafeteriaOrder";
 import RemoveCafeteriaOrder from "./InventoryActions/CafeteriaActions/RemoveCafeteriaOrder";
-import AddCategory from "./InventoryActions/ProductsActions/AddCategory";
-import RemoveCategory from "./InventoryActions/ProductsActions/RemoveCategory";
+import ManageCategories from "./InventoryActions/CategoryActions/ManageCategories";
+import ShowCategories from "./InventoryActions/CategoryActions/ShowCategories";
+import AddCategory from "./InventoryActions/CategoryActions/AddCategory";
+import EditCategoey from "./InventoryActions/CategoryActions/EditCategory";
+import RemoveCategory from "./InventoryActions/CategoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
 import AddMovieOrder from "./InventoryActions/MoviesActions/AddMovieOrder";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 import ShowReport from "./ReportsActions/ShowReport";
 import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
-import EditCategoey from "./InventoryActions/ProductsActions/EditCategory";
 
 export {
   Login,
@@ -60,6 +62,8 @@ export {
   ShowCafeteriaOrder,
   AddCafeteriaOrder,
   RemoveCafeteriaOrder,
+  ManageCategories,
+  ShowCategories,
   AddCategory,
   EditCategoey,
   RemoveCategory,

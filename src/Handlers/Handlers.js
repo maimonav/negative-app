@@ -495,6 +495,14 @@ export function handleGetProductDetails(productName, user) {
   );
 }
 
+export function handleGetCategoryDetails(categoryName, user) {
+  return fetch(
+    `/api/getCategoryDetails?categoryName=${encodeURIComponent(
+      categoryName
+    )}&user=${encodeURIComponent(user)}`
+  );
+}
+
 export function handleGetReportTypes(user) {
   return fetch(`/api/getReportTypes?user=${encodeURIComponent(user)}`);
 }

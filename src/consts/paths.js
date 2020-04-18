@@ -16,6 +16,7 @@ export const manageCafeteriaPath = "/manageCafeteria";
 export const addCafeteriaOrderPath = "/addCafeteriaOrder";
 export const editCafeteriaOrderPath = "/editCafeteriaOrder";
 export const removeCafeteriaOrderPath = "/removeCafeteriaOrder";
+export const manageCategoriesPath = "/manageCategories";
 export const addCategoryPath = "/addCategory";
 export const editCategoryPath = "/editCategory";
 export const removeCategoryPath = "/removeCategory";
