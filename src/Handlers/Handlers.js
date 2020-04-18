@@ -279,7 +279,7 @@ export function handleRemoveSupplier(name) {
 export function handleAddCategory(categoryName, parentName) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/addCategory?name=${encodeURIComponent(
+    `api/addCategory?categoryName=${encodeURIComponent(
       categoryName
     )}&parentName=${encodeURIComponent(parentName)}&user=${encodeURIComponent(
       user
