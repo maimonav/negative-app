@@ -8,20 +8,31 @@ import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
+import ComboBox from "../../../Components/AutoComplete";
+import { handleGetCategories } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class AddCategory extends React.Component {
+export default class EditCategory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categoryName: "",
       parentName: "",
     };
+    this.setInitialState();
   }
 
-  setCategoryName(event) {
-    this.setState({ categoryName: event.target.value });
-  }
+  setInitialState = () => {
+    handleGetCategories(localStorage.getItem("username"))
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ categories: state.result });
+      });
+  };
+
+  setCategoryName = (name) => {
+    this.setState({ categoryName: name });
+  };
 
   setCategoryParentName(event) {
     this.setState({ parentName: event.target.value });
@@ -35,19 +46,18 @@ export default class AddCategory extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Add new Category</h4>
+                <h4 style={{ margin: "auto" }}>Edit Category</h4>
                 <p>Complete Category's details</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Category Name"
-                      id="categoryName"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(event) => this.setCategoryName(event)}
+                    <ComboBox
+                      id={"categoryName"}
+                      items={this.state.categories}
+                      boxLabel={"Choose category from the list"}
+                      setName={this.setCategoryName}
+                      isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
@@ -68,7 +78,7 @@ export default class AddCategory extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleAddCategory(categoryName, parentName)
+                    this.props.handleEditCategory(categoryName, parentName)
                   }
                 >
                   Add New Category

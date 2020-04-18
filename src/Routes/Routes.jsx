@@ -13,7 +13,8 @@ import {
   addCategoryPath,
   removeCategoryPath,
   manageMoviesPath,
-  showReportPath
+  showReportPath,
+  editCategoryPath,
 } from "../consts/paths";
 
 import {
@@ -22,7 +23,8 @@ import {
   handleEditMovie,
   handleRemoveMovie,
   handleAddCategory,
-  handleRemoveCategory
+  handleEditCategory,
+  handleRemoveCategory,
 } from "../Handlers/Handlers";
 
 import {
@@ -37,8 +39,9 @@ import {
   AddCategory,
   RemoveCategory,
   ManageMovies,
-  ShowReport
+  ShowReport,
 } from "../Views/index";
+import EditCategory from "../Views/InventoryActions/ProductsActions/EditCategory";
 
 export default function Routes(props) {
   return (
@@ -79,6 +82,14 @@ export default function Routes(props) {
           path={addCategoryPath}
           component={() => (
             <AddCategory handleAddCategory={handleAddCategory} />
+          )}
+        />
+      )}
+      {props.isLogged && (
+        <Route
+          path={editCategoryPath}
+          component={() => (
+            <EditCategory handleEditCategory={handleEditCategory} />
           )}
         />
       )}

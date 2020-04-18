@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
-service.initSeviceLayer().then(result => {
+service.initSeviceLayer().then((result) => {
   if (typeof result === "string") {
     //TODO::
   }
@@ -258,8 +258,17 @@ app.get("/api/confirmCafeteriaOrder", (req, res) => {
 
 app.get("/api/addCategory", async (req, res) => {
   const categoryName = req.query.categoryName.trim() || "";
+  const parentName = req.query.parentName.trim() || "";
   const user = req.query.user.trim() || "";
-  const result = await service.addCategory(categoryName, user);
+  const result = await service.addCategory(categoryName, user, parentName);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/editCategory", async (req, res) => {
+  const categoryName = req.query.categoryName.trim() || "";
+  const parentName = req.query.parentName.trim() || "";
+  const user = req.query.user.trim() || "";
+  const result = await service.editCategory(categoryName, user, parentName);
   res.send(JSON.stringify({ result }));
 });
 
@@ -330,7 +339,7 @@ app.get("/api/getItemsByDates", (req, res) => {
   const user = req.query.user.trim() || "";
   const startDate = req.query.startDate.trim() || "";
   const endDate = req.query.endDate.trim() || "";
-  const result = service.getCafeteriaOrders(user);
+  const result = service.getCafeteriaOrders(startDate, endDate, user);
   res.send(JSON.stringify({ result }));
 });
 

@@ -8,8 +8,9 @@ import {
   manageInventoryPath,
   manageCafeteriaPath,
   addCategoryPath,
+  editCategoryPath,
   removeCategoryPath,
-  manageMoviesPath
+  manageMoviesPath,
 } from "../../consts/paths";
 import { moviesTabHook } from "../../consts/data-hooks";
 const style = { textDecoration: "none", color: "black" };
@@ -18,11 +19,11 @@ const menuStyle = { justifyContent: "center" };
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = path => {
+  const handleClose = (path) => {
     setAnchorEl(null);
     props.handleTabChange && props.handleTabChange(path);
   };
@@ -47,7 +48,7 @@ export default function InventoryActionsDropDownTab(props) {
         style={{
           marginTop: "34px",
           marginLeft: "5px",
-          maxWidth: "175px"
+          maxWidth: "175px",
         }}
       >
         <Link to={manageInventoryPath} style={style}>
@@ -73,6 +74,11 @@ export default function InventoryActionsDropDownTab(props) {
         <Link to={addCategoryPath} style={style}>
           <MenuItem value={1} onClick={handleClose} style={menuStyle}>
             <Tab label="Add Category" style={{ textTransform: "none" }} />
+          </MenuItem>
+        </Link>
+        <Link to={editCategoryPath} style={style}>
+          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+            <Tab label="Edit Category" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
         <Link to={removeCategoryPath} style={style}>
