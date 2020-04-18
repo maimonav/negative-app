@@ -540,6 +540,9 @@ class CinemaSystem {
     getInventoryProducts() {
         return this.inventoryManagement.getInventoryProducts();
     }
+    getMovies() {
+        return this.inventoryManagement.getMovies();
+    }
 
     getSupplierDetails(supplierID) {
         return this.inventoryManagement.getSupplierDetails(supplierID);
