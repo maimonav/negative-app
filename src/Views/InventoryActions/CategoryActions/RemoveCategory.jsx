@@ -49,7 +49,7 @@ export default class RemoveCategory extends React.Component {
                     <ComboBox
                       id={"categoryName"}
                       items={this.state.categories}
-                      boxLabel={"Choose category from the list"}
+                      boxLabel={"Choose category"}
                       setName={this.setCategoryName}
                       isMultiple={false}
                     />

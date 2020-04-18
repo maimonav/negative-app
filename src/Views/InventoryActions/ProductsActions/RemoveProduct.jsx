@@ -15,20 +15,20 @@ export default class RemoveProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: "",
+      productName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaProducts(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ products: state.result });
       });
   };
 
-  setProuctName = (name) => {
+  setProuctName = name => {
     this.setState({ productName: name });
   };
 
@@ -49,7 +49,7 @@ export default class RemoveProduct extends React.Component {
                     <ComboBox
                       id={"productName"}
                       items={this.state.products}
-                      boxLabel={"Choose product from the list"}
+                      boxLabel={"Choose product"}
                       setName={this.setProuctName}
                       isMultiple={false}
                     />

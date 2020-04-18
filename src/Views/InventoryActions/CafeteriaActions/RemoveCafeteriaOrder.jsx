@@ -19,31 +19,31 @@ export default class RemoveCafeteriaOrder extends React.Component {
       isOpened: false,
       startDate: new Date(),
       endDate: new Date(),
-      orderName: "",
+      orderName: ""
     };
     this.toggleBox = this.toggleBox.bind(this);
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate)
-      .then((response) => response.json())
-      .then((state) => this.setState({ orders: state.result }));
+      .then(response => response.json())
+      .then(state => this.setState({ orders: state.result }));
   };
 
   toggleBox() {
     this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
-  setOrderName = (name) => {
+  setOrderName = name => {
     this.setState({ orderName: name });
   };
 
-  setStartDate = (date) => {
+  setStartDate = date => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = (date) => {
+  setEndDate = date => {
     this.setState({ endDate: date });
   };
 
@@ -90,7 +90,7 @@ export default class RemoveCafeteriaOrder extends React.Component {
                       <ComboBox
                         id={"orderName"}
                         items={this.state.orders}
-                        boxLabel={"Choose order from the list"}
+                        boxLabel={"Choose order"}
                         setName={this.setOrderName}
                         isMultiple={false}
                       />

@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
   handleGetCafeteriaProducts,
-  handleGetSuppliers,
+  handleGetSuppliers
 } from "../../../Handlers/Handlers";
 import EditTable from "../../../Components/Tables/EditTable";
 const style = { justifyContent: "center", top: "auto" };
@@ -25,7 +25,7 @@ export default class AddCafeteriaOrder extends React.Component {
       orderDate: new Date(),
       productsWithQuantity: "",
       isOpened: false,
-      openSecond: false,
+      openSecond: false
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
@@ -34,49 +34,49 @@ export default class AddCafeteriaOrder extends React.Component {
 
   setInitialState = () => {
     handleGetCafeteriaProducts(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ products: state.result });
       });
     handleGetSuppliers(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ suppliers: state.result });
       });
   };
 
   toggleBox() {
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
-    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
-  setProductsName = (name) => {
+  setProductsName = name => {
     this.setState({
-      productsName: name.map((item) => ({ name: item.title, quantity: "" })),
+      productsName: name.map(item => ({ name: item.title, quantity: "" }))
     });
   };
 
-  setProductsWithQuantity = (name) => {
+  setProductsWithQuantity = name => {
     this.setState({
-      productsWithQuantity: name,
+      productsWithQuantity: name
     });
   };
 
-  setOrderDate = (date) => {
+  setOrderDate = date => {
     this.setState({ orderDate: date });
   };
 
-  setSupplierName = (event) => {
+  setSupplierName = event => {
     this.setState({ supplierName: event });
   };
 
   columns = [
     { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "quantity" },
+    { title: "Quantity", field: "quantity" }
   ];
 
   render() {
@@ -86,7 +86,7 @@ export default class AddCafeteriaOrder extends React.Component {
       orderDate,
       productsWithQuantity,
       isOpened,
-      openSecond,
+      openSecond
     } = this.state;
     return (
       <div>
@@ -103,7 +103,7 @@ export default class AddCafeteriaOrder extends React.Component {
                     <ComboBox
                       id={"productsName"}
                       items={this.state.products}
-                      boxLabel={"Choose product from the list"}
+                      boxLabel={"Choose product"}
                       setName={this.setProductsName}
                       isMultiple={true}
                     />
@@ -146,7 +146,7 @@ export default class AddCafeteriaOrder extends React.Component {
                       <ComboBox
                         id={"supplierName"}
                         items={this.state.suppliers}
-                        boxLabel={"Choose supplier from the list"}
+                        boxLabel={"Choose supplier"}
                         setName={this.setSupplierName}
                         isMultiple={false}
                       />
