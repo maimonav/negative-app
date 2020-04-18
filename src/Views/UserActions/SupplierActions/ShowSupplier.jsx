@@ -36,7 +36,7 @@ export default class ShowSupplier extends React.Component {
     handleGetSupplierDetails(supplierName, localStorage.getItem("username"))
       .then(response => response.json())
       .then(state => {
-        this.setState({ contactDetails: state.result });
+        this.setState({ contactDetails: state.result.contactDetails || "" });
       });
   };
 
@@ -60,14 +60,14 @@ export default class ShowSupplier extends React.Component {
                     data-hook={userNameHook}
                   />
                 </GridItem>
-                {this.state.supplierName && (
+                {this.state.contactDetails && (
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={8}>
                       <TextField
                         id="filled-read-only-input"
                         defaultValue=""
                         label="Contact details"
-                        value={this.state.contactDetails || ""}
+                        value={this.state.contactDetails}
                         InputProps={{
                           readOnly: true
                         }}
