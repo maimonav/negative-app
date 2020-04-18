@@ -114,6 +114,7 @@ class InventoryManagemnt {
             DBlogger.info("InventoryManagemnt - addNewSupplier - ", result);
             return "The supplier cannot be added\n" + result;
         }
+        this.writeToLog("info", "editSupplier", 'The supplier ' + supplierID + ' set to the Supplier dictionary');
         this.suppliers.set(supplierID, supplier);
         return "The supplier added successfully";
     }
@@ -389,8 +390,8 @@ class InventoryManagemnt {
             return "Product quantity must be greater or equal to 0";
         }
         if (
-            typeof maxQuantity !== "undefined" &&
-            typeof minQuantity !== "undefined" &&
+            typeof maxQuantity === "number" &&
+            typeof minQuantity !== "number" &&
             maxQuantity <= minQuantity
         ) {
             this.writeToLog(
@@ -515,11 +516,7 @@ class InventoryManagemnt {
         const output = {};
         if (this.suppliers.has(supplierID)) {
             const supplier = this.suppliers.get(supplierID);
-            return {
-                id: supplier.id,
-                name: supplier.name,
-                contactDetails: supplier.contactDetails,
-            };
+            return supplier.contactDetails;
         }
         return output;
     }

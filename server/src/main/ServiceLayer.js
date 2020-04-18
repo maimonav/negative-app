@@ -327,7 +327,6 @@ class ServiceLayer {
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") return validationResult;
-
         if (!this.suppliers.has(supplierName)) {
             return "The supplier does not exist";
         }
@@ -335,7 +334,7 @@ class ServiceLayer {
             return "The user performing the operation does not exist in the system";
         }
         return this.cinemaSystem.editSupplier(
-            this.supplierCounter,
+            this.suppliers.get(supplierName),
             supplierName,
             contactDetails,
             this.users.get(ActionIDOfTheOperation)
@@ -357,7 +356,7 @@ class ServiceLayer {
             return "The user performing the operation does not exist in the system";
         }
         let result = await this.cinemaSystem.removeSupplier(
-            this.supplierCounter,
+            this.suppliers.get(supplierName),
             this.users.get(ActionIDOfTheOperation)
         );
         if (result === "The supplier removed successfully") {
@@ -450,6 +449,7 @@ class ServiceLayer {
 
     async removeProduct(productName, ActionIDOfTheOperation) {
         if (!this.products.has(productName)) {
+            logger.info("ServiceLayer- removeProduct - " + "The product " + productName + " does not exist");
             return "The product does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {

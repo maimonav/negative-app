@@ -141,28 +141,28 @@ app.get("/api/removeMovie", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addNewSupplier", (req, res) => {
+app.get("/api/addNewSupplier", async(req, res) => {
     const name = (req.query.name && req.query.name.trim()) || "";
     const contactDetails =
         (req.query.contactDetails && req.query.contactDetails.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.addNewSupplier(name, contactDetails, user);
+    const result = await service.addNewSupplier(name, contactDetails, user);
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/editSupplier", (req, res) => {
+app.get("/api/editSupplier", async(req, res) => {
     const name = (req.query.name && req.query.name.trim()) || "";
     const contactDetails =
         (req.query.contactDetails && req.query.contactDetails.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.editSupplier(name, contactDetails, user);
+    const result = await service.editSupplier(name, contactDetails, user);
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/removeSupplier", (req, res) => {
+app.get("/api/removeSupplier", async(req, res) => {
     const name = (req.query.name && req.query.name.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.removeSupplier(name, user);
+    const result = await service.removeSupplier(name, user);
     res.send(JSON.stringify({ result }));
 });
 
