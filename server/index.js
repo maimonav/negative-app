@@ -92,14 +92,14 @@ app.get("/api/removeEmployee", async(req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addMovieOrder", (req, res) => {
+app.get("/api/addMovieOrder", async(req, res) => {
     const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
     const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
     const supplierName =
         (req.query.supplierName && req.query.supplierName.trim()) || "";
     const moviesName = (req.query.movieName && req.query.moviesName.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.addMovieOrder(
+    const result = await service.addMovieOrder(
         orderId,
         orderDate,
         supplierName,
@@ -109,22 +109,22 @@ app.get("/api/addMovieOrder", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/addMovie", (req, res) => {
+app.get("/api/addMovie", async(req, res) => {
     const movieName = (req.query.movieName && req.query.movieName.trim()) || "";
     const category = (req.query.category && req.query.category.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.addMovie(movieName, category, user);
+    const result = await service.addMovie(movieName, category, user);
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/editMovie", (req, res) => {
+app.get("/api/editMovie", async(req, res) => {
     const movieName = (req.query.movieName && req.query.movieName.trim()) || "";
     const category = (req.query.category && req.query.category.trim()) || "";
     const key = (req.query.key && req.query.key.trim()) || "";
     const examinationRoom =
         (req.query.examinationRoom && req.query.examinationRoom.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.editMovie(
+    const result = await service.editMovie(
         movieName,
         category,
         key,
@@ -134,10 +134,10 @@ app.get("/api/editMovie", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/removeMovie", (req, res) => {
+app.get("/api/removeMovie", async(req, res) => {
     const movieName = (req.query.movieName && req.query.movieName.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.removeMovie(movieName, user);
+    const result = await service.removeMovie(movieName, user);
     res.send(JSON.stringify({ result }));
 });
 
@@ -349,7 +349,7 @@ app.get("/api/getMovies", (req, res) => {
 app.get("/api/getCategories", (req, res) => {
     const user = (req.query.user && req.query.user.trim()) || "";
     const result = service.getCategories(user);
-    console.log('result = ');
+    console.log("result = ");
     result.map((category) => console.log(category));
     res.send(JSON.stringify({ result }));
 });
@@ -422,12 +422,12 @@ app.get("/api/getReportTypes", (req, res) => {
     res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/getReport", (req, res) => {
+app.get("/api/getReport", async(req, res) => {
     const reportType =
         (req.query.reportType && req.query.reportType.trim()) || "";
     const date = (req.query.date && req.query.date.trim()) || "";
     const user = (req.query.user && req.query.user.trim()) || "";
-    const result = service.getReport(reportType, date, user);
+    const result = await service.getReport(reportType, date, user);
     res.send(JSON.stringify({ result }));
 });
 

@@ -197,6 +197,7 @@ class ServiceLayer {
             this.users.delete(userName);
         return res;
     }
+
     async addMovie(movieName, category, ActionIDOfTheOperation) {
         let validationResult = !this.isInputValid(movieName) ?
             "Movie Name is not valid" :
@@ -205,15 +206,31 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- addMovie - ", validationResult);
+            return validationResult;
+        }
 
         if (this.products.has(movieName)) {
+            logger.info(
+                "ServiceLayer- addMovie - The movie " + movieName + " already exists"
+            );
             return "The movie already exists";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- addMovie - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
-        if (!this.categories.has(category)) return "The category does not exist";
+        if (!this.categories.has(category)) {
+            logger.info(
+                "ServiceLayer- addMovie - The category " + category + " does not exist"
+            );
+            return "The category does not exist";
+        }
         let result = await this.cinemaSystem.addMovie(
             this.productsCounter,
             movieName,
@@ -245,18 +262,32 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- editMovie - ", validationResult);
+            return validationResult;
+        }
 
         if (!this.products.has(movieName)) {
+            logger.info(
+                "ServiceLayer- editMovie - The movie " + movieName + " does not exist"
+            );
             return "The movie does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- editMovie - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
         if (!this.categories.has(category)) {
+            logger.info(
+                "ServiceLayer- editMovie - The category " + category + " does not exist"
+            );
             return "The category does not exist";
         }
-        return this.cinemaSystem.editMovie(
+        return await this.cinemaSystem.editMovie(
             this.products.get(movieName),
             this.categories.get(category),
             key,
@@ -271,12 +302,23 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- removeMovie - ", validationResult);
+            return validationResult;
+        }
 
         if (!this.products.has(movieName)) {
+            logger.info(
+                "ServiceLayer- removeMovie - The movie " + movieName + " does not exist"
+            );
             return "The movie does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- removeMovie - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
         let res = await this.cinemaSystem.removeMovie(
@@ -297,12 +339,25 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- addNewSupplier - ", validationResult);
+            return validationResult;
+        }
 
         if (this.suppliers.has(supplierName)) {
+            logger.info(
+                "ServiceLayer- addNewSupplier - The supplier " +
+                supplierName +
+                " already exists"
+            );
             return "The supplier already exists";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- addNewSupplier - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
         let result = await this.cinemaSystem.addNewSupplier(
@@ -424,7 +479,11 @@ class ServiceLayer {
             return "The product doesn't exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info("The user " + ActionIDOfTheOperation + " performing the operation does not exist in the system")
+            logger.info(
+                "The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
         let categoryID;
@@ -449,7 +508,6 @@ class ServiceLayer {
 
     async removeProduct(productName, ActionIDOfTheOperation) {
         if (!this.products.has(productName)) {
-            logger.info("ServiceLayer- removeProduct - " + "The product " + productName + " does not exist");
             return "The product does not exist";
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
@@ -480,7 +538,11 @@ class ServiceLayer {
             return "The user performing the operation does not exist in the system";
         }
         let parentId;
-        if (typeof parentName !== 'undefined' && parentName !== null && (typeof parentName !== 'string' || (parentName !== '' || parentName !== ""))) {
+        if (
+            typeof parentName !== "undefined" &&
+            parentName !== null &&
+            (typeof parentName !== "string" || parentName !== "" || parentName !== "")
+        ) {
             if (this.categories.has(parentName))
                 parentId = this.categories.get(parentName);
             else {
@@ -586,18 +648,44 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
-        if (this.orders.has(orderId)) return "The order already exist";
-        if (!this.suppliers.has(supplierName)) return "The supplier does not exist";
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- addMovieOrder - ", validationResult);
+            return validationResult;
+        }
+        if (this.orders.has(orderId)) {
+            logger.info(
+                "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
+            );
+            return "The order already exist";
+        }
+        if (!this.suppliers.has(supplierName)) {
+            logger.info(
+                "ServiceLayer- addMovieOrder - The supplier " +
+                supplierName +
+                " does not exist"
+            );
+            return "The supplier does not exist";
+        }
         moviesList = JSON.parse(moviesList);
         for (let i in moviesList) {
-            if (!this.products.has(moviesList[i])) return "Movie does not exist";
+            if (!this.products.has(moviesList[i])) {
+                logger.info(
+                    "ServiceLayer- addMovieOrder - The movie " +
+                    moviesList[i] +
+                    " does not exist"
+                );
+                return "Movie does not exist";
+            }
             moviesList[i] = this.products.get(moviesList[i]);
         }
-        if (!this.users.has(ActionIDOfTheOperation))
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- addMovieOrder - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
-
+        }
         let result = await this.cinemaSystem.addMovieOrder(
             this.ordersCounter,
             date,
@@ -618,11 +706,24 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
-        if (!this.orders.has(orderId)) return "The order does not exist";
-        if (!this.users.has(ActionIDOfTheOperation))
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- removeOrder - ", validationResult);
+            return validationResult;
+        }
+        if (!this.orders.has(orderId)) {
+            logger.info(
+                "ServiceLayer- removeOrder - The order " + orderId + " does not exist"
+            );
+            return "The order does not exist";
+        }
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- removeOrder - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
+        }
         let result = await this.cinemaSystem.removeOrder(
             this.orders.get(orderId),
             this.users.get(ActionIDOfTheOperation)
@@ -650,20 +751,48 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
-        if (this.orders.has(orderId)) return "The order already exist";
-        if (!this.suppliers.has(supplierName)) return "The supplier does not exist";
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- addCafeteriaOrder - ", validationResult);
+            return validationResult;
+        }
+        if (this.orders.has(orderId)) {
+            logger.info(
+                "ServiceLayer- addCafeteriaOrder - The order " +
+                orderId +
+                " already exists"
+            );
+            return "The order already exist";
+        }
+        if (!this.suppliers.has(supplierName)) {
+            logger.info(
+                "ServiceLayer- addCafeteriaOrder - The supplier " +
+                supplierName +
+                " does not exist"
+            );
+            return "The supplier does not exist";
+        }
         productsList = JSON.parse(productsList);
         for (let i = 0; i < productsList.length; i++) {
-            if (!this.products.has(productsList[i].name))
+            if (!this.products.has(productsList[i].name)) {
+                logger.info(
+                    "ServiceLayer- addCafeteriaOrder - The product " +
+                    productsList[i].name +
+                    " does not exist"
+                );
                 return "Product does not exist";
+            }
             productsList[i].id = this.products.get(productsList[i].name);
             productsList[i].quantity = parseInt(productsList[i].quantity);
             delete productsList[i].name;
         }
-        if (!this.users.has(ActionIDOfTheOperation))
+        if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- addCafeteriaOrder - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
+        }
         let result = await this.cinemaSystem.addCafeteriaOrder(
             this.ordersCounter,
             date,
@@ -709,12 +838,22 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
+        if (validationResult !== "Valid") {
+            logger.info(
+                "ServiceLayer- removeFieldFromDailyReport - ",
+                validationResult
+            );
+            return validationResult;
+        }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- removeFieldFromDailyReport - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
-        return this.cinemaSystem.removeFieldFromDailyReport(
+        return await this.cinemaSystem.removeFieldFromDailyReport(
             fieldToRemove,
             this.users.get(ActionIDOfTheOperation)
         );
@@ -726,12 +865,19 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- addFieldToDailyReport - ", validationResult);
+            return validationResult;
+        }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- addFieldToDailyReport - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
-        return this.cinemaSystem.addFieldToDailyReport(
+        return await this.cinemaSystem.addFieldToDailyReport(
             newField,
             this.users.get(ActionIDOfTheOperation)
         );
@@ -745,12 +891,19 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- createDailyReport - ", validationResult);
+            return validationResult;
+        }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- createDailyReport - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
-        return this.cinemaSystem.createDailyReport(
+        return await this.cinemaSystem.createDailyReport(
             type,
             JSON.parse(records),
             this.users.get(ActionIDOfTheOperation)
@@ -765,12 +918,19 @@ class ServiceLayer {
             !this.isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
-        if (validationResult !== "Valid") return validationResult;
-
+        if (validationResult !== "Valid") {
+            logger.info("ServiceLayer- getReport - ", validationResult);
+            return validationResult;
+        }
         if (!this.users.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "ServiceLayer- getReport - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
-        return this.cinemaSystem.getReport(
+        return await this.cinemaSystem.getReport(
             type,
             new Date(date),
             this.users.get(ActionIDOfTheOperation)

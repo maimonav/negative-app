@@ -391,7 +391,7 @@ class InventoryManagemnt {
         }
         if (
             typeof maxQuantity === "number" &&
-            typeof minQuantity !== "number" &&
+            typeof minQuantity === "number" &&
             maxQuantity <= minQuantity
         ) {
             this.writeToLog(

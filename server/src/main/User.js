@@ -4,7 +4,9 @@ const permissionDictionery = {
     ADMIN: 5,
     MANAGER: 4,
     DEPUTY_MANAGER: 3,
+    'DEPUTY MANAGER': 3,
     SHIFT_MANAGER: 2,
+    'SHIFT MANAGER': 2,
     EMPLOYEE: 1
 };
 

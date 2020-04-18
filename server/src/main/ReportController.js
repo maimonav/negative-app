@@ -1,4 +1,10 @@
 const DataBase = require("./DataLayer/DBManager");
+const simpleLogger = require("simple-node-logger");
+const logger = simpleLogger.createSimpleLogger("project.log");
+const DBlogger = simpleLogger.createSimpleLogger({
+  logFilePath: "database.log",
+  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
+});
 
 class ReportController {
   static types = {
@@ -39,9 +45,10 @@ class ReportController {
       });
     }
     let result = await DataBase.executeActions(actionsList);
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - createDailyReport - ", result);
       return "The report cannot be created\n" + result;
-
+    }
     return "The report created successfully";
   }
 
@@ -52,8 +59,10 @@ class ReportController {
     let result = await DataBase.singleGetById(type, {
       date: new Date(this.getSyncDateFormat(new Date(date))),
     });
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - getReport - ", result);
       return "There was a problem getting the report\n" + result;
+    }
     if (result === null) return "The report does not exist";
     return result;
   }
@@ -77,22 +86,28 @@ class ReportController {
       {},
       { fn: "max", fnField: "date" }
     );
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
       return "The report field cannot be added\n" + result;
+    }
     if (result.length === 0) return "The report field cannot be added";
     result = await DataBase.singleGetById(this.types.GENERAL, {
       date: new Date(result[0].date),
     });
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
       return "The report field cannot be added\n" + result;
+    }
     let newProps = result.additionalProps[0].concat(newField);
     result = await DataBase.singleUpdate(
       this.types.GENERAL,
       { date: new Date(result.date) },
       { additionalProps: [newProps, result.additionalProps[1]] }
     );
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
       return "The report field cannot be added\n" + result;
+    }
     return "The report field added successfully";
   }
 
@@ -102,14 +117,18 @@ class ReportController {
       {},
       { fn: "max", fnField: "date" }
     );
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
       return "The report field cannot be removed\n" + result;
+    }
     if (result.length === 0) return "The report field cannot be added";
     result = await DataBase.singleGetById(this.types.GENERAL, {
       date: new Date(result[0].date),
     });
-    if (typeof result === "string")
-      return "The report field cannot be added\n" + result;
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
+      return "The report field cannot be removed\n" + result;
+    }
     let newProps = result.additionalProps[0].filter(
       (value) => value !== fieldToRemove
     );
@@ -118,8 +137,10 @@ class ReportController {
       { date: new Date(result.date) },
       { additionalProps: [newProps, result.additionalProps[1]] }
     );
-    if (typeof result === "string")
+    if (typeof result === "string") {
+      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
       return "The report field cannot be removed\n" + result;
+    }
     return "The report field removed successfully";
   }
 }
