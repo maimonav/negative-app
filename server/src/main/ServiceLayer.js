@@ -287,7 +287,7 @@ class ServiceLayer {
       );
       return "The category does not exist";
     }
-    return this.cinemaSystem.editMovie(
+    return await this.cinemaSystem.editMovie(
       this.products.get(movieName),
       this.categories.get(category),
       key,
@@ -401,7 +401,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.editSupplier(
+    return await this.cinemaSystem.editSupplier(
       this.supplierCounter,
       supplierName,
       contactDetails,
@@ -878,7 +878,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.removeFieldFromDailyReport(
+    return await this.cinemaSystem.removeFieldFromDailyReport(
       fieldToRemove,
       this.users.get(ActionIDOfTheOperation)
     );
@@ -902,7 +902,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.addFieldToDailyReport(
+    return await this.cinemaSystem.addFieldToDailyReport(
       newField,
       this.users.get(ActionIDOfTheOperation)
     );
@@ -928,7 +928,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.createDailyReport(
+    return await this.cinemaSystem.createDailyReport(
       type,
       JSON.parse(records),
       this.users.get(ActionIDOfTheOperation)
@@ -955,7 +955,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    return this.cinemaSystem.getReport(
+    return await this.cinemaSystem.getReport(
       type,
       new Date(date),
       this.users.get(ActionIDOfTheOperation)
