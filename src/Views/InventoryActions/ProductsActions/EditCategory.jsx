@@ -40,6 +40,7 @@ export default class EditCategory extends React.Component {
 
   render() {
     const { categoryName, parentName } = this.state;
+    console.log("categories: ", this.state.categories);
     return (
       <div>
         <GridContainer style={style}>

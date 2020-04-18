@@ -8,27 +8,27 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { handleGetInventoryProducts } from "../../../Handlers/Handlers";
+import { handleGetCafeteriaProducts } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: ""
+      productName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
-    handleGetInventoryProducts(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+    handleGetCafeteriaProducts(localStorage.getItem("username"))
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ products: state.result });
       });
   };
 
-  setProuctName = name => {
+  setProuctName = (name) => {
     this.setState({ productName: name });
   };
 

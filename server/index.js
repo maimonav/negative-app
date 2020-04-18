@@ -325,7 +325,7 @@ app.get("/api/getCafeteriaProducts", (req, res) => {
 
 app.get("/api/getCafeteriaOrders", (req, res) => {
   const user = req.query.user.trim() || "";
-  const result = service.getCafeteriaProducts(user);
+  const result = service.getCafeteriaOrders(user);
   res.send(JSON.stringify({ result }));
 });
 
