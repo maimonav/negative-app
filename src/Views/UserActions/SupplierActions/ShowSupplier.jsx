@@ -60,7 +60,7 @@ export default class ShowSupplier extends React.Component {
                     data-hook={userNameHook}
                   />
                 </GridItem>
-                {this.state.contactDetails && (
+                {this.state.supplierName && this.state.contactDetails && (
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={8}>
                       <TextField
