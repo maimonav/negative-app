@@ -56,7 +56,7 @@ export default function InventoryActionsDropDownTab(props) {
         </Link>
         <Link to={manageCafeteriaPath} style={style}>
           <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab label="Manage Cafeteria" style={{ textTransform: "none" }} />
+            <Tab label="Manage Orders" style={{ textTransform: "none" }} />
           </MenuItem>
         </Link>
         <Link to={manageMoviesPath} style={style}>

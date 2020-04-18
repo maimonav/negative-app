@@ -42,6 +42,11 @@ const productDetails = {
   productMimQunatity: "50",
 };
 
+const categoryDetails = {
+  categoryName: "Milk",
+  categoryParent: "Dairy products",
+};
+
 const productsAndQuantity = [
   { name: "Milk", quantity: "10" },
   { name: "Bamba", quantity: "30" },
@@ -55,3 +60,4 @@ exports.orderDetails = orderDetails;
 exports.movieDetails = movieDetails;
 exports.productDetails = productDetails;
 exports.productsAndQuantity = productsAndQuantity;
+exports.categoryDetails = categoryDetails;

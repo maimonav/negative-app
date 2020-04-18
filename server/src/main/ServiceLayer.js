@@ -506,6 +506,8 @@ class ServiceLayer {
   }
 
   async removeProduct(productName, ActionIDOfTheOperation) {
+    console.log("products:", this.products);
+    console.log("productName:", productName);
     if (!this.products.has(productName)) {
       return "The product does not exist";
     }
@@ -1004,6 +1006,14 @@ class ServiceLayer {
 
   getProductsAndQuantityByOrder(orderName) {
     return this.cinemaSystem.getProductsAndQuantityByOrder();
+  }
+
+  getProductDetails(productName) {
+    return this.cinemaSystem.getProductDetails();
+  }
+
+  getCategoryDetails(categoryName) {
+    return this.cinemaSystem.getCategoryDetails();
   }
 }
 module.exports = ServiceLayer;

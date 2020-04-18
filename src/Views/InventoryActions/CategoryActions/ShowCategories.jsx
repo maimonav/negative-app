@@ -71,16 +71,16 @@ export default class ShowCategories extends React.Component {
                         }}
                         variant="filled"
                       />
-                      {/* <TextField
+                      <TextField
                         id="field2"
                         defaultValue=""
                         label="Category Parent"
-                        value={this.state.categoryName.orderDate || ""}
+                        value={this.state.categoryName.categoryParent || ""}
                         InputProps={{
                           readOnly: true,
                         }}
                         variant="filled"
-                      /> */}
+                      />
                     </GridItem>
                   </GridContainer>
                 )}

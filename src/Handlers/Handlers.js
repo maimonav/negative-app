@@ -141,7 +141,7 @@ export function handleEditProduct(
 ) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/EditProduct?productName=${encodeURIComponent(
+    `api/editProduct?productName=${encodeURIComponent(
       productName
     )}&productPrice=${encodeURIComponent(
       productPrice
@@ -164,7 +164,7 @@ export function handleRemoveProduct(productName) {
   const user = localStorage.getItem("username");
   fetch(
     `api/removeProduct?productName=${encodeURIComponent(productName)}
-    )}&user=${encodeURIComponent(user)}`
+    &user=${encodeURIComponent(user)}`
   )
     .then((response) => response.json())
     .then((state) => {
