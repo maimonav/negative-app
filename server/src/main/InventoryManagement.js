@@ -388,11 +388,15 @@ class InventoryManagemnt {
             );
             return "Product quantity must be greater or equal to 0";
         }
-        if (typeof maxQuantity === 'number' && typeof minQuantity === 'number' && maxQuantity <= minQuantity) {
+        if (
+            typeof maxQuantity !== "undefined" &&
+            typeof minQuantity !== "undefined" &&
+            maxQuantity <= minQuantity
+        ) {
             this.writeToLog(
                 "info",
                 "addCafeteriaProduct",
-                "Maximum product (" + maxQuantity + ") quantity must be greater than minimum (" + minQuantity + ") product quantity"
+                "Maximum product quantity must be greater than minimum product quantity"
             );
             return "Maximum product quantity must be greater than minimum product quantity";
         }
@@ -744,7 +748,9 @@ class InventoryManagemnt {
 
     getOrdersByDates(startDate, endDate) {
         let result = [];
-        (this.orders.filter((order) => order.date < endDate && order.date > startDate)).map((order) => result.push({ title: order.id }))
+        this.orders
+            .filter((order) => order.date < endDate && order.date > startDate)
+            .map((order) => result.push({ title: order.id }));
     }
 
     writeToLog(type, functionName, msg) {

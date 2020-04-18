@@ -7,7 +7,6 @@ export default function ComboBox(props) {
   const [value, setValue] = React.useState(null);
 
   const handleChange = (event, newValue) => {
-    console.log("newValue: ", newValue);
     props.setName((newValue && newValue.title) || "");
     setValue(newValue);
   };
@@ -24,9 +23,9 @@ export default function ComboBox(props) {
           value={value}
           id={props.id}
           options={props.items}
-          getOptionLabel={option => option.title}
+          getOptionLabel={(option) => option.title}
           style={{ width: 400, maxWidth: "100%" }}
-          renderInput={params => (
+          renderInput={(params) => (
             <TextField {...params} label={props.boxLabel} variant="outlined" />
           )}
           onChange={handleChange}
@@ -38,9 +37,9 @@ export default function ComboBox(props) {
           multiple
           id={props.id}
           options={props.items}
-          getOptionLabel={option => option.title}
+          getOptionLabel={(option) => option.title}
           filterSelectedOptions
-          renderInput={params => (
+          renderInput={(params) => (
             <TextField
               {...params}
               variant="outlined"

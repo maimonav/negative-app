@@ -835,20 +835,12 @@ class ServiceLayer {
         return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
     }
 
-
-    getProductDetails(productName) {
-        if (!this.products.has(productName)) {
-            return "The product does not exist";
-        }
-        return this.cinemaSystem.getCafeteriaProductDetails(this.products.get(productName));
-    }
-
     getProductsByOrder() {
         return this.cinemaSystem.getProductsByOrder();
     }
 
     getOrdersByDates(startDate, endDate) {
-        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
+        return this.cinemaSystem.getOrdersByDates();
     }
 
     getProductsAndQuantityByOrder(orderName) {

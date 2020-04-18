@@ -22,20 +22,20 @@ export default class EditEmployee extends React.Component {
       firstName: "",
       lastName: "",
       permission: "",
-      contactDetails: ""
+      contactDetails: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetEmployees(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ employees: state.result });
       });
   };
 
-  setUsername = userName => {
+  setUsername = (userName) => {
     this.setState({ userName });
   };
 
@@ -51,7 +51,7 @@ export default class EditEmployee extends React.Component {
     this.setState({ lastName: event.target.value });
   }
 
-  setPermission = permission => {
+  setPermission = (permission) => {
     this.setState({ permission });
   };
 
@@ -66,7 +66,7 @@ export default class EditEmployee extends React.Component {
       firstName,
       lastName,
       permission,
-      contactDetails
+      contactDetails,
     } = this.state;
     return (
       <div>
@@ -104,9 +104,9 @@ export default class EditEmployee extends React.Component {
                       labelText="Password"
                       id="password"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setPassword(event)}
+                      onChange={(event) => this.setPassword(event)}
                       autoComplete="new-password"
                     />
                   </GridItem>
@@ -117,9 +117,9 @@ export default class EditEmployee extends React.Component {
                       labelText="First Name"
                       id="first-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setFirstName(event)}
+                      onChange={(event) => this.setFirstName(event)}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -127,9 +127,9 @@ export default class EditEmployee extends React.Component {
                       labelText="Last Name"
                       id="last-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setLastName(event)}
+                      onChange={(event) => this.setLastName(event)}
                     />
                   </GridItem>
                 </GridContainer>
@@ -139,9 +139,9 @@ export default class EditEmployee extends React.Component {
                       labelText="Contact Details"
                       id="contactDetails"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setContactDetails(event)}
+                      onChange={(event) => this.setContactDetails(event)}
                     />
                   </GridItem>
                 </GridContainer>
