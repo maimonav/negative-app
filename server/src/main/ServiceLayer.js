@@ -833,5 +833,17 @@ class ServiceLayer {
     }
     return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
   }
+
+  getProductsByOrder() {
+    return this.cinemaSystem.getProductsByOrder();
+  }
+
+  getOrdersByDates(startDate, endDate) {
+    return this.cinemaSystem.getOrdersByDates();
+  }
+
+  getProductsAndQuantityByOrder(orderName) {
+    return this.cinemaSystem.getProductsAndQuantityByOrder();
+  }
 }
 module.exports = ServiceLayer;

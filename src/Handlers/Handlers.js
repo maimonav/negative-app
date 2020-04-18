@@ -397,9 +397,9 @@ export function handleConfirmCafeteriaOrder(
     });
 }
 
-export function handleGetItemsByDates(userName, startDate, endDate) {
+export function handleGetOrdersByDates(userName, startDate, endDate) {
   return fetch(
-    `api/getItemsByDates?startDate=${encodeURIComponent(
+    `api/getOrdersByDates?startDate=${encodeURIComponent(
       startDate
     )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(
       userName

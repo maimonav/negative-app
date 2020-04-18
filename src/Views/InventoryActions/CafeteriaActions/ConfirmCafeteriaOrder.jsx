@@ -10,7 +10,7 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
-  handleGetItemsByDates,
+  handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
 import EditTable from "../../../Components/Tables/EditTable";
@@ -34,7 +34,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
   }
 
   handleGetItemsByDates = (startDate, endDate) => {
-    handleGetItemsByDates(startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };

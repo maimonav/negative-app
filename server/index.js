@@ -335,7 +335,7 @@ app.get("/api/getInventoryProducts", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/getItemsByDates", (req, res) => {
+app.get("/api/getOrdersByDates", (req, res) => {
   const user = req.query.user.trim() || "";
   const startDate = req.query.startDate.trim() || "";
   const endDate = req.query.endDate.trim() || "";
@@ -346,7 +346,7 @@ app.get("/api/getItemsByDates", (req, res) => {
 app.get("/api/getProductsByOrder", (req, res) => {
   const user = req.query.user.trim() || "";
   const orderName = req.query.orderName.trim() || "";
-  const result = service.getCafeteriaProducts(user);
+  const result = service.getProductsByOrder(orderName, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -374,7 +374,7 @@ app.get("/api/getProductDetails", (req, res) => {
 app.get("/api/getProductAndQuntityByOrder", (req, res) => {
   const user = req.query.user.trim() || "";
   const orderName = req.query.orderName.trim() || "";
-  const result = service.getProductsAndQuantityByOrder(user, orderName);
+  const result = service.getProductsAndQuantityByOrder(orderName, user);
   res.send(JSON.stringify({ result }));
 });
 
