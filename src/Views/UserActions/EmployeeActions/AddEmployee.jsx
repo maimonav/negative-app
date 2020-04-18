@@ -10,6 +10,14 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { permissions } from "../../../consts/data";
+import {
+  permissionsHook,
+  userNameHook,
+  passwordHook,
+  firstNameHook,
+  lastNameHook,
+  contactDetailsHook
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddEmployee extends React.Component {
@@ -76,6 +84,7 @@ export default class AddEmployee extends React.Component {
                       boxLabel={"Choose permission"}
                       setName={this.setPermission}
                       isMultiple={false}
+                      data-hook={permissionsHook}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -86,6 +95,7 @@ export default class AddEmployee extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setUsername(event)}
+                      data-hook={userNameHook}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -98,6 +108,7 @@ export default class AddEmployee extends React.Component {
                       }}
                       onChange={event => this.setPassword(event)}
                       autoComplete="new-password"
+                      data-hook={passwordHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -110,6 +121,7 @@ export default class AddEmployee extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setFirstName(event)}
+                      data-hook={firstNameHook}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -120,6 +132,7 @@ export default class AddEmployee extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setLastName(event)}
+                      data-hook={lastNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -132,6 +145,7 @@ export default class AddEmployee extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setContactDetails(event)}
+                      data-hook={contactDetailsHook}
                     />
                   </GridItem>
                 </GridContainer>

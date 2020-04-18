@@ -9,6 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetEmployees } from "../../../Handlers/Handlers";
+import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveEmployee extends React.Component {
@@ -51,6 +52,7 @@ export default class RemoveEmployee extends React.Component {
                       boxLabel={"Choose employee"}
                       setName={this.setUsername}
                       isMultiple={false}
+                      data-hook={userNameHook}
                     />
                   </GridItem>
                 </GridContainer>
