@@ -598,7 +598,7 @@ class InventoryManagemnt {
       );
       return "The parent category  doesn't exist";
     }
-    const categoryToInsert = new Category(categoryId, categoryName.parentID);
+    const categoryToInsert = new Category(categoryId, categoryName, parentID);
     let result = await categoryToInsert.initCategory();
     if (typeof result === "string") {
       this.writeToLog(
