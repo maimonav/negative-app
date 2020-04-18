@@ -8,12 +8,12 @@ import {
   editActionHook,
   removeActionHook,
   suppliersTabHook
-} from "../../src/consts/data-hooks";
+} from "../../../src/consts/data-hooks";
 
 const user = "admin";
 const supplier = "supplier";
 const contactDetails = "test@gmail.com";
-context("Manage Suppliers", () => {
+context("Type all fields", () => {
   beforeEach(() => {
     cy.startSystem();
     cy.login(user, user);
@@ -31,8 +31,6 @@ context("Manage Suppliers", () => {
     cy.get(`[data-hook=${contactDetailsHook}]`)
       .click()
       .type(contactDetails);
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
   it("show supplier", () => {
@@ -43,10 +41,7 @@ context("Manage Suppliers", () => {
     cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type(supplier)
-      .type("{downarrow}")
-      .type("{enter}");
-
-    cy.get(`[data-hook=${contactDetailsHook}]`);
+      .type("{esc}");
   });
 
   it("edit supplier", () => {
@@ -57,14 +52,7 @@ context("Manage Suppliers", () => {
     cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type(supplier)
-      .type("{downarrow}")
-      .type("{enter}");
-
-    cy.get(`[data-hook=${contactDetailsHook}]`)
-      .click()
-      .type(contactDetails);
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
+      .type("{esc}");
   });
 
   it("remove supplier", () => {
@@ -75,12 +63,40 @@ context("Manage Suppliers", () => {
     cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type(supplier)
-      .type("{downarrow}")
-      .type("{enter}");
+      .type("{esc}");
+  });
 
+  afterEach(() => {
+    cy.logout();
+  });
+});
+
+context("Click all buttons", () => {
+  beforeEach(() => {
+    cy.startSystem();
+    cy.login(user, user);
+  });
+
+  it("add new supplier", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(suppliersTabHook);
+    cy.chooseAction(addActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
+  it("edit supplier", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(suppliersTabHook);
+    cy.chooseAction(editActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
+
+  it("remove supplier", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(suppliersTabHook);
+    cy.chooseAction(removeActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
   afterEach(() => {
     cy.logout();
   });

@@ -12,7 +12,7 @@ import {
   editActionHook,
   removeActionHook,
   actionButtonHook
-} from "../../src/consts/data-hooks";
+} from "../../../src/consts/data-hooks";
 
 const user = "admin";
 const employee = "employee";
@@ -21,7 +21,7 @@ const firstName = "test";
 const lastName = "test";
 const permissions = "ADMIN";
 const contactDetails = "test@gmail.com";
-context("Manage Employees", () => {
+context("Type all fields", () => {
   beforeEach(() => {
     cy.startSystem();
     cy.login(user, user);
@@ -35,8 +35,7 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${permissionsHook}`)
       .click()
       .type(permissions)
-      .type("{downarrow}")
-      .type("{enter}");
+      .type("{esc}");
 
     cy.get(`[data-hook=${userNameHook}`)
       .click()
@@ -57,8 +56,6 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${contactDetailsHook}]`)
       .click()
       .type(contactDetails);
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
   it("show employee", () => {
@@ -69,10 +66,7 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type(employee)
-      .type("{downarrow}")
-      .type("{enter}");
-
-    cy.get(`[data-hook=${contactDetailsHook}]`);
+      .type("{esc}");
   });
 
   it("edit employee", () => {
@@ -83,14 +77,12 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type(employee)
-      .type("{downarrow}")
-      .type("{enter}");
+      .type("{esc}");
 
     cy.get(`[data-hook=${permissionsHook}`)
       .click()
       .type(permissions)
-      .type("{downarrow}")
-      .type("{enter}");
+      .type("{esc}");
 
     cy.get(`[data-hook=${passwordHook}`)
       .click()
@@ -107,8 +99,6 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${contactDetailsHook}]`)
       .click()
       .type(contactDetails);
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
   it("remove employee", () => {
@@ -119,9 +109,38 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${userNameHook}`)
       .click()
       .type(employee)
-      .type("{downarrow}")
-      .type("{enter}");
+      .type("{esc}");
+  });
 
+  afterEach(() => {
+    cy.logout();
+  });
+});
+
+context("Click all buttons", () => {
+  beforeEach(() => {
+    cy.startSystem();
+    cy.login(user, user);
+  });
+
+  it("add new employee", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(employeesTabHook);
+    cy.chooseAction(addActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
+
+  it("edit employee", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(employeesTabHook);
+    cy.chooseAction(editActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
+
+  it("remove employee", () => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(employeesTabHook);
+    cy.chooseAction(removeActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 

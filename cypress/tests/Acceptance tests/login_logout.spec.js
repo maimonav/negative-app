@@ -1,4 +1,4 @@
-import {} from "../../src/consts/data-hooks";
+import {} from "../../../src/consts/data-hooks";
 const user = "admin";
 context("Login & Logout", () => {
   beforeEach(() => {

@@ -8,7 +8,7 @@ import {
   moviesTabHook,
   keyHook,
   examinationRoomHook
-} from "../../src/consts/data-hooks";
+} from "../../../src/consts/data-hooks";
 
 const user = "admin";
 const movie = "movie";
