@@ -47,7 +47,7 @@ app.get("/api/addNewEmployee", async (req, res) => {
   const firstName = (req.query.firstName && req.query.firstName.trim()) || "";
   const lastName = (req.query.lastName && req.query.lastName.trim()) || "";
   const permission =
-    (req.query.permissions && req.query.permission.trim()) || "";
+    (req.query.permission && req.query.permission.trim()) || "";
   const contactDetails =
     (req.query.contactDetails && req.query.contactDetails.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
