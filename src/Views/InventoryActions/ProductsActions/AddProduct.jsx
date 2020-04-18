@@ -42,9 +42,9 @@ export default class AddProduct extends React.Component {
       });
   };
 
-  setProuctName = (name) => {
-    this.setState({ productName: name });
-  };
+  setProuctName(event) {
+    this.setState({ productName: event.target.value });
+  }
 
   setProuctPrice(event) {
     this.setState({ productPrice: event.target.value });
@@ -88,22 +88,23 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"productName"}
-                      items={this.state.products}
-                      boxLabel={"Choose product from the list"}
-                      setName={this.setProuctName}
+                      id={"productCategory"}
+                      items={this.state.categories}
+                      boxLabel={"Choose category from the list"}
+                      setName={this.setProductCategory}
                       isMultiple={false}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"productCategory"}
-                      items={this.state.categories}
-                      boxLabel={"Choose category from the list"}
-                      setName={this.setProductCategory}
-                      isMultiple={false}
+                    <CustomInput
+                      labelText="Product Name"
+                      id="productName"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      onChange={(event) => this.setProuctName(event)}
                     />
                   </GridItem>
                 </GridContainer>
