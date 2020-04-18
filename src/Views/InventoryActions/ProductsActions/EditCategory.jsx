@@ -81,7 +81,7 @@ export default class EditCategory extends React.Component {
                     this.props.handleEditCategory(categoryName, parentName)
                   }
                 >
-                  Add New Category
+                  Edit Category
                 </Button>
               </CardFooter>
             </Card>

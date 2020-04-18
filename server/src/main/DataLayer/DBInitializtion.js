@@ -316,7 +316,7 @@ function initModels() {
             await DataBase.CafeteriaProduct.count({
               categoryId: category.where.id,
             }).then(async (resultProduct) => {
-              if (resultProduct != 0) category.transaction.rollback();
+              if (resultProduct !== 0) category.transaction.rollback();
               else
                 await DataBase.Movie.sync({
                   transaction: category.transaction,
@@ -324,7 +324,7 @@ function initModels() {
                   await DataBase.Movie.count({
                     categoryId: category.where.id,
                   }).then(async (resultMovie) => {
-                    if (resultMovie != 0) category.transaction.rollback();
+                    if (resultMovie !== 0) category.transaction.rollback();
                   });
                 });
             });
