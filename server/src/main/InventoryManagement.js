@@ -3,6 +3,7 @@ const Movie = require("./Movie");
 let DB = require("./DataLayer/DBManager");
 const Supplier = require("./Supplier");
 const CafeteriaProduct = require("./CafeteriaProduct");
+const CafeteriaProductOrder = require("./CafeteriaProductOrder");
 const Category = require("./Category");
 const simpleLogger = require("simple-node-logger");
 const logger = simpleLogger.createSimpleLogger("project.log");
@@ -761,6 +762,22 @@ class InventoryManagemnt {
         this.orders.forEach((order) => {
             if (order.date < endDate && order.date > startDate)
                 result.push({ title: order.id });
+        });
+        return result;
+    }
+
+    getProductsByOrder(orderId) {
+        let result = [];
+        if (!this.orders.has(orderId)) {
+            this.writeToLog('info', 'getProductsByOrder', "The order isn't exist");
+            return { title: "The order " + orderId + " doesn't exists" };
+        }
+        this.orders.get(orderId).productOrders.forEach((product) => {
+            if (product instanceof CafeteriaProductOrder) {
+                result.push({ title: product.product.name });
+            } else {
+                result.push({ title: product.movie.name });
+            }
         })
         return result;
     }

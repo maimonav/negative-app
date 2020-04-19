@@ -996,8 +996,12 @@ class ServiceLayer {
         return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
     }
 
-    getProductsByOrder() {
-        return this.cinemaSystem.getProductsByOrder();
+    getProductsByOrder(orderName) {
+        if (!this.orders.has(orderName)) {
+            logger.info("ServiceLayer- getProductsByOrder - The order " + orderName + " doesn't exists");
+            return { title: "The order " + orderName + " doesn't exists" };
+        }
+        return this.cinemaSystem.getProductsByOrder(this.orders.get(orderName));
     }
 
     getOrdersByDates(startDate, endDate) {
