@@ -2,6 +2,7 @@ import React from "react";
 // core components
 import GridItem from "../../../Components/Grid/GridItem";
 import GridContainer from "../../../Components/Grid/GridContainer.js";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import Button from "../../../Components/CustomButtons/Button.js";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
@@ -11,7 +12,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
   handleGetMovies,
-  handleGetSuppliers
+  handleGetSuppliers,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -19,42 +20,42 @@ export default class AddMovieOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      moviesName: "",
+      movieName: "",
       supplier: "",
       orderDate: new Date(),
-      contactDetails: ""
+      contactDetails: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movies: state.result });
       });
 
     handleGetSuppliers(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setMoviesName = moviesName => {
-    this.setState({ moviesName: moviesName.map(item => item.title) });
-  };
+  setMovieName(event) {
+    this.setState({ movieName: event.target.value });
+  }
 
-  setSupplier = supplier => {
+  setSupplier = (supplier) => {
     this.setState({ supplier });
   };
 
-  setOrderDate = date => {
+  setOrderDate = (date) => {
     this.setState({ orderDate: date });
   };
 
   render() {
-    const { orderDate, moviesName, supplier } = this.state;
+    const { orderDate, movieName, supplier } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -77,22 +78,23 @@ export default class AddMovieOrder extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"moviesName"}
-                      items={this.state.movies}
-                      boxLabel={"Choose movie"}
-                      setName={this.setMoviesName}
-                      isMultiple={true}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
                       id={"supplier"}
                       items={this.state.suppliers}
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplier}
                       isMultiple={false}
+                    />
+                  </GridItem>
+                </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <CustomInput
+                      labelText="Movie Name"
+                      id="movieName"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      onChange={(event) => this.setMovieName(event)}
                     />
                   </GridItem>
                 </GridContainer>
@@ -104,7 +106,7 @@ export default class AddMovieOrder extends React.Component {
                     this.props.handleAddMovieOrder(
                       orderDate,
                       supplier,
-                      moviesName
+                      movieName
                     )
                   }
                 >
