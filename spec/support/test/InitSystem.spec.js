@@ -1,11 +1,17 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
+const MovieOrder = require("../../../server/src/main/MovieOrder");
 const { addEmployee } = require("../DBtests/UserEmployeeTests.spec");
 const {
   addCategory,
   addMovieAfterCategory,
   addProductAfterCategory,
 } = require("../DBtests/ProductsTests.spec");
+const {
+  addSupplier,
+  addOrderAftereSupplierCreator,
+  addProductsOrder,
+} = require("../DBtests/OrdersTests.spec");
 
 describe("Init System Tests", function () {
   let service;
@@ -91,7 +97,7 @@ describe("Init System Tests - Restore data Tests", function () {
     service.cinemaSystem.employeeManagement.employeeDictionary.forEach(
       (value, key) => {
         expect(key).toBe(value.id);
-        expect(value.username).toBe("employee" + key);
+        expect(value.userName).toBe("employee" + key);
       }
     );
   });
@@ -117,7 +123,7 @@ describe("Init System Tests - Restore data Tests", function () {
       (value, key) => {
         expect(key).toBe(value.id);
         expect(value.name).toBe("category" + key);
-        expect(value.id).toBe(value.parentId - 1);
+        expect(value.parentId).toBe(value.id - 1);
       }
     );
   });
@@ -154,10 +160,10 @@ describe("Init System Tests - Restore data Tests", function () {
         false,
         i,
         "product" + i,
-        3 * i,
-        4 * i,
-        i,
-        6 * i
+        3 * i + 1,
+        4 * i + 1,
+        i + 1,
+        6 * i + 2
       );
     }
     service = new ServiceLayer();
@@ -171,10 +177,60 @@ describe("Init System Tests - Restore data Tests", function () {
     service.cinemaSystem.inventoryManagement.products.forEach((value, key) => {
       expect(key).toBe(value.id);
       expect(value.name).toBe("product" + key);
-      expect(value.price).toBe(3 * value.id);
-      expect(value.quantity).toBe(4 * value.id);
-      expect(value.minQuantity).toBe(value.id);
-      expect(value.maxQuantity).toBe(6 * value.id);
+      expect(value.price).toBe(3 * value.id + 1);
+      expect(value.quantity).toBe(4 * value.id + 1);
+      expect(value.minQuantity).toBe(value.id + 1);
+      expect(value.maxQuantity).toBe(6 * value.id + 2);
+    });
+  });
+
+  it("restore suppliers", async function () {
+    dbName = "inittest";
+    await DB.connectAndCreate(dbName);
+    sequelize = await DB.initDB(dbName);
+    for (let i = 0; i < 4; i++) await addSupplier(i, "supplier" + i);
+
+    service = new ServiceLayer();
+    await service.initSeviceLayer(dbName);
+    if (service.suppliers.size === 0) fail("restore supplier - serviceLayer");
+
+    service.suppliers.forEach((value, key) => {
+      expect(value).toBe(parseInt(key.slice(-1)));
+    });
+    if (service.cinemaSystem.inventoryManagement.suppliers.size === 0)
+      fail("restore supplier - inventoryManagement");
+    service.cinemaSystem.inventoryManagement.suppliers.forEach((value, key) => {
+      expect(key).toBe(value.id);
+      expect(value.name).toBe("supplier" + key);
+    });
+  });
+
+  it("restore orders", async function () {
+    dbName = "inittest";
+    await DB.connectAndCreate(dbName);
+    sequelize = await DB.initDB(dbName);
+    await addEmployee(0);
+    await addSupplier(0, "supplier");
+    await addOrderAftereSupplierCreator(0, true);
+    await addProductsOrder();
+
+    service = new ServiceLayer();
+    await service.initSeviceLayer(dbName);
+    if (service.orders.size === 0) fail("restore order - serviceLayer");
+    let orderId = service.ordersCounter - 1;
+    expect(service.orders.get(orderId.toString())).toBe(orderId);
+    if (service.cinemaSystem.inventoryManagement.orders.size === 0)
+      fail("restore order - inventoryManagement");
+
+    let order = service.cinemaSystem.inventoryManagement.orders.get(0);
+    expect(order.date).toEqual(new Date("2020-03-02 00:00:00"));
+    expect(order.creatorEmployeeId).toBe(0);
+    expect(order.supplierId).toBe(0);
+    if (order.productOrders.size === 0) fail("restore order - Order");
+    order.productOrders.forEach((productOrder) => {
+      if (productOrder instanceof MovieOrder)
+        expect(productOrder.movie.id).toEqual(0);
+      else expect(productOrder.product.id).toEqual(0);
     });
   });
 });

@@ -19,7 +19,7 @@ async function addCategory(id, name, isTest, parentId) {
   await DB.singleAdd("category", {
     id: id,
     name: name,
-    parentId: parentId ? parentId : -1,
+    parentId: parentId !== undefined ? parentId : -1,
   });
   if (isTest) {
     await DB.singleGetById("category", { id: id }).then((result) => {
@@ -119,10 +119,10 @@ async function addProductAfterCategory(
     id: id ? id : 0,
     name: name ? name : "Coke",
     categoryId: 0,
-    price: price ? price : 5.9,
-    quantity: quantity ? quantity : 20,
-    maxQuantity: max ? max : 45,
-    minQuantity: min ? min : 10,
+    price: price !== undefined ? price : 5.9,
+    quantity: quantity !== undefined ? quantity : 20,
+    maxQuantity: max !== undefined ? max : 45,
+    minQuantity: min !== undefined ? min : 10,
     isProductRemoved: null,
   };
 
