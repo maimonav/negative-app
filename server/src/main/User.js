@@ -65,7 +65,7 @@ class User {
             needToUpdate = true;
         }
 
-        return { needToUpdate: needToUpdate, tmpPassword: tmpPassword, tmpPermission: tmpPermission };
+        return { isNeedToEdit: needToUpdate, tmpPassword: tmpPassword, tmpPermission: tmpPermission };
 
     };
 

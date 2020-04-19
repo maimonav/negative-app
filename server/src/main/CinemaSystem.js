@@ -25,7 +25,7 @@ class CinemaSystem {
         let admin = new User(0, "admin", "admin", "ADMIN");
         this.users.set(0, admin);
         //Turn database off
-        DataBase.testModeOn();
+        //DataBase.testModeOn();
 
         let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
         if (typeof result === "string") {

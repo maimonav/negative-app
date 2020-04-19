@@ -272,19 +272,11 @@ class InventoryManagemnt {
         creatorEmployeeId
     ) {
         if (this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "This order " + orderId + " already exists"
-            );
+            this.writeToLog("info", "addCafeteriaOrder", "This order " + orderId + " already exists");
             return "This order already exists";
         }
         if (!this.suppliers.has(supplierId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "The supplier " + supplierId + " does not exist"
-            );
+            this.writeToLog("info", "addCafeteriaOrder", "The supplier " + supplierId + " does not exist");
             return "The supplier does not exist";
         }
         for (let i in productsList) {
@@ -297,21 +289,13 @@ class InventoryManagemnt {
                 return "Product does not exist";
             }
             if (productsList[i].quantity < 0) {
-                this.writeToLog(
-                    "info",
-                    "addCafeteriaOrder",
-                    "The quantity " + productsList[i].quantity + " is invalid"
-                );
+                this.writeToLog("info", "addCafeteriaOrder", "The quantity " + productsList[i].quantity + " is invalid");
                 return "Quantity inserted is invalid";
             }
         }
         let date = new Date(strDate);
         if (isNaN(date.valueOf())) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "The order date " + strDate + " is invalid"
-            );
+            this.writeToLog("info", "addCafeteriaOrder", "The order date " + strDate + " is invalid");
             return "The order date is invalid";
         }
 

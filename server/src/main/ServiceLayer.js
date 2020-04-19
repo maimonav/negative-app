@@ -975,7 +975,7 @@ class ServiceLayer {
     }
 
     getCafeteriaOrders(startDate, endDate) {
-        return this.cinemaSystem.getCafeteriaOrders(startDate, endDate);
+        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
     }
 
     getInventoryProducts() {
