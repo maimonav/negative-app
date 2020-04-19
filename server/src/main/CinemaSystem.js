@@ -1,13 +1,8 @@
 const data = require("../../consts/data");
-const DataBase = require("./DataLayer/DBManager");
 const ReportController = require("./ReportController");
+const User = require("./User");
 const simpleLogger = require("simple-node-logger");
 const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
-const User = require("./User");
 const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
 
@@ -19,43 +14,6 @@ class CinemaSystem {
     this.userOfflineMsg =
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
-  }
-
-  async initCinemaSystem(dbName) {
-    let admin = new User(0, "admin", "admin", "ADMIN");
-    this.users.set(0, admin);
-    //Turn database off
-    DataBase.testModeOn();
-
-    let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
-    if (typeof result === "string") {
-      DBlogger.info(
-        "CinemaSystem - initCinemaSystem - connectAndCreate - ",
-        result
-      );
-      return "Server initialization error\n" + result;
-    }
-    result = await DataBase.initDB(dbName ? dbName : undefined);
-    if (typeof result === "string") {
-      DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
-      return "Server initialization error\n" + result;
-    }
-
-    result = await DataBase.singleGetById("user", { id: 0 });
-    if (typeof result === "string") {
-      DBlogger.info(
-        "CinemaSystem - initCinemaSystem - isAdminExists -",
-        result
-      );
-      return "Server initialization error\n" + result;
-    }
-    if (result == null) {
-      result = await admin.initUser();
-      if (typeof result === "string") {
-        DBlogger.info("CinemaSystem - initCinemaSystem - initUser -", result);
-        return "Server initialization error\n" + result;
-      }
-    }
   }
 
   UserDetailsCheck(userName, password, permissions) {

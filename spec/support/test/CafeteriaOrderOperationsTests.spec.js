@@ -120,23 +120,31 @@ describe("CafeteriaProductOrder Operations Tests", () => {
 
   it("Integration addCafeteriaOrder", async () => {
     let serviceLayer = new ServiceLayer();
+    serviceLayer.initSeviceLayer();
     let todayDate = new Date();
-    serviceLayer.users.set("User", 1);
-    serviceLayer.suppliers.set("Supplier", 1);
-    serviceLayer.products.set("Product", 1);
-    await asyncTestCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.addCafeteriaOrder(
-        "Order",
-        "date",
-        "Supplier",
-        '[{"name":"Product","quantity":"-1"}]',
-        "User"
-      )
+    let userId = serviceLayer.userCounter;
+    let supplierId = serviceLayer.supplierCounter;
+    let productId = serviceLayer.productsCounter;
+    let orderId = serviceLayer.ordersCounter;
+    serviceLayer.users.set("User", userId);
+    serviceLayer.suppliers.set("Supplier", supplierId);
+    serviceLayer.products.set("Product", productId);
+    await asyncTestCinemaFunctions(
+      serviceLayer.cinemaSystem,
+      () =>
+        serviceLayer.addCafeteriaOrder(
+          "Order",
+          "date",
+          "Supplier",
+          '[{"name":"Product","quantity":"-1"}]',
+          "User"
+        ),
+      userId
     );
     let user = { isLoggedin: () => true, permissionCheck: () => true };
-    serviceLayer.cinemaSystem.users.set(1, user);
+    serviceLayer.cinemaSystem.users.set(userId, user);
 
-    serviceLayer.cinemaSystem.inventoryManagement.orders.set(1, null);
+    serviceLayer.cinemaSystem.inventoryManagement.orders.set(orderId, null);
     let result = await serviceLayer.addCafeteriaOrder(
       "Order",
       "date",
@@ -154,7 +162,10 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "User"
     );
     expect(result).toBe("The supplier does not exist");
-    serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(1, null);
+    serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(
+      supplierId,
+      null
+    );
     result = await serviceLayer.addCafeteriaOrder(
       "Order",
       "date",
@@ -163,8 +174,11 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "User"
     );
     expect(result).toBe("Product does not exist");
-    let product = new CafeteriaProduct(1);
-    serviceLayer.cinemaSystem.inventoryManagement.products.set(1, product);
+    let product = new CafeteriaProduct(productId);
+    serviceLayer.cinemaSystem.inventoryManagement.products.set(
+      productId,
+      product
+    );
     result = await serviceLayer.addCafeteriaOrder(
       "Order",
       "date",
@@ -191,17 +205,17 @@ describe("CafeteriaProductOrder Operations Tests", () => {
     );
     expect(result).toBe("The order added successfully");
     let actualOrder = serviceLayer.cinemaSystem.inventoryManagement.orders.get(
-      1
+      orderId
     );
-    let expectedOrder = new Order(1, 1, todayDate, 1);
-    let expectedProduct = new CafeteriaProduct(1);
+    let expectedOrder = new Order(orderId, supplierId, todayDate, userId);
+    let expectedProduct = new CafeteriaProduct(productId);
     let expectedCafeteriaProductOrder = new CafeteriaProductOrder(
       expectedProduct,
       expectedOrder,
       3
     );
-    expectedProduct.productOrders.set(1, expectedCafeteriaProductOrder);
-    expectedOrder.productOrders.set(1, expectedCafeteriaProductOrder);
+    expectedProduct.productOrders.set(orderId, expectedCafeteriaProductOrder);
+    expectedOrder.productOrders.set(productId, expectedCafeteriaProductOrder);
     expect(expectedOrder.equals(actualOrder)).toBe(true);
     result = await serviceLayer.addCafeteriaOrder(
       "Order",

@@ -1,28 +1,27 @@
 const CinemaSystem = require("./CinemaSystem");
+const SystemInitializer = require("./SystemInitializer");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class ServiceLayer {
   constructor() {
     this.cinemaSystem = new CinemaSystem();
     this.users = new Map();
-    this.userCounter = 3;
+    this.userCounter = 0;
     this.suppliers = new Map();
     // just for example purposes
     this.supplierCounter = 0;
     this.products = new Map();
-    this.products.set("product", 0);
-    this.productsCounter = 1;
+    this.productsCounter = 0;
     this.categories = new Map();
-    this.categories.set("category", 0);
-    this.categoriesCounter = 2;
+    this.categoriesCounter = 0;
     this.orders = new Map();
-    this.orders.set("order", 0);
-    this.ordersCounter = 1;
+    this.ordersCounter = 0;
   }
 
   async initSeviceLayer(dbName) {
-    this.users.set("admin", 0);
-    return this.cinemaSystem.initCinemaSystem(dbName);
+    this.users.set("admin", this.userCounter);
+    this.userCounter++;
+    return SystemInitializer.initSystem(this, dbName);
   }
 
   isInputValid(param) {

@@ -1,5 +1,6 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
+const { addEmployee } = require("../DBtests/UserEmployeeTests.spec");
 
 describe("Init System Tests", function () {
   let service;
@@ -55,5 +56,52 @@ describe("Init System Tests", function () {
     expect(result != null).toBe(true);
     expect(result.creatorEmployeeId).toBe(null);
     expect(result.additionalProps).toEqual([[], {}]);
+  });
+});
+
+describe("Init System Tests - Restore data Tests", function () {
+  let dbName;
+
+  afterEach(async function () {
+    //create connection & drop mydb
+    await DB.close();
+    await DB.connection.promise().query("DROP DATABASE " + dbName + ";");
+    console.log("Database deleted");
+  });
+
+  it("restore employees", async function () {
+    dbName = "inittest";
+    await DB.connectAndCreate(dbName);
+    sequelize = await DB.initDB(dbName);
+    for (let i = 3; i < 7; i++) await addEmployee(i, "employee" + i);
+
+    service = new ServiceLayer();
+    await service.initSeviceLayer(dbName);
+    service.users.forEach((value, key) => {
+      if (key !== "admin") expect(value).toBe(parseInt(key.slice(-1)));
+    });
+    service.cinemaSystem.employeeManagement.employeeDictionary.forEach(
+      (value, key) => {
+        expect(key).toBe(value.id);
+      }
+    );
+  });
+
+  it("restore categories", async function () {
+    /*dbName = "inittest";
+    await DB.connectAndCreate(dbName);
+    sequelize = await DB.initDB(dbName);
+    for (let i = 3; i < 7; i++) await addEmployee(i, "employee" + i);
+
+    service = new ServiceLayer();
+    await service.initSeviceLayer(dbName);
+    service.users.forEach((value, key) => {
+      if (key !== "admin") expect(value).toBe(parseInt(key.slice(-1)));
+    });
+    service.cinemaSystem.employeeManagement.employeeDictionary.forEach(
+      (value, key) => {
+        expect(key).toBe(value.id);
+      }
+    );*/
   });
 });

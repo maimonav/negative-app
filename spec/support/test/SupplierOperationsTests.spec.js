@@ -100,11 +100,15 @@ describe("Supplier Operations Tests", () => {
     );
     let user = { isLoggedin: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
-    serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(1, null);
+    let supplierId = serviceLayer.supplierCounter;
+    serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(
+      supplierId,
+      null
+    );
     let result = await serviceLayer.addNewSupplier("Supplier", "050", "User");
     expect(result).toBe("This supplier already exists");
     serviceLayer.cinemaSystem.inventoryManagement.suppliers = new Map();
-    let supplierExpected = new Supplier(1, "anotherSupplier", "050");
+    let supplierExpected = new Supplier(supplierId, "anotherSupplier", "050");
     result = await serviceLayer.addNewSupplier(
       "anotherSupplier",
       "050",
@@ -112,7 +116,7 @@ describe("Supplier Operations Tests", () => {
     );
     expect(result).toBe("The supplier added successfully");
     let supplierActual = serviceLayer.cinemaSystem.inventoryManagement.suppliers.get(
-      1
+      supplierId
     );
     expect(supplierActual.equals(supplierExpected)).toBe(true);
     result = await serviceLayer.addNewSupplier(

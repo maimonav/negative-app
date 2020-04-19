@@ -32,6 +32,11 @@ describe("DB Unit Testing - findAll", function () {
       { fn: "max", fnField: "id" }
     );
     expect(result[0].id).toBe(1);
+
+    for (let i = 2; i < 5; i++) await addEmployee(i);
+
+    result = await DB.singleFindAll("employee", {}, undefined, [["id", "ASC"]]);
+    expect(result.length).toBe(5);
   });
 
   it("findAll - general purpose report", async function () {
