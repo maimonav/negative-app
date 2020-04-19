@@ -15,7 +15,7 @@ class SystemInitializer {
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
     //Turn database off
-    DataBase.testModeOn();
+    //DataBase.testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
     if (typeof result === "string") {
@@ -48,9 +48,9 @@ class SystemInitializer {
     }
     admin.Loggedin = true;
     await SystemInitializer.restoreEmployees(admin.userName);
-    SystemInitializer.restoreCategories(admin.userName);
-    /*SystemInitializer.restoreMovies(admin.userName);
-    SystemInitializer.restoreProducts(admin.userName);
+    await SystemInitializer.restoreCategories(admin.userName);
+    await SystemInitializer.restoreMovies(admin.userName);
+    /*SystemInitializer.restoreProducts(admin.userName);
     SystemInitializer.restoreSuppliers(admin.userName);
     SystemInitializer.restoreOrders(admin.userName);
     SystemInitializer.restoreMovieOrders(admin.userName);
@@ -106,8 +106,42 @@ class SystemInitializer {
     }
   }
 
-  static async restoreMovies() {}
-  static async restoreProducts() {}
+  static async restoreMovies() {
+    let movies = await DataBase.singleFindAll("movie", {}, undefined, [
+      ["id", "ASC"],
+    ]);
+    for (let i in movies) {
+      let movie = movies[i];
+
+      if (movie.isMovieRemoved === null) {
+        DataBase.testModeOn();
+        await this.serviceLayer.addMovie(movie.name, movie.categoryId, admin);
+        DataBase.testModeOff();
+      }
+    }
+  }
+  static async restoreProducts() {
+    let products = await DataBase.singleFindAll("movie", {}, undefined, [
+      ["id", "ASC"],
+    ]);
+    for (let i in products) {
+      let product = products[i];
+
+      if (product.isProductRemoved === null) {
+        DataBase.testModeOn();
+        await this.serviceLayer.addNewProduct(
+          product.name,
+          product.price,
+          product.quantity,
+          product.min.Quantity,
+          product.maxQuantity,
+          product.categoryId,
+          admin
+        );
+        DataBase.testModeOff();
+      }
+    }
+  }
   static async restoreSuppliers() {}
   static async restoreOrders() {}
   static async restoreMovieOrders() {}
