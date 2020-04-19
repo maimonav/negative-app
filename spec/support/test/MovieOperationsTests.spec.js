@@ -139,25 +139,31 @@ describe("Movie Operations Tests", () => {
 
   it("Integration addMovie", async () => {
     let serviceLayer = new ServiceLayer();
-    serviceLayer.users.set("User", 1);
-    serviceLayer.categories.set("fantasy", 1);
+    let userId = serviceLayer.userCounter + 1;
+    let categoryId = serviceLayer.categoriesCounter;
+    let productId = serviceLayer.productsCounter;
+    serviceLayer.users.set("User", userId);
+    serviceLayer.categories.set("fantasy", categoryId);
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.addMovie("Movie", "fantasy", "User")
     );
     let user = { isLoggedin: () => true, permissionCheck: () => true };
-    serviceLayer.cinemaSystem.users.set(1, user);
-    serviceLayer.cinemaSystem.inventoryManagement.products.set(1, null);
+    serviceLayer.cinemaSystem.users.set(userId, user);
+    serviceLayer.cinemaSystem.inventoryManagement.products.set(productId, null);
     let result = await serviceLayer.addMovie("Movie", "fantasy", "User");
     expect(result).toBe("This movie already exists");
     serviceLayer.cinemaSystem.inventoryManagement.products = new Map();
     result = await serviceLayer.addMovie("anotherMovie", "fantasy", "User");
     expect(result).toBe("Category doesn't exist");
-    serviceLayer.cinemaSystem.inventoryManagement.categories.set(1, null);
-    let movieExpected = new Movie(1, "anotherMovie", 1);
+    serviceLayer.cinemaSystem.inventoryManagement.categories.set(
+      categoryId,
+      null
+    );
+    let movieExpected = new Movie(productId, "anotherMovie", categoryId);
     result = await serviceLayer.addMovie("anotherMovie", "fantasy", "User");
     expect(result).toBe("The movie added successfully");
     let movieActual = serviceLayer.cinemaSystem.inventoryManagement.products.get(
-      1
+      productId
     );
     expect(movieActual.equals(movieExpected)).toBe(true);
     result = await serviceLayer.addMovie("anotherMovie", "fantasy", "User");

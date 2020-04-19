@@ -1,28 +1,27 @@
 const CinemaSystem = require("./CinemaSystem");
+const SystemInitializer = require("./SystemInitializer");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class ServiceLayer {
     constructor() {
         this.cinemaSystem = new CinemaSystem();
         this.users = new Map();
-        this.userCounter = 3;
+        this.userCounter = 0;
         this.suppliers = new Map();
         // just for example purposes
         this.supplierCounter = 0;
         this.products = new Map();
-        this.products.set("product", 0);
-        this.productsCounter = 1;
+        this.productsCounter = 0;
         this.categories = new Map();
-        this.categories.set("category", 0);
-        this.categoriesCounter = 2;
+        this.categoriesCounter = 0;
         this.orders = new Map();
-        this.orders.set("order", 0);
-        this.ordersCounter = 1;
+        this.ordersCounter = 0;
     }
 
     async initSeviceLayer(dbName) {
-        this.users.set("admin", 0);
-        return this.cinemaSystem.initCinemaSystem(dbName);
+        this.users.set("admin", this.userCounter);
+        this.userCounter++;
+        return SystemInitializer.initSystem(this, dbName);
     }
 
     isInputValid(param) {
@@ -955,6 +954,9 @@ class ServiceLayer {
         );
     }
 
+    getCafeteriaOrders(startDate, endDate) {
+        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
+    }
     getEmployees() {
         return this.cinemaSystem.getEmployees();
     }
@@ -975,7 +977,7 @@ class ServiceLayer {
     }
 
     getCafeteriaOrders(startDate, endDate) {
-        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
+        return this.cinemaSystem.getCafeteriaOrders(startDate, endDate);
     }
 
     getInventoryProducts() {
@@ -998,7 +1000,11 @@ class ServiceLayer {
 
     getProductsByOrder(orderName) {
         if (!this.orders.has(orderName)) {
-            logger.info("ServiceLayer- getProductsByOrder - The order " + orderName + " doesn't exists");
+            logger.info(
+                "ServiceLayer- getProductsByOrder - The order " +
+                orderName +
+                " doesn't exists"
+            );
             return { title: "The order " + orderName + " doesn't exists" };
         }
         return this.cinemaSystem.getProductsByOrder(this.orders.get(orderName));
@@ -1010,26 +1016,44 @@ class ServiceLayer {
 
     getProductsAndQuantityByOrder(orderName) {
         if (!this.orders.has(orderName)) {
-            logger.info("ServiceLayer- getProductsByOrder - The order " + orderName + " doesn't exists");
+            logger.info(
+                "ServiceLayer- getProductsByOrder - The order " +
+                orderName +
+                " doesn't exists"
+            );
             return { title: "The order " + orderName + " doesn't exists" };
         }
-        return this.cinemaSystem.getProductsAndQuantityByOrder(this.orders.get(orderName));
+        return this.cinemaSystem.getProductsAndQuantityByOrder(
+            this.orders.get(orderName)
+        );
     }
 
     getProductDetails(productName) {
         if (!this.products.has(productName)) {
-            logger.info("ServiceLayer- getProductDetails - The product " + productName + " doesn't exists");
+            logger.info(
+                "ServiceLayer- getProductDetails - The product " +
+                productName +
+                " doesn't exists"
+            );
             return "The product " + productName + " doesn't exists";
         }
-        return this.cinemaSystem.getCafeteriaProductDetails(this.products.get(productName))
+        return this.cinemaSystem.getCafeteriaProductDetails(
+            this.products.get(productName)
+        );
     }
 
     getCategoryDetails(categoryName) {
         if (!this.categories.has(categoryName)) {
-            logger.info("ServiceLayer- getCategoryDetails - The category " + categoryName + " doesn't exists");
+            logger.info(
+                "ServiceLayer- getCategoryDetails - The category " +
+                categoryName +
+                " doesn't exists"
+            );
             return "The product " + categoryName + " doesn't exists";
         }
-        return this.cinemaSystem.getCategoryDetails(this.categories.get(categoryName));
+        return this.cinemaSystem.getCategoryDetails(
+            this.categories.get(categoryName)
+        );
     }
 }
 module.exports = ServiceLayer;

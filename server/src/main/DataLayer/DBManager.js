@@ -127,6 +127,28 @@ class DataBase {
             transaction: t,
         });
     }
+    static async findAll(params, t, model) {
+        const attributes = params.attributes;
+        const order = params.order;
+        let attributesArray;
+        if (attributes)
+            attributesArray = [
+                [
+                    this.sequelize.fn(
+                        attributes.fn,
+                        this.sequelize.col(attributes.fnField)
+                    ),
+                    attributes.fnField,
+                ],
+            ];
+        let argument = {
+            where: params.where,
+            transaction: t,
+        };
+        if (attributes) argument.attributes = attributesArray;
+        if (order) argument.order = order;
+        return model.findAll(argument);
+    }
 
     static async remove(params, t, model) {
         return model.destroy({ where: params.where, transaction: t });
@@ -298,27 +320,31 @@ class DataBase {
         }
     }
 
-    static async singleFindAll(modelName, where, attributes) {
+    static async singleFindAll(modelName, where, attributes, order) {
         if (this.isTestMode) return;
-
-        let attributesArray = [
-            [
-                this.sequelize.fn(
-                    attributes.fn,
-                    this.sequelize.col(attributes.fnField)
-                ),
-                attributes.fnField,
-            ],
-        ];
+        let attributesArray;
+        if (attributes)
+            attributesArray = [
+                [
+                    this.sequelize.fn(
+                        attributes.fn,
+                        this.sequelize.col(attributes.fnField)
+                    ),
+                    attributes.fnField,
+                ],
+            ];
         const model = this.models[modelName];
         try {
             return this.sequelize
                 .transaction((t) => {
-                    return model.findAll({
-                        attributes: attributesArray,
+                    let argument = {
                         where: where,
                         transaction: t,
-                    });
+                    };
+                    if (attributes) argument.attributes = attributesArray;
+                    if (order) argument.order = order;
+
+                    return model.findAll(argument);
                 })
                 .catch((error) => {
                     let errId = uniqid();
