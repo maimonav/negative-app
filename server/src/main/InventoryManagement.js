@@ -758,9 +758,11 @@ class InventoryManagemnt {
 
     getOrdersByDates(startDate, endDate) {
         let result = [];
-        this.orders
-            .filter((order) => order.date < endDate && order.date > startDate)
-            .map((order) => result.push({ title: order.id }));
+        this.orders.forEach((order) => {
+            if (order.date < endDate && order.date > startDate)
+                result.push({ title: order.id });
+        })
+        return result;
     }
 
     writeToLog(type, functionName, msg) {

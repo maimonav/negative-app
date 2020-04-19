@@ -1001,7 +1001,7 @@ class ServiceLayer {
     }
 
     getOrdersByDates(startDate, endDate) {
-        return this.cinemaSystem.getOrdersByDates();
+        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
     }
 
     getProductsAndQuantityByOrder(orderName) {

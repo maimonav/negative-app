@@ -579,15 +579,10 @@ class CinemaSystem {
         return data.dataExample;
     }
 
-    getOrdersByDates() {
-        //TODO: IMPLEMENT THIS.
-        return data.dataExample;
+    getOrdersByDates(startDate, endDate) {
+        return this.inventoryManagement.getOrdersByDates(startDate, endDate);
     }
 
-    getProductDetails() {
-        //TODO: IMPLEMENT THIS.
-        return data.productDetails;
-    }
 
     getCategoryDetails(categotyId) {
         return this.inventoryManagement.getCategoryDetails(categotyId);
