@@ -26,7 +26,7 @@ class Category {
     editCategory = async(parentId) => {
         const tmpParentId = this.parentId;
         this.parentId = parentId;
-        let result = await DataBase.singleAdd("category", {
+        let result = await DataBase.singleUpdate("category", { id: this.id }, {
             id: this.id,
             name: this.name,
             parentId: this.parentId,
@@ -42,9 +42,16 @@ class Category {
     removeCategory = async() => {
         if (this.isCategoryRemoved === null) {
             this.isCategoryRemoved = new Date();
+            let result = await await DataBase.singleUpdate("category", { id: this.id }, { isCategoryRemoved: this.isCategoryRemoved });
+            if (typeof result === 'string') {
+                this.isCategoryRemoved = null;
+                this.writeToLog('error', 'removeCategory', 'DB failure - ' + result);
+                return 'DB failure - ' + result
+            }
             return true;
         }
-        return false;
+        this.writeToLog('error', 'removeCategory', "The category already removed");
+        return "The category already removed";
     };
 
     equals(toCompare) {
