@@ -48,13 +48,11 @@ class SystemInitializer {
     }
     admin.Loggedin = true;
     await SystemInitializer.restoreEmployees(admin.userName);
-    SystemInitializer.restoreCategories(admin.userName);
-    /*SystemInitializer.restoreMovies(admin.userName);
-    SystemInitializer.restoreProducts(admin.userName);
-    SystemInitializer.restoreSuppliers(admin.userName);
-    SystemInitializer.restoreOrders(admin.userName);
-    SystemInitializer.restoreMovieOrders(admin.userName);
-    SystemInitializer.restoreProductOrders(admin.userName);*/
+    await SystemInitializer.restoreCategories(admin.userName);
+    await SystemInitializer.restoreMovies(admin.userName);
+    await SystemInitializer.restoreProducts(admin.userName);
+    await SystemInitializer.restoreSuppliers(admin.userName);
+    await SystemInitializer.restoreOrders(admin.userName);
     admin.Loggedin = false;
   }
 
@@ -89,28 +87,138 @@ class SystemInitializer {
       let category = categories[i];
 
       if (category.isCategoryRemoved === null) {
-        let parent;
+        let parentName;
         if (category.parentId != -1)
-          parent = await DataBase.singleGetById("category", {
-            id: category.parentId,
-          });
+          parentName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
+            category.parentId
+          ).name;
 
         DataBase.testModeOn();
-        await this.serviceLayer.addCategory(
-          category.name,
-          admin,
-          parent ? parent.name : undefined
-        );
+        await this.serviceLayer.addCategory(category.name, admin, parentName);
         DataBase.testModeOff();
       }
     }
   }
 
-  static async restoreMovies() {}
-  static async restoreProducts() {}
-  static async restoreSuppliers() {}
-  static async restoreOrders() {}
-  static async restoreMovieOrders() {}
-  static async restoreProductOrders() {}
+  static async restoreMovies(admin) {
+    let movies = await DataBase.singleFindAll("movie", {}, undefined, [
+      ["id", "ASC"],
+    ]);
+    for (let i in movies) {
+      let movie = movies[i];
+
+      if (movie.isMovieRemoved === null) {
+        let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
+          movie.categoryId
+        ).name;
+        DataBase.testModeOn();
+        await this.serviceLayer.addMovie(movie.name, categoryName, admin);
+        if (movie.movieKey !== null || movie.examinationRoom !== null) {
+          await this.serviceLayer.editMovie(
+            movie.name,
+            categoryName,
+            movie.movieKey,
+            movie.examinationRoom,
+            admin
+          );
+        }
+        DataBase.testModeOff();
+      }
+    }
+  }
+  static async restoreProducts(admin) {
+    let products = await DataBase.singleFindAll(
+      "cafeteria_product",
+      {},
+      undefined,
+      [["id", "ASC"]]
+    );
+    for (let i in products) {
+      let product = products[i];
+
+      if (product.isProductRemoved === null) {
+        let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
+          product.categoryId
+        ).name;
+        DataBase.testModeOn();
+        await this.serviceLayer.addNewProduct(
+          product.name,
+          product.price,
+          product.quantity,
+          product.minQuantity,
+          product.maxQuantity,
+          categoryName,
+          admin
+        );
+        DataBase.testModeOff();
+      }
+    }
+  }
+  static async restoreSuppliers(admin) {
+    let suppliers = await DataBase.singleFindAll("supplier", {}, undefined, [
+      ["id", "ASC"],
+    ]);
+    for (let i in suppliers) {
+      let supplier = suppliers[i];
+
+      if (supplier.isSupplierRemoved === null) {
+        DataBase.testModeOn();
+        await this.serviceLayer.addNewSupplier(
+          supplier.name,
+          supplier.contactDetails,
+          admin
+        );
+        DataBase.testModeOff();
+      }
+    }
+  }
+  static async restoreOrders(admin) {
+    let orders = await DataBase.singleFindAll("order", {}, undefined, [
+      ["id", "ASC"],
+    ]);
+    for (let i in orders) {
+      let order = orders[i];
+      let supplierName = this.serviceLayer.cinemaSystem.inventoryManagement.suppliers.get(
+        order.supplierId
+      ).name;
+      let movies = await DataBase.singleFindAll("movie_order", {
+        orderId: order.id,
+      });
+      let movieList = movies.map(
+        (e) =>
+          this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
+            e.movieId
+          ).name
+      );
+      let products = await DataBase.singleFindAll("cafeteria_product_order", {
+        orderId: order.id,
+      });
+      let productList = products.map((e) => ({
+        name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
+          e.productId
+        ).name,
+        quantity: e.expectedQuantity,
+      }));
+      DataBase.testModeOn();
+      //TODO::add edit movie order with all the details after order supplied
+      let result = await this.serviceLayer.addMovieOrder(
+        order.id.toString(),
+        order.date,
+        supplierName,
+        JSON.stringify(movieList),
+        admin
+      );
+      //TODO::add edit movie order with all the details after order supplied
+      result = await this.serviceLayer.addCafeteriaOrder(
+        order.id.toString(),
+        order.date,
+        supplierName,
+        JSON.stringify(productList),
+        admin
+      );
+
+      DataBase.testModeOff();
+    }
+  }
 }
 module.exports = SystemInitializer;

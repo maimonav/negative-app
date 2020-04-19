@@ -115,7 +115,11 @@ class InventoryManagemnt {
             DBlogger.info("InventoryManagemnt - addNewSupplier - ", result);
             return "The supplier cannot be added\n" + result;
         }
-        this.writeToLog("info", "editSupplier", 'The supplier ' + supplierID + ' set to the Supplier dictionary');
+        this.writeToLog(
+            "info",
+            "editSupplier",
+            "The supplier " + supplierID + " set to the Supplier dictionary"
+        );
         this.suppliers.set(supplierID, supplier);
         return "The supplier added successfully";
     }
@@ -272,11 +276,19 @@ class InventoryManagemnt {
         creatorEmployeeId
     ) {
         if (this.orders.has(orderId)) {
-            this.writeToLog("info", "addCafeteriaOrder", "This order " + orderId + " already exists");
+            this.writeToLog(
+                "info",
+                "addCafeteriaOrder",
+                "This order " + orderId + " already exists"
+            );
             return "This order already exists";
         }
         if (!this.suppliers.has(supplierId)) {
-            this.writeToLog("info", "addCafeteriaOrder", "The supplier " + supplierId + " does not exist");
+            this.writeToLog(
+                "info",
+                "addCafeteriaOrder",
+                "The supplier " + supplierId + " does not exist"
+            );
             return "The supplier does not exist";
         }
         for (let i in productsList) {
@@ -289,13 +301,21 @@ class InventoryManagemnt {
                 return "Product does not exist";
             }
             if (productsList[i].quantity < 0) {
-                this.writeToLog("info", "addCafeteriaOrder", "The quantity " + productsList[i].quantity + " is invalid");
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaOrder",
+                    "The quantity " + productsList[i].quantity + " is invalid"
+                );
                 return "Quantity inserted is invalid";
             }
         }
         let date = new Date(strDate);
         if (isNaN(date.valueOf())) {
-            this.writeToLog("info", "addCafeteriaOrder", "The order date " + strDate + " is invalid");
+            this.writeToLog(
+                "info",
+                "addCafeteriaOrder",
+                "The order date " + strDate + " is invalid"
+            );
             return "The order date is invalid";
         }
 
@@ -567,15 +587,20 @@ class InventoryManagemnt {
     }
     getCategoryDetails(categotyId) {
         if (!this.categories.has(categotyId)) {
-            this.writeToLog('info', 'getCategoryDetails', 'The category - ' + categotyId + ' doesn\'t exists');
-            return 'The category - ' + categotyId + ' doesn\'t exists';
+            this.writeToLog(
+                "info",
+                "getCategoryDetails",
+                "The category - " + categotyId + " doesn't exists"
+            );
+            return "The category - " + categotyId + " doesn't exists";
         }
-        let parent = 'The category is root of his tree';
+        let parent = "The category is root of his tree";
         if (this.categories.has(this.categories.get(categotyId).parentId))
-            parent = (this.categories.get(this.categories.get(categotyId).parentId)).name;
+            parent = this.categories.get(this.categories.get(categotyId).parentId)
+            .name;
         return {
             categoryName: this.categories.get(categotyId).name,
-            categoryParent: parent
+            categoryParent: parent,
         };
     }
 
@@ -612,16 +637,32 @@ class InventoryManagemnt {
 
     async editCategory(categoryId, parentID) {
         if (!this.categories.has(categoryId)) {
-            this.writeToLog("info", "editCategory", "The Category " + categoryId + " doesn't exist");
+            this.writeToLog(
+                "info",
+                "editCategory",
+                "The Category " + categoryId + " doesn't exist"
+            );
             return "The Category ID doesn't exist";
         }
-        if (parentID !== undefined && !this.categories.has(parentID) && parentID !== -1) {
-            this.writeToLog("info", "editCategory", "The parent category " + parentID + " doesn't exist");
+        if (
+            parentID !== undefined &&
+            !this.categories.has(parentID) &&
+            parentID !== -1
+        ) {
+            this.writeToLog(
+                "info",
+                "editCategory",
+                "The parent category " + parentID + " doesn't exist"
+            );
             return "The parent category  doesn't exist";
         }
         let result = await this.categories.get(categoryId).editCategory(parentID);
         if (typeof result === "string") {
-            this.writeToLog("error", "editCategory", "The operation failed - DB failure" + result);
+            this.writeToLog(
+                "error",
+                "editCategory",
+                "The operation failed - DB failure" + result
+            );
             return result;
         }
         return "The category was successfully updateded";
@@ -635,7 +676,7 @@ class InventoryManagemnt {
             );
             return "The Category ID doesn't exist";
         }
-        const categoryToRemove = await this.categories.get(categoryId);
+        const categoryToRemove = this.categories.get(categoryId);
         if (categoryToRemove.isCategoryRemoved !== null) {
             this.writeToLog("info", "removeCategory", "The category already removed");
             return "The category already removed";
@@ -737,7 +778,7 @@ class InventoryManagemnt {
     getProductsByOrder(orderId) {
         let result = [];
         if (!this.orders.has(orderId)) {
-            this.writeToLog('info', 'getProductsByOrder', "The order isn't exist");
+            this.writeToLog("info", "getProductsByOrder", "The order isn't exist");
             return { title: "The order " + orderId + " doesn't exists" };
         }
         this.orders.get(orderId).productOrders.forEach((product) => {
@@ -746,23 +787,26 @@ class InventoryManagemnt {
             } else {
                 result.push({ title: product.movie.name });
             }
-        })
+        });
         return result;
     }
 
     getProductsAndQuantityByOrder(orderId) {
         let result = [];
         if (!this.orders.has(orderId)) {
-            this.writeToLog('info', 'getProductsByOrder', "The order isn't exist");
+            this.writeToLog("info", "getProductsByOrder", "The order isn't exist");
             return { title: "The order " + orderId + " doesn't exists" };
         }
         this.orders.get(orderId).productOrders.forEach((product) => {
             if (product instanceof CafeteriaProductOrder) {
-                result.push({ name: product.product.name, quantity: product.product.quantity });
+                result.push({
+                    name: product.product.name,
+                    quantity: product.product.quantity,
+                });
             } else {
                 result.push({ name: product.movie.name, quantity: 1 });
             }
-        })
+        });
         return result;
     }
 

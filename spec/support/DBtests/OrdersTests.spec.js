@@ -19,16 +19,16 @@ async function testSupplier(id, expected) {
 }
 exports.testSupplier = testSupplier;
 
-async function addSupplier(id, isTest) {
+async function addSupplier(id, name, isTest) {
   console.log("START ADD SUPPLIER\n");
   await DB.singleAdd("supplier", {
     id: id,
-    name: "Shupersal",
+    name: name ? name : "Shupersal",
     contactDetails: "089266584",
   });
   if (isTest)
     testSupplier(id, {
-      name: "Shupersal",
+      name: name ? name : "Shupersal",
       contactDetails: "089266584",
       isSupplierRemoved: null,
     });
@@ -285,7 +285,7 @@ describe("DB Test - suppliers, orders", function () {
   it("add empty order & add supplier", async function () {
     await addEmployee(0, "MANAGER");
     await addOrderBeforeSupplier();
-    await addSupplier(0, true);
+    await addSupplier(0, "Shupersal", true);
     await addOrderBeforeCreator();
     await addOrderAftereSupplierCreator(0, true);
   });

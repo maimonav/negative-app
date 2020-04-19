@@ -14,16 +14,17 @@ async function addMovieBeforeCategory() {
   });
 }
 
-async function addCategory(id, name, isTest) {
+async function addCategory(id, name, isTest, parentId) {
   console.log("START ADD CATEGORY\n");
   await DB.singleAdd("category", {
     id: id,
     name: name,
+    parentId: parentId !== undefined ? parentId : -1,
   });
   if (isTest) {
     await DB.singleGetById("category", { id: id }).then((result) => {
       expect(result.id).toBe(id);
-      expect(result.parentId).toBe(-1);
+      expect(result.parentId).toBe(parentId ? parentId : -1);
       expect(result.name).toBe(name);
       expect(result.isCategoryRemoved).toBe(null);
     });
@@ -47,19 +48,19 @@ async function testMovie(id, expected) {
 }
 exports.testMovie = testMovie;
 
-async function addMovieAfterCategory(isTest) {
+async function addMovieAfterCategory(id, name, isTest) {
   console.log("START ADD MOVIE AFTER\n");
 
   await DB.singleAdd("movie", {
-    id: 0,
-    name: "Spiderman",
+    id: id ? id : 0,
+    name: name ? name : "Spiderman",
     categoryId: 0,
   });
 
   if (isTest) {
     await testMovie(0, {
-      id: 0,
-      name: "Spiderman",
+      id: id ? id : 0,
+      name: name ? name : "Spiderman",
       categoryId: 0,
       movieKey: null,
       examinationRoom: null,
@@ -86,29 +87,48 @@ async function addProductBeforeCategory() {
   });
 }
 
-async function addProductAfterCategory(isTest) {
+async function testProduct(id, expected) {
+  await DB.singleGetById("cafeteria_product", { id: id }).then((result) => {
+    expect(result.name).toBe(expected.name);
+    expect(result.categoryId).toBe(expected.categoryId);
+    expect(result.price).toBe(expected.price);
+    expect(result.quantity).toBe(expected.quantity);
+    expect(result.maxQuantity).toBe(expected.maxQuantity);
+    expect(result.minQuantity).toBe(expected.minQuantity);
+    if (expected.isProductRemoved == null)
+      expect(result.isProductRemoved).toBe(expected.isProductRemoved);
+    else
+      expect(result.isProductRemoved.toISOString().substring(0, 10)).toBe(
+        expected.isProductRemoved.toISOString().substring(0, 10)
+      );
+  });
+}
+
+async function addProductAfterCategory(
+  isTest,
+  id,
+  name,
+  price,
+  quantity,
+  min,
+  max
+) {
   console.log("START ADD PRODUCT AFTER\n");
 
-  await DB.singleAdd("cafeteria_product", {
-    id: 0,
-    name: "Coke",
+  let product = {
+    id: id ? id : 0,
+    name: name ? name : "Coke",
     categoryId: 0,
-    price: 5.9,
-    quantity: 20,
-    maxQuantity: 45,
-    minQuantity: 10,
-  });
+    price: price !== undefined ? price : 5.9,
+    quantity: quantity !== undefined ? quantity : 20,
+    maxQuantity: max !== undefined ? max : 45,
+    minQuantity: min !== undefined ? min : 10,
+    isProductRemoved: null,
+  };
+
+  await DB.singleAdd("cafeteria_product", product);
   if (isTest) {
-    await DB.singleGetById("cafeteria_product", { id: 0 }).then((result) => {
-      expect(result.id).toBe(0);
-      expect(result.name).toBe("Coke");
-      expect(result.categoryId).toBe(0);
-      expect(result.price).toBe(5.9);
-      expect(result.quantity).toBe(20);
-      expect(result.maxQuantity).toBe(45);
-      expect(result.minQuantity).toBe(10);
-      expect(result.isProductRemoved).toBe(null);
-    });
+    await testProduct(id ? id : 0, product);
   }
 }
 exports.addProductAfterCategory = addProductAfterCategory;
@@ -243,18 +263,18 @@ describe("DB Test - movies, products, category", function () {
   it("add movie & add category", async function () {
     await addMovieBeforeCategory();
     await addCategory(0, "fantasy", true);
-    await addMovieAfterCategory(true);
+    await addMovieAfterCategory(0, "Spiderman", true);
   });
 
   it("update movie", async function () {
     await addCategory(0, "fantasy", false);
-    await addMovieAfterCategory(false);
+    await addMovieAfterCategory();
     await updateMovie();
   });
 
   it("remove movie", async function () {
     await addCategory(0, "fantasy", false);
-    await addMovieAfterCategory(false);
+    await addMovieAfterCategory();
     await removeMovie(true);
   });
 
@@ -262,14 +282,14 @@ describe("DB Test - movies, products, category", function () {
     await addCategory(1, "fantasy", false);
     await removeCategoryBeforeUsed(true);
     await addCategory(0, "superhero", false);
-    await addMovieAfterCategory(false);
+    await addMovieAfterCategory();
     await removeCategoryAfterUsed();
   });
 
   it("add cafeteria product", async function () {
     await addProductBeforeCategory();
     await addCategory(0, "drinks", false);
-    await addProductAfterCategory();
+    await addProductAfterCategory(true);
   });
 
   it("update cafeteria product", async function () {
