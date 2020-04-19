@@ -105,7 +105,7 @@ class CafeteriaProduct extends Product {
                 this.writeToLog('error', 'removeProduct', 'DB failure ' + result);
                 return 'The removed operation failed - DB failure';
             }
-            return "The product removed successfully";
+            return true;
         }
         return "The product already removed";
     }

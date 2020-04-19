@@ -445,7 +445,7 @@ class InventoryManagemnt {
             return result;
         }
         this.products.delete(productId);
-        return result;
+        return "The product removed successfully";
     };
     getSuppliers() {
         const output = [];
@@ -579,6 +579,19 @@ class InventoryManagemnt {
             };
         }
         return output;
+    }
+    getCategoryDetails(categotyId) {
+        if (!this.categories.has(categotyId)) {
+            this.writeToLog('info', 'getCategoryDetails', 'The category - ' + categotyId + ' doesn\'t exists');
+            return 'The category - ' + categotyId + ' doesn\'t exists';
+        }
+        let parent = 'The category is root of his tree';
+        if (this.categories.has(this.categories.get(categotyId).parentId))
+            parent = (this.categories.get(this.categories.get(categotyId).parentId)).name;
+        return {
+            categoryName: this.categories.get(categotyId).name,
+            categoryParent: parent
+        };
     }
 
     async addCategory(categoryId, categoryName, parentID) {
