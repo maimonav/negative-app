@@ -176,7 +176,7 @@ describe("cafitriaProductActionTest", () => {
         inventoryManagement.products.set(p1.id, p1);
         expect(await inventoryManagement.removeCafeteriaProduct(p1.id - 1)).toEqual("This product not exists");
         expect(await inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("The product removed successfully"); //in the integration need to add more line like this
-        expect(await inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("The product already removed");
+        expect(await inventoryManagement.removeCafeteriaProduct(p1.id)).toEqual("This product not exists");
 
     });
 

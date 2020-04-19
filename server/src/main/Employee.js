@@ -13,8 +13,9 @@ class Employee extends User {
 
     }
     async init() {
+        let name = DataBase.add;
         let userActionDB = {
-            name: DataBase.add,
+            name: name,
             model: 'user',
             params: {
                 element: {
@@ -26,7 +27,7 @@ class Employee extends User {
             }
         };
         let employeeActionDB = {
-            name: DataBase.add,
+            name: name,
             model: 'employee',
             params: {
                 element: {
@@ -84,7 +85,7 @@ class Employee extends User {
             this.contactDetails = contactDetails;
         }
 
-        if (needToUpdate)
+        if (needToUpdate || UserUpdatedObject.isNeedToEdit)
             DBactions.push({
                 name: DataBase.update,
                 model: 'employee',
@@ -93,9 +94,9 @@ class Employee extends User {
                         id: this.id
                     },
                     element: {
-                        firstName: firstName,
-                        lastName: lastName,
-                        contactDetails: contactDetails
+                        firstName: this.firstName,
+                        lastName: this.lastName,
+                        contactDetails: this.contactDetails
                     }
                 }
             });
