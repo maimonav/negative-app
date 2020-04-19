@@ -782,6 +782,22 @@ class InventoryManagemnt {
         return result;
     }
 
+    getProductsAndQuantityByOrder(orderId) {
+        let result = [];
+        if (!this.orders.has(orderId)) {
+            this.writeToLog('info', 'getProductsByOrder', "The order isn't exist");
+            return { title: "The order " + orderId + " doesn't exists" };
+        }
+        this.orders.get(orderId).productOrders.forEach((product) => {
+            if (product instanceof CafeteriaProductOrder) {
+                result.push({ name: product.product.name, quantity: product.product.quantity });
+            } else {
+                result.push({ name: product.movie.name, quantity: 1 });
+            }
+        })
+        return result;
+    }
+
     writeToLog(type, functionName, msg) {
         logger.log(type, "InventoryManagemnt - " + functionName + " - " + msg);
     }

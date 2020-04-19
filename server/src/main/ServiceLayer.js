@@ -1009,7 +1009,11 @@ class ServiceLayer {
     }
 
     getProductsAndQuantityByOrder(orderName) {
-        return this.cinemaSystem.getProductsAndQuantityByOrder();
+        if (!this.orders.has(orderName)) {
+            logger.info("ServiceLayer- getProductsByOrder - The order " + orderName + " doesn't exists");
+            return { title: "The order " + orderName + " doesn't exists" };
+        }
+        return this.cinemaSystem.getProductsAndQuantityByOrder(this.orders.get(orderName));
     }
 
     getProductDetails(productName) {

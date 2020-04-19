@@ -569,9 +569,8 @@ class CinemaSystem {
         return data.dataExample;
     }
 
-    getProductsAndQuantityByOrder() {
-        //TODO: IMPLEMENT THIS.
-        return data.productsAndQuantity;
+    getProductsAndQuantityByOrder(orderId) {
+        return this.inventoryManagement.getProductsAndQuantityByOrder(orderId);
     }
 
     getProductsByOrder(orderId) {
