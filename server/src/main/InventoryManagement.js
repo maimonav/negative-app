@@ -612,32 +612,16 @@ class InventoryManagemnt {
 
     async editCategory(categoryId, parentID) {
         if (!this.categories.has(categoryId)) {
-            this.writeToLog(
-                "info",
-                "editCategory",
-                "The Category " + categoryId + " doesn't exist"
-            );
+            this.writeToLog("info", "editCategory", "The Category " + categoryId + " doesn't exist");
             return "The Category ID doesn't exist";
         }
-        if (
-            parentID !== undefined &&
-            !this.categories.has(parentID) &&
-            parentID !== -1
-        ) {
-            this.writeToLog(
-                "info",
-                "editCategory",
-                "The parent category " + parentID + " doesn't exist"
-            );
+        if (parentID !== undefined && !this.categories.has(parentID) && parentID !== -1) {
+            this.writeToLog("info", "editCategory", "The parent category " + parentID + " doesn't exist");
             return "The parent category  doesn't exist";
         }
         let result = await this.categories.get(categoryId).editCategory(parentID);
         if (typeof result === "string") {
-            this.writeToLog(
-                "error",
-                "editCategory",
-                "The operation failed - DB failure" + result
-            );
+            this.writeToLog("error", "editCategory", "The operation failed - DB failure" + result);
             return result;
         }
         return "The category was successfully updateded";
@@ -651,7 +635,7 @@ class InventoryManagemnt {
             );
             return "The Category ID doesn't exist";
         }
-        const categoryToRemove = this.categories.get(categoryId);
+        const categoryToRemove = await this.categories.get(categoryId);
         if (categoryToRemove.isCategoryRemoved !== null) {
             this.writeToLog("info", "removeCategory", "The category already removed");
             return "The category already removed";
