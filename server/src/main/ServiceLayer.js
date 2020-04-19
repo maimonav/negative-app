@@ -995,24 +995,62 @@ class ServiceLayer {
     return this.cinemaSystem.getMovieDetails(this.movies.get(movieName));
   }
 
-  getProductsByOrder() {
-    return this.cinemaSystem.getProductsByOrder();
+  getProductsByOrder(orderName) {
+    if (!this.orders.has(orderName)) {
+      logger.info(
+        "ServiceLayer- getProductsByOrder - The order " +
+          orderName +
+          " doesn't exists"
+      );
+      return { title: "The order " + orderName + " doesn't exists" };
+    }
+    return this.cinemaSystem.getProductsByOrder(this.orders.get(orderName));
   }
 
   getOrdersByDates(startDate, endDate) {
-    return this.cinemaSystem.getOrdersByDates();
+    return this.cinemaSystem.getOrdersByDates(startDate, endDate);
   }
 
   getProductsAndQuantityByOrder(orderName) {
-    return this.cinemaSystem.getProductsAndQuantityByOrder();
+    if (!this.orders.has(orderName)) {
+      logger.info(
+        "ServiceLayer- getProductsByOrder - The order " +
+          orderName +
+          " doesn't exists"
+      );
+      return { title: "The order " + orderName + " doesn't exists" };
+    }
+    return this.cinemaSystem.getProductsAndQuantityByOrder(
+      this.orders.get(orderName)
+    );
   }
 
   getProductDetails(productName) {
-    return this.cinemaSystem.getProductDetails();
+    if (!this.products.has(productName)) {
+      logger.info(
+        "ServiceLayer- getProductDetails - The product " +
+          productName +
+          " doesn't exists"
+      );
+      return "The product " + productName + " doesn't exists";
+    }
+    return this.cinemaSystem.getCafeteriaProductDetails(
+      this.products.get(productName)
+    );
   }
 
   getCategoryDetails(categoryName) {
-    return this.cinemaSystem.getCategoryDetails();
+    if (!this.categories.has(categoryName)) {
+      logger.info(
+        "ServiceLayer- getCategoryDetails - The category " +
+          categoryName +
+          " doesn't exists"
+      );
+      return "The product " + categoryName + " doesn't exists";
+    }
+    return this.cinemaSystem.getCategoryDetails(
+      this.categories.get(categoryName)
+    );
   }
 }
 module.exports = ServiceLayer;

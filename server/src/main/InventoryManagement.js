@@ -3,6 +3,7 @@ const Movie = require("./Movie");
 let DB = require("./DataLayer/DBManager");
 const Supplier = require("./Supplier");
 const CafeteriaProduct = require("./CafeteriaProduct");
+const CafeteriaProductOrder = require("./CafeteriaProductOrder");
 const Category = require("./Category");
 const simpleLogger = require("simple-node-logger");
 const logger = simpleLogger.createSimpleLogger("project.log");
@@ -445,7 +446,7 @@ class InventoryManagemnt {
             return result;
         }
         this.products.delete(productId);
-        return result;
+        return "The product removed successfully";
     };
     getSuppliers() {
         const output = [];
@@ -579,6 +580,19 @@ class InventoryManagemnt {
             };
         }
         return output;
+    }
+    getCategoryDetails(categotyId) {
+        if (!this.categories.has(categotyId)) {
+            this.writeToLog('info', 'getCategoryDetails', 'The category - ' + categotyId + ' doesn\'t exists');
+            return 'The category - ' + categotyId + ' doesn\'t exists';
+        }
+        let parent = 'The category is root of his tree';
+        if (this.categories.has(this.categories.get(categotyId).parentId))
+            parent = (this.categories.get(this.categories.get(categotyId).parentId)).name;
+        return {
+            categoryName: this.categories.get(categotyId).name,
+            categoryParent: parent
+        };
     }
 
     async addCategory(categoryId, categoryName, parentID) {
@@ -745,9 +759,43 @@ class InventoryManagemnt {
 
     getOrdersByDates(startDate, endDate) {
         let result = [];
-        this.orders
-            .filter((order) => order.date < endDate && order.date > startDate)
-            .map((order) => result.push({ title: order.id }));
+        this.orders.forEach((order) => {
+            if (order.date < endDate && order.date > startDate)
+                result.push({ title: order.id });
+        });
+        return result;
+    }
+
+    getProductsByOrder(orderId) {
+        let result = [];
+        if (!this.orders.has(orderId)) {
+            this.writeToLog('info', 'getProductsByOrder', "The order isn't exist");
+            return { title: "The order " + orderId + " doesn't exists" };
+        }
+        this.orders.get(orderId).productOrders.forEach((product) => {
+            if (product instanceof CafeteriaProductOrder) {
+                result.push({ title: product.product.name });
+            } else {
+                result.push({ title: product.movie.name });
+            }
+        })
+        return result;
+    }
+
+    getProductsAndQuantityByOrder(orderId) {
+        let result = [];
+        if (!this.orders.has(orderId)) {
+            this.writeToLog('info', 'getProductsByOrder', "The order isn't exist");
+            return { title: "The order " + orderId + " doesn't exists" };
+        }
+        this.orders.get(orderId).productOrders.forEach((product) => {
+            if (product instanceof CafeteriaProductOrder) {
+                result.push({ name: product.product.name, quantity: product.product.quantity });
+            } else {
+                result.push({ name: product.movie.name, quantity: 1 });
+            }
+        })
+        return result;
     }
 
     writeToLog(type, functionName, msg) {

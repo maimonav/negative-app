@@ -536,29 +536,20 @@ class CinemaSystem {
     return data.dataExample;
   }
 
-  getProductsAndQuantityByOrder() {
-    //TODO: IMPLEMENT THIS.
-    return data.productsAndQuantity;
+  getProductsAndQuantityByOrder(orderId) {
+    return this.inventoryManagement.getProductsAndQuantityByOrder(orderId);
   }
 
-  getProductsByOrder() {
-    //TODO: IMPLEMENT THIS.
-    return data.dataExample;
+  getProductsByOrder(orderId) {
+    return this.inventoryManagement.getProductsByOrder(orderId);
   }
 
-  getOrdersByDates() {
-    //TODO: IMPLEMENT THIS.
-    return data.dataExample;
+  getOrdersByDates(startDate, endDate) {
+    return this.inventoryManagement.getOrdersByDates(startDate, endDate);
   }
 
-  getProductDetails() {
-    //TODO: IMPLEMENT THIS.
-    return data.productDetails;
-  }
-
-  getCategoryDetails() {
-    //TODO: IMPLEMENT THIS.
-    return data.categoryDetails;
+  getCategoryDetails(categotyId) {
+    return this.inventoryManagement.getCategoryDetails(categotyId);
   }
 }
 
