@@ -320,13 +320,12 @@ export function handleRemoveCategory(categoryName) {
 }
 
 export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
+  const productsList = JSON.stringify(productsName);
   const user = localStorage.getItem("username");
   const orderId = `${user} , ${new Date()}`;
   fetch(
     `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
-    &productsName=${encodeURIComponent(
-      productsName
-    )}&supplierName=${encodeURIComponent(
+    &productsName=${productsList}&supplierName=${encodeURIComponent(
       supplierName
     )}&orderDate=${encodeURIComponent(orderDate)}&user=${encodeURIComponent(
       user
