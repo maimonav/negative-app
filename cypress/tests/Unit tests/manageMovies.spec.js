@@ -16,10 +16,6 @@ const key = "key";
 const examinationRoom = "examinationRoom";
 
 context("Type all fields", () => {
-  before(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
   it("edit movie", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(moviesTabHook);
@@ -79,9 +75,5 @@ context("Click all buttons", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-  });
-
-  after(() => {
-    cy.logout();
   });
 });

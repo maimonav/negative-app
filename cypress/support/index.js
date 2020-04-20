@@ -17,5 +17,14 @@
 import "cypress-plugin-snapshots/commands";
 import "./commands";
 
+before(() => {
+  cy.startSystem();
+  cy.login("admin", "admin");
+});
+
+after(() => {
+  cy.logout();
+});
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')

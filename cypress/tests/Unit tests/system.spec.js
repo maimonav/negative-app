@@ -11,12 +11,7 @@ import {
   showReportTabHook,
   logoutTabHook
 } from "../../../src/consts/data-hooks";
-const user = "admin";
 
-before(() => {
-  cy.startSystem();
-  cy.login(user, user);
-});
 context("Click all tabs", () => {
   it("Logout", () => {
     cy.accessTab(logoutTabHook);
@@ -59,9 +54,5 @@ context("Click all tabs", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-  });
-
-  after(() => {
-    cy.logout();
   });
 });

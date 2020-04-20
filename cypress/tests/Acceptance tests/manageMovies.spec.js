@@ -16,10 +16,6 @@ const key = "key";
 const examinationRoom = "examinationRoom";
 
 context("Manage Movies", () => {
-  before(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
   //Will be tested when we have tests for add movie
   // it("edit movie", () => {
   //   cy.accessTab(inventoryActionsTabHook);
@@ -65,8 +61,5 @@ context("Manage Movies", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-  });
-  after(() => {
-    cy.logout();
   });
 });

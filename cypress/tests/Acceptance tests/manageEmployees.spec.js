@@ -22,11 +22,6 @@ const lastName = "test";
 const permissions = "ADMIN";
 const contactDetails = "test@gmail.com";
 context("Manage Employees", () => {
-  before(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
-
   it("add new employee", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(employeesTabHook);
@@ -127,9 +122,5 @@ context("Manage Employees", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-  });
-
-  after(() => {
-    cy.logout();
   });
 });

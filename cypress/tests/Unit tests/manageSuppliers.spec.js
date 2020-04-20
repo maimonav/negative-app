@@ -14,10 +14,6 @@ const user = "admin";
 const supplier = "supplier";
 const contactDetails = "test@gmail.com";
 context("Type all fields", () => {
-  before(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
   it("add new supplier", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
@@ -94,9 +90,5 @@ context("Click all buttons", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-  });
-
-  after(() => {
-    cy.logout();
   });
 });
