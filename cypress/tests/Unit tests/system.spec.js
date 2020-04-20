@@ -12,12 +12,12 @@ import {
   logoutTabHook
 } from "../../../src/consts/data-hooks";
 const user = "admin";
-context("Click all tabs", () => {
-  before(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
 
+before(() => {
+  cy.startSystem();
+  cy.login(user, user);
+});
+context("Click all tabs", () => {
   it("Logout", () => {
     cy.accessTab(logoutTabHook);
   });

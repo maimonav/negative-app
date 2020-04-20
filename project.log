@@ -313,3 +313,7 @@
 14:28:50.960 INFO  ServiceLayer - The addNewEmployee process failed - the admin exists on the system. 
 14:43:45.912 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
 19:46:41.891 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+20:18:57.344 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:19:29.792 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:20:30.754 INFO  ServiceLayer- addNewSupplier - Supplier Name is not valid 
+20:20:41.211 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
