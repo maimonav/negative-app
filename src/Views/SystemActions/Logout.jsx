@@ -1,7 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import BaseButton from "../Components/Button";
-import { actionButtonHook } from "../consts/data-hooks";
+import BaseButton from "../../Components/Button";
+import { actionButtonHook } from "../../consts/data-hooks";
 class Logout extends React.Component {
   constructor(props) {
     super(props);
