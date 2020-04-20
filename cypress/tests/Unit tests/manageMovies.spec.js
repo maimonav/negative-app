@@ -14,11 +14,12 @@ const user = "admin";
 const movie = "movie";
 const key = "key";
 const examinationRoom = "examinationRoom";
-before(() => {
-  cy.startSystem();
-  cy.login(user, user);
-});
+
 context("Type all fields", () => {
+  before(() => {
+    cy.startSystem();
+    cy.login(user, user);
+  });
   it("edit movie", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(moviesTabHook);
@@ -58,7 +59,6 @@ context("Type all fields", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-    cy.logout();
   });
 });
 
@@ -80,8 +80,8 @@ context("Click all buttons", () => {
   afterEach(() => {
     cy.matchSnapshot();
   });
-});
 
-afterEach(() => {
-  cy.logout();
+  after(() => {
+    cy.logout();
+  });
 });

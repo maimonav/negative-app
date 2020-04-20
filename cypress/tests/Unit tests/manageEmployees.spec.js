@@ -22,7 +22,7 @@ const lastName = "test";
 const permissions = "ADMIN";
 const contactDetails = "test@gmail.com";
 context("Type all fields", () => {
-  beforeEach(() => {
+  before(() => {
     cy.startSystem();
     cy.login(user, user);
   });
@@ -114,16 +114,10 @@ context("Type all fields", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
-    cy.logout();
   });
 });
 
 context("Click all buttons", () => {
-  beforeEach(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
-
   it("add new employee", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(employeesTabHook);
@@ -147,6 +141,9 @@ context("Click all buttons", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
+  });
+
+  after(() => {
     cy.logout();
   });
 });
