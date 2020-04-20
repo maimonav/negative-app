@@ -305,3 +305,10 @@
 20:04:08.055 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
 20:04:09.549 INFO  ServiceLayer- editMovie - Movie Name is not valid 
 20:04:11.042 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+14:21:04.322 INFO  ServiceLayer- getReport - Type is not valid 
+14:21:25.474 INFO  ServiceLayer- getReport - Type is not valid 
+14:28:13.139 INFO  ServiceLayer- addCafeteriaOrder - Supplier Name is not valid 
+14:28:33.222 INFO  CinemaSystem - addNewEmployee - The following data provided is invalid: User name , Password , Permission  
+14:28:43.815 INFO  CinemaSystem - addNewEmployee - The following data provided is invalid: User name , Password  
+14:28:50.960 INFO  ServiceLayer - The addNewEmployee process failed - the admin exists on the system. 
+14:43:45.912 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 

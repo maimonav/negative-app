@@ -9,6 +9,7 @@ import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
 import ReactVirtualizedTable from "../../Components/Tables/ReportTable";
 import { handleGetReportTypes, handleGetReport } from "../../Handlers/Handlers";
+import { reportsTypes } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -62,7 +63,7 @@ export default class ShowReport extends React.Component {
                 <div style={{ display: "flex", alignItems: "flex-start" }}>
                   <ComboBox
                     id={"reportType"}
-                    items={this.state.types || []}
+                    items={reportsTypes || []}
                     boxLabel={"Choose type"}
                     setName={this.setReportType}
                     isMultiple={false}

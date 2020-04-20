@@ -61,21 +61,19 @@ export default class ShowSupplier extends React.Component {
                   />
                 </GridItem>
                 {this.state.supplierName && this.state.contactDetails && (
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="filled-read-only-input"
-                        defaultValue=""
-                        label="Contact details"
-                        value={this.state.contactDetails}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                        data-hook={contactDetailsHook}
-                      />
-                    </GridItem>
-                  </GridContainer>
+                  <GridItem xs={12} sm={12} md={8}>
+                    <TextField
+                      id="filled-read-only-input"
+                      defaultValue=""
+                      label="Contact details"
+                      value={this.state.contactDetails}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                      data-hook={contactDetailsHook}
+                    />
+                  </GridItem>
                 )}
               </CardBody>
             </Card>

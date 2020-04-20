@@ -61,51 +61,50 @@ export default class ShowEmployee extends React.Component {
                   />
                 </GridItem>
                 {this.state.userName && this.state.employee && (
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="filled-read-only-input"
-                        defaultValue=""
-                        label="First name"
-                        value={this.state.employee.firstName || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="filled-read-only-input"
-                        defaultValue=""
-                        label="Last name"
-                        value={this.state.employee.lastName || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="filled-read-only-input"
-                        defaultValue=""
-                        label="Permissions"
-                        value={this.state.employee.permissions || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="filled-read-only-input"
-                        defaultValue=""
-                        label="Contact details"
-                        value={this.state.employee.contactDetails || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                        data-hook={contactDetailsHook}
-                      />
-                    </GridItem>
-                  </GridContainer>
+                  <GridItem xs={12} sm={12} md={6}>
+                    <TextField
+                      id="filled-read-only-input"
+                      defaultValue=""
+                      label="First name"
+                      value={this.state.employee.firstName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="filled-read-only-input"
+                      defaultValue=""
+                      label="Last name"
+                      value={this.state.employee.lastName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+
+                    <TextField
+                      id="filled-read-only-input"
+                      defaultValue=""
+                      label="Permissions"
+                      value={this.state.employee.permissions || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="filled-read-only-input"
+                      defaultValue=""
+                      label="Contact details"
+                      value={this.state.employee.contactDetails || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                      data-hook={contactDetailsHook}
+                    />
+                  </GridItem>
                 )}
               </CardBody>
             </Card>
