@@ -58,6 +58,7 @@ context("Click all tabs", () => {
   });
 
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });

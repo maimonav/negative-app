@@ -82,6 +82,7 @@ context("Manage Suppliers", () => {
   });
 
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });

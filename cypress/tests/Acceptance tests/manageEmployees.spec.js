@@ -126,6 +126,7 @@ context("Manage Employees", () => {
   });
 
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });

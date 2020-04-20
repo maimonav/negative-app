@@ -312,3 +312,4 @@
 14:28:43.815 INFO  CinemaSystem - addNewEmployee - The following data provided is invalid: User name , Password  
 14:28:50.960 INFO  ServiceLayer - The addNewEmployee process failed - the admin exists on the system. 
 14:43:45.912 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+19:46:41.891 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 

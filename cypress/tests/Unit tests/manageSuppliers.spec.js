@@ -67,6 +67,7 @@ context("Type all fields", () => {
   });
 
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });
@@ -98,6 +99,7 @@ context("Click all buttons", () => {
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });

@@ -113,6 +113,7 @@ context("Type all fields", () => {
   });
 
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });
@@ -145,6 +146,7 @@ context("Click all buttons", () => {
   });
 
   afterEach(() => {
+    cy.matchSnapshot();
     cy.logout();
   });
 });
