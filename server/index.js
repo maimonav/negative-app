@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
-service.initSeviceLayer().then((result) => {
+service.initSeviceLayer().then(result => {
   if (typeof result === "string") {
     //TODO::
   }
@@ -354,7 +354,7 @@ app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
   console.log("result = ");
-  result.map((category) => console.log(category));
+  result.map(category => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 

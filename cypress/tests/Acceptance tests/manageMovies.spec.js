@@ -16,7 +16,7 @@ const key = "key";
 const examinationRoom = "examinationRoom";
 
 context("Manage Movies", () => {
-  beforeEach(() => {
+  before(() => {
     cy.startSystem();
     cy.login(user, user);
   });
@@ -64,6 +64,9 @@ context("Manage Movies", () => {
   // });
 
   afterEach(() => {
+    cy.matchSnapshot();
+  });
+  after(() => {
     cy.logout();
   });
 });

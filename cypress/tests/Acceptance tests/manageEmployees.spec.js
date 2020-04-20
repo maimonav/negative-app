@@ -22,7 +22,7 @@ const lastName = "test";
 const permissions = "ADMIN";
 const contactDetails = "test@gmail.com";
 context("Manage Employees", () => {
-  beforeEach(() => {
+  before(() => {
     cy.startSystem();
     cy.login(user, user);
   });
@@ -127,6 +127,9 @@ context("Manage Employees", () => {
 
   afterEach(() => {
     cy.matchSnapshot();
+  });
+
+  after(() => {
     cy.logout();
   });
 });

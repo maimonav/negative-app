@@ -1,7 +1,7 @@
 import {} from "../../../src/consts/data-hooks";
 const user = "admin";
 context("Login & Logout", () => {
-  beforeEach(() => {
+  before(() => {
     cy.startSystem();
   });
 
