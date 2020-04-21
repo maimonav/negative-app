@@ -161,13 +161,14 @@ export function handleRemoveProduct(productName) {
 }
 
 export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
+  console.log("moviesName:", JSON.stringify(moviesName));
   const user = localStorage.getItem("username");
   const orderId = `${user} , ${new Date()}`;
   fetch(
     `api/addMovieOrder?orderId=${encodeURIComponent(orderId)}
     &orderDate=${encodeURIComponent(orderDate)}
     &supplierName=${encodeURIComponent(supplierName)}
-    &moviesName=${encodeURIComponent(moviesName)}
+    &moviesName=${encodeURIComponent(JSON.stringify(moviesName))}
     &user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())

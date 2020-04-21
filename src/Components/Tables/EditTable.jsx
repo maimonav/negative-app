@@ -64,6 +64,7 @@ export default class EditTable extends React.Component {
 
   render() {
     const { columns, data } = this.state;
+    console.log("data:", data);
     return (
       <>
         {data && (
@@ -73,6 +74,17 @@ export default class EditTable extends React.Component {
             data={data}
             icons={tableIcons}
             editable={{
+              onRowAdd: (newData) =>
+                new Promise((resolve) => {
+                  setTimeout(() => {
+                    resolve();
+                    this.setState((prevState) => {
+                      const data = [...prevState.data];
+                      data.push(newData);
+                      return { ...prevState, data };
+                    });
+                  }, 600);
+                }),
               onRowUpdate: (newData, oldData) =>
                 new Promise((resolve) => {
                   setTimeout(() => {
