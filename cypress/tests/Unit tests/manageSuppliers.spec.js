@@ -10,7 +10,6 @@ import {
   suppliersTabHook
 } from "../../../src/consts/data-hooks";
 
-const user = "admin";
 const supplier = "supplier";
 const contactDetails = "test@gmail.com";
 context("Type all fields", () => {
@@ -60,10 +59,6 @@ context("Type all fields", () => {
       .type(supplier)
       .type("{esc}");
   });
-
-  afterEach(() => {
-    cy.matchSnapshot();
-  });
 });
 
 context("Click all buttons", () => {
@@ -86,9 +81,5 @@ context("Click all buttons", () => {
     cy.accessTab(suppliersTabHook);
     cy.chooseAction(removeActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
-  });
-
-  afterEach(() => {
-    cy.matchSnapshot();
   });
 });

@@ -10,7 +10,6 @@ import {
   suppliersTabHook
 } from "../../../src/consts/data-hooks";
 
-const user = "admin";
 const supplier = "supplier";
 const contactDetails = "test@gmail.com";
 context("Manage Suppliers", () => {
@@ -74,9 +73,5 @@ context("Manage Suppliers", () => {
       .type("{enter}");
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
-  });
-
-  afterEach(() => {
-    cy.matchSnapshot();
   });
 });

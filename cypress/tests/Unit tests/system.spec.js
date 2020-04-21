@@ -51,8 +51,4 @@ context("Click all tabs", () => {
     cy.accessTab(reportsActionsTabHook);
     cy.accessTab(showReportTabHook);
   });
-
-  afterEach(() => {
-    cy.matchSnapshot();
-  });
 });

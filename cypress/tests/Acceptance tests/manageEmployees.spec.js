@@ -14,7 +14,6 @@ import {
   actionButtonHook
 } from "../../../src/consts/data-hooks";
 
-const user = "admin";
 const employee = "employee";
 const password = "password";
 const firstName = "test";
@@ -118,9 +117,5 @@ context("Manage Employees", () => {
       .type("{enter}");
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
-  });
-
-  afterEach(() => {
-    cy.matchSnapshot();
   });
 });

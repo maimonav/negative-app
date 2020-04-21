@@ -10,7 +10,6 @@ import {
   examinationRoomHook
 } from "../../../src/consts/data-hooks";
 
-const user = "admin";
 const movie = "movie";
 const key = "key";
 const examinationRoom = "examinationRoom";
@@ -52,10 +51,6 @@ context("Type all fields", () => {
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
-
-  afterEach(() => {
-    cy.matchSnapshot();
-  });
 });
 
 context("Click all buttons", () => {
@@ -71,9 +66,5 @@ context("Click all buttons", () => {
     cy.accessTab(moviesTabHook);
     cy.chooseAction(removeActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
-  });
-
-  afterEach(() => {
-    cy.matchSnapshot();
   });
 });
