@@ -268,58 +268,32 @@ class InventoryManagemnt {
         return "The order removed successfully";
     }
 
-    async addCafeteriaOrder(
-        orderId,
-        strDate,
-        supplierId,
-        productsList,
-        creatorEmployeeId
-    ) {
+    async addCafeteriaOrder(orderId, strDate, supplierId, productsList, creatorEmployeeId, orderName) {
         if (this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "This order " + orderId + " already exists"
-            );
+            this.writeToLog("info", "addCafeteriaOrder", "This order " + orderId + " already exists");
             return "This order already exists";
         }
         if (!this.suppliers.has(supplierId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "The supplier " + supplierId + " does not exist"
-            );
+            this.writeToLog("info", "addCafeteriaOrder", "The supplier " + supplierId + " does not exist");
             return "The supplier does not exist";
         }
         for (let i in productsList) {
             if (!this.products.has(productsList[i].id)) {
-                this.writeToLog(
-                    "info",
-                    "addCafeteriaOrder",
-                    "The product " + productsList[i].id + " does not exist"
-                );
+                this.writeToLog("info", "addCafeteriaOrder", "The product " + productsList[i].id + " does not exist");
                 return "Product does not exist";
             }
             if (productsList[i].quantity < 0) {
-                this.writeToLog(
-                    "info",
-                    "addCafeteriaOrder",
-                    "The quantity " + productsList[i].quantity + " is invalid"
-                );
+                this.writeToLog("info", "addCafeteriaOrder", "The quantity " + productsList[i].quantity + " is invalid");
                 return "Quantity inserted is invalid";
             }
         }
         let date = new Date(strDate);
         if (isNaN(date.valueOf())) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "The order date " + strDate + " is invalid"
-            );
+            this.writeToLog("info", "addCafeteriaOrder", "The order date " + strDate + " is invalid");
             return "The order date is invalid";
         }
 
-        let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+        let order = new Order(orderId, supplierId, date, creatorEmployeeId, orderName);
 
         //Database
         let orderObject = order.getOrderAdditionObject();
@@ -339,6 +313,11 @@ class InventoryManagemnt {
                 },
             });
         }
+        //debug print
+        // this.writeToLog('info', 'addCafeteriaOrder', 'debug print:');
+        // actionsList.forEach((action) => {
+        //     this.writeToLog('info', 'addCafeteriaOrder', 'model- ' + action.model + ' params: ' + action.params.element);
+        // })
         let result = await DB.executeActions(actionsList);
         if (typeof result === "string") {
             DBlogger.info("InventoryManagemnt - addCafeteriaOrder - ", result);
@@ -353,6 +332,7 @@ class InventoryManagemnt {
             let productOrder = product.createOrder(order, quantity);
             order.productOrders.set(productId, productOrder);
         }
+        this.writeToLog('info', 'addCafeteriaOrder', '')
         this.orders.set(orderId, order);
         return "The order added successfully";
     }
@@ -428,14 +408,7 @@ class InventoryManagemnt {
         return "The product was successfully added to the system";
     }
 
-    async editCafeteriaProduct(
-        productId,
-        categoryId,
-        price,
-        quantity,
-        maxQuantity,
-        minQuantity
-    ) {
+    async editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity) {
         if (!this.products.has(productId)) return "This product not exists";
         return await this.products
             .get(productId)
@@ -765,12 +738,34 @@ class InventoryManagemnt {
         }
         return "The category already removed";
     }
+    convertToDates(d) {
+        return (
+            d.constructor === Date ? d :
+            d.constructor === Array ? new Date(d[0], d[1], d[2]) :
+            d.constructor === Number ? new Date(d) :
+            d.constructor === String ? new Date(d) :
+            typeof d === "object" ? new Date(d.year, d.month, d.date) :
+            NaN
+        );
+    }
+
+    inDateRange(d, start, end) {
+        return (
+            isFinite(d = this.convertToDates(d).valueOf()) &&
+            isFinite(start = this.convertToDates(start).valueOf()) &&
+            isFinite(end = this.convertToDates(end).valueOf()) ?
+            start <= d && d <= end :
+            NaN
+        );
+    }
 
     getOrdersByDates(startDate, endDate) {
         let result = [];
+        this.writeToLog('debug', 'getOrdersByDates', "startDate = " + startDate + " endDate = " + endDate + 'order length = ' + this.orders.size);
         this.orders.forEach((order) => {
-            if (order.date < endDate && order.date > startDate)
-                result.push({ title: order.id });
+            this.writeToLog('debug', 'getOrdersByDates', 'inDateRange(order.date, startDate, endDate) = ' + this.inDateRange(order.date, startDate, endDate));
+            if (this.inDateRange(order.date, startDate, endDate))
+                result.push({ title: order.name });
         });
         return result;
     }
@@ -807,6 +802,15 @@ class InventoryManagemnt {
                 result.push({ name: product.movie.name, quantity: 1 });
             }
         });
+        return result;
+    }
+
+    getCafeteriaOrders() {
+        let result = [];
+        this.orders.forEach((order) => {
+            result.push({ title: order.name });
+        })
+
         return result;
     }
 

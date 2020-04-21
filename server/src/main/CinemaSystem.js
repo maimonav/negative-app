@@ -231,26 +231,10 @@ class CinemaSystem {
         return this.inventoryManagement.removeOrder(orderId);
     }
 
-    async addCafeteriaOrder(
-        orderId,
-        date,
-        supplierId,
-        productsList,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "addCafeteriaOrder"
-        );
+    async addCafeteriaOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation, orderName) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCafeteriaOrder");
         if (result != null) return result;
-        return this.inventoryManagement.addCafeteriaOrder(
-            orderId,
-            date,
-            supplierId,
-            productsList,
-            ActionIDOfTheOperation
-        );
+        return this.inventoryManagement.addCafeteriaOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation, orderName);
     }
 
     async addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
@@ -500,6 +484,10 @@ class CinemaSystem {
     }
     getMovies() {
         return this.inventoryManagement.getMovies();
+    }
+
+    getCafeteriaOrders() {
+        return this.inventoryManagement.getCafeteriaOrders();
     }
 
     getSupplierDetails(supplierID) {

@@ -1,6 +1,7 @@
 const DataBase = require("./DataLayer/DBManager");
 const Product = require("./Product");
 const CafeteriaProductOrder = require("./CafeteriaProductOrder");
+const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class CafeteriaProduct extends Product {
     constructor(id, name, categoryId, price, quantity, maxQuantity, minQuantity) {
@@ -43,6 +44,14 @@ class CafeteriaProduct extends Product {
         return true;
     }
     async editProduct(categoryId, price, quantity, maxQuantity, minQuantity) {
+        if (this.isNeedToUpdate(maxQuantity, true)) {
+            if ((this.isNeedToUpdate(minQuantity, false) && maxQuantity <= minQuantity) ||
+                (!this.isNeedToUpdate(minQuantity, false) && (maxQuantity <= this.minQuantity))) {
+                this.writeToLog('info', 'editProduct', 'this.isNeedToUpdate(minQuantity, false) ' + this.isNeedToUpdate(minQuantity, false) + ' The edited operation fail - Max quntity (' + maxQuantity + ') must to be grateter than min quantity(' + minQuantity + ',' + this.minQuantity + ')');
+                this.writeToLog('info', 'editProduct', 'The edited operation fail - Max quntity (' + maxQuantity + ') must to be grateter than min quantity(' + minQuantity + ',' + this.minQuantity + ')');
+                return 'The edited operation fail - Max quntity must to be grateter than min quantity';
+            }
+        }
         const backupObj = {
             categoryId: this.categoryId,
             price: this.price,
@@ -63,9 +72,7 @@ class CafeteriaProduct extends Product {
             isNeedUpdate = true;
             this.quantity = quantity;
         }
-        if (this.isNeedToUpdate(maxQuantity, true) &&
-            ((this.isNeedToUpdate(minQuantity, false) && maxQuantity > minQuantity) ||
-                (!this.isNeedToUpdate(minQuantity, false) && maxQuantity > this.minQuantity))) {
+        if (this.isNeedToUpdate(maxQuantity, true)) {
             isNeedUpdate = true;
             this.maxQuantity = maxQuantity;
         }
