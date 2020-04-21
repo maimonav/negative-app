@@ -12,6 +12,7 @@ import {
 
 const supplier = "supplier";
 const contactDetails = "test@gmail.com";
+const editContactDetails = "changed@gmail.com";
 context("Manage Suppliers", () => {
   it("add new supplier", () => {
     cy.accessTab(userActionsTabHook);
@@ -27,11 +28,7 @@ context("Manage Suppliers", () => {
       .type(contactDetails);
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
-  });
 
-  it("show supplier", () => {
-    cy.accessTab(userActionsTabHook);
-    cy.accessTab(suppliersTabHook);
     cy.chooseAction(showActionHook);
 
     cy.get(`[data-hook=${userNameHook}`)
@@ -56,9 +53,19 @@ context("Manage Suppliers", () => {
 
     cy.get(`[data-hook=${contactDetailsHook}]`)
       .click()
-      .type(contactDetails);
+      .type(editContactDetails);
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
+
+    cy.chooseAction(showActionHook);
+
+    cy.get(`[data-hook=${userNameHook}`)
+      .click()
+      .type(supplier)
+      .type("{downarrow}")
+      .type("{enter}");
+
+    cy.get(`[data-hook=${contactDetailsHook}]`);
   });
 
   it("remove supplier", () => {
@@ -73,5 +80,13 @@ context("Manage Suppliers", () => {
       .type("{enter}");
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
+
+    cy.chooseAction(showActionHook);
+
+    cy.get(`[data-hook=${userNameHook}`)
+      .click()
+      .type(supplier)
+      .type("{downarrow}")
+      .type("{enter}");
   });
 });
