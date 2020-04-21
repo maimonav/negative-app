@@ -119,10 +119,9 @@ export default class EditEmployee extends React.Component {
                       onChange={event => this.setPassword(event)}
                       autoComplete="new-password"
                       data-hook={passwordHook}
+                      type="password"
                     />
                   </GridItem>
-                </GridContainer>
-                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="First Name"
@@ -134,6 +133,8 @@ export default class EditEmployee extends React.Component {
                       data-hook={firstNameHook}
                     />
                   </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Last Name"
@@ -145,8 +146,6 @@ export default class EditEmployee extends React.Component {
                       data-hook={lastNameHook}
                     />
                   </GridItem>
-                </GridContainer>
-                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Contact Details"
@@ -159,7 +158,6 @@ export default class EditEmployee extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer></GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button

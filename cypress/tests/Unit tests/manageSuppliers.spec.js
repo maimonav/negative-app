@@ -14,11 +14,6 @@ const user = "admin";
 const supplier = "supplier";
 const contactDetails = "test@gmail.com";
 context("Type all fields", () => {
-  beforeEach(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
-
   it("add new supplier", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
@@ -67,16 +62,11 @@ context("Type all fields", () => {
   });
 
   afterEach(() => {
-    cy.logout();
+    cy.matchSnapshot();
   });
 });
 
 context("Click all buttons", () => {
-  beforeEach(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
-
   it("add new supplier", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);
@@ -97,7 +87,8 @@ context("Click all buttons", () => {
     cy.chooseAction(removeActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
+
   afterEach(() => {
-    cy.logout();
+    cy.matchSnapshot();
   });
 });

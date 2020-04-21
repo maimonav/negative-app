@@ -46,7 +46,7 @@ export default class EditTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: "",
+      data: this.props.data,
       columns: this.props.columns,
     };
   }
@@ -64,7 +64,6 @@ export default class EditTable extends React.Component {
 
   render() {
     const { columns, data } = this.state;
-    console.log("state.data: ", this.state.data);
     return (
       <>
         {data && (

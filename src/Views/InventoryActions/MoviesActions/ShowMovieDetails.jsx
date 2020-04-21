@@ -59,50 +59,48 @@ export default class ShowMovieDetails extends React.Component {
                   />
                 </GridItem>
                 {this.state.movieName && (
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field1"
-                        defaultValue=""
-                        label="movieName"
-                        value={this.state.movieName.movieName || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field2"
-                        defaultValue=""
-                        label="Movie Key"
-                        value={this.state.movieName.movieKey || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field3"
-                        defaultValue=""
-                        label="Examination Room"
-                        value={this.state.movieName.examinationRoom || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field4"
-                        defaultValue=""
-                        label="category"
-                        value={this.state.movieName.category || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                  </GridContainer>
+                  <GridItem xs={12} sm={12} md={8}>
+                    <TextField
+                      id="field1"
+                      defaultValue=""
+                      label="movieName"
+                      value={this.state.movieName.movieName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field2"
+                      defaultValue=""
+                      label="Movie Key"
+                      value={this.state.movieName.movieKey || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field3"
+                      defaultValue=""
+                      label="Examination Room"
+                      value={this.state.movieName.examinationRoom || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field4"
+                      defaultValue=""
+                      label="category"
+                      value={this.state.movieName.category || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                  </GridItem>
                 )}
               </CardBody>
             </Card>

@@ -1,5 +1,5 @@
-import Login from "./Login";
-import Logout from "./Logout";
+import Login from "./SystemActions/Login";
+import Logout from "./SystemActions/Logout";
 import ManageEmployees from "./UserActions/EmployeeActions/ManageEmployees";
 import ShowEmployee from "./UserActions/EmployeeActions/ShowEmployee";
 import AddEmployee from "./UserActions/EmployeeActions/AddEmployee";
@@ -69,5 +69,5 @@ export {
   RemoveCategory,
   EditCafeteriaOrder,
   ShowReport,
-  ConfirmCafeteriaOrder,
+  ConfirmCafeteriaOrder
 };

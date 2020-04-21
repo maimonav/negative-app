@@ -33,3 +33,7 @@ Cypress.Commands.add("accessTab", tab => {
 Cypress.Commands.add("chooseAction", action => {
   cy.get(`[data-hook=${action}]`).click();
 });
+
+Cypress.Commands.add("matchSnapshot", action => {
+  cy.document().toMatchImageSnapshot();
+});

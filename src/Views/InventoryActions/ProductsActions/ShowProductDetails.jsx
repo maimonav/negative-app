@@ -59,70 +59,68 @@ export default class ShowProductDetails extends React.Component {
                   />
                 </GridItem>
                 {this.state.productName && (
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field1"
-                        defaultValue=""
-                        label="productName"
-                        value={this.state.productName.productName || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field2"
-                        defaultValue=""
-                        label="Product Category"
-                        value={this.state.productName.productCategory || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field3"
-                        defaultValue=""
-                        label="Product Price"
-                        value={this.state.productName.productPrice || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field4"
-                        defaultValue=""
-                        label="Product Quantity"
-                        value={this.state.productName.productQuantity || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field5"
-                        defaultValue=""
-                        label="Product Max Qunatity"
-                        value={this.state.productName.productMaxQunatity || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field6"
-                        defaultValue=""
-                        label="Product Mim Qunatity"
-                        value={this.state.productName.productMimQunatity || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                  </GridContainer>
+                  <GridItem xs={12} sm={12} md={8}>
+                    <TextField
+                      id="field1"
+                      defaultValue=""
+                      label="productName"
+                      value={this.state.productName.productName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field2"
+                      defaultValue=""
+                      label="Product Category"
+                      value={this.state.productName.productCategory || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field3"
+                      defaultValue=""
+                      label="Product Price"
+                      value={this.state.productName.productPrice || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field4"
+                      defaultValue=""
+                      label="Product Quantity"
+                      value={this.state.productName.productQuantity || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field5"
+                      defaultValue=""
+                      label="Product Max Qunatity"
+                      value={this.state.productName.productMaxQunatity || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                    <TextField
+                      id="field6"
+                      defaultValue=""
+                      label="Product Mim Qunatity"
+                      value={this.state.productName.productMimQunatity || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      variant="filled"
+                    />
+                  </GridItem>
                 )}
               </CardBody>
             </Card>

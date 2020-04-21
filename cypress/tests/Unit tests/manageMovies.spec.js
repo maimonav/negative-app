@@ -16,10 +16,6 @@ const key = "key";
 const examinationRoom = "examinationRoom";
 
 context("Type all fields", () => {
-  beforeEach(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
   it("edit movie", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(moviesTabHook);
@@ -58,15 +54,11 @@ context("Type all fields", () => {
   });
 
   afterEach(() => {
-    cy.logout();
+    cy.matchSnapshot();
   });
 });
 
 context("Click all buttons", () => {
-  beforeEach(() => {
-    cy.startSystem();
-    cy.login(user, user);
-  });
   it("edit movie", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(moviesTabHook);
@@ -82,6 +74,6 @@ context("Click all buttons", () => {
   });
 
   afterEach(() => {
-    cy.logout();
+    cy.matchSnapshot();
   });
 });

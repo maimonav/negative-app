@@ -305,3 +305,27 @@
 20:04:08.055 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
 20:04:09.549 INFO  ServiceLayer- editMovie - Movie Name is not valid 
 20:04:11.042 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+14:21:04.322 INFO  ServiceLayer- getReport - Type is not valid 
+14:21:25.474 INFO  ServiceLayer- getReport - Type is not valid 
+14:28:13.139 INFO  ServiceLayer- addCafeteriaOrder - Supplier Name is not valid 
+14:28:33.222 INFO  CinemaSystem - addNewEmployee - The following data provided is invalid: User name , Password , Permission  
+14:28:43.815 INFO  CinemaSystem - addNewEmployee - The following data provided is invalid: User name , Password  
+14:28:50.960 INFO  ServiceLayer - The addNewEmployee process failed - the admin exists on the system. 
+14:43:45.912 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+19:46:41.891 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+20:18:57.344 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:19:29.792 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:20:30.754 INFO  ServiceLayer- addNewSupplier - Supplier Name is not valid 
+20:20:41.211 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:35:02.558 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+20:35:43.464 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+20:35:56.132 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:36:10.538 INFO  User - login - The admin already connected 
+20:36:46.524 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+20:37:12.382 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:37:39.074 INFO  User - login - The admin already connected 
+20:39:19.425 INFO  ServiceLayer - The editEmployee process failed - the null , who initiated the operation, does not exist in the system 
+20:39:25.608 INFO  ServiceLayer - The deleteEmployee process failed - the null , who initiated the operation, does not exist in the system 
+20:39:31.316 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
+20:39:54.647 INFO  User - login - The admin already connected 
+20:40:37.975 INFO  User - login - The admin already connected 

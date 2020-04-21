@@ -5,7 +5,7 @@ import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import CheckIcon from '@material-ui/icons/Check';
+import CheckIcon from "@material-ui/icons/Check";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
@@ -15,20 +15,20 @@ import {
   AddCafeteriaOrder,
   EditCafeteriaOrder,
   RemoveCafeteriaOrder,
-  ConfirmCafeteriaOrder
+  ConfirmCafeteriaOrder,
 } from "../../index";
 import {
   handleAddCafeteriaOrder,
   handleEditCafeteriaOrder,
   handleRemoveCafeteriaOrder,
-  handleConfirmCafeteriaOrder
+  handleConfirmCafeteriaOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white"
+  color: "white",
 };
 
 export default class ManageCafeteria extends React.Component {
@@ -37,7 +37,7 @@ export default class ManageCafeteria extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = action => {
+  onChange = (action) => {
     this.setState({ action });
   };
 
@@ -122,8 +122,10 @@ export default class ManageCafeteria extends React.Component {
                   handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
                 />
               )}
-               {this.state.action === "confirm" && (
-                <ConfirmCafeteriaOrder handleConfirmCafeteriaOrder={handleConfirmCafeteriaOrder} />
+              {this.state.action === "confirm" && (
+                <ConfirmCafeteriaOrder
+                  handleConfirmCafeteriaOrder={handleConfirmCafeteriaOrder}
+                />
               )}
             </Card>
           </GridItem>

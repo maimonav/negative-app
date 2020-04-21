@@ -1,13 +1,13 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-import BaseButton from "../Components/Button";
+import BaseButton from "../../Components/Button";
 import { Box } from "@material-ui/core";
 import {
   userNameHook,
   passwordHook,
   actionButtonHook
-} from "../consts/data-hooks";
+} from "../../consts/data-hooks";
 import "./Login.scss";
 
 class Login extends React.Component {
