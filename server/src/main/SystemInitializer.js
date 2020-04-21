@@ -76,7 +76,7 @@ class SystemInitializer {
           admin
         );
         DataBase.testModeOff();
-      }
+      } else this.serviceLayer.userCounter = employee.id + 1;
     }
   }
   static async restoreCategories(admin) {
@@ -96,7 +96,7 @@ class SystemInitializer {
         DataBase.testModeOn();
         await this.serviceLayer.addCategory(category.name, admin, parentName);
         DataBase.testModeOff();
-      }
+      } else this.serviceLayer.categoriesCounter = category.id + 1;
     }
   }
 
@@ -123,7 +123,7 @@ class SystemInitializer {
           );
         }
         DataBase.testModeOff();
-      }
+      } else this.serviceLayer.productsCounter = movie.id + 1;
     }
   }
   static async restoreProducts(admin) {
@@ -151,7 +151,7 @@ class SystemInitializer {
           admin
         );
         DataBase.testModeOff();
-      }
+      } else this.serviceLayer.productsCounter = product.id + 1;
     }
   }
   static async restoreSuppliers(admin) {
@@ -169,7 +169,7 @@ class SystemInitializer {
           admin
         );
         DataBase.testModeOff();
-      }
+      } else this.serviceLayer.supplierCounter = supplier.id + 1;
     }
   }
   static async restoreOrders(admin) {
