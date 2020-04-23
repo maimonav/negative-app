@@ -152,7 +152,20 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       '[{"name":"Product","quantity":"-1"}]',
       "User"
     );
+    expect(result).toBe("Cannot add order - creator employee id is not exist");
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      userId,
+      null
+    );
+    result = await serviceLayer.addCafeteriaOrder(
+      "Order",
+      "date",
+      "Supplier",
+      '[{"name":"Product","quantity":"-1"}]',
+      "User"
+    );
     expect(result).toBe("This order already exists");
+
     serviceLayer.cinemaSystem.inventoryManagement.orders = new Map();
     result = await serviceLayer.addCafeteriaOrder(
       "Order",
@@ -224,6 +237,6 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       '[{"name":"Product","quantity":"3"}]',
       "User"
     );
-    expect(result).toBe("The order already exist");
+    expect(result).toBe("The order already exists");
   });
 });

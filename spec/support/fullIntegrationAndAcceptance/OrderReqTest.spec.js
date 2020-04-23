@@ -118,7 +118,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '[{name:"' + product + '",quantity:' + quantity + "}]",
+      '[{"name":"' + product + '",quantity:' + quantity + "}]",
       user
     );
     expect(result).toBe("The supplier does not exist");
