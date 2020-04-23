@@ -329,3 +329,232 @@
 20:39:31.316 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
 20:39:54.647 INFO  User - login - The admin already connected 
 20:40:37.975 INFO  User - login - The admin already connected 
+11:15:05.397 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:15:27.118 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:15:27.156 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+11:18:33.470 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:18:33.487 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:18:33.487 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:18:33.487 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:18:33.487 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:19:18.573 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:19:18.599 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:19:18.599 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:19:18.599 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:19:29.308 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:20:10.057 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:20:10.073 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:20:10.073 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:39:09.941 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:39:09.984 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:39:09.984 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:39:10.087 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:39:10.116 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+11:40:02.819 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:40:02.833 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:40:02.833 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:40:02.865 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:40:18.431 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:40:18.448 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:40:18.448 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:40:18.478 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:40:53.927 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:40:53.958 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:40:53.958 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:41:23.216 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:41:50.886 INFO  ServiceLayer- editMovie - The movie movieTest does not exist 
+11:41:53.881 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+11:41:53.883 INFO  ServiceLayer- addCategory - The category already exist 
+11:41:53.902 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+11:41:53.902 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+11:41:56.725 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.725 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+11:41:56.725 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.726 INFO  ServiceLayer- addCategory - The category already exist 
+11:41:56.726 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+11:41:56.726 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.727 INFO  ServiceLayer - The login process failed - the username isn't exists on the system. 
+11:41:56.727 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.727 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+11:42:38.543 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:42:38.563 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:42:38.563 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:42:38.595 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:42:48.777 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:42:48.800 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:42:48.800 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:42:48.839 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:44:39.593 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:44:39.615 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:44:39.616 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:44:39.645 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:44:44.970 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:44:44.993 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:44:44.993 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:44:45.032 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:46:28.399 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:46:28.416 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:46:28.416 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:46:28.443 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:47:35.028 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:47:35.044 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:47:35.044 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:47:35.072 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:47:48.006 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:47:48.022 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:47:48.022 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:47:48.052 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:48:41.741 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:48:41.757 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:48:41.757 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:48:41.786 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:49:18.480 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:49:18.494 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:49:18.494 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:49:18.528 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:49:38.429 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:49:38.446 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:49:38.446 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:49:38.487 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:49:38.536 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+11:50:15.923 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:50:15.937 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:50:15.937 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:50:15.971 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:50:16.011 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+11:51:35.966 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:51:35.983 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:51:35.983 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:51:36.013 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:51:36.055 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+11:57:18.362 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:57:18.376 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:03.155 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:58:03.169 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:03.169 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+11:58:26.727 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:58:26.766 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:26.766 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+11:58:53.042 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:58:53.058 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:53.058 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+11:58:53.087 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+11:58:53.128 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+12:09:09.041 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:09:09.042 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:09:09.056 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:09:44.622 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:09:44.622 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:09:44.639 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:10:21.982 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:10:21.982 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:10:22.008 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:10:22.178 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:12:41.692 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:12:41.693 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:12:41.709 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:12:42.281 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:13:03.982 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:13:03.983 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:13:04.039 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:13:04.247 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:15:22.844 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:15:22.845 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:15:22.860 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:16:02.778 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:16:02.779 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:16:02.797 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:18:36.821 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:18:36.822 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:18:36.843 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:20:23.850 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:20:23.851 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:20:23.873 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:21:18.021 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:21:18.022 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:21:18.048 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:22:21.409 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:22:21.410 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:22:21.539 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:23:58.149 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:23:58.150 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:23:58.352 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:24:24.758 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:24:24.758 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:24:24.772 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:24:24.931 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+12:24:24.932 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:25:23.988 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:25:23.989 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:25:24.005 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:25:24.174 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+12:25:24.175 INFO  InventoryManagemnt - removeOrder - The order 1 does not exist 
+12:26:25.135 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:26:25.136 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:26:25.149 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:26:25.774 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:26:25.774 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:27:37.982 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:27:37.983 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:27:37.999 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:27:38.158 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:27:38.158 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:30:29.256 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:30:29.257 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:30:29.272 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:30:50.156 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:30:50.157 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:30:50.171 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:30:50.330 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:30:50.330 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:15.427 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+12:40:15.444 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:40:15.444 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+12:40:15.479 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+12:40:15.532 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+12:40:19.235 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:40:19.236 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+12:40:19.236 INFO  User - login - The username already connected 
+12:40:19.235 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:19.236 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+12:40:19.236 INFO  ServiceLayer- addCategory - The category already exist 
+12:40:19.236 INFO  ServiceLayer - The addNewEmployee process failed - the username exists on the system. 
+12:40:19.236 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:40:19.250 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:40:19.251 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:19.265 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:40:19.265 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:22.743 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:22.744 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+12:40:22.744 INFO  User - login - The username already connected 
+12:40:22.744 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+12:40:22.744 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:22.744 INFO  ServiceLayer- addCategory - The category already exist 
+12:40:22.744 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:22.744 INFO  ServiceLayer - The addNewEmployee process failed - the username exists on the system. 
+12:40:22.744 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:28.362 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+12:40:28.375 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:40:28.375 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:40:28.403 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+12:40:28.448 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:41:37.639 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+12:41:37.662 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:41:37.662 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:41:37.835 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+12:41:49.193 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:43:35.607 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+12:43:35.620 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:43:35.620 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:43:35.650 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+12:43:35.697 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:43:40.637 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:43:40.637 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:43:40.652 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:43:41.014 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:43:41.014 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:43:46.595 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+12:43:46.613 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:43:46.613 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+12:43:46.641 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+12:43:46.686 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 

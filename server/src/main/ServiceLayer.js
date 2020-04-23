@@ -656,7 +656,7 @@ class ServiceLayer {
       logger.info(
         "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
       );
-      return "The order already exist";
+      return "The order already exists";
     }
     if (!this.suppliers.has(supplierName)) {
       logger.info(
@@ -728,7 +728,7 @@ class ServiceLayer {
       this.orders.get(orderId),
       this.users.get(ActionIDOfTheOperation)
     );
-    if (result === "The order removed successfully.")
+    if (result === "The order removed successfully")
       this.orders.delete(orderId);
     return result;
   }
@@ -761,7 +761,7 @@ class ServiceLayer {
           orderId +
           " already exists"
       );
-      return "The order already exist";
+      return "The order already exists";
     }
     if (!this.suppliers.has(supplierName)) {
       logger.info(

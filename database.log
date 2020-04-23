@@ -705,3 +705,430 @@ SequelizeForeignKeyConstraintError: Cannot add or update a child row: a foreign 
     at readableAddChunk (_stream_readable.js:290:11)
     at Socket.Readable.push (_stream_readable.js:224:10)
     at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 11:20:10.119 ERROR 2ed0xiukk9chwzyg - DBManager - executeActions  - add, , {"element":{"id":0,"date":"2020-04-23","creatorEmployeeId":0,"supplierId":0}} - Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_NO_REFERENCED_ROW_2","errno":1452,"sqlState":"23000","sqlMessage":"Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[0,"2020-04-23 00:00:00",0,null,0,"2020-04-23 08:20:10","2020-04-23 08:20:10"]},"original":{"code":"ER_NO_REFERENCED_ROW_2","errno":1452,"sqlState":"23000","sqlMessage":"Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[0,"2020-04-23 00:00:00",0,null,0,"2020-04-23 08:20:10","2020-04-23 08:20:10"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[0,"2020-04-23 00:00:00",0,null,0,"2020-04-23 08:20:10","2020-04-23 08:20:10"],"fields":["creatorEmployeeId"],"table":"employees","index":"orders_ibfk_1","reltype":"child"}
+SequelizeForeignKeyConstraintError: Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Execute.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Execute.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 11:20:10.120 INFO  InventoryManagemnt - addMovieOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xiukk9chwzyg 
+2020-04-23 11:40:18.518 ERROR 2ed0xh5sk9cimwd3 - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 11:41:50.918 ERROR 2ed0xf9ok9ciovnr - DBManager - singleAdd - category, {"id":0,"name":"categoryTest"} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"PRIMARY must be unique","type":"unique violation","path":"PRIMARY","value":"0","origin":"DB","instance":{"parentId":-1,"isCategoryRemoved":null,"id":0,"name":"categoryTest","updatedAt":"2020-04-23T08:41:50.911Z","createdAt":"2020-04-23T08:41:50.911Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"PRIMARY":"0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '0' for key 'PRIMARY'","sql":"INSERT INTO `categories` (`id`,`parentId`,`name`,`isCategoryRemoved`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?);","parameters":[0,-1,"categoryTest",null,"2020-04-23 08:41:50","2020-04-23 08:41:50"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '0' for key 'PRIMARY'","sql":"INSERT INTO `categories` (`id`,`parentId`,`name`,`isCategoryRemoved`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?);","parameters":[0,-1,"categoryTest",null,"2020-04-23 08:41:50","2020-04-23 08:41:50"]},"sql":"INSERT INTO `categories` (`id`,`parentId`,`name`,`isCategoryRemoved`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:223:16)
+    at Execute.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Execute.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 11:41:50.964 ERROR 2ed0xf9ok9ciovp0 - DBManager - singleAdd - category, {"id":1,"name":"categoryTest"} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"PRIMARY must be unique","type":"unique violation","path":"PRIMARY","value":"1","origin":"DB","instance":{"parentId":-1,"isCategoryRemoved":null,"id":1,"name":"categoryTest","updatedAt":"2020-04-23T08:41:50.959Z","createdAt":"2020-04-23T08:41:50.959Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'PRIMARY'","sql":"INSERT INTO `categories` (`id`,`parentId`,`name`,`isCategoryRemoved`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?);","parameters":[1,-1,"categoryTest",null,"2020-04-23 08:41:50","2020-04-23 08:41:50"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'PRIMARY'","sql":"INSERT INTO `categories` (`id`,`parentId`,`name`,`isCategoryRemoved`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?);","parameters":[1,-1,"categoryTest",null,"2020-04-23 08:41:50","2020-04-23 08:41:50"]},"sql":"INSERT INTO `categories` (`id`,`parentId`,`name`,`isCategoryRemoved`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:223:16)
+    at Execute.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Execute.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 11:42:33.994 ERROR 2ed0xf9ok9cipswa - DBManager - singleGetById - order, {} - pool is draining and cannot accept work
+{}
+Error: pool is draining and cannot accept work
+    at Pool.acquire (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize-pool\lib\Pool.js:316:9)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\connection-manager.js:280:24
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromiseCtx (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:641:10)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:97:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 11:42:38.632 ERROR 2ed0xd70k9cipwh5 - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 11:43:22.828 ERROR 2ed0x1ask9ciqukt - DBManager - singleGetById - order, {} - pool is draining and cannot accept work
+{}
+Error: pool is draining and cannot accept work
+    at Pool.acquire (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize-pool\lib\Pool.js:316:9)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\connection-manager.js:280:24
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromiseCtx (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:641:10)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:97:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 11:44:39.688 ERROR 2ed0xdvwk9cishvt - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 11:44:45.287 ERROR 2ed0x4m0k9cism7c - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 12:10:22.141 ERROR 2ed0xhvwk9cjpk1q - DBManager - executeActions  - add, , {"where":{"id":0}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"sql":"DELETE FROM `orders` WHERE `id` = 0","fields":["movieId"],"table":"orders","index":"movie_orders_ibfk_2","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:10:22.142 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xhvwk9cjpk1q 
+2020-04-23 12:10:22.155 ERROR 2ed0xhvwk9cjpk23 - DBManager - executeActions  - add, , {"where":{"id":1}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 1"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 1"},"sql":"DELETE FROM `orders` WHERE `id` = 1","fields":["productId"],"table":"orders","index":"cafeteria_product_orders_ibfk_2","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_2` FOREIGN KEY (`productId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:10:22.155 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xhvwk9cjpk23 
+2020-04-23 12:10:22.177 ERROR 2ed0xhvwk9cjpk2p - DBManager - executeActions  - add, , {"where":{"id":0}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"sql":"DELETE FROM `orders` WHERE `id` = 0","fields":["movieId"],"table":"orders","index":"movie_orders_ibfk_2","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_2` FOREIGN KEY (`movieId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:10:22.178 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xhvwk9cjpk2p 
+2020-04-23 12:12:41.995 ERROR 2ed0xidwk9cjsjyk - DBManager - executeActions  - add, , {"where":{"id":0}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"sql":"DELETE FROM `orders` WHERE `id` = 0","fields":["orderId"],"table":"orders","index":"movie_orders_ibfk_1","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:12:41.998 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xidwk9cjsjyk 
+2020-04-23 12:12:42.238 ERROR 2ed0xidwk9cjsk59 - DBManager - executeActions  - add, , {"where":{"id":1}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 1"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 1"},"sql":"DELETE FROM `orders` WHERE `id` = 1","fields":["orderId"],"table":"orders","index":"cafeteria_product_orders_ibfk_1","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:12:42.239 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xidwk9cjsk59 
+2020-04-23 12:12:42.280 ERROR 2ed0xidwk9cjsk6g - DBManager - executeActions  - add, , {"where":{"id":0}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"sql":"DELETE FROM `orders` WHERE `id` = 0","fields":["orderId"],"table":"orders","index":"movie_orders_ibfk_1","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:12:42.280 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xidwk9cjsk6g 
+2020-04-23 12:13:04.201 ERROR 2ed0xjgok9cjt13e - DBManager - executeActions  - add, , {"where":{"id":0}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"sql":"DELETE FROM `orders` WHERE `id` = 0","fields":["orderId"],"table":"orders","index":"movie_orders_ibfk_1","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:13:04.202 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xjgok9cjt13e 
+2020-04-23 12:13:04.220 ERROR 2ed0xjgok9cjt13w - DBManager - executeActions  - add, , {"where":{"id":1}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 1"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 1"},"sql":"DELETE FROM `orders` WHERE `id` = 1","fields":["orderId"],"table":"orders","index":"cafeteria_product_orders_ibfk_1","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`cafeteria_product_orders`, CONSTRAINT `cafeteria_product_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:13:04.220 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xjgok9cjt13w 
+2020-04-23 12:13:04.246 ERROR 2ed0xjgok9cjt14m - DBManager - executeActions  - add, , {"where":{"id":0}} - Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"original":{"code":"ER_ROW_IS_REFERENCED_2","errno":1451,"sqlState":"23000","sqlMessage":"Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))","sql":"DELETE FROM `orders` WHERE `id` = 0"},"sql":"DELETE FROM `orders` WHERE `id` = 0","fields":["orderId"],"table":"orders","index":"movie_orders_ibfk_1","reltype":"parent"}
+SequelizeForeignKeyConstraintError: Cannot delete or update a parent row: a foreign key constraint fails (`ordertest`.`movie_orders`, CONSTRAINT `movie_orders_ibfk_1` FOREIGN KEY (`orderId`) REFERENCES `orders` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Query.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Query.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:13:04.246 INFO  InventoryManagemnt - removeOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xjgok9cjt14m 
+2020-04-23 12:26:25.770 ERROR 2ed0xcwck9cka7l7 - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 12:26:25.774 ERROR 2ed0xcwck9cka7la - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 12:40:19.249 ERROR 2ed0xipok9cks2pe - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-04-23","creatorEmployeeId":1,"supplierId":0}} - Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))
+{"name":"SequelizeForeignKeyConstraintError","parent":{"code":"ER_NO_REFERENCED_ROW_2","errno":1452,"sqlState":"23000","sqlMessage":"Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-04-23 00:00:00",1,null,0,"2020-04-23 09:40:19","2020-04-23 09:40:19"]},"original":{"code":"ER_NO_REFERENCED_ROW_2","errno":1452,"sqlState":"23000","sqlMessage":"Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-04-23 00:00:00",1,null,0,"2020-04-23 09:40:19","2020-04-23 09:40:19"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-04-23 00:00:00",1,null,0,"2020-04-23 09:40:19","2020-04-23 09:40:19"],"fields":["creatorEmployeeId"],"table":"employees","value":1,"index":"orders_ibfk_1","reltype":"child"}
+SequelizeForeignKeyConstraintError: Cannot add or update a child row: a foreign key constraint fails (`ordertest`.`orders`, CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`creatorEmployeeId`) REFERENCES `employees` (`id`))
+    at Query.formatError (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:233:16)
+    at Execute.handler [as onResult] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\mysql\query.js:51:23)
+    at Execute.execute (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\commands\command.js:30:14)
+    at Connection.handlePacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:417:32)
+    at PacketParser.onPacket (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:75:12)
+    at PacketParser.executeStart (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\packet_parser.js:75:16)
+    at Socket.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\mysql2\lib\connection.js:82:25)
+    at Socket.emit (events.js:223:5)
+    at addChunk (_stream_readable.js:309:12)
+    at readableAddChunk (_stream_readable.js:290:11)
+    at Socket.Readable.push (_stream_readable.js:224:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:181:23) 
+2020-04-23 12:40:19.250 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Foreign key constraint is violated in the database.
+Error ID: 2ed0xipok9cks2pe 
+2020-04-23 12:40:19.254 ERROR 2ed0xipok9cks2pi - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 12:40:19.264 ERROR 2ed0xipok9cks2ps - DBManager - singleGetById - order, {} - WHERE parameter "id" has invalid "undefined" value
+{}
+Error: WHERE parameter "id" has invalid "undefined" value
+    at MySQLQueryGenerator.whereItemQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2184:13)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2173:25
+    at Array.forEach (<anonymous>)
+    at MySQLQueryGenerator.whereItemsQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2171:35)
+    at MySQLQueryGenerator.getWhereConditions (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:2583:19)
+    at MySQLQueryGenerator.selectQuery (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\query-generator.js:1315:28)
+    at QueryInterface.select (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\query-interface.js:1122:27)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\model.js:1757:34
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromise0 (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:649:10)
+    at Promise._settlePromises (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:729:18)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:93:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues [as _onImmediate] (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
+2020-04-23 12:41:49.191 ERROR 2ed0xk34k9cku03s - DBManager - singleGetById - movie_order, {"orderId":0,"movieId":0} - pool is draining and cannot accept work
+{}
+Error: pool is draining and cannot accept work
+    at Pool.acquire (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize-pool\lib\Pool.js:316:9)
+    at c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\sequelize\lib\dialects\abstract\connection-manager.js:280:24
+    at tryCatcher (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\util.js:16:23)
+    at Promise._settlePromiseFromHandler (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:547:31)
+    at Promise._settlePromise (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:604:18)
+    at Promise._settlePromiseCtx (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\promise.js:641:10)
+    at _drainQueueStep (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:97:12)
+    at _drainQueue (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:86:9)
+    at Async._drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:102:5)
+    at Immediate.Async.drainQueues (c:\Users\ASUS\Documents\GitHub\negative-app\node_modules\bluebird\js\release\async.js:15:14)
+    at processImmediate (internal/timers.js:439:21) 
