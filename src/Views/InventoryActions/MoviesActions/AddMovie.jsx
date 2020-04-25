@@ -7,11 +7,9 @@ import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import ComboBox from "../../../Components/AutoComplete";
-import {
-  handleGetMovies,
-  handleGetCategories
-} from "../../../Handlers/Handlers";
+import { handleGetCategories } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovie extends React.Component {
@@ -19,30 +17,24 @@ export default class AddMovie extends React.Component {
     super(props);
     this.state = {
       movieName: "",
-      category: ""
+      category: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
-    handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
-        this.setState({ movies: state.result });
-      });
-
     handleGetCategories(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ categories: state.result });
       });
   };
 
-  setMovieName = movieName => {
-    this.setState({ movieName });
-  };
+  setMovieName(event) {
+    this.setState({ movieName: event.target.value });
+  }
 
-  setCategory = category => {
+  setCategory = (category) => {
     this.setState({ category });
   };
 
@@ -59,12 +51,13 @@ export default class AddMovie extends React.Component {
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"movieName"}
-                      items={this.state.movies}
-                      boxLabel={"Choose movie"}
-                      setName={this.setMovieName}
-                      isMultiple={false}
+                    <CustomInput
+                      labelText="Add Movie Name"
+                      id="movieName"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      onChange={(event) => this.setMovieName(event)}
                     />
                   </GridItem>
                 </GridContainer>

@@ -666,7 +666,6 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
-    moviesList = JSON.parse(moviesList);
     for (let i in moviesList) {
       if (!this.products.has(moviesList[i])) {
         logger.info(
