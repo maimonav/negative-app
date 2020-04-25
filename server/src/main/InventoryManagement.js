@@ -208,13 +208,9 @@ class InventoryManagemnt {
       actionsList = actionsList.concat({
         name: DB.add,
         model: "movie_order",
-<<<<<<< HEAD
-        params: { element: { orderId: orderId, movieId: movieId } },
-=======
         params: {
           element: { orderId: orderId, movieId: movieId, expectedQuantity: 1 },
         },
->>>>>>> master
       });
     }
     let result = await DB.executeActions(actionsList);
