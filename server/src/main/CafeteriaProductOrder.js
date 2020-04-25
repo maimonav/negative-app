@@ -15,7 +15,7 @@ class CafeteriaProductOrder {
   });
 
   remove() {
-    product.removeOrder(order.id);
+    this.product.removeOrder(this.order.id);
   }
 
   editCafeteriaProductOrder(actualQuantity) {

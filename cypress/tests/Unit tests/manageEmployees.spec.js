@@ -14,7 +14,6 @@ import {
   actionButtonHook
 } from "../../../src/consts/data-hooks";
 
-const user = "admin";
 const employee = "employee";
 const password = "password";
 const firstName = "test";
@@ -106,10 +105,6 @@ context("Type all fields", () => {
       .type(employee)
       .type("{esc}");
   });
-
-  afterEach(() => {
-    cy.matchSnapshot();
-  });
 });
 
 context("Click all buttons", () => {
@@ -132,9 +127,5 @@ context("Click all buttons", () => {
     cy.accessTab(employeesTabHook);
     cy.chooseAction(removeActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
-  });
-
-  afterEach(() => {
-    cy.matchSnapshot();
   });
 });

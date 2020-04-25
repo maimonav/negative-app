@@ -205,32 +205,35 @@ describe("Init System Tests - Restore data Tests", function () {
     });
   });
 
-  it("restore orders", async function () {
+  it("restore orders", async function (done) {
+    setTimeout(done, 4999);
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
-    await addEmployee(0);
+    await addEmployee(1);
     await addSupplier(0, "supplier");
-    await addOrderAftereSupplierCreator(0, true);
+    await addOrderAftereSupplierCreator(1, true);
     await addProductsOrder();
 
-    service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
-    if (service.orders.size === 0) fail("restore order - serviceLayer");
-    let orderId = service.ordersCounter - 1;
-    expect(service.orders.get(orderId.toString())).toBe(orderId);
-    if (service.cinemaSystem.inventoryManagement.orders.size === 0)
-      fail("restore order - inventoryManagement");
+    setTimeout(async () => {
+      service = new ServiceLayer();
+      await service.initSeviceLayer(dbName);
+      if (service.orders.size === 0) fail("restore order - serviceLayer");
+      let orderId = service.ordersCounter - 1;
+      expect(service.orders.get(orderId.toString())).toBe(orderId);
+      if (service.cinemaSystem.inventoryManagement.orders.size === 0)
+        fail("restore order - inventoryManagement");
 
-    let order = service.cinemaSystem.inventoryManagement.orders.get(0);
-    expect(order.date).toEqual(new Date("2020-03-02 00:00:00"));
-    expect(order.creatorEmployeeId).toBe(0);
-    expect(order.supplierId).toBe(0);
-    if (order.productOrders.size === 0) fail("restore order - Order");
-    order.productOrders.forEach((productOrder) => {
-      if (productOrder instanceof MovieOrder)
-        expect(productOrder.movie.id).toEqual(0);
-      else expect(productOrder.product.id).toEqual(0);
-    });
+      let order = service.cinemaSystem.inventoryManagement.orders.get(0);
+      expect(order.date).toEqual(new Date("2020-03-02 00:00:00"));
+      expect(order.creatorEmployeeId).toBe(0);
+      expect(order.supplierId).toBe(0);
+      if (order.productOrders.size === 0) fail("restore order - Order");
+      order.productOrders.forEach((productOrder) => {
+        if (productOrder instanceof MovieOrder)
+          expect(productOrder.movie.id).toEqual(0);
+        else expect(productOrder.product.id).toEqual(0);
+      });
+    }, 3000);
   });
 });

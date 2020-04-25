@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
-service.initSeviceLayer().then(result => {
+service.initSeviceLayer().then((result) => {
   if (typeof result === "string") {
     //TODO::
   }
@@ -97,13 +97,15 @@ app.get("/api/addMovieOrder", async (req, res) => {
   const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
   const supplierName =
     (req.query.supplierName && req.query.supplierName.trim()) || "";
-  const moviesName = (req.query.movieName && req.query.moviesName.trim()) || "";
+  const moviesName =
+    (req.query.moviesName && req.query.moviesName.trim()) || "";
+  const moviesList = JSON.parse(moviesName);
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.addMovieOrder(
     orderId,
     orderDate,
     supplierName,
-    moviesName,
+    moviesList,
     user
   );
   res.send(JSON.stringify({ result }));
@@ -229,9 +231,9 @@ app.get("/api/removeProduct", async (req, res) => {
 
 app.get("/api/addCafeteriaOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const productsName =
-    (req.query.productsName && req.query.productsName.trim()) || "";
-  const productsList = JSON.parse(productsName);
+  const products =
+    (req.query.productsList && req.query.productsList.trim()) || "";
+  const productsList = JSON.parse(products);
   const supplierName =
     (req.query.supplierName && req.query.supplierName.trim()) || "";
   const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
@@ -354,7 +356,7 @@ app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
   console.log("result = ");
-  result.map(category => console.log(category));
+  result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 

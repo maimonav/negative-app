@@ -657,7 +657,7 @@ class ServiceLayer {
       logger.info(
         "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
       );
-      return "The order already exist";
+      return "The order already exists";
     }
     if (!this.suppliers.has(supplierName)) {
       logger.info(
@@ -667,7 +667,6 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
-    moviesList = JSON.parse(moviesList);
     for (let i in moviesList) {
       if (!this.products.has(moviesList[i])) {
         logger.info(
@@ -729,7 +728,7 @@ class ServiceLayer {
       this.orders.get(orderId),
       this.users.get(ActionIDOfTheOperation)
     );
-    if (result === "The order removed successfully.")
+    if (result === "The order removed successfully")
       this.orders.delete(orderId);
     return result;
   }
@@ -762,7 +761,7 @@ class ServiceLayer {
           orderId +
           " already exists"
       );
-      return "The order already exist";
+      return "The order already exists";
     }
     if (!this.suppliers.has(supplierName)) {
       logger.info(
@@ -772,7 +771,6 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
-    productsList = JSON.parse(productsList);
     for (let i = 0; i < productsList.length; i++) {
       if (!this.products.has(productsList[i].name)) {
         logger.info(

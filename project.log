@@ -329,3 +329,957 @@
 20:39:31.316 INFO  ServiceLayer - The logout process failed - the null isn't exists on the system. 
 20:39:54.647 INFO  User - login - The admin already connected 
 20:40:37.975 INFO  User - login - The admin already connected 
+11:15:05.397 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:15:27.118 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:15:27.156 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+11:18:33.470 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:18:33.487 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:18:33.487 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:18:33.487 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:18:33.487 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:19:18.573 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:19:18.599 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:19:18.599 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:19:18.599 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+11:19:29.308 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:20:10.057 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:20:10.073 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:20:10.073 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:39:09.941 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:39:09.984 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:39:09.984 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:39:10.087 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:39:10.116 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+11:40:02.819 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:40:02.833 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:40:02.833 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:40:02.865 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:40:18.431 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:40:18.448 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:40:18.448 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:40:18.478 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:40:53.927 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:40:53.958 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:40:53.958 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:41:23.216 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:41:50.886 INFO  ServiceLayer- editMovie - The movie movieTest does not exist 
+11:41:53.881 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+11:41:53.883 INFO  ServiceLayer- addCategory - The category already exist 
+11:41:53.902 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+11:41:53.902 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+11:41:56.725 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.725 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+11:41:56.725 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.726 INFO  ServiceLayer- addCategory - The category already exist 
+11:41:56.726 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+11:41:56.726 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.727 INFO  ServiceLayer - The login process failed - the username isn't exists on the system. 
+11:41:56.727 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:41:56.727 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+11:42:38.543 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:42:38.563 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:42:38.563 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:42:38.595 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:42:48.777 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:42:48.800 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:42:48.800 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:42:48.839 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:44:39.593 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:44:39.615 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:44:39.616 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:44:39.645 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:44:44.970 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:44:44.993 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:44:44.993 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:44:45.032 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:46:28.399 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:46:28.416 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:46:28.416 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:46:28.443 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:47:35.028 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:47:35.044 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:47:35.044 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:47:35.072 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:47:48.006 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:47:48.022 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:47:48.022 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:47:48.052 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:48:41.741 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:48:41.757 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:48:41.757 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:48:41.786 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:49:18.480 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:49:18.494 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:49:18.494 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:49:18.528 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:49:38.429 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:49:38.446 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:49:38.446 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:49:38.487 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:49:38.536 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+11:50:15.923 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:50:15.937 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:50:15.937 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:50:15.971 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:50:16.011 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+11:51:35.966 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+11:51:35.983 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:51:35.983 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+11:51:36.013 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+11:51:36.055 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+11:57:18.362 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:57:18.376 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:03.155 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:58:03.169 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:03.169 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+11:58:26.727 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:58:26.766 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:26.766 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+11:58:53.042 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+11:58:53.058 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+11:58:53.058 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+11:58:53.087 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+11:58:53.128 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+12:09:09.041 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:09:09.042 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:09:09.056 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:09:44.622 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:09:44.622 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:09:44.639 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:10:21.982 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:10:21.982 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:10:22.008 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:10:22.178 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:12:41.692 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:12:41.693 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:12:41.709 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:12:42.281 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:13:03.982 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:13:03.983 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:13:04.039 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:13:04.247 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:15:22.844 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:15:22.845 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:15:22.860 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:16:02.778 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:16:02.779 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:16:02.797 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:18:36.821 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:18:36.822 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:18:36.843 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:20:23.850 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:20:23.851 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:20:23.873 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:21:18.021 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:21:18.022 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:21:18.048 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:22:21.409 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:22:21.410 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:22:21.539 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:23:58.149 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:23:58.150 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:23:58.352 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:24:24.758 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:24:24.758 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:24:24.772 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:24:24.931 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+12:24:24.932 INFO  ServiceLayer- removeMovie - The movie productOrderTest does not exist 
+12:25:23.988 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:25:23.989 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:25:24.005 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:25:24.174 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+12:25:24.175 INFO  InventoryManagemnt - removeOrder - The order 1 does not exist 
+12:26:25.135 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:26:25.136 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:26:25.149 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:26:25.774 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:26:25.774 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:27:37.982 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:27:37.983 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:27:37.999 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:27:38.158 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:27:38.158 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:30:29.256 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:30:29.257 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:30:29.272 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:30:50.156 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:30:50.157 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:30:50.171 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:30:50.330 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:30:50.330 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:15.427 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+12:40:15.444 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:40:15.444 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+12:40:15.479 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+12:40:15.532 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+12:40:19.235 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:40:19.236 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+12:40:19.236 INFO  User - login - The username already connected 
+12:40:19.235 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:19.236 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+12:40:19.236 INFO  ServiceLayer- addCategory - The category already exist 
+12:40:19.236 INFO  ServiceLayer - The addNewEmployee process failed - the username exists on the system. 
+12:40:19.236 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:40:19.250 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:40:19.251 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:19.265 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:40:19.265 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:40:22.743 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:22.744 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+12:40:22.744 INFO  User - login - The username already connected 
+12:40:22.744 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+12:40:22.744 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:22.744 INFO  ServiceLayer- addCategory - The category already exist 
+12:40:22.744 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:22.744 INFO  ServiceLayer - The addNewEmployee process failed - the username exists on the system. 
+12:40:22.744 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:40:28.362 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+12:40:28.375 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:40:28.375 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:40:28.403 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+12:40:28.448 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:41:37.639 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+12:41:37.662 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:41:37.662 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:41:37.835 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+12:41:49.193 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:43:35.607 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+12:43:35.620 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:43:35.620 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+12:43:35.650 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+12:43:35.697 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+12:43:40.637 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:43:40.637 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:43:40.652 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:43:41.014 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+12:43:41.014 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+12:43:46.595 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+12:43:46.613 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+12:43:46.613 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+12:43:46.641 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+12:43:46.686 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+13:37:27.758 INFO  ServiceLayer- addMovie - The category categoryTest does not exist 
+13:37:27.803 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+13:37:31.478 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+13:37:31.479 INFO  ServiceLayer- addCategory - The category already exist 
+13:37:31.479 INFO  CinemaSystem - addCategory - The operation cannot be completed - the user is not connected to the system 
+13:37:31.479 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+13:37:31.479 INFO  ServiceLayer- editMovie - The category categoryTest2 does not exist 
+13:37:35.297 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+13:37:35.298 INFO  ServiceLayer- addCategory - The category already exist 
+13:37:35.298 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+13:37:35.298 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+13:37:40.143 INFO  ServiceLayer- editMovie - The movie movieTest does not exist 
+13:37:45.351 INFO  ServiceLayer- removeMovie - The movie movieTest does not exist 
+13:37:45.403 INFO  ServiceLayer- removeMovie - The movie movieTest does not exist 
+13:37:50.639 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+13:37:50.640 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+13:37:50.665 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:37:51.287 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+13:37:51.287 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+13:37:54.687 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:37:54.688 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+13:37:54.689 INFO  User - login - The username already connected 
+13:37:54.688 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:37:54.688 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:37:54.688 INFO  ServiceLayer- addCategory - The category already exist 
+13:37:54.688 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+13:37:54.689 INFO  ServiceLayer - The addNewEmployee process failed - the username exists on the system. 
+13:38:02.481 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+13:38:02.662 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:02.662 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+13:38:02.917 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+13:38:25.974 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+13:38:25.987 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:25.987 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+13:38:26.017 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+13:38:26.063 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+13:38:32.308 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+13:38:32.325 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:32.325 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+13:38:32.356 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+13:38:32.403 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+13:38:39.220 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.226 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.226 INFO  CinemaSystem - addNewSupplier - User does not have proper permissions 
+13:38:39.226 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.226 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.226 INFO  CinemaSystem - editSupplier - User does not have proper permissions 
+13:38:39.226 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.226 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.226 INFO  CinemaSystem - removeSupplier - User does not have proper permissions 
+13:38:39.230 INFO  ServiceLayer- addNewSupplier - Supplier Name is not valid 
+13:38:39.230 INFO  ServiceLayer- addNewSupplier - Contact Details is not valid 
+13:38:39.230 INFO  ServiceLayer- addNewSupplier - Username is not valid 
+13:38:39.230 INFO  ServiceLayer- addNewSupplier - Supplier Name is not valid 
+13:38:39.230 INFO  ServiceLayer- addNewSupplier - Contact Details is not valid 
+13:38:39.230 INFO  ServiceLayer- addNewSupplier - Username is not valid 
+13:38:39.231 INFO  ServiceLayer- addNewSupplier - The supplier Supplier already exists 
+13:38:39.231 INFO  ServiceLayer- addNewSupplier - The user User performing the operation does not exist in the system 
+13:38:39.232 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.233 INFO  InventoryManagemnt - addNewSupplier - This supplier 0 already exists 
+13:38:39.233 INFO  ServiceLayer- addNewSupplier - The supplier anotherSupplier already exists 
+13:38:39.232 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.232 INFO  CinemaSystem - addNewSupplier - User does not have proper permissions 
+13:38:39.233 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:39.234 INFO  InventoryManagemnt - editSupplier - The supplier 1 does not exist 
+13:38:39.234 INFO  InventoryManagemnt - removeSupplier - The supplier 1 does not exist 
+13:38:39.236 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.236 INFO  InventoryManagemnt - removeSupplier - The supplier 1 does not exist 
+13:38:39.236 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.236 INFO  CinemaSystem - removeSupplier - User does not have proper permissions 
+13:38:39.237 INFO  InventoryManagemnt - addNewSupplier - This supplier 1 already exists 
+13:38:39.237 INFO  InventoryManagemnt - editSupplier - The supplier 1 set to the Supplier dictionary 
+13:38:39.237 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.238 INFO  InventoryManagemnt - editSupplier - The supplier 1 does not exist 
+13:38:39.238 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:39.238 INFO  CinemaSystem - editSupplier - User does not have proper permissions 
+13:38:43.766 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.770 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.770 INFO  CinemaSystem - addNewSupplier - User does not have proper permissions 
+13:38:43.770 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.770 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.770 INFO  CinemaSystem - editSupplier - User does not have proper permissions 
+13:38:43.770 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.770 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.770 INFO  CinemaSystem - removeSupplier - User does not have proper permissions 
+13:38:43.773 INFO  ServiceLayer- addNewSupplier - Supplier Name is not valid 
+13:38:43.773 INFO  ServiceLayer- addNewSupplier - Contact Details is not valid 
+13:38:43.773 INFO  ServiceLayer- addNewSupplier - Username is not valid 
+13:38:43.774 INFO  ServiceLayer- addNewSupplier - Supplier Name is not valid 
+13:38:43.774 INFO  ServiceLayer- addNewSupplier - Contact Details is not valid 
+13:38:43.774 INFO  ServiceLayer- addNewSupplier - Username is not valid 
+13:38:43.774 INFO  ServiceLayer- addNewSupplier - The supplier Supplier already exists 
+13:38:43.774 INFO  ServiceLayer- addNewSupplier - The user User performing the operation does not exist in the system 
+13:38:43.776 INFO  InventoryManagemnt - editSupplier - The supplier 1 does not exist 
+13:38:43.776 INFO  InventoryManagemnt - removeSupplier - The supplier 1 does not exist 
+13:38:43.777 INFO  InventoryManagemnt - addNewSupplier - This supplier 1 already exists 
+13:38:43.777 INFO  InventoryManagemnt - editSupplier - The supplier 1 set to the Supplier dictionary 
+13:38:43.778 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.778 INFO  InventoryManagemnt - removeSupplier - The supplier 1 does not exist 
+13:38:43.778 INFO  CinemaSystem - removeSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.778 INFO  CinemaSystem - removeSupplier - User does not have proper permissions 
+13:38:43.782 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.782 INFO  InventoryManagemnt - editSupplier - The supplier 1 does not exist 
+13:38:43.782 INFO  CinemaSystem - editSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.782 INFO  CinemaSystem - editSupplier - User does not have proper permissions 
+13:38:43.783 INFO  InventoryManagemnt - addNewSupplier - This supplier 0 already exists 
+13:38:43.783 INFO  ServiceLayer- addNewSupplier - The supplier anotherSupplier already exists 
+13:38:43.783 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.783 INFO  CinemaSystem - addNewSupplier - The operation cannot be completed - the user is not connected to the system 
+13:38:43.783 INFO  CinemaSystem - addNewSupplier - User does not have proper permissions 
+13:38:43.783 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:49.117 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:49.124 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+13:38:53.464 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:38:58.105 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:39:05.435 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:41:28.062 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:41:50.522 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:42:36.849 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:44:18.631 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:44:35.745 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:44:56.597 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:45:04.673 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+13:45:04.680 INFO  EmployeeManagement - addNewEmployee - The adminUserName already exist 
+13:45:04.681 INFO  CinemaSystem - addNewEmployee - The operation cannot be completed - the user is not connected to the system 
+13:45:04.684 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+13:45:04.685 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+13:45:04.686 INFO  CinemaSystem - addNewEmployee - The following data provided is invalid: Permission  
+13:45:04.687 INFO  ServiceLayer - The addNewEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+13:45:04.687 INFO  ServiceLayer - The addNewEmployee process failed - the userUserName exists on the system. 
+13:45:08.208 INFO  InventoryManagemnt - addCafeteriaOrder - This order 1 already exists 
+13:45:08.212 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 1 does not exist 
+13:45:08.212 INFO  InventoryManagemnt - addCafeteriaOrder - The product 1 does not exist 
+13:45:08.213 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:45:08.213 INFO  InventoryManagemnt - addCafeteriaOrder - The order date test is invalid 
+13:45:08.216 INFO  ServiceLayer- addCafeteriaOrder - Order ID is not valid 
+13:45:08.216 INFO  ServiceLayer- addCafeteriaOrder - Date is not valid 
+13:45:08.216 INFO  ServiceLayer- addCafeteriaOrder - Supplier Name is not valid 
+13:45:08.216 INFO  ServiceLayer- addCafeteriaOrder - Products List is not valid 
+13:45:08.216 INFO  ServiceLayer- addCafeteriaOrder - Username is not valid 
+13:45:08.217 INFO  ServiceLayer- addCafeteriaOrder - Order ID is not valid 
+13:45:08.217 INFO  ServiceLayer- addCafeteriaOrder - Date is not valid 
+13:45:08.217 INFO  ServiceLayer- addCafeteriaOrder - Supplier Name is not valid 
+13:45:08.217 INFO  ServiceLayer- addCafeteriaOrder - Products List is not valid 
+13:45:08.217 INFO  ServiceLayer- addCafeteriaOrder - Username is not valid 
+13:45:08.217 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:45:08.218 INFO  ServiceLayer- addCafeteriaOrder - The supplier Supplier does not exist 
+13:45:08.218 INFO  ServiceLayer- addCafeteriaOrder - The product Product does not exist 
+13:45:08.218 INFO  ServiceLayer- addCafeteriaOrder - The user User performing the operation does not exist in the system 
+13:45:08.223 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:08.224 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:08.224 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:45:08.407 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:08.408 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:08.408 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:45:08.408 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:08.409 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:08.409 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:08.410 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:08.410 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:08.410 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:13.525 INFO  CinemaSystem - addCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+13:45:13.530 INFO  CinemaSystem - addCafeteriaProduct - User does not have proper permissions 
+13:45:13.532 INFO  The user adminaaa performing the operation does not exist in the system 
+13:45:13.533 INFO  CinemaSystem - editCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+13:45:13.533 INFO  CinemaSystem - editCafeteriaProduct - User does not have proper permissions 
+13:45:13.538 ERROR InventoryManagemnt - removeCafeteriaProduct - dummy 
+13:45:13.542 INFO  The user adminaaa performing the operation does not exist in the system 
+13:45:13.544 INFO  ServiceLayer- removeProduct - dummy 
+13:45:13.544 INFO  CinemaSystem - removeCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+13:45:13.544 INFO  CinemaSystem - removeCafeteriaProduct - User does not have proper permissions 
+13:45:13.545 INFO  ServiceLayer- addNewProduct - dummy 
+13:45:13.549 INFO  CinemaSystem - addCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+13:45:13.549 INFO  CinemaSystem - addCafeteriaProduct - User does not have proper permissions 
+13:45:13.549 INFO  CinemaSystem - editCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+13:45:13.550 INFO  CinemaSystem - editCafeteriaProduct - User does not have proper permissions 
+13:45:13.552 INFO  InventoryManagemnt - addCafeteriaProduct - Category doesn't exist 
+13:45:13.552 INFO  InventoryManagemnt - addCafeteriaProduct - Product price must be greater than 0 
+13:45:13.552 INFO  InventoryManagemnt - addCafeteriaProduct - Product quantity must be greater or equal to 0 
+13:45:13.552 INFO  InventoryManagemnt - addCafeteriaProduct - Maximum product quantity must be greater than minimum product quantity 
+13:45:13.552 INFO  InventoryManagemnt - addCafeteriaProduct - This product already exists 
+13:45:13.554 INFO  CinemaSystem - removeCafeteriaProduct - The operation cannot be completed - the user is not connected to the system 
+13:45:13.554 INFO  CinemaSystem - removeCafeteriaProduct - User does not have proper permissions 
+13:45:15.299 INFO  CinemaSystem - editCategory - The operation cannot be completed - the user is not connected to the system 
+13:45:15.303 INFO  ServiceLayer- addCategory - The user performing the operation does not exist in the system 
+13:45:15.303 INFO  ServiceLayer- addCategory - The parent Dairy does not exist 
+13:45:15.304 INFO  CinemaSystem - removeCategory - The operation cannot be completed - the user is not connected to the system 
+13:45:15.307 INFO  InventoryManagemnt - addCategory - The parent category 0 doesn't exist 
+13:45:15.307 INFO  InventoryManagemnt - addCategory - The Category 0 already exist 
+13:45:15.308 INFO  CinemaSystem - addCategory - The operation cannot be completed - the user is not connected to the system 
+13:45:15.309 INFO  InventoryManagemnt - editCategory - The parent category -3 doesn't exist 
+13:45:15.309 INFO  InventoryManagemnt - editCategory - The Category -3 doesn't exist 
+13:45:15.310 INFO  InventoryManagemnt - removeCategory - The Category -3 doesn't exist 
+13:45:15.312 INFO  CinemaSystem - removeCategory - The operation cannot be completed - the user is not connected to the system 
+13:45:15.313 INFO  CinemaSystem - addCategory - The operation cannot be completed - the user is not connected to the system 
+13:45:15.314 INFO  ServiceLayer- editCategory - The category doesn't exist 
+13:45:15.314 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+13:45:15.314 INFO  ServiceLayer- editCategory - The parent dummy does not exist 
+13:45:15.318 INFO  ServiceLayer- editCategory - The category doesn't exist 
+13:45:15.318 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+13:45:15.319 INFO  ServiceLayer- addCategory - The user performing the operation does not exist in the system 
+13:45:15.320 INFO  ServiceLayer- addCategory - The parent dummy does not exist 
+13:45:15.320 INFO  CinemaSystem - editCategory - The operation cannot be completed - the user is not connected to the system 
+13:45:15.324 INFO  ServiceLayer- editCategory - The category doesn't exist 
+13:45:15.325 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+13:45:15.326 INFO  ServiceLayer- editCategory - The category doesn't exist 
+13:45:15.326 INFO  ServiceLayer- editCategory - The user performing the operation does not exist in the system 
+13:45:15.326 INFO  ServiceLayer- editCategory - The parent dummy does not exist 
+13:45:16.549 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+13:45:16.554 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+13:45:16.558 INFO  CinemaSystem - deleteEmployee - A user cannot erase himself 
+13:45:16.558 INFO  CinemaSystem - deleteEmployee - User does not have proper permissions 
+13:45:16.559 INFO  ServiceLayer - deleteEmployee - The deleteEmployee process failed - the dummy not exists on the system. 
+13:45:16.560 INFO  ServiceLayer - The deleteEmployee process failed - the dummy , who initiated the operation, does not exist in the system 
+13:45:16.561 INFO  EmployeeManagement - deleteEmployee - The -1 does not exist 
+13:45:16.564 INFO  CinemaSystem - deleteEmployee - A user cannot erase himself 
+13:45:16.564 INFO  CinemaSystem - deleteEmployee - User does not have proper permissions 
+13:45:18.003 INFO  EmployeeManagement - editEmployee - EmployeeManagemnt- editEmployee - The -1 does not exist 
+13:45:18.008 INFO  firstName - dummyisNeedToEdit true 
+13:45:18.010 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+13:45:18.011 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+13:45:18.012 INFO  CinemaSystem - editEmployee - The operation cannot be completed - the user is not connected to the system 
+13:45:18.013 INFO  firstName - adminisNeedToEdit true 
+13:45:18.014 INFO  ServiceLayer - editEmployee - The addNewEmployee process failed - the -1 not exists on the system. 
+13:45:18.014 INFO  firstName - dummyisNeedToEdit true 
+13:45:18.015 INFO  firstName - adminisNeedToEdit true 
+13:45:18.016 INFO  firstName - yuvalisNeedToEdit true 
+13:45:20.751 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+13:45:20.751 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+13:45:20.751 INFO  User - login - The yuval already connected 
+13:45:20.755 INFO  User - login - Incorrect user name(yubal) or password (123456)  
+13:45:20.755 INFO  User - login - Incorrect user name(yuval) or password (wrongPassword)  
+13:45:20.756 INFO  User - login - The yuval already connected 
+13:45:20.760 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+13:45:20.761 INFO  ServiceLayer - The login process failed - the yubal isn't exists on the system. 
+13:45:25.317 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+13:45:25.324 INFO  ServiceLayer - The logout process failed - the yubal isn't exists on the system. 
+13:45:25.327 INFO  ServiceLayer - The logout process failed - the yubal isn't exists on the system. 
+13:45:25.328 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+13:45:25.328 INFO  User - logout - The user yuval tried to disconnect but was not connected in the first place. 
+13:45:25.354 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:45:25.354 INFO  InventoryManagemnt - editSupplier - The supplier 1 set to the Supplier dictionary 
+13:45:25.354 INFO  InventoryManagemnt - editSupplier - The supplier 2 set to the Supplier dictionary 
+13:45:25.354 INFO  InventoryManagemnt - editSupplier - The supplier 3 set to the Supplier dictionary 
+13:45:28.450 INFO  InventoryManagemnt - addMovie - This movie 1 already exists 
+13:45:28.457 INFO  InventoryManagemnt - addMovie - Category 1 doesn't exist 
+13:45:28.460 INFO  InventoryManagemnt - editMovie - The movie 1 does not exist 
+13:45:28.461 INFO  InventoryManagemnt - editMovie - Category undefined does not exist 
+13:45:28.461 INFO  InventoryManagemnt - editMovie - The examination room -1 is invalid 
+13:45:28.461 INFO  InventoryManagemnt - removeMovie - The movie 1 does not exist 
+13:45:28.463 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.463 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.463 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+13:45:28.463 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.463 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.463 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+13:45:28.463 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.463 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.463 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+13:45:28.465 INFO  InventoryManagemnt - addMovie - This movie 0 already exists 
+13:45:28.466 INFO  ServiceLayer- addMovie - The movie anotherMovie already exists 
+13:45:28.465 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.465 INFO  CinemaSystem - addMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.465 INFO  CinemaSystem - addMovie - User does not have proper permissions 
+13:45:28.466 INFO  InventoryManagemnt - addMovie - Category 0 doesn't exist 
+13:45:28.467 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.468 INFO  InventoryManagemnt - editMovie - The movie 1 does not exist 
+13:45:28.468 INFO  CinemaSystem - editMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.468 INFO  CinemaSystem - editMovie - User does not have proper permissions 
+13:45:28.468 INFO  InventoryManagemnt - editMovie - Category 1 does not exist 
+13:45:28.468 INFO  InventoryManagemnt - editMovie - The examination room -1 is invalid 
+13:45:28.469 INFO  ServiceLayer- addMovie - Movie Name is not valid 
+13:45:28.469 INFO  ServiceLayer- addMovie - Category is not valid 
+13:45:28.469 INFO  ServiceLayer- addMovie - Username is not valid 
+13:45:28.469 INFO  ServiceLayer- addMovie - The movie Movie already exists 
+13:45:28.470 INFO  ServiceLayer- addMovie - Movie Name is not valid 
+13:45:28.470 INFO  ServiceLayer- addMovie - Category is not valid 
+13:45:28.470 INFO  ServiceLayer- addMovie - Username is not valid 
+13:45:28.470 INFO  ServiceLayer- addMovie - The user User performing the operation does not exist in the system 
+13:45:28.470 INFO  ServiceLayer- addMovie - The category fantasy does not exist 
+13:45:28.471 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.471 INFO  InventoryManagemnt - removeMovie - The movie 1 does not exist 
+13:45:28.472 INFO  ServiceLayer- removeMovie - The movie Movie does not exist 
+13:45:28.471 INFO  CinemaSystem - removeMovie - The operation cannot be completed - the user is not connected to the system 
+13:45:28.471 INFO  CinemaSystem - removeMovie - User does not have proper permissions 
+13:45:28.472 INFO  ServiceLayer- editMovie - Movie Name is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Category is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Key is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Examination Room is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Username is not valid 
+13:45:28.473 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+13:45:28.473 INFO  ServiceLayer- removeMovie - Username is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - The movie Movie does not exist 
+13:45:28.473 INFO  ServiceLayer- editMovie - Movie Name is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Category is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Key is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Examination Room is not valid 
+13:45:28.473 INFO  ServiceLayer- editMovie - Username is not valid 
+13:45:28.473 INFO  ServiceLayer- removeMovie - Movie Name is not valid 
+13:45:28.473 INFO  ServiceLayer- removeMovie - Username is not valid 
+13:45:28.476 INFO  ServiceLayer- editMovie - The user User performing the operation does not exist in the system 
+13:45:28.476 INFO  ServiceLayer- editMovie - The category fantasy does not exist 
+13:45:28.476 INFO  ServiceLayer- removeMovie - The movie Movie does not exist 
+13:45:28.476 INFO  ServiceLayer- removeMovie - The user User performing the operation does not exist in the system 
+13:45:30.965 INFO  InventoryManagemnt - removeOrder - The order 1 does not exist 
+13:45:30.969 INFO  InventoryManagemnt - removeOrder - Removing supplied order 1 is not allowed 
+13:45:30.971 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.971 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.971 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+13:45:30.971 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:30.972 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:30.973 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:30.973 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:30.973 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:45:30.977 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:45:30.977 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:45:30.977 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:45:30.977 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:45:30.977 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - The order Order already exists 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - The supplier Supplier does not exist 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - The movie Movie does not exist 
+13:45:30.978 INFO  ServiceLayer- addMovieOrder - The user User performing the operation does not exist in the system 
+13:45:30.980 INFO  ServiceLayer- removeOrder - Order ID is not valid 
+13:45:30.980 INFO  ServiceLayer- removeOrder - Username is not valid 
+13:45:30.980 INFO  ServiceLayer- removeOrder - Order ID is not valid 
+13:45:30.980 INFO  ServiceLayer- removeOrder - Username is not valid 
+13:45:30.980 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+13:45:30.980 INFO  ServiceLayer- removeOrder - The user User performing the operation does not exist in the system 
+13:45:30.981 INFO  InventoryManagemnt - addMovieOrder - This order 1 already exists 
+13:45:30.981 INFO  InventoryManagemnt - addMovieOrder - The supplier 1 does not exist 
+13:45:30.981 INFO  InventoryManagemnt - addMovieOrder - The movie 1 does not exist 
+13:45:30.981 INFO  InventoryManagemnt - addMovieOrder - The order date test is invalid 
+13:45:30.984 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.984 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+13:45:30.984 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+13:45:30.984 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.984 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+13:45:30.984 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+13:45:30.986 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.986 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.986 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+13:45:30.986 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.986 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:45:30.986 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+13:45:40.175 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:45:40.185 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+13:45:40.185 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+13:45:49.212 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:45:49.223 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+13:45:49.223 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+13:46:39.047 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:46:39.047 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:46:39.047 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+13:46:39.047 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:46:39.047 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:46:39.048 INFO  CinemaSystem - getReport - User does not have proper permissions 
+13:46:54.673 ERROR User - initUser -  DB Problem - Database Error: Cannot complete action.
+Error ID: 2ed0xi4sk9cn5pld 
+13:46:57.844 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:46:57.844 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:46:57.845 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:46:57.845 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+13:47:08.550 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:47:08.550 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:47:08.550 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+13:47:08.625 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:08.625 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:08.625 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:08.625 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:15.221 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:15.221 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:15.221 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:15.221 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:47:15.221 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:47:15.221 INFO  CinemaSystem - getReport - User does not have proper permissions 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - Type is not valid 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - Records is not valid 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - Username is not valid 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - Type is not valid 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - Records is not valid 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - Username is not valid 
+13:47:22.110 INFO  ServiceLayer- getReport - Type is not valid 
+13:47:22.110 INFO  ServiceLayer- getReport - Date is not valid 
+13:47:22.110 INFO  ServiceLayer- getReport - Username is not valid 
+13:47:22.110 INFO  ServiceLayer- getReport - Type is not valid 
+13:47:22.110 INFO  ServiceLayer- getReport - Date is not valid 
+13:47:22.110 INFO  ServiceLayer- getReport - Username is not valid 
+13:47:22.110 INFO  ServiceLayer- createDailyReport - The user User performing the operation does not exist in the system 
+13:47:22.110 INFO  ServiceLayer- getReport - The user User performing the operation does not exist in the system 
+13:47:31.060 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:47:31.061 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:47:31.061 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+13:47:31.061 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:47:31.061 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:47:31.061 INFO  CinemaSystem - getReport - User does not have proper permissions 
+13:47:44.407 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:47:44.408 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:47:44.408 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+13:47:44.470 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:44.471 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:44.471 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:44.472 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:51.950 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:51.950 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:51.950 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:47:51.951 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:47:51.952 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+13:47:51.952 INFO  CinemaSystem - getReport - User does not have proper permissions 
+13:48:00.915 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+13:48:00.915 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:48:00.916 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+13:48:00.916 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+13:53:01.080 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:53:01.084 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:53:01.084 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:53:01.085 INFO  ServiceLayer- addCafeteriaOrder - Order ID is not valid 
+13:53:01.085 INFO  ServiceLayer- addCafeteriaOrder - Date is not valid 
+13:53:01.085 INFO  ServiceLayer- addCafeteriaOrder - Supplier Name is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Products List is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Username is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Order ID is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Date is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Supplier Name is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Products List is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - Username is not valid 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - The supplier Supplier does not exist 
+13:53:01.086 INFO  ServiceLayer- addCafeteriaOrder - The product Product does not exist 
+13:53:01.087 INFO  ServiceLayer- addCafeteriaOrder - The user User performing the operation does not exist in the system 
+13:53:01.264 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:53:01.264 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:53:01.264 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:53:01.265 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:53:01.266 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:53:01.266 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:53:01.267 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:53:01.267 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:53:01.267 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:53:01.272 INFO  InventoryManagemnt - addCafeteriaOrder - This order 1 already exists 
+13:53:01.272 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 1 does not exist 
+13:53:01.272 INFO  InventoryManagemnt - addCafeteriaOrder - The product 1 does not exist 
+13:53:01.272 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:53:01.272 INFO  InventoryManagemnt - addCafeteriaOrder - The order date test is invalid 
+13:55:50.958 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:55:50.964 INFO  InventoryManagemnt - addCafeteriaOrder - This order 0 already exists 
+13:55:50.967 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:55:50.963 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:55:50.963 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:55:50.963 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:55:50.965 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 0 does not exist 
+13:55:50.965 INFO  InventoryManagemnt - addCafeteriaOrder - The product 0 does not exist 
+13:55:50.965 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:55:50.965 INFO  InventoryManagemnt - addCafeteriaOrder - The order date date is invalid 
+13:57:42.866 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+13:57:42.867 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+13:57:42.884 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:57:43.289 INFO  ServiceLayer- removeOrder - The order movieOrderTest does not exist 
+13:57:43.289 INFO  ServiceLayer- removeOrder - The order productOrderTest does not exist 
+13:57:50.214 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:57:50.215 INFO  ServiceLayer- addNewSupplier - The supplier supplierTest already exists 
+13:57:50.216 INFO  User - login - The username already connected 
+13:57:50.215 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:57:50.215 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:57:50.215 INFO  ServiceLayer- addCategory - The category already exist 
+13:57:50.215 INFO  ServiceLayer- addMovie - The movie movieTest already exists 
+13:57:50.216 INFO  ServiceLayer - The addNewEmployee process failed - the username exists on the system. 
+13:57:55.568 INFO  ServiceLayer- addCafeteriaOrder - The supplier supplierTest does not exist 
+13:57:55.583 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:57:55.583 INFO  ServiceLayer- addCafeteriaOrder - The product productTest does not exist 
+13:57:55.619 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+13:57:55.688 INFO  ServiceLayer- addCafeteriaOrder - The order orderTest already exists 
+13:58:02.878 INFO  ServiceLayer- addMovieOrder - The supplier supplierTest does not exist 
+13:58:02.895 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+13:58:02.895 INFO  ServiceLayer- addMovieOrder - The movie movieTest does not exist 
+13:58:02.926 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+13:58:02.982 INFO  ServiceLayer- addMovieOrder - The order orderTest already exists 
+13:58:08.606 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:08.611 INFO  InventoryManagemnt - addCafeteriaOrder - This order 0 already exists 
+13:58:08.614 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:58:08.610 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:08.611 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:58:08.611 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:58:08.612 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 0 does not exist 
+13:58:08.613 INFO  InventoryManagemnt - addCafeteriaOrder - The product 0 does not exist 
+13:58:08.613 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:58:08.613 INFO  InventoryManagemnt - addCafeteriaOrder - The order date date is invalid 
+13:58:20.433 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:20.438 INFO  InventoryManagemnt - addCafeteriaOrder - This order 0 already exists 
+13:58:20.440 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:58:20.437 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:20.437 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:58:20.437 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:58:20.438 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 0 does not exist 
+13:58:20.438 INFO  InventoryManagemnt - addCafeteriaOrder - The product 0 does not exist 
+13:58:20.438 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:58:20.438 INFO  InventoryManagemnt - addCafeteriaOrder - The order date date is invalid 
+13:58:30.035 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:30.039 INFO  InventoryManagemnt - addCafeteriaOrder - This order 0 already exists 
+13:58:30.041 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:58:30.039 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:30.039 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:58:30.040 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 0 does not exist 
+13:58:30.039 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:58:30.040 INFO  InventoryManagemnt - addCafeteriaOrder - The product 0 does not exist 
+13:58:30.040 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:58:30.040 INFO  InventoryManagemnt - addCafeteriaOrder - The order date date is invalid 
+13:58:38.878 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:38.883 INFO  InventoryManagemnt - addCafeteriaOrder - This order 0 already exists 
+13:58:38.884 INFO  ServiceLayer- addCafeteriaOrder - The order Order already exists 
+13:58:38.882 INFO  CinemaSystem - addCafeteriaOrder - The operation cannot be completed - the user is not connected to the system 
+13:58:38.882 INFO  CinemaSystem - addCafeteriaOrder - User does not have proper permissions 
+13:58:38.883 INFO  InventoryManagemnt - addCafeteriaOrder - The supplier 0 does not exist 
+13:58:38.882 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 1 is not exist 
+13:58:38.883 INFO  InventoryManagemnt - addCafeteriaOrder - The product 0 does not exist 
+13:58:38.883 INFO  InventoryManagemnt - addCafeteriaOrder - The quantity -1 is invalid 
+13:58:38.883 INFO  InventoryManagemnt - addCafeteriaOrder - The order date date is invalid 
+13:59:04.273 INFO  InventoryManagemnt - removeOrder - The order 1 does not exist 
+13:59:04.279 INFO  InventoryManagemnt - removeOrder - Removing supplied order 1 is not allowed 
+13:59:04.282 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:59:04.282 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:59:04.282 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:59:04.282 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:59:04.282 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:59:04.283 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:59:04.283 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:59:04.283 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:59:04.283 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:59:04.283 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:59:04.283 INFO  ServiceLayer- addMovieOrder - The order Order already exists 
+13:59:04.284 INFO  ServiceLayer- addMovieOrder - The supplier Supplier does not exist 
+13:59:04.284 INFO  ServiceLayer- addMovieOrder - The movie Movie does not exist 
+13:59:04.284 INFO  ServiceLayer- addMovieOrder - The user User performing the operation does not exist in the system 
+13:59:04.287 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.287 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.287 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+13:59:04.287 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.287 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.287 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+13:59:04.289 INFO  ServiceLayer- removeOrder - Order ID is not valid 
+13:59:04.289 INFO  ServiceLayer- removeOrder - Username is not valid 
+13:59:04.289 INFO  ServiceLayer- removeOrder - Order ID is not valid 
+13:59:04.289 INFO  ServiceLayer- removeOrder - Username is not valid 
+13:59:04.289 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+13:59:04.289 INFO  ServiceLayer- removeOrder - The user User performing the operation does not exist in the system 
+13:59:04.291 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.291 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+13:59:04.292 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+13:59:04.291 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.291 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+13:59:04.291 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+13:59:04.293 INFO  InventoryManagemnt - addMovieOrder - This order 1 already exists 
+13:59:04.293 INFO  InventoryManagemnt - addMovieOrder - The supplier 1 does not exist 
+13:59:04.293 INFO  InventoryManagemnt - addMovieOrder - The movie 1 does not exist 
+13:59:04.293 INFO  InventoryManagemnt - addMovieOrder - The order date test is invalid 
+13:59:04.296 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.296 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:04.296 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+13:59:04.296 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:04.297 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:04.297 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:04.297 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:04.297 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:39.232 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:39.238 INFO  InventoryManagemnt - addMovieOrder - This order 0 already exists 
+13:59:39.241 INFO  ServiceLayer- addMovieOrder - The order Order already exists 
+13:59:39.237 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:39.238 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+13:59:39.238 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:39.238 INFO  InventoryManagemnt - addMovieOrder - The supplier 0 does not exist 
+13:59:39.238 INFO  InventoryManagemnt - addMovieOrder - The movie 0 does not exist 
+13:59:39.238 INFO  InventoryManagemnt - addMovieOrder - The order date date is invalid 
+13:59:50.053 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:50.059 INFO  InventoryManagemnt - addMovieOrder - This order 0 already exists 
+13:59:50.062 INFO  ServiceLayer- addMovieOrder - The order Order already exists 
+13:59:50.059 INFO  CinemaSystem - addMovieOrder - The operation cannot be completed - the user is not connected to the system 
+13:59:50.059 INFO  CinemaSystem - addMovieOrder - User does not have proper permissions 
+13:59:50.059 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 1 is not exist 
+13:59:50.059 INFO  InventoryManagemnt - addMovieOrder - The supplier 0 does not exist 
+13:59:50.059 INFO  InventoryManagemnt - addMovieOrder - The movie 0 does not exist 
+13:59:50.060 INFO  InventoryManagemnt - addMovieOrder - The order date date is invalid 
+13:59:53.455 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:59:53.455 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:59:53.455 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:59:53.455 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:59:53.455 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:59:53.462 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:59:53.462 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:59:53.462 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:59:53.462 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:59:53.462 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:59:53.462 INFO  ServiceLayer- addMovieOrder - The order Order already exists 
+13:59:53.464 INFO  ServiceLayer- addMovieOrder - The supplier Supplier does not exist 
+13:59:53.464 INFO  ServiceLayer- addMovieOrder - The movie Movie does not exist 
+13:59:53.464 INFO  ServiceLayer- addMovieOrder - The user User performing the operation does not exist in the system 
+13:59:59.646 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:59:59.647 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:59:59.647 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:59:59.647 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:59:59.647 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - Order ID is not valid 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - Date is not valid 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - Supplier Name is not valid 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - Movies List is not valid 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - Username is not valid 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - The order Order already exists 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - The supplier Supplier does not exist 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - The movie Movie does not exist 
+13:59:59.651 INFO  ServiceLayer- addMovieOrder - The user User performing the operation does not exist in the system 
+14:00:02.047 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:02.054 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+14:00:02.055 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+14:00:02.054 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:02.054 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+14:00:02.054 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+14:00:07.134 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:07.138 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+14:00:07.139 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+14:00:07.138 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:07.139 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+14:00:07.138 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+14:00:09.192 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:09.197 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+14:00:09.198 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+14:00:09.197 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:09.197 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+14:00:09.197 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+14:00:23.711 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:23.715 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+14:00:23.715 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+14:00:23.714 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:23.715 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+14:00:23.715 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+14:00:35.560 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:35.564 INFO  InventoryManagemnt - removeOrder - The order 0 does not exist 
+14:00:35.564 INFO  ServiceLayer- removeOrder - The order Order does not exist 
+14:00:35.564 INFO  CinemaSystem - removeOrder - The operation cannot be completed - the user is not connected to the system 
+14:00:35.564 INFO  CinemaSystem - removeOrder - User does not have proper permissions 
+14:00:35.564 INFO  InventoryManagemnt - removeOrder - Removing supplied order 0 is not allowed 
+14:00:47.747 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:00:47.748 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:00:47.748 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:00:47.818 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:00:47.819 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:00:47.819 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:00:47.819 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:01:38.692 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:01:38.694 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:01:38.694 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:01:38.767 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:01:54.517 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:01:54.518 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:01:54.518 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:01:54.589 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:13.608 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:02:13.608 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:02:13.609 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:02:13.669 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:22.524 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:02:22.525 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:02:22.525 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:02:22.591 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:31.510 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:02:31.511 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:02:31.511 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:02:31.593 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:38.850 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:38.850 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:38.850 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:02:38.850 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:02:38.851 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:02:38.851 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:03:44.937 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:03:44.937 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:03:44.937 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:03:44.938 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:03:49.612 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:03:49.612 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:03:58.913 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:03:58.913 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:03:58.913 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:03:58.913 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:03:58.914 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:03:58.914 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:04:16.935 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:04:16.935 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:04:16.935 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:04:16.935 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:04:16.936 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:04:16.936 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:05:36.148 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:05:36.148 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:05:36.148 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:05:36.149 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:05:36.149 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:05:36.149 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:06:26.024 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:06:26.024 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:06:26.025 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:06:26.025 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:06:26.025 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:06:26.026 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:07:21.144 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:07:21.144 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:07:21.145 INFO  CinemaSystem - createDailyReport - Cannot create report - creator employee id 1 is not exist 
+14:08:45.161 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:08:45.162 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:08:45.162 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:08:49.962 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:08:49.963 INFO  CinemaSystem - getReport - The operation cannot be completed - the user is not connected to the system 
+14:08:49.963 INFO  CinemaSystem - getReport - User does not have proper permissions 
+14:09:08.024 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:09:08.025 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:09:08.025 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:09:16.463 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:09:16.465 INFO  CinemaSystem - createDailyReport - The operation cannot be completed - the user is not connected to the system 
+14:09:16.465 INFO  CinemaSystem - createDailyReport - User does not have proper permissions 
+14:09:57.194 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
+14:09:57.205 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
+14:09:57.206 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 

@@ -67,7 +67,7 @@ describe("MovieOrder Operations Tests", () => {
       '["Movie"]',
       "User"
     );
-    expect(result).toBe("The order already exist");
+    expect(result).toBe("The order already exists");
     serviceLayer.orders = new Map();
     result = await serviceLayer.addMovieOrder(
       "Order",
@@ -206,6 +206,18 @@ describe("MovieOrder Operations Tests", () => {
       '["Movie"]',
       "User"
     );
+    expect(result).toBe("Cannot add order - creator employee id is not exist");
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      userId,
+      null
+    );
+    result = await serviceLayer.addMovieOrder(
+      "Order",
+      "date",
+      "Supplier",
+      '["Movie"]',
+      "User"
+    );
     expect(result).toBe("This order already exists");
     serviceLayer.cinemaSystem.inventoryManagement.orders = new Map();
     result = await serviceLayer.addMovieOrder(
@@ -265,7 +277,7 @@ describe("MovieOrder Operations Tests", () => {
       '["Movie"]',
       "User"
     );
-    expect(result).toBe("The order already exist");
+    expect(result).toBe("The order already exists");
   });
 
   it("Integration removeOrder", async () => {
@@ -300,6 +312,6 @@ describe("MovieOrder Operations Tests", () => {
     );
     expect(movie.productOrders.has(0)).toBe(false);
     result = await serviceLayer.removeOrder("Order", "User");
-    expect(result).toBe("This order does not exist");
+    expect(result).toBe("The order does not exist");
   });
 });
