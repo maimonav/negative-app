@@ -159,7 +159,7 @@ export default class AddCafeteriaOrder extends React.Component {
                   <Button
                     color="info"
                     onClick={() =>
-                      this.props.hadleAddCafeteriaOrder(
+                      this.props.handleAddCafeteriaOrder(
                         productsWithQuantity,
                         supplierName,
                         orderDate

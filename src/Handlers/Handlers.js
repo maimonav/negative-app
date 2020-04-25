@@ -314,7 +314,7 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
   const orderId = `${user} , ${new Date()}`;
   fetch(
     `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
-    &productsName=${productsList}&supplierName=${encodeURIComponent(
+    &productsList=${productsList}&supplierName=${encodeURIComponent(
       supplierName
     )}&orderDate=${encodeURIComponent(orderDate)}&user=${encodeURIComponent(
       user

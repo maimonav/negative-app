@@ -231,9 +231,9 @@ app.get("/api/removeProduct", async (req, res) => {
 
 app.get("/api/addCafeteriaOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const productsName =
-    (req.query.productsName && req.query.productsName.trim()) || "";
-  const productsList = JSON.parse(productsName);
+  const products =
+    (req.query.productsList && req.query.productsList.trim()) || "";
+  const productsList = JSON.parse(products);
   const supplierName =
     (req.query.supplierName && req.query.supplierName.trim()) || "";
   const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";

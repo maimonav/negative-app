@@ -109,7 +109,7 @@ export default class ManageCafeteria extends React.Component {
               {this.state.action === "show" && <ShowCafeteriaOrder />}
               {this.state.action === "add" && (
                 <AddCafeteriaOrder
-                  hadleAddCafeteriaOrder={handleAddCafeteriaOrder}
+                  handleAddCafeteriaOrder={handleAddCafeteriaOrder}
                 />
               )}
               {this.state.action === "edit" && (
