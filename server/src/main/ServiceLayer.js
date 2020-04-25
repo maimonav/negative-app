@@ -8,6 +8,7 @@ class ServiceLayer {
     this.users = new Map();
     this.userCounter = 0;
     this.suppliers = new Map();
+    // just for example purposes
     this.supplierCounter = 0;
     this.products = new Map();
     this.productsCounter = 0;
@@ -99,8 +100,7 @@ class ServiceLayer {
     lastName,
     permissions,
     contactDetails,
-    ActionIDofTheOperation,
-    isPasswordHashed
+    ActionIDofTheOperation
   ) {
     if (this.users.has(userName)) {
       logger.info(
@@ -126,8 +126,7 @@ class ServiceLayer {
       firstName,
       lastName,
       contactDetails,
-      this.users.get(ActionIDofTheOperation),
-      isPasswordHashed
+      this.users.get(ActionIDofTheOperation)
     );
     if (result === "The employee added successfully.") {
       this.users.set(userName, this.userCounter);
