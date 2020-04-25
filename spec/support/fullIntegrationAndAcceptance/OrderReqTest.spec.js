@@ -33,7 +33,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '["' + movie + '"]',
+      JSON.parse('["' + movie + '"]'),
       user
     );
     expect(result).toBe("The supplier does not exist");
@@ -43,7 +43,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '["' + movie + '"]',
+      JSON.parse('["' + movie + '"]'),
       user
     );
     expect(result).toBe("Movie does not exist");
@@ -54,7 +54,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '["' + movie + '"]',
+      JSON.parse('["' + movie + '"]'),
       user
     );
     expect(result).toBe("Cannot add order - creator employee id is not exist");
@@ -74,7 +74,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '["' + movie + '"]',
+      JSON.parse('["' + movie + '"]'),
       "username"
     );
     expect(result).toBe("The order added successfully");
@@ -99,7 +99,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '["' + movie + '"]',
+      JSON.parse('["' + movie + '"]'),
       "username"
     );
     expect(result).toBe("The order already exists");
@@ -112,13 +112,15 @@ describe("Order Operations Tests", function () {
     let quantity = 4;
     let date = new Date();
     let user = "admin";
+    let productsList =
+      '[{"name":"' + product + '","quantity":' + quantity + "}]";
     service.login(user, user);
 
     let result = await service.addCafeteriaOrder(
       order,
       date,
       supplier,
-      '[{"name":"' + product + '",quantity:' + quantity + "}]",
+      JSON.parse(productsList),
       user
     );
     expect(result).toBe("The supplier does not exist");
@@ -128,7 +130,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '[{"name":"' + product + '","quantity":' + quantity + "}]",
+      JSON.parse(productsList),
       user
     );
     expect(result).toBe("Product does not exist");
@@ -139,7 +141,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '[{"name":"' + product + '","quantity":' + quantity + "}]",
+      JSON.parse(productsList),
       user
     );
     expect(result).toBe("Cannot add order - creator employee id is not exist");
@@ -159,7 +161,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '[{"name":"' + product + '","quantity":' + quantity + "}]",
+      JSON.parse(productsList),
       "username"
     );
     expect(result).toBe("The order added successfully");
@@ -184,7 +186,7 @@ describe("Order Operations Tests", function () {
       order,
       date,
       supplier,
-      '[{"name":"' + product + '","quantity":' + quantity + "}]",
+      JSON.parse(productsList),
       "username"
     );
     expect(result).toBe("The order already exists");
@@ -198,6 +200,8 @@ describe("Order Operations Tests", function () {
     let order_2 = "productOrderTest";
     let supplier = "supplierTest";
     let quantity = 4;
+    let productsList =
+      '[{"name":"' + product + '","quantity":' + quantity + "}]";
     let date = new Date();
     let user = "admin";
     service.login(user, user);
@@ -225,14 +229,14 @@ describe("Order Operations Tests", function () {
       order_1,
       date,
       supplier,
-      '["' + movie + '"]',
+      JSON.parse('["' + movie + '"]'),
       "username"
     );
     await service.addCafeteriaOrder(
       order_2,
       date,
       supplier,
-      '[{"name":"' + product + '","quantity":' + quantity + "}]",
+      JSON.parse(productsList),
       "username"
     );
 

@@ -22,7 +22,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order ID ": "Order",
       "Date ": "date",
       "Supplier Name ": "Supplier",
-      "Products List ": '[{"name":"Product","quantity":"3"}]',
+      "Products List ": JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "Username ": "User",
     });
 
@@ -31,16 +31,16 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
-    expect(result).toBe("The order already exist");
+    expect(result).toBe("The order already exists");
     serviceLayer.orders = new Map();
     result = await serviceLayer.addCafeteriaOrder(
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
     expect(result).toBe("The supplier does not exist");
@@ -49,7 +49,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
     expect(result).toBe("Product does not exist");
@@ -58,7 +58,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
     expect(result).toBe(
@@ -136,7 +136,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
           "Order",
           "date",
           "Supplier",
-          '[{"name":"Product","quantity":"-1"}]',
+          JSON.parse('[{"name":"Product","quantity":"-1"}]'),
           "User"
         ),
       userId
@@ -149,7 +149,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"-1"}]',
+      JSON.parse('[{"name":"Product","quantity":"-1"}]'),
       "User"
     );
     expect(result).toBe("Cannot add order - creator employee id is not exist");
@@ -161,7 +161,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"-1"}]',
+      JSON.parse('[{"name":"Product","quantity":"-1"}]'),
       "User"
     );
     expect(result).toBe("This order already exists");
@@ -171,7 +171,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"-1"}]',
+      JSON.parse('[{"name":"Product","quantity":"-1"}]'),
       "User"
     );
     expect(result).toBe("The supplier does not exist");
@@ -183,7 +183,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"-1"}]',
+      JSON.parse('[{"name":"Product","quantity":"-1"}]'),
       "User"
     );
     expect(result).toBe("Product does not exist");
@@ -196,7 +196,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"-1"}]',
+      JSON.parse('[{"name":"Product","quantity":"-1"}]'),
       "User"
     );
     expect(result).toBe("Quantity inserted is invalid");
@@ -205,7 +205,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
     expect(result).toBe("The order date is invalid");
@@ -213,7 +213,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       todayDate.toISOString(),
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
     expect(result).toBe("The order added successfully");
@@ -234,7 +234,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       todayDate.toISOString(),
       "Supplier",
-      '[{"name":"Product","quantity":"3"}]',
+      JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
     expect(result).toBe("The order already exists");

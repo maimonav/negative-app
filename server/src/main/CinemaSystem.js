@@ -223,6 +223,16 @@ class CinemaSystem {
       "addMovieOrder"
     );
     if (result != null) return result;
+    if (
+      !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
+    ) {
+      logger.info(
+        "CinemaSystem - addMovieOrder - Cannot add order - creator employee id " +
+          ActionIDOfTheOperation +
+          " is not exist"
+      );
+      return "Cannot add order - creator employee id is not exist";
+    }
     return this.inventoryManagement.addMovieOrder(
       orderId,
       date,
@@ -471,6 +481,16 @@ class CinemaSystem {
       "createDailyReport"
     );
     if (result != null) return result;
+    if (
+      !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
+    ) {
+      logger.info(
+        "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
+          ActionIDOfTheOperation +
+          " is not exist"
+      );
+      return "Cannot create report - creator employee id is not exist";
+    }
     return ReportController.removeFieldFromDailyReport(fieldToRemove);
   }
 
