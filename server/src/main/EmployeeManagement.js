@@ -14,7 +14,8 @@ class EmployeeManagemnt {
     permissions,
     firstName,
     lastName,
-    contactDetails
+    contactDetails,
+    isPasswordHashed
   ) {
     if (this.employeeDictionary.has(userID)) {
       this.writeToLog(
@@ -31,7 +32,8 @@ class EmployeeManagemnt {
       permissions,
       firstName,
       lastName,
-      contactDetails
+      contactDetails,
+      isPasswordHashed
     );
     let result = await employee.init();
     if (typeof result === "string") {
