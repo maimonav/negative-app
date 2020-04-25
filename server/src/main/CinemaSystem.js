@@ -7,6 +7,7 @@ const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
 
 class CinemaSystem {
+<<<<<<< Updated upstream
     constructor() {
         this.users = new Map();
         this.inventoryManagement = new InventoryManagement();
@@ -112,6 +113,122 @@ class CinemaSystem {
         lastName,
         contactDetails,
         ActionIDOfTheOperation
+=======
+  constructor() {
+    this.users = new Map();
+    this.inventoryManagement = new InventoryManagement();
+    this.employeeManagement = new EmployeeManagement();
+    this.userOfflineMsg =
+      "The operation cannot be completed - the user is not connected to the system";
+    this.inappropriatePermissionsMsg = "User does not have proper permissions";
+  }
+
+  UserDetailsCheck(userName, password, permissions) {
+    let err = "";
+    if (userName === undefined || userName === "") err += "User name ";
+    if (password === undefined || password === "") {
+      if (err !== "") err += ", ";
+      err += "Password ";
+    }
+    if (
+      permissions === undefined ||
+      !User.getPermissionTypeList().hasOwnProperty(permissions)
+    ) {
+      if (err !== "") err += ", ";
+      err += "Permission ";
+    }
+    if (err !== "") err = "The following data provided is invalid: " + err;
+    return err;
+  }
+
+  isLoggedin(userId) {
+    if (!this.users.has(userId)) return "The user isn't exists";
+    return this.users.get(userId).isLoggedin();
+  }
+
+  login(userName, password, userId) {
+    if (!this.users.has(userId)) return "The user isn't exists";
+    return this.users.get(userId).login(userName, password);
+  }
+
+  logout(userId) {
+    if (!this.users.has(userId)) return "The user isn't exists";
+    return this.users.get(userId).logout();
+  }
+  //notes- checkuser
+  async addNewEmployee(
+    userID,
+    userName,
+    password,
+    permissions,
+    firstName,
+    lastName,
+    contactDetails,
+    ActionIDOfTheOperation,
+    isPasswordHashed
+  ) {
+    if (this.users.has(userID)) return "The id is already exists";
+    if (
+      !this.users.has(ActionIDOfTheOperation) ||
+      !this.users.get(ActionIDOfTheOperation).isLoggedin()
+    ) {
+      logger.info("CinemaSystem - addNewEmployee - " + this.userOfflineMsg);
+      return this.userOfflineMsg;
+    }
+    const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
+    if (argCheckRes !== "") {
+      logger.info("CinemaSystem - addNewEmployee - " + argCheckRes);
+      return argCheckRes;
+    }
+    //If the operator does not have the permission of a deputy manager or if he is not admin and also tries to add someone his own higher permission.
+    if (
+      !this.users
+        .get(ActionIDOfTheOperation)
+        .permissionCheck("DEPUTY_MANAGER") ||
+      (this.users.get(ActionIDOfTheOperation).getPermissionValue() <=
+        User.getPermissionTypeList[permissions] &&
+        this.users.get(ActionIDOfTheOperation).getPermissionValue() !==
+          User.getPermissionTypeList["ADMIN"])
+    ) {
+      logger.info(
+        "CinemaSystem - addNewEmployee - " +
+          userName +
+          " " +
+          this.inappropriatePermissionsMsg
+      );
+      return this.inappropriatePermissionsMsg;
+    }
+    let employee = await this.employeeManagement.addNewEmployee(
+      userID,
+      userName,
+      password,
+      permissions,
+      firstName,
+      lastName,
+      contactDetails,
+      isPasswordHashed
+    );
+    if (typeof employee === "string") {
+      return employee;
+    }
+    this.users.set(userID, employee);
+    return "The employee added successfully.";
+  }
+
+  async editEmployee(
+    employeeID,
+    password,
+    permissions,
+    firstName,
+    lastName,
+    contactDetails,
+    ActionIDOfTheOperation
+  ) {
+    if (!this.users.has(employeeID)) return "The id is not exists";
+    if (
+      !this.users.has(ActionIDOfTheOperation) ||
+      !this.users.get(ActionIDOfTheOperation).isLoggedin()
+>>>>>>> Stashed changes
     ) {
         if (!this.users.has(employeeID)) return "The id is not exists";
         if (!this.users.has(ActionIDOfTheOperation) ||

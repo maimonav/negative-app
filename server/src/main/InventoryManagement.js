@@ -13,6 +13,7 @@ const DBlogger = simpleLogger.createSimpleLogger({
 });
 
 class InventoryManagemnt {
+<<<<<<< Updated upstream
     constructor() {
         this.products = new Map();
         this.orders = new Map();
@@ -80,6 +81,173 @@ class InventoryManagemnt {
             return "The movie cannot be edited\n" + result;
         }
         return "The movie edited successfully";
+=======
+  constructor() {
+    this.products = new Map();
+    this.orders = new Map();
+    this.suppliers = new Map();
+    this.categories = new Map();
+  }
+
+  async addMovie(movieId, name, categoryId) {
+    if (this.products.has(movieId)) {
+      this.writeToLog(
+        "info",
+        "addMovie",
+        "This movie " + movieId + " already exists"
+      );
+      return "This movie already exists";
+    }
+    if (!this.categories.has(categoryId)) {
+      this.writeToLog(
+        "info",
+        "addMovie",
+        "Category " + categoryId + " doesn't exist"
+      );
+      return "Category doesn't exist";
+    }
+    let movie = new Movie(movieId, name, categoryId);
+    let result = await movie.initMovie();
+    if (typeof result === "string") {
+      DBlogger.info("InventoryManagemnt - addMovie - ", result);
+      return "The movie cannot be added\n" + result;
+    }
+    this.products.set(movieId, movie);
+    return "The movie added successfully";
+  }
+
+  async editMovie(movieId, categoryId, key, examinationRoom) {
+    if (!this.products.has(movieId)) {
+      this.writeToLog(
+        "info",
+        "editMovie",
+        "The movie " + movieId + " does not exist"
+      );
+      return "The movie does not exist";
+    }
+    if (!this.categories.has(categoryId)) {
+      this.writeToLog(
+        "info",
+        "editMovie",
+        "Category " + categoryId + " does not exist"
+      );
+      return "Category doesn't exist";
+    }
+    if (examinationRoom < 0) {
+      this.writeToLog(
+        "info",
+        "editMovie",
+        "The examination room " + examinationRoom + " is invalid"
+      );
+      return "The examination room is invalid";
+    }
+    let result = await this.products
+      .get(movieId)
+      .editMovie(categoryId, key, examinationRoom);
+    if (typeof result === "string") {
+      DBlogger.info("InventoryManagemnt - editMovie - ", result);
+      return "The movie cannot be edited\n" + result;
+    }
+    return "The movie edited successfully";
+  }
+
+  async removeMovie(movieId) {
+    if (!this.products.has(movieId)) {
+      this.writeToLog(
+        "info",
+        "removeMovie",
+        "The movie " + movieId + " does not exist"
+      );
+      return "The movie does not exist";
+    }
+    let result = await this.products.get(movieId).removeMovie();
+    if (typeof result === "string") {
+      DBlogger.info("InventoryManagemnt - removeMovie - ", result);
+      return "The movie cannot be removed\n" + result;
+    }
+    this.products.delete(movieId);
+    return "The movie removed successfully";
+  }
+
+  async addNewSupplier(supplierID, supplierName, contactDetails) {
+    if (this.suppliers.has(supplierID)) {
+      this.writeToLog(
+        "info",
+        "addNewSupplier",
+        "This supplier " + supplierID + " already exists"
+      );
+      return "This supplier already exists";
+    }
+    let supplier = new Supplier(supplierID, supplierName, contactDetails);
+    let result = await supplier.initSupplier();
+    if (typeof result === "string") {
+      DBlogger.info("InventoryManagemnt - addNewSupplier - ", result);
+      return "The supplier cannot be added\n" + result;
+    }
+    this.suppliers.set(supplierID, supplier);
+    return "The supplier added successfully";
+  }
+
+  async editSupplier(supplierID, supplierName, contactDetails) {
+    if (!this.suppliers.has(supplierID)) {
+      this.writeToLog(
+        "info",
+        "editSupplier",
+        "The supplier " + supplierID + " does not exist"
+      );
+      return "The supplier does not exist";
+    }
+    let result = await this.suppliers
+      .get(supplierID)
+      .editSupplier(supplierName, contactDetails);
+    if (typeof result === "string") {
+      DBlogger.info("InventoryManagemnt - editSupplier - ", result);
+      return "The supplier cannot be edited\n" + result;
+    }
+    return "The supplier edited successfully";
+  }
+
+  async removeSupplier(supplierID) {
+    if (!this.suppliers.has(supplierID)) {
+      this.writeToLog(
+        "info",
+        "removeSupplier",
+        "The supplier " + supplierID + " does not exist"
+      );
+      return "The supplier does not exist";
+    }
+    let result = await this.suppliers.get(supplierID).removeSupplier();
+    if (typeof result === "string") {
+      DBlogger.info("InventoryManagemnt - removeSupplier - ", result);
+      return "The supplier cannot be removed\n" + result;
+    }
+    this.suppliers.delete(supplierID);
+    return "The supplier removed successfully";
+  }
+
+  async addMovieOrder(
+    orderId,
+    strDate,
+    supplierId,
+    movieIdList,
+    creatorEmployeeId
+  ) {
+    if (this.orders.has(orderId)) {
+      this.writeToLog(
+        "info",
+        "addMovieOrder",
+        "This order " + orderId + " already exists"
+      );
+      return "This order already exists";
+    }
+    if (!this.suppliers.has(supplierId)) {
+      this.writeToLog(
+        "info",
+        "addMovieOrder",
+        "The supplier " + supplierId + " does not exist"
+      );
+      return "The supplier does not exist";
+>>>>>>> Stashed changes
     }
 
     async removeMovie(movieId) {
