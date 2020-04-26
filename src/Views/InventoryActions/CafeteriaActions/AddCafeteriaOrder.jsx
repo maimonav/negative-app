@@ -61,9 +61,16 @@ export default class AddCafeteriaOrder extends React.Component {
   };
 
   setProductsWithQuantity = (name) => {
-    this.setState({
-      productsWithQuantity: name,
-    });
+    this.setState(
+      {
+        productsWithQuantity: name,
+      },
+      () => {
+        for (let i = 0; i < this.state.productsWithQuantity.length; i++) {
+          delete this.state.productsWithQuantity[i].tableData;
+        }
+      }
+    );
   };
 
   setOrderDate = (date) => {
