@@ -57,7 +57,8 @@ class CinemaSystem {
         firstName,
         lastName,
         contactDetails,
-        ActionIDOfTheOperation
+        ActionIDOfTheOperation,
+        isPasswordHashed
     ) {
         if (this.users.has(userID)) return "The id is already exists";
         if (!this.users.has(ActionIDOfTheOperation) ||
@@ -95,7 +96,8 @@ class CinemaSystem {
             permissions,
             firstName,
             lastName,
-            contactDetails
+            contactDetails,
+            isPasswordHashed
         );
         if (typeof employee === "string") {
             return employee;
@@ -212,6 +214,14 @@ class CinemaSystem {
             "addMovieOrder"
         );
         if (result != null) return result;
+        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "CinemaSystem - addMovieOrder - Cannot add order - creator employee id " +
+                ActionIDOfTheOperation +
+                " is not exist"
+            );
+            return "Cannot add order - creator employee id is not exist";
+        }
         return this.inventoryManagement.addMovieOrder(
             orderId,
             date,
@@ -231,10 +241,34 @@ class CinemaSystem {
         return this.inventoryManagement.removeOrder(orderId);
     }
 
-    async addCafeteriaOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation, orderName) {
-        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCafeteriaOrder");
+    async addCafeteriaOrder(
+        orderId,
+        date,
+        supplierId,
+        productsList,
+        ActionIDOfTheOperation
+    ) {
+        let result = this.checkUser(
+            ActionIDOfTheOperation,
+            "DEPUTY_MANAGER",
+            "addCafeteriaOrder"
+        );
         if (result != null) return result;
-        return this.inventoryManagement.addCafeteriaOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation, orderName);
+        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
+                ActionIDOfTheOperation +
+                " is not exist"
+            );
+            return "Cannot add order - creator employee id is not exist";
+        }
+        return this.inventoryManagement.addCafeteriaOrder(
+            orderId,
+            date,
+            supplierId,
+            productsList,
+            ActionIDOfTheOperation
+        );
     }
 
     async addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
@@ -434,6 +468,14 @@ class CinemaSystem {
             "createDailyReport"
         );
         if (result != null) return result;
+        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
+                ActionIDOfTheOperation +
+                " is not exist"
+            );
+            return "Cannot create report - creator employee id is not exist";
+        }
         return ReportController.removeFieldFromDailyReport(fieldToRemove);
     }
 
@@ -454,6 +496,14 @@ class CinemaSystem {
             "createDailyReport"
         );
         if (result != null) return result;
+        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
+                ActionIDOfTheOperation +
+                " is not exist"
+            );
+            return "Cannot create report - creator employee id is not exist";
+        }
         return ReportController.createDailyReport(type, records);
     }
 
@@ -484,10 +534,6 @@ class CinemaSystem {
     }
     getMovies() {
         return this.inventoryManagement.getMovies();
-    }
-
-    getCafeteriaOrders() {
-        return this.inventoryManagement.getCafeteriaOrders();
     }
 
     getSupplierDetails(supplierID) {

@@ -23,8 +23,8 @@ class CafeteriaProduct extends Product {
             maxQuantity: this.maxQuantity,
             minQuantity: this.minQuantity,
         });
-        if (typeof res === 'string') {
-            this.writeToLog('error', 'initCafeteriaProduct', res);
+        if (typeof res === "string") {
+            this.writeToLog("error", "initCafeteriaProduct", res);
             return res;
         }
         return true;
@@ -37,28 +37,20 @@ class CafeteriaProduct extends Product {
     }
 
     isNeedToUpdate(param, isQuantityFiled) {
-        if (typeof param === 'undefined') return false
+        if (typeof param === "undefined") return false;
         if (param === null) return false;
         if (typeof param === "string" && param === "") return false;
         if (isQuantityFiled && typeof param === "number" && param < 0) return false;
         return true;
     }
     async editProduct(categoryId, price, quantity, maxQuantity, minQuantity) {
-        if (this.isNeedToUpdate(maxQuantity, true)) {
-            if ((this.isNeedToUpdate(minQuantity, false) && maxQuantity <= minQuantity) ||
-                (!this.isNeedToUpdate(minQuantity, false) && (maxQuantity <= this.minQuantity))) {
-                this.writeToLog('info', 'editProduct', 'this.isNeedToUpdate(minQuantity, false) ' + this.isNeedToUpdate(minQuantity, false) + ' The edited operation fail - Max quntity (' + maxQuantity + ') must to be grateter than min quantity(' + minQuantity + ',' + this.minQuantity + ')');
-                this.writeToLog('info', 'editProduct', 'The edited operation fail - Max quntity (' + maxQuantity + ') must to be grateter than min quantity(' + minQuantity + ',' + this.minQuantity + ')');
-                return 'The edited operation fail - Max quntity must to be grateter than min quantity';
-            }
-        }
         const backupObj = {
             categoryId: this.categoryId,
             price: this.price,
             quantity: this.quantity,
             maxQuantity: this.maxQuantity,
-            minQuantity: this.minQuantity
-        }
+            minQuantity: this.minQuantity,
+        };
         let isNeedUpdate = false;
         if (this.isNeedToUpdate(categoryId, false)) {
             isNeedUpdate = true;
@@ -72,11 +64,19 @@ class CafeteriaProduct extends Product {
             isNeedUpdate = true;
             this.quantity = quantity;
         }
-        if (this.isNeedToUpdate(maxQuantity, true)) {
+        if (
+            this.isNeedToUpdate(maxQuantity, true) &&
+            ((this.isNeedToUpdate(minQuantity, false) && maxQuantity > minQuantity) ||
+                (!this.isNeedToUpdate(minQuantity, false) &&
+                    maxQuantity > this.minQuantity))
+        ) {
             isNeedUpdate = true;
             this.maxQuantity = maxQuantity;
         }
-        if (this.isNeedToUpdate(minQuantity, false) && minQuantity < this.maxQuantity) {
+        if (
+            this.isNeedToUpdate(minQuantity, false) &&
+            minQuantity < this.maxQuantity
+        ) {
             isNeedUpdate = true;
             this.minQuantity = minQuantity;
         }
@@ -89,15 +89,16 @@ class CafeteriaProduct extends Product {
                     quantity: this.quantity,
                     maxQuantity: this.maxQuantity,
                     minQuantity: this.minQuantity,
-                });
+                }
+            );
             if (typeof result === "string") {
                 this.categoryId = backupObj.categoryId;
                 this.price = backupObj.price;
                 this.quantity = backupObj.quantity;
                 this.maxQuantity = backupObj.maxQuantity;
                 this.minQuantity = backupObj.minQuantity;
-                this.writeToLog('error', 'editProduct', 'DB failure ' + result);
-                return 'The edited operation failed';
+                this.writeToLog("error", "editProduct", "DB failure " + result);
+                return "The edited operation failed";
             }
         }
         return "Product details update successfully completed";
@@ -106,11 +107,13 @@ class CafeteriaProduct extends Product {
     async removeProduct() {
         if (this.isProductRemoved == null) {
             this.isProductRemoved = new Date();
-            let result = await DataBase.singleUpdate("cafeteria_product", { id: this.id }, { isProductRemoved: this.isProductRemoved });
+            let result = await DataBase.singleUpdate(
+                "cafeteria_product", { id: this.id }, { isProductRemoved: this.isProductRemoved }
+            );
             if (typeof result === "string") {
                 this.isProductRemoved = null;
-                this.writeToLog('error', 'removeProduct', 'DB failure ' + result);
-                return 'The removed operation failed - DB failure';
+                this.writeToLog("error", "removeProduct", "DB failure " + result);
+                return "The removed operation failed - DB failure";
             }
             return true;
         }

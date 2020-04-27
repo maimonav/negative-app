@@ -5,6 +5,10 @@ const {
 } = require("./ProductsTests.spec");
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 
+function getSyncDateFormat(date) {
+  return date.toISOString().substring(0, 10);
+}
+
 async function testSupplier(id, expected) {
   await DB.singleGetById("supplier", { id: id }).then((result) => {
     expect(result.name).toBe(expected.name);
@@ -37,9 +41,10 @@ exports.addSupplier = addSupplier;
 
 async function addOrderBeforeSupplier() {
   console.log("START ADD ORDER BEFORE SUPPLIER\n");
+  let today = new Date();
   await DB.singleAdd("order", {
     id: 0,
-    date: new Date("2020-03-02 00:00:00"),
+    date: getSyncDateFormat(today),
     creatorEmployeeId: 0,
     supplierId: 0,
   });
@@ -51,22 +56,33 @@ async function addOrderBeforeSupplier() {
   });
 }
 
+async function testOrder(id, expected) {
+  await DB.singleGetById("order", { id: id }).then((result) => {
+    expect(getSyncDateFormat(new Date(result.date))).toEqual(
+      getSyncDateFormat(new Date(expected.date))
+    );
+    expect(result.creatorEmployeeId).toBe(expected.creatorEmployeeId);
+    expect(result.recipientEmployeeId).toBe(expected.recipientEmployeeId);
+    expect(result.supplierId).toBe(expected.supplierId);
+  });
+}
+exports.testOrder = testOrder;
+
 async function addOrderAftereSupplierCreator(creatorId, isTest) {
   console.log("START ADD ORDER AFTER\n");
-
+  let today = new Date();
   await DB.singleAdd("order", {
     id: 0,
-    date: new Date("2020-03-02 00:00:00"),
+    date: getSyncDateFormat(today),
     creatorEmployeeId: creatorId,
     supplierId: 0,
   });
   if (isTest)
-    await DB.singleGetById("order", { id: 0 }).then((result) => {
-      expect(result.id).toBe(0);
-      expect(result.date).toEqual(new Date("2020-03-02 00:00:00"));
-      expect(result.creatorEmployeeId).toBe(creatorId);
-      expect(result.recipientEmployeeId).toBe(null);
-      expect(result.supplierId).toBe(0);
+    testOrder(0, {
+      date: getSyncDateFormat(today),
+      creatorEmployeeId: creatorId,
+      recipientEmployeeId: null,
+      supplierId: 0,
     });
 }
 
@@ -74,10 +90,10 @@ exports.addOrderAftereSupplierCreator = addOrderAftereSupplierCreator;
 
 async function addOrderBeforeCreator() {
   console.log("START ADD ORDER BEFORE CREATOR\n");
-
+  let today = new Date();
   await DB.singleAdd("order", {
     id: 0,
-    date: new Date("2020-03-02 00:00:00"),
+    date: getSyncDateFormat(today),
     creatorEmployeeId: 2,
     supplierId: 0,
   });
@@ -125,7 +141,7 @@ async function removeSupplier(id, isTest) {
   await DB.singleUpdate(
     "supplier",
     { id: id },
-    { isSupplierRemoved: new Date() }
+    { isSupplierRemoved: getSyncDateFormat(new Date()) }
   );
   if (isTest)
     await DB.singleGetById("supplier", { id: id }).then((result) => {
@@ -188,6 +204,28 @@ async function removeOrderAfterProvided(withMovies, withProducts) {
   });
 }
 
+async function testMovieOrder(orderId, movieId, expected) {
+  await DB.singleGetById("movie_order", {
+    orderId: orderId,
+    movieId: movieId,
+  }).then((result) => {
+    expect(result.expectedQuantity).toBe(expected.expectedQuantity);
+    expect(result.actualQuantity).toBe(expected.actualQuantity);
+  });
+}
+exports.testMovieOrder = testMovieOrder;
+
+async function testCafeteriaOrder(orderId, productId, expected) {
+  await DB.singleGetById("cafeteria_product_order", {
+    orderId: orderId,
+    productId: productId,
+  }).then((result) => {
+    expect(result.expectedQuantity).toBe(expected.expectedQuantity);
+    expect(result.actualQuantity).toBe(expected.actualQuantity);
+  });
+}
+exports.testCafeteriaOrder = testCafeteriaOrder;
+
 async function addProductsOrder(isTest) {
   console.log("START ADD PRODUCTS TO ORDER\n");
   await addCategory(0, "fantasy");
@@ -199,14 +237,9 @@ async function addProductsOrder(isTest) {
     expectedQuantity: 2,
   });
   if (isTest)
-    await DB.singleGetById("cafeteria_product_order", {
-      orderId: 0,
-      productId: 0,
-    }).then((result) => {
-      expect(result.orderId).toBe(0);
-      expect(result.productId).toBe(0);
-      expect(result.expectedQuantity).toBe(2);
-      expect(result.actualQuantity).toBe(0);
+    testCafeteriaOrder(0, 0, {
+      expectedQuantity: 2,
+      actualQuantity: 0,
     });
 
   await addMovieAfterCategory();
@@ -217,14 +250,10 @@ async function addProductsOrder(isTest) {
     expectedQuantity: 1,
   });
   if (isTest)
-    await DB.singleGetById("movie_order", { orderId: 0, movieId: 0 }).then(
-      (result) => {
-        expect(result.orderId).toBe(0);
-        expect(result.movieId).toBe(0);
-        expect(result.expectedQuantity).toBe(1);
-        expect(result.actualQuantity).toBe(0);
-      }
-    );
+    testMovieOrder(0, 0, {
+      expectedQuantity: 1,
+      actualQuantity: 0,
+    });
 }
 exports.addProductsOrder = addProductsOrder;
 
@@ -282,12 +311,15 @@ describe("DB Test - suppliers, orders", function () {
       .catch((err) => fail("Unable to connect to the database:", err));
   });
 
-  it("add empty order & add supplier", async function () {
+  it("add empty order & add supplier", async function (done) {
+    setTimeout(done, 3000);
     await addEmployee(0, "MANAGER");
     await addOrderBeforeSupplier();
     await addSupplier(0, "Shupersal", true);
     await addOrderBeforeCreator();
-    await addOrderAftereSupplierCreator(0, true);
+    setTimeout(async () => {
+      await addOrderAftereSupplierCreator(0, true);
+    }, 1000);
   });
 
   it("update supplier", async function () {

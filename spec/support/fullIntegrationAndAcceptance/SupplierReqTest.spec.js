@@ -54,7 +54,8 @@ describe("Supplier Operations Tests", function () {
     });
   });
 
-  it("removeSupplier req 2.1.7", async function () {
+  it("removeSupplier req 2.1.7", async function (done) {
+    setTimeout(done, 4999);
     let supplier = "supplierTest";
     let contactDetails = "0508888888";
     let user = "admin";
@@ -66,12 +67,13 @@ describe("Supplier Operations Tests", function () {
     let supplierId = service.suppliers.get(supplier);
     result = await service.removeSupplier(supplier, user);
     expect(result).toBe("The supplier removed successfully");
-
-    await testSupplier(supplierId, {
-      name: supplier,
-      contactDetails: contactDetails,
-      isSupplierRemoved: new Date(),
-    });
+    setTimeout(async () => {
+      await testSupplier(supplierId, {
+        name: supplier,
+        contactDetails: contactDetails,
+        isSupplierRemoved: new Date(),
+      });
+    }, 2000);
 
     result = await service.removeSupplier(supplier, user);
     expect(result).toBe("The supplier does not exist");

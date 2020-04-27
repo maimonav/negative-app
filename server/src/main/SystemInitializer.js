@@ -15,16 +15,10 @@ class SystemInitializer {
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
     //Turn database off
-    DataBase.testModeOn();
+    //DataBase.testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
-    if (typeof result === "string") {
-      DBlogger.info(
-        "CinemaSystem - initCinemaSystem - connectAndCreate - ",
-        result
-      );
-      return "Server initialization error\n" + result;
-    }
+    if (typeof result === "string") return this.errorHandler(result);
     result = await DataBase.initDB(dbName ? dbName : undefined);
     if (typeof result === "string") {
       DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
@@ -32,50 +26,47 @@ class SystemInitializer {
     }
 
     result = await DataBase.singleGetById("user", { id: 0 });
-    if (typeof result === "string") {
-      DBlogger.info(
-        "CinemaSystem - initCinemaSystem - isAdminExists -",
-        result
-      );
-      return "Server initialization error\n" + result;
-    }
+    if (typeof result === "string") return this.errorHandler(result);
     if (result == null) {
       result = await admin.initUser();
-      if (typeof result === "string") {
-        DBlogger.info("CinemaSystem - initCinemaSystem - initUser -", result);
-        return "Server initialization error\n" + result;
-      }
+      if (typeof result === "string") return this.errorHandler(result);
     }
-    admin.Loggedin = true;
-    await SystemInitializer.restoreEmployees(admin.userName);
-    await SystemInitializer.restoreCategories(admin.userName);
-    await SystemInitializer.restoreMovies(admin.userName);
-    await SystemInitializer.restoreProducts(admin.userName);
-    await SystemInitializer.restoreSuppliers(admin.userName);
-    await SystemInitializer.restoreOrders(admin.userName);
-    admin.Loggedin = false;
+
+    let err;
+    if ((err = await SystemInitializer.restoreEmployees(admin))) return err;
+    if ((err = await SystemInitializer.restoreCategories(admin))) return err;
+    if ((err = await SystemInitializer.restoreMovies(admin))) return err;
+    if ((err = await SystemInitializer.restoreProducts(admin))) return err;
+    if ((err = await SystemInitializer.restoreSuppliers(admin))) return err;
+    if ((err = await SystemInitializer.restoreOrders())) return err;
   }
 
   static async restoreEmployees(admin) {
     let employees = await DataBase.singleFindAll("employee", {}, undefined, [
       ["id", "ASC"],
     ]);
+    if (typeof employees === "string")
+      return this.errorHandler(employees, "restoreEmployees - employees");
+
     for (let i in employees) {
       let employee = employees[i];
 
       if (employee.isEmployeeRemoved === null) {
         let user = await DataBase.singleGetById("user", { id: employee.id });
-        DataBase.testModeOn();
-        await this.serviceLayer.addNewEmployee(
-          user.username,
-          user.password,
-          employee.firstName,
-          employee.lastName,
-          user.permissions,
-          employee.contactDetails,
-          admin
-        );
-        DataBase.testModeOff();
+        if (typeof user === "string")
+          return this.errorHandler(user, "restoreEmployees - user");
+        await this.executeActionInSystem(admin, async () => {
+          await this.serviceLayer.addNewEmployee(
+            user.username,
+            user.password,
+            employee.firstName,
+            employee.lastName,
+            user.permissions,
+            employee.contactDetails,
+            admin.userName,
+            true
+          );
+        });
       } else this.serviceLayer.userCounter = employee.id + 1;
     }
   }
@@ -83,6 +74,8 @@ class SystemInitializer {
     let categories = await DataBase.singleFindAll("category", {}, undefined, [
       ["id", "ASC"],
     ]);
+    if (typeof categories === "string")
+      return this.errorHandler(categories, "restoreCategories - categories");
     for (let i in categories) {
       let category = categories[i];
 
@@ -93,9 +86,13 @@ class SystemInitializer {
             category.parentId
           ).name;
 
-        DataBase.testModeOn();
-        await this.serviceLayer.addCategory(category.name, admin, parentName);
-        DataBase.testModeOff();
+        await this.executeActionInSystem(admin, async () => {
+          await this.serviceLayer.addCategory(
+            category.name,
+            admin.userName,
+            parentName
+          );
+        });
       } else this.serviceLayer.categoriesCounter = category.id + 1;
     }
   }
@@ -104,6 +101,8 @@ class SystemInitializer {
     let movies = await DataBase.singleFindAll("movie", {}, undefined, [
       ["id", "ASC"],
     ]);
+    if (typeof movies === "string")
+      return this.errorHandler(movies, "restoreMovies - movies");
     for (let i in movies) {
       let movie = movies[i];
 
@@ -111,18 +110,22 @@ class SystemInitializer {
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           movie.categoryId
         ).name;
-        DataBase.testModeOn();
-        await this.serviceLayer.addMovie(movie.name, categoryName, admin);
-        if (movie.movieKey !== null || movie.examinationRoom !== null) {
-          await this.serviceLayer.editMovie(
+        await this.executeActionInSystem(admin, async () => {
+          await this.serviceLayer.addMovie(
             movie.name,
             categoryName,
-            movie.movieKey,
-            movie.examinationRoom,
-            admin
+            admin.userName
           );
-        }
-        DataBase.testModeOff();
+          if (movie.movieKey !== null || movie.examinationRoom !== null) {
+            await this.serviceLayer.editMovie(
+              movie.name,
+              categoryName,
+              movie.movieKey,
+              movie.examinationRoom,
+              admin.userName
+            );
+          }
+        });
       } else this.serviceLayer.productsCounter = movie.id + 1;
     }
   }
@@ -133,6 +136,8 @@ class SystemInitializer {
       undefined,
       [["id", "ASC"]]
     );
+    if (typeof products === "string")
+      return this.errorHandler(products, "restoreProducts - products");
     for (let i in products) {
       let product = products[i];
 
@@ -140,17 +145,17 @@ class SystemInitializer {
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           product.categoryId
         ).name;
-        DataBase.testModeOn();
-        await this.serviceLayer.addNewProduct(
-          product.name,
-          product.price,
-          product.quantity,
-          product.minQuantity,
-          product.maxQuantity,
-          categoryName,
-          admin
-        );
-        DataBase.testModeOff();
+        await this.executeActionInSystem(admin, async () => {
+          await this.serviceLayer.addNewProduct(
+            product.name,
+            product.price,
+            product.quantity,
+            product.minQuantity,
+            product.maxQuantity,
+            categoryName,
+            admin.userName
+          );
+        });
       } else this.serviceLayer.productsCounter = product.id + 1;
     }
   }
@@ -158,32 +163,41 @@ class SystemInitializer {
     let suppliers = await DataBase.singleFindAll("supplier", {}, undefined, [
       ["id", "ASC"],
     ]);
+    if (typeof suppliers === "string")
+      return this.errorHandler(suppliers, "restoreSuppliers - suppliers");
     for (let i in suppliers) {
       let supplier = suppliers[i];
-
       if (supplier.isSupplierRemoved === null) {
-        DataBase.testModeOn();
-        await this.serviceLayer.addNewSupplier(
-          supplier.name,
-          supplier.contactDetails,
-          admin
-        );
-        DataBase.testModeOff();
+        await this.executeActionInSystem(admin, async () => {
+          let result = await this.serviceLayer.addNewSupplier(
+            supplier.name,
+            supplier.contactDetails,
+            admin.userName
+          );
+        });
       } else this.serviceLayer.supplierCounter = supplier.id + 1;
     }
   }
-  static async restoreOrders(admin) {
+  static async restoreOrders() {
     let orders = await DataBase.singleFindAll("order", {}, undefined, [
       ["id", "ASC"],
     ]);
+    if (typeof orders === "string")
+      return this.errorHandler(orders, "restoreOrders - orders");
     for (let i in orders) {
       let order = orders[i];
       let supplierName = this.serviceLayer.cinemaSystem.inventoryManagement.suppliers.get(
         order.supplierId
       ).name;
+      let creatorEmployee = this.serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.get(
+        order.creatorEmployeeId
+      );
+      let creatorEmployeeName = creatorEmployee.userName;
       let movies = await DataBase.singleFindAll("movie_order", {
         orderId: order.id,
       });
+      if (typeof movies === "string")
+        return this.errorHandler(movies, "restoreOrders - movies");
       let movieList = movies.map(
         (e) =>
           this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
@@ -193,32 +207,51 @@ class SystemInitializer {
       let products = await DataBase.singleFindAll("cafeteria_product_order", {
         orderId: order.id,
       });
+      if (typeof products === "string")
+        return this.errorHandler(products, "restoreOrders - products");
       let productList = products.map((e) => ({
         name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
           e.productId
         ).name,
         quantity: e.expectedQuantity,
       }));
-      DataBase.testModeOn();
-      //TODO::add edit movie order with all the details after order supplied
-      let result = await this.serviceLayer.addMovieOrder(
-        order.id.toString(),
-        order.date,
-        supplierName,
-        JSON.stringify(movieList),
-        admin
-      );
-      //TODO::add edit movie order with all the details after order supplied
-      result = await this.serviceLayer.addCafeteriaOrder(
-        order.id.toString(),
-        order.date,
-        supplierName,
-        JSON.stringify(productList),
-        admin
-      );
-
-      DataBase.testModeOff();
+      await this.executeActionInSystem(creatorEmployee, async () => {
+        //TODO::add edit movie order with all the details after order supplied
+        if (movieList.length != 0)
+          await this.serviceLayer.addMovieOrder(
+            order.id.toString(),
+            order.date,
+            supplierName,
+            movieList,
+            creatorEmployeeName
+          );
+        //TODO::add edit movie order with all the details after order supplied
+        if (productList.length != 0)
+          await this.serviceLayer.addCafeteriaOrder(
+            order.id.toString(),
+            order.date,
+            supplierName,
+            productList,
+            creatorEmployeeName
+          );
+      });
     }
+  }
+
+  static errorHandler(result, info) {
+    DBlogger.info(
+      "SystemInitializer - initSystem - " + info ? info + " - " : "",
+      result
+    );
+    return "Server initialization error\n" + result;
+  }
+
+  static async executeActionInSystem(user, method) {
+    DataBase.testModeOn();
+    user.Loggedin = true;
+    await method();
+    user.Loggedin = false;
+    DataBase.testModeOff();
   }
 }
 module.exports = SystemInitializer;

@@ -309,6 +309,14 @@ describe("Report Operations Unit Tests", () => {
     let user = { isLoggedin: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     let result = await serviceLayer.createDailyReport("lol", records, "User");
+    expect(result).toBe(
+      "Cannot create report - creator employee id is not exist"
+    );
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      1,
+      null
+    );
+    result = await serviceLayer.createDailyReport("lol", records, "User");
     expect(result).toBe("The requested report type is invalid");
 
     let todayDate = new Date();
@@ -401,7 +409,10 @@ describe("Report Operations Unit Tests", () => {
       testIncomeDailyReportResult,
       testGeneralPurposeDailyReportResult,
     ];
-
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      1,
+      null
+    );
     for (let i in types) {
       records = JSON.stringify([reports[i]]);
       result = await serviceLayer.createDailyReport(types[i], records, "User");
@@ -444,6 +455,10 @@ describe("Report Operations Unit Tests", () => {
       creatorEmployeeId: 1,
       additionalProps: [["Cash counted"], { "Cash counted": "true" }],
     };
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      1,
+      null
+    );
     records = JSON.stringify([report]);
     await serviceLayer.createDailyReport(
       "general_purpose_daily_report",
@@ -499,6 +514,10 @@ describe("Report Operations Unit Tests", () => {
         { "Cash counted": "true" },
       ],
     };
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      1,
+      null
+    );
     records = JSON.stringify([report]);
     await serviceLayer.createDailyReport(
       "general_purpose_daily_report",

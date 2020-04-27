@@ -55,7 +55,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order ID ": "Order",
       "Date ": "date",
       "Supplier Name ": "Supplier",
-      "Movies List ": '["Movie"]',
+      "Movies List ": JSON.parse('["Movie"]'),
       "Username ": "User",
     });
 
@@ -64,16 +64,16 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
-    expect(result).toBe("The order already exist");
+    expect(result).toBe("The order already exists");
     serviceLayer.orders = new Map();
     result = await serviceLayer.addMovieOrder(
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("The supplier does not exist");
@@ -82,7 +82,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("Movie does not exist");
@@ -91,7 +91,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe(
@@ -191,19 +191,30 @@ describe("MovieOrder Operations Tests", () => {
         "Order",
         "date",
         "Supplier",
-        '["Movie"]',
+        JSON.parse('["Movie"]'),
         "User"
       )
     );
     let user = { isLoggedin: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(userId, user);
-
     serviceLayer.cinemaSystem.inventoryManagement.orders.set(orderId, null);
     let result = await serviceLayer.addMovieOrder(
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
+      "User"
+    );
+    expect(result).toBe("Cannot add order - creator employee id is not exist");
+    serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
+      userId,
+      null
+    );
+    result = await serviceLayer.addMovieOrder(
+      "Order",
+      "date",
+      "Supplier",
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("This order already exists");
@@ -212,7 +223,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("The supplier does not exist");
@@ -224,7 +235,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("Movie does not exist");
@@ -237,7 +248,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("The order date is invalid");
@@ -245,7 +256,7 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       todayDate.toISOString(),
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
     expect(result).toBe("The order added successfully");
@@ -262,10 +273,10 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       todayDate.toISOString(),
       "Supplier",
-      '["Movie"]',
+      JSON.parse('["Movie"]'),
       "User"
     );
-    expect(result).toBe("The order already exist");
+    expect(result).toBe("The order already exists");
   });
 
   it("Integration removeOrder", async () => {
@@ -300,6 +311,6 @@ describe("MovieOrder Operations Tests", () => {
     );
     expect(movie.productOrders.has(0)).toBe(false);
     result = await serviceLayer.removeOrder("Order", "User");
-    expect(result).toBe("This order does not exist");
+    expect(result).toBe("The order does not exist");
   });
 });

@@ -10,9 +10,10 @@ class Employee extends User {
     permissions,
     firstName,
     lastName,
-    contactDetails
+    contactDetails,
+    isPasswordHashed
   ) {
-    super(id, userName, password, permissions);
+    super(id, userName, password, permissions, isPasswordHashed);
     this.firstName = firstName;
     this.lastName = lastName;
     this.contactDetails = contactDetails;

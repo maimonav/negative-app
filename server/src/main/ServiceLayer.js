@@ -8,7 +8,6 @@ class ServiceLayer {
         this.users = new Map();
         this.userCounter = 0;
         this.suppliers = new Map();
-        // just for example purposes
         this.supplierCounter = 0;
         this.products = new Map();
         this.productsCounter = 0;
@@ -100,7 +99,8 @@ class ServiceLayer {
         lastName,
         permissions,
         contactDetails,
-        ActionIDofTheOperation
+        ActionIDofTheOperation,
+        isPasswordHashed
     ) {
         if (this.users.has(userName)) {
             logger.info(
@@ -126,7 +126,8 @@ class ServiceLayer {
             firstName,
             lastName,
             contactDetails,
-            this.users.get(ActionIDofTheOperation)
+            this.users.get(ActionIDofTheOperation),
+            isPasswordHashed
         );
         if (result === "The employee added successfully.") {
             this.users.set(userName, this.userCounter);
@@ -656,7 +657,7 @@ class ServiceLayer {
             logger.info(
                 "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
             );
-            return "The order already exist";
+            return "The order already exists";
         }
         if (!this.suppliers.has(supplierName)) {
             logger.info(
@@ -666,7 +667,6 @@ class ServiceLayer {
             );
             return "The supplier does not exist";
         }
-        moviesList = JSON.parse(moviesList);
         for (let i in moviesList) {
             if (!this.products.has(moviesList[i])) {
                 logger.info(
@@ -679,7 +679,11 @@ class ServiceLayer {
             moviesList[i] = this.products.get(moviesList[i]);
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info("ServiceLayer- addMovieOrder - The user " + ActionIDOfTheOperation + " performing the operation does not exist in the system");
+            logger.info(
+                "ServiceLayer- addMovieOrder - The user " +
+                ActionIDOfTheOperation +
+                " performing the operation does not exist in the system"
+            );
             return "The user performing the operation does not exist in the system";
         }
         let result = await this.cinemaSystem.addMovieOrder(
@@ -724,12 +728,18 @@ class ServiceLayer {
             this.orders.get(orderId),
             this.users.get(ActionIDOfTheOperation)
         );
-        if (result === "The order removed successfully.")
+        if (result === "The order removed successfully")
             this.orders.delete(orderId);
         return result;
     }
 
-    async addCafeteriaOrder(orderId, date, supplierName, productsList, ActionIDOfTheOperation) {
+    async addCafeteriaOrder(
+        orderId,
+        date,
+        supplierName,
+        productsList,
+        ActionIDOfTheOperation
+    ) {
         let validationResult = !this.isInputValid(orderId) ?
             "Order ID is not valid" :
             !this.isInputValid(date) ?
@@ -746,8 +756,12 @@ class ServiceLayer {
             return validationResult;
         }
         if (this.orders.has(orderId)) {
-            logger.info("ServiceLayer- addCafeteriaOrder - The order " + orderId + " already exists");
-            return "The order already exist";
+            logger.info(
+                "ServiceLayer- addCafeteriaOrder - The order " +
+                orderId +
+                " already exists"
+            );
+            return "The order already exists";
         }
         if (!this.suppliers.has(supplierName)) {
             logger.info(
@@ -757,7 +771,6 @@ class ServiceLayer {
             );
             return "The supplier does not exist";
         }
-        logger.info("ServiceLayer- addCafeteriaOrder - Debug -order ID is " + orderId + " ,  supplierName is " + supplierName + " date is " + new Date(date) + " supplierName is " + supplierName + "\n");
         for (let i = 0; i < productsList.length; i++) {
             if (!this.products.has(productsList[i].name)) {
                 logger.info(
@@ -767,11 +780,8 @@ class ServiceLayer {
                 );
                 return "Product does not exist";
             }
-            logger.info(
-                i + ") The product name is " + this.products.get(productsList[i].name) + " and the quntity is " + productsList[i].quantity + "\n"
-            );
             productsList[i].id = this.products.get(productsList[i].name);
-            productsList[i].quantity = productsList[i].quantity;
+            productsList[i].quantity = parseInt(productsList[i].quantity);
             delete productsList[i].name;
         }
         if (!this.users.has(ActionIDOfTheOperation)) {
@@ -782,10 +792,12 @@ class ServiceLayer {
             );
             return "The user performing the operation does not exist in the system";
         }
-        let result = await this.cinemaSystem.addCafeteriaOrder(this.ordersCounter, new Date(date), this.suppliers.get(supplierName), productsList, this.users.get(ActionIDOfTheOperation), orderId);
-        logger.info(
-            "ServiceLayer- addCafeteriaOrder - result " +
-            result
+        let result = await this.cinemaSystem.addCafeteriaOrder(
+            this.ordersCounter,
+            date,
+            this.suppliers.get(supplierName),
+            productsList,
+            this.users.get(ActionIDOfTheOperation)
         );
         if (result === "The order added successfully") {
             this.orders.set(orderId, this.ordersCounter);
@@ -941,8 +953,8 @@ class ServiceLayer {
         );
     }
 
-    getOrdersByDates(startDate, endDate) {
-        return this.cinemaSystem.getOrdersByDates(new Date(startDate), new Date(endDate));
+    getCafeteriaOrders(startDate, endDate) {
+        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
     }
     getEmployees() {
         return this.cinemaSystem.getEmployees();
@@ -963,9 +975,9 @@ class ServiceLayer {
         return this.cinemaSystem.getCafeteriaProducts();
     }
 
-    getCafeteriaOrders() {
-        return this.cinemaSystem.getCafeteriaOrders();
-    }
+    //   getCafeteriaOrders(startDate, endDate) {
+    //     return this.cinemaSystem.getCafeteriaOrders(startDate, endDate);
+    //   }
 
     getInventoryProducts() {
         return this.cinemaSystem.getInventoryProducts();
@@ -975,7 +987,7 @@ class ServiceLayer {
         if (!this.orders.has(orderId)) {
             return "The order does not exist";
         }
-        return this.cinemaSystem.getOrderDetails(this.orders.get(orderId));
+        return this.cinemaSystem.getOrderDetails(orderId);
     }
 
     getMovieDetails(movieName) {
