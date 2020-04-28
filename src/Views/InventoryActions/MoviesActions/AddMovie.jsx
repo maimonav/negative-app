@@ -10,6 +10,10 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
+import {
+  movieNameHook,
+  categoryNameHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovie extends React.Component {
@@ -58,6 +62,7 @@ export default class AddMovie extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setMovieName(event)}
+                      data-hook={movieNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -69,6 +74,7 @@ export default class AddMovie extends React.Component {
                       boxLabel={"Choose category"}
                       setName={this.setCategory}
                       isMultiple={false}
+                      data-hook={categoryNameHook}
                     />
                   </GridItem>
                 </GridContainer>

@@ -9,6 +9,10 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
+import {
+  categoryNameHook,
+  categoryParentNameHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveCategory extends React.Component {
@@ -52,6 +56,7 @@ export default class RemoveCategory extends React.Component {
                       boxLabel={"Choose category"}
                       setName={this.setCategoryName}
                       isMultiple={false}
+                      data-hook={categoryNameHook}
                     />
                   </GridItem>
                 </GridContainer>

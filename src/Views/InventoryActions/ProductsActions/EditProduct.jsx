@@ -13,6 +13,14 @@ import {
   handleGetCafeteriaProducts,
   handleGetCategories,
 } from "../../../Handlers/Handlers";
+import {
+  productNameHook,
+  categoryNameHook,
+  productPriceHook,
+  productQuantityHook,
+  productMaxQuantityHook,
+  productMinQuantityHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditProduct extends React.Component {
@@ -93,6 +101,7 @@ export default class EditProduct extends React.Component {
                       boxLabel={"Choose product"}
                       setName={this.setProuctName}
                       isMultiple={false}
+                      data-hook={productNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -104,6 +113,7 @@ export default class EditProduct extends React.Component {
                       boxLabel={"Choose new category"}
                       setName={this.setProductCategory}
                       isMultiple={false}
+                      data-hook={categoryNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -116,6 +126,7 @@ export default class EditProduct extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setProuctPrice(event)}
+                      data-hook={productPriceHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -128,6 +139,7 @@ export default class EditProduct extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setProuctQuantity(event)}
+                      data-hook={productQuantityHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -140,6 +152,7 @@ export default class EditProduct extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setMaxQuantity(event)}
+                      data-hook={productMaxQuantityHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -152,6 +165,7 @@ export default class EditProduct extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setMinQuantity(event)}
+                      data-hook={productMinQuantityHook}
                     />
                   </GridItem>
                 </GridContainer>
