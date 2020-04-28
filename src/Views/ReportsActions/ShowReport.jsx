@@ -8,7 +8,13 @@ import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
 import ReactVirtualizedTable from "../../Components/Tables/ReportTable";
-import { handleGetReportTypes, handleGetReport } from "../../Handlers/Handlers";
+import {
+  // handleGetReportTypes,
+  // handleGetReport,
+  handleGetInventoryReport,
+  handleGetIncomesReport,
+  handleGetGeneralReport
+} from "../../Handlers/Handlers";
 import { reportsTypes } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -19,16 +25,16 @@ export default class ShowReport extends React.Component {
       reportType: "",
       date: new Date()
     };
-    this.setInitialState();
+    // this.setInitialState();
   }
 
-  setInitialState = () => {
-    handleGetReportTypes(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
-        this.setState({ types: state.result });
-      });
-  };
+  // setInitialState = () => {
+  //   handleGetReportTypes(localStorage.getItem("username"))
+  //     .then(response => response.json())
+  //     .then(state => {
+  //       this.setState({ types: state.result });
+  //     });
+  // };
 
   setReportType = reportType => {
     this.setState({ reportType });
@@ -39,15 +45,36 @@ export default class ShowReport extends React.Component {
   };
 
   setReport = () => {
-    handleGetReport(
-      this.state.reportType,
-      this.state.date,
-      localStorage.getItem("username")
-    )
-      .then(response => response.json())
-      .then(state => {
-        this.setState({ reportData: state.result });
-      });
+    // handleGetReport(
+    //   this.state.reportType,
+    //   this.state.date,
+    //   localStorage.getItem("username")
+    // )
+    //   .then(response => response.json())
+    //   .then(state => {
+    //     this.setState({ reportData: state.result });
+    //   });
+    if (this.state.reportType === "inventory_daily_report") {
+      handleGetInventoryReport()
+        .then(response => response.json())
+        .then(state => {
+          this.setState({ reportData: state.result });
+        });
+    } else if (this.state.reportType === "general_purpose_daily_report") {
+      handleGetGeneralReport()
+        .then(response => response.json())
+        .then(state => {
+          this.setState({ reportData: state.result });
+        });
+    } else if (this.state.reportType === "incomes_daily_report") {
+      handleGetIncomesReport()
+        .then(response => response.json())
+        .then(state => {
+          this.setState({ reportData: state.result });
+        });
+    } else {
+      this.setState({ reportData: undefined });
+    }
   };
 
   render() {
@@ -88,7 +115,10 @@ export default class ShowReport extends React.Component {
                 {this.state.reportType &&
                   this.state.date &&
                   this.state.reportData && (
-                    <ReactVirtualizedTable reportData={this.state.reportData} />
+                    <ReactVirtualizedTable
+                      data={this.state.reportData}
+                      reportType={this.state.reportType}
+                    />
                   )}
               </CardBody>
             </Card>

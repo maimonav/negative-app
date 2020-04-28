@@ -155,64 +155,106 @@ ReportTable.propTypes = {
 
 const VirtualizedTable = withStyles(styles)(ReportTable);
 
-// ---
-
-const sample = [
-  ["Frozen yoghurt", 159, 6.0, 24, 4.0],
-  ["Ice cream sandwich", 237, 9.0, 37, 4.3],
-  ["Eclair", 262, 16.0, 24, 6.0],
-  ["Cupcake", 305, 3.7, 67, 4.3],
-  ["Gingerbread", 356, 16.0, 49, 3.9]
+const InventoryColumns = [
+  {
+    width: 200,
+    label: "Date",
+    dataKey: "date"
+  },
+  {
+    width: 150,
+    label: "Product",
+    dataKey: "product"
+  },
+  {
+    width: 150,
+    label: "Employee",
+    dataKey: "employee"
+  },
+  {
+    width: 150,
+    label: "Quantity Sold",
+    dataKey: "quantity_sold",
+    numeric: true
+  },
+  {
+    width: 150,
+    label: "Quantity In Stock",
+    dataKey: "quantity_in_stock",
+    numeric: true
+  },
+  {
+    width: 150,
+    label: "Stock Thrown",
+    dataKey: "stock_thrown",
+    numeric: true
+  }
 ];
 
-function createData(id, dessert, calories, fat, carbs, protein) {
-  return { id, dessert, calories, fat, carbs, protein };
-}
+const IncomesColumns = [
+  {
+    width: 150,
+    label: "Date",
+    dataKey: "date"
+  },
+  {
+    width: 120,
+    label: "Employee",
+    dataKey: "employee"
+  },
+  {
+    width: 120,
+    label: "Tabs Sales",
+    dataKey: "numOfTabsSales",
+    numeric: true
+  },
+  {
+    width: 200,
+    label: "Cafeteria Credit Incomes",
+    dataKey: "cafeteriaCreditCardRevenues",
+    numeric: true
+  },
+  {
+    width: 200,
+    label: "Tickets Cash Incomes",
+    dataKey: "ticketsCashRevenues",
+    numeric: true
+  },
+  {
+    width: 200,
+    label: "Tickets Credit Incomes",
+    dataKey: "ticketsCreditCardRevenues",
+    numeric: true
+  },
+  {
+    width: 200,
+    label: "Tabs Cash Incomes",
+    dataKey: "tabsCashRevenues",
+    numeric: true
+  },
+  {
+    width: 200,
+    label: "Tabs Credit Incomes",
+    dataKey: "tabsCreditCardRevenues",
+    numeric: true
+  }
+];
 
-const rows = [];
+const columns = {
+  inventory_daily_report: InventoryColumns,
+  general_purpose_daily_report: [],
+  incomes_daily_report: IncomesColumns,
+  movie_daily_report: []
+};
 
-for (let i = 0; i < 200; i += 1) {
-  const randomSelection = sample[Math.floor(Math.random() * sample.length)];
-  rows.push(createData(i, ...randomSelection));
-}
-
-export default function ReactVirtualizedTable() {
+export default function ReactVirtualizedTable(props) {
+  console.log(columns[props.reportType]);
   return (
-    <Paper style={{ height: 400, width: "100%" }}>
+    <Paper style={{ height: 450, width: "100%" }}>
       <VirtualizedTable
-        rowCount={rows.length}
-        rowGetter={({ index }) => rows[index]}
-        columns={[
-          {
-            width: 200,
-            label: "Dessert",
-            dataKey: "dessert"
-          },
-          {
-            width: 120,
-            label: "Calories\u00A0(g)",
-            dataKey: "calories",
-            numeric: true
-          },
-          {
-            width: 120,
-            label: "Fat\u00A0(g)",
-            dataKey: "fat",
-            numeric: true
-          },
-          {
-            width: 120,
-            label: "Carbs\u00A0(g)",
-            dataKey: "carbs",
-            numeric: true
-          },
-          {
-            width: 120,
-            label: "Protein\u00A0(g)",
-            dataKey: "protein",
-            numeric: true
-          }
-        ]}
+        rowCount={props.data.length}
+        rowGetter={({ index }) => props.data[index]}
+        columns={columns[props.reportType]}
       />
     </Paper>
   );

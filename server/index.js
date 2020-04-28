@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const service = new ServiceLayer();
-service.initSeviceLayer().then((result) => {
+service.initSeviceLayer().then(result => {
   if (typeof result === "string") {
     //TODO::
   }
@@ -356,7 +356,7 @@ app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
   console.log("result = ");
-  result.map((category) => console.log(category));
+  result.map(category => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -447,4 +447,20 @@ app.get("/api/getReport", async (req, res) => {
 
 app.listen(3001, () => {
   console.log("Express server is running on localhost:3001");
+});
+
+//example purpose only
+app.get("/api/getInventoryReport", (req, res) => {
+  const result = service.getInventoryReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getIncomesReport", (req, res) => {
+  const result = service.getIncomesReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getGeneralReport", (req, res) => {
+  const result = service.getGeneralReport();
+  res.send(JSON.stringify({ result }));
 });
