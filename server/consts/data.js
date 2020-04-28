@@ -8,6 +8,32 @@ const dataExample = [
   { title: "product" },
 ];
 
+const inventory_daily_report = {
+  date: todayDate,
+  productId: 0,
+  creatorEmployeeId: 1,
+  quantitySold: 4,
+  quantityInStock: 8,
+  stockThrown: 8,
+};
+
+const incomes_daily_report = {
+  date: todayDate,
+  creatorEmployeeId: 1,
+  numOfTabsSales: 0,
+  cafeteriaCashRevenues: 20.0,
+  cafeteriaCreditCardRevenues: 20.0,
+  ticketsCashRevenues: 20.0,
+  ticketsCreditCardRevenues: 20.0,
+  tabsCashRevenues: 20.0,
+  tabsCreditCardRevenues: 20.0,
+};
+const general_purpose_daily_report = {
+  date: todayDate,
+  creatorEmployeeId: 1,
+  additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+};
+
 const supplierDetails = "maimonaviv@gmail.com";
 
 const employeeDetails = {
