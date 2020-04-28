@@ -8,6 +8,8 @@ const dataExample = [
   { title: "product" },
 ];
 
+const todayDate = new Date();
+
 const inventory_daily_report = {
   date: todayDate,
   productId: 0,
