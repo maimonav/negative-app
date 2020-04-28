@@ -29,12 +29,13 @@ import AddCategory from "./InventoryActions/CategoryActions/AddCategory";
 import EditCategoey from "./InventoryActions/CategoryActions/EditCategory";
 import RemoveCategory from "./InventoryActions/CategoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
-import AddMovieOrder from "./InventoryActions/MoviesOrders/AddMovieOrder";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 import ShowReport from "./ReportsActions/ShowReport";
 import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
 import ManageOrders from "./InventoryActions/CafeteriaActions/ManageOrders";
 import ManageMoviesOrders from "./InventoryActions/MoviesOrders/ManageMoviesOrders";
+import AddMovieOrder from "./InventoryActions/MoviesOrders/AddMovieOrder";
+import EditMovieOrder from "./InventoryActions/MoviesOrders/EditMovieOrder";
 
 export {
   Login,
@@ -50,7 +51,6 @@ export {
   RemoveProduct,
   ManageMovies,
   ShowMovieDetails,
-  AddMovieOrder,
   AddMovie,
   EditMovie,
   RemoveMovie,
@@ -74,4 +74,6 @@ export {
   ConfirmCafeteriaOrder,
   ManageOrders,
   ManageMoviesOrders,
+  AddMovieOrder,
+  EditMovieOrder,
 };

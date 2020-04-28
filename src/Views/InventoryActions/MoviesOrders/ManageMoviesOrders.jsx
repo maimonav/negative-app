@@ -9,7 +9,7 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
-import { RemoveOrder, AddMovieOrder } from "../../index";
+import { AddMovieOrder, EditMovieOrder, RemoveOrder } from "../../index";
 import {
   handleAddMovieOrder,
   handleRemoveOrder,
@@ -91,9 +91,7 @@ export default class ManageMoviesOrders extends React.Component {
               {this.state.action === "add" && (
                 <AddMovieOrder handleAddMovieOrder={handleAddMovieOrder} />
               )}
-              {/* {this.state.action === "edit" && (
-                
-              )} */}
+              {this.state.action === "edit" && <EditMovieOrder />}
               {this.state.action === "delete" && (
                 <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
               )}

@@ -23,3 +23,4 @@ export const removeCategoryPath = "/removeCategory";
 export const showReportPath = "/showReport";
 export const manageOrdersPath = "/manageOrders";
 export const manageMoviesOrdersPath = "/manageMoviesOrders";
+export const editMovieOrderPath = "/editMovieOrder";
