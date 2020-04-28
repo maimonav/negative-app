@@ -56,9 +56,14 @@ class ReportController {
     if (!this.isValidType(type)) return "The requested report type is invalid";
 
     if (!this.isValidDate(date)) return "The requested report date is invalid";
-    let result = await DataBase.singleGetById(type, {
-      date: new Date(this.getSyncDateFormat(new Date(date))),
-    });
+    let result = await DataBase.singleFindAll(
+      type,
+      {
+        date: new Date(this.getSyncDateFormat(new Date(date))),
+      },
+      undefined,
+      [["date", "ASC"]]
+    );
     if (typeof result === "string") {
       DBlogger.info("ReportController - getReport - ", result);
       return "There was a problem getting the report\n" + result;

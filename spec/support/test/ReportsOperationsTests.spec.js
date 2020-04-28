@@ -23,20 +23,20 @@ const {
 
 describe("Report Operations Unit Tests", () => {
   let sequelize;
-  beforeEach(async function () {
+  beforeEach(async function() {
     //create connection & mydb
     await DB.connectAndCreate("mydbTest");
     sequelize = await DB.initDB("mydbTest");
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE mydbTest");
     console.log("Database deleted");
   });
 
-  it("init", async function () {
+  it("init", async function() {
     //Testing connection
     await sequelize
       .authenticate()
@@ -219,7 +219,7 @@ describe("Report Operations Unit Tests", () => {
       reports[i].date = new Date(getSyncDateFormat(todayDate));
       setTimeout(async () => {
         result = await ReportController.getReport(types[i], todayDate);
-        testFunctions[i](result, reports[i]);
+        testFunctions[i](result[0], reports[i]);
       }, (i + 1) * 1000);
     }
   }, 7000);
@@ -263,12 +263,12 @@ describe("Report Operations Unit Tests", () => {
           creatorEmployeeId: 0,
         };
 
-        expect(expectedResult.date).toEqual(actualResult.date);
+        expect(expectedResult.date).toEqual(actualResult[0].date);
         expect(expectedResult.additionalProps).toEqual(
-          actualResult.additionalProps
+          actualResult[0].additionalProps
         );
         expect(expectedResult.creatorEmployeeId).toEqual(
-          actualResult.creatorEmployeeId
+          actualResult[0].creatorEmployeeId
         );
 
         //remove
@@ -283,12 +283,12 @@ describe("Report Operations Unit Tests", () => {
             todayDate
           );
 
-          expect(reports[0].date).toEqual(actualResult.date);
+          expect(reports[0].date).toEqual(actualResult[0].date);
           expect(reports[0].additionalProps).toEqual(
-            actualResult.additionalProps
+            actualResult[0].additionalProps
           );
           expect(reports[0].creatorEmployeeId).toEqual(
-            actualResult.creatorEmployeeId
+            actualResult[0].creatorEmployeeId
           );
         }, 600);
       }, 600);
@@ -434,7 +434,7 @@ describe("Report Operations Unit Tests", () => {
         expect(result).toBe("The requested report date is invalid");
         result = await serviceLayer.getReport(types[i], todayDate, "User");
         reports[i].date = new Date(getSyncDateFormat(todayDate));
-        testFunctions[i](result, reports[i]);
+        testFunctions[i](result[0], reports[i]);
       }
     }, 2000);
   });
@@ -490,7 +490,7 @@ describe("Report Operations Unit Tests", () => {
           ["Cash counted", "new_field"],
           { "Cash counted": "true" },
         ];
-        testGeneralPurposeDailyReportResult(result, report);
+        testGeneralPurposeDailyReportResult(result[0], report);
       }, 500);
     }, 2000);
   });
@@ -549,7 +549,7 @@ describe("Report Operations Unit Tests", () => {
         );
         report.date = new Date(getSyncDateFormat(todayDate));
         report.additionalProps = [["Cash counted"], { "Cash counted": "true" }];
-        testGeneralPurposeDailyReportResult(result, report);
+        testGeneralPurposeDailyReportResult(result[0], report);
       }, 500);
     }, 2000);
   });
