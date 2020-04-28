@@ -26,17 +26,29 @@ context("Type all fields", () => {
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(addActionHook);
 
-    cy.get(`[data-hook=${categoryNameHook}]`).click().type(category).type("{esc}");
+    cy.get(`[data-hook=${categoryNameHook}]`)
+      .click()
+      .type(category)
+      .type("{esc}");
 
     cy.get(`[data-hook=${productNameHook}`).click().type(product).type("{esc}");
 
     cy.get(`[data-hook=${productPriceHook}]`).click().type(price).type("{esc}");
-  
-    cy.get(`[data-hook=${productQuantityHook}]`).click().type(quantity).type("{esc}");
-    
-    cy.get(`[data-hook=${productMaxQuantityHook}]`).click().type(max).type("{esc}");
-    
-    cy.get(`[data-hook=${productMinQuantityHook}]`).click().type(min).type("{esc}");
+
+    cy.get(`[data-hook=${productQuantityHook}]`)
+      .click()
+      .type(quantity)
+      .type("{esc}");
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max)
+      .type("{esc}");
+
+    cy.get(`[data-hook=${productMinQuantityHook}]`)
+      .click()
+      .type(min)
+      .type("{esc}");
   });
 
   it("edit product", () => {
@@ -44,18 +56,29 @@ context("Type all fields", () => {
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(editActionHook);
 
-
     cy.get(`[data-hook=${productNameHook}`).click().type(product).type("{esc}");
-    
-    cy.get(`[data-hook=${categoryNameHook}]`).click().type(category).type("{esc}");
+
+    cy.get(`[data-hook=${categoryNameHook}]`)
+      .click()
+      .type(category)
+      .type("{esc}");
 
     cy.get(`[data-hook=${productPriceHook}]`).click().type(price).type("{esc}");
-  
-    cy.get(`[data-hook=${productQuantityHook}]`).click().type(quantity).type("{esc}");
-    
-    cy.get(`[data-hook=${productMaxQuantityHook}]`).click().type(max).type("{esc}");
-    
-    cy.get(`[data-hook=${productMinQuantityHook}]`).click().type(min).type("{esc}");
+
+    cy.get(`[data-hook=${productQuantityHook}]`)
+      .click()
+      .type(quantity)
+      .type("{esc}");
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max)
+      .type("{esc}");
+
+    cy.get(`[data-hook=${productMinQuantityHook}]`)
+      .click()
+      .type(min)
+      .type("{esc}");
   });
 
   it("remove product", () => {
