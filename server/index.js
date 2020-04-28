@@ -267,7 +267,7 @@ app.get("/api/editCafeteriaOrder", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/removeCafeteriaOrder", (req, res) => {
+app.get("/api/RemoveOrder", (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.removeOrder(orderId, user);

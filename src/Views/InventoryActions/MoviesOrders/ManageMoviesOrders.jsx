@@ -5,23 +5,14 @@ import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
-import CheckIcon from "@material-ui/icons/Check";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
+import { RemoveOrder, AddMovieOrder } from "../../index";
 import {
-  ShowCafeteriaOrder,
-  AddCafeteriaOrder,
-  EditCafeteriaOrder,
-  RemoveCafeteriaOrder,
-  ConfirmCafeteriaOrder,
-} from "../../index";
-import {
-  handleAddCafeteriaOrder,
-  handleEditCafeteriaOrder,
-  handleRemoveCafeteriaOrder,
-  handleConfirmCafeteriaOrder,
+  handleAddMovieOrder,
+  handleRemoveOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
@@ -31,10 +22,10 @@ const iconStyle = {
   color: "white",
 };
 
-export default class ManageCafeteria extends React.Component {
+export default class ManageMoviesOrders extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "show" };
+    this.state = { action: "add" };
   }
 
   onChange = (action) => {
@@ -50,7 +41,7 @@ export default class ManageCafeteria extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4 style={{ margin: "auto" }}>Manage Cafeteria</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Movies Orders</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
@@ -94,38 +85,17 @@ export default class ManageCafeteria extends React.Component {
                       <DeleteIcon />
                     </Fab>
                   </Tooltip>
-                  <Tooltip title="Confirm" aria-label="confirm">
-                    <Fab
-                      color="default"
-                      size="small"
-                      onClick={() => this.onChange("confirm")}
-                      style={iconStyle}
-                    >
-                      <CheckIcon />
-                    </Fab>
-                  </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {this.state.action === "show" && <ShowCafeteriaOrder />}
+              {/* {this.state.action === "show" && <ShowCafeteriaOrder />} */}
               {this.state.action === "add" && (
-                <AddCafeteriaOrder
-                  handleAddCafeteriaOrder={handleAddCafeteriaOrder}
-                />
+                <AddMovieOrder handleAddMovieOrder={handleAddMovieOrder} />
               )}
-              {this.state.action === "edit" && (
-                <EditCafeteriaOrder
-                  handleEditCafeteriaOrder={handleEditCafeteriaOrder}
-                />
-              )}
+              {/* {this.state.action === "edit" && (
+                
+              )} */}
               {this.state.action === "delete" && (
-                <RemoveCafeteriaOrder
-                  handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
-                />
-              )}
-              {this.state.action === "confirm" && (
-                <ConfirmCafeteriaOrder
-                  handleConfirmCafeteriaOrder={handleConfirmCafeteriaOrder}
-                />
+                <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
               )}
             </Card>
           </GridItem>

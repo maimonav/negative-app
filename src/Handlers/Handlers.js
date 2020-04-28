@@ -350,10 +350,10 @@ export function handleEditCafeteriaOrder(
     });
 }
 
-export function handleRemoveCafeteriaOrder(orderId) {
+export function handleRemoveOrder(orderId) {
   const user = localStorage.getItem("username");
   fetch(
-    `api/removeCafeteriaOrder?orderId=${encodeURIComponent(
+    `api/RemoveOrder?orderId=${encodeURIComponent(
       orderId
     )}&user=${encodeURIComponent(user)}`
   )

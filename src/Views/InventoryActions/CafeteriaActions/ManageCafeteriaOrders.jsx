@@ -5,22 +5,24 @@ import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import {
-  AddMovie,
-  EditMovie,
-  RemoveMovie,
-  ShowMovieDetails,
+  ShowCafeteriaOrder,
+  AddCafeteriaOrder,
+  EditCafeteriaOrder,
+  RemoveOrder,
+  ConfirmCafeteriaOrder,
 } from "../../index";
 import {
-  handleAddMovie,
-  handleEditMovie,
-  handleRemoveMovie,
+  handleAddCafeteriaOrder,
+  handleEditCafeteriaOrder,
+  handleRemoveOrder,
+  handleConfirmCafeteriaOrder,
 } from "../../../Handlers/Handlers";
-import { editActionHook, removeActionHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
@@ -29,7 +31,7 @@ const iconStyle = {
   color: "white",
 };
 
-export default class ManageMovies extends React.Component {
+export default class ManageCafeteriaOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = { action: "show" };
@@ -48,7 +50,7 @@ export default class ManageMovies extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4 style={{ margin: "auto" }}>Manage Movies</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Cafeteria</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
@@ -76,7 +78,6 @@ export default class ManageMovies extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
-                      data-hook={editActionHook}
                       style={iconStyle}
                     >
                       <EditIcon />
@@ -88,23 +89,41 @@ export default class ManageMovies extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
-                      data-hook={removeActionHook}
                       style={iconStyle}
                     >
                       <DeleteIcon />
                     </Fab>
                   </Tooltip>
+                  <Tooltip title="Confirm" aria-label="confirm">
+                    <Fab
+                      color="default"
+                      size="small"
+                      onClick={() => this.onChange("confirm")}
+                      style={iconStyle}
+                    >
+                      <CheckIcon />
+                    </Fab>
+                  </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {this.state.action === "show" && <ShowMovieDetails />}
+              {this.state.action === "show" && <ShowCafeteriaOrder />}
               {this.state.action === "add" && (
-                <AddMovie handleAddMovie={handleAddMovie} />
+                <AddCafeteriaOrder
+                  handleAddCafeteriaOrder={handleAddCafeteriaOrder}
+                />
               )}
               {this.state.action === "edit" && (
-                <EditMovie handleEditMovie={handleEditMovie} />
+                <EditCafeteriaOrder
+                  handleEditCafeteriaOrder={handleEditCafeteriaOrder}
+                />
               )}
               {this.state.action === "delete" && (
-                <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
+                <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
+              )}
+              {this.state.action === "confirm" && (
+                <ConfirmCafeteriaOrder
+                  handleConfirmCafeteriaOrder={handleConfirmCafeteriaOrder}
+                />
               )}
             </Card>
           </GridItem>

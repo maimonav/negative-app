@@ -19,20 +19,22 @@ import AddSupplier from "./UserActions/SupplierActions/AddSupplier";
 import EditSupplier from "./UserActions/SupplierActions/EditSupplier";
 import RemoveSupplier from "./UserActions/SupplierActions/RemoveSupplier";
 import ManageInventory from "./InventoryActions/ProductsActions/ManageInventory";
-import ManageCafeteria from "./InventoryActions/CafeteriaActions/ManageCafeteria";
+import ManageCafeteriaOrders from "./InventoryActions/CafeteriaActions/ManageCafeteriaOrders";
 import ShowCafeteriaOrder from "./InventoryActions/CafeteriaActions/ShowCafeteriaOrders";
 import AddCafeteriaOrder from "./InventoryActions/CafeteriaActions/AddCafeteriaOrder";
-import RemoveCafeteriaOrder from "./InventoryActions/CafeteriaActions/RemoveCafeteriaOrder";
+import RemoveOrder from "./InventoryActions/CafeteriaActions/RemoveOrder";
 import ManageCategories from "./InventoryActions/CategoryActions/ManageCategories";
 import ShowCategories from "./InventoryActions/CategoryActions/ShowCategories";
 import AddCategory from "./InventoryActions/CategoryActions/AddCategory";
 import EditCategoey from "./InventoryActions/CategoryActions/EditCategory";
 import RemoveCategory from "./InventoryActions/CategoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
-import AddMovieOrder from "./InventoryActions/MoviesActions/AddMovieOrder";
+import AddMovieOrder from "./InventoryActions/MoviesOrders/AddMovieOrder";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 import ShowReport from "./ReportsActions/ShowReport";
 import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
+import ManageOrders from "./InventoryActions/CafeteriaActions/ManageOrders";
+import ManageMoviesOrders from "./InventoryActions/MoviesOrders/ManageMoviesOrders";
 
 export {
   Login,
@@ -58,10 +60,10 @@ export {
   EditSupplier,
   RemoveSupplier,
   ManageInventory,
-  ManageCafeteria,
+  ManageCafeteriaOrders,
   ShowCafeteriaOrder,
   AddCafeteriaOrder,
-  RemoveCafeteriaOrder,
+  RemoveOrder,
   ManageCategories,
   ShowCategories,
   AddCategory,
@@ -69,5 +71,7 @@ export {
   RemoveCategory,
   EditCafeteriaOrder,
   ShowReport,
-  ConfirmCafeteriaOrder
+  ConfirmCafeteriaOrder,
+  ManageOrders,
+  ManageMoviesOrders,
 };
