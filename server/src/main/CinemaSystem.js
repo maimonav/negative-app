@@ -24,7 +24,6 @@ class CinemaSystem {
       },
       general_purpose_daily_report: (record) =>
         this.employeeAndDateConvertion(record),
-      /* movie_daily_report: (record) => {},*/
       incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
     };
   }
@@ -503,36 +502,44 @@ class CinemaSystem {
     return await this.inventoryManagement.removeCategory(categoryId);
   }
 
+  /**
+   * Remove field from general purpose daily report
+   * @param {string} fieldToRemove The field to remove
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} success or failure
+   */
   async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
-      "createDailyReport"
+      "removeFieldFromDailyReport"
     );
     if (result != null) return result;
-    if (
-      !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
-    ) {
-      logger.info(
-        "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
-          ActionIDOfTheOperation +
-          " is not exist"
-      );
-      return "Cannot create report - creator employee id is not exist";
-    }
     return ReportController.removeFieldFromDailyReport(fieldToRemove);
   }
 
+  /**
+   * Add new field to general purpose daily report
+   * @param {string} newField The field to add
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} success or failure
+   */
   async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
-      "createDailyReport"
+      "addFieldToDailyReport"
     );
     if (result != null) return result;
     return ReportController.addFieldToDailyReport(newField);
   }
 
+  /**
+   * @param {string} type Type of report from _types
+   * @param {Array(Object)} records Records to add in the report
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} success or failure
+   */
   async createDailyReport(type, records, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
@@ -553,6 +560,13 @@ class CinemaSystem {
     return ReportController.createDailyReport(type, records);
   }
 
+  /**
+   * @param {string} type Type of the report
+   * @param {string} date Date of the report
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
+   * otherwise returns error string.
+   */
   async getReport(type, date, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,

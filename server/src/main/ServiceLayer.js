@@ -23,7 +23,7 @@ class ServiceLayer {
     return SystemInitializer.initSystem(this, dbName);
   }
 
-  isInputValid(param) {
+  _isInputValid(param) {
     if (param === undefined || param === "") return false;
     return true;
   }
@@ -831,6 +831,12 @@ class ServiceLayer {
     }
   }
 
+  /**
+   * Remove field from general purpose daily report
+   * @param {string} fieldToRemove The field to remove
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} success or failure
+   */
   async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(fieldToRemove)
       ? "Field is not valid"
@@ -858,6 +864,12 @@ class ServiceLayer {
     );
   }
 
+  /**
+   * Add new field to general purpose daily report
+   * @param {string} newField The field to add
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} success or failure
+   */
   async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(newField)
       ? "Field is not valid"
@@ -882,6 +894,12 @@ class ServiceLayer {
     );
   }
 
+  /**
+   * @param {string} type Type of report from _types
+   * @param {Array(Object)} records Records to add in the report
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} success or failure
+   */
   async createDailyReport(type, records, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)
       ? "Type is not valid"
@@ -909,6 +927,13 @@ class ServiceLayer {
     );
   }
 
+  /**
+   * @param {string} type Type of the report
+   * @param {string} date Date of the report
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
+   * otherwise returns error string.
+   */
   async getReport(type, date, ActionIDOfTheOperation) {
     let validationResult = !this.isInputValid(type)
       ? "Type is not valid"

@@ -7,16 +7,16 @@ const DBlogger = simpleLogger.createSimpleLogger({
 });
 
 class ReportController {
-  static types = {
+  static _types = {
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
     MOVIES: "movie_daily_report",
     INCOMES: "incomes_daily_report",
   };
 
-  static getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
+  static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
-  static isValidDate(strDate) {
+  static _isValidDate(strDate) {
     let date = new Date(strDate);
     if (isNaN(date.valueOf())) return false;
     let requestedDatePlusOneYear = this.getSyncDateFormat(
@@ -25,10 +25,42 @@ class ReportController {
     return requestedDatePlusOneYear >= this.getSyncDateFormat(new Date());
   }
 
-  static isValidType(type) {
+  static _isValidType(type) {
     return Object.keys(this.types).some((k) => this.types[k] === type);
   }
 
+  /**
+   * @param {string} type Type of report from _types
+   * @param {Array(Object)} records Records to add in the report
+   * @returns {Promise(string)} success or failure
+   *
+   * @example of records
+   *
+   * "inventory_daily_report" =>  {
+        date: todayDate,
+        productId: 0,
+        creatorEmployeeId: 1,
+        quantitySold: 4,
+        quantityInStock: 8,
+        stockThrown: 8,
+      }
+   * "general_purpose_daily_report" => {
+        date: todayDate,
+        creatorEmployeeId: 1,
+        additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+      }
+   * "incomes_daily_report" => {
+        date: todayDate,
+        creatorEmployeeId: 1,
+        numOfTabsSales: 0,
+        cafeteriaCashRevenues: 20.0,
+        cafeteriaCreditCardRevenues: 20.0,
+        ticketsCashRevenues: 20.0,
+        ticketsCreditCardRevenues: 20.0,
+        tabsCashRevenues: 20.0,
+        tabsCreditCardRevenues: 20.0,
+      }
+   */
   static async createDailyReport(type, records) {
     //validate type from enum of types
     if (!this.isValidType(type)) return "The requested report type is invalid";
@@ -52,6 +84,12 @@ class ReportController {
     return "The report created successfully";
   }
 
+  /**
+   * @param {string} type Type of report from _types
+   * @param {string} date Date of the report
+   * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
+   * otherwise returns error string.
+   */
   static async getReport(type, date) {
     if (!this.isValidType(type)) return "The requested report type is invalid";
 
@@ -73,19 +111,11 @@ class ReportController {
     return result;
   }
 
-  static exportMonthlyHoursReportPerEmployee(
-    date,
-    employeeToSearchID,
-    employeeId
-  ) {}
-  static exportDailyIncome(date) {}
-  static exportDailyMovieReport(date) {}
-  static exportDailyGeneralReport(date) {}
-  static exportDailyReport(date) {}
-
-  //general purpose fields - just from the list additionalProps[0]
-  static getDailyReoprtFormat() {}
-
+  /**
+   * Add new field to general purpose daily report
+   * @param {string} newField The field to add
+   * @returns {Promise(string)} success or failure
+   */
   static async addFieldToDailyReport(newField) {
     let result = await DataBase.singleFindAll(
       this.types.GENERAL,
@@ -117,6 +147,11 @@ class ReportController {
     return "The report field added successfully";
   }
 
+  /**
+   * Remove field from general purpose daily report
+   * @param {string} fieldToRemove The field to remove
+   * @returns {Promise(string)} success or failure
+   */
   static async removeFieldFromDailyReport(fieldToRemove) {
     let result = await DataBase.singleFindAll(
       this.types.GENERAL,
@@ -149,5 +184,16 @@ class ReportController {
     }
     return "The report field removed successfully";
   }
+
+  static exportMonthlyHoursReportPerEmployee(
+    date,
+    employeeToSearchID,
+    employeeId
+  ) {}
+  static exportDailyIncome(date) {}
+  static exportDailyMovieReport(date) {}
+  static exportDailyGeneralReport(date) {}
+  static exportDailyReport(date) {}
+  static getDailyReoprtFormat() {}
 }
 module.exports = ReportController;
