@@ -14,6 +14,35 @@ class CinemaSystem {
     this.userOfflineMsg =
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
+    this.convertionMethods = {
+      inventory_daily_report: (record) => {
+        record.productName = this.inventoryManagement.products.get(
+          record.productId
+        ).name;
+        record = this.employeeAndDateConvertion(record);
+        return record;
+      },
+      general_purpose_daily_report: (record) =>
+        this.employeeAndDateConvertion(record),
+      /* movie_daily_report: (record) => {},*/
+      incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
+    };
+  }
+
+  creatorEmployeeConvertion(record) {
+    if (record.creatorEmployeeId !== null) {
+      let employee = this.employeeManagement.employeeDictionary.get(
+        record.creatorEmployeeId
+      );
+      record.creatorEmployeeName = employee.firstName + " " + employee.lastName;
+    }
+    return record;
+  }
+
+  employeeAndDateConvertion(record) {
+    record.date = record.date.toDateString();
+    record = this.creatorEmployeeConvertion(record);
+    return record;
   }
 
   UserDetailsCheck(userName, password, permissions) {
@@ -531,7 +560,10 @@ class CinemaSystem {
       "getReport"
     );
     if (result != null) return result;
-    return ReportController.getReport(type, date);
+    result = await ReportController.getReport(type, date);
+    if (typeof result !== "string")
+      for (let i in result) result[i] = this.convertionMethods[type](result[i]);
+    return result;
   }
 
   getSuppliers() {
