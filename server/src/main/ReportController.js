@@ -19,14 +19,14 @@ class ReportController {
   static _isValidDate(strDate) {
     let date = new Date(strDate);
     if (isNaN(date.valueOf())) return false;
-    let requestedDatePlusOneYear = this.getSyncDateFormat(
+    let requestedDatePlusOneYear = this._getSyncDateFormat(
       new Date(date.setFullYear(date.getFullYear() + 1))
     );
-    return requestedDatePlusOneYear >= this.getSyncDateFormat(new Date());
+    return requestedDatePlusOneYear >= this._getSyncDateFormat(new Date());
   }
 
   static _isValidType(type) {
-    return Object.keys(this.types).some((k) => this.types[k] === type);
+    return Object.keys(this._types).some((k) => this._types[k] === type);
   }
 
   /**
@@ -63,12 +63,12 @@ class ReportController {
    */
   static async createDailyReport(type, records) {
     //validate type from enum of types
-    if (!this.isValidType(type)) return "The requested report type is invalid";
+    if (!this._isValidType(type)) return "The requested report type is invalid";
 
     let actionsList = [];
     for (let i in records) {
       records[i].date = new Date(
-        this.getSyncDateFormat(new Date(records[i].date))
+        this._getSyncDateFormat(new Date(records[i].date))
       );
       actionsList = actionsList.concat({
         name: DataBase.add,
@@ -91,13 +91,13 @@ class ReportController {
    * otherwise returns error string.
    */
   static async getReport(type, date) {
-    if (!this.isValidType(type)) return "The requested report type is invalid";
+    if (!this._isValidType(type)) return "The requested report type is invalid";
 
-    if (!this.isValidDate(date)) return "The requested report date is invalid";
+    if (!this._isValidDate(date)) return "The requested report date is invalid";
     let result = await DataBase.singleFindAll(
       type,
       {
-        date: new Date(this.getSyncDateFormat(new Date(date))),
+        date: new Date(this._getSyncDateFormat(new Date(date))),
       },
       undefined,
       [["date", "ASC"]]
@@ -118,7 +118,7 @@ class ReportController {
    */
   static async addFieldToDailyReport(newField) {
     let result = await DataBase.singleFindAll(
-      this.types.GENERAL,
+      this._types.GENERAL,
       {},
       { fn: "max", fnField: "date" }
     );
@@ -127,7 +127,7 @@ class ReportController {
       return "The report field cannot be added\n" + result;
     }
     if (result.length === 0) return "The report field cannot be added";
-    result = await DataBase.singleGetById(this.types.GENERAL, {
+    result = await DataBase.singleGetById(this._types.GENERAL, {
       date: new Date(result[0].date),
     });
     if (typeof result === "string") {
@@ -136,7 +136,7 @@ class ReportController {
     }
     let newProps = result.additionalProps[0].concat(newField);
     result = await DataBase.singleUpdate(
-      this.types.GENERAL,
+      this._types.GENERAL,
       { date: new Date(result.date) },
       { additionalProps: [newProps, result.additionalProps[1]] }
     );
@@ -154,7 +154,7 @@ class ReportController {
    */
   static async removeFieldFromDailyReport(fieldToRemove) {
     let result = await DataBase.singleFindAll(
-      this.types.GENERAL,
+      this._types.GENERAL,
       {},
       { fn: "max", fnField: "date" }
     );
@@ -163,7 +163,7 @@ class ReportController {
       return "The report field cannot be removed\n" + result;
     }
     if (result.length === 0) return "The report field cannot be added";
-    result = await DataBase.singleGetById(this.types.GENERAL, {
+    result = await DataBase.singleGetById(this._types.GENERAL, {
       date: new Date(result[0].date),
     });
     if (typeof result === "string") {
@@ -174,7 +174,7 @@ class ReportController {
       (value) => value !== fieldToRemove
     );
     result = await DataBase.singleUpdate(
-      this.types.GENERAL,
+      this._types.GENERAL,
       { date: new Date(result.date) },
       { additionalProps: [newProps, result.additionalProps[1]] }
     );

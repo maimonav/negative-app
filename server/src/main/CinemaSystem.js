@@ -535,7 +535,7 @@ class CinemaSystem {
   }
 
   /**
-   * @param {string} type Type of report from _types
+   * @param {string} type Type of the report
    * @param {Array(Object)} records Records to add in the report
    * @param {string} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(string)} success or failure
