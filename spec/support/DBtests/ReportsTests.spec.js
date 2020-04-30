@@ -52,6 +52,7 @@ function testIncomeDailyReportResult(result, report) {
   );
   expect(result.tabsCashRevenues).toBe(report.tabsCashRevenues);
   expect(result.tabsCreditCardRevenues).toBe(report.tabsCreditCardRevenues);
+  expect(result.creatorEmployeeName).toBe(report.creatorEmployeeName);
 }
 exports.testIncomeDailyReportResult = testIncomeDailyReportResult;
 
@@ -106,6 +107,7 @@ function testGeneralPurposeDailyReportResult(result, report) {
   expect(result.date).toEqual(report.date);
   expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
   expect(result.additionalProps).toEqual(report.additionalProps);
+  expect(result.creatorEmployeeName).toBe(report.creatorEmployeeName);
 }
 
 exports.testGeneralPurposeDailyReportResult = testGeneralPurposeDailyReportResult;
@@ -136,6 +138,8 @@ function testInventoryDailyReportResult(result, report) {
   expect(result.quantitySold).toBe(report.quantitySold);
   expect(result.quantityInStock).toBe(report.quantityInStock);
   expect(result.stockThrown).toBe(report.stockThrown);
+  expect(result.creatorEmployeeName).toBe(report.creatorEmployeeName);
+  expect(result.productName).toBe(report.productName);
 }
 exports.testInventoryDailyReportResult = testInventoryDailyReportResult;
 
@@ -233,45 +237,45 @@ async function testRemoveInventoryDailyReport(where) {
   });
 }
 
-describe("DB Test - reports", function () {
+describe("DB Test - reports", function() {
   let sequelize;
-  beforeEach(async function () {
+  beforeEach(async function() {
     //create connection & mydb
     await DB.connectAndCreate("mydbTest");
     sequelize = await DB.initDB("mydbTest");
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE mydbTest");
     console.log("Database deleted");
   });
 
-  it("init", async function () {
+  it("init", async function() {
     //Testing connection
     await sequelize
       .authenticate()
       .catch((err) => fail("Unable to connect to the database:", err));
   });
 
-  it("add incomes daily reports", async function () {
+  it("add incomes daily reports", async function() {
     await addIncomesDailyReport(true);
   });
 
-  it("add movies daily reports", async function () {
+  it("add movies daily reports", async function() {
     await addMoviesDailyReport(true);
   });
 
-  it("add general purpose daily reports", async function () {
+  it("add general purpose daily reports", async function() {
     await addGeneralPurposeDailyReport(true);
   });
 
-  it("add inventory daily reports", async function () {
+  it("add inventory daily reports", async function() {
     await addInventoryDailyReport(true);
   });
 
-  it("update incomes daily reports", async function () {
+  it("update incomes daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       creatorEmployeeId: 1,
@@ -288,7 +292,7 @@ describe("DB Test - reports", function () {
     await testUpdateIncomesDailyReport(report);
   });
 
-  it("update movies daily reports", async function () {
+  it("update movies daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       creatorEmployeeId: 1,
@@ -305,7 +309,7 @@ describe("DB Test - reports", function () {
     await testUpdateMoviesDailyReport(report);
   });
 
-  it("update general purpose daily reports", async function () {
+  it("update general purpose daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       creatorEmployeeId: 1,
@@ -316,7 +320,7 @@ describe("DB Test - reports", function () {
     await testUpdateGeneralPurposeDailyReport(report);
   });
 
-  it("update inventory daily reports", async function () {
+  it("update inventory daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       productId: 0,
@@ -332,7 +336,7 @@ describe("DB Test - reports", function () {
     await testUpdateInventoryDailyReport(report);
   });
 
-  it("remove incomes daily reports", async function () {
+  it("remove incomes daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       creatorEmployeeId: 0,
@@ -350,7 +354,7 @@ describe("DB Test - reports", function () {
     await testRemoveIncomesDailyReport(where);
   });
 
-  it("remove movies daily reports", async function () {
+  it("remove movies daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       creatorEmployeeId: 0,
@@ -368,7 +372,7 @@ describe("DB Test - reports", function () {
     await testRemoveMoviesDailyReport(where);
   });
 
-  it("remove general purpose daily reports", async function () {
+  it("remove general purpose daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       creatorEmployeeId: 0,
@@ -380,7 +384,7 @@ describe("DB Test - reports", function () {
     await testRemoveGeneralPurposeDailyReport(where);
   });
 
-  it("remove inventory daily reports", async function () {
+  it("remove inventory daily reports", async function() {
     let report = {
       date: new Date("2020-03-02 00:00:00"),
       productId: 0,

@@ -68,7 +68,8 @@ class ReportController {
       DBlogger.info("ReportController - getReport - ", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result === null) return "The report does not exist";
+    if (result.length === 0) return "The report does not exist";
+
     return result;
   }
 

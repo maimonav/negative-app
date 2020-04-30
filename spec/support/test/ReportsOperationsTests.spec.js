@@ -1,4 +1,6 @@
 const mysql = require("mysql2");
+const Movie = require("../../../server/src/main/Movie");
+const Employee = require("../../../server/src/main/Employee");
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const {
   testAddInventoryDailyReport,
@@ -368,10 +370,12 @@ describe("Report Operations Unit Tests", () => {
     serviceLayer.users.set("User", 1);
     let user = { isLoggedin: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
-
+    let movie = new Movie(1, "Movie");
+    serviceLayer.cinemaSystem.inventoryManagement.products.set(0, movie);
     await addEmployee(1);
     await addCategory(0, "Snacks");
     await addProductAfterCategory();
+
     let todayDate = new Date();
     let types = [
       "inventory_daily_report",
@@ -404,14 +408,19 @@ describe("Report Operations Unit Tests", () => {
         additionalProps: [["Cash counted"], { "Cash counted": "true" }],
       },
     ];
+    let reportsAfter = reports;
+    reportsAfter[0].productName = "Movie";
+    for (let i in reportsAfter)
+      reportsAfter[i].creatorEmployeeName = "First Last";
     let testFunctions = [
       testInventoryDailyReportResult,
       testIncomeDailyReportResult,
       testGeneralPurposeDailyReportResult,
     ];
+    let employee = new Employee(1, "", "", "", "First", "Last");
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       1,
-      null
+      employee
     );
     for (let i in types) {
       records = JSON.stringify([reports[i]]);
@@ -434,7 +443,7 @@ describe("Report Operations Unit Tests", () => {
         expect(result).toBe("The requested report date is invalid");
         result = await serviceLayer.getReport(types[i], todayDate, "User");
         reports[i].date = new Date(getSyncDateFormat(todayDate));
-        testFunctions[i](result[0], reports[i]);
+        testFunctions[i](result[0], reportsAfter[i]);
       }
     }, 2000);
   });
@@ -455,9 +464,12 @@ describe("Report Operations Unit Tests", () => {
       creatorEmployeeId: 1,
       additionalProps: [["Cash counted"], { "Cash counted": "true" }],
     };
+    let reportAfter = report;
+    reportAfter.creatorEmployeeName = "First Last";
+    let employee = new Employee(1, "", "", "", "First", "Last");
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       1,
-      null
+      employee
     );
     records = JSON.stringify([report]);
     await serviceLayer.createDailyReport(
@@ -514,9 +526,12 @@ describe("Report Operations Unit Tests", () => {
         { "Cash counted": "true" },
       ],
     };
+    let reportAfter = report;
+    reportAfter.creatorEmployeeName = "First Last";
+    let employee = new Employee(1, "", "", "", "First", "Last");
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       1,
-      null
+      employee
     );
     records = JSON.stringify([report]);
     await serviceLayer.createDailyReport(
