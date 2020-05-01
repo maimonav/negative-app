@@ -270,7 +270,8 @@ class InventoryManagemnt {
         strDate,
         supplierId,
         productsList,
-        creatorEmployeeId
+        creatorEmployeeId,
+        orderName
     ) {
         if (this.orders.has(orderId)) {
             this.writeToLog(
@@ -316,7 +317,7 @@ class InventoryManagemnt {
             return "The order date is invalid";
         }
 
-        let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+        let order = new Order(orderId, supplierId, date, creatorEmployeeId, orderName);
 
         //Database
         let orderObject = order.getOrderAdditionObject();
@@ -469,6 +470,17 @@ class InventoryManagemnt {
         return output;
     }
 
+    getCafeteriaOrders() {
+        const output = [];
+        this.orders.forEach((order) => {
+            const value = {
+                title: order.name,
+            };
+            output.push(value);
+        });
+        return output;
+    }
+
     getCafeteriaProducts() {
         const output = [];
         this.products.forEach((product) => {
@@ -524,11 +536,15 @@ class InventoryManagemnt {
     }
 
     mapToObj(inputMap) {
+        console.log('mapToObjProduct');
+
+
         let obj = {};
 
         inputMap.forEach(function(value, key) {
-            obj[key] = value;
+            obj[key] = value.product.name;
         });
+        console.log(obj);
 
         return obj;
     }

@@ -8,7 +8,7 @@ class DataBase {
     static sequelize;
     static connection;
     static models;
-    static isTestMode = false;
+    static isTestMode = true;
 
     static testModeOn() {
         this.isTestMode = true;

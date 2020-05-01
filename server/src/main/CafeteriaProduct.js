@@ -43,7 +43,34 @@ class CafeteriaProduct extends Product {
         if (isQuantityFiled && typeof param === "number" && param < 0) return false;
         return true;
     }
+    quantityCheck(maxQuantity, minQuantity) {
+        if (this.isNeedToUpdate(maxQuantity, true)) {
+            if ((this.isNeedToUpdate(minQuantity, false) && maxQuantity <= minQuantity)) {
+                this.writeToLog('info', 'quantityCheck', "The max quntity(" + maxQuantity + ") have to be greater then new min quntity(" + minQuantity + ")");
+                return "The max quntity have to be greater then min quntity";
+            }
+            if ((!this.isNeedToUpdate(minQuantity, false) && maxQuantity <= this.minQuantity)) {
+                this.writeToLog('info', 'quantityCheck', "The max quntity(" + maxQuantity + ") have to be greater then current min quntity(" + this.minQuantity + ")");
+                return "The max quntity have to be greater then min quntity";
+            }
+        }
+        if (this.isNeedToUpdate(minQuantity, false)) {
+            if ((this.isNeedToUpdate(maxQuantity, true) && maxQuantity <= minQuantity)) {
+                this.writeToLog('info', 'quantityCheck', "The new max quntity(" + maxQuantity + ") have to be greater then min quntity(" + minQuantity + ")");
+                return "The max quntity have to be greater then min quntity";
+            }
+            if ((!this.isNeedToUpdate(maxQuantity, true) && this.maxQuantity <= minQuantity)) {
+                this.writeToLog('info', 'quantityCheck', "The current max quntity(" + this.maxQuantity + ") have to be greater then min quntity(" + minQuantity + ")");
+                return "The max quntity have to be greater then min quntity";
+            }
+        }
+        return true;
+    }
     async editProduct(categoryId, price, quantity, maxQuantity, minQuantity) {
+        let result = this.quantityCheck(maxQuantity, minQuantity);
+        if (typeof result === 'string') {
+            return result;
+        }
         const backupObj = {
             categoryId: this.categoryId,
             price: this.price,

@@ -15,12 +15,22 @@ class ServiceLayer {
         this.categoriesCounter = 0;
         this.orders = new Map();
         this.ordersCounter = 0;
+
     }
 
     async initSeviceLayer(dbName) {
         this.users.set("admin", this.userCounter);
         this.userCounter++;
-        return SystemInitializer.initSystem(this, dbName);
+        let result = SystemInitializer.initSystem(this, dbName);
+        await this.login('admin', 'admin');
+        await this.addNewEmployee('aviv', 'aviv', 'aviv', 'aviv', "ADMIN", 'aviv', 'admin', false);
+        await this.login('aviv', 'aviv');
+        await this.addNewSupplier('supplier', 'aviv', 'aviv');
+        await this.addCategory('a', 'aviv');
+        await this.addNewProduct('product', 1, 1, null, null, 'a', 'aviv');
+        await this.addCafeteriaOrder('aviv' + new Date(), new Date(), 'supplier', [{ name: 'product', quantity: '10' }], 'aviv');
+        await this.logout('aviv');
+        return result;
     }
 
     _isInputValid(param) {
@@ -797,7 +807,8 @@ class ServiceLayer {
             date,
             this.suppliers.get(supplierName),
             productsList,
-            this.users.get(ActionIDOfTheOperation)
+            this.users.get(ActionIDOfTheOperation),
+            orderId
         );
         if (result === "The order added successfully") {
             this.orders.set(orderId, this.ordersCounter);
@@ -978,8 +989,8 @@ class ServiceLayer {
         );
     }
 
-    getCafeteriaOrders(startDate, endDate) {
-        return this.cinemaSystem.getOrdersByDates(startDate, endDate);
+    getCafeteriaOrders() {
+        return this.cinemaSystem.getCafeteriaOrders();
     }
     getEmployees() {
         return this.cinemaSystem.getEmployees();
@@ -1012,7 +1023,9 @@ class ServiceLayer {
         if (!this.orders.has(orderId)) {
             return "The order does not exist";
         }
-        return this.cinemaSystem.getOrderDetails(orderId);
+        const result = this.cinemaSystem.getOrderDetails(this.orders.get(orderId));
+        console.log(result.products);
+        return result;
     }
 
     getMovieDetails(movieName) {

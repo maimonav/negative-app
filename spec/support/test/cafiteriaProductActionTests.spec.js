@@ -197,7 +197,7 @@ describe("cafitriaProductActionTest", () => {
         admin.permissions = 'EMPLOYEE';
         expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual(cinemaSystem.inappropriatePermissionsMsg);
         admin.permissions = 'ADMIN';
-        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 0, 0, admin.id)).toEqual("Product details update successfully completed");
+        expect(await cinemaSystem.editCafeteriaProduct(p1.id, -1, p1.price, p1.quantity, 10, 0, admin.id)).toEqual("Product details update successfully completed");
 
     });
 

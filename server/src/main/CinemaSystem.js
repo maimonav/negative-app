@@ -274,7 +274,8 @@ class CinemaSystem {
         date,
         supplierId,
         productsList,
-        ActionIDOfTheOperation
+        ActionIDOfTheOperation,
+        orderName
     ) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
@@ -295,7 +296,8 @@ class CinemaSystem {
             date,
             supplierId,
             productsList,
-            ActionIDOfTheOperation
+            ActionIDOfTheOperation,
+            orderName
         );
     }
 
@@ -623,6 +625,9 @@ class CinemaSystem {
 
     getCategoryDetails(categotyId) {
         return this.inventoryManagement.getCategoryDetails(categotyId);
+    }
+    getCafeteriaOrders() {
+        return this.inventoryManagement.getCafeteriaOrders();
     }
 }
 
