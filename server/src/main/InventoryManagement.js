@@ -355,6 +355,67 @@ class InventoryManagemnt {
         return "The order added successfully";
     }
 
+    async editCafeteriaOrder(orderId, strDate, supplierId, productsList) {
+        if (!this.orders.has(orderId)) {
+            this.writeToLog('info', 'editCafeteriaOrder', 'Order ' + orderId + ' does not exsits.');
+            return 'Order ' + orderId + ' does not exsits.';
+        }
+        DBActionList = [];
+
+        //DATABASES
+        if (typeof strDate === 'string' || typeof strDate === 'object') {
+            DBActionList = DBActionList.concat({
+                name: DB.update,
+                model: "order",
+                params: {
+                    where: {
+                        id: orderId,
+                    },
+                    element: {
+                        date: strDate,
+                    },
+                },
+            });
+        }
+        if (typeof supplierId === 'number' && this.suppliers.has(supplierId)) {
+            DBActionList = DBActionList.concat({
+                name: DB.update,
+                model: "order",
+                params: {
+                    where: {
+                        id: orderId,
+                    },
+                    element: {
+                        supplierId: supplierId,
+                    },
+                },
+            });
+        }
+        productsList.filter((product) => this.products.has(product.id)).forEach((product) => {
+            DBActionList = DBActionList.concat({
+                name: DB.update,
+                model: "cafeteria_product_order",
+                params: {
+                    where: {
+                        orderId: orderId,
+                        productId: product.id,
+                    },
+                    element: {
+                        expectedQuantity: product.quantity,
+                    },
+                },
+            });
+        })
+        let result = await DB.executeActions(actionsList);
+        if (typeof result === 'string') {
+            this.writeToLog('info', 'editCafeteriaOrder', result);
+            return result;
+        }
+        return this.orders.editOrder(strDate, supplierId, productsList);
+
+    }
+
+
     async addCafeteriaProduct(
         productId,
         name,
@@ -536,16 +597,11 @@ class InventoryManagemnt {
     }
 
     mapToObj(inputMap) {
-        console.log('mapToObjProduct');
-
-
         let obj = {};
 
         inputMap.forEach(function(value, key) {
             obj[key] = value.product.name;
         });
-        console.log(obj);
-
         return obj;
     }
 
@@ -779,11 +835,17 @@ class InventoryManagemnt {
         return "The category already removed";
     }
 
-    getOrdersByDates(startDate, endDate) {
+    getOrdersByDates(startDateStr, endDateStr) {
+        const startDate = new Date(startDateStr);
+        startDate.setHours(0, 0, 0, 0);
+        const endDate = new Date(endDateStr);
+        endDate.setHours(0, 0, 0, 0);
         let result = [];
         this.orders.forEach((order) => {
-            if (order.date < endDate && order.date > startDate)
-                result.push({ title: order.id });
+            const orderDate = order.date;
+            orderDate.setHours(0, 0, 0, 0);
+            if (!(orderDate > endDate) && !(orderDate < startDate))
+                result.push({ title: order.name });
         });
         return result;
     }

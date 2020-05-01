@@ -57,6 +57,17 @@ class Order {
         });
     };
 
+    editOrder(strDate, supplierId, productsList) {
+        if (typeof strDate === 'string')
+            this.date = new Date(strDate);
+        if (typeof supplierId === 'number')
+            this.supplierId = supplierId;
+        this.productsList.forEach((product) => {
+            this.productOrders.get(product.id).editCafeteriaProductOrderExpected(product.quantity);
+        });
+        return 'The order edited successfully.';
+    }
+
     equals(toCompare) {
         return (
             toCompare.id === this.id &&
