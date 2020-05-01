@@ -593,15 +593,11 @@ class InventoryManagemnt {
   }
 
   mapToObj(inputMap) {
-    console.log("mapToObjProduct");
-
-    let obj = {};
+    let obj = [];
 
     inputMap.forEach(function(value, key) {
-      obj[key] = value.product.name;
+      obj.push({ name: value.product.name, quantity: value.expectedQuantity });
     });
-    console.log(obj);
-
     return obj;
   }
 
