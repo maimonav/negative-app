@@ -24,7 +24,7 @@ class ServiceLayer {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
     let result = SystemInitializer.initSystem(this, dbName);
-    /*await this.login("admin", "admin");
+    await this.login("admin", "admin");
     await this.addNewEmployee(
       "aviv",
       "aviv",
@@ -46,7 +46,15 @@ class ServiceLayer {
       [{ name: "product", quantity: "10" }],
       "aviv"
     );
-    await this.logout("aviv");*/
+    await this.addMovie("movie", "a", "aviv");
+    await this.addMovieOrder(
+      "aviv movie " + new Date(),
+      new Date(),
+      "supplier",
+      ["movie"],
+      "aviv"
+    );
+    await this.logout("aviv");
     return result;
   }
 
@@ -765,7 +773,8 @@ class ServiceLayer {
       date,
       this.suppliers.get(supplierName),
       moviesList,
-      this.users.get(ActionIDOfTheOperation)
+      this.users.get(ActionIDOfTheOperation),
+      orderId
     );
     if (result === "The order added successfully") {
       this.orders.set(orderId, this.ordersCounter);
@@ -1087,10 +1096,9 @@ class ServiceLayer {
   getCafeteriaProducts() {
     return this.cinemaSystem.getCafeteriaProducts();
   }
-
-  //   getCafeteriaOrders(startDate, endDate) {
-  //     return this.cinemaSystem.getCafeteriaOrders(startDate, endDate);
-  //   }
+  getMovieOrders() {
+    return this.cinemaSystem.getMovieOrders();
+  }
 
   getInventoryProducts() {
     return this.cinemaSystem.getInventoryProducts();

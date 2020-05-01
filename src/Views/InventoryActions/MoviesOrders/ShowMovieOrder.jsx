@@ -91,7 +91,7 @@ export default class ShowMovieOrders extends React.Component {
                         id="field3"
                         defaultValue=""
                         label="Movies:"
-                        value={this.state.orderId.movies || ""}
+                        value={this.state.orderId.products || ""}
                         InputProps={{
                           readOnly: true,
                         }}

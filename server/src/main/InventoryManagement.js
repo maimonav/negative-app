@@ -4,6 +4,7 @@ let DB = require("./DataLayer/DBManager");
 const Supplier = require("./Supplier");
 const CafeteriaProduct = require("./CafeteriaProduct");
 const CafeteriaProductOrder = require("./CafeteriaProductOrder");
+const MovieOrder = require("./MovieOrder");
 const Category = require("./Category");
 const simpleLogger = require("simple-node-logger");
 const logger = simpleLogger.createSimpleLogger("project.log");
@@ -194,7 +195,8 @@ class InventoryManagemnt {
             strDate,
             supplierId,
             movieIdList,
-            creatorEmployeeId
+            creatorEmployeeId,
+            orderName
         ) {
             if (this.orders.has(orderId)) {
                 this.writeToLog(
@@ -231,7 +233,7 @@ class InventoryManagemnt {
                 );
                 return "The order date is invalid";
             }
-            let order = new Order(orderId, supplierId, date, creatorEmployeeId);
+            let order = new Order(orderId, supplierId, date, creatorEmployeeId, orderName);
 
             //Database
             let orderObject = order.getOrderAdditionObject();
@@ -571,13 +573,37 @@ class InventoryManagemnt {
     getCafeteriaOrders() {
         const output = [];
         this.orders.forEach((order) => {
-            const value = {
-                title: order.name,
-            };
-            output.push(value);
+            let check = false;
+            order.productOrders.forEach((product) => {
+                if (product instanceof CafeteriaProductOrder)
+                    check = true;
+            });
+            if (check)
+                output.push({
+                    title: order.name,
+                });
         });
         return output;
     }
+
+
+    getMovieOrders() {
+        const output = [];
+        this.orders.forEach((order) => {
+            let check = false;
+            order.productOrders.forEach((product) => {
+                if (product instanceof MovieOrder) {
+                    check = true;
+                }
+            });
+            if (check)
+                output.push({
+                    title: order.name,
+                });
+        });
+        return output;
+    }
+
 
     getCafeteriaProducts() {
         const output = [];
@@ -634,10 +660,13 @@ class InventoryManagemnt {
     }
 
     mapToObj(inputMap) {
-        let obj = {};
+        let obj = [];
 
         inputMap.forEach(function(value, key) {
-            obj[key] = value.product.name;
+            if (value.product instanceof CafeteriaProduct)
+                obj.push({ name: value.product.name, quantity: value.expectedQuantity });
+            else
+                obj.push(value.movie.name);
         });
         return obj;
     }

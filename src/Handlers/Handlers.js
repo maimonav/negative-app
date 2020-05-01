@@ -326,18 +326,11 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
     });
 }
 
-export function handleEditCafeteriaOrder(
-  orderId,
-  productsWithQuantity,
-  orderDate,
-  updatedProducts
-) {
+export function handleEditCafeteriaOrder(orderId, orderDate, updatedProducts) {
   const user = localStorage.getItem("username");
   fetch(
     `api/editCafeteriaOrder?orderId=${encodeURIComponent(
       orderId
-    )}&productsWithQuantity=${encodeURIComponent(
-      productsWithQuantity
     )}&orderDate=${encodeURIComponent(
       orderDate
     )}&updatedProducts=${encodeURIComponent(
@@ -401,11 +394,9 @@ export function handleGetProductsByOrder(username, orderName) {
   );
 }
 
-export function handleGetProductsAndQuantityByOrder(username, orderName) {
+export function handleGetProductsAndQuantityByOrder(orderName) {
   return fetch(
-    `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(
-      orderName
-    )}&user=${encodeURIComponent(username)}`
+    `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(orderName)}`
   );
 }
 

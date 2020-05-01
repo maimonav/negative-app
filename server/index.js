@@ -251,16 +251,12 @@ app.get("/api/addCafeteriaOrder", async (req, res) => {
 
 app.get("/api/editCafeteriaOrder", (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const productsWithQuantity =
-    (req.query.productsWithQuantity && req.query.productsWithQuantity.trim()) ||
-    "";
   const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
   const updatedProducts =
     (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.editCafeteriaOrder(
     orderId,
-    productsWithQuantity,
     orderDate,
     updatedProducts,
     user
@@ -423,9 +419,8 @@ app.get("/api/getCategoryDetails", (req, res) => {
 });
 
 app.get("/api/getProductAndQuntityByOrder", (req, res) => {
-  const user = (req.query.user && req.query.user.trim()) || "";
   const orderName = (req.query.orderName && req.query.orderName.trim()) || "";
-  const result = service.getProductsAndQuantityByOrder(orderName, user);
+  const result = service.getProductsAndQuantityByOrder(orderName);
   res.send(JSON.stringify({ result }));
 });
 
@@ -451,7 +446,8 @@ app.get("/api/getMovieOrders", (req, res) => {
 
 app.get("/api/getMovieOrderDetails", (req, res) => {
   const order = (req.query.order && req.query.order.trim()) || "";
-  const result = service.getMovieOrderDetails(order);
+  const result = service.getOrderDetails(order);
+  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
