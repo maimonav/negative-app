@@ -100,6 +100,7 @@ class InventoryManagemnt {
    * @param {number} movieId
    * @returns {Promise(string)} Success or failure string
    */
+
   async removeMovie(movieId) {
     if (!this.products.has(movieId)) {
       this.writeToLog(
@@ -200,6 +201,7 @@ class InventoryManagemnt {
    * @param {number} creatorEmployeeId Id of the employee performed the action
    * @returns {Promise(string)} Success or failure string
    **/
+
   async addMovieOrder(
     orderId,
     strDate,

@@ -64,7 +64,6 @@ export default class EditTable extends React.Component {
 
   render() {
     const { columns, data } = this.state;
-    console.log("data:", data);
     return (
       <>
         {data && (
