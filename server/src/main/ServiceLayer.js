@@ -224,7 +224,7 @@ class ServiceLayer {
   /**
    * Add new movie to the system
    * @param {string} movieName Movie unique name
-   * @param {string} category  Category from the system
+   * @param {string} category  Category unique name
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(string)} Success or failure string
    */
@@ -276,7 +276,7 @@ class ServiceLayer {
 
   /**
    * @param {string} movieName Movie unique name
-   * @param {string} category  Category from the system
+   * @param {string} category  Category unique name
    * @param {string} key Movie special key
    * @param {string} examinationRoom The room the movie was checked
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
@@ -693,7 +693,15 @@ class ServiceLayer {
     }
     return result;
   }
-
+  /**
+   * Add new order of movies to the system
+   * @param {string} orderId Order unique id
+   * @param {string} date Date the order was performed
+   * @param {string} supplierName Supplier unique name
+   * @param {Array(string)} moviesList List of movies in the order (list of movie's unique name)
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async addMovieOrder(
     orderId,
     date,
@@ -762,7 +770,12 @@ class ServiceLayer {
     }
     return result;
   }
-
+  /**
+   * Remove order from the system and from DB
+   * @param {string} orderId Order unique id
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async removeOrder(orderId, ActionIDOfTheOperation) {
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
@@ -795,7 +808,15 @@ class ServiceLayer {
       this.orders.delete(orderId);
     return result;
   }
-
+  /**
+   * Add new order of cafeteria products to the system
+   * @param {string} orderId Order unique id
+   * @param {string} date Date the order was performed
+   * @param {string} supplierName Supplier unique name
+   * @param {Array(Object)} productsList List of products in the order (list of object: {productName: "name", quantity:"3"})
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async addCafeteriaOrder(
     orderId,
     date,

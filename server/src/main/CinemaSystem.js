@@ -237,7 +237,15 @@ class CinemaSystem {
     }
     return null;
   }
-
+  /**
+   * Add new order of movies to the system
+   * @param {number} orderId
+   * @param {string} date Date the order was performed
+   * @param {number} supplierId
+   * @param {Array(number)} moviesList List of movies in the order (list of movie's id)
+   * @param {number} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async addMovieOrder(
     orderId,
     date,
@@ -270,6 +278,12 @@ class CinemaSystem {
     );
   }
 
+  /**
+   * Remove order from the system and from DB
+   * @param {number} orderId Order unique id
+   * @param {number} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async removeOrder(orderId, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
@@ -279,7 +293,15 @@ class CinemaSystem {
     if (result != null) return result;
     return this.inventoryManagement.removeOrder(orderId);
   }
-
+  /**
+   * Add new order of cafeteria products to the system
+   * @param {number} orderId
+   * @param {string} date Date the order was performed
+   * @param {number} supplierId
+   * @param {Array(Object)} productsList List of products in the order (list of object: {productId: 0, quantity:3})
+   * @param {number} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async addCafeteriaOrder(
     orderId,
     date,

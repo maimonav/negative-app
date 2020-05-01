@@ -191,7 +191,15 @@ class InventoryManagemnt {
     this.suppliers.delete(supplierID);
     return "The supplier removed successfully";
   }
-
+  /**
+   * Add new order of movies to the system
+   * @param {number} orderId
+   * @param {string} strDate Date the order was performed
+   * @param {number} supplierId
+   * @param {Array(number)} moviesList List of movies in the order (list of movie's id)
+   * @param {number} creatorEmployeeId Id of the employee performed the action
+   * @returns {Promise(string)} Success or failure string
+   **/
   async addMovieOrder(
     orderId,
     strDate,
@@ -266,6 +274,11 @@ class InventoryManagemnt {
     return "The order added successfully";
   }
 
+  /**
+   * Remove order from the system and from DB
+   * @param {number} orderId Order unique id
+   * @returns {Promise(string)} Success or failure string
+   **/
   async removeOrder(orderId) {
     if (!this.orders.has(orderId)) {
       this.writeToLog(
