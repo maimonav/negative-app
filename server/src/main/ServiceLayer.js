@@ -221,6 +221,13 @@ class ServiceLayer {
     return res;
   }
 
+  /**
+   * Add new movie to the system
+   * @param {string} movieName Movie unique name
+   * @param {string} category  Category from the system
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   */
   async addMovie(movieName, category, ActionIDOfTheOperation) {
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
@@ -267,6 +274,14 @@ class ServiceLayer {
     return result;
   }
 
+  /**
+   * @param {string} movieName Movie unique name
+   * @param {string} category  Category from the system
+   * @param {string} key Movie special key
+   * @param {string} examinationRoom The room the movie was checked
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   */
   async editMovie(
     movieName,
     category,
@@ -318,7 +333,12 @@ class ServiceLayer {
       this.users.get(ActionIDOfTheOperation)
     );
   }
-
+  /**
+   * Remove movie from the system - not from DB
+   * @param {string} movieName Movie unique name
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   */
   async removeMovie(movieName, ActionIDOfTheOperation) {
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"

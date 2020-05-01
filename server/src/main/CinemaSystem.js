@@ -313,7 +313,14 @@ class CinemaSystem {
       orderName
     );
   }
-
+  /**
+   * Add new movie to the system
+   * @param {number} movieId
+   * @param {string} movieName
+   * @param {number} category  Movie category id
+   * @param {number} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   */
   async addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
@@ -324,7 +331,14 @@ class CinemaSystem {
     return this.inventoryManagement.addMovie(movieId, movieName, categoryId);
   }
 
-  //TODO
+  /**
+   * @param {number} movieID
+   * @param {number} category  Movie category id
+   * @param {string} key Movie special key
+   * @param {string} examinationRoom The room the movie was checked
+   * @param {number} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   */
   async editMovie(
     movieID,
     categoryId,
@@ -345,7 +359,12 @@ class CinemaSystem {
       examinationRoom
     );
   }
-
+  /**
+   * Remove movie from the system - not from DB
+   * @param {number} movieID
+   * @param {string} ActionIDOfTheOperation Id of the user performed the action
+   * @returns {Promise(string)} Success or failure string
+   */
   async removeMovie(movieID, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,

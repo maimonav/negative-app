@@ -20,6 +20,13 @@ class InventoryManagemnt {
     this.categories = new Map();
   }
 
+  /**
+   * Add new movie to the system
+   * @param {number} movieId
+   * @param {string} movieName
+   * @param {number} category  Movie category id
+   * @returns {Promise(string)} Success or failure string
+   */
   async addMovie(movieId, name, categoryId) {
     if (this.products.has(movieId)) {
       this.writeToLog(
@@ -47,6 +54,13 @@ class InventoryManagemnt {
     return "The movie added successfully";
   }
 
+  /**
+   * @param {number} movieId
+   * @param {number} category  Movie category id
+   * @param {string} key Movie special key
+   * @param {string} examinationRoom The room the movie was checked
+   * @returns {Promise(string)} Success or failure string
+   */
   async editMovie(movieId, categoryId, key, examinationRoom) {
     if (!this.products.has(movieId)) {
       this.writeToLog(
@@ -81,7 +95,11 @@ class InventoryManagemnt {
     }
     return "The movie edited successfully";
   }
-
+  /**
+   * Remove movie from the system - not from DB
+   * @param {number} movieId
+   * @returns {Promise(string)} Success or failure string
+   */
   async removeMovie(movieId) {
     if (!this.products.has(movieId)) {
       this.writeToLog(
