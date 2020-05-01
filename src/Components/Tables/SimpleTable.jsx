@@ -15,6 +15,7 @@ export default class SimpleTable extends React.Component {
 
   render() {
     const { colums, data } = this.props;
+    console.log("data:", data);
     return (
       <TableContainer component={Paper}>
         <Table aria-label="simple table">

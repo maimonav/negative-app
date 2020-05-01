@@ -35,16 +35,13 @@ export default class EditCafeteriaOrder extends React.Component {
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
-    handleGetOrdersByDates(localStorage.getItem("username"), startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };
 
   handleGetProductAndQuntityByOrder = (orderId) => {
-    handleGetProductsAndQuantityByOrder(
-      localStorage.getItem("username"),
-      orderId
-    )
+    handleGetProductsAndQuantityByOrder(orderId)
       .then((response) => response.json())
       .then((state) => this.setState({ productsWithQuantity: state.result }));
   };
@@ -93,6 +90,8 @@ export default class EditCafeteriaOrder extends React.Component {
 
   render() {
     const {
+      startDate,
+      endDate,
       orderId,
       productsWithQuantity,
       orderDate,
@@ -117,7 +116,7 @@ export default class EditCafeteriaOrder extends React.Component {
                       id={"choose-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
-                      date={this.state.startDate}
+                      date={startDate}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -125,7 +124,7 @@ export default class EditCafeteriaOrder extends React.Component {
                       id={"chose-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
-                      date={this.state.endDate}
+                      date={endDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -163,7 +162,7 @@ export default class EditCafeteriaOrder extends React.Component {
                         id={"add-order-date"}
                         label={"Change Order Date"}
                         setDate={this.setOrderDate}
-                        date={this.state.orderDate}
+                        date={orderDate}
                       />
                     </GridItem>
                   </GridContainer>
@@ -171,7 +170,7 @@ export default class EditCafeteriaOrder extends React.Component {
                     <GridItem xs={12} sm={12} md={15}>
                       <EditTable
                         columns={this.columns}
-                        data={this.state.productsWithQuantity}
+                        data={productsWithQuantity}
                         setItems={this.setProductsWithQuantity}
                         openSecondBox={this.toggleThirdBox}
                       />
@@ -186,7 +185,6 @@ export default class EditCafeteriaOrder extends React.Component {
                     onClick={() =>
                       this.props.handleEditCafeteriaOrder(
                         orderId,
-                        productsWithQuantity,
                         orderDate,
                         updatedProducts
                       )
