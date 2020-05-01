@@ -4,19 +4,22 @@ const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class ServiceLayer {
     constructor() {
-        this.cinemaSystem = new CinemaSystem();
-        this.users = new Map();
-        this.userCounter = 0;
-        this.suppliers = new Map();
-        this.supplierCounter = 0;
-        this.products = new Map();
-        this.productsCounter = 0;
-        this.categories = new Map();
-        this.categoriesCounter = 0;
-        this.orders = new Map();
-        this.ordersCounter = 0;
-    }
-
+            this.cinemaSystem = new CinemaSystem();
+            this.users = new Map();
+            this.userCounter = 0;
+            this.suppliers = new Map();
+            this.supplierCounter = 0;
+            this.products = new Map();
+            this.productsCounter = 0;
+            this.categories = new Map();
+            this.categoriesCounter = 0;
+            this.orders = new Map();
+            this.ordersCounter = 0;
+        }
+        /**
+         * @param {string} dbName The database name
+         * @returns {string} Success or failure string
+         */
     async initSeviceLayer(dbName) {
         this.users.set("admin", this.userCounter);
         this.userCounter++;

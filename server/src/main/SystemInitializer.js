@@ -9,7 +9,12 @@ const DBlogger = simpleLogger.createSimpleLogger({
 
 class SystemInitializer {
   static serviceLayer;
-
+  /**
+   * Init the system, connect to database, create admin if doesn't exist, restore all data
+   * from database to the system.
+   * @param {ServiceLayer} serviceLayer
+   * @param {string} dbName The database name
+   */
   static async initSystem(serviceLayer, dbName) {
     this.serviceLayer = serviceLayer;
     let admin = new User(0, "admin", "admin", "ADMIN");
@@ -18,7 +23,7 @@ class SystemInitializer {
     DataBase.testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
-    if (typeof result === "string") return this.errorHandler(result);
+    if (typeof result === "string") return this._errorHandler(result);
     result = await DataBase.initDB(dbName ? dbName : undefined);
     if (typeof result === "string") {
       DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
@@ -26,27 +31,27 @@ class SystemInitializer {
     }
 
     result = await DataBase.singleGetById("user", { id: 0 });
-    if (typeof result === "string") return this.errorHandler(result);
+    if (typeof result === "string") return this._errorHandler(result);
     if (result == null) {
       result = await admin.initUser();
-      if (typeof result === "string") return this.errorHandler(result);
+      if (typeof result === "string") return this._errorHandler(result);
     }
 
     let err;
-    if ((err = await SystemInitializer.restoreEmployees(admin))) return err;
-    if ((err = await SystemInitializer.restoreCategories(admin))) return err;
-    if ((err = await SystemInitializer.restoreMovies(admin))) return err;
-    if ((err = await SystemInitializer.restoreProducts(admin))) return err;
-    if ((err = await SystemInitializer.restoreSuppliers(admin))) return err;
-    if ((err = await SystemInitializer.restoreOrders())) return err;
+    if ((err = await SystemInitializer._restoreEmployees(admin))) return err;
+    if ((err = await SystemInitializer._restoreCategories(admin))) return err;
+    if ((err = await SystemInitializer._restoreMovies(admin))) return err;
+    if ((err = await SystemInitializer._restoreProducts(admin))) return err;
+    if ((err = await SystemInitializer._restoreSuppliers(admin))) return err;
+    if ((err = await SystemInitializer._restoreOrders())) return err;
   }
 
-  static async restoreEmployees(admin) {
+  static async _restoreEmployees(admin) {
     let employees = await DataBase.singleFindAll("employee", {}, undefined, [
       ["id", "ASC"],
     ]);
     if (typeof employees === "string")
-      return this.errorHandler(employees, "restoreEmployees - employees");
+      return this._errorHandler(employees, "restoreEmployees - employees");
 
     for (let i in employees) {
       let employee = employees[i];
@@ -54,8 +59,8 @@ class SystemInitializer {
       if (employee.isEmployeeRemoved === null) {
         let user = await DataBase.singleGetById("user", { id: employee.id });
         if (typeof user === "string")
-          return this.errorHandler(user, "restoreEmployees - user");
-        await this.executeActionInSystem(admin, async () => {
+          return this._errorHandler(user, "restoreEmployees - user");
+        await this._executeActionInSystem(admin, async () => {
           await this.serviceLayer.addNewEmployee(
             user.username,
             user.password,
@@ -70,12 +75,12 @@ class SystemInitializer {
       } else this.serviceLayer.userCounter = employee.id + 1;
     }
   }
-  static async restoreCategories(admin) {
+  static async _restoreCategories(admin) {
     let categories = await DataBase.singleFindAll("category", {}, undefined, [
       ["id", "ASC"],
     ]);
     if (typeof categories === "string")
-      return this.errorHandler(categories, "restoreCategories - categories");
+      return this._errorHandler(categories, "restoreCategories - categories");
     for (let i in categories) {
       let category = categories[i];
 
@@ -86,7 +91,7 @@ class SystemInitializer {
             category.parentId
           ).name;
 
-        await this.executeActionInSystem(admin, async () => {
+        await this._executeActionInSystem(admin, async () => {
           await this.serviceLayer.addCategory(
             category.name,
             admin.userName,
@@ -97,12 +102,12 @@ class SystemInitializer {
     }
   }
 
-  static async restoreMovies(admin) {
+  static async _restoreMovies(admin) {
     let movies = await DataBase.singleFindAll("movie", {}, undefined, [
       ["id", "ASC"],
     ]);
     if (typeof movies === "string")
-      return this.errorHandler(movies, "restoreMovies - movies");
+      return this._errorHandler(movies, "restoreMovies - movies");
     for (let i in movies) {
       let movie = movies[i];
 
@@ -110,7 +115,7 @@ class SystemInitializer {
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           movie.categoryId
         ).name;
-        await this.executeActionInSystem(admin, async () => {
+        await this._executeActionInSystem(admin, async () => {
           await this.serviceLayer.addMovie(
             movie.name,
             categoryName,
@@ -129,7 +134,7 @@ class SystemInitializer {
       } else this.serviceLayer.productsCounter = movie.id + 1;
     }
   }
-  static async restoreProducts(admin) {
+  static async _restoreProducts(admin) {
     let products = await DataBase.singleFindAll(
       "cafeteria_product",
       {},
@@ -137,7 +142,7 @@ class SystemInitializer {
       [["id", "ASC"]]
     );
     if (typeof products === "string")
-      return this.errorHandler(products, "restoreProducts - products");
+      return this._errorHandler(products, "restoreProducts - products");
     for (let i in products) {
       let product = products[i];
 
@@ -145,7 +150,7 @@ class SystemInitializer {
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           product.categoryId
         ).name;
-        await this.executeActionInSystem(admin, async () => {
+        await this._executeActionInSystem(admin, async () => {
           await this.serviceLayer.addNewProduct(
             product.name,
             product.price,
@@ -159,16 +164,16 @@ class SystemInitializer {
       } else this.serviceLayer.productsCounter = product.id + 1;
     }
   }
-  static async restoreSuppliers(admin) {
+  static async _restoreSuppliers(admin) {
     let suppliers = await DataBase.singleFindAll("supplier", {}, undefined, [
       ["id", "ASC"],
     ]);
     if (typeof suppliers === "string")
-      return this.errorHandler(suppliers, "restoreSuppliers - suppliers");
+      return this._errorHandler(suppliers, "restoreSuppliers - suppliers");
     for (let i in suppliers) {
       let supplier = suppliers[i];
       if (supplier.isSupplierRemoved === null) {
-        await this.executeActionInSystem(admin, async () => {
+        await this._executeActionInSystem(admin, async () => {
           let result = await this.serviceLayer.addNewSupplier(
             supplier.name,
             supplier.contactDetails,
@@ -178,12 +183,12 @@ class SystemInitializer {
       } else this.serviceLayer.supplierCounter = supplier.id + 1;
     }
   }
-  static async restoreOrders() {
+  static async _restoreOrders() {
     let orders = await DataBase.singleFindAll("order", {}, undefined, [
       ["id", "ASC"],
     ]);
     if (typeof orders === "string")
-      return this.errorHandler(orders, "restoreOrders - orders");
+      return this._errorHandler(orders, "restoreOrders - orders");
     for (let i in orders) {
       let order = orders[i];
       let supplierName = this.serviceLayer.cinemaSystem.inventoryManagement.suppliers.get(
@@ -197,7 +202,7 @@ class SystemInitializer {
         orderId: order.id,
       });
       if (typeof movies === "string")
-        return this.errorHandler(movies, "restoreOrders - movies");
+        return this._errorHandler(movies, "restoreOrders - movies");
       let movieList = movies.map(
         (e) =>
           this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
@@ -208,14 +213,14 @@ class SystemInitializer {
         orderId: order.id,
       });
       if (typeof products === "string")
-        return this.errorHandler(products, "restoreOrders - products");
+        return this._errorHandler(products, "restoreOrders - products");
       let productList = products.map((e) => ({
         name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
           e.productId
         ).name,
         quantity: e.expectedQuantity,
       }));
-      await this.executeActionInSystem(creatorEmployee, async () => {
+      await this._executeActionInSystem(creatorEmployee, async () => {
         //TODO::add edit movie order with all the details after order supplied
         if (movieList.length != 0)
           await this.serviceLayer.addMovieOrder(
@@ -238,7 +243,7 @@ class SystemInitializer {
     }
   }
 
-  static errorHandler(result, info) {
+  static _errorHandler(result, info) {
     DBlogger.info(
       "SystemInitializer - initSystem - " + info ? info + " - " : "",
       result
@@ -246,7 +251,7 @@ class SystemInitializer {
     return "Server initialization error\n" + result;
   }
 
-  static async executeActionInSystem(user, method) {
+  static async _executeActionInSystem(user, method) {
     DataBase.testModeOn();
     user.Loggedin = true;
     await method();
