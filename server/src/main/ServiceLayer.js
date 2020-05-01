@@ -42,6 +42,8 @@ class ServiceLayer {
             "supplier", [{ name: "product", quantity: "10" }],
             "aviv"
         );
+        await this.addMovie('movie', 'a');
+        await this.addMovieOrder("aviv" + new Date(), new Date(), "supplier", ['movie'], 'aviv');
         await this.logout("aviv");
         return result;
     }
