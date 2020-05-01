@@ -9,35 +9,41 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaOrders,
-  handleGetOrderDetails
+  handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
+import SimpleTable from "../../../Components/Tables/SimpleTable";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowCafeteriaOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: ""
+      orderId: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaOrders(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ orders: state.result });
       });
   };
 
-  setOrderId = orderId => {
+  setOrderId = (orderId) => {
     this.setState({ orderId });
     handleGetOrderDetails(orderId, localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ orderId: state.result });
       });
   };
+
+  columns = [
+    { title: "Product Name", field: "name" },
+    { title: "Quantity", field: "quantity" },
+  ];
 
   render() {
     return (
@@ -59,58 +65,41 @@ export default class ShowCafeteriaOrders extends React.Component {
                   />
                 </GridItem>
                 {this.state.orderId && (
-                  <GridItem xs={12} sm={12} md={8}>
-                    <TextField
-                      id="field1"
-                      defaultValue=""
-                      label="orderId"
-                      value={this.state.orderId.orderId || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      variant="filled"
-                    />
-                    <TextField
-                      id="field2"
-                      defaultValue=""
-                      label="Order Date"
-                      value={this.state.orderId.orderDate || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      variant="filled"
-                    />
-                    <TextField
-                      id="field3"
-                      defaultValue=""
-                      label="supplier Details"
-                      value={this.state.orderId.supplierDetails || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      variant="filled"
-                    />
-                    <TextField
-                      id="field4"
-                      defaultValue=""
-                      label="products"
-                      value={this.state.orderId.products || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      variant="filled"
-                    />
-                    <TextField
-                      id="field5"
-                      defaultValue=""
-                      label="product Quantity"
-                      value={this.state.orderId.productQuantity || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      variant="filled"
-                    />
-                  </GridItem>
+                  <GridContainer style={style}>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <TextField
+                        id="field1"
+                        defaultValue=""
+                        label="Order Date"
+                        value={this.state.orderId.orderDate || ""}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="filled"
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <TextField
+                        id="field2"
+                        defaultValue=""
+                        label="supplier Details"
+                        value={this.state.orderId.supplierDetails || ""}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="filled"
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <h3 style={{ margin: "auto" }}>
+                        Order's products details:{" "}
+                      </h3>
+                      <SimpleTable
+                        colums={this.columns}
+                        data={this.state.orderId.products}
+                      />
+                    </GridItem>
+                  </GridContainer>
                 )}
               </CardBody>
             </Card>

@@ -15,21 +15,34 @@ class ServiceLayer {
         this.categoriesCounter = 0;
         this.orders = new Map();
         this.ordersCounter = 0;
-
     }
 
     async initSeviceLayer(dbName) {
         this.users.set("admin", this.userCounter);
         this.userCounter++;
         let result = SystemInitializer.initSystem(this, dbName);
-        await this.login('admin', 'admin');
-        await this.addNewEmployee('aviv', 'aviv', 'aviv', 'aviv', "ADMIN", 'aviv', 'admin', false);
-        await this.login('aviv', 'aviv');
-        await this.addNewSupplier('supplier', 'aviv', 'aviv');
-        await this.addCategory('a', 'aviv');
-        await this.addNewProduct('product', 1, 1, null, null, 'a', 'aviv');
-        await this.addCafeteriaOrder('aviv' + new Date(), new Date(), 'supplier', [{ name: 'product', quantity: '10' }], 'aviv');
-        await this.logout('aviv');
+        await this.login("admin", "admin");
+        await this.addNewEmployee(
+            "aviv",
+            "aviv",
+            "aviv",
+            "aviv",
+            "ADMIN",
+            "aviv",
+            "admin",
+            false
+        );
+        await this.login("aviv", "aviv");
+        await this.addNewSupplier("supplier", "aviv", "aviv");
+        await this.addCategory("a", "aviv");
+        await this.addNewProduct("product", 1, 1, null, null, "a", "aviv");
+        await this.addCafeteriaOrder(
+            "aviv" + new Date(),
+            new Date(),
+            "supplier", [{ name: "product", quantity: "10" }],
+            "aviv"
+        );
+        await this.logout("aviv");
         return result;
     }
 
@@ -207,6 +220,13 @@ class ServiceLayer {
         return res;
     }
 
+    /**
+     * Add new movie to the system
+     * @param {string} movieName Movie unique name
+     * @param {string} category  Category unique name
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure string
+     */
     async addMovie(movieName, category, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(movieName) ?
             "Movie Name is not valid" :
@@ -253,58 +273,71 @@ class ServiceLayer {
         return result;
     }
 
+    /**
+     * @param {string} movieName Movie unique name
+     * @param {string} category  Category unique name
+     * @param {string} key Movie special key
+     * @param {string} examinationRoom The room the movie was checked
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure string
+     */
     async editMovie(
-        movieName,
-        category,
-        key,
-        examinationRoom,
-        ActionIDOfTheOperation
-    ) {
-        let validationResult = !this._isInputValid(movieName) ?
-            "Movie Name is not valid" :
-            !this._isInputValid(category) ?
-            "Category is not valid" :
-            !this._isInputValid(key) ?
-            "Key is not valid" :
-            !this._isInputValid(examinationRoom) ?
-            "Examination Room is not valid" :
-            !this._isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
-        if (validationResult !== "Valid") {
-            logger.info("ServiceLayer- editMovie - ", validationResult);
-            return validationResult;
-        }
-
-        if (!this.products.has(movieName)) {
-            logger.info(
-                "ServiceLayer- editMovie - The movie " + movieName + " does not exist"
-            );
-            return "The movie does not exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer- editMovie - The user " +
-                ActionIDOfTheOperation +
-                " performing the operation does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        if (!this.categories.has(category)) {
-            logger.info(
-                "ServiceLayer- editMovie - The category " + category + " does not exist"
-            );
-            return "The category does not exist";
-        }
-        return await this.cinemaSystem.editMovie(
-            this.products.get(movieName),
-            this.categories.get(category),
+            movieName,
+            category,
             key,
-            parseInt(examinationRoom),
-            this.users.get(ActionIDOfTheOperation)
-        );
-    }
+            examinationRoom,
+            ActionIDOfTheOperation
+        ) {
+            let validationResult = !this._isInputValid(movieName) ?
+                "Movie Name is not valid" :
+                !this._isInputValid(category) ?
+                "Category is not valid" :
+                !this._isInputValid(key) ?
+                "Key is not valid" :
+                !this._isInputValid(examinationRoom) ?
+                "Examination Room is not valid" :
+                !this._isInputValid(ActionIDOfTheOperation) ?
+                "Username is not valid" :
+                "Valid";
+            if (validationResult !== "Valid") {
+                logger.info("ServiceLayer- editMovie - ", validationResult);
+                return validationResult;
+            }
 
+            if (!this.products.has(movieName)) {
+                logger.info(
+                    "ServiceLayer- editMovie - The movie " + movieName + " does not exist"
+                );
+                return "The movie does not exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "ServiceLayer- editMovie - The user " +
+                    ActionIDOfTheOperation +
+                    " performing the operation does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            if (!this.categories.has(category)) {
+                logger.info(
+                    "ServiceLayer- editMovie - The category " + category + " does not exist"
+                );
+                return "The category does not exist";
+            }
+            return await this.cinemaSystem.editMovie(
+                this.products.get(movieName),
+                this.categories.get(category),
+                key,
+                parseInt(examinationRoom),
+                this.users.get(ActionIDOfTheOperation)
+            );
+        }
+        /**
+         * Remove movie from the system - not from DB
+         * @param {string} movieName Movie unique name
+         * @param {string} ActionIDOfTheOperation Username of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         */
     async removeMovie(movieName, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(movieName) ?
             "Movie Name is not valid" :
@@ -340,6 +373,13 @@ class ServiceLayer {
         return res;
     }
 
+    /**
+     * Add new supplier to the system
+     * @param {string} supplierName Supplier unique name
+     * @param {string} contactDetails
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure string
+     */
     async addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
@@ -382,6 +422,12 @@ class ServiceLayer {
         return result;
     }
 
+    /**
+     * @param {string} supplierName Supplier unique name
+     * @param {string} contactDetails
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure string
+     */
     async editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
@@ -405,6 +451,12 @@ class ServiceLayer {
         );
     }
 
+    /**
+     * Remove supplier from the system - not from DB
+     * @param {string} supplierName Supplier unique name
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure string
+     */
     async removeSupplier(supplierName, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
@@ -617,132 +669,153 @@ class ServiceLayer {
     }
 
     async removeCategory(categoryName, ActionIDOfTheOperation) {
-        if (!this.categories.has(categoryName)) {
-            logger.info(
-                "ServiceLayer- editCategory - ",
-                "The category doesn't exist"
-            );
-            return "The category doesn't exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer- editCategory - " +
-                "The user performing the operation does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        let result = await this.cinemaSystem.removeCategory(
-            this.categories.get(categoryName),
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The category was successfully removed") {
-            this.categories.delete(categoryName);
-        }
-        return result;
-    }
-
-    async addMovieOrder(
-        orderId,
-        date,
-        supplierName,
-        moviesList,
-        ActionIDOfTheOperation
-    ) {
-        let validationResult = !this._isInputValid(orderId) ?
-            "Order ID is not valid" :
-            !this._isInputValid(date) ?
-            "Date is not valid" :
-            !this._isInputValid(supplierName) ?
-            "Supplier Name is not valid" :
-            !this._isInputValid(moviesList) ?
-            "Movies List is not valid" :
-            !this._isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
-        if (validationResult !== "Valid") {
-            logger.info("ServiceLayer- addMovieOrder - ", validationResult);
-            return validationResult;
-        }
-        if (this.orders.has(orderId)) {
-            logger.info(
-                "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
-            );
-            return "The order already exists";
-        }
-        if (!this.suppliers.has(supplierName)) {
-            logger.info(
-                "ServiceLayer- addMovieOrder - The supplier " +
-                supplierName +
-                " does not exist"
-            );
-            return "The supplier does not exist";
-        }
-        for (let i in moviesList) {
-            if (!this.products.has(moviesList[i])) {
+            if (!this.categories.has(categoryName)) {
                 logger.info(
-                    "ServiceLayer- addMovieOrder - The movie " +
-                    moviesList[i] +
+                    "ServiceLayer- editCategory - ",
+                    "The category doesn't exist"
+                );
+                return "The category doesn't exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "ServiceLayer- editCategory - " +
+                    "The user performing the operation does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            let result = await this.cinemaSystem.removeCategory(
+                this.categories.get(categoryName),
+                this.users.get(ActionIDOfTheOperation)
+            );
+            if (result === "The category was successfully removed") {
+                this.categories.delete(categoryName);
+            }
+            return result;
+        }
+        /**
+         * Add new order of movies to the system
+         * @param {string} orderId Order unique id
+         * @param {string} date Date the order was performed
+         * @param {string} supplierName Supplier unique name
+         * @param {Array(string)} moviesList List of movies in the order (list of movie's unique name)
+         * @param {string} ActionIDOfTheOperation Username of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async addMovieOrder(
+            orderId,
+            date,
+            supplierName,
+            moviesList,
+            ActionIDOfTheOperation
+        ) {
+            let validationResult = !this._isInputValid(orderId) ?
+                "Order ID is not valid" :
+                !this._isInputValid(date) ?
+                "Date is not valid" :
+                !this._isInputValid(supplierName) ?
+                "Supplier Name is not valid" :
+                !this._isInputValid(moviesList) ?
+                "Movies List is not valid" :
+                !this._isInputValid(ActionIDOfTheOperation) ?
+                "Username is not valid" :
+                "Valid";
+            if (validationResult !== "Valid") {
+                logger.info("ServiceLayer- addMovieOrder - ", validationResult);
+                return validationResult;
+            }
+            if (this.orders.has(orderId)) {
+                logger.info(
+                    "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
+                );
+                return "The order already exists";
+            }
+            if (!this.suppliers.has(supplierName)) {
+                logger.info(
+                    "ServiceLayer- addMovieOrder - The supplier " +
+                    supplierName +
                     " does not exist"
                 );
-                return "Movie does not exist";
+                return "The supplier does not exist";
             }
-            moviesList[i] = this.products.get(moviesList[i]);
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer- addMovieOrder - The user " +
-                ActionIDOfTheOperation +
-                " performing the operation does not exist in the system"
+            for (let i in moviesList) {
+                if (!this.products.has(moviesList[i])) {
+                    logger.info(
+                        "ServiceLayer- addMovieOrder - The movie " +
+                        moviesList[i] +
+                        " does not exist"
+                    );
+                    return "Movie does not exist";
+                }
+                moviesList[i] = this.products.get(moviesList[i]);
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "ServiceLayer- addMovieOrder - The user " +
+                    ActionIDOfTheOperation +
+                    " performing the operation does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            let result = await this.cinemaSystem.addMovieOrder(
+                this.ordersCounter,
+                date,
+                this.suppliers.get(supplierName),
+                moviesList,
+                this.users.get(ActionIDOfTheOperation)
             );
-            return "The user performing the operation does not exist in the system";
+            if (result === "The order added successfully") {
+                this.orders.set(orderId, this.ordersCounter);
+                this.ordersCounter++;
+            }
+            return result;
         }
-        let result = await this.cinemaSystem.addMovieOrder(
-            this.ordersCounter,
-            date,
-            this.suppliers.get(supplierName),
-            moviesList,
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The order added successfully") {
-            this.orders.set(orderId, this.ordersCounter);
-            this.ordersCounter++;
-        }
-        return result;
-    }
-
+        /**
+         * Remove order from the system and from DB
+         * @param {string} orderId Order unique id
+         * @param {string} ActionIDOfTheOperation Username of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async removeOrder(orderId, ActionIDOfTheOperation) {
-        let validationResult = !this._isInputValid(orderId) ?
-            "Order ID is not valid" :
-            !this._isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
-        if (validationResult !== "Valid") {
-            logger.info("ServiceLayer- removeOrder - ", validationResult);
-            return validationResult;
-        }
-        if (!this.orders.has(orderId)) {
-            logger.info(
-                "ServiceLayer- removeOrder - The order " + orderId + " does not exist"
+            let validationResult = !this._isInputValid(orderId) ?
+                "Order ID is not valid" :
+                !this._isInputValid(ActionIDOfTheOperation) ?
+                "Username is not valid" :
+                "Valid";
+            if (validationResult !== "Valid") {
+                logger.info("ServiceLayer- removeOrder - ", validationResult);
+                return validationResult;
+            }
+            if (!this.orders.has(orderId)) {
+                logger.info(
+                    "ServiceLayer- removeOrder - The order " + orderId + " does not exist"
+                );
+                return "The order does not exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "ServiceLayer- removeOrder - The user " +
+                    ActionIDOfTheOperation +
+                    " performing the operation does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            let result = await this.cinemaSystem.removeOrder(
+                this.orders.get(orderId),
+                this.users.get(ActionIDOfTheOperation)
             );
-            return "The order does not exist";
+            if (result === "The order removed successfully")
+                this.orders.delete(orderId);
+            return result;
         }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer- removeOrder - The user " +
-                ActionIDOfTheOperation +
-                " performing the operation does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        let result = await this.cinemaSystem.removeOrder(
-            this.orders.get(orderId),
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The order removed successfully")
-            this.orders.delete(orderId);
-        return result;
-    }
-
+        /**
+         * Add new order of cafeteria products to the system
+         * @param {string} orderId Order unique id
+         * @param {string} date Date the order was performed
+         * @param {string} supplierName Supplier unique name
+         * @param {Array(Object)} productsList List of products in the order (list of object: {productName: "name", quantity:"3"})
+         * @param {string} ActionIDOfTheOperation Username of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async addCafeteriaOrder(
         orderId,
         date,
@@ -845,7 +918,7 @@ class ServiceLayer {
     /**
      * Remove field from general purpose daily report
      * @param {string} fieldToRemove The field to remove
-     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @param {string} ActionIDOfTheOperation username of the user performed the action
      * @returns {Promise(string)} success or failure
      */
     async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
@@ -878,8 +951,8 @@ class ServiceLayer {
     /**
      * Add new field to general purpose daily report
      * @param {string} newField The field to add
-     * @param {string} ActionIDOfTheOperation Id of the user performed the action
-     * @returns {Promise(string)} success or failure
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure
      */
     async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(newField) ?
@@ -908,8 +981,8 @@ class ServiceLayer {
     /**
      * @param {string} type Type of the report
      * @param {Array(Object)} records Records to add in the report
-     * @param {string} ActionIDOfTheOperation Id of the user performed the action
-     * @returns {Promise(string)} success or failure
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
+     * @returns {Promise(string)} Success or failure
      */
     async createDailyReport(type, records, ActionIDOfTheOperation) {
         let validationResult = !this._isInputValid(type) ?
@@ -941,7 +1014,7 @@ class ServiceLayer {
     /**
      * @param {string} type Type of the report
      * @param {string} date Date of the report
-     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @param {string} ActionIDOfTheOperation Username of the user performed the action
      * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
      * otherwise returns error string.
      */

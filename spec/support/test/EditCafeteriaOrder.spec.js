@@ -17,10 +17,7 @@ describe("editCafeteriaOrder", () => {
     });
 
     it('UnitTest-addEmployee Test on class EmployeeManagemnt', async() => {
-        let test = await employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails);
-        test.password = admin.password;
-        expect(test.equals(admin)).toBe(true);
-        expect(await employeeManagemnt.addNewEmployee(adminID, adminUserName, adminPassword, permissions, fname, lname, contactDetails)).toBe("The employee already exist");
+
     });
 
 });
