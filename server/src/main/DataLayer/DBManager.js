@@ -8,73 +8,85 @@ class DataBase {
   static sequelize;
   static connection;
   static models;
-  static isTestMode = false;
+  static _isTestMode = false;
 
-  static testModeOn() {
-    this.isTestMode = true;
+  static _testModeOn() {
+    this._isTestMode = true;
   }
-  static testModeOff() {
-    this.isTestMode = false;
+  static _testModeOff() {
+    this._isTestMode = false;
   }
 
-  static connectionMsg = "Database Error: Unable to connect to the database.";
+  static _connectionMsg = "Database Error: Unable to connect to the database.";
 
-  static errorHandler(error, errId) {
-    let handler = error ? this.errorsHandling[error.name] : undefined;
+  static _errorHandler(error, errId) {
+    let handler = error ? this._errorsHandling[error.name] : undefined;
     let msg = handler
       ? handler(error)
       : "Database Error: Cannot complete action.";
     return msg + "\nError ID: " + errId;
   }
 
-  //TODO:: add log
-  static errorsHandling = {
+  static _errorsHandling = {
     //errors/validation
-    SequelizeUniqueConstraintError: (error) =>
+    SequelizeUniqueConstraintError: () =>
       "Database Error: Unique constraint is violated in the database.", //validation, dupplicate primary key - programmers
 
     //errors/database
-    SequelizeForeignKeyConstraintError: (error) =>
+    SequelizeForeignKeyConstraintError: () =>
       "Database Error: Foreign key constraint is violated in the database.", //link to foreign key while does not exist
 
     //errors/connection
-    SequelizeConnectionError: (error) => this.connectionMsg,
-    SequelizeConnectionRefusedError: (error) =>
-      this.connectionMsg + " MySql server has stopped running.", //mysql server stopped
-    SequelizeAccessDeniedError: (error) =>
-      this.connectionMsg +
+    SequelizeConnectionError: () => this._connectionMsg,
+    SequelizeConnectionRefusedError: () =>
+      this._connectionMsg + " MySql server has stopped running.", //mysql server stopped
+    SequelizeAccessDeniedError: () =>
+      this._connectionMsg +
       " Refused due to insufficient privileges" +
       " - Password to database should be checked.", // wrong password
   };
-
-  static async initGeneralReport() {
+  /* to remove
+  static async _initGeneralReport() {
     const DBInitial = require("./DBInitializtion");
-    return DBInitial.initGeneralReport();
+    return DBInitial._initGeneralReport();
   }
+*/
 
+  /**
+   * Initialize database - create and init models and tables
+   * @param {string} dbName Name of the database
+   * @param {string} password Password for database connecting
+   * @returns {Promise(Sequelize | string)} Sequelize ORM object in seccess or string in failure
+   */
   static async initDB(dbName, password) {
     const DBInitial = require("./DBInitializtion");
     return DBInitial.initDB(dbName, password);
   }
 
+  /**
+   * Create database and connect to it
+   * @param {string} dbName The name of the database
+   * @param {string} password The password to connect database
+   * @returns {Promise(void | string)} string in failure
+   */
   static async connectAndCreate(dbName, password) {
     const DBInitial = require("./DBInitializtion");
     return DBInitial.connectAndCreate(dbName, password);
   }
 
   static async close() {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     try {
       await this.sequelize.close();
     } catch (error) {
       let errId = uniqid();
       DBlogger.error(errId, " - DBManager - close  - ", error);
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
   static async executeActions(actionsList) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     let action;
     let model;
     let name;
@@ -100,7 +112,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -109,7 +121,7 @@ class DataBase {
         " - DBManager - executeActions  - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
@@ -189,12 +201,12 @@ class DataBase {
         " - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     });
   }
 
   static async singleAdd(modelName, element) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -212,17 +224,17 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
       DBlogger.error(errId, " - DBManager - singleAdd - transaction - ", error);
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
   static async singleGetById(modelName, where) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -241,7 +253,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -250,12 +262,12 @@ class DataBase {
         " - DBManager - singleGetById - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
   static async singleUpdate(modelName, where, element) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -275,7 +287,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -284,12 +296,12 @@ class DataBase {
         " - DBManager - singleUpdate - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
   static async singleRemove(modelName, where) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -307,7 +319,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -316,12 +328,12 @@ class DataBase {
         " - DBManager - singleRemove - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
   static async singleFindAll(modelName, where, attributes, order) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     let attributesArray;
     if (attributes)
       attributesArray = [
@@ -359,7 +371,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -368,7 +380,7 @@ class DataBase {
         " - DBManager - singleFindAll - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
@@ -379,7 +391,7 @@ class DataBase {
     eventTime,
     prop
   ) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     let destroyQuery = DataBase.getDestroyQuery(
       table,
       afterCreate,
@@ -409,7 +421,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -418,7 +430,7 @@ class DataBase {
         " - DBManager - singleSetDestroyTimer - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 

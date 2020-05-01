@@ -12,7 +12,7 @@ const {
 
 describe("CafeteriaProductOrder Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest addCafeteriaOrder  - Service Layer", async () => {

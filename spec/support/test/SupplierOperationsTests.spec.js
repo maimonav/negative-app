@@ -10,7 +10,7 @@ const {
 
 describe("Supplier Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest addSupplier ,editSupplier, removeSupplier - Service Layer", async () => {

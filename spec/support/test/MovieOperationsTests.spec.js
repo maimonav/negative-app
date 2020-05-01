@@ -23,7 +23,7 @@ exports.validate = validate;
 
 describe("Movie Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest addMovie - Service Layer", async () => {

@@ -45,7 +45,7 @@ exports.asyncTestCinemaFunctions = testCinemaFunctions;
 
 describe("MovieOrder Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest addMovieOrder  - Service Layer", async () => {

@@ -20,7 +20,7 @@ class SystemInitializer {
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
     //Turn database off
-    DataBase.testModeOn();
+    DataBase._testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
     if (typeof result === "string") return this._errorHandler(result);
@@ -252,11 +252,11 @@ class SystemInitializer {
   }
 
   static async _executeActionInSystem(user, method) {
-    DataBase.testModeOn();
+    DataBase._testModeOn();
     user.Loggedin = true;
     await method();
     user.Loggedin = false;
-    DataBase.testModeOff();
+    DataBase._testModeOff();
   }
 }
 module.exports = SystemInitializer;
