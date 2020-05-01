@@ -14,13 +14,13 @@ import {
   ShowCafeteriaOrder,
   AddCafeteriaOrder,
   EditCafeteriaOrder,
-  RemoveCafeteriaOrder,
+  RemoveOrder,
   ConfirmCafeteriaOrder,
 } from "../../index";
 import {
   handleAddCafeteriaOrder,
   handleEditCafeteriaOrder,
-  handleRemoveCafeteriaOrder,
+  handleRemoveOrder,
   handleConfirmCafeteriaOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
@@ -31,7 +31,7 @@ const iconStyle = {
   color: "white",
 };
 
-export default class ManageCafeteria extends React.Component {
+export default class ManageCafeteriaOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = { action: "show" };
@@ -118,9 +118,7 @@ export default class ManageCafeteria extends React.Component {
                 />
               )}
               {this.state.action === "delete" && (
-                <RemoveCafeteriaOrder
-                  handleRemoveCafeteriaOrder={handleRemoveCafeteriaOrder}
-                />
+                <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
               )}
               {this.state.action === "confirm" && (
                 <ConfirmCafeteriaOrder

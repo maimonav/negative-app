@@ -10,6 +10,10 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
+import {
+  categoryNameHook,
+  categoryParentNameHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditCategory extends React.Component {
@@ -58,6 +62,7 @@ export default class EditCategory extends React.Component {
                       boxLabel={"Choose category"}
                       setName={this.setCategoryName}
                       isMultiple={false}
+                      data-hook={categoryNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -70,6 +75,7 @@ export default class EditCategory extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setCategoryParentName(event)}
+                      data-hook={categoryParentNameHook}
                     />
                   </GridItem>
                 </GridContainer>

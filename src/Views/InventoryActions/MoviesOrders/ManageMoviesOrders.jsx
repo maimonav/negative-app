@@ -9,18 +9,11 @@ import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
+import { AddMovieOrder, EditMovieOrder, RemoveOrder } from "../../index";
 import {
-  AddMovie,
-  EditMovie,
-  RemoveMovie,
-  ShowMovieDetails,
-} from "../../index";
-import {
-  handleAddMovie,
-  handleEditMovie,
-  handleRemoveMovie,
+  handleAddMovieOrder,
+  handleRemoveOrder,
 } from "../../../Handlers/Handlers";
-import { editActionHook, removeActionHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
@@ -29,10 +22,10 @@ const iconStyle = {
   color: "white",
 };
 
-export default class ManageMovies extends React.Component {
+export default class ManageMoviesOrders extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "show" };
+    this.state = { action: "add" };
   }
 
   onChange = (action) => {
@@ -48,7 +41,7 @@ export default class ManageMovies extends React.Component {
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
-                    <h4 style={{ margin: "auto" }}>Manage Movies</h4>
+                    <h4 style={{ margin: "auto" }}>Manage Movies Orders</h4>
                   </GridItem>
                   <Tooltip title="Show" aria-label="show">
                     <Fab
@@ -76,7 +69,6 @@ export default class ManageMovies extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("edit")}
-                      data-hook={editActionHook}
                       style={iconStyle}
                     >
                       <EditIcon />
@@ -88,7 +80,6 @@ export default class ManageMovies extends React.Component {
                       color="default"
                       size="small"
                       onClick={() => this.onChange("delete")}
-                      data-hook={removeActionHook}
                       style={iconStyle}
                     >
                       <DeleteIcon />
@@ -96,15 +87,13 @@ export default class ManageMovies extends React.Component {
                   </Tooltip>
                 </GridContainer>
               </CardHeader>
-              {this.state.action === "show" && <ShowMovieDetails />}
+              {/* {this.state.action === "show" && <ShowCafeteriaOrder />} */}
               {this.state.action === "add" && (
-                <AddMovie handleAddMovie={handleAddMovie} />
+                <AddMovieOrder handleAddMovieOrder={handleAddMovieOrder} />
               )}
-              {this.state.action === "edit" && (
-                <EditMovie handleEditMovie={handleEditMovie} />
-              )}
+              {this.state.action === "edit" && <EditMovieOrder />}
               {this.state.action === "delete" && (
-                <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
+                <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
               )}
             </Card>
           </GridItem>

@@ -3,6 +3,7 @@ export const permissionsHook = "permissionsField";
 export const userNameHook = "userNameField";
 export const movieNameHook = "movieNameField";
 export const categoryNameHook = "categoryNameField";
+export const categoryParentNameHook = "categoryParentNameField";
 export const passwordHook = "passwordField";
 export const firstNameHook = "firstNameField";
 export const lastNameHook = "lastNameField";
@@ -10,6 +11,11 @@ export const contactDetailsHook = "contactDetailsField";
 export const keyHook = "keyField";
 export const examinationRoomHook = "examinationRoomField";
 export const notificationTabHook = "notificationTab";
+export const productNameHook = "productNameField";
+export const productPriceHook = "productPriceField";
+export const productQuantityHook = "productQuantityField";
+export const productMaxQuantityHook = "productMaxQuantityField";
+export const productMinQuantityHook = "productMinQuantityField";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";

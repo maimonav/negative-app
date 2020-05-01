@@ -12,38 +12,38 @@ import { handleGetOrdersByDates } from "../../../Handlers/Handlers";
 import SelectDates from "../../../Components/SelectDates";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class RemoveCafeteriaOrder extends React.Component {
+export default class RemoveOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isOpened: false,
       startDate: new Date(),
       endDate: new Date(),
-      orderName: ""
+      orderName: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate)
-      .then(response => response.json())
-      .then(state => this.setState({ orders: state.result }));
+      .then((response) => response.json())
+      .then((state) => this.setState({ orders: state.result }));
   };
 
   toggleBox() {
     this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
-    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
-  setOrderName = name => {
+  setOrderName = (name) => {
     this.setState({ orderName: name });
   };
 
-  setStartDate = date => {
+  setStartDate = (date) => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = date => {
+  setEndDate = (date) => {
     this.setState({ endDate: date });
   };
 
@@ -55,7 +55,7 @@ export default class RemoveCafeteriaOrder extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Remvoe Cafeteria Order</h4>
+                <h4 style={{ margin: "auto" }}>Remvoe Order</h4>
                 <p>Choose order's number</p>
               </CardHeader>
               <CardBody>
@@ -102,9 +102,7 @@ export default class RemoveCafeteriaOrder extends React.Component {
                 <CardFooter>
                   <Button
                     color="info"
-                    onClick={() =>
-                      this.props.handleRemoveCafeteriaOrder(orderName)
-                    }
+                    onClick={() => this.props.handleRemoveOrder(orderName)}
                   >
                     Remove Order
                   </Button>

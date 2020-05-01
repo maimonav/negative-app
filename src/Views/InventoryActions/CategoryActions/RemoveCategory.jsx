@@ -9,26 +9,27 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
+import { categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveCategory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryName: ""
+      categoryName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = name => {
+  setCategoryName = (name) => {
     this.setState({ categoryName: name });
   };
 
@@ -52,6 +53,7 @@ export default class RemoveCategory extends React.Component {
                       boxLabel={"Choose category"}
                       setName={this.setCategoryName}
                       isMultiple={false}
+                      data-hook={categoryNameHook}
                     />
                   </GridItem>
                 </GridContainer>

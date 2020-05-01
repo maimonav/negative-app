@@ -6,15 +6,15 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Tab from "@material-ui/core/Tab";
 import {
   manageInventoryPath,
-  manageCafeteriaPath,
   manageCategoriesPath,
-  manageMoviesPath
+  manageMoviesPath,
+  manageOrdersPath,
 } from "../../consts/paths";
 import {
   inventoryTabHook,
   ordersTabHook,
   moviesTabHook,
-  categoriesTabHook
+  categoriesTabHook,
 } from "../../consts/data-hooks";
 const style = { textDecoration: "none", color: "black" };
 const menuStyle = { justifyContent: "center" };
@@ -22,11 +22,11 @@ const menuStyle = { justifyContent: "center" };
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = path => {
+  const handleClose = (path) => {
     setAnchorEl(null);
     props.handleTabChange && props.handleTabChange(path);
   };
@@ -51,7 +51,7 @@ export default function InventoryActionsDropDownTab(props) {
         style={{
           marginTop: "34px",
           marginLeft: "5px",
-          maxWidth: "175px"
+          maxWidth: "175px",
         }}
       >
         <Link to={manageInventoryPath} style={style}>
@@ -63,7 +63,7 @@ export default function InventoryActionsDropDownTab(props) {
             />
           </MenuItem>
         </Link>
-        <Link to={manageCafeteriaPath} style={style}>
+        <Link to={manageOrdersPath} style={style}>
           <MenuItem value={1} onClick={handleClose} style={menuStyle}>
             <Tab
               label="Manage Orders"

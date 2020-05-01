@@ -8,6 +8,10 @@ import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
+import {
+  categoryNameHook,
+  categoryParentNameHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCategory extends React.Component {
@@ -48,6 +52,7 @@ export default class AddCategory extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setCategoryName(event)}
+                      data-hook={categoryNameHook}
                     />
                   </GridItem>
                 </GridContainer>
@@ -60,6 +65,7 @@ export default class AddCategory extends React.Component {
                         fullWidth: true,
                       }}
                       onChange={(event) => this.setCategoryParentName(event)}
+                      data-hook={categoryParentNameHook}
                     />
                   </GridItem>
                 </GridContainer>

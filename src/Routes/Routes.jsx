@@ -9,10 +9,12 @@ import {
   removeMoviePath,
   manageSuppliersPath,
   manageInventoryPath,
-  manageCafeteriaPath,
+  manageCafeteriaOrdersPath,
   manageCategoriesPath,
   manageMoviesPath,
   showReportPath,
+  manageOrdersPath,
+  manageMoviesOrdersPath,
 } from "../consts/paths";
 
 import {
@@ -30,10 +32,12 @@ import {
   EditMovie,
   RemoveMovie,
   ManageInventory,
-  ManageCafeteria,
+  ManageCafeteriaOrders,
   ManageMovies,
   ShowReport,
   ManageCategories,
+  ManageOrders,
+  ManageMoviesOrders,
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -65,10 +69,19 @@ export default function Routes(props) {
         <Route path={manageInventoryPath} component={ManageInventory} />
       )}
       {props.isLogged && (
-        <Route path={manageCafeteriaPath} component={ManageCafeteria} />
+        <Route
+          path={manageCafeteriaOrdersPath}
+          component={ManageCafeteriaOrders}
+        />
       )}
       {props.isLogged && (
         <Route path={manageMoviesPath} component={ManageMovies} />
+      )}
+      {props.isLogged && (
+        <Route path={manageOrdersPath} component={ManageOrders} />
+      )}
+      {props.isLogged && (
+        <Route path={manageMoviesOrdersPath} component={ManageMoviesOrders} />
       )}
       {props.isLogged && (
         <Route

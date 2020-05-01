@@ -15,7 +15,7 @@ class SystemInitializer {
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
     //Turn database off
-    //DataBase.testModeOn();
+    DataBase.testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
     if (typeof result === "string") return this.errorHandler(result);

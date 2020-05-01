@@ -23,7 +23,7 @@ class ServiceLayer {
         return SystemInitializer.initSystem(this, dbName);
     }
 
-    isInputValid(param) {
+    _isInputValid(param) {
         if (param === undefined || param === "") return false;
         return true;
     }
@@ -198,11 +198,11 @@ class ServiceLayer {
     }
 
     async addMovie(movieName, category, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(movieName) ?
+        let validationResult = !this._isInputValid(movieName) ?
             "Movie Name is not valid" :
-            !this.isInputValid(category) ?
+            !this._isInputValid(category) ?
             "Category is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -250,15 +250,15 @@ class ServiceLayer {
         examinationRoom,
         ActionIDOfTheOperation
     ) {
-        let validationResult = !this.isInputValid(movieName) ?
+        let validationResult = !this._isInputValid(movieName) ?
             "Movie Name is not valid" :
-            !this.isInputValid(category) ?
+            !this._isInputValid(category) ?
             "Category is not valid" :
-            !this.isInputValid(key) ?
+            !this._isInputValid(key) ?
             "Key is not valid" :
-            !this.isInputValid(examinationRoom) ?
+            !this._isInputValid(examinationRoom) ?
             "Examination Room is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -296,9 +296,9 @@ class ServiceLayer {
     }
 
     async removeMovie(movieName, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(movieName) ?
+        let validationResult = !this._isInputValid(movieName) ?
             "Movie Name is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -331,11 +331,11 @@ class ServiceLayer {
     }
 
     async addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(supplierName) ?
+        let validationResult = !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
-            !this.isInputValid(contactDetails) ?
+            !this._isInputValid(contactDetails) ?
             "Contact Details is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -373,11 +373,11 @@ class ServiceLayer {
     }
 
     async editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(supplierName) ?
+        let validationResult = !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
-            !this.isInputValid(contactDetails) ?
+            !this._isInputValid(contactDetails) ?
             "Contact Details is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") return validationResult;
@@ -396,9 +396,9 @@ class ServiceLayer {
     }
 
     async removeSupplier(supplierName, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(supplierName) ?
+        let validationResult = !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") return validationResult;
@@ -434,13 +434,13 @@ class ServiceLayer {
         if (!this.users.has(ActionIDOfTheOperation)) {
             return "The user performing the operation does not exist in the system";
         }
-        let validationResult = !this.isInputValid(productName) ?
+        let validationResult = !this._isInputValid(productName) ?
             "Product name is not valid" :
-            !this.isInputValid(productPrice) ?
+            !this._isInputValid(productPrice) ?
             "Product price is not valid" :
-            !this.isInputValid(productQuantity) ?
+            !this._isInputValid(productQuantity) ?
             "Product quantity is not valid" :
-            !this.isInputValid(productCategory) ?
+            !this._isInputValid(productCategory) ?
             "Product category is not valid" :
             "Valid";
         if (validationResult !== "Valid") return validationResult;
@@ -487,7 +487,7 @@ class ServiceLayer {
         }
         let categoryID;
         if (
-            this.isInputValid(productCategory) &&
+            this._isInputValid(productCategory) &&
             !this.categories.has(productCategory)
         )
             return "Product category does not exist";
@@ -638,15 +638,15 @@ class ServiceLayer {
         moviesList,
         ActionIDOfTheOperation
     ) {
-        let validationResult = !this.isInputValid(orderId) ?
+        let validationResult = !this._isInputValid(orderId) ?
             "Order ID is not valid" :
-            !this.isInputValid(date) ?
+            !this._isInputValid(date) ?
             "Date is not valid" :
-            !this.isInputValid(supplierName) ?
+            !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
-            !this.isInputValid(moviesList) ?
+            !this._isInputValid(moviesList) ?
             "Movies List is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -701,9 +701,9 @@ class ServiceLayer {
     }
 
     async removeOrder(orderId, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(orderId) ?
+        let validationResult = !this._isInputValid(orderId) ?
             "Order ID is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -740,15 +740,15 @@ class ServiceLayer {
         productsList,
         ActionIDOfTheOperation
     ) {
-        let validationResult = !this.isInputValid(orderId) ?
+        let validationResult = !this._isInputValid(orderId) ?
             "Order ID is not valid" :
-            !this.isInputValid(date) ?
+            !this._isInputValid(date) ?
             "Date is not valid" :
-            !this.isInputValid(supplierName) ?
+            !this._isInputValid(supplierName) ?
             "Supplier Name is not valid" :
-            !this.isInputValid(productsList) ?
+            !this._isInputValid(productsList) ?
             "Products List is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -831,10 +831,16 @@ class ServiceLayer {
         }
     }
 
+    /**
+     * Remove field from general purpose daily report
+     * @param {string} fieldToRemove The field to remove
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} success or failure
+     */
     async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(fieldToRemove) ?
+        let validationResult = !this._isInputValid(fieldToRemove) ?
             "Field is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -858,10 +864,16 @@ class ServiceLayer {
         );
     }
 
+    /**
+     * Add new field to general purpose daily report
+     * @param {string} newField The field to add
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} success or failure
+     */
     async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(newField) ?
+        let validationResult = !this._isInputValid(newField) ?
             "Field is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -882,12 +894,18 @@ class ServiceLayer {
         );
     }
 
+    /**
+     * @param {string} type Type of the report
+     * @param {Array(Object)} records Records to add in the report
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} success or failure
+     */
     async createDailyReport(type, records, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(type) ?
+        let validationResult = !this._isInputValid(type) ?
             "Type is not valid" :
-            !this.isInputValid(records) ?
+            !this._isInputValid(records) ?
             "Records is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {
@@ -909,12 +927,19 @@ class ServiceLayer {
         );
     }
 
+    /**
+     * @param {string} type Type of the report
+     * @param {string} date Date of the report
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
+     * otherwise returns error string.
+     */
     async getReport(type, date, ActionIDOfTheOperation) {
-        let validationResult = !this.isInputValid(type) ?
+        let validationResult = !this._isInputValid(type) ?
             "Type is not valid" :
-            !this.isInputValid(date) ?
+            !this._isInputValid(date) ?
             "Date is not valid" :
-            !this.isInputValid(ActionIDOfTheOperation) ?
+            !this._isInputValid(ActionIDOfTheOperation) ?
             "Username is not valid" :
             "Valid";
         if (validationResult !== "Valid") {

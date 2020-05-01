@@ -14,6 +14,34 @@ class CinemaSystem {
         this.userOfflineMsg =
             "The operation cannot be completed - the user is not connected to the system";
         this.inappropriatePermissionsMsg = "User does not have proper permissions";
+        this.convertionMethods = {
+            inventory_daily_report: (record) => {
+                record.productName = this.inventoryManagement.products.get(
+                    record.productId
+                ).name;
+                record = this.employeeAndDateConvertion(record);
+                return record;
+            },
+            general_purpose_daily_report: (record) =>
+                this.employeeAndDateConvertion(record),
+            incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
+        };
+    }
+
+    creatorEmployeeConvertion(record) {
+        if (record.creatorEmployeeId !== null) {
+            let employee = this.employeeManagement.employeeDictionary.get(
+                record.creatorEmployeeId
+            );
+            record.creatorEmployeeName = employee.firstName + " " + employee.lastName;
+        }
+        return record;
+    }
+
+    employeeAndDateConvertion(record) {
+        record.date = record.date.toDateString();
+        record = this.creatorEmployeeConvertion(record);
+        return record;
     }
 
     UserDetailsCheck(userName, password, permissions) {
@@ -461,34 +489,44 @@ class CinemaSystem {
         return await this.inventoryManagement.removeCategory(categoryId);
     }
 
+    /**
+     * Remove field from general purpose daily report
+     * @param {string} fieldToRemove The field to remove
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} success or failure
+     */
     async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
             "DEPUTY_MANAGER",
-            "createDailyReport"
+            "removeFieldFromDailyReport"
         );
         if (result != null) return result;
-        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
-                ActionIDOfTheOperation +
-                " is not exist"
-            );
-            return "Cannot create report - creator employee id is not exist";
-        }
         return ReportController.removeFieldFromDailyReport(fieldToRemove);
     }
 
+    /**
+     * Add new field to general purpose daily report
+     * @param {string} newField The field to add
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} success or failure
+     */
     async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
             "DEPUTY_MANAGER",
-            "createDailyReport"
+            "addFieldToDailyReport"
         );
         if (result != null) return result;
         return ReportController.addFieldToDailyReport(newField);
     }
 
+    /**
+     * @param {string} type Type of the report
+     * @param {Array(Object)} records Records to add in the report
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} success or failure
+     */
     async createDailyReport(type, records, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
@@ -507,6 +545,13 @@ class CinemaSystem {
         return ReportController.createDailyReport(type, records);
     }
 
+    /**
+     * @param {string} type Type of the report
+     * @param {string} date Date of the report
+     * @param {string} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
+     * otherwise returns error string.
+     */
     async getReport(type, date, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
@@ -514,7 +559,10 @@ class CinemaSystem {
             "getReport"
         );
         if (result != null) return result;
-        return ReportController.getReport(type, date);
+        result = await ReportController.getReport(type, date);
+        if (typeof result !== "string")
+            for (let i in result) result[i] = this.convertionMethods[type](result[i]);
+        return result;
     }
 
     getSuppliers() {
