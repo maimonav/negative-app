@@ -18,7 +18,7 @@ class Order {
     params: {
       element: {
         id: this.id,
-        date: this.date.toISOString().substring(0, 10),
+        date: this.date, //this.date.toISOString().substring(0, 10),
         creatorEmployeeId: this.creatorEmployeeId,
         supplierId: this.supplierId,
       },
@@ -40,16 +40,17 @@ class Order {
   };
 
   getOrderRemovingObjectsList = () => {
-    let list = [
+    let list = [];
+    this.productOrders.forEach((productOrder) => {
+      list = list.concat(productOrder.getOrderRemovingObject());
+    });
+    list = list.concat([
       {
         name: DataBase._remove,
         model: "order",
         params: { where: { id: this.id } },
       },
-    ];
-    this.productOrders.forEach((productOrder) => {
-      list = list.concat(productOrder.getOrderRemovingObject());
-    });
+    ]);
     return list;
   };
 

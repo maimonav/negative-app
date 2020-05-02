@@ -9,7 +9,7 @@ class MovieOrder {
   }
 
   getOrderRemovingObject = () => ({
-    name: DataBase.remove,
+    name: DataBase._remove,
     model: "movie_order",
     params: { where: { orderId: this.order.id } },
   });
