@@ -1,18 +1,49 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+var http = require("http");
+const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 const service = new ServiceLayer();
-service.initSeviceLayer().then((result) => {
-  if (typeof result === "string") {
-    //TODO::
-  }
-});
 
 const app = express();
+const server = http.createServer(app);
+const socketServer = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
+
+let result = service.initSeviceLayer();
+
+const messages = ["Start Chatting!"];
+
+socketServer.on("connection", async (socketClient) => {
+  console.log("connected");
+  console.log("client Set length: ", socketServer.clients.size);
+
+  socketClient.on("close", (socketClient) => {
+    console.log("closed");
+    console.log("Number of clients: ", socketServer.clients.size);
+  });
+
+  /*socketClient.on("message", (message) => {
+    console.log(message);
+    messages.push(message);
+    socketServer.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(JSON.stringify([message]));
+      }
+    });
+  });*/
+  let initResult = await result;
+  if (typeof initResult === "string") {
+    socketServer.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(initResult);
+      }
+    });
+  }
+});
 
 app.get("/api/isLoggedIn", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
@@ -451,6 +482,6 @@ app.get("/api/getMovieOrderDetails", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.listen(3001, () => {
+server.listen(3001, () => {
   console.log("Express server is running on localhost:3001");
 });
