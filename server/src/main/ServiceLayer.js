@@ -24,7 +24,7 @@ class ServiceLayer {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
     let result = SystemInitializer.initSystem(this, dbName);
-    await this.login("admin", "admin");
+    /*await this.login("admin", "admin");
     await this.addNewEmployee(
       "aviv",
       "aviv",
@@ -54,7 +54,7 @@ class ServiceLayer {
       ["movie"],
       "aviv"
     );
-    await this.logout("aviv");
+    await this.logout("aviv");*/
     return result;
   }
 

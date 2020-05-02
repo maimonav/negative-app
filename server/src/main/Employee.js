@@ -21,7 +21,7 @@ class Employee extends User {
     this.isEmployeeRemoved = null;
   }
   async init() {
-    let name = DataBase.add;
+    let name = DataBase._add;
     let userActionDB = {
       name: name,
       model: "user",
@@ -68,7 +68,7 @@ class Employee extends User {
     let DBactions = [];
     if (UserUpdatedObject.isNeedToEdit)
       DBactions.push({
-        name: DataBase.update,
+        name: DataBase._update,
         model: "user",
         params: {
           where: {
@@ -115,7 +115,7 @@ class Employee extends User {
 
     if (needToUpdate || UserUpdatedObject.isNeedToEdit)
       DBactions.push({
-        name: DataBase.update,
+        name: DataBase._update,
         model: "employee",
         params: {
           where: {
@@ -146,7 +146,7 @@ class Employee extends User {
       this.isUserRemoved = new Date();
       this.isEmployeeRemoved = new Date();
       let userActionDB = {
-        name: DataBase.update,
+        name: DataBase._update,
         model: "user",
         params: {
           where: {
@@ -158,7 +158,7 @@ class Employee extends User {
         },
       };
       let employeeActionDB = {
-        name: DataBase.update,
+        name: DataBase._update,
         model: "employee",
         params: {
           where: {

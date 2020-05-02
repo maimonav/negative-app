@@ -45,12 +45,6 @@ class DataBase {
       " Refused due to insufficient privileges" +
       " - Password to database should be checked.", // wrong password
   };
-  /* to remove
-  static async _initGeneralReport() {
-    const DBInitial = require("./DBInitializtion");
-    return DBInitial._initGeneralReport();
-  }
-*/
 
   /**
    * Initialize database - create and init models and tables
@@ -85,6 +79,24 @@ class DataBase {
     }
   }
 
+  /**
+   * Execute few queries in database in one transaction
+   * @param {Array(Object)} actionsList Each action is object with the name of the action
+   * and the params needed
+   * @returns {Promise(Object | string)} returns string in failure
+   *
+   *
+   * @example
+   *  let userObj = {
+   *  table: "users",
+   *  prop: "isUserRemoved",
+   *  deleteTime: "2 YEAR",
+   *  eventTime: "1 DAY",
+   *  };
+   *  let actionsList = [{ name: DataBase._setDestroyTimer, params: userObj }]
+   *
+   *
+   */
   static async executeActions(actionsList) {
     if (this._isTestMode) return;
     let action;
@@ -125,21 +137,21 @@ class DataBase {
     }
   }
 
-  static async add(params, t, model) {
+  static async _add(params, t, model) {
     return model.create(params.element, { transaction: t });
   }
 
-  static async getById(params, t, model) {
+  static async _getById(params, t, model) {
     return model.findOne({ where: params.where, transaction: t });
   }
 
-  static async update(params, t, model) {
+  static async _update(params, t, model) {
     return model.update(params.element, {
       where: params.where,
       transaction: t,
     });
   }
-  static async findAll(params, t, model) {
+  static async _findAll(params, t, model) {
     const attributes = params.attributes;
     const order = params.order;
     let attributesArray;
@@ -162,11 +174,11 @@ class DataBase {
     return model.findAll(argument);
   }
 
-  static async remove(params, t, model) {
+  static async _remove(params, t, model) {
     return model.destroy({ where: params.where, transaction: t });
   }
 
-  static async findAll(params, t, model) {
+  static async _findAll(params, t, model) {
     const attributes = params.attributes;
     let attributesArray = [
       [
@@ -184,8 +196,8 @@ class DataBase {
     });
   }
 
-  static async setDestroyTimer(params, t) {
-    let destroyQuery = DataBase.getDestroyQuery(
+  static async _setDestroyTimer(params, t) {
+    let destroyQuery = DataBase._getDestroyQuery(
       params.table,
       params.afterCreate,
       params.deleteTime,
@@ -204,7 +216,13 @@ class DataBase {
       return this._errorHandler(error, errId);
     });
   }
-
+  /**
+   * Add record to the database
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} element The record object with all props
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleAdd(modelName, element) {
     if (this._isTestMode) return;
     const model = this.models[modelName];
@@ -232,7 +250,13 @@ class DataBase {
       return this._errorHandler(error, errId);
     }
   }
-
+  /**
+   * get single record from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the record
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success (the record if found or null if not)
+   */
   static async singleGetById(modelName, where) {
     if (this._isTestMode) return;
     const model = this.models[modelName];
@@ -265,7 +289,14 @@ class DataBase {
       return this._errorHandler(error, errId);
     }
   }
-
+  /**
+   * Update record from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the record
+   * @param {Object} element The props to update with their value
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleUpdate(modelName, where, element) {
     if (this._isTestMode) return;
     const model = this.models[modelName];
@@ -300,6 +331,13 @@ class DataBase {
     }
   }
 
+  /**
+   * Remove record from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the record
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleRemove(modelName, where) {
     if (this._isTestMode) return;
     const model = this.models[modelName];
@@ -332,6 +370,17 @@ class DataBase {
     }
   }
 
+  /**
+   * Find records from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the records
+   * @param {Array(Object)} attributes Object with 2 props - fn for sql function, fnfield for the column it
+   *  execute on (example => {fn: 'max' , fnField:'date'})
+   * @param {Array(Array(string))} order Array of arrays with 2 element, first for the name of the prop and the second
+   * is the order (example => [['id','ASC']])
+   * @returns {Promise(Array(Object) | string)} returns string in failure or array of records found
+   * in success
+   */
   static async singleFindAll(modelName, where, attributes, order) {
     if (this._isTestMode) return;
     let attributesArray;
@@ -383,7 +432,16 @@ class DataBase {
       return this._errorHandler(error, errId);
     }
   }
-
+  /**
+   * Set timer that will remove each record under specific conditions
+   * @param {string} table The name of the table, for example 'users'
+   * @param {boolean} afterCreate Flag to determine if it should destroyed after create or after being
+   * removed from the system (meaning specific time after the value in isRemoved prop - if not null)
+   * @param {string} deleteTime The requiered Time passed for being destroyed
+   * @param {string} eventTime Query will be executed for each eventTime value
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleSetDestroyTimer(
     table,
     afterCreate,
@@ -392,7 +450,7 @@ class DataBase {
     prop
   ) {
     if (this._isTestMode) return;
-    let destroyQuery = DataBase.getDestroyQuery(
+    let destroyQuery = DataBase._getDestroyQuery(
       table,
       afterCreate,
       deleteTime,
@@ -434,7 +492,7 @@ class DataBase {
     }
   }
 
-  static getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
+  static _getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
     let where = "";
     if (afterCreate) {
       where = "createdAt <= (CURRENT_TIMESTAMP - INTERVAL " + deleteTime + ");";

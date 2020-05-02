@@ -103,19 +103,19 @@ async function _setDestroyTimerForAllTables() {
     eventTime: "1 DAY",
   };
   return DataBase.executeActions([
-    { name: DataBase.setDestroyTimer, params: userObj },
-    { name: DataBase.setDestroyTimer, params: employeeObj },
-    { name: DataBase.setDestroyTimer, params: movieObj },
-    { name: DataBase.setDestroyTimer, params: productObj },
-    { name: DataBase.setDestroyTimer, params: categoryObj },
-    { name: DataBase.setDestroyTimer, params: supplierObj },
-    { name: DataBase.setDestroyTimer, params: orderObj },
-    { name: DataBase.setDestroyTimer, params: productOrderObj },
-    { name: DataBase.setDestroyTimer, params: movieOrderObj },
-    { name: DataBase.setDestroyTimer, params: moviesReportObj },
-    { name: DataBase.setDestroyTimer, params: incomesReportObj },
-    { name: DataBase.setDestroyTimer, params: inventoryReportObj },
-    { name: DataBase.setDestroyTimer, params: generalReportObj },
+    { name: DataBase._setDestroyTimer, params: userObj },
+    { name: DataBase._setDestroyTimer, params: employeeObj },
+    { name: DataBase._setDestroyTimer, params: movieObj },
+    { name: DataBase._setDestroyTimer, params: productObj },
+    { name: DataBase._setDestroyTimer, params: categoryObj },
+    { name: DataBase._setDestroyTimer, params: supplierObj },
+    { name: DataBase._setDestroyTimer, params: orderObj },
+    { name: DataBase._setDestroyTimer, params: productOrderObj },
+    { name: DataBase._setDestroyTimer, params: movieOrderObj },
+    { name: DataBase._setDestroyTimer, params: moviesReportObj },
+    { name: DataBase._setDestroyTimer, params: incomesReportObj },
+    { name: DataBase._setDestroyTimer, params: inventoryReportObj },
+    { name: DataBase._setDestroyTimer, params: generalReportObj },
   ]);
 }
 
