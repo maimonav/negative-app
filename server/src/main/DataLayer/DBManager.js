@@ -8,73 +8,97 @@ class DataBase {
   static sequelize;
   static connection;
   static models;
-  static isTestMode = false;
+  static _isTestMode = false;
 
-  static testModeOn() {
-    this.isTestMode = true;
+  static _testModeOn() {
+    this._isTestMode = true;
   }
-  static testModeOff() {
-    this.isTestMode = false;
+  static _testModeOff() {
+    this._isTestMode = false;
   }
 
-  static connectionMsg = "Database Error: Unable to connect to the database.";
+  static _connectionMsg = "Database Error: Unable to connect to the database.";
 
-  static errorHandler(error, errId) {
-    let handler = error ? this.errorsHandling[error.name] : undefined;
+  static _errorHandler(error, errId) {
+    let handler = error ? this._errorsHandling[error.name] : undefined;
     let msg = handler
       ? handler(error)
       : "Database Error: Cannot complete action.";
     return msg + "\nError ID: " + errId;
   }
 
-  //TODO:: add log
-  static errorsHandling = {
+  static _errorsHandling = {
     //errors/validation
-    SequelizeUniqueConstraintError: (error) =>
+    SequelizeUniqueConstraintError: () =>
       "Database Error: Unique constraint is violated in the database.", //validation, dupplicate primary key - programmers
 
     //errors/database
-    SequelizeForeignKeyConstraintError: (error) =>
+    SequelizeForeignKeyConstraintError: () =>
       "Database Error: Foreign key constraint is violated in the database.", //link to foreign key while does not exist
 
     //errors/connection
-    SequelizeConnectionError: (error) => this.connectionMsg,
-    SequelizeConnectionRefusedError: (error) =>
-      this.connectionMsg + " MySql server has stopped running.", //mysql server stopped
-    SequelizeAccessDeniedError: (error) =>
-      this.connectionMsg +
+    SequelizeConnectionError: () => this._connectionMsg,
+    SequelizeConnectionRefusedError: () =>
+      this._connectionMsg + " MySql server has stopped running.", //mysql server stopped
+    SequelizeAccessDeniedError: () =>
+      this._connectionMsg +
       " Refused due to insufficient privileges" +
       " - Password to database should be checked.", // wrong password
   };
 
-  static async initGeneralReport() {
-    const DBInitial = require("./DBInitializtion");
-    return DBInitial.initGeneralReport();
-  }
-
+  /**
+   * Initialize database - create and init models and tables
+   * @param {string} dbName Name of the database
+   * @param {string} password Password for database connecting
+   * @returns {Promise(Sequelize | string)} Sequelize ORM object in seccess or string in failure
+   */
   static async initDB(dbName, password) {
     const DBInitial = require("./DBInitializtion");
     return DBInitial.initDB(dbName, password);
   }
 
+  /**
+   * Create database and connect to it
+   * @param {string} dbName The name of the database
+   * @param {string} password The password to connect database
+   * @returns {Promise(void | string)} string in failure
+   */
   static async connectAndCreate(dbName, password) {
     const DBInitial = require("./DBInitializtion");
     return DBInitial.connectAndCreate(dbName, password);
   }
 
   static async close() {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     try {
       await this.sequelize.close();
     } catch (error) {
       let errId = uniqid();
       DBlogger.error(errId, " - DBManager - close  - ", error);
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
+  /**
+   * Execute few queries in database in one transaction
+   * @param {Array(Object)} actionsList Each action is object with the name of the action
+   * and the params needed
+   * @returns {Promise(Object | string)} returns string in failure
+   *
+   *
+   * @example
+   *  let userObj = {
+   *  table: "users",
+   *  prop: "isUserRemoved",
+   *  deleteTime: "2 YEAR",
+   *  eventTime: "1 DAY",
+   *  };
+   *  let actionsList = [{ name: DataBase._setDestroyTimer, params: userObj }]
+   *
+   *
+   */
   static async executeActions(actionsList) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     let action;
     let model;
     let name;
@@ -100,7 +124,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -109,25 +133,25 @@ class DataBase {
         " - DBManager - executeActions  - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
-  static async add(params, t, model) {
+  static async _add(params, t, model) {
     return model.create(params.element, { transaction: t });
   }
 
-  static async getById(params, t, model) {
+  static async _getById(params, t, model) {
     return model.findOne({ where: params.where, transaction: t });
   }
 
-  static async update(params, t, model) {
+  static async _update(params, t, model) {
     return model.update(params.element, {
       where: params.where,
       transaction: t,
     });
   }
-  static async findAll(params, t, model) {
+  static async _findAll(params, t, model) {
     const attributes = params.attributes;
     const order = params.order;
     let attributesArray;
@@ -150,11 +174,11 @@ class DataBase {
     return model.findAll(argument);
   }
 
-  static async remove(params, t, model) {
+  static async _remove(params, t, model) {
     return model.destroy({ where: params.where, transaction: t });
   }
 
-  static async findAll(params, t, model) {
+  static async _findAll(params, t, model) {
     const attributes = params.attributes;
     let attributesArray = [
       [
@@ -172,8 +196,8 @@ class DataBase {
     });
   }
 
-  static async setDestroyTimer(params, t) {
-    let destroyQuery = DataBase.getDestroyQuery(
+  static async _setDestroyTimer(params, t) {
+    let destroyQuery = DataBase._getDestroyQuery(
       params.table,
       params.afterCreate,
       params.deleteTime,
@@ -189,12 +213,18 @@ class DataBase {
         " - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     });
   }
-
+  /**
+   * Add record to the database
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} element The record object with all props
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleAdd(modelName, element) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -212,17 +242,23 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
       DBlogger.error(errId, " - DBManager - singleAdd - transaction - ", error);
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
-
+  /**
+   * get single record from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the record
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success (the record if found or null if not)
+   */
   static async singleGetById(modelName, where) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -241,7 +277,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -250,12 +286,19 @@ class DataBase {
         " - DBManager - singleGetById - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
-
+  /**
+   * Update record from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the record
+   * @param {Object} element The props to update with their value
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleUpdate(modelName, where, element) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -275,7 +318,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -284,12 +327,19 @@ class DataBase {
         " - DBManager - singleUpdate - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
+  /**
+   * Remove record from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the record
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleRemove(modelName, where) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     const model = this.models[modelName];
     try {
       return this.sequelize
@@ -307,7 +357,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -316,12 +366,23 @@ class DataBase {
         " - DBManager - singleRemove - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
+  /**
+   * Find records from the database by specific conditions
+   * @param {string} modelName The name of the model, for example 'user'
+   * @param {Object} where The conditions to find the records
+   * @param {Array(Object)} attributes Object with 2 props - fn for sql function, fnfield for the column it
+   *  execute on (example => {fn: 'max' , fnField:'date'})
+   * @param {Array(Array(string))} order Array of arrays with 2 element, first for the name of the prop and the second
+   * is the order (example => [['id','ASC']])
+   * @returns {Promise(Array(Object) | string)} returns string in failure or array of records found
+   * in success
+   */
   static async singleFindAll(modelName, where, attributes, order) {
-    if (this.isTestMode) return;
+    if (this._isTestMode) return;
     let attributesArray;
     if (attributes)
       attributesArray = [
@@ -359,7 +420,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -368,10 +429,19 @@ class DataBase {
         " - DBManager - singleFindAll - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
-
+  /**
+   * Set timer that will remove each record under specific conditions
+   * @param {string} table The name of the table, for example 'users'
+   * @param {boolean} afterCreate Flag to determine if it should destroyed after create or after being
+   * removed from the system (meaning specific time after the value in isRemoved prop - if not null)
+   * @param {string} deleteTime The requiered Time passed for being destroyed
+   * @param {string} eventTime Query will be executed for each eventTime value
+   * @returns {Promise(Object | string)} returns string in failure or sequalize object
+   * in success
+   */
   static async singleSetDestroyTimer(
     table,
     afterCreate,
@@ -379,8 +449,8 @@ class DataBase {
     eventTime,
     prop
   ) {
-    if (this.isTestMode) return;
-    let destroyQuery = DataBase.getDestroyQuery(
+    if (this._isTestMode) return;
+    let destroyQuery = DataBase._getDestroyQuery(
       table,
       afterCreate,
       deleteTime,
@@ -409,7 +479,7 @@ class DataBase {
             " - ",
             error
           );
-          return this.errorHandler(error, errId);
+          return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
@@ -418,11 +488,11 @@ class DataBase {
         " - DBManager - singleSetDestroyTimer - transaction - ",
         error
       );
-      return this.errorHandler(error, errId);
+      return this._errorHandler(error, errId);
     }
   }
 
-  static getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
+  static _getDestroyQuery(table, afterCreate, deleteTime, eventTime, prop) {
     let where = "";
     if (afterCreate) {
       where = "createdAt <= (CURRENT_TIMESTAMP - INTERVAL " + deleteTime + ");";

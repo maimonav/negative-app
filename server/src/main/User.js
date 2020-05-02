@@ -38,7 +38,7 @@ class User {
   }
 
   getUserActionDB(name) {
-    return { name: DataBase.add };
+    return { name: DataBase._add };
   }
 
   async removeUser() {

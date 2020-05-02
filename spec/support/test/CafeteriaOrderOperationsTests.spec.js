@@ -12,7 +12,7 @@ const {
 
 describe("CafeteriaProductOrder Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest addCafeteriaOrder  - Service Layer", async () => {
@@ -220,7 +220,13 @@ describe("CafeteriaProductOrder Operations Tests", () => {
     let actualOrder = serviceLayer.cinemaSystem.inventoryManagement.orders.get(
       orderId
     );
-    let expectedOrder = new Order(orderId, supplierId, todayDate, userId);
+    let expectedOrder = new Order(
+      orderId,
+      supplierId,
+      todayDate,
+      userId,
+      "Order"
+    );
     let expectedProduct = new CafeteriaProduct(productId);
     let expectedCafeteriaProductOrder = new CafeteriaProductOrder(
       expectedProduct,

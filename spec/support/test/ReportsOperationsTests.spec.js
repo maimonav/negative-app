@@ -9,7 +9,7 @@ const {
 
 describe("Report Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest createDailyReport, getReport - Service Layer", async () => {

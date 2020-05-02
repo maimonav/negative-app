@@ -45,7 +45,7 @@ exports.asyncTestCinemaFunctions = testCinemaFunctions;
 
 describe("MovieOrder Operations Tests", () => {
   beforeAll(() => {
-    DB.testModeOn();
+    DB._testModeOn();
   });
 
   it("UnitTest addMovieOrder  - Service Layer", async () => {
@@ -263,7 +263,13 @@ describe("MovieOrder Operations Tests", () => {
     let actualOrder = serviceLayer.cinemaSystem.inventoryManagement.orders.get(
       orderId
     );
-    let expectedOrder = new Order(orderId, supplirId, todayDate, userId);
+    let expectedOrder = new Order(
+      orderId,
+      supplirId,
+      todayDate,
+      userId,
+      "Order"
+    );
     let expectedMovie = new Movie(productId);
     let expectedMovieOrder = new MovieOrder(expectedMovie, expectedOrder);
     expectedMovie.productOrders.set(orderId, expectedMovieOrder);

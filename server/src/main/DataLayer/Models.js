@@ -1,5 +1,7 @@
 const Sequelize = require("sequelize");
-
+/**
+ * Models schemas as appears in the database
+ */
 const userSchema = () => {
   return {
     // attributes

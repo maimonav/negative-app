@@ -71,7 +71,7 @@ class ReportController {
         this._getSyncDateFormat(new Date(records[i].date))
       );
       actionsList = actionsList.concat({
-        name: DataBase.add,
+        name: DataBase._add,
         model: type,
         params: { element: records[i] },
       });
