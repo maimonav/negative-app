@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
+const logger = require("simple-node-logger").createSimpleLogger("project.log");
 const service = new ServiceLayer();
 service.initSeviceLayer().then(result => {
   if (typeof result === "string") {
@@ -250,16 +251,12 @@ app.get("/api/addCafeteriaOrder", async (req, res) => {
 
 app.get("/api/editCafeteriaOrder", (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const productsWithQuantity =
-    (req.query.productsWithQuantity && req.query.productsWithQuantity.trim()) ||
-    "";
   const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
   const updatedProducts =
     (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.editCafetriaOrder(
+  const result = service.editCafeteriaOrder(
     orderId,
-    productsWithQuantity,
     orderDate,
     updatedProducts,
     user
@@ -267,10 +264,10 @@ app.get("/api/editCafeteriaOrder", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/RemoveOrder", (req, res) => {
+app.get("/api/RemoveOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.removeOrder(orderId, user);
+  const result = await service.removeOrder(orderId, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -367,8 +364,7 @@ app.get("/api/getCafeteriaProducts", (req, res) => {
 });
 
 app.get("/api/getCafeteriaOrders", (req, res) => {
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getCafeteriaOrders(user);
+  const result = service.getCafeteriaOrders();
   res.send(JSON.stringify({ result }));
 });
 
@@ -382,7 +378,7 @@ app.get("/api/getOrdersByDates", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const startDate = (req.query.startDate && req.query.startDate.trim()) || "";
   const endDate = (req.query.endDate && req.query.endDate.trim()) || "";
-  const result = service.getCafeteriaOrders(startDate, endDate, user);
+  const result = service.getOrdersByDates(startDate, endDate, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -395,8 +391,7 @@ app.get("/api/getProductsByOrder", (req, res) => {
 
 app.get("/api/getOrderDetails", (req, res) => {
   const order = (req.query.order && req.query.order.trim()) || "";
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getOrderDetails(order, user);
+  const result = service.getOrderDetails(order);
   res.send(JSON.stringify({ result }));
 });
 
@@ -424,9 +419,8 @@ app.get("/api/getCategoryDetails", (req, res) => {
 });
 
 app.get("/api/getProductAndQuntityByOrder", (req, res) => {
-  const user = (req.query.user && req.query.user.trim()) || "";
   const orderName = (req.query.orderName && req.query.orderName.trim()) || "";
-  const result = service.getProductsAndQuantityByOrder(orderName, user);
+  const result = service.getProductsAndQuantityByOrder(orderName);
   res.send(JSON.stringify({ result }));
 });
 
@@ -442,6 +436,18 @@ app.get("/api/getReport", async (req, res) => {
   const date = (req.query.date && req.query.date.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.getReport(reportType, date, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getMovieOrders", (req, res) => {
+  const result = service.getMovieOrders();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getMovieOrderDetails", (req, res) => {
+  const order = (req.query.order && req.query.order.trim()) || "";
+  const result = service.getOrderDetails(order);
+  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 

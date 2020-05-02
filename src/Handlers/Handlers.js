@@ -326,18 +326,11 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
     });
 }
 
-export function handleEditCafeteriaOrder(
-  orderId,
-  productsWithQuantity,
-  orderDate,
-  updatedProducts
-) {
+export function handleEditCafeteriaOrder(orderId, orderDate, updatedProducts) {
   const user = localStorage.getItem("username");
   fetch(
     `api/editCafeteriaOrder?orderId=${encodeURIComponent(
       orderId
-    )}&productsWithQuantity=${encodeURIComponent(
-      productsWithQuantity
     )}&orderDate=${encodeURIComponent(
       orderDate
     )}&updatedProducts=${encodeURIComponent(
@@ -385,13 +378,11 @@ export function handleConfirmCafeteriaOrder(
     });
 }
 
-export function handleGetOrdersByDates(userName, startDate, endDate) {
+export function handleGetOrdersByDates(startDate, endDate) {
   return fetch(
     `api/getOrdersByDates?startDate=${encodeURIComponent(
       startDate
-    )}&endDate=${encodeURIComponent(endDate)}&user=${encodeURIComponent(
-      userName
-    )}`
+    )}&endDate=${encodeURIComponent(endDate)}`
   );
 }
 
@@ -403,11 +394,9 @@ export function handleGetProductsByOrder(username, orderName) {
   );
 }
 
-export function handleGetProductsAndQuantityByOrder(username, orderName) {
+export function handleGetProductsAndQuantityByOrder(orderName) {
   return fetch(
-    `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(
-      orderName
-    )}&user=${encodeURIComponent(username)}`
+    `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(orderName)}`
   );
 }
 
@@ -517,4 +506,10 @@ export function handleGetIncomesReport() {
 
 export function handleGetGeneralReport() {
   return fetch(`/api/getGeneralReport`);
+export function handleGetMovieOrders() {
+  return fetch(`/api/getMovieOrders?`);
+}
+
+export function handleGetMovieOrderDetails(order) {
+  return fetch(`/api/getMovieOrderDetails?order=${encodeURIComponent(order)}`);
 }

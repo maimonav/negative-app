@@ -8,13 +8,12 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
-  handleGetCafeteriaOrders,
-  handleGetOrderDetails,
+  handleGetMovieOrders,
+  handleGetMovieOrderDetails,
 } from "../../../Handlers/Handlers";
-import SimpleTable from "../../../Components/Tables/SimpleTable";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class ShowCafeteriaOrders extends React.Component {
+export default class ShowMovieOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -24,7 +23,7 @@ export default class ShowCafeteriaOrders extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCafeteriaOrders(localStorage.getItem("username"))
+    handleGetMovieOrders()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ orders: state.result });
@@ -33,17 +32,14 @@ export default class ShowCafeteriaOrders extends React.Component {
 
   setOrderId = (orderId) => {
     this.setState({ orderId });
-    handleGetOrderDetails(orderId, localStorage.getItem("username"))
+    handleGetMovieOrderDetails(orderId)
       .then((response) => response.json())
       .then((state) => {
         this.setState({ orderId: state.result });
       });
   };
 
-  columns = [
-    { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "quantity" },
-  ];
+  columns = [{ title: "Product Name", field: "name" }];
 
   render() {
     return (
@@ -91,12 +87,15 @@ export default class ShowCafeteriaOrders extends React.Component {
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
-                      <h3 style={{ margin: "auto" }}>
-                        Order's products details:{" "}
-                      </h3>
-                      <SimpleTable
-                        colums={this.columns}
-                        data={this.state.orderId.products}
+                      <TextField
+                        id="field3"
+                        defaultValue=""
+                        label="Movies:"
+                        value={this.state.orderId.products || ""}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        variant="filled"
                       />
                     </GridItem>
                   </GridContainer>
