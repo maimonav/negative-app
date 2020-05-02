@@ -506,6 +506,8 @@ export function handleGetIncomesReport() {
 
 export function handleGetGeneralReport() {
   return fetch(`/api/getGeneralReport`);
+}
+
 export function handleGetMovieOrders() {
   return fetch(`/api/getMovieOrders?`);
 }

@@ -15,7 +15,7 @@ import {
   handleGetIncomesReport,
   handleGetGeneralReport
 } from "../../Handlers/Handlers";
-import { reportsTypes } from "../../consts/data";
+import { reportsTypes, reportsPrettyTypes } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -37,11 +37,16 @@ export default class ShowReport extends React.Component {
   // };
 
   setReportType = reportType => {
-    this.setState({ reportType });
+    this.setState({ reportType: reportsTypes[reportType] });
+    this.resetData();
   };
 
   setDate = date => {
     this.setState({ date });
+  };
+
+  resetData = () => {
+    this.setState({ reportData: undefined });
   };
 
   setReport = () => {
@@ -60,20 +65,22 @@ export default class ShowReport extends React.Component {
         .then(state => {
           this.setState({ reportData: state.result });
         });
-    } else if (this.state.reportType === "general_purpose_daily_report") {
-      handleGetGeneralReport()
-        .then(response => response.json())
-        .then(state => {
-          this.setState({ reportData: state.result });
-        });
     } else if (this.state.reportType === "incomes_daily_report") {
       handleGetIncomesReport()
         .then(response => response.json())
         .then(state => {
           this.setState({ reportData: state.result });
         });
-    } else {
-      this.setState({ reportData: undefined });
+    }
+    // else if (this.state.reportType === "general_purpose_daily_report") {
+    //   handleGetGeneralReport()
+    //     .then(response => response.json())
+    //     .then(state => {
+    //       this.setState({ reportData: state.result });
+    //     });
+    // }
+    else {
+      this.resetData();
     }
   };
 
@@ -90,7 +97,7 @@ export default class ShowReport extends React.Component {
                 <div style={{ display: "flex", alignItems: "flex-start" }}>
                   <ComboBox
                     id={"reportType"}
-                    items={reportsTypes || []}
+                    items={reportsPrettyTypes || []}
                     boxLabel={"Choose type"}
                     setName={this.setReportType}
                     isMultiple={false}

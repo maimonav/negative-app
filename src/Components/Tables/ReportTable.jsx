@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import Paper from "@material-ui/core/Paper";
+import { incomesColumns, inventoryColumns } from "../../consts/data";
 import { AutoSizer, Column, Table } from "react-virtualized";
 
 const styles = theme => ({
@@ -155,95 +156,10 @@ ReportTable.propTypes = {
 
 const VirtualizedTable = withStyles(styles)(ReportTable);
 
-const InventoryColumns = [
-  {
-    width: 200,
-    label: "Date",
-    dataKey: "date"
-  },
-  {
-    width: 150,
-    label: "Product",
-    dataKey: "product"
-  },
-  {
-    width: 150,
-    label: "Employee",
-    dataKey: "employee"
-  },
-  {
-    width: 150,
-    label: "Quantity Sold",
-    dataKey: "quantity_sold",
-    numeric: true
-  },
-  {
-    width: 150,
-    label: "Quantity In Stock",
-    dataKey: "quantity_in_stock",
-    numeric: true
-  },
-  {
-    width: 150,
-    label: "Stock Thrown",
-    dataKey: "stock_thrown",
-    numeric: true
-  }
-];
-
-const IncomesColumns = [
-  {
-    width: 150,
-    label: "Date",
-    dataKey: "date"
-  },
-  {
-    width: 120,
-    label: "Employee",
-    dataKey: "employee"
-  },
-  {
-    width: 120,
-    label: "Tabs Sales",
-    dataKey: "numOfTabsSales",
-    numeric: true
-  },
-  {
-    width: 200,
-    label: "Cafeteria Credit Incomes",
-    dataKey: "cafeteriaCreditCardRevenues",
-    numeric: true
-  },
-  {
-    width: 200,
-    label: "Tickets Cash Incomes",
-    dataKey: "ticketsCashRevenues",
-    numeric: true
-  },
-  {
-    width: 200,
-    label: "Tickets Credit Incomes",
-    dataKey: "ticketsCreditCardRevenues",
-    numeric: true
-  },
-  {
-    width: 200,
-    label: "Tabs Cash Incomes",
-    dataKey: "tabsCashRevenues",
-    numeric: true
-  },
-  {
-    width: 200,
-    label: "Tabs Credit Incomes",
-    dataKey: "tabsCreditCardRevenues",
-    numeric: true
-  }
-];
-
 const columns = {
-  inventory_daily_report: InventoryColumns,
+  inventory_daily_report: inventoryColumns,
   general_purpose_daily_report: [],
-  incomes_daily_report: IncomesColumns,
+  incomes_daily_report: incomesColumns,
   movie_daily_report: []
 };
 
