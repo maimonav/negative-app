@@ -37,6 +37,7 @@ import ManageMoviesOrders from "./InventoryActions/MoviesOrders/ManageMoviesOrde
 import AddMovieOrder from "./InventoryActions/MoviesOrders/AddMovieOrder";
 import EditMovieOrder from "./InventoryActions/MoviesOrders/EditMovieOrder";
 import ShowMovieOrders from "./InventoryActions/MoviesOrders/ShowMovieOrder";
+import ConfirmMovieOrder from "./InventoryActions/MoviesOrders/ConfirmMovieOrder";
 
 export {
   Login,
@@ -78,4 +79,5 @@ export {
   AddMovieOrder,
   EditMovieOrder,
   ShowMovieOrders,
+  ConfirmMovieOrder,
 };
