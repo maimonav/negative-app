@@ -132,21 +132,49 @@ class CafeteriaProduct extends Product {
     }
 
     async removeProduct() {
-        if (this.isProductRemoved == null) {
-            this.isProductRemoved = new Date();
-            let result = await DataBase.singleUpdate(
-                "cafeteria_product", { id: this.id }, { isProductRemoved: this.isProductRemoved }
-            );
-            if (typeof result === "string") {
-                this.isProductRemoved = null;
-                this.writeToLog("error", "removeProduct", "DB failure " + result);
-                return "The removed operation failed - DB failure";
+            if (this.isProductRemoved == null) {
+                this.isProductRemoved = new Date();
+                let result = await DataBase.singleUpdate(
+                    "cafeteria_product", { id: this.id }, { isProductRemoved: this.isProductRemoved }
+                );
+                if (typeof result === "string") {
+                    this.isProductRemoved = null;
+                    this.writeToLog("error", "removeProduct", "DB failure " + result);
+                    return "The removed operation failed - DB failure";
+                }
+                return true;
             }
-            return true;
+            return "The product already removed";
         }
-        return "The product already removed";
+        /**
+         * Returns the action to update the quantity of products in stock
+         * @param {string} addedQuantity The actual inventory that came in the order.
+         * @returns {Object} The action.
+         **/
+    getConfirmOrderDB(addedQuantity) {
+            let updatedQuantity = this.quantity + addedQuantity;
+            return {
+                name: DataBase._update,
+                model: "cafeteria_product",
+                params: {
+                    where: {
+                        id: this.id,
+                    },
+                    element: {
+                        quantity: updatedQuantity,
+                    },
+                },
+            };
+        }
+        /**
+         * Returns the action to update the quantity of products in stock
+         * @param {string} addedQuantity The actual inventory that came in the order.
+         * @returns {Object} The action.
+         **/
+    confirmOrder(addedQuantity) {
+        let updatedQuantity = this.quantity + addedQuantity;
+        this.quantity = updatedQuantity;
     }
-
     equals(toCompare) {
         return (
             super.equals(toCompare) &&

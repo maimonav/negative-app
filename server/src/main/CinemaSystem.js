@@ -269,6 +269,26 @@ class CinemaSystem {
         );
     }
 
+    async editOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation) {
+        let result = this.checkUser(
+            ActionIDOfTheOperation,
+            "DEPUTY_MANAGER",
+            "editOrder"
+        );
+        if (result != null) return result;
+        return this.inventoryManagement.editOrder(orderId, date, supplierId, productsList);
+    }
+
+    async confirmOrder(orderId, productsList, ActionIDOfTheOperation) {
+        let result = this.checkUser(
+            ActionIDOfTheOperation,
+            "SHIFT_MANAGER",
+            "editOrder"
+        );
+        if (result != null) return result;
+        return this.inventoryManagement.confirmOrder(orderId, productsList);
+    }
+
     /**
      * Remove order from the system and from DB
      * @param {number} orderId Order unique id
