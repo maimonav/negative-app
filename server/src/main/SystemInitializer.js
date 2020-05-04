@@ -224,7 +224,7 @@ class SystemInitializer {
         //TODO::add edit movie order with all the details after order supplied
         if (movieList.length != 0)
           await this.serviceLayer.addMovieOrder(
-            order.id.toString(),
+            creatorEmployeeName + order.date,
             order.date,
             supplierName,
             movieList,
@@ -233,7 +233,7 @@ class SystemInitializer {
         //TODO::add edit movie order with all the details after order supplied
         if (productList.length != 0)
           await this.serviceLayer.addCafeteriaOrder(
-            order.id.toString(),
+            creatorEmployeeName + order.date,
             order.date,
             supplierName,
             productList,

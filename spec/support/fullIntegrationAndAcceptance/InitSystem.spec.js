@@ -13,24 +13,24 @@ const {
   addProductsOrder,
 } = require("../DBtests/OrdersTests.spec");
 
-describe("Init System Tests", function () {
+describe("Init System Tests", function() {
   let service;
   let dbName;
 
-  beforeAll(async function () {
+  beforeAll(async function() {
     dbName = "inittest";
     service = new ServiceLayer();
     await service.initSeviceLayer(dbName);
   });
 
-  afterAll(async function () {
+  afterAll(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE " + dbName + ";");
     console.log("Database deleted");
   });
 
-  it("Tables creation", async function () {
+  it("Tables creation", async function() {
     try {
       await DB.sequelize.query("use " + dbName + ";");
       let result = await DB.sequelize.query("show tables in " + dbName + ";");
@@ -40,7 +40,7 @@ describe("Init System Tests", function () {
     }
   });
 
-  it("admin added", async function () {
+  it("admin added", async function() {
     expect(service.users.get("admin")).toBe(0);
     let result = await DB.singleGetById("user", { id: 0 });
     expect(result != null).toBe(true);
@@ -48,7 +48,7 @@ describe("Init System Tests", function () {
     expect(result.permissions).toBe("ADMIN");
   });
 
-  it("destroy timers added", async function () {
+  it("destroy timers added", async function() {
     try {
       await DB.sequelize.query("use " + dbName + ";");
       let result = await DB.sequelize.query("show events in " + dbName + ";");
@@ -58,7 +58,7 @@ describe("Init System Tests", function () {
     }
   });
 
-  it("general report added", async function () {
+  it("general report added", async function() {
     let todayDate = new Date();
     let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
     let result = await DB.singleGetById("general_purpose_daily_report", {
@@ -70,17 +70,17 @@ describe("Init System Tests", function () {
   });
 });
 
-describe("Init System Tests - Restore data Tests", function () {
+describe("Init System Tests - Restore data Tests", function() {
   let dbName;
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE " + dbName + ";");
     console.log("Database deleted");
   });
 
-  it("restore employees", async function () {
+  it("restore employees", async function() {
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
@@ -102,7 +102,7 @@ describe("Init System Tests - Restore data Tests", function () {
     );
   });
 
-  it("restore categories", async function () {
+  it("restore categories", async function() {
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
@@ -128,7 +128,7 @@ describe("Init System Tests - Restore data Tests", function () {
     );
   });
 
-  it("restore movies", async function () {
+  it("restore movies", async function() {
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
@@ -150,7 +150,7 @@ describe("Init System Tests - Restore data Tests", function () {
     });
   });
 
-  it("restore products", async function () {
+  it("restore products", async function() {
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
@@ -184,7 +184,7 @@ describe("Init System Tests - Restore data Tests", function () {
     });
   });
 
-  it("restore suppliers", async function () {
+  it("restore suppliers", async function() {
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
@@ -205,14 +205,15 @@ describe("Init System Tests - Restore data Tests", function () {
     });
   });
 
-  it("restore orders", async function (done) {
-    setTimeout(done, 4999);
+  it("restore orders", async function(done) {
+    setTimeout(done, 6000);
     dbName = "inittest";
     await DB.connectAndCreate(dbName);
     sequelize = await DB.initDB(dbName);
+    let date = new Date();
     await addEmployee(1);
     await addSupplier(0, "supplier");
-    await addOrderAftereSupplierCreator(1, true);
+    await addOrderAftereSupplierCreator(1, true, date);
     await addProductsOrder();
 
     setTimeout(async () => {
@@ -220,13 +221,13 @@ describe("Init System Tests - Restore data Tests", function () {
       await service.initSeviceLayer(dbName);
       if (service.orders.size === 0) fail("restore order - serviceLayer");
       let orderId = service.ordersCounter - 1;
-      expect(service.orders.get(orderId.toString())).toBe(orderId);
+      expect(service.orders.get("manager" + date.toString())).toBe(orderId);
       if (service.cinemaSystem.inventoryManagement.orders.size === 0)
         fail("restore order - inventoryManagement");
 
       let order = service.cinemaSystem.inventoryManagement.orders.get(0);
-      expect(order.date).toEqual(new Date("2020-03-02 00:00:00"));
-      expect(order.creatorEmployeeId).toBe(0);
+      expect(order.date.toString()).toBe(date.toString());
+      expect(order.creatorEmployeeId).toBe(1);
       expect(order.supplierId).toBe(0);
       if (order.productOrders.size === 0) fail("restore order - Order");
       order.productOrders.forEach((productOrder) => {
@@ -234,6 +235,7 @@ describe("Init System Tests - Restore data Tests", function () {
           expect(productOrder.movie.id).toEqual(0);
         else expect(productOrder.product.id).toEqual(0);
       });
-    }, 3000);
-  });
+      expect(order.name).toBe("manager" + date.toString());
+    }, 1000);
+  }, 7000);
 });
