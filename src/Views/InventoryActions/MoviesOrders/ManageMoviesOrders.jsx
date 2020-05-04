@@ -5,6 +5,7 @@ import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
@@ -14,10 +15,12 @@ import {
   EditMovieOrder,
   RemoveOrder,
   ShowMovieOrders,
+  ConfirmMovieOrder,
 } from "../../index";
 import {
   handleAddMovieOrder,
   handleRemoveOrder,
+  handleConfirmMovieOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
@@ -90,6 +93,16 @@ export default class ManageMoviesOrders extends React.Component {
                       <DeleteIcon />
                     </Fab>
                   </Tooltip>
+                  <Tooltip title="Confirm" aria-label="confirm">
+                    <Fab
+                      color="default"
+                      size="small"
+                      onClick={() => this.onChange("confirm")}
+                      style={iconStyle}
+                    >
+                      <CheckIcon />
+                    </Fab>
+                  </Tooltip>
                 </GridContainer>
               </CardHeader>
               {this.state.action === "show" && <ShowMovieOrders />}
@@ -99,6 +112,11 @@ export default class ManageMoviesOrders extends React.Component {
               {this.state.action === "edit" && <EditMovieOrder />}
               {this.state.action === "delete" && (
                 <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
+              )}
+              {this.state.action === "confirm" && (
+                <ConfirmMovieOrder
+                  handleConfirmMovieOrder={handleConfirmMovieOrder}
+                />
               )}
             </Card>
           </GridItem>

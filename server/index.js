@@ -311,7 +311,7 @@ app.get("/api/confirmCafeteriaOrder", (req, res) => {
       req.query.updatedProductsAndQuantity.trim()) ||
     "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.editCafetriaOrder(
+  const result = service.confirmCafeteriaOrder(
     orderId,
     productsName,
     updatedProductsAndQuantity,
@@ -499,5 +499,15 @@ app.get("/api/getIncomesReport", (req, res) => {
 
 app.get("/api/getGeneralReport", (req, res) => {
   const result = service.getGeneralReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/confirmMovieOrder", (req, res) => {
+  const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
+  const key = (req.query.key && req.query.key.trim()) || "";
+  const examinationRoom =
+    (req.query.examinationRoom && req.query.examinationRoom.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = service.confirmMovieOrder(orderId, key, examinationRoom, user);
   res.send(JSON.stringify({ result }));
 });
