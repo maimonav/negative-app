@@ -13,10 +13,16 @@ export function handleLogin(username, password, onLogin) {
   )
     .then(response => response.json())
     .then(state => {
-      if (state.result === "User Logged in succesfully.") {
-        onLogin(username);
+      if (
+        state.result &&
+        typeof state.result !== "string" &&
+        state.result[0] === "User Logged in succesfully."
+      ) {
+        onLogin(username, state.result[1]);
+        alert(state.result[0]);
+      } else {
+        alert(state.result);
       }
-      alert(state.result);
     });
 }
 /**

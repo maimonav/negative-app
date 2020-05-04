@@ -4,7 +4,7 @@ const simpleLogger = require("simple-node-logger");
 const logger = simpleLogger.createSimpleLogger("project.log");
 const DBlogger = simpleLogger.createSimpleLogger({
   logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
+  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS"
 });
 
 class SystemInitializer {
@@ -22,9 +22,12 @@ class SystemInitializer {
     //Turn database off
     //DataBase._testModeOn();
 
-    let result = await DataBase.connectAndCreate(dbName, password);
+    let result = await DataBase.connectAndCreate(
+      dbName ? dbName : undefined,
+      "admin123"
+    );
     if (typeof result === "string") return this._errorHandler(result);
-    result = await DataBase.initDB(dbName, password);
+    result = await DataBase.initDB(dbName ? dbName : undefined, "admin123");
     if (typeof result === "string") {
       DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
       return "Server initialization error\n" + result;
@@ -48,7 +51,7 @@ class SystemInitializer {
 
   static async _restoreEmployees(admin) {
     let employees = await DataBase.singleFindAll("employee", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof employees === "string")
       return this._errorHandler(employees, "restoreEmployees - employees");
@@ -77,7 +80,7 @@ class SystemInitializer {
   }
   static async _restoreCategories(admin) {
     let categories = await DataBase.singleFindAll("category", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof categories === "string")
       return this._errorHandler(categories, "restoreCategories - categories");
@@ -104,7 +107,7 @@ class SystemInitializer {
 
   static async _restoreMovies(admin) {
     let movies = await DataBase.singleFindAll("movie", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof movies === "string")
       return this._errorHandler(movies, "restoreMovies - movies");
@@ -166,7 +169,7 @@ class SystemInitializer {
   }
   static async _restoreSuppliers(admin) {
     let suppliers = await DataBase.singleFindAll("supplier", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof suppliers === "string")
       return this._errorHandler(suppliers, "restoreSuppliers - suppliers");
@@ -185,7 +188,7 @@ class SystemInitializer {
   }
   static async _restoreOrders() {
     let orders = await DataBase.singleFindAll("order", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof orders === "string")
       return this._errorHandler(orders, "restoreOrders - orders");
@@ -199,26 +202,26 @@ class SystemInitializer {
       );
       let creatorEmployeeName = creatorEmployee.userName;
       let movies = await DataBase.singleFindAll("movie_order", {
-        orderId: order.id,
+        orderId: order.id
       });
       if (typeof movies === "string")
         return this._errorHandler(movies, "restoreOrders - movies");
       let movieList = movies.map(
-        (e) =>
+        e =>
           this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
             e.movieId
           ).name
       );
       let products = await DataBase.singleFindAll("cafeteria_product_order", {
-        orderId: order.id,
+        orderId: order.id
       });
       if (typeof products === "string")
         return this._errorHandler(products, "restoreOrders - products");
-      let productList = products.map((e) => ({
+      let productList = products.map(e => ({
         name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
           e.productId
         ).name,
-        quantity: e.expectedQuantity,
+        quantity: e.expectedQuantity
       }));
       await this._executeActionInSystem(creatorEmployee, async () => {
         //TODO::add edit movie order with all the details after order supplied

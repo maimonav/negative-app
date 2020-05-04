@@ -5,6 +5,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import { manageEmployeesPath, manageSuppliersPath } from "../../consts/paths";
 import { employeesTabHook, suppliersTabHook } from "../../consts/data-hooks";
+import { isAtLeastDeputyManager } from "../../consts/permissions";
 import Tab from "@material-ui/core/Tab";
 const style = { textDecoration: "none", color: "black" };
 
@@ -19,6 +20,10 @@ export default function UserActionsDropDownTab(props) {
     setAnchorEl(null);
     props.handleTabChange && props.handleTabChange(path);
   };
+
+  if (!isAtLeastDeputyManager(props.permission)) {
+    return null;
+  }
 
   return (
     <>

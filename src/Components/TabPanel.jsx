@@ -34,14 +34,21 @@ export default function TablPanel(props) {
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
+              permission={props.permission}
             ></UserActionsDropDownTab>
           )}
           {props.isLogged && (
-            <InventoryActionsDropDownTab data-hook={inventoryActionsTabHook} />
+            <InventoryActionsDropDownTab
+              data-hook={inventoryActionsTabHook}
+              permission={props.permission}
+            />
           )}
 
           {props.isLogged && (
-            <ReportsActionsDropDownTab data-hook={reportsActionsTabHook} />
+            <ReportsActionsDropDownTab
+              data-hook={reportsActionsTabHook}
+              permission={props.permission}
+            />
           )}
           {props.isLogged && (
             <Link to={notificationPath} style={{ marginLeft: "auto" }}>

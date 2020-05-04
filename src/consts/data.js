@@ -1,11 +1,3 @@
-export const permissions = [
-  { title: "ADMIN" },
-  { title: "MANAGER" },
-  { title: "DEPUTY MANAGER" },
-  { title: "SHIFT MANAGER" },
-  { title: "EMPLOYEE" }
-];
-
 export const reportsPrettyTypes = [
   { title: "Inventory" },
   // { title: "General" },
