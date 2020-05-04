@@ -20,11 +20,11 @@ class ServiceLayer {
    * @param {string} dbName The database name
    * @returns {string} Success or failure string
    */
-  async initSeviceLayer(dbName) {
+  async initSeviceLayer(dbName, password) {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
-    let result = SystemInitializer.initSystem(this, dbName);
-    /*await this.login("admin", "admin");
+    let result = await SystemInitializer.initSystem(this, dbName, password);
+    await this.login("admin", "admin");
     await this.addNewEmployee(
       "aviv",
       "aviv",
@@ -54,7 +54,53 @@ class ServiceLayer {
       ["movie"],
       "aviv"
     );
-    await this.logout("aviv");*/
+    let todayDate = new Date();
+    await this.createDailyReport(
+      "inventory_daily_report",
+      JSON.stringify([
+        {
+          date: todayDate,
+          productId: 0,
+          creatorEmployeeId: 1,
+          quantitySold: 4,
+          quantityInStock: 8,
+          stockThrown: 8,
+        },
+      ]),
+      "aviv"
+    );
+    await this.createDailyReport(
+      "general_purpose_daily_report",
+      JSON.stringify([
+        {
+          date: todayDate,
+          creatorEmployeeId: 1,
+          additionalProps: [
+            ["Cash counted", "Report_Z_taken"],
+            { "Cash counted": "true", Report_Z_taken: "false" },
+          ],
+        },
+      ]),
+      "aviv"
+    );
+    await this.createDailyReport(
+      "incomes_daily_report",
+      JSON.stringify([
+        {
+          date: todayDate,
+          creatorEmployeeId: 1,
+          numOfTabsSales: 0,
+          cafeteriaCashRevenues: 20.0,
+          cafeteriaCreditCardRevenues: 20.0,
+          ticketsCashRevenues: 20.0,
+          ticketsCreditCardRevenues: 20.0,
+          tabsCashRevenues: 20.0,
+          tabsCreditCardRevenues: 20.0,
+        },
+      ]),
+      "aviv"
+    );
+    await this.logout("aviv");
     return result;
   }
 

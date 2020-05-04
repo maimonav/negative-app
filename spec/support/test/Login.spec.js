@@ -31,9 +31,10 @@ describe("LoginTest", () => {
     expect(user.login(correctUserName, wrongPassword)).toBe(
       "Incorrect user name or password"
     );
-    expect(user.login(correctUserName, correctPassword)).toBe(
-      "User Logged in succesfully."
-    );
+    expect(user.login(correctUserName, correctPassword)).toEqual([
+      "User Logged in succesfully.",
+      permissions,
+    ]);
     expect(user.login(correctUserName, correctPassword)).toBe(
       "The user already connected"
     );
@@ -72,9 +73,10 @@ describe("LoginTest", () => {
     expect(user.login(correctUserName, wrongPassword)).toBe(
       "Incorrect user name or password"
     );
-    expect(user.login(correctUserName, correctPassword)).toBe(
-      "User Logged in succesfully."
-    );
+    expect(user.login(correctUserName, correctPassword)).toEqual([
+      "User Logged in succesfully.",
+      permissions,
+    ]);
     expect(user.login(correctUserName, correctPassword)).toBe(
       "The user already connected"
     );
@@ -85,9 +87,9 @@ describe("LoginTest", () => {
     expect(cinemaSystem.login(correctUserName, correctPassword, wrongid)).toBe(
       "The user isn't exists"
     );
-    expect(cinemaSystem.login(correctUserName, correctPassword, user.id)).toBe(
-      "User Logged in succesfully."
-    );
+    expect(
+      cinemaSystem.login(correctUserName, correctPassword, user.id)
+    ).toEqual(["User Logged in succesfully.", permissions]);
   });
 
   it("integration-login Test on class ServiceLayer", () => {
@@ -96,8 +98,8 @@ describe("LoginTest", () => {
     expect(servicelayer.login(wrongUserName, correctPassword)).toBe(
       "Incorrect user name."
     );
-    expect(servicelayer.login(correctUserName, correctPassword, user.id)).toBe(
-      "User Logged in succesfully."
-    );
+    expect(
+      servicelayer.login(correctUserName, correctPassword, user.id)
+    ).toEqual(["User Logged in succesfully.", permissions]);
   });
 });

@@ -100,7 +100,7 @@ class User {
       return "Incorrect user name or password";
     }
     this.Loggedin = true;
-    return "User Logged in succesfully.";
+    return ["User Logged in succesfully.", this.permissions];
   }
 
   logout() {

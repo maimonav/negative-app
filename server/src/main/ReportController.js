@@ -34,7 +34,7 @@ class ReportController {
    * @param {Array(Object)} records Records to add in the report
    * @returns {Promise(string)} success or failure
    *
-   * @example of records
+   * @example of one record, record => array of records
    *
    * "inventory_daily_report" =>  {
         date: todayDate,
@@ -64,7 +64,6 @@ class ReportController {
   static async createDailyReport(type, records) {
     //validate type from enum of types
     if (!this._isValidType(type)) return "The requested report type is invalid";
-
     let actionsList = [];
     for (let i in records) {
       records[i].date = new Date(

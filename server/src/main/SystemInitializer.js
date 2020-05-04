@@ -15,16 +15,16 @@ class SystemInitializer {
    * @param {ServiceLayer} serviceLayer
    * @param {string} dbName The database name
    */
-  static async initSystem(serviceLayer, dbName) {
+  static async initSystem(serviceLayer, dbName, password) {
     this.serviceLayer = serviceLayer;
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
     //Turn database off
     //DataBase._testModeOn();
 
-    let result = await DataBase.connectAndCreate(dbName ? dbName : undefined);
+    let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
-    result = await DataBase.initDB(dbName ? dbName : undefined);
+    result = await DataBase.initDB(dbName, password);
     if (typeof result === "string") {
       DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
       return "Server initialization error\n" + result;
