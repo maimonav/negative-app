@@ -485,3 +485,19 @@ app.get("/api/getMovieOrderDetails", (req, res) => {
 server.listen(3001, () => {
   console.log("Express server is running on localhost:3001");
 });
+
+//example purpose only
+app.get("/api/getInventoryReport", (req, res) => {
+  const result = service.getInventoryReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getIncomesReport", (req, res) => {
+  const result = service.getIncomesReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getGeneralReport", (req, res) => {
+  const result = service.getGeneralReport();
+  res.send(JSON.stringify({ result }));
+});

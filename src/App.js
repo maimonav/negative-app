@@ -24,11 +24,22 @@ class App extends React.Component {
     }
   };
 
+  /**
+   * Login to system
+   * onLogin
+   * @param {string} username username for login to system
+   * @returns {void}
+   **/
   onLogin = username => {
     this.setState({ isLogged: true, username });
     localStorage.setItem("username", username);
   };
 
+  /**
+   * Loginout off system
+   * onLogout
+   * @returns {void}
+   **/
   onLogout = () => {
     this.setState({ isLogged: false });
     localStorage.setItem("username", "");
