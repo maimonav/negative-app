@@ -107,9 +107,8 @@ class Order {
                     },
                 });
             }
-            productsList
-                .filter((product) => this.productOrders.has(product.id))
-                .forEach((product) => {
+            productsList.forEach((product) => {
+                if (this.productOrders.has(product.id)) {
                     if (product instanceof CafeteriaProductOrder) {
                         DBActionList = DBActionList.concat({
                             name: DataBase._update,
@@ -120,7 +119,7 @@ class Order {
                                     productId: product.id,
                                 },
                                 element: {
-                                    expectedQuantity: product.quantity,
+                                    expectedQuantity: product.expectedQuantity,
                                 },
                             },
                         });
@@ -138,21 +137,9 @@ class Order {
                                 },
                             },
                         });
-                        DBActionList = DBActionList.concat({
-                            name: DataBase._update,
-                            model: "movie_order",
-                            params: {
-                                where: {
-                                    orderId: this.id,
-                                    movieId: product.id,
-                                },
-                                element: {
-                                    expectedQuantity: product.quantity,
-                                },
-                            },
-                        });
                     }
-                });
+                }
+            });
             let result = await DataBase.executeActions(DBActionList);
             if (typeof result === "string") {
                 this.writeToLog("info", "editOrder", result);
@@ -171,15 +158,9 @@ class Order {
                     if (this.productOrders.get(product.id) instanceof CafeteriaProductOrder)
                         this.productOrders
                         .get(product.id)
-                        .editCafeteriaProductOrderExpected(product.quantity);
+                        .editCafeteriaProductOrderExpected(parseInt(product.expectedQuantity));
                     else if (this.productOrders.get(product.id) instanceof MovieOrder) {
-                        this.productOrders
-                            .get(product.id)
-                            .editMovieOrder(
-                                product.quantity,
-                                product.key,
-                                product.examinationRoom
-                            );
+                        this.productOrders.get(product.id).editMovieOrder(product.quantity, product.key, product.examinationRoom);
                     }
                 }
             });

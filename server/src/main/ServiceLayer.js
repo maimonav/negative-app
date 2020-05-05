@@ -26,16 +26,7 @@ class ServiceLayer {
         this.userCounter++;
         let result = SystemInitializer.initSystem(this, dbName);
         await this.login("admin", "admin");
-        await this.addNewEmployee(
-            "aviv",
-            "aviv",
-            "aviv",
-            "aviv",
-            "ADMIN",
-            "aviv",
-            "admin",
-            false
-        );
+        await this.addNewEmployee("aviv", "aviv", "aviv", "aviv", "ADMIN", "aviv", "admin", false);
         await this.login("aviv", "aviv");
         await this.addNewSupplier("supplier", "aviv", "aviv");
         await this.addCategory("a", "aviv");
