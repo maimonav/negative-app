@@ -10,10 +10,7 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import CustomInput from "../../../Components/CustomInput/CustomInput.js";
-import {
-  handleGetOrdersByDates,
-  handleGetProductsAndQuantityByOrder,
-} from "../../../Handlers/Handlers";
+import { handleGetOrdersByDates } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ConfirmMovieOrder extends React.Component {
@@ -38,22 +35,12 @@ export default class ConfirmMovieOrder extends React.Component {
       .then((state) => this.setState({ orders: state.result }));
   };
 
-  handleGetProductAndQuntityByOrder = (orderId) => {
-    handleGetProductsAndQuantityByOrder(
-      localStorage.getItem("username"),
-      orderId
-    )
-      .then((response) => response.json())
-      .then((state) => this.setState({ productsWithQuantity: state.result }));
-  };
-
   toggleBox() {
     this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
     this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
-    this.handleGetProductAndQuntityByOrder(this.state.orderId);
     this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
   }
 

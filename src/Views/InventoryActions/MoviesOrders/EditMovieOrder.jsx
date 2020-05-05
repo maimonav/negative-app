@@ -11,6 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import EditTable from "../../../Components/Tables/EditTable";
 import {
+  handleGetMovieOrders,
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
@@ -47,6 +48,14 @@ export default class EditMovieOrder extends React.Component {
     )
       .then((response) => response.json())
       .then((state) => this.setState({ productsWithQuantity: state.result }));
+  };
+
+  handleGetMovieOrders = () => {
+    handleGetMovieOrders()
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ orders: state.result });
+      });
   };
 
   toggleBox() {
