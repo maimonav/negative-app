@@ -13,7 +13,7 @@ const socketServer = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-let result = service.initSeviceLayer();
+let result = service.initSeviceLayer(undefined, "admin123");
 
 const messages = ["Start Chatting!"];
 
