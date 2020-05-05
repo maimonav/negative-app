@@ -455,12 +455,6 @@ app.get("/api/getProductAndQuntityByOrder", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-// app.get("/api/getReportTypes", (req, res) => {
-//   const user = (req.query.user && req.query.user.trim()) || "";
-//   const result = service.getReportTypes(user);
-//   res.send(JSON.stringify({ result }));
-// });
-
 app.get("/api/getReport", async (req, res) => {
   const reportType =
     (req.query.reportType && req.query.reportType.trim()) || "";
@@ -485,20 +479,4 @@ app.get("/api/getMovieOrderDetails", (req, res) => {
 
 server.listen(3001, () => {
   console.log("Express server is running on localhost:3001");
-});
-
-//example purpose only
-app.get("/api/getInventoryReport", (req, res) => {
-  const result = service.getInventoryReport();
-  res.send(JSON.stringify({ result }));
-});
-
-app.get("/api/getIncomesReport", (req, res) => {
-  const result = service.getIncomesReport();
-  res.send(JSON.stringify({ result }));
-});
-
-app.get("/api/getGeneralReport", (req, res) => {
-  const result = service.getGeneralReport();
-  res.send(JSON.stringify({ result }));
 });

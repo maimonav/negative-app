@@ -555,14 +555,6 @@ export function handleGetCategoryDetails(categoryName, user) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
-/**
- * Handle get report types in system
- * @param {string} user
- * @returns {Promise(Array)} array of report types
- */
-export function handleGetReportTypes(user) {
-  return fetch(`/api/getReportTypes?user=${encodeURIComponent(user)}`);
-}
 
 export function handleGetReport(reportType, date, user) {
   return fetch(
@@ -586,17 +578,4 @@ export function handleGetMovieOrders() {
 
 export function handleGetMovieOrderDetails(order) {
   return fetch(`/api/getMovieOrderDetails?order=${encodeURIComponent(order)}`);
-}
-
-//Temporary
-export function handleGetInventoryReport() {
-  return fetch(`/api/getInventoryReport`);
-}
-
-export function handleGetIncomesReport() {
-  return fetch(`/api/getIncomesReport`);
-}
-
-export function handleGetGeneralReport() {
-  return fetch(`/api/getGeneralReport`);
 }

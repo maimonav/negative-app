@@ -1,7 +1,6 @@
 const CinemaSystem = require("./CinemaSystem");
 const SystemInitializer = require("./SystemInitializer");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
-const data = require("../../consts/data");
 
 class ServiceLayer {
   constructor() {
@@ -1224,16 +1223,6 @@ class ServiceLayer {
     return this.cinemaSystem.getCategoryDetails(
       this.categories.get(categoryName)
     );
-  }
-
-  getInventoryReport() {
-    return data.inventory_daily_report;
-  }
-  getIncomesReport() {
-    return data.incomes_daily_report;
-  }
-  getGeneralReport() {
-    return data.general_purpose_daily_report;
   }
 }
 module.exports = ServiceLayer;

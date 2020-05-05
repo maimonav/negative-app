@@ -21,29 +21,29 @@ export const inventoryColumns = [
   {
     width: 150,
     label: "Product",
-    dataKey: "product"
+    dataKey: "productName"
   },
   {
     width: 150,
     label: "Employee",
-    dataKey: "employee"
+    dataKey: "creatorEmployeeName"
   },
   {
     width: 150,
     label: "Quantity Sold",
-    dataKey: "quantity_sold",
+    dataKey: "quantitySold",
     numeric: true
   },
   {
     width: 150,
     label: "Quantity In Stock",
-    dataKey: "quantity_in_stock",
+    dataKey: "quantityInStock",
     numeric: true
   },
   {
     width: 150,
     label: "Stock Thrown",
-    dataKey: "stock_thrown",
+    dataKey: "stockThrown",
     numeric: true
   }
 ];
@@ -57,7 +57,7 @@ export const incomesColumns = [
   {
     width: 120,
     label: "Employee",
-    dataKey: "employee"
+    dataKey: "creatorEmployeeName"
   },
   {
     width: 120,
