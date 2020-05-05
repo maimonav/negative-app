@@ -25,7 +25,7 @@ class ServiceLayer {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
     let result = await SystemInitializer.initSystem(this, dbName, password);
-    /*await this.login("admin", "admin");
+    await this.login("admin", "admin");
     await this.addNewEmployee(
       "aviv",
       "aviv",
@@ -65,8 +65,8 @@ class ServiceLayer {
           creatorEmployeeId: 1,
           quantitySold: 4,
           quantityInStock: 8,
-          stockThrown: 8,
-        },
+          stockThrown: 8
+        }
       ]),
       "aviv"
     );
@@ -78,9 +78,9 @@ class ServiceLayer {
           creatorEmployeeId: 1,
           additionalProps: [
             ["Cash counted", "Report_Z_taken"],
-            { "Cash counted": "true", Report_Z_taken: "false" },
-          ],
-        },
+            { "Cash counted": "true", Report_Z_taken: "false" }
+          ]
+        }
       ]),
       "aviv"
     );
@@ -96,12 +96,13 @@ class ServiceLayer {
           ticketsCashRevenues: 20.0,
           ticketsCreditCardRevenues: 20.0,
           tabsCashRevenues: 20.0,
-          tabsCreditCardRevenues: 20.0,
-        },
+          tabsCreditCardRevenues: 20.0
+        }
       ]),
       "aviv"
     );
-    await this.logout("aviv");*/
+    await this.logout("aviv");
+    await this.logout("admin");
     return result;
   }
 

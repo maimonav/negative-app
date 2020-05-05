@@ -164,7 +164,7 @@ const columns = {
 };
 
 export default function ReactVirtualizedTable(props) {
-  console.log(columns[props.reportType]);
+  // console.log(columns[props.reportType]);
   return (
     <Paper style={{ height: 450, width: "100%" }}>
       <VirtualizedTable

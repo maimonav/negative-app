@@ -13,15 +13,15 @@ const socketServer = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-let result = service.initSeviceLayer();
+let result = service.initSeviceLayer(undefined, "admin123");
 
 const messages = ["Start Chatting!"];
 
-socketServer.on("connection", async (socketClient) => {
+socketServer.on("connection", async socketClient => {
   console.log("connected");
   console.log("client Set length: ", socketServer.clients.size);
 
-  socketClient.on("close", (socketClient) => {
+  socketClient.on("close", socketClient => {
     console.log("closed");
     console.log("Number of clients: ", socketServer.clients.size);
   });
@@ -37,7 +37,7 @@ socketServer.on("connection", async (socketClient) => {
   });*/
   let initResult = await result;
   if (typeof initResult === "string") {
-    socketServer.clients.forEach((client) => {
+    socketServer.clients.forEach(client => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(initResult);
       }
@@ -384,7 +384,7 @@ app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
   console.log("result = ");
-  result.map((category) => console.log(category));
+  result.map(category => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -455,11 +455,11 @@ app.get("/api/getProductAndQuntityByOrder", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/getReportTypes", (req, res) => {
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getReportTypes(user);
-  res.send(JSON.stringify({ result }));
-});
+// app.get("/api/getReportTypes", (req, res) => {
+//   const user = (req.query.user && req.query.user.trim()) || "";
+//   const result = service.getReportTypes(user);
+//   res.send(JSON.stringify({ result }));
+// });
 
 app.get("/api/getReport", async (req, res) => {
   const reportType =
@@ -467,6 +467,7 @@ app.get("/api/getReport", async (req, res) => {
   const date = (req.query.date && req.query.date.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.getReport(reportType, date, user);
+  console.log("Result", result);
   res.send(JSON.stringify({ result }));
 });
 

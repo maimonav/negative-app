@@ -10,9 +10,9 @@ import SelectDates from "../../Components/SelectDates";
 import ReactVirtualizedTable from "../../Components/Tables/ReportTable";
 import {
   // handleGetReportTypes,
-  // handleGetReport,
-  handleGetInventoryReport,
-  handleGetIncomesReport,
+  handleGetReport,
+  // handleGetInventoryReport,
+  // handleGetIncomesReport,
   handleGetGeneralReport
 } from "../../Handlers/Handlers";
 import { reportsTypes, reportsPrettyTypes } from "../../consts/data";
@@ -50,28 +50,33 @@ export default class ShowReport extends React.Component {
   };
 
   setReport = () => {
-    // handleGetReport(
+    // console.log(
     //   this.state.reportType,
     //   this.state.date,
     //   localStorage.getItem("username")
-    // )
-    //   .then(response => response.json())
-    //   .then(state => {
-    //     this.setState({ reportData: state.result });
-    //   });
-    if (this.state.reportType === "inventory_daily_report") {
-      handleGetInventoryReport()
-        .then(response => response.json())
-        .then(state => {
-          this.setState({ reportData: state.result });
-        });
-    } else if (this.state.reportType === "incomes_daily_report") {
-      handleGetIncomesReport()
-        .then(response => response.json())
-        .then(state => {
-          this.setState({ reportData: state.result });
-        });
-    }
+    // );
+    handleGetReport(
+      this.state.reportType,
+      this.state.date,
+      localStorage.getItem("username")
+    )
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ reportData: state.result });
+      });
+    // if (this.state.reportType === "inventory_daily_report") {
+    //   handleGetInventoryReport()
+    //     .then(response => response.json())
+    //     .then(state => {
+    //       this.setState({ reportData: state.result });
+    //     });
+    // } else if (this.state.reportType === "incomes_daily_report") {
+    //   handleGetIncomesReport()
+    //     .then(response => response.json())
+    //     .then(state => {
+    //       this.setState({ reportData: state.result });
+    //     });
+    // }
     // else if (this.state.reportType === "general_purpose_daily_report") {
     //   handleGetGeneralReport()
     //     .then(response => response.json())
@@ -79,9 +84,9 @@ export default class ShowReport extends React.Component {
     //       this.setState({ reportData: state.result });
     //     });
     // }
-    else {
-      this.resetData();
-    }
+    // else {
+    //   this.resetData();
+    // }
   };
 
   render() {
