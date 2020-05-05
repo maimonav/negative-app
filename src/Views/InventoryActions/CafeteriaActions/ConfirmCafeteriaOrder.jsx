@@ -34,7 +34,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
   }
 
   handleGetItemsByDates = (startDate, endDate) => {
-    handleGetOrdersByDates(startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate, true)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };

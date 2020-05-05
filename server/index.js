@@ -401,7 +401,14 @@ app.get("/api/getOrdersByDates", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const startDate = (req.query.startDate && req.query.startDate.trim()) || "";
   const endDate = (req.query.endDate && req.query.endDate.trim()) || "";
-  const result = service.getOrdersByDates(startDate, endDate, user);
+  const isCafeteriaOrder =
+    (req.query.isCafeteriaOrder && req.query.isCafeteriaOrder.trim()) || "";
+  const result = service.getOrdersByDates(
+    startDate,
+    endDate,
+    isCafeteriaOrder,
+    user
+  );
   res.send(JSON.stringify({ result }));
 });
 

@@ -36,7 +36,7 @@ export default class EditMovieOrder extends React.Component {
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
-    handleGetOrdersByDates(localStorage.getItem("username"), startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate, false)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };

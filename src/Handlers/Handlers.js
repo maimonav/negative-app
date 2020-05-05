@@ -431,11 +431,13 @@ export function handleConfirmCafeteriaOrder(
     });
 }
 
-export function handleGetOrdersByDates(startDate, endDate) {
+export function handleGetOrdersByDates(startDate, endDate, isCafeteriaOrder) {
   return fetch(
     `api/getOrdersByDates?startDate=${encodeURIComponent(
       startDate
-    )}&endDate=${encodeURIComponent(endDate)}`
+    )}&endDate=${encodeURIComponent(
+      endDate
+    )}&isCafeteriaOrder=${encodeURIComponent(isCafeteriaOrder)}`
   );
 }
 
@@ -489,8 +491,8 @@ export function handleGetCafeteriaProducts(username) {
   );
 }
 
-export function handleGetCafeteriaOrders(username) {
-  return fetch(`/api/getCafeteriaOrders?user=${encodeURIComponent(username)}`);
+export function handleGetCafeteriaOrders() {
+  return fetch(`/api/getCafeteriaOrders`);
 }
 
 export function handleGetSupplierDetails(supplier, user) {
@@ -514,12 +516,8 @@ export function handleGetEmployeeDetails(employee, user) {
   );
 }
 
-export function handleGetOrderDetails(order, user) {
-  return fetch(
-    `/api/getOrderDetails?order=${encodeURIComponent(
-      order
-    )}&user=${encodeURIComponent(user)}`
-  );
+export function handleGetOrderDetails(order) {
+  return fetch(`/api/getOrderDetails?order=${encodeURIComponent(order)}`);
 }
 
 export function handleGetMovieDetails(movieName, user) {

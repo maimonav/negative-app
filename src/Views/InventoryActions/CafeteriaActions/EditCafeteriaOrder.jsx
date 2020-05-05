@@ -35,7 +35,7 @@ export default class EditCafeteriaOrder extends React.Component {
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
-    handleGetOrdersByDates(startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate, true)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };
