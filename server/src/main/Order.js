@@ -288,8 +288,8 @@ class Order {
     }
     hasMoviesInOrder() {
         let hasMovies = false;
-        this.productOrders.values.forEach((product) => {
-            if (product instanceof MovieOrder) hasMovies = true;
+        this.productOrders.forEach((value, key) => {
+            if (value instanceof MovieOrder) hasMovies = true;
         });
         return hasMovies;
     }
