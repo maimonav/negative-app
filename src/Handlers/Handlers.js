@@ -194,7 +194,6 @@ export function handleRemoveProduct(productName) {
 }
 
 export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
-  console.log("moviesName:", JSON.stringify(moviesName));
   const user = localStorage.getItem("username");
   const orderId = `${user} , ${new Date()}`;
   fetch(
@@ -368,7 +367,7 @@ export function handleRemoveCategory(categoryName) {
 export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
   const productsList = JSON.stringify(productsName);
   const user = localStorage.getItem("username");
-  const orderId = `${user} , ${new Date()}`;
+  const orderId = `${user} , ${orderDate}`;
   fetch(
     `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
     &productsList=${productsList}&supplierName=${encodeURIComponent(
@@ -594,14 +593,15 @@ export function handleGetGeneralReport() {
   return fetch(`/api/getGeneralReport`);
 }
 
-export function handleConfirmMovieOrder(orderId, key, examinationRoom) {
+export function handleConfirmMovieOrder(orderId, updatedMovies) {
   const user = localStorage.getItem("username");
+  const movieList = JSON.stringify(updatedMovies);
   fetch(
     `api/confirmMovieOrder?orderId=${encodeURIComponent(
       orderId
-    )}&key=${encodeURIComponent(key)}&examinationRoom=${encodeURIComponent(
-      examinationRoom
-    )}&user=${encodeURIComponent(user)}`
+    )}&movieList=${encodeURIComponent(movieList)}&user=${encodeURIComponent(
+      user
+    )}`
   )
     .then((response) => response.json())
     .then((state) => {

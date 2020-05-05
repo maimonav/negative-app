@@ -9,8 +9,11 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
-import CustomInput from "../../../Components/CustomInput/CustomInput.js";
-import { handleGetOrdersByDates } from "../../../Handlers/Handlers";
+import EditTable from "../../../Components/Tables/EditTable";
+import {
+  handleGetOrdersByDates,
+  handleGetProductsAndQuantityByOrder,
+} from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ConfirmMovieOrder extends React.Component {
@@ -20,13 +23,14 @@ export default class ConfirmMovieOrder extends React.Component {
       orderId: "",
       isOpened: false,
       openSecond: false,
+      openThird: false,
       startDate: new Date(),
       endDate: new Date(),
-      key: "",
-      examinationRoom: "",
+      updatedMovies: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
+    this.toggleThirdBox = this.toggleThirdBox.bind(this);
   }
 
   handleGetItemsByDates = (startDate, endDate) => {
@@ -35,13 +39,24 @@ export default class ConfirmMovieOrder extends React.Component {
       .then((state) => this.setState({ orders: state.result }));
   };
 
+  handleGetProductAndQuntityByOrder = (orderId) => {
+    handleGetProductsAndQuantityByOrder(orderId)
+      .then((response) => response.json())
+      .then((state) => this.setState({ movies: state.result }));
+  };
+
   toggleBox() {
     this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
     this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
+    this.handleGetProductAndQuntityByOrder(this.state.orderId);
     this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+  }
+
+  toggleThirdBox() {
+    this.setState((oldState) => ({ openThird: !oldState.openThird }));
   }
 
   setStartDate = (date) => {
@@ -56,23 +71,28 @@ export default class ConfirmMovieOrder extends React.Component {
     this.setState({ orderId: name });
   };
 
-  setKey = (event) => {
-    this.setState({ key: event.target.value });
+  setUpdatedMovies = (name) => {
+    this.setState({
+      updatedMovies: name,
+    });
   };
 
-  setExaminationRoom = (event) => {
-    this.setState({ examinationRoom: event.target.value });
-  };
+  columns = [
+    { title: "Movie Name", field: "name" },
+    { title: "Key", field: "key" },
+    { title: "Examination room", field: "examinationRoom" },
+  ];
 
   render() {
     const {
       startDate,
       endDate,
       orderId,
-      key,
-      examinationRoom,
+      movies,
+      updatedMovies,
       isOpened,
       openSecond,
+      openThird,
     } = this.state;
     return (
       <div>
@@ -132,40 +152,22 @@ export default class ConfirmMovieOrder extends React.Component {
                 <CardBody>
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={15}>
-                      <CustomInput
-                        labelText="Movie Key"
-                        id="key"
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
-                        onChange={(event) => this.setKey(event)}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <CustomInput
-                        labelText="Movie Examination room"
-                        id="examinationRoom"
-                        formControlProps={{
-                          fullWidth: true,
-                        }}
-                        onChange={(event) => this.setExaminationRoom(event)}
+                      <EditTable
+                        columns={this.columns}
+                        data={movies}
+                        setItems={this.setUpdatedMovies}
+                        openSecondBox={this.toggleThirdBox}
                       />
                     </GridItem>
                   </GridContainer>
                 </CardBody>
               )}
-              {openSecond && (
+              {openThird && (
                 <CardFooter>
                   <Button
                     color="info"
                     onClick={() =>
-                      this.props.handleConfirmMovieOrder(
-                        orderId,
-                        key,
-                        examinationRoom
-                      )
+                      this.props.handleConfirmMovieOrder(orderId, updatedMovies)
                     }
                   >
                     Confirm Movie Order

@@ -502,12 +502,11 @@ app.get("/api/getGeneralReport", (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/confirmMovieOrder", (req, res) => {
+app.get("/api/confirmMovieOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const key = (req.query.key && req.query.key.trim()) || "";
-  const examinationRoom =
-    (req.query.examinationRoom && req.query.examinationRoom.trim()) || "";
+  const movieList = (req.query.movieList && req.query.movieList.trim()) || "";
+  const updatedMovieList = JSON.parse(movieList);
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.confirmMovieOrder(orderId, key, examinationRoom, user);
+  const result = await service.confirmOrder(orderId, updatedMovieList, user);
   res.send(JSON.stringify({ result }));
 });
