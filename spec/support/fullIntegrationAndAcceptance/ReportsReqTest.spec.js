@@ -109,7 +109,9 @@ describe("Report Operations Tests", function() {
     }
   }, 6000);
 
-  it("getReport req 1.1.13, 2.5, 2.7", async function() {
+  it("getReport req 1.1.13, 2.5, 2.7", async function(done) {
+    setTimeout(done, 5000);
+
     let user = "admin";
     let records = JSON.stringify([]);
     service.login(user, user);
@@ -160,7 +162,7 @@ describe("Report Operations Tests", function() {
       result = await service.getReport(types[i], todayDate, "username");
       testFunctions[i](result[0], reportsAfter[i]);
     }
-  });
+  }, 6000);
 
   it("addFieldToDailyReport req 2.8", async function() {
     let user = "admin";

@@ -22,8 +22,9 @@ class CinemaSystem {
         return record;
       },
       general_purpose_daily_report: (record) => {
-        for (let i in Object.keys(record.additionalProps[1])) {
-          let propName = record.additionalProps[1][i];
+        let keys = Object.keys(record.additionalProps[1]);
+        for (let i in keys) {
+          let propName = keys[i];
           record[propName] = record.additionalProps[1][propName];
         }
         record.props = ReportController._generalDailyReoprtFormat;
