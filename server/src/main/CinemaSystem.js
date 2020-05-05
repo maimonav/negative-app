@@ -14,16 +14,22 @@ class CinemaSystem {
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
     this.convertionMethods = {
-      inventory_daily_report: record => {
+      inventory_daily_report: (record) => {
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      general_purpose_daily_report: record =>
-        this.employeeAndDateConvertion(record),
-      incomes_daily_report: record => this.employeeAndDateConvertion(record)
+      general_purpose_daily_report: (record) => {
+        for (let prop in Object.keys(record.additionalProps[1])) {
+          record[prop] = record.additionalProps[1][prop];
+        }
+        record.props = ReportController._generalDailyReoprtFormat;
+        record = this.employeeAndDateConvertion(record);
+        return record;
+      },
+      incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
     };
   }
 

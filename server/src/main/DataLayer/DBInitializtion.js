@@ -128,7 +128,7 @@ async function _setDestroyTimerForAllTables() {
 async function initDB(dbName, password) {
   if (DataBase._isTestMode) return;
   let defaultDBName = "mydb";
-  let defaultPassword = "admin";
+  let defaultPassword = "admin123";
   DataBase.sequelize = new Sequelize(
     dbName ? dbName : defaultDBName,
     "root",
@@ -236,7 +236,7 @@ async function _initGeneralReport() {
 async function connectAndCreate(dbName, password) {
   if (DataBase._isTestMode) return;
   let defaultDBName = "mydb";
-  let defaultPassword = "admin";
+  let defaultPassword = "admin123";
   try {
     DataBase.connection = mysql.createConnection({
       host: "localhost",

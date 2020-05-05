@@ -13,6 +13,7 @@ class ReportController {
     MOVIES: "movie_daily_report",
     INCOMES: "incomes_daily_report",
   };
+  static _generalDailyReoprtFormat = [];
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
@@ -143,6 +144,9 @@ class ReportController {
       DBlogger.info("ReportController - addFieldToDailyReport - ", result);
       return "The report field cannot be added\n" + result;
     }
+    this._generalDailyReoprtFormat = this._generalDailyReoprtFormat.concat(
+      newField
+    );
     return "The report field added successfully";
   }
 
@@ -183,16 +187,5 @@ class ReportController {
     }
     return "The report field removed successfully";
   }
-
-  static exportMonthlyHoursReportPerEmployee(
-    date,
-    employeeToSearchID,
-    employeeId
-  ) {}
-  static exportDailyIncome(date) {}
-  static exportDailyMovieReport(date) {}
-  static exportDailyGeneralReport(date) {}
-  static exportDailyReport(date) {}
-  static getDailyReoprtFormat() {}
 }
 module.exports = ReportController;

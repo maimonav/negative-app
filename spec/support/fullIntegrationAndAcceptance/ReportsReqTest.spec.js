@@ -152,7 +152,7 @@ describe("Report Operations Tests", function() {
     let reportsAfter = reports;
     reportsAfter[0].productName = "productTest";
     for (let i in reportsAfter) {
-      reportsAfter[i].date = getSyncDateFormat(reportsAfter[i].date);
+      reportsAfter[i].date = reportsAfter[i].date.toDateString();
       reportsAfter[i].creatorEmployeeName = "first last";
     }
 
