@@ -413,18 +413,16 @@ export function handleRemoveOrder(orderId) {
 }
 
 export function handleConfirmCafeteriaOrder(
-  productsName,
   orderId,
   updatedProductsAndQuantity
 ) {
   const user = localStorage.getItem("username");
+  const updatedProducts = JSON.stringify(updatedProductsAndQuantity);
   fetch(
     `api/confirmCafeteriaOrder?orderId=${encodeURIComponent(
       orderId
-    )}&productsName=${encodeURIComponent(
-      productsName
-    )}&updatedProductsAndQuantity=${encodeURIComponent(
-      updatedProductsAndQuantity
+    )}&updatedProducts=${encodeURIComponent(
+      updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
     .then((response) => response.json())

@@ -238,7 +238,9 @@ class Order {
         if (
           this.productOrders.get(product.id) instanceof CafeteriaProductOrder
         ) {
-          this.productOrders.get(product.id).confirmOrder(product.quantity);
+          this.productOrders
+            .get(product.id)
+            .confirmOrder(product.actualQuantity);
         } else if (this.productOrders.get(product.id) instanceof MovieOrder) {
           this.productOrders
             .get(product.id)

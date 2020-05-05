@@ -302,21 +302,13 @@ app.get("/api/RemoveOrder", async (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/confirmCafeteriaOrder", (req, res) => {
+app.get("/api/confirmCafeteriaOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const productsName =
-    (req.query.productsName && req.query.productsName.trim()) || "";
-  const updatedProductsAndQuantity =
-    (req.query.updatedProductsAndQuantity &&
-      req.query.updatedProductsAndQuantity.trim()) ||
-    "";
+  const updatedProducts =
+    (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
+  const productsList = JSON.parse(updatedProducts);
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.confirmCafeteriaOrder(
-    orderId,
-    productsName,
-    updatedProductsAndQuantity,
-    user
-  );
+  const result = await service.confirmOrder(orderId, productsList, user);
   res.send(JSON.stringify({ result }));
 });
 

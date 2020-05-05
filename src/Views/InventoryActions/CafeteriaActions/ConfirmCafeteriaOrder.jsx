@@ -168,7 +168,6 @@ export default class ConfirmCafeteriaOrder extends React.Component {
                     color="info"
                     onClick={() =>
                       this.props.handleConfirmCafeteriaOrder(
-                        this.state.productsWithQuantity,
                         orderId,
                         updatedProducts
                       )
