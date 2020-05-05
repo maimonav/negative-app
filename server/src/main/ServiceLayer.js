@@ -64,11 +64,13 @@ class ServiceLayer {
           creatorEmployeeId: 1,
           quantitySold: 4,
           quantityInStock: 8,
-          stockThrown: 8
-        }
+          stockThrown: 8,
+        },
       ]),
       "aviv"
     );
+    await this.addFieldToDailyReport("Cash counted");
+    await this.addFieldToDailyReport("Report Z taken");
     await this.createDailyReport(
       "general_purpose_daily_report",
       JSON.stringify([
@@ -76,10 +78,10 @@ class ServiceLayer {
           date: todayDate,
           creatorEmployeeId: 1,
           additionalProps: [
-            ["Cash counted", "Report_Z_taken"],
-            { "Cash counted": "true", Report_Z_taken: "false" }
-          ]
-        }
+            ["Cash counted", "Report Z taken"],
+            { "Cash counted": "true", "Report Z taken": "false" },
+          ],
+        },
       ]),
       "aviv"
     );
@@ -95,8 +97,8 @@ class ServiceLayer {
           ticketsCashRevenues: 20.0,
           ticketsCreditCardRevenues: 20.0,
           tabsCashRevenues: 20.0,
-          tabsCreditCardRevenues: 20.0
-        }
+          tabsCreditCardRevenues: 20.0,
+        },
       ]),
       "aviv"
     );
