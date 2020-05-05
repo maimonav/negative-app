@@ -1,6 +1,6 @@
 export const reportsPrettyTypes = [
   { title: "Inventory" },
-  // { title: "General" },
+  { title: "General" },
   // { title: "Movies" },
   { title: "Incomes" }
 ];
@@ -11,6 +11,13 @@ export const reportsTypes = {
   Movies: "movie_daily_report",
   Incomes: "incomes_daily_report"
 };
+
+export const reportsTypesObj = Object.freeze({
+  Inventory: "inventory_daily_report",
+  General: "general_purpose_daily_report",
+  Movies: "movie_daily_report",
+  Incomes: "incomes_daily_report"
+});
 
 export const inventoryColumns = [
   {
@@ -94,5 +101,18 @@ export const incomesColumns = [
     label: "Tabs Credit Incomes",
     dataKey: "tabsCreditCardRevenues",
     numeric: true
+  }
+];
+
+export const generalColumns = [
+  {
+    width: 150,
+    label: "Date",
+    dataKey: "date"
+  },
+  {
+    width: 120,
+    label: "Employee",
+    dataKey: "creatorEmployeeName"
   }
 ];
