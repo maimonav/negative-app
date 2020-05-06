@@ -60,6 +60,7 @@ export default class EditCafeteriaOrder extends React.Component {
   toggleThirdBox() {
     this.setState((oldState) => ({ openThird: !oldState.openThird }));
     this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   setStartDate = (date) => {
@@ -155,9 +156,11 @@ export default class EditCafeteriaOrder extends React.Component {
                     </GridItem>
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
-                    <Button color="info" onClick={this.toggleSecondBox}>
-                      Choose order
-                    </Button>
+                    {orderId && (
+                      <Button color="info" onClick={this.toggleSecondBox}>
+                        Choose order
+                      </Button>
+                    )}
                   </GridContainer>
                 </CardBody>
               )}
@@ -186,7 +189,7 @@ export default class EditCafeteriaOrder extends React.Component {
                 </CardBody>
               )}
               {openThird && (
-                <CardFooter>
+                <CardFooter style={{ justifyContent: "center" }}>
                   <Button
                     color="info"
                     onClick={() =>

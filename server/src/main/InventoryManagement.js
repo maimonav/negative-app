@@ -888,7 +888,7 @@ class InventoryManagemnt {
       const orderDate = order.date;
       orderDate.setHours(0, 0, 0, 0);
       if (!(orderDate > endDate) && !(orderDate < startDate)) {
-        if (typeof isCafetriaProductOrder === "undefined")
+        if (isCafetriaProductOrder === "undefined")
           result.push({ title: order.name });
         else {
           if (

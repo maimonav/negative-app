@@ -64,6 +64,8 @@ export default class EditTable extends React.Component {
 
   render() {
     const { columns, data } = this.state;
+    const checkifDone = this.props.data !== this.state.data;
+    console.log("checkifDone:", checkifDone);
     return (
       <>
         {data && (
@@ -111,9 +113,11 @@ export default class EditTable extends React.Component {
             }}
           />
         )}
-        <Button color="info" onClick={this.handleOnclick}>
-          Finish Manage Products Quantity
-        </Button>
+        {checkifDone && (
+          <Button color="info" onClick={this.handleOnclick}>
+            Finish Manage Products Quantity
+          </Button>
+        )}
       </>
     );
   }
