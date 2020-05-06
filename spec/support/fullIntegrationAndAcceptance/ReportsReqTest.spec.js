@@ -44,7 +44,7 @@ describe("Report Operations Tests", function() {
     {
       date: todayDate,
       creatorEmployeeId: 1,
-      additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+      additionalProps: [[], { "Cash counted": "true" }],
     },
   ];
 
@@ -159,6 +159,10 @@ describe("Report Operations Tests", function() {
     }
 
     for (let i in types) {
+      if (types[i] === "general_purpose_daily_report") {
+        reportsAfter[i].props = [];
+        reportsAfter[i]["Cash counted"] = "true";
+      }
       result = await service.getReport(types[i], todayDate, "username");
       testFunctions[i](result[0], reportsAfter[i]);
     }
