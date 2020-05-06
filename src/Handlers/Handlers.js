@@ -394,8 +394,8 @@ export function handleEditCafeteriaOrder(
       orderId
     )}&orderDate=${encodeURIComponent(
       orderDate
-    )}&updatedProductsList=${encodeURIComponent(
-      updatedProductsList
+    )}&updatedProducts=${encodeURIComponent(
+      updatedProducts
     )}&user=${encodeURIComponent(user)}`
         )
         .then((response) => response.json())
