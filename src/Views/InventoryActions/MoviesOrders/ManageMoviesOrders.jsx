@@ -21,6 +21,7 @@ import {
   handleAddMovieOrder,
   handleRemoveOrder,
   handleConfirmMovieOrder,
+  handleEditMovieOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
@@ -109,7 +110,9 @@ export default class ManageMoviesOrders extends React.Component {
               {this.state.action === "add" && (
                 <AddMovieOrder handleAddMovieOrder={handleAddMovieOrder} />
               )}
-              {this.state.action === "edit" && <EditMovieOrder />}
+              {this.state.action === "edit" && (
+                <EditMovieOrder handleEditMovieOrder={handleEditMovieOrder} />
+              )}
               {this.state.action === "delete" && (
                 <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
               )}

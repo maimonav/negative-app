@@ -25,7 +25,7 @@ export default class EditMovieOrder extends React.Component {
       endDate: new Date(),
       orderId: "",
       orderDate: new Date(),
-      updatedProducts: "",
+      updatedMovies: "",
       isOpened: false,
       openSecond: false,
       openThird: false,
@@ -85,12 +85,6 @@ export default class EditMovieOrder extends React.Component {
     this.setState({ orderDate: date });
   };
 
-  setProductsWithQuantity = (name) => {
-    this.setState({
-      updatedProducts: name,
-    });
-  };
-
   setUpdatedMovies = (name) => {
     this.setState({
       updatedMovies: name,
@@ -108,7 +102,7 @@ export default class EditMovieOrder extends React.Component {
       orderId,
       movies,
       orderDate,
-      updatedProducts,
+      updatedMovies,
       isOpened,
       openSecond,
       openThird,
@@ -193,7 +187,16 @@ export default class EditMovieOrder extends React.Component {
               )}
               {openThird && (
                 <CardFooter>
-                  <Button color="info" onClick={() => ""}>
+                  <Button
+                    color="info"
+                    onClick={() =>
+                      this.props.handleEditMovieOrder(
+                        orderId,
+                        orderDate,
+                        updatedMovies
+                      )
+                    }
+                  >
                     Edit Order
                   </Button>
                 </CardFooter>

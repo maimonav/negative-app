@@ -610,15 +610,17 @@ export function handleConfirmMovieOrder(orderId, updatedMovies) {
     });
 }
 
-export function handleEditMovieOrder(orderId, updatedMovies) {
+export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
   const user = localStorage.getItem("username");
-  const movieList = JSON.stringify(updatedMovies);
+  const updatedProducts = JSON.stringify(updatedMovies);
   fetch(
-    `api/confirmMovieOrder?orderId=${encodeURIComponent(
+    `api/editMovieOrder?orderId=${encodeURIComponent(
       orderId
-    )}&movieList=${encodeURIComponent(movieList)}&user=${encodeURIComponent(
-      user
-    )}`
+    )}&orderDate=${encodeURIComponent(
+      orderDate
+    )}&updatedProducts=${encodeURIComponent(
+      updatedProducts
+    )}&user=${encodeURIComponent(user)}`
   )
     .then((response) => response.json())
     .then((state) => {

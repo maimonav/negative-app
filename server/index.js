@@ -509,3 +509,20 @@ app.get("/api/confirmMovieOrder", async (req, res) => {
   const result = await service.confirmOrder(orderId, updatedMovieList, user);
   res.send(JSON.stringify({ result }));
 });
+
+app.get("/api/editMovieOrder", async (req, res) => {
+  const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
+  const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
+  const updatedProducts =
+    (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
+  const moviesList = JSON.parse(updatedProducts);
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.editOrder(
+    orderId,
+    orderDate,
+    null,
+    moviesList,
+    user
+  );
+  res.send(JSON.stringify({ result }));
+});

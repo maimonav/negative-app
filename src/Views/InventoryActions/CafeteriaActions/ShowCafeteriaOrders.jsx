@@ -12,6 +12,7 @@ import {
   handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
 import SimpleTable from "../../../Components/Tables/SimpleTable";
+import moment from "moment";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowCafeteriaOrders extends React.Component {
@@ -73,7 +74,9 @@ export default class ShowCafeteriaOrders extends React.Component {
                         id="field1"
                         defaultValue=""
                         label="Order Date"
-                        value={orderId.orderDate || ""}
+                        value={
+                          moment(orderId.orderDate).format("DD/MM/YYYY") || ""
+                        }
                         InputProps={{
                           readOnly: true,
                         }}

@@ -7,6 +7,7 @@ import TextField from "@material-ui/core/TextField";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
+import moment from "moment";
 import {
   handleGetMovieOrders,
   handleGetMovieOrderDetails,
@@ -42,6 +43,7 @@ export default class ShowMovieOrders extends React.Component {
   columns = [{ title: "Product Name", field: "name" }];
 
   render() {
+    const { orderId } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -67,7 +69,9 @@ export default class ShowMovieOrders extends React.Component {
                         id="field1"
                         defaultValue=""
                         label="Order Date"
-                        value={this.state.orderId.orderDate || ""}
+                        value={
+                          moment(orderId.orderDate).format("DD/MM/YYYY") || ""
+                        }
                         InputProps={{
                           readOnly: true,
                         }}
@@ -79,7 +83,7 @@ export default class ShowMovieOrders extends React.Component {
                         id="field2"
                         defaultValue=""
                         label="supplier Details"
-                        value={this.state.orderId.supplierDetails || ""}
+                        value={orderId.supplierDetails || ""}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -91,7 +95,7 @@ export default class ShowMovieOrders extends React.Component {
                         id="field3"
                         defaultValue=""
                         label="Movies:"
-                        value={this.state.orderId.products || ""}
+                        value={orderId.products || ""}
                         InputProps={{
                           readOnly: true,
                         }}
