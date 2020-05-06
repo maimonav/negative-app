@@ -98,8 +98,7 @@ export default class AddMovieOrder extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-
-              <CardFooter>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
                   onClick={() =>

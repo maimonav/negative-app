@@ -887,7 +887,6 @@ class InventoryManagemnt {
         this.orders.forEach((order) => {
             const orderDate = order.date;
             orderDate.setHours(0, 0, 0, 0);
-            let date = typeof orderDate === 'string' ? new Date(orderDate) : orderDate;
             if (!(orderDate > endDate) && !(orderDate < startDate)) {
                 if (isCafetriaProductOrder === "undefined")
                     result.push({ title: order.name });
@@ -905,7 +904,6 @@ class InventoryManagemnt {
                 }
             }
         });
-        console.log(result);
         return result;
     }
 

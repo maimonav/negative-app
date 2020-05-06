@@ -162,7 +162,7 @@ export default class AddCafeteriaOrder extends React.Component {
                 </CardBody>
               )}
               {openSecond && (
-                <CardFooter>
+                <CardFooter style={{ justifyContent: "center" }}>
                   <Button
                     color="info"
                     onClick={() =>
