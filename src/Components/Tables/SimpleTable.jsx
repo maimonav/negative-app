@@ -15,7 +15,6 @@ export default class SimpleTable extends React.Component {
 
   render() {
     const { colums, data } = this.props;
-    console.log("data:", data);
     return (
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
@@ -33,7 +32,8 @@ export default class SimpleTable extends React.Component {
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell>{row.quantity}</TableCell>
+                  <TableCell>{row.expectedQuantity}</TableCell>
+                  <TableCell>{row.actualQuantity}</TableCell>
                 </TableRow>
               ))}
             </TableBody>

@@ -33,7 +33,7 @@ const iconStyle = {
 export default class ManageMoviesOrders extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "add" };
+    this.state = { action: "show" };
   }
 
   onChange = (action) => {
