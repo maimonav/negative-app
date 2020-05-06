@@ -161,47 +161,47 @@ async function removeEmployee(id, isTest) {
 }
 exports.removeEmployee = removeEmployee;
 
-describe("DB Unit Testing - user and employee", function () {
+describe("DB Tests - user and employee", function() {
   let sequelize;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     //create connection & mydb
     await DB.connectAndCreate("mydbTest");
     sequelize = await DB.initDB("mydbTest");
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE mydbTest");
     console.log("Database deleted");
   });
 
-  it("init", async function () {
+  it("init", async function() {
     //Testing connection
     await sequelize
       .authenticate()
       .catch((err) => fail("Unable to connect to the database:", err));
   });
 
-  it("add user", async function () {
+  it("add user", async function() {
     await addUser(true);
   });
 
-  it("add employee", async function () {
+  it("add employee", async function() {
     await addEmployeeWithoutUser();
     await addUser();
     await addEmployee(1, "manager", true);
   });
 
-  it("update user and employee", async function () {
+  it("update user and employee", async function() {
     await addUser();
     await addEmployee(1);
     await updateUser();
     await updateEmployee();
   });
 
-  it("remove user and employee", async function () {
+  it("remove user and employee", async function() {
     await addUser();
     await addEmployee(1);
     await removeUser(1, true);
