@@ -42,12 +42,9 @@ export default class EditMovieOrder extends React.Component {
   };
 
   handleGetProductAndQuntityByOrder = (orderId) => {
-    handleGetProductsAndQuantityByOrder(
-      localStorage.getItem("username"),
-      orderId
-    )
+    handleGetProductsAndQuantityByOrder(orderId)
       .then((response) => response.json())
-      .then((state) => this.setState({ productsWithQuantity: state.result }));
+      .then((state) => this.setState({ movies: state.result }));
   };
 
   handleGetMovieOrders = () => {
@@ -94,12 +91,22 @@ export default class EditMovieOrder extends React.Component {
     });
   };
 
-  columns = [{ title: "Product Name", field: "name" }];
+  setUpdatedMovies = (name) => {
+    this.setState({
+      updatedMovies: name,
+    });
+  };
+
+  columns = [
+    { title: "Movie Name", field: "name" },
+    { title: "Key", field: "key" },
+    { title: "Examination room", field: "examinationRoom" },
+  ];
 
   render() {
     const {
       orderId,
-      productsWithQuantity,
+      movies,
       orderDate,
       updatedProducts,
       isOpened,
@@ -176,8 +183,8 @@ export default class EditMovieOrder extends React.Component {
                     <GridItem xs={12} sm={12} md={15}>
                       <EditTable
                         columns={this.columns}
-                        data={this.state.productsWithQuantity}
-                        setItems={this.setProductsWithQuantity}
+                        data={movies}
+                        setItems={this.setUpdatedMovies}
                         openSecondBox={this.toggleThirdBox}
                       />
                     </GridItem>

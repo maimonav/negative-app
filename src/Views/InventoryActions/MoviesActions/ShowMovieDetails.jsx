@@ -7,7 +7,6 @@ import TextField from "@material-ui/core/TextField";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
-import SimpleTable from "../../../Components/Tables/SimpleTable";
 import {
   handleGetMovies,
   handleGetMovieDetails,

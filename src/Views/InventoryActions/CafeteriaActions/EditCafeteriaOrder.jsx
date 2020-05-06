@@ -13,6 +13,7 @@ import EditTable from "../../../Components/Tables/EditTable";
 import {
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
+  handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -23,7 +24,7 @@ export default class EditCafeteriaOrder extends React.Component {
       startDate: new Date(),
       endDate: new Date(),
       orderId: "",
-      orderDate: new Date(),
+      orderDate: "",
       updatedProducts: "",
       isOpened: false,
       openSecond: false,
@@ -58,6 +59,7 @@ export default class EditCafeteriaOrder extends React.Component {
 
   toggleThirdBox() {
     this.setState((oldState) => ({ openThird: !oldState.openThird }));
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
   }
 
   setStartDate = (date) => {
@@ -68,8 +70,13 @@ export default class EditCafeteriaOrder extends React.Component {
     this.setState({ endDate: date });
   };
 
-  setOrderName = (name) => {
-    this.setState({ orderId: name });
+  setOrderName = (orderId) => {
+    this.setState({ orderId });
+    handleGetOrderDetails(orderId)
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ orderDate: state.result.orderDate });
+      });
   };
 
   setOrderDate = (date) => {
