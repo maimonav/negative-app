@@ -69,8 +69,8 @@ class ServiceLayer {
       ]),
       "aviv"
     );
-    await this.addFieldToDailyReport("Cash counted");
-    await this.addFieldToDailyReport("Report Z taken");
+    await this.addFieldToDailyReport("Cash counted", "admin");
+    await this.addFieldToDailyReport("Report Z taken", "admin");
     await this.createDailyReport(
       "general_purpose_daily_report",
       JSON.stringify([
