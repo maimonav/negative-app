@@ -26,7 +26,16 @@ class ServiceLayer {
         this.userCounter++;
         let result = SystemInitializer.initSystem(this, dbName);
         await this.login("admin", "admin");
-        await this.addNewEmployee("aviv", "aviv", "aviv", "aviv", "ADMIN", "aviv", "admin", false);
+        await this.addNewEmployee(
+            "aviv",
+            "aviv",
+            "aviv",
+            "aviv",
+            "ADMIN",
+            "aviv",
+            "admin",
+            false
+        );
         await this.login("aviv", "aviv");
         await this.addNewSupplier("supplier", "aviv", "aviv");
         await this.addCategory("a", "aviv");
@@ -570,8 +579,6 @@ class ServiceLayer {
     }
 
     async removeProduct(productName, ActionIDOfTheOperation) {
-        console.log("products:", this.products);
-        console.log("productName:", productName);
         if (!this.products.has(productName)) {
             return "The product does not exist";
         }
@@ -1194,7 +1201,6 @@ class ServiceLayer {
             return "The order does not exist";
         }
         const result = this.cinemaSystem.getOrderDetails(this.orders.get(orderId));
-        console.log(result.products);
         return result;
     }
 

@@ -57,6 +57,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
 
   toggleThirdBox() {
     this.setState((oldState) => ({ openThird: !oldState.openThird }));
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
   }
 
   setStartDate = (date) => {

@@ -382,9 +382,13 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
         });
 }
 
-export function handleEditCafeteriaOrder(orderId, orderDate, updatedProducts) {
+export function handleEditCafeteriaOrder(
+    orderId,
+    orderDate,
+    updatedProductsAndQuantity
+) {
     const user = localStorage.getItem("username");
-    const updatedProductsList = JSON.stringify(updatedProducts)
+    const updatedProducts = JSON.stringify(updatedProductsAndQuantity);
     fetch(
             `api/editCafeteriaOrder?orderId=${encodeURIComponent(
       orderId
@@ -599,6 +603,24 @@ export function handleConfirmMovieOrder(orderId, updatedMovies) {
     )}&movieList=${encodeURIComponent(movieList)}&user=${encodeURIComponent(
       user
     )}`
+        )
+        .then((response) => response.json())
+        .then((state) => {
+            alert(state.result);
+        });
+}
+
+export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
+    const user = localStorage.getItem("username");
+    const updatedProducts = JSON.stringify(updatedMovies);
+    fetch(
+            `api/editMovieOrder?orderId=${encodeURIComponent(
+      orderId
+    )}&orderDate=${encodeURIComponent(
+      orderDate
+    )}&updatedProducts=${encodeURIComponent(
+      updatedProducts
+    )}&user=${encodeURIComponent(user)}`
         )
         .then((response) => response.json())
         .then((state) => {

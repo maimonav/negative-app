@@ -25,7 +25,7 @@ export default class EditMovieOrder extends React.Component {
       endDate: new Date(),
       orderId: "",
       orderDate: new Date(),
-      updatedProducts: "",
+      updatedMovies: "",
       isOpened: false,
       openSecond: false,
       openThird: false,
@@ -42,12 +42,9 @@ export default class EditMovieOrder extends React.Component {
   };
 
   handleGetProductAndQuntityByOrder = (orderId) => {
-    handleGetProductsAndQuantityByOrder(
-      localStorage.getItem("username"),
-      orderId
-    )
+    handleGetProductsAndQuantityByOrder(orderId)
       .then((response) => response.json())
-      .then((state) => this.setState({ productsWithQuantity: state.result }));
+      .then((state) => this.setState({ movies: state.result }));
   };
 
   handleGetMovieOrders = () => {
@@ -88,20 +85,24 @@ export default class EditMovieOrder extends React.Component {
     this.setState({ orderDate: date });
   };
 
-  setProductsWithQuantity = (name) => {
+  setUpdatedMovies = (name) => {
     this.setState({
-      updatedProducts: name,
+      updatedMovies: name,
     });
   };
 
-  columns = [{ title: "Product Name", field: "name" }];
+  columns = [
+    { title: "Movie Name", field: "name" },
+    { title: "Key", field: "key" },
+    { title: "Examination room", field: "examinationRoom" },
+  ];
 
   render() {
     const {
       orderId,
-      productsWithQuantity,
+      movies,
       orderDate,
-      updatedProducts,
+      updatedMovies,
       isOpened,
       openSecond,
       openThird,
@@ -176,8 +177,8 @@ export default class EditMovieOrder extends React.Component {
                     <GridItem xs={12} sm={12} md={15}>
                       <EditTable
                         columns={this.columns}
-                        data={this.state.productsWithQuantity}
-                        setItems={this.setProductsWithQuantity}
+                        data={movies}
+                        setItems={this.setUpdatedMovies}
                         openSecondBox={this.toggleThirdBox}
                       />
                     </GridItem>
@@ -186,7 +187,16 @@ export default class EditMovieOrder extends React.Component {
               )}
               {openThird && (
                 <CardFooter>
-                  <Button color="info" onClick={() => ""}>
+                  <Button
+                    color="info"
+                    onClick={() =>
+                      this.props.handleEditMovieOrder(
+                        orderId,
+                        orderDate,
+                        updatedMovies
+                      )
+                    }
+                  >
                     Edit Order
                   </Button>
                 </CardFooter>
