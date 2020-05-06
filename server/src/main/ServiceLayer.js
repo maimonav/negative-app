@@ -24,7 +24,6 @@ class ServiceLayer {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
     let result = await SystemInitializer.initSystem(this, dbName, password);
-<<<<<<< HEAD
     await this.login("admin", "admin");
     await this.addNewEmployee(
       "aviv",
@@ -105,88 +104,6 @@ class ServiceLayer {
     );
     await this.logout("aviv");
     await this.logout("admin");
-=======
-    // await this.login("admin", "admin");
-    // await this.addNewEmployee(
-    //   "aviv",
-    //   "aviv",
-    //   "aviv",
-    //   "aviv",
-    //   "ADMIN",
-    //   "aviv",
-    //   "admin",
-    //   false
-    // );
-    // await this.login("aviv", "aviv");
-    // await this.addNewSupplier("supplier", "aviv", "aviv");
-    // await this.addCategory("a", "aviv");
-    // await this.addNewProduct("product", 1, 1, null, null, "a", "aviv");
-    // await this.addCafeteriaOrder(
-    //   "aviv" + new Date(),
-    //   new Date(),
-    //   "supplier",
-    //   [{ name: "product", quantity: "10" }],
-    //   "aviv"
-    // );
-    // await this.addMovie("movie", "a", "aviv");
-    // await this.addMovieOrder(
-    //   "aviv movie " + new Date(),
-    //   new Date(),
-    //   "supplier",
-    //   ["movie"],
-    //   "aviv"
-    // );
-    // let todayDate = new Date();
-    // await this.createDailyReport(
-    //   "inventory_daily_report",
-    //   JSON.stringify([
-    //     {
-    //       date: todayDate,
-    //       productId: 0,
-    //       creatorEmployeeId: 1,
-    //       quantitySold: 4,
-    //       quantityInStock: 8,
-    //       stockThrown: 8
-    //     }
-    //   ]),
-    //   "aviv"
-    // );
-    // await this.addFieldToDailyReport("Cash counted", "admin");
-    // await this.addFieldToDailyReport("Report Z taken", "admin");
-    // await this.createDailyReport(
-    //   "general_purpose_daily_report",
-    //   JSON.stringify([
-    //     {
-    //       date: todayDate,
-    //       creatorEmployeeId: 1,
-    //       additionalProps: [
-    //         ["Cash counted", "Report Z taken"],
-    //         { "Cash counted": "true", "Report Z taken": "false" }
-    //       ]
-    //     }
-    //   ]),
-    //   "aviv"
-    // );
-    // await this.createDailyReport(
-    //   "incomes_daily_report",
-    //   JSON.stringify([
-    //     {
-    //       date: todayDate,
-    //       creatorEmployeeId: 1,
-    //       numOfTabsSales: 0,
-    //       cafeteriaCashRevenues: 20.0,
-    //       cafeteriaCreditCardRevenues: 20.0,
-    //       ticketsCashRevenues: 20.0,
-    //       ticketsCreditCardRevenues: 20.0,
-    //       tabsCashRevenues: 20.0,
-    //       tabsCreditCardRevenues: 20.0
-    //     }
-    //   ]),
-    //   "aviv"
-    // );
-    // await this.logout("aviv");
-    // await this.logout("admin");
->>>>>>> master
     return result;
   }
 
