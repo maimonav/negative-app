@@ -22,12 +22,9 @@ class SystemInitializer {
     //Turn database off
     //DataBase._testModeOn();
 
-    let result = await DataBase.connectAndCreate(
-      dbName ? dbName : undefined,
-      "admin123"
-    );
+    let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
-    result = await DataBase.initDB(dbName ? dbName : undefined, "admin123");
+    result = await DataBase.initDB(dbName, password);
     if (typeof result === "string") {
       DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
       return "Server initialization error\n" + result;
