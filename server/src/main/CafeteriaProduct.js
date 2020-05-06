@@ -194,7 +194,7 @@ class CafeteriaProduct extends Product {
          * @returns {Object} The action.
          **/
     getConfirmOrderDB(addedQuantity) {
-            let updatedQuantity = this.quantity + addedQuantity;
+            let updatedQuantity = this.quantity + parseInt(addedQuantity);
             return {
                 name: DataBase._update,
                 model: "cafeteria_product",

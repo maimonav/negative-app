@@ -35,7 +35,7 @@ class Movie extends Product {
             this.examinationRoom = examinationRoom;
     }
 
-    async editMovie(categoryId, key, examinationRoom) {
+    editMovie(categoryId, key, examinationRoom) {
             super.categoryId = categoryId;
             this.movieKey = key;
             this.examinationRoom = examinationRoom;
@@ -62,14 +62,14 @@ class Movie extends Product {
                     id: this.id,
                 },
                 element: {
-                    key: key,
+                    movieKey: key,
                     examinationRoom: examinationRoom
                 },
             },
         };
     }
 
-    async confirmOrder(key, examinationRoom) {
+    confirmOrder(key, examinationRoom) {
         this.movieKey = key;
         this.examinationRoom = examinationRoom;
         return true;
