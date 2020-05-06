@@ -64,7 +64,7 @@ describe("edit&confirmCafeteriaOrder", () => {
     });
 
     it("UnitTest-editOrder in Order class", async() => {
-        let productList = [{ id: product.id, expectedQuantity: 7 }];
+        let productList = [{ id: product.id, actualQuantity: 7 }];
         expect(await orderForCafeteriaProduct.editOrder(new Date(1992, 6, 9), -3, productList)).toBe("The order edited successfully completed");
         expect(orderForCafeteriaProduct.date).toEqual(new Date(1992, 6, 9));
         expect(orderForCafeteriaProduct.supplierId).toBe(-3);
@@ -157,7 +157,7 @@ describe("edit&confirmCafeteriaOrder", () => {
     // =================================INTEGRATION==========================================================================================
 
     it("Integration-editOrder in InventoryManagement class", async() => {
-        let productList = [{ id: product.id, expectedQuantity: 7 }];
+        let productList = [{ id: product.id, actualQuantity: 7 }];
         let fakeOrderID = -1390;
         expect(await inventoryManagement.editOrder(fakeOrderID, new Date(1992, 6, 9), -3, productList)).toBe("Order " + fakeOrderID + " does not exsits.");
         expect(await inventoryManagement.editOrder(orderForCafeteriaProduct.id, new Date(1992, 6, 9), -3, productList)).toBe("The order edited successfully completed");
@@ -188,7 +188,7 @@ describe("edit&confirmCafeteriaOrder", () => {
 
     it("Integration-editOrder in cinemaSystem class", async() => {
 
-        let productList = [{ id: product.id, expectedQuantity: 7 }];
+        let productList = [{ id: product.id, actualQuantity: 7 }];
         expect(await cinemaSystem.editOrder(orderForCafeteriaProduct.id, new Date(1992, 6, 9), -3, productList, employee.id)).toBe(cinemaSystem.inappropriatePermissionsMsg);
         let fakeOrderID = -1390;
         expect(await cinemaSystem.editOrder(fakeOrderID, new Date(1992, 6, 9), -3, productList, manager.id)).toBe("Order " + fakeOrderID + " does not exsits.");
@@ -219,12 +219,12 @@ describe("edit&confirmCafeteriaOrder", () => {
     });
 
     it("Integration-editOrder in ServiceLayer class", async() => {
-        let productList = [{ name: product.name, quaexpectedQuantityntity: 7 }];
+        let productList = [{ name: product.name, actualQuantity: 7 }];
         let dummyNumber = -1390;
         expect(await serviceLayer.editOrder(dummyNumber, (new Date(1992, 6, 9)).toString(), -3, productList, manager.userName)).toBe(" The order " + dummyNumber + " doesn't exists");
-        productList = [{ name: dummyNumber, expectedQuantity: 7 }];
+        productList = [{ name: dummyNumber, actualQuantity: 7 }];
         expect(await serviceLayer.editOrder(orderForCafeteriaProduct.name, (new Date(1992, 6, 9)).toString(), -3, productList, manager.userName)).toBe("The product " + dummyNumber + " doesn't exists");
-        productList = [{ name: product.name, expectedQuantity: 7 }];
+        productList = [{ name: product.name, actualQuantity: 7 }];
         expect(await serviceLayer.editOrder(orderForCafeteriaProduct.name, (new Date(1992, 6, 9)).toString(), -3, productList, dummyNumber)).toBe("The user performing the operation does not exist in the system");
         expect(await cinemaSystem.editOrder(orderForCafeteriaProduct.id, (new Date(1992, 6, 9)).toString(), -3, productList, employee.id)).toBe(cinemaSystem.inappropriatePermissionsMsg);
         let fakeOrderID = -1390;
