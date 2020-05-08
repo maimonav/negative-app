@@ -11,7 +11,23 @@ describe("Report Operations Tests", () => {
   beforeAll(() => {
     DB._testModeOn();
   });
+  it("Unit & Integration addField", async () => {
+    let serviceLayer = new ServiceLayer();
+    await serviceLayer.initSeviceLayer();
+    serviceLayer.users.set("User", 1);
+    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
+      serviceLayer.addFieldToDailyReport("test", "User")
+    );
+  });
 
+  it("Unit & Integration removeField", async () => {
+    let serviceLayer = new ServiceLayer();
+    await serviceLayer.initSeviceLayer();
+    serviceLayer.users.set("User", 1);
+    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
+      serviceLayer.removeFieldFromDailyReport("test", "User")
+    );
+  });
   it("UnitTest createDailyReport, getReport - Service Layer", async () => {
     let serviceLayer = new ServiceLayer();
     let records = JSON.stringify([
@@ -186,24 +202,6 @@ describe("Report Operations Tests", () => {
       result = await serviceLayer.getReport(type, date, "User");
       expect(result).toBe("The requested report date is invalid");
     }
-  });
-
-  it("Integration addField", async () => {
-    let serviceLayer = new ServiceLayer();
-    await serviceLayer.initSeviceLayer();
-    serviceLayer.users.set("User", 1);
-    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.addFieldToDailyReport("test", "User")
-    );
-  });
-
-  it("Integration removeField", async () => {
-    let serviceLayer = new ServiceLayer();
-    await serviceLayer.initSeviceLayer();
-    serviceLayer.users.set("User", 1);
-    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.removeFieldFromDailyReport("test", "User")
-    );
   });
 });
 

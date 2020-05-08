@@ -2,22 +2,22 @@ const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { testSupplier } = require("../DBtests/OrdersTests.spec");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 
-describe("Supplier Operations Tests", function () {
+describe("Supplier Operations Tests", function() {
   let service = new ServiceLayer();
   let dbName = "suppliertest";
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     await service.initSeviceLayer(dbName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop db
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE " + dbName + ";");
     console.log("Database deleted");
   });
 
-  it("addNewSupplier req 2.1.5", async function () {
+  it("addNewSupplier req 1.1.7, 2.1.7", async function() {
     let supplier = "supplierTest";
     let contactDetails = "0508888888";
     let user = "admin";
@@ -35,7 +35,7 @@ describe("Supplier Operations Tests", function () {
     expect(result).toBe("The supplier already exists");
   });
 
-  it("editSupplier req 2.1.6", async function () {
+  it("editSupplier req 1.1.8, 2.1.8", async function() {
     let supplier = "supplierTest";
     let contactDetails = "0508888888";
     let user = "admin";
@@ -54,7 +54,7 @@ describe("Supplier Operations Tests", function () {
     });
   });
 
-  it("removeSupplier req 2.1.7", async function (done) {
+  it("removeSupplier req 1.1.9, 2.1.9", async function(done) {
     setTimeout(done, 4999);
     let supplier = "supplierTest";
     let contactDetails = "0508888888";

@@ -2,22 +2,22 @@ const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { testMovie } = require("../DBtests/ProductsTests.spec");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 
-describe("Movie Operations Tests", function () {
+describe("Movie Operations Tests", function() {
   let service = new ServiceLayer();
   let dbName = "movietest";
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     await service.initSeviceLayer(dbName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop db
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE " + dbName + ";");
     console.log("Database deleted");
   });
 
-  it("addMovie req 2.1.2", async function () {
+  it("addMovie req 2.1.4", async function() {
     let category = "categoryTest";
     let movie = "movieTest";
     let user = "admin";
@@ -41,7 +41,7 @@ describe("Movie Operations Tests", function () {
     expect(result).toBe("The movie already exists");
   });
 
-  it("editMovie req 2.1.3", async function () {
+  it("editMovie req 2.1.5", async function() {
     let category = "categoryTest";
     let movie = "movieTest";
     let user = "admin";
@@ -64,7 +64,7 @@ describe("Movie Operations Tests", function () {
     });
   });
 
-  it("removeMovie req 2.1.4", async function () {
+  it("removeMovie req 2.1.6", async function() {
     let category = "categoryTest";
     let movie = "movieTest";
     let user = "admin";
