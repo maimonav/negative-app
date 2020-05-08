@@ -70,148 +70,181 @@ class CinemaSystem {
     }
 
     isLoggedin(userId) {
-        if (!this.users.has(userId)) return "The user isn't exists";
-        return this.users.get(userId).isLoggedin();
-    }
-
+            if (!this.users.has(userId)) return "The user isn't exists";
+            return this.users.get(userId).isLoggedin();
+        }
+        /**
+         * User connect to system
+         * @param {Number} userId Unique ID of user
+         * @param {String} userName Employee username (must be unique)
+         * @param {String} password 
+         * @returns {string} Success or failure string
+         **/
     login(userName, password, userId) {
-        if (!this.users.has(userId)) return "The user isn't exists";
-        return this.users.get(userId).login(userName, password);
-    }
-
+            if (!this.users.has(userId)) return "The user isn't exists";
+            return this.users.get(userId).login(userName, password);
+        }
+        /**
+         * User disconnect to system
+         * @param {Number} userId Unique ID of user
+         * @returns {Promise(string)} Success or failure string
+         **/
     logout(userId) {
             if (!this.users.has(userId)) return "The user isn't exists";
             return this.users.get(userId).logout();
         }
-        //notes- checkuser
-    async addNewEmployee(
-        userID,
-        userName,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        ActionIDOfTheOperation,
-        isPasswordHashed
-    ) {
-        if (this.users.has(userID)) return "The id is already exists";
-        if (!this.users.has(ActionIDOfTheOperation) ||
-            !this.users.get(ActionIDOfTheOperation).isLoggedin()
-        ) {
-            logger.info("CinemaSystem - addNewEmployee - " + this.userOfflineMsg);
-            return this.userOfflineMsg;
-        }
-        const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
-        if (argCheckRes !== "") {
-            logger.info("CinemaSystem - addNewEmployee - " + argCheckRes);
-            return argCheckRes;
-        }
-        //If the operator does not have the permission of a deputy manager or if he is not admin and also tries to add someone his own higher permission.
-        if (!this.users
-            .get(ActionIDOfTheOperation)
-            .permissionCheck("DEPUTY_MANAGER") ||
-            (this.users.get(ActionIDOfTheOperation).getPermissionValue() <=
-                User.getPermissionTypeList[permissions] &&
-                this.users.get(ActionIDOfTheOperation).getPermissionValue() !==
-                User.getPermissionTypeList["ADMIN"])
-        ) {
-            logger.info(
-                "CinemaSystem - addNewEmployee - " +
-                userName +
-                " " +
-                this.inappropriatePermissionsMsg
+        /**
+         * Add a new employee to the system. This operation also adds user to the system.
+         * @param {Number} userID Unique ID of user
+         * @param {String} userName Employee username (unique)
+         * @param {String} password 
+         * @param {String} permissions Permissions that must be one of the permissions types in the system
+         * @param {String} firstName First name of employee
+         * @param {String} lastName Employee last name
+         * @param {String} contactDetails Ways of communicating with the employee
+         * @param {Number} ActionIDOfTheOperation The employee ID that performed the action
+         * @param {Boolean} isPasswordHashed If the code has already been encrypted (system internal parameter)
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails, ActionIDOfTheOperation, isPasswordHashed) {
+            if (this.users.has(userID)) return "The id is already exists";
+            if (!this.users.has(ActionIDOfTheOperation) ||
+                !this.users.get(ActionIDOfTheOperation).isLoggedin()
+            ) {
+                logger.info("CinemaSystem - addNewEmployee - " + this.userOfflineMsg);
+                return this.userOfflineMsg;
+            }
+            const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
+            if (argCheckRes !== "") {
+                logger.info("CinemaSystem - addNewEmployee - " + argCheckRes);
+                return argCheckRes;
+            }
+            //If the operator does not have the permission of a deputy manager or if he is not admin and also tries to add someone his own higher permission.
+            if (!this.users
+                .get(ActionIDOfTheOperation)
+                .permissionCheck("DEPUTY_MANAGER") ||
+                (this.users.get(ActionIDOfTheOperation).getPermissionValue() <=
+                    User.getPermissionTypeList[permissions] &&
+                    this.users.get(ActionIDOfTheOperation).getPermissionValue() !==
+                    User.getPermissionTypeList["ADMIN"])
+            ) {
+                logger.info(
+                    "CinemaSystem - addNewEmployee - " +
+                    userName +
+                    " " +
+                    this.inappropriatePermissionsMsg
+                );
+                return this.inappropriatePermissionsMsg;
+            }
+            let employee = await this.employeeManagement.addNewEmployee(
+                userID,
+                userName,
+                password,
+                permissions,
+                firstName,
+                lastName,
+                contactDetails,
+                isPasswordHashed
             );
-            return this.inappropriatePermissionsMsg;
+            if (typeof employee === "string") {
+                return employee;
+            }
+            this.users.set(userID, employee);
+            return "The employee added successfully.";
         }
-        let employee = await this.employeeManagement.addNewEmployee(
-            userID,
-            userName,
-            password,
-            permissions,
-            firstName,
-            lastName,
-            contactDetails,
-            isPasswordHashed
-        );
-        if (typeof employee === "string") {
-            return employee;
-        }
-        this.users.set(userID, employee);
-        return "The employee added successfully.";
-    }
-
+        /**
+         * Edit employee data.
+         * @param {Number} employeeID Unique ID of user
+         * @param {String} password 
+         * @param {String} permissions Permissions that must be one of the permissions types in the system
+         * @param {String} firstName First name of employee
+         * @param {String} lastName Employee last name
+         * @param {String} contactDetails Ways of communicating with the employee
+         * @param {Number} ActionIDOfTheOperation The employee ID that performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async editEmployee(
-        employeeID,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        ActionIDOfTheOperation
-    ) {
-        if (!this.users.has(employeeID)) return "The id is not exists";
-        if (!this.users.has(ActionIDOfTheOperation) ||
-            !this.users.get(ActionIDOfTheOperation).isLoggedin()
-        ) {
-            logger.info("CinemaSystem - editEmployee - " + this.userOfflineMsg);
-            return this.userOfflineMsg;
-        }
-        if (!this.users
-            .get(ActionIDOfTheOperation)
-            .permissionCheck("DEPUTY_MANAGER") &&
-            ActionIDOfTheOperation !== employeeID
-        ) {
-            logger.info(
-                "CinemaSystem - editEmployee - " +
-                employeeID +
-                " " +
-                this.inappropriatePermissionsMsg
-            );
-            return this.inappropriatePermissionsMsg;
-        }
-        return await this.employeeManagement.editEmployee(
             employeeID,
             password,
             permissions,
             firstName,
             lastName,
-            contactDetails
-        );
-    }
-
-    async deleteEmployee(employeeID, ActionIDOfTheOperation) {
-        if (!this.users.has(employeeID)) return "The id is not exists";
-        if (!this.users.has(ActionIDOfTheOperation) ||
-            !this.users.get(ActionIDOfTheOperation).isLoggedin()
+            contactDetails,
+            ActionIDOfTheOperation
         ) {
-            logger.info("CinemaSystem - deleteEmployee - " + this.userOfflineMsg);
-            return this.userOfflineMsg;
-        }
-        if (!this.users.get(ActionIDOfTheOperation).permissionCheck("DEPUTY_MANAGER")) {
-            logger.info(
-                "CinemaSystem - deleteEmployee - " + this.inappropriatePermissionsMsg
+            if (!this.users.has(employeeID)) return "The id is not exists";
+            if (!this.users.has(ActionIDOfTheOperation) ||
+                !this.users.get(ActionIDOfTheOperation).isLoggedin()
+            ) {
+                logger.info("CinemaSystem - editEmployee - " + this.userOfflineMsg);
+                return this.userOfflineMsg;
+            }
+            if (!this.users
+                .get(ActionIDOfTheOperation)
+                .permissionCheck("DEPUTY_MANAGER") &&
+                ActionIDOfTheOperation !== employeeID
+            ) {
+                logger.info(
+                    "CinemaSystem - editEmployee - " +
+                    employeeID +
+                    " " +
+                    this.inappropriatePermissionsMsg
+                );
+                return this.inappropriatePermissionsMsg;
+            }
+            return await this.employeeManagement.editEmployee(
+                employeeID,
+                password,
+                permissions,
+                firstName,
+                lastName,
+                contactDetails
             );
-            return this.inappropriatePermissionsMsg;
         }
-        if (employeeID === ActionIDOfTheOperation) {
-            logger.info(
-                "CinemaSystem - deleteEmployee - A user cannot erase himself"
-            );
-            return "A user cannot erase himself";
+        /**
+         * Delete employee from system.
+         * @param {Number} employeeID Unique ID of user
+         * @param {Number} ActionIDOfTheOperation The employee ID that performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async deleteEmployee(employeeID, ActionIDOfTheOperation) {
+            if (!this.users.has(employeeID)) return "The id is not exists";
+            if (!this.users.has(ActionIDOfTheOperation) ||
+                !this.users.get(ActionIDOfTheOperation).isLoggedin()
+            ) {
+                logger.info("CinemaSystem - deleteEmployee - " + this.userOfflineMsg);
+                return this.userOfflineMsg;
+            }
+            if (!this.users.get(ActionIDOfTheOperation).permissionCheck("DEPUTY_MANAGER")) {
+                logger.info(
+                    "CinemaSystem - deleteEmployee - " + this.inappropriatePermissionsMsg
+                );
+                return this.inappropriatePermissionsMsg;
+            }
+            if (employeeID === ActionIDOfTheOperation) {
+                logger.info(
+                    "CinemaSystem - deleteEmployee - A user cannot erase himself"
+                );
+                return "A user cannot erase himself";
+            }
+            if (this.users.get(employeeID).isLoggedin()) {
+                logger.info(
+                    "CinemaSystem - deleteEmployee - A user cannot delete a logged in user"
+                );
+                return "You cannot delete a logged in user";
+            }
+            let res = await this.employeeManagement.deleteEmployee(employeeID);
+            if (res === "Successfully deleted employee data deletion")
+                this.users.delete(employeeID);
+            return res;
         }
-        if (this.users.get(employeeID).isLoggedin()) {
-            logger.info(
-                "CinemaSystem - deleteEmployee - A user cannot delete a logged in user"
-            );
-            return "You cannot delete a logged in user";
-        }
-        let res = await this.employeeManagement.deleteEmployee(employeeID);
-        if (res === "Successfully deleted employee data deletion")
-            this.users.delete(employeeID);
-        return res;
-    }
-
+        /**
+         * Private function - Check whether the user performing the action has the appropriate permissions and data to perform an action
+         * @param {string} functionName Date the order was performed
+         * @param {string} permissionRequired
+         * @param {number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {boolean} Success or failure string
+         **/
     checkUser(ActionIDOfTheOperation, permissionRequired, functionName) {
             if (!this.users.has(ActionIDOfTheOperation) ||
                 !this.users.get(ActionIDOfTheOperation).isLoggedin()
@@ -301,42 +334,58 @@ class CinemaSystem {
          * @returns {Promise(string)} Success or failure string
          **/
     async addCafeteriaOrder(
-        orderId,
-        date,
-        supplierId,
-        productsList,
-        ActionIDOfTheOperation,
-        orderName
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "addCafeteriaOrder"
-        );
-        if (result != null) return result;
-        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
-                ActionIDOfTheOperation +
-                " is not exist"
-            );
-            return "Cannot add order - creator employee id is not exist";
-        }
-        return this.inventoryManagement.addCafeteriaOrder(
             orderId,
             date,
             supplierId,
             productsList,
             ActionIDOfTheOperation,
             orderName
-        );
-    }
+        ) {
+            let result = this.checkUser(
+                ActionIDOfTheOperation,
+                "DEPUTY_MANAGER",
+                "addCafeteriaOrder"
+            );
+            if (result != null) return result;
+            if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
+                    ActionIDOfTheOperation +
+                    " is not exist"
+                );
+                return "Cannot add order - creator employee id is not exist";
+            }
+            return this.inventoryManagement.addCafeteriaOrder(
+                orderId,
+                date,
+                supplierId,
+                productsList,
+                ActionIDOfTheOperation,
+                orderName
+            );
+        }
+        /**
+         * edit the order 
+         * @param {string} orderId Unique ID of edit invitation
+         * @param {string} date New date of the order if exists
+         * @param {string} supplierId New supplier Id of the order if exists
+         * @param {Array(Objects)} productsList List of objects with the data for each product change (must contain unique identifier of the product)
+         * @param {number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async editOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation) {
-        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editOrder");
-        if (result != null) return result;
-        return this.inventoryManagement.editOrder(orderId, date, supplierId, productsList);
-    }
-
+            let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editOrder");
+            if (result != null) return result;
+            return this.inventoryManagement.editOrder(orderId, date, supplierId, productsList);
+        }
+        /**
+         * Confirmation of the order received by an employee
+         * @param {Number} orderId Unique ID of order
+         * @param {Array(Objects)} productsList List of objects with the id of the product and actual quantity that gotten.
+         * @param {Number} recipientEmployeeId Unique identifier of the employee who received the order
+         * @param {number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async confirmOrder(orderId, productsList, ActionIDOfTheOperation) {
         let result = this.checkUser(ActionIDOfTheOperation, "SHIFT_MANAGER", "editOrder");
         if (result != null) return result;
@@ -370,13 +419,7 @@ class CinemaSystem {
      * @param {number} ActionIDOfTheOperation Id of the user performed the action
      * @returns {Promise(string)} Success or failure string
      */
-    async editMovie(
-            movieID,
-            categoryId,
-            key,
-            examinationRoom,
-            ActionIDOfTheOperation
-        ) {
+    async editMovie(movieID, categoryId, key, examinationRoom, ActionIDOfTheOperation) {
             let result = this.checkUser(
                 ActionIDOfTheOperation,
                 "DEPUTY_MANAGER",
@@ -461,115 +504,95 @@ class CinemaSystem {
         /**
          * Remove supplier from the system - not from DB
          * @param {number} supplierID
-         * @param {string} ActionIDOfTheOperation Id of the user performed the action
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
          * @returns {Promise(string)} Success or failure string
          */
     async removeSupplier(supplierID, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "removeSupplier"
-        );
-        if (result != null) return result;
-        return this.inventoryManagement.removeSupplier(supplierID);
-    }
-
-    async addCafeteriaProduct(
-        productId,
-        name,
-        categoryID,
-        price,
-        quantity,
-        maxQuantity,
-        minQuantity,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "addCafeteriaProduct"
-        );
-        if (result != null) return result;
-        return await this.inventoryManagement.addCafeteriaProduct(
-            productId,
-            name,
-            categoryID,
-            price,
-            quantity,
-            maxQuantity,
-            minQuantity
-        );
-    }
-
-    async editCafeteriaProduct(
-        productId,
-        categoryId,
-        price,
-        quantity,
-        maxQuantity,
-        minQuantity,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "editCafeteriaProduct"
-        );
-        if (result != null) return result;
-        return await this.inventoryManagement.editCafeteriaProduct(
-            productId,
-            categoryId,
-            price,
-            quantity,
-            maxQuantity,
-            minQuantity
-        );
-    }
-
+            let result = this.checkUser(
+                ActionIDOfTheOperation,
+                "DEPUTY_MANAGER",
+                "removeSupplier"
+            );
+            if (result != null) return result;
+            return this.inventoryManagement.removeSupplier(supplierID);
+        }
+        /**
+         * Add a new cafeteria product to the system
+         * @param {Number} productId Unique ID of cafeteria product
+         * @param {String} name The name of the product
+         * @param {Number} categoryID Identifier of the category to which the product belongs
+         * @param {Number} price The price of the product
+         * @param {Number} quantity Quantity of new product in stock
+         * @param {Number} maxQuantity Maximum limit of product quantity in stock (Optional parameter)
+         * @param {Number} minQuantity Minimum limit of product quantity in stock (Optional parameter)
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity, ActionIDOfTheOperation) {
+            let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCafeteriaProduct");
+            if (result != null) return result;
+            return await this.inventoryManagement.addCafeteriaProduct(productId, name, categoryID, price, quantity, maxQuantity, minQuantity);
+        }
+        /**
+         * Editing the cafeteria product
+         * @param {Number} productId Unique ID of cafeteria product
+         * @param {String} categoryID Identifier of the new category to which the product belongs (Optional parameter)
+         * @param {Number} price The new price of the product (Optional parameter)
+         * @param {Number} quantity New quantity of product in stock (Optional parameter)
+         * @param {Number} maxQuantity New maximum limit of product quantity in stock (Optional parameter)
+         * @param {Number} minQuantity New minimum limit of product quantity in stock (Optional parameter)
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity, ActionIDOfTheOperation) {
+            let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editCafeteriaProduct");
+            if (result != null) return result;
+            return await this.inventoryManagement.editCafeteriaProduct(productId, categoryId, price, quantity, maxQuantity, minQuantity);
+        }
+        /**
+         * Remove the cafeteria product
+         * @param {Number} productId Unique ID of cafeteria product
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async removeCafeteriaProduct(productId, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "removeCafeteriaProduct"
-        );
-        if (result != null) return result;
-        return await this.inventoryManagement.removeCafeteriaProduct(productId);
-    }
-
-    async addCategory(
-        categoryId,
-        categoryName,
-        parentID,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "addCategory"
-        );
-        if (result != null) return result;
-        return await this.inventoryManagement.addCategory(
-            categoryId,
-            categoryName,
-            parentID
-        );
-    }
-
+            let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeCafeteriaProduct");
+            if (result != null) return result;
+            return await this.inventoryManagement.removeCafeteriaProduct(productId);
+        }
+        /**
+         * Add a new category to the system
+         * @param {Number} categoryId Unique ID of category
+         * @param {String} categoryName The name of the new category
+         * @param {Number} parentID Id of the new parent category
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async addCategory(categoryId, categoryName, parentID, ActionIDOfTheOperation) {
+            let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "addCategory");
+            if (result != null) return result;
+            return await this.inventoryManagement.addCategory(categoryId, categoryName, parentID);
+        }
+        /**
+         * Edit a category's data
+         * @param {Number} categoryId Unique ID of category
+         * @param {Number} parentID New id of the parent category
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async editCategory(categoryId, parentID, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "editCategory"
-        );
-        if (result != null) return result;
-        return await this.inventoryManagement.editCategory(categoryId, parentID);
-    }
+            let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editCategory");
+            if (result != null) return result;
+            return await this.inventoryManagement.editCategory(categoryId, parentID);
+        }
+        /**
+         * Deleting a category from the system
+         * @param {Number} categoryId Unique ID of category
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async removeCategory(categoryId, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "removeCategory"
-        );
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "removeCategory");
         if (result != null) return result;
         return await this.inventoryManagement.removeCategory(categoryId);
     }

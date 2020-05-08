@@ -34,28 +34,33 @@ class ServiceLayer {
     }
 
     async register(userName, password) {
-        if (this.users.has(userName)) {
-            logger.info(
-                "ServiceLayer - The registration process failed - the " +
-                userName +
-                " exists on the system."
-            );
-            return "The user already Exist";
-        } else {
-            const result = await this.cinemaSystem.register(
-                this.userCounter,
-                userName,
-                password,
-                "EMPLOYEE"
-            );
-            if (result === "The user registered successfully.") {
-                this.users.set(userName, this.userCounter);
-                this.userCounter++;
+            if (this.users.has(userName)) {
+                logger.info(
+                    "ServiceLayer - The registration process failed - the " +
+                    userName +
+                    " exists on the system."
+                );
+                return "The user already Exist";
+            } else {
+                const result = await this.cinemaSystem.register(
+                    this.userCounter,
+                    userName,
+                    password,
+                    "EMPLOYEE"
+                );
+                if (result === "The user registered successfully.") {
+                    this.users.set(userName, this.userCounter);
+                    this.userCounter++;
+                }
+                return result;
             }
-            return result;
         }
-    }
-
+        /**
+         * User connect to system
+         * @param {String} userName Employee username (must be unique)
+         * @param {String} password 
+         * @returns {string} Success or failure string
+         **/
     login(userName, password) {
         if (this.users.has(userName)) {
             return this.cinemaSystem.login(
@@ -74,11 +79,15 @@ class ServiceLayer {
 
     // eslint-disable-next-line no-dupe-class-members
     isLoggedIn(userName) {
-        if (this.users.has(userName)) {
-            return this.cinemaSystem.isLoggedin(this.users.get(userName));
+            if (this.users.has(userName)) {
+                return this.cinemaSystem.isLoggedin(this.users.get(userName));
+            }
         }
-    }
-
+        /**
+         * User disconnect to system
+         * @param {Number} userId Unique ID of user
+         * @returns {Promise(string)} Success or failure string
+         **/
     logout(userName) {
         if (this.users.has(userName)) {
             return this.cinemaSystem.logout(this.users.get(userName));
@@ -92,90 +101,117 @@ class ServiceLayer {
     }
 
     printallUser() {
-        this.users.forEach((value, key, map) => {
-            console.log(`m[${key}] = ${value}`);
-        });
-    }
-
+            this.users.forEach((value, key, map) => {
+                console.log(`m[${key}] = ${value}`);
+            });
+        }
+        /**
+         * Add a new employee to the system. This operation also adds user to the system.
+         * @param {String} userName Employee username (unique)
+         * @param {String} password 
+         * @param {String} permissions Permissions that must be one of the permissions types in the system
+         * @param {String} firstName First name of employee
+         * @param {String} lastName Employee last name
+         * @param {String} contactDetails Ways of communicating with the employee
+         * @param {Number} ActionIDOfTheOperation The employee ID that performed the action
+         * @param {Boolean} isPasswordHashed If the code has already been encrypted (system internal parameter)
+         * @returns {Promise(string)} Success or failure string
+         **/
     async addNewEmployee(
-        userName,
-        password,
-        firstName,
-        lastName,
-        permissions,
-        contactDetails,
-        ActionIDofTheOperation,
-        isPasswordHashed
-    ) {
-        if (this.users.has(userName)) {
-            logger.info(
-                "ServiceLayer - The addNewEmployee process failed - the " +
-                userName +
-                " exists on the system."
+            userName,
+            password,
+            firstName,
+            lastName,
+            permissions,
+            contactDetails,
+            ActionIDofTheOperation,
+            isPasswordHashed
+        ) {
+            if (this.users.has(userName)) {
+                logger.info(
+                    "ServiceLayer - The addNewEmployee process failed - the " +
+                    userName +
+                    " exists on the system."
+                );
+                return "The user already exists";
+            }
+            if (!this.users.has(ActionIDofTheOperation)) {
+                logger.info(
+                    "ServiceLayer - The addNewEmployee process failed - the " +
+                    ActionIDofTheOperation +
+                    " , who initiated the operation, does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            let result = await this.cinemaSystem.addNewEmployee(
+                this.userCounter,
+                userName,
+                password,
+                permissions,
+                firstName,
+                lastName,
+                contactDetails,
+                this.users.get(ActionIDofTheOperation),
+                isPasswordHashed
             );
-            return "The user already exists";
+            if (result === "The employee added successfully.") {
+                this.users.set(userName, this.userCounter);
+                this.userCounter++;
+            }
+            return result;
         }
-        if (!this.users.has(ActionIDofTheOperation)) {
-            logger.info(
-                "ServiceLayer - The addNewEmployee process failed - the " +
-                ActionIDofTheOperation +
-                " , who initiated the operation, does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        let result = await this.cinemaSystem.addNewEmployee(
-            this.userCounter,
+        /**
+         * Edit employee data.
+         * @param {String} userName Employee username (unique)
+         * @param {String} password 
+         * @param {String} permissions Permissions that must be one of the permissions types in the system
+         * @param {String} firstName First name of employee
+         * @param {String} lastName Employee last name
+         * @param {String} contactDetails Ways of communicating with the employee
+         * @param {Number} ActionIDOfTheOperation The employee ID that performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async editEmployee(
             userName,
             password,
             permissions,
             firstName,
             lastName,
             contactDetails,
-            this.users.get(ActionIDofTheOperation),
-            isPasswordHashed
-        );
-        if (result === "The employee added successfully.") {
-            this.users.set(userName, this.userCounter);
-            this.userCounter++;
-        }
-        return result;
-    }
-
-    async editEmployee(
-        userName,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        ActionIDOfTheOperation
-    ) {
-        if (!this.users.has(userName)) {
-            logger.info(
-                "ServiceLayer - editEmployee - The addNewEmployee process failed - the " +
-                userName +
-                " not exists on the system."
+            ActionIDOfTheOperation
+        ) {
+            if (!this.users.has(userName)) {
+                logger.info(
+                    "ServiceLayer - editEmployee - The addNewEmployee process failed - the " +
+                    userName +
+                    " not exists on the system."
+                );
+                return "The employee does not exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "ServiceLayer - The editEmployee process failed - the " +
+                    ActionIDOfTheOperation +
+                    " , who initiated the operation, does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            return await this.cinemaSystem.editEmployee(
+                this.users.get(userName),
+                password,
+                permissions,
+                firstName,
+                lastName,
+                contactDetails,
+                this.users.get(ActionIDOfTheOperation)
             );
-            return "The employee does not exist";
         }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer - The editEmployee process failed - the " +
-                ActionIDOfTheOperation +
-                " , who initiated the operation, does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        return await this.cinemaSystem.editEmployee(
-            this.users.get(userName),
-            password,
-            permissions,
-            firstName,
-            lastName,
-            contactDetails,
-            this.users.get(ActionIDOfTheOperation)
-        );
-    }
+        /**
+         * Delete employee from system.
+         * @param {String} userName Employee username (unique)
+         * @param {Number} ActionIDOfTheOperation The employee ID that performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async deleteEmployee(userName, ActionIDOfTheOperation) {
         if (!this.users.has(userName)) {
             logger.info(
@@ -440,214 +476,256 @@ class ServiceLayer {
      * @returns {Promise(string)} Success or failure string
      */
     async removeSupplier(supplierName, ActionIDOfTheOperation) {
-        let validationResult = !this._isInputValid(supplierName) ?
-            "Supplier Name is not valid" :
-            !this._isInputValid(ActionIDOfTheOperation) ?
-            "Username is not valid" :
-            "Valid";
-        if (validationResult !== "Valid") return validationResult;
+            let validationResult = !this._isInputValid(supplierName) ?
+                "Supplier Name is not valid" :
+                !this._isInputValid(ActionIDOfTheOperation) ?
+                "Username is not valid" :
+                "Valid";
+            if (validationResult !== "Valid") return validationResult;
 
-        if (!this.suppliers.has(supplierName)) {
-            return "The supplier does not exist";
+            if (!this.suppliers.has(supplierName)) {
+                return "The supplier does not exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                return "The user performing the operation does not exist in the system";
+            }
+            let result = await this.cinemaSystem.removeSupplier(
+                this.suppliers.get(supplierName),
+                this.users.get(ActionIDOfTheOperation)
+            );
+            if (result === "The supplier removed successfully") {
+                this.suppliers.delete(supplierName);
+            }
+            return result;
         }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        let result = await this.cinemaSystem.removeSupplier(
-            this.suppliers.get(supplierName),
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The supplier removed successfully") {
-            this.suppliers.delete(supplierName);
-        }
-        return result;
-    }
-
+        /**
+         * Add a new cafeteria product to the system
+         * @param {String} productName The name of the product
+         * @param {Number} productCategory Identifier of the category to which the product belongs
+         * @param {Number} productPrice The price of the product
+         * @param {Number} productQuantity Quantity of new product in stock
+         * @param {Number} maxQuantity Maximum limit of product quantity in stock (Optional parameter)
+         * @param {Number} minQuantity Minimum limit of product quantity in stock (Optional parameter)
+         * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async addNewProduct(
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
-        ActionIDOfTheOperation
-    ) {
-        if (this.products.has(productName)) {
-            return "The product already exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        let validationResult = !this._isInputValid(productName) ?
-            "Product name is not valid" :
-            !this._isInputValid(productPrice) ?
-            "Product price is not valid" :
-            !this._isInputValid(productQuantity) ?
-            "Product quantity is not valid" :
-            !this._isInputValid(productCategory) ?
-            "Product category is not valid" :
-            "Valid";
-        if (validationResult !== "Valid") return validationResult;
-        if (!this.categories.has(productCategory))
-            return "Product category does not exist";
-        let result = await this.cinemaSystem.addCafeteriaProduct(
-            this.productsCounter,
             productName,
-            this.categories.get(productCategory),
             productPrice,
             productQuantity,
-            maxQuantity,
             minQuantity,
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The product was successfully added to the system") {
-            this.products.set(productName, this.productsCounter);
-            this.productsCounter++;
-        } else {
-            logger.info("ServiceLayer- addNewProduct - " + result);
-        }
-        return result;
-    }
-
-    async editProduct(
-        productName,
-        productPrice,
-        productQuantity,
-        minQuantity,
-        maxQuantity,
-        productCategory,
-        ActionIDOfTheOperation
-    ) {
-        if (!this.products.has(productName)) {
-            return "The product doesn't exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "The user " +
-                ActionIDOfTheOperation +
-                " performing the operation does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        let categoryID;
-        if (
-            this._isInputValid(productCategory) &&
-            !this.categories.has(productCategory)
-        )
-            return "Product category does not exist";
-        else {
-            categoryID = this.categories.get(productCategory);
-        }
-        return await this.cinemaSystem.editCafeteriaProduct(
-            this.products.get(productName),
-            categoryID,
-            productPrice,
-            productQuantity,
             maxQuantity,
-            minQuantity,
-            this.users.get(ActionIDOfTheOperation)
-        );
-    }
-
-    async removeProduct(productName, ActionIDOfTheOperation) {
-        if (!this.products.has(productName)) {
-            return "The product does not exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            return "The user performing the operation does not exist in the system";
-        }
-        let result = await this.cinemaSystem.removeCafeteriaProduct(
-            this.products.get(productName),
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The product removed successfully") {
-            this.products.delete(productName);
-        } else {
-            logger.info("ServiceLayer- removeProduct - " + result);
-        }
-        return result;
-    }
-
-    async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
-        if (this.categories.has(categoryName)) {
-            logger.info("ServiceLayer- addCategory - ", "The category already exist");
-            return "The category already exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer- addCategory - " +
-                "The user performing the operation does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        let parentId;
-        if (
-            typeof parentName !== "undefined" &&
-            parentName !== null &&
-            (typeof parentName !== "string" || parentName !== "" || parentName !== "")
+            productCategory,
+            ActionIDOfTheOperation
         ) {
-            if (this.categories.has(parentName))
-                parentId = this.categories.get(parentName);
+            if (this.products.has(productName)) {
+                return "The product already exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                return "The user performing the operation does not exist in the system";
+            }
+            let validationResult = !this._isInputValid(productName) ?
+                "Product name is not valid" :
+                !this._isInputValid(productPrice) ?
+                "Product price is not valid" :
+                !this._isInputValid(productQuantity) ?
+                "Product quantity is not valid" :
+                !this._isInputValid(productCategory) ?
+                "Product category is not valid" :
+                "Valid";
+            if (validationResult !== "Valid") return validationResult;
+            if (!this.categories.has(productCategory))
+                return "Product category does not exist";
+            let result = await this.cinemaSystem.addCafeteriaProduct(
+                this.productsCounter,
+                productName,
+                this.categories.get(productCategory),
+                productPrice,
+                productQuantity,
+                maxQuantity,
+                minQuantity,
+                this.users.get(ActionIDOfTheOperation)
+            );
+            if (result === "The product was successfully added to the system") {
+                this.products.set(productName, this.productsCounter);
+                this.productsCounter++;
+            } else {
+                logger.info("ServiceLayer- addNewProduct - " + result);
+            }
+            return result;
+        }
+        /**
+         * Editing the cafeteria product
+         * @param {String} productName Unique ID of cafeteria product
+         * @param {String} productCategory Identifier of the new category to which the product belongs (Optional parameter)
+         * @param {Number} productPrice The new price of the product (Optional parameter)
+         * @param {Number} productQuantity New quantity of product in stock (Optional parameter)
+         * @param {Number} maxQuantity New maximum limit of product quantity in stock (Optional parameter)
+         * @param {Number} minQuantity New minimum limit of product quantity in stock (Optional parameter)
+         * @param {String} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async editProduct(
+            productName,
+            productPrice,
+            productQuantity,
+            minQuantity,
+            maxQuantity,
+            productCategory,
+            ActionIDOfTheOperation
+        ) {
+            if (!this.products.has(productName)) {
+                return "The product doesn't exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                logger.info(
+                    "The user " +
+                    ActionIDOfTheOperation +
+                    " performing the operation does not exist in the system"
+                );
+                return "The user performing the operation does not exist in the system";
+            }
+            let categoryID;
+            if (
+                this._isInputValid(productCategory) &&
+                !this.categories.has(productCategory)
+            )
+                return "Product category does not exist";
             else {
+                categoryID = this.categories.get(productCategory);
+            }
+            return await this.cinemaSystem.editCafeteriaProduct(
+                this.products.get(productName),
+                categoryID,
+                productPrice,
+                productQuantity,
+                maxQuantity,
+                minQuantity,
+                this.users.get(ActionIDOfTheOperation)
+            );
+        }
+        /**
+         * Remove the cafeteria product
+         * @param {String} productName Unique ID of cafeteria product
+         * @param {String} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async removeProduct(productName, ActionIDOfTheOperation) {
+            if (!this.products.has(productName)) {
+                return "The product does not exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
+                return "The user performing the operation does not exist in the system";
+            }
+            let result = await this.cinemaSystem.removeCafeteriaProduct(
+                this.products.get(productName),
+                this.users.get(ActionIDOfTheOperation)
+            );
+            if (result === "The product removed successfully") {
+                this.products.delete(productName);
+            } else {
+                logger.info("ServiceLayer- removeProduct - " + result);
+            }
+            return result;
+        }
+        /**
+         * Add a new category to the system
+         * @param {String} categoryName Unique ID of category
+         * @param {Number} parentName Id of the new parent category
+         * @param {String} ActionIDOfTheOperation name of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
+            if (this.categories.has(categoryName)) {
+                logger.info("ServiceLayer- addCategory - ", "The category already exist");
+                return "The category already exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
                 logger.info(
                     "ServiceLayer- addCategory - " +
-                    "The parent " +
-                    parentName +
-                    " does not exist"
+                    "The user performing the operation does not exist in the system"
                 );
-                return "The parent " + parentName + " does not exist";
+                return "The user performing the operation does not exist in the system";
             }
-        }
+            let parentId;
+            if (
+                typeof parentName !== "undefined" &&
+                parentName !== null &&
+                (typeof parentName !== "string" || parentName !== "" || parentName !== "")
+            ) {
+                if (this.categories.has(parentName))
+                    parentId = this.categories.get(parentName);
+                else {
+                    logger.info(
+                        "ServiceLayer- addCategory - " +
+                        "The parent " +
+                        parentName +
+                        " does not exist"
+                    );
+                    return "The parent " + parentName + " does not exist";
+                }
+            }
 
-        let result = await this.cinemaSystem.addCategory(
-            this.categoriesCounter,
-            categoryName,
-            parentId,
-            this.users.get(ActionIDOfTheOperation)
-        );
-        if (result === "The category was successfully added to the system") {
-            this.categories.set(categoryName, this.categoriesCounter);
-            this.categoriesCounter++;
+            let result = await this.cinemaSystem.addCategory(
+                this.categoriesCounter,
+                categoryName,
+                parentId,
+                this.users.get(ActionIDOfTheOperation)
+            );
+            if (result === "The category was successfully added to the system") {
+                this.categories.set(categoryName, this.categoriesCounter);
+                this.categoriesCounter++;
+            }
+            return result;
         }
-        return result;
-    }
-
+        /**
+         * Edit a category's data
+         * @param {String} categoryName Unique ID of category
+         * @param {parentName} parentID New name of the parent category
+         * @param {String} ActionIDOfTheOperation Id of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async editCategory(categoryName, ActionIDOfTheOperation, parentName) {
-        if (!this.categories.has(categoryName)) {
-            logger.info(
-                "ServiceLayer- editCategory - ",
-                "The category doesn't exist"
-            );
-            return "The category doesn't exist";
-        }
-        if (!this.users.has(ActionIDOfTheOperation)) {
-            logger.info(
-                "ServiceLayer- editCategory - " +
-                "The user performing the operation does not exist in the system"
-            );
-            return "The user performing the operation does not exist in the system";
-        }
-        let parentId;
-        if (parentName !== undefined) {
-            if (this.categories.has(parentName))
-                parentId = this.categories.get(parentName);
-            else {
+            if (!this.categories.has(categoryName)) {
+                logger.info(
+                    "ServiceLayer- editCategory - ",
+                    "The category doesn't exist"
+                );
+                return "The category doesn't exist";
+            }
+            if (!this.users.has(ActionIDOfTheOperation)) {
                 logger.info(
                     "ServiceLayer- editCategory - " +
-                    "The parent " +
-                    parentName +
-                    " does not exist"
+                    "The user performing the operation does not exist in the system"
                 );
-                return "The parent " + parentName + " does not exist";
+                return "The user performing the operation does not exist in the system";
             }
+            let parentId;
+            if (parentName !== undefined) {
+                if (this.categories.has(parentName))
+                    parentId = this.categories.get(parentName);
+                else {
+                    logger.info(
+                        "ServiceLayer- editCategory - " +
+                        "The parent " +
+                        parentName +
+                        " does not exist"
+                    );
+                    return "The parent " + parentName + " does not exist";
+                }
+            }
+            return await this.cinemaSystem.editCategory(
+                this.categories.get(categoryName),
+                parentId,
+                this.users.get(ActionIDOfTheOperation)
+            );
         }
-        return await this.cinemaSystem.editCategory(
-            this.categories.get(categoryName),
-            parentId,
-            this.users.get(ActionIDOfTheOperation)
-        );
-    }
-
+        /**
+         * Deleting a category from the system
+         * @param {String} categoryName Unique ID of category
+         * @param {String} ActionIDOfTheOperation name of the user performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async removeCategory(categoryName, ActionIDOfTheOperation) {
             if (!this.categories.has(categoryName)) {
                 logger.info(

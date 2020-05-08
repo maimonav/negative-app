@@ -18,83 +18,53 @@ class EmployeeManagemnt {
          * @param {Boolean} isPasswordHashed If the code has already been encrypted (system internal parameter)
          * @returns {Promise(string)} Success or failure string
          **/
-    async addNewEmployee(
-        userID,
-        userName,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails,
-        isPasswordHashed
-    ) {
-        if (this.employeeDictionary.has(userID)) {
-            this.writeToLog(
-                "info",
-                "addNewEmployee",
-                "The " + userName + " already exist"
-            );
-            return "The employee already exist";
+    async addNewEmployee(userID, userName, password, permissions, firstName, lastName, contactDetails, isPasswordHashed) {
+            if (this.employeeDictionary.has(userID)) {
+                this.writeToLog("info", "addNewEmployee", "The " + userName + " already exist");
+                return "The employee already exist";
+            }
+            let employee = new Employee(userID, userName, password, permissions, firstName, lastName, contactDetails, isPasswordHashed);
+            let result = await employee.init();
+            if (typeof result === "string") {
+                this.writeToLog("error", "addNewEmployee", result);
+                return result;
+            }
+            this.employeeDictionary.set(userID, employee);
+            return employee;
         }
-        let employee = new Employee(
-            userID,
-            userName,
-            password,
-            permissions,
-            firstName,
-            lastName,
-            contactDetails,
-            isPasswordHashed
-        );
-        let result = await employee.init();
-        if (typeof result === "string") {
-            this.writeToLog("error", "addNewEmployee", result);
-            return result;
+        /**
+         * Edit employee data.
+         * @param {Number} employeeID Unique ID of user
+         * @param {String} password 
+         * @param {String} permissions Permissions that must be one of the permissions types in the system
+         * @param {String} firstName First name of employee
+         * @param {String} lastName Employee last name
+         * @param {String} contactDetails Ways of communicating with the employee
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async editEmployee(employeeID, password, permissions, firstName, lastName, contactDetails) {
+            if (!this.employeeDictionary.has(employeeID)) {
+                this.writeToLog("info", "editEmployee", "EmployeeManagemnt- editEmployee - The " + employeeID + " does not exist");
+                return "The employee does not exist in the system.";
+            }
+            return await this.employeeDictionary
+                .get(employeeID)
+                .editEmployee(password, permissions, firstName, lastName, contactDetails);
         }
-        this.employeeDictionary.set(userID, employee);
-        return employee;
-    }
-
-    async editEmployee(
-        employeeID,
-        password,
-        permissions,
-        firstName,
-        lastName,
-        contactDetails
-    ) {
-        if (!this.employeeDictionary.has(employeeID)) {
-            this.writeToLog(
-                "info",
-                "editEmployee",
-                "EmployeeManagemnt- editEmployee - The " +
-                employeeID +
-                " does not exist"
-            );
-            return "The employee does not exist in the system.";
-        }
-        return await this.employeeDictionary
-            .get(employeeID)
-            .editEmployee(password, permissions, firstName, lastName, contactDetails);
-    }
-
+        /**
+         * Delete employee from system.
+         * @param {Number} employeeID Unique ID of user
+         * @returns {Promise(string)} Success or failure string
+         **/
     async deleteEmployee(employeeID) {
         if (!this.employeeDictionary.has(employeeID)) {
-            this.writeToLog(
-                "info",
-                "deleteEmployee",
-                "The " + employeeID + " does not exist"
-            );
+            this.writeToLog("info", "deleteEmployee", "The " + employeeID + " does not exist");
             return "The employee does not exist in the system.";
         }
         if (await this.employeeDictionary.get(employeeID).removeEmployee())
             if (this.employeeDictionary.delete(employeeID))
                 return "Successfully deleted employee data deletion";
-        this.writeToLog(
-            "info",
-            "deleteEmployee",
-            "The deletion of " + employeeID + " data ended with failure"
-        );
+        this.writeToLog("info", "deleteEmployee", "The deletion of " + employeeID + " data ended with failure");
         return "The deletion of employee data ended with failure";
     }
     getEmployees() {
@@ -105,7 +75,6 @@ class EmployeeManagemnt {
             };
             output.push(value);
         });
-        console.log(output.toString());
         return output;
     }
 
