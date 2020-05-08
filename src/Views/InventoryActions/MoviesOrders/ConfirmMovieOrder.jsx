@@ -11,31 +11,29 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import EditTable from "../../../Components/Tables/EditTable";
 import {
-  handleGetMovieOrders,
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
-export default class EditMovieOrder extends React.Component {
+export default class ConfirmMovieOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate: new Date(),
-      endDate: new Date(),
       orderId: "",
-      orderDate: new Date(),
-      updatedMovies: "",
       isOpened: false,
       openSecond: false,
       openThird: false,
+      startDate: new Date(),
+      endDate: new Date(),
+      updatedMovies: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
     this.toggleThirdBox = this.toggleThirdBox.bind(this);
   }
 
-  handleGetOrdersByDates = (startDate, endDate) => {
+  handleGetItemsByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate, false)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
@@ -47,16 +45,8 @@ export default class EditMovieOrder extends React.Component {
       .then((state) => this.setState({ movies: state.result }));
   };
 
-  handleGetMovieOrders = () => {
-    handleGetMovieOrders()
-      .then((response) => response.json())
-      .then((state) => {
-        this.setState({ orders: state.result });
-      });
-  };
-
   toggleBox() {
-    this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
+    this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
     this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
@@ -83,10 +73,6 @@ export default class EditMovieOrder extends React.Component {
     this.setState({ orderId: name });
   };
 
-  setOrderDate = (date) => {
-    this.setState({ orderDate: date });
-  };
-
   setUpdatedMovies = (name) => {
     this.setState({
       updatedMovies: name,
@@ -101,9 +87,10 @@ export default class EditMovieOrder extends React.Component {
 
   render() {
     const {
+      startDate,
+      endDate,
       orderId,
       movies,
-      orderDate,
       updatedMovies,
       isOpened,
       openSecond,
@@ -115,25 +102,25 @@ export default class EditMovieOrder extends React.Component {
           <GridItem xs={12} sm={12} md={8}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Edit Movie Order</h4>
+                <h4 style={{ margin: "auto" }}>Confirm Cafeteria Order</h4>
                 <p>Complete order's changes</p>
               </CardHeader>
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
-                      id={"choose-start-date"}
+                      id={"remove-start-date"}
                       label={"Choose Start Date"}
                       setDate={this.setStartDate}
-                      date={this.state.startDate}
+                      date={startDate}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <SelectDates
-                      id={"chose-end-date"}
+                      id={"remove-end-date"}
                       label={"Choose End Date"}
                       setDate={this.setEndDate}
-                      date={this.state.endDate}
+                      date={endDate}
                     />
                   </GridItem>
                 </GridContainer>
@@ -168,16 +155,6 @@ export default class EditMovieOrder extends React.Component {
               {openSecond && (
                 <CardBody>
                   <GridContainer>
-                    <GridItem>
-                      <SelectDates
-                        id={"add-order-date"}
-                        label={"Change Order Date"}
-                        setDate={this.setOrderDate}
-                        date={this.state.orderDate}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
                     <GridItem xs={12} sm={12} md={15}>
                       <EditTable
                         columns={this.columns}
@@ -194,14 +171,10 @@ export default class EditMovieOrder extends React.Component {
                   <Button
                     color="info"
                     onClick={() =>
-                      this.props.handleEditMovieOrder(
-                        orderId,
-                        orderDate,
-                        updatedMovies
-                      )
+                      this.props.handleConfirmMovieOrder(orderId, updatedMovies)
                     }
                   >
-                    Edit Order
+                    Confirm Movie Order
                   </Button>
                 </CardFooter>
               )}
