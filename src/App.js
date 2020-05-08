@@ -30,8 +30,8 @@ class App extends React.Component {
    * @param {string} username username for login to system
    * @returns {void}
    **/
-  onLogin = username => {
-    this.setState({ isLogged: true, username });
+  onLogin = (username, permission) => {
+    this.setState({ isLogged: true, username, permission });
     localStorage.setItem("username", username);
   };
 
@@ -41,7 +41,11 @@ class App extends React.Component {
    * @returns {void}
    **/
   onLogout = () => {
-    this.setState({ isLogged: false });
+    this.setState({
+      isLogged: false,
+      userName: undefined,
+      permission: undefined
+    });
     localStorage.setItem("username", "");
   };
 
@@ -55,6 +59,7 @@ class App extends React.Component {
           onLogin={this.onLogin}
           onLogout={this.onLogout}
           userName={this.state.username}
+          permission={this.state.permission}
         ></TabPanel>
       );
     }

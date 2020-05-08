@@ -13,6 +13,7 @@ class ReportController {
     MOVIES: "movie_daily_report",
     INCOMES: "incomes_daily_report",
   };
+  static _generalDailyReoprtFormat = [];
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
@@ -34,7 +35,7 @@ class ReportController {
    * @param {Array(Object)} records Records to add in the report
    * @returns {Promise(string)} success or failure
    *
-   * @example of records
+   * @example of one record, record => array of records
    *
    * "inventory_daily_report" =>  {
         date: todayDate,
@@ -64,7 +65,6 @@ class ReportController {
   static async createDailyReport(type, records) {
     //validate type from enum of types
     if (!this._isValidType(type)) return "The requested report type is invalid";
-
     let actionsList = [];
     for (let i in records) {
       records[i].date = new Date(
@@ -144,6 +144,9 @@ class ReportController {
       DBlogger.info("ReportController - addFieldToDailyReport - ", result);
       return "The report field cannot be added\n" + result;
     }
+    this._generalDailyReoprtFormat = this._generalDailyReoprtFormat.concat(
+      newField
+    );
     return "The report field added successfully";
   }
 
@@ -184,16 +187,5 @@ class ReportController {
     }
     return "The report field removed successfully";
   }
-
-  static exportMonthlyHoursReportPerEmployee(
-    date,
-    employeeToSearchID,
-    employeeId
-  ) {}
-  static exportDailyIncome(date) {}
-  static exportDailyMovieReport(date) {}
-  static exportDailyGeneralReport(date) {}
-  static exportDailyReport(date) {}
-  static getDailyReoprtFormat() {}
 }
 module.exports = ReportController;

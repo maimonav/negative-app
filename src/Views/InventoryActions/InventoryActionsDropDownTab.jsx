@@ -8,28 +8,33 @@ import {
   manageInventoryPath,
   manageCategoriesPath,
   manageMoviesPath,
-  manageOrdersPath,
+  manageOrdersPath
 } from "../../consts/paths";
 import {
   inventoryTabHook,
   ordersTabHook,
   moviesTabHook,
-  categoriesTabHook,
+  categoriesTabHook
 } from "../../consts/data-hooks";
+import { isAtLeastShiftManager } from "../../consts/permissions";
 const style = { textDecoration: "none", color: "black" };
 const menuStyle = { justifyContent: "center" };
 
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = (event) => {
+  const handleClick = event => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = (path) => {
+  const handleClose = path => {
     setAnchorEl(null);
     props.handleTabChange && props.handleTabChange(path);
   };
+
+  if (!isAtLeastShiftManager(props.permission)) {
+    return null;
+  }
 
   return (
     <>
@@ -51,7 +56,7 @@ export default function InventoryActionsDropDownTab(props) {
         style={{
           marginTop: "34px",
           marginLeft: "5px",
-          maxWidth: "175px",
+          maxWidth: "175px"
         }}
       >
         <Link to={manageInventoryPath} style={style}>

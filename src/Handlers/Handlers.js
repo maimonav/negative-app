@@ -11,12 +11,18 @@ export function handleLogin(username, password, onLogin) {
       username
     )}&password=${encodeURIComponent(password)}`
         )
-        .then((response) => response.json())
-        .then((state) => {
-            if (state.result === "User Logged in succesfully.") {
-                onLogin(username);
+        .then(response => response.json())
+        .then(state => {
+            if (
+                state.result &&
+                typeof state.result !== "string" &&
+                state.result[0] === "User Logged in succesfully."
+            ) {
+                onLogin(username, state.result[1]);
+                alert(state.result[0]);
+            } else {
+                alert(state.result);
             }
-            alert(state.result);
         });
 }
 /**
@@ -547,14 +553,6 @@ export function handleGetCategoryDetails(categoryName, user) {
       categoryName
     )}&user=${encodeURIComponent(user)}`
     );
-}
-/**
- * Handle get report types in system
- * @param {string} user
- * @returns {Promise(Array)} array of report types
- */
-export function handleGetReportTypes(user) {
-    return fetch(`/api/getReportTypes?user=${encodeURIComponent(user)}`);
 }
 
 export function handleGetReport(reportType, date, user) {

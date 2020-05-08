@@ -1283,3 +1283,33 @@ Error ID: 2ed0xi4sk9cn5pld
 14:09:57.194 INFO  InventoryManagemnt - editSupplier - The supplier 0 set to the Supplier dictionary 
 14:09:57.205 INFO  CinemaSystem - addMovieOrder - Cannot add order - creator employee id 0 is not exist 
 14:09:57.206 INFO  CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id 0 is not exist 
+18:20:18.707 INFO  ServiceLayer- addMovieOrder - The order avivTue May 05 2020 18:18:32 GMT+0300 (Israel Daylight Time) already exists 
+18:20:18.707 INFO  ServiceLayer - The addNewEmployee process failed - the aviv exists on the system. 
+18:20:18.707 INFO  ServiceLayer- addNewSupplier - The supplier supplier already exists 
+18:20:18.707 INFO  ServiceLayer- addCategory - The category already exist 
+18:20:18.722 INFO  ServiceLayer- addMovie - The movie movie already exists 
+18:20:39.122 INFO  ServiceLayer- addMovieOrder - The order avivTue May 05 2020 18:18:32 GMT+0300 (Israel Daylight Time) already exists 
+18:20:39.122 INFO  ServiceLayer - The addNewEmployee process failed - the aviv exists on the system. 
+18:20:39.122 INFO  ServiceLayer- addNewSupplier - The supplier supplier already exists 
+18:20:39.122 INFO  ServiceLayer- addCategory - The category already exist 
+18:20:39.137 INFO  ServiceLayer- addMovie - The movie movie already exists 
+18:20:58.341 INFO  ServiceLayer- addMovieOrder - The order avivTue May 05 2020 18:18:32 GMT+0300 (Israel Daylight Time) already exists 
+18:20:58.342 INFO  ServiceLayer - The addNewEmployee process failed - the aviv exists on the system. 
+18:20:58.342 INFO  ServiceLayer- addNewSupplier - The supplier supplier already exists 
+18:20:58.342 INFO  ServiceLayer- addCategory - The category already exist 
+18:20:58.363 INFO  ServiceLayer- addMovie - The movie movie already exists 
+18:21:48.775 INFO  ServiceLayer- addMovieOrder - The order avivTue May 05 2020 18:18:32 GMT+0300 (Israel Daylight Time) already exists 
+18:21:48.775 INFO  ServiceLayer - The addNewEmployee process failed - the aviv exists on the system. 
+18:21:48.775 INFO  ServiceLayer- addNewSupplier - The supplier supplier already exists 
+18:21:48.775 INFO  ServiceLayer- addCategory - The category already exist 
+18:21:48.792 INFO  ServiceLayer- addMovie - The movie movie already exists 
+18:22:30.742 INFO  ServiceLayer- addMovieOrder - The order avivTue May 05 2020 18:18:32 GMT+0300 (Israel Daylight Time) already exists 
+18:22:30.742 INFO  ServiceLayer - The addNewEmployee process failed - the aviv exists on the system. 
+18:22:30.742 INFO  ServiceLayer- addNewSupplier - The supplier supplier already exists 
+18:22:30.742 INFO  ServiceLayer- addCategory - The category already exist 
+18:22:30.757 INFO  ServiceLayer- addMovie - The movie movie already exists 
+18:24:43.026 INFO  ServiceLayer- addMovieOrder - The order avivTue May 05 2020 18:18:32 GMT+0300 (Israel Daylight Time) already exists 
+18:24:43.026 INFO  ServiceLayer - The addNewEmployee process failed - the aviv exists on the system. 
+18:24:43.026 INFO  ServiceLayer- addNewSupplier - The supplier supplier already exists 
+18:24:43.026 INFO  ServiceLayer- addCategory - The category already exist 
+18:24:43.043 INFO  ServiceLayer- addMovie - The movie movie already exists 

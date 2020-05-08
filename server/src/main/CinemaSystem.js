@@ -1,4 +1,3 @@
-const data = require("../../consts/data");
 const ReportController = require("./ReportController");
 const User = require("./User");
 const simpleLogger = require("simple-node-logger");
@@ -22,8 +21,16 @@ class CinemaSystem {
                 record = this.employeeAndDateConvertion(record);
                 return record;
             },
-            general_purpose_daily_report: (record) =>
-                this.employeeAndDateConvertion(record),
+            general_purpose_daily_report: (record) => {
+                let keys = Object.keys(record.additionalProps[1]);
+                for (let i in keys) {
+                    let propName = keys[i];
+                    record[propName] = record.additionalProps[1][propName];
+                }
+                record.props = ReportController._generalDailyReoprtFormat;
+                record = this.employeeAndDateConvertion(record);
+                return record;
+            },
             incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
         };
     }
@@ -269,37 +276,6 @@ class CinemaSystem {
         );
     }
 
-    async editOrder(
-        orderId,
-        date,
-        supplierId,
-        productsList,
-        ActionIDOfTheOperation
-    ) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "DEPUTY_MANAGER",
-            "editOrder"
-        );
-        if (result != null) return result;
-        return this.inventoryManagement.editOrder(
-            orderId,
-            date,
-            supplierId,
-            productsList
-        );
-    }
-
-    async confirmOrder(orderId, productsList, ActionIDOfTheOperation) {
-        let result = this.checkUser(
-            ActionIDOfTheOperation,
-            "SHIFT_MANAGER",
-            "editOrder"
-        );
-        if (result != null) return result;
-        return this.inventoryManagement.confirmOrder(orderId, productsList, ActionIDOfTheOperation);
-    }
-
     /**
      * Remove order from the system and from DB
      * @param {number} orderId Order unique id
@@ -325,44 +301,57 @@ class CinemaSystem {
          * @returns {Promise(string)} Success or failure string
          **/
     async addCafeteriaOrder(
+        orderId,
+        date,
+        supplierId,
+        productsList,
+        ActionIDOfTheOperation,
+        orderName
+    ) {
+        let result = this.checkUser(
+            ActionIDOfTheOperation,
+            "DEPUTY_MANAGER",
+            "addCafeteriaOrder"
+        );
+        if (result != null) return result;
+        if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
+            logger.info(
+                "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
+                ActionIDOfTheOperation +
+                " is not exist"
+            );
+            return "Cannot add order - creator employee id is not exist";
+        }
+        return this.inventoryManagement.addCafeteriaOrder(
             orderId,
             date,
             supplierId,
             productsList,
             ActionIDOfTheOperation,
             orderName
-        ) {
-            let result = this.checkUser(
-                ActionIDOfTheOperation,
-                "DEPUTY_MANAGER",
-                "addCafeteriaOrder"
-            );
-            if (result != null) return result;
-            if (!this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)) {
-                logger.info(
-                    "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
-                    ActionIDOfTheOperation +
-                    " is not exist"
-                );
-                return "Cannot add order - creator employee id is not exist";
-            }
-            return this.inventoryManagement.addCafeteriaOrder(
-                orderId,
-                date,
-                supplierId,
-                productsList,
-                ActionIDOfTheOperation,
-                orderName
-            );
-        }
-        /**
-         * Add new movie to the system
-         * @param {number} movieId
-         * @param {string} movieName
-         * @param {number} category  Movie category id
-         * @param {number} ActionIDOfTheOperation Id of the user performed the action
-         * @returns {Promise(string)} Success or failure string
-         */
+        );
+    }
+    async editOrder(orderId, date, supplierId, productsList, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "DEPUTY_MANAGER", "editOrder");
+        if (result != null) return result;
+        return this.inventoryManagement.editOrder(orderId, date, supplierId, productsList);
+    }
+
+    async confirmOrder(orderId, productsList, ActionIDOfTheOperation) {
+        let result = this.checkUser(ActionIDOfTheOperation, "SHIFT_MANAGER", "editOrder");
+        if (result != null) return result;
+        return this.inventoryManagement.confirmOrder(orderId, productsList, ActionIDOfTheOperation);
+    }
+
+
+    /**
+     * Add new movie to the system
+     * @param {number} movieId
+     * @param {string} movieName
+     * @param {number} category  Movie category id
+     * @param {number} ActionIDOfTheOperation Id of the user performed the action
+     * @returns {Promise(string)} Success or failure string
+     */
     async addMovie(movieId, movieName, categoryId, ActionIDOfTheOperation) {
         let result = this.checkUser(
             ActionIDOfTheOperation,
@@ -657,7 +646,8 @@ class CinemaSystem {
         if (result != null) return result;
         result = await ReportController.getReport(type, date);
         if (typeof result !== "string")
-            for (let i in result) result[i] = this.convertionMethods[type](result[i]);
+            for (let i in result)
+                result[i] = this.convertionMethods[type](result[i].dataValues);
         return result;
     }
 

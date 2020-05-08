@@ -68,18 +68,18 @@ async function testOrder(id, expected) {
 }
 exports.testOrder = testOrder;
 
-async function addOrderAftereSupplierCreator(creatorId, isTest) {
+async function addOrderAftereSupplierCreator(creatorId, isTest, date) {
   console.log("START ADD ORDER AFTER\n");
   let today = new Date();
   await DB.singleAdd("order", {
     id: 0,
-    date: getSyncDateFormat(today),
+    date: date ? date : getSyncDateFormat(today),
     creatorEmployeeId: creatorId,
     supplierId: 0,
   });
   if (isTest)
     testOrder(0, {
-      date: getSyncDateFormat(today),
+      date: date ? date : getSyncDateFormat(today),
       creatorEmployeeId: creatorId,
       recipientEmployeeId: null,
       supplierId: 0,
@@ -289,29 +289,29 @@ async function updateProductsOrder() {
   );
 }
 
-describe("DB Test - suppliers, orders", function () {
+describe("DB Test - suppliers, orders", function() {
   let sequelize;
-  beforeEach(async function () {
+  beforeEach(async function() {
     //create connection & mydb
     await DB.connectAndCreate("mydbTest");
     sequelize = await DB.initDB("mydbTest");
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE mydbTest");
     console.log("Database deleted");
   });
 
-  it("init", async function () {
+  it("init", async function() {
     //Testing connection
     await sequelize
       .authenticate()
       .catch((err) => fail("Unable to connect to the database:", err));
   });
 
-  it("add empty order & add supplier", async function (done) {
+  it("add empty order & add supplier", async function(done) {
     setTimeout(done, 3000);
     await addEmployee(0, "MANAGER");
     await addOrderBeforeSupplier();
@@ -322,17 +322,17 @@ describe("DB Test - suppliers, orders", function () {
     }, 1000);
   });
 
-  it("update supplier", async function () {
+  it("update supplier", async function() {
     await addSupplier(0);
     await updateSupplier();
   });
 
-  it("remove supplier", async function () {
+  it("remove supplier", async function() {
     await addSupplier(0);
     await removeSupplier(0, true);
   });
 
-  it("remove empty order before and after being supplied", async function () {
+  it("remove empty order before and after being supplied", async function() {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
     await addOrderAftereSupplierCreator(0);
@@ -341,7 +341,7 @@ describe("DB Test - suppliers, orders", function () {
     await removeOrderAfterProvided(false, false);
   });
 
-  it("add full order and add & update product_orders", async function () {
+  it("add full order and add & update product_orders", async function() {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
     await addOrderAftereSupplierCreator(0);
@@ -349,7 +349,7 @@ describe("DB Test - suppliers, orders", function () {
     await updateProductsOrder();
   });
 
-  it("remove full order includes products before provided", async function () {
+  it("remove full order includes products before provided", async function() {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
     await addOrderAftereSupplierCreator(0);
@@ -357,7 +357,7 @@ describe("DB Test - suppliers, orders", function () {
     await removeOrderBeforeProvided(true, true);
   });
 
-  it("remove full order includes products after provided", async function () {
+  it("remove full order includes products after provided", async function() {
     await addEmployee(0, "MANAGER");
     await addSupplier(0);
     await addOrderAftereSupplierCreator(0);

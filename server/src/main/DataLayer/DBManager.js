@@ -1,6 +1,6 @@
 const DBlogger = require("simple-node-logger").createSimpleLogger({
   logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
+  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS"
 });
 const uniqid = require("uniqid");
 
@@ -43,7 +43,7 @@ class DataBase {
     SequelizeAccessDeniedError: () =>
       this._connectionMsg +
       " Refused due to insufficient privileges" +
-      " - Password to database should be checked.", // wrong password
+      " - Password to database should be checked." // wrong password
   };
 
   /**
@@ -104,14 +104,14 @@ class DataBase {
     let name;
     try {
       return this.sequelize
-        .transaction(async (t) => {
+        .transaction(async t => {
           for (let i in actionsList) {
             action = actionsList[i];
             model = action.model ? this.models[action.model] : undefined;
             await action.name(action.params, t, model);
           }
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,
@@ -148,7 +148,7 @@ class DataBase {
   static async _update(params, t, model) {
     return model.update(params.element, {
       where: params.where,
-      transaction: t,
+      transaction: t
     });
   }
   static async _findAll(params, t, model) {
@@ -162,12 +162,12 @@ class DataBase {
             attributes.fn,
             this.sequelize.col(attributes.fnField)
           ),
-          attributes.fnField,
-        ],
+          attributes.fnField
+        ]
       ];
     let argument = {
       where: params.where,
-      transaction: t,
+      transaction: t
     };
     if (attributes) argument.attributes = attributesArray;
     if (order) argument.order = order;
@@ -186,13 +186,13 @@ class DataBase {
           attributes.fn,
           this.sequelize.col(attributes.fnField)
         ),
-        attributes.fnField,
-      ],
+        attributes.fnField
+      ]
     ];
     return model.findAll({
       attributes: attributesArray,
       where: params.where,
-      transaction: t,
+      transaction: t
     });
   }
 
@@ -204,7 +204,7 @@ class DataBase {
       params.eventTime,
       params.prop
     );
-    return DataBase.sequelize.query(destroyQuery, { t }).catch((error) => {
+    return DataBase.sequelize.query(destroyQuery, { t }).catch(error => {
       let errId = uniqid();
       DBlogger.error(
         errId,
@@ -228,10 +228,10 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction((t) => {
+        .transaction(t => {
           return model.create(element, { transaction: t });
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,
@@ -262,11 +262,11 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction((t) => {
+        .transaction(t => {
           let res = model.findOne({ where: where, transaction: t });
           return res;
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,
@@ -302,10 +302,10 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction((t) => {
+        .transaction(t => {
           return model.update(element, { where: where, transaction: t });
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,
@@ -343,10 +343,10 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction((t) => {
+        .transaction(t => {
           return model.destroy({ where: where, transaction: t });
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,
@@ -391,23 +391,23 @@ class DataBase {
             attributes.fn,
             this.sequelize.col(attributes.fnField)
           ),
-          attributes.fnField,
-        ],
+          attributes.fnField
+        ]
       ];
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction((t) => {
+        .transaction(t => {
           let argument = {
             where: where,
-            transaction: t,
+            transaction: t
           };
           if (attributes) argument.attributes = attributesArray;
           if (order) argument.order = order;
 
           return model.findAll(argument);
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,
@@ -459,10 +459,10 @@ class DataBase {
     );
     try {
       return this.sequelize
-        .transaction((t) => {
+        .transaction(t => {
           return this.sequelize.query(destroyQuery, { t });
         })
-        .catch((error) => {
+        .catch(error => {
           let errId = uniqid();
           DBlogger.error(
             errId,

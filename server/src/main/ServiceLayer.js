@@ -1,7 +1,6 @@
 const CinemaSystem = require("./CinemaSystem");
 const SystemInitializer = require("./SystemInitializer");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
-const data = require("../../consts/data");
 
 class ServiceLayer {
     constructor() {
@@ -21,12 +20,13 @@ class ServiceLayer {
          * @param {string} dbName The database name
          * @returns {string} Success or failure string
          */
-    async initSeviceLayer(dbName) {
+    async initSeviceLayer(dbName, password) {
         this.users.set("admin", this.userCounter);
         this.userCounter++;
-        let result = SystemInitializer.initSystem(this, dbName);
+        let result = await SystemInitializer.initSystem(this, dbName, password);
         return result;
     }
+
 
     _isInputValid(param) {
         if (param === undefined || param === "") return false;

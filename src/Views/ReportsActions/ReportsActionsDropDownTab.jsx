@@ -6,6 +6,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Tab from "@material-ui/core/Tab";
 import { showReportPath } from "../../consts/paths";
 import { showReportTabHook } from "../../consts/data-hooks";
+import { isAtLeastShiftManager } from "../../consts/permissions";
 const style = { textDecoration: "none", color: "black" };
 
 export default function ReportsActionsDropDownTab(props) {
@@ -19,6 +20,10 @@ export default function ReportsActionsDropDownTab(props) {
     setAnchorEl(null);
     props.handleTabChange && props.handleTabChange(path);
   };
+
+  if (!isAtLeastShiftManager(props.permission)) {
+    return null;
+  }
 
   return (
     <>

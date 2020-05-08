@@ -4,7 +4,12 @@ import clsx from "clsx";
 import { withStyles } from "@material-ui/core/styles";
 import TableCell from "@material-ui/core/TableCell";
 import Paper from "@material-ui/core/Paper";
-import { incomesColumns, inventoryColumns } from "../../consts/data";
+import {
+  incomesColumns,
+  inventoryColumns,
+  generalColumns,
+  reportsTypesObj
+} from "../../consts/data";
 import { AutoSizer, Column, Table } from "react-virtualized";
 
 const styles = theme => ({
@@ -156,21 +161,40 @@ ReportTable.propTypes = {
 
 const VirtualizedTable = withStyles(styles)(ReportTable);
 
-const columns = {
+const defaultColumns = {
   inventory_daily_report: inventoryColumns,
-  general_purpose_daily_report: [],
+  general_purpose_daily_report: generalColumns,
   incomes_daily_report: incomesColumns,
   movie_daily_report: []
 };
 
+const addColumn = (column, columns) =>
+  columns.push({
+    width: 150,
+    label: column,
+    dataKey: column
+  });
+
 export default function ReactVirtualizedTable(props) {
-  console.log(columns[props.reportType]);
+  // console.log(columns[props.reportType]);
+  const data = props.data;
+  let columns = defaultColumns[props.reportType];
+  let additionalColumns = [];
+  const additionalProps = data && data[0] && data[0].props;
+  if (
+    additionalProps &&
+    additionalProps.length > 0 &&
+    props.reportType === reportsTypesObj.General
+  ) {
+    additionalProps.forEach(prop => addColumn(prop, additionalColumns));
+    columns = [...columns, ...additionalColumns];
+  }
   return (
     <Paper style={{ height: 450, width: "100%" }}>
       <VirtualizedTable
-        rowCount={props.data.length}
-        rowGetter={({ index }) => props.data[index]}
-        columns={columns[props.reportType]}
+        rowCount={data.length}
+        rowGetter={({ index }) => data[index]}
+        columns={columns}
       />
     </Paper>
   );

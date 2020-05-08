@@ -1,14 +1,6 @@
-export const permissions = [
-  { title: "ADMIN" },
-  { title: "MANAGER" },
-  { title: "DEPUTY MANAGER" },
-  { title: "SHIFT MANAGER" },
-  { title: "EMPLOYEE" }
-];
-
 export const reportsPrettyTypes = [
   { title: "Inventory" },
-  // { title: "General" },
+  { title: "General" },
   // { title: "Movies" },
   { title: "Incomes" }
 ];
@@ -20,6 +12,13 @@ export const reportsTypes = {
   Incomes: "incomes_daily_report"
 };
 
+export const reportsTypesObj = Object.freeze({
+  Inventory: "inventory_daily_report",
+  General: "general_purpose_daily_report",
+  Movies: "movie_daily_report",
+  Incomes: "incomes_daily_report"
+});
+
 export const inventoryColumns = [
   {
     width: 200,
@@ -29,29 +28,29 @@ export const inventoryColumns = [
   {
     width: 150,
     label: "Product",
-    dataKey: "product"
+    dataKey: "productName"
   },
   {
     width: 150,
     label: "Employee",
-    dataKey: "employee"
+    dataKey: "creatorEmployeeName"
   },
   {
     width: 150,
     label: "Quantity Sold",
-    dataKey: "quantity_sold",
+    dataKey: "quantitySold",
     numeric: true
   },
   {
     width: 150,
     label: "Quantity In Stock",
-    dataKey: "quantity_in_stock",
+    dataKey: "quantityInStock",
     numeric: true
   },
   {
     width: 150,
     label: "Stock Thrown",
-    dataKey: "stock_thrown",
+    dataKey: "stockThrown",
     numeric: true
   }
 ];
@@ -65,7 +64,7 @@ export const incomesColumns = [
   {
     width: 120,
     label: "Employee",
-    dataKey: "employee"
+    dataKey: "creatorEmployeeName"
   },
   {
     width: 120,
@@ -102,5 +101,18 @@ export const incomesColumns = [
     label: "Tabs Credit Incomes",
     dataKey: "tabsCreditCardRevenues",
     numeric: true
+  }
+];
+
+export const generalColumns = [
+  {
+    width: 150,
+    label: "Date",
+    dataKey: "date"
+  },
+  {
+    width: 120,
+    label: "Employee",
+    dataKey: "creatorEmployeeName"
   }
 ];

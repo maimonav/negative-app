@@ -2813,3 +2813,513 @@ Error: ConnectionManager.getConnection was called after the connection manager w
     at addProductsOrder (c:\Users\ASUS\Documents\GitHub\negative-app\spec\support\DBtests\OrdersTests.spec.js:247:12)
     at processTicksAndRejections (internal/process/task_queues.js:94:5)
     at async UserContext.<anonymous> (c:\Users\ASUS\Documents\GitHub\negative-app\spec\support\test\InitSystem.spec.js:216:5) 
+2020-05-05 18:20:18.721 ERROR 3q6y8700k9u27j1e - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:20:18.707Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:20:18.707Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:20:18.712Z","createdAt":"2020-05-05T15:20:18.712Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:18",1,null,0,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:18",1,null,0,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:18.722 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y8700k9u27j1e 
+2020-05-05 18:20:18.730 ERROR 3q6y8700k9u27j1m - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:20:18.722Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:20:18.722Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:20:18.725Z","createdAt":"2020-05-05T15:20:18.725Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:18",1,null,0,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:18",1,null,0,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:18.730 INFO  InventoryManagemnt - addMovieOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y8700k9u27j1m 
+2020-05-05 18:20:18.735 ERROR 3q6y8700k9u27j1r - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"inventory_daily_reports.PRIMARY must be unique","type":"unique violation","path":"inventory_daily_reports.PRIMARY","value":"2020-05-05 00:00:00-0","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8,"updatedAt":"2020-05-05T15:20:18.732Z","createdAt":"2020-05-05T15:20:18.732Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"inventory_daily_reports.PRIMARY":"2020-05-05 00:00:00-0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:18.736 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y8700k9u27j1r 
+2020-05-05 18:20:18.740 ERROR 3q6y8700k9u27j1w - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}]}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"general_purpose_daily_reports.PRIMARY must be unique","type":"unique violation","path":"general_purpose_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}],"updatedAt":"2020-05-05T15:20:18.737Z","createdAt":"2020-05-05T15:20:18.737Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"general_purpose_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:20:18","2020-05-05 15:20:18"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:20:18","2020-05-05 15:20:18"]},"sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:18.741 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y8700k9u27j1w 
+2020-05-05 18:20:18.746 ERROR 3q6y8700k9u27j22 - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"incomes_daily_reports.PRIMARY must be unique","type":"unique violation","path":"incomes_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20,"updatedAt":"2020-05-05T15:20:18.742Z","createdAt":"2020-05-05T15:20:18.742Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"incomes_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:20:18","2020-05-05 15:20:18"]},"sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:18.746 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y8700k9u27j22 
+2020-05-05 18:20:39.136 ERROR 3q6y872ek9u27ysh - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:20:39.122Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:20:39.122Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:20:39.128Z","createdAt":"2020-05-05T15:20:39.128Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:39",1,null,0,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:39",1,null,0,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:39.137 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y872ek9u27ysh 
+2020-05-05 18:20:39.142 ERROR 3q6y872ek9u27ysm - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:20:39.137Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:20:39.137Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:20:39.140Z","createdAt":"2020-05-05T15:20:39.140Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:39",1,null,0,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:39",1,null,0,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:39.142 INFO  InventoryManagemnt - addMovieOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y872ek9u27ysm 
+2020-05-05 18:20:39.146 ERROR 3q6y872ek9u27ysq - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"inventory_daily_reports.PRIMARY must be unique","type":"unique violation","path":"inventory_daily_reports.PRIMARY","value":"2020-05-05 00:00:00-0","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8,"updatedAt":"2020-05-05T15:20:39.144Z","createdAt":"2020-05-05T15:20:39.144Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"inventory_daily_reports.PRIMARY":"2020-05-05 00:00:00-0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:39.146 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y872ek9u27ysq 
+2020-05-05 18:20:39.150 ERROR 3q6y872ek9u27ysu - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}]}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"general_purpose_daily_reports.PRIMARY must be unique","type":"unique violation","path":"general_purpose_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}],"updatedAt":"2020-05-05T15:20:39.148Z","createdAt":"2020-05-05T15:20:39.148Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"general_purpose_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:20:39","2020-05-05 15:20:39"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:20:39","2020-05-05 15:20:39"]},"sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:39.150 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y872ek9u27ysu 
+2020-05-05 18:20:39.154 ERROR 3q6y872ek9u27ysy - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"incomes_daily_reports.PRIMARY must be unique","type":"unique violation","path":"incomes_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20,"updatedAt":"2020-05-05T15:20:39.152Z","createdAt":"2020-05-05T15:20:39.152Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"incomes_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:20:39","2020-05-05 15:20:39"]},"sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:39.155 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y872ek9u27ysy 
+2020-05-05 18:20:58.363 ERROR 3q6y873mk9u28dmk - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:20:58.342Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:20:58.342Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:20:58.349Z","createdAt":"2020-05-05T15:20:58.349Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:58",1,null,0,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:58",1,null,0,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:58.363 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y873mk9u28dmk 
+2020-05-05 18:20:58.369 ERROR 3q6y873mk9u28dmp - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:20:58.363Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:20:58.363Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:20:58.366Z","createdAt":"2020-05-05T15:20:58.366Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:58",1,null,0,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:20:58",1,null,0,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:58.370 INFO  InventoryManagemnt - addMovieOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y873mk9u28dmp 
+2020-05-05 18:20:58.374 ERROR 3q6y873mk9u28dmu - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"inventory_daily_reports.PRIMARY must be unique","type":"unique violation","path":"inventory_daily_reports.PRIMARY","value":"2020-05-05 00:00:00-0","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8,"updatedAt":"2020-05-05T15:20:58.371Z","createdAt":"2020-05-05T15:20:58.371Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"inventory_daily_reports.PRIMARY":"2020-05-05 00:00:00-0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:58.375 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y873mk9u28dmu 
+2020-05-05 18:20:58.380 ERROR 3q6y873mk9u28dn0 - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}]}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"general_purpose_daily_reports.PRIMARY must be unique","type":"unique violation","path":"general_purpose_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}],"updatedAt":"2020-05-05T15:20:58.376Z","createdAt":"2020-05-05T15:20:58.376Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"general_purpose_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:20:58","2020-05-05 15:20:58"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:20:58","2020-05-05 15:20:58"]},"sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:58.381 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y873mk9u28dn0 
+2020-05-05 18:20:58.386 ERROR 3q6y873mk9u28dn6 - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"incomes_daily_reports.PRIMARY must be unique","type":"unique violation","path":"incomes_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20,"updatedAt":"2020-05-05T15:20:58.382Z","createdAt":"2020-05-05T15:20:58.382Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"incomes_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:20:58","2020-05-05 15:20:58"]},"sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:20:58.387 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y873mk9u28dn6 
+2020-05-05 18:21:48.791 ERROR 3q6y877jk9u29gjc - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:21:48.775Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:21:48.775Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:21:48.781Z","createdAt":"2020-05-05T15:21:48.781Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:21:48",1,null,0,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:21:48",1,null,0,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:21:48.792 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y877jk9u29gjc 
+2020-05-05 18:21:48.800 ERROR 3q6y877jk9u29gjk - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:21:48.792Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:21:48.792Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:21:48.795Z","createdAt":"2020-05-05T15:21:48.795Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:21:48",1,null,0,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:21:48",1,null,0,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:21:48.800 INFO  InventoryManagemnt - addMovieOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y877jk9u29gjk 
+2020-05-05 18:21:48.806 ERROR 3q6y877jk9u29gjq - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"inventory_daily_reports.PRIMARY must be unique","type":"unique violation","path":"inventory_daily_reports.PRIMARY","value":"2020-05-05 00:00:00-0","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8,"updatedAt":"2020-05-05T15:21:48.802Z","createdAt":"2020-05-05T15:21:48.802Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"inventory_daily_reports.PRIMARY":"2020-05-05 00:00:00-0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:21:48.806 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y877jk9u29gjq 
+2020-05-05 18:21:48.810 ERROR 3q6y877jk9u29gju - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}]}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"general_purpose_daily_reports.PRIMARY must be unique","type":"unique violation","path":"general_purpose_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}],"updatedAt":"2020-05-05T15:21:48.807Z","createdAt":"2020-05-05T15:21:48.807Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"general_purpose_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:21:48","2020-05-05 15:21:48"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:21:48","2020-05-05 15:21:48"]},"sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:21:48.811 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y877jk9u29gju 
+2020-05-05 18:21:48.815 ERROR 3q6y877jk9u29gjz - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"incomes_daily_reports.PRIMARY must be unique","type":"unique violation","path":"incomes_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20,"updatedAt":"2020-05-05T15:21:48.812Z","createdAt":"2020-05-05T15:21:48.812Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"incomes_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:21:48","2020-05-05 15:21:48"]},"sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:21:48.816 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y877jk9u29gjz 
+2020-05-05 18:22:30.756 ERROR 3q6y87a4k9u2acx1 - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:22:30.742Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:22:30.742Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:22:30.747Z","createdAt":"2020-05-05T15:22:30.747Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:22:30",1,null,0,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:22:30",1,null,0,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:22:30.757 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87a4k9u2acx1 
+2020-05-05 18:22:30.761 ERROR 3q6y87a4k9u2acx5 - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:22:30.757Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:22:30.757Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:22:30.759Z","createdAt":"2020-05-05T15:22:30.759Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:22:30",1,null,0,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:22:30",1,null,0,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:22:30.762 INFO  InventoryManagemnt - addMovieOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87a4k9u2acx5 
+2020-05-05 18:22:30.765 ERROR 3q6y87a4k9u2acx9 - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"inventory_daily_reports.PRIMARY must be unique","type":"unique violation","path":"inventory_daily_reports.PRIMARY","value":"2020-05-05 00:00:00-0","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8,"updatedAt":"2020-05-05T15:22:30.763Z","createdAt":"2020-05-05T15:22:30.763Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"inventory_daily_reports.PRIMARY":"2020-05-05 00:00:00-0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:22:30.765 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87a4k9u2acx9 
+2020-05-05 18:22:30.768 ERROR 3q6y87a4k9u2acxc - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}]}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"general_purpose_daily_reports.PRIMARY must be unique","type":"unique violation","path":"general_purpose_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}],"updatedAt":"2020-05-05T15:22:30.766Z","createdAt":"2020-05-05T15:22:30.766Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"general_purpose_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:22:30","2020-05-05 15:22:30"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:22:30","2020-05-05 15:22:30"]},"sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:22:30.769 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87a4k9u2acxc 
+2020-05-05 18:22:30.772 ERROR 3q6y87a4k9u2acxg - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"incomes_daily_reports.PRIMARY must be unique","type":"unique violation","path":"incomes_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20,"updatedAt":"2020-05-05T15:22:30.770Z","createdAt":"2020-05-05T15:22:30.770Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"incomes_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:22:30","2020-05-05 15:22:30"]},"sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:22:30.772 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87a4k9u2acxg 
+2020-05-05 18:24:43.042 ERROR 3q6y87iek9u2d6zn - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:24:43.026Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:24:43.026Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:24:43.032Z","createdAt":"2020-05-05T15:24:43.032Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:24:43",1,null,0,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:24:43",1,null,0,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:24:43.043 INFO  InventoryManagemnt - addCafeteriaOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87iek9u2d6zn 
+2020-05-05 18:24:43.050 ERROR 3q6y87iek9u2d6zu - DBManager - executeActions  - add, , {"element":{"id":1,"date":"2020-05-05T15:24:43.043Z","creatorEmployeeId":1,"supplierId":0}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"orders.PRIMARY must be unique","type":"unique violation","path":"orders.PRIMARY","value":"1","origin":"DB","instance":{"recipientEmployeeId":null,"id":1,"date":"2020-05-05T15:24:43.043Z","creatorEmployeeId":1,"supplierId":0,"updatedAt":"2020-05-05T15:24:43.047Z","createdAt":"2020-05-05T15:24:43.047Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"orders.PRIMARY":"1"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:24:43",1,null,0,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '1' for key 'orders.PRIMARY'","sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);","parameters":[1,"2020-05-05 15:24:43",1,null,0,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"sql":"INSERT INTO `orders` (`id`,`date`,`creatorEmployeeId`,`recipientEmployeeId`,`supplierId`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:24:43.050 INFO  InventoryManagemnt - addMovieOrder - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87iek9u2d6zu 
+2020-05-05 18:24:43.055 ERROR 3q6y87iek9u2d6zz - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"inventory_daily_reports.PRIMARY must be unique","type":"unique violation","path":"inventory_daily_reports.PRIMARY","value":"2020-05-05 00:00:00-0","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","productId":0,"creatorEmployeeId":1,"quantitySold":4,"quantityInStock":8,"stockThrown":8,"updatedAt":"2020-05-05T15:24:43.052Z","createdAt":"2020-05-05T15:24:43.052Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"inventory_daily_reports.PRIMARY":"2020-05-05 00:00:00-0"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00-0' for key 'inventory_daily_reports.PRIMARY'","sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",0,1,4,8,8,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"sql":"INSERT INTO `inventory_daily_reports` (`date`,`productId`,`creatorEmployeeId`,`quantitySold`,`quantityInStock`,`stockThrown`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:24:43.055 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87iek9u2d6zz 
+2020-05-05 18:24:43.059 ERROR 3q6y87iek9u2d703 - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}]}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"general_purpose_daily_reports.PRIMARY must be unique","type":"unique violation","path":"general_purpose_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"additionalProps":[["Cash counted","Report_Z_taken"],{"Cash counted":"true","Report_Z_taken":"false"}],"updatedAt":"2020-05-05T15:24:43.056Z","createdAt":"2020-05-05T15:24:43.056Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"general_purpose_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:24:43","2020-05-05 15:24:43"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'general_purpose_daily_reports.PRIMARY'","sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,"[[\"Cash counted\",\"Report_Z_taken\"],{\"Cash counted\":\"true\",\"Report_Z_taken\":\"false\"}]","2020-05-05 15:24:43","2020-05-05 15:24:43"]},"sql":"INSERT INTO `general_purpose_daily_reports` (`date`,`creatorEmployeeId`,`additionalProps`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:24:43.059 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87iek9u2d703 
+2020-05-05 18:24:43.064 ERROR 3q6y87iek9u2d708 - DBManager - executeActions  - add, , {"element":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20}} - Validation error
+{"name":"SequelizeUniqueConstraintError","errors":[{"message":"incomes_daily_reports.PRIMARY must be unique","type":"unique violation","path":"incomes_daily_reports.PRIMARY","value":"2020-05-05 00:00:00","origin":"DB","instance":{"date":"2020-05-05T00:00:00.000Z","creatorEmployeeId":1,"numOfTabsSales":0,"cafeteriaCashRevenues":20,"cafeteriaCreditCardRevenues":20,"ticketsCashRevenues":20,"ticketsCreditCardRevenues":20,"tabsCashRevenues":20,"tabsCreditCardRevenues":20,"updatedAt":"2020-05-05T15:24:43.061Z","createdAt":"2020-05-05T15:24:43.061Z"},"validatorKey":"not_unique","validatorName":null,"validatorArgs":[]}],"fields":{"incomes_daily_reports.PRIMARY":"2020-05-05 00:00:00"},"parent":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"original":{"code":"ER_DUP_ENTRY","errno":1062,"sqlState":"23000","sqlMessage":"Duplicate entry '2020-05-05 00:00:00' for key 'incomes_daily_reports.PRIMARY'","sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);","parameters":["2020-05-05 00:00:00",1,0,20,20,20,20,20,20,"2020-05-05 15:24:43","2020-05-05 15:24:43"]},"sql":"INSERT INTO `incomes_daily_reports` (`date`,`creatorEmployeeId`,`numOfTabsSales`,`cafeteriaCashRevenues`,`cafeteriaCreditCardRevenues`,`ticketsCashRevenues`,`ticketsCreditCardRevenues`,`tabsCashRevenues`,`tabsCreditCardRevenues`,`createdAt`,`updatedAt`) VALUES (?,?,?,?,?,?,?,?,?,?,?);"}
+SequelizeUniqueConstraintError: Validation error
+    at Query.formatError (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:223:16)
+    at Execute.handler [as onResult] (/Users/avivm/Development/project/negative-app/node_modules/sequelize/lib/dialects/mysql/query.js:51:23)
+    at Execute.execute (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/commands/command.js:30:14)
+    at Connection.handlePacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:417:32)
+    at PacketParser.onPacket (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:75:12)
+    at PacketParser.executeStart (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/packet_parser.js:75:16)
+    at Socket.<anonymous> (/Users/avivm/Development/project/negative-app/node_modules/mysql2/lib/connection.js:82:25)
+    at Socket.emit (events.js:209:13)
+    at addChunk (_stream_readable.js:305:12)
+    at readableAddChunk (_stream_readable.js:286:11)
+    at Socket.Readable.push (_stream_readable.js:220:10)
+    at TCP.onStreamRead (internal/stream_base_commons.js:166:17) 
+2020-05-05 18:24:43.065 INFO  ReportController - createDailyReport - Database Error: Unique constraint is violated in the database.
+Error ID: 3q6y87iek9u2d708 

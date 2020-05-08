@@ -9,7 +9,7 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { permissions } from "../../../consts/data";
+import { permissions } from "../../../consts/permissions";
 import {
   permissionsHook,
   userNameHook,
