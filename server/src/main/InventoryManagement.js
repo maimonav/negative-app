@@ -15,12 +15,16 @@ const DBlogger = simpleLogger.createSimpleLogger({
 
 class InventoryManagemnt {
     constructor() {
-        this.products = new Map();
-        this.orders = new Map();
-        this.suppliers = new Map();
-        this.categories = new Map();
-    }
-
+            this.products = new Map();
+            this.orders = new Map();
+            this.suppliers = new Map();
+            this.categories = new Map();
+        }
+        /** Add a movie to the system
+         * @param {number} movieId Must be unique
+         * @param {number} category  Movie category id
+         * @returns {Promise(string)} Success or failure string
+         */
     async addMovie(movieId, name, categoryId) {
             if (this.products.has(movieId)) {
                 this.writeToLog(
@@ -276,212 +280,194 @@ class InventoryManagemnt {
          * @returns {Promise(string)} Success or failure string
          **/
     async removeOrder(orderId) {
-        if (!this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "removeOrder",
-                "The order " + orderId + " does not exist"
-            );
-            return "This order does not exist";
+            if (!this.orders.has(orderId)) {
+                this.writeToLog(
+                    "info",
+                    "removeOrder",
+                    "The order " + orderId + " does not exist"
+                );
+                return "This order does not exist";
+            }
+            if (this.orders.get(orderId).recipientEmployeeId != null) {
+                this.writeToLog(
+                    "info",
+                    "removeOrder",
+                    "Removing supplied order " + orderId + " is not allowed"
+                );
+                return "Removing supplied orders is not allowed";
+            }
+
+            let order = this.orders.get(orderId);
+
+            //Database
+            let actionsList = order.getOrderRemovingObjectsList();
+
+            let result = await DB.executeActions(actionsList);
+            if (typeof result === "string") {
+                DBlogger.info("InventoryManagemnt - removeOrder - ", result);
+                return "The order cannot be removed\n" + result;
+            }
+
+            //System
+            this.orders.get(orderId).removeProductOrders();
+            this.orders.delete(orderId);
+            return "The order removed successfully";
         }
-        if (this.orders.get(orderId).recipientEmployeeId != null) {
-            this.writeToLog(
-                "info",
-                "removeOrder",
-                "Removing supplied order " + orderId + " is not allowed"
-            );
-            return "Removing supplied orders is not allowed";
-        }
-
-        let order = this.orders.get(orderId);
-
-        //Database
-        let actionsList = order.getOrderRemovingObjectsList();
-
-        let result = await DB.executeActions(actionsList);
-        if (typeof result === "string") {
-            DBlogger.info("InventoryManagemnt - removeOrder - ", result);
-            return "The order cannot be removed\n" + result;
-        }
-
-        //System
-        this.orders.get(orderId).removeProductOrders();
-        this.orders.delete(orderId);
-        return "The order removed successfully";
-    }
-
+        /**
+         * Add new order of cafetria products to the system
+         * @param {number} orderId unique identifier
+         * @param {string} strDate Date the order was performed
+         * @param {number} supplierId Order supplier's ID
+         * @param {Array(Object)} productsList List of cafetria products in the order 
+         * @param {number} creatorEmployeeId Id of the employee performed the action
+         * @returns {Promise(string)} Success or failure string
+         **/
     async addCafeteriaOrder(
-        orderId,
-        strDate,
-        supplierId,
-        productsList,
-        creatorEmployeeId,
-        orderName
-    ) {
-        if (this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "This order " + orderId + " already exists"
-            );
-            return "This order already exists";
-        }
-        if (!this.suppliers.has(supplierId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "The supplier " + supplierId + " does not exist"
-            );
-            return "The supplier does not exist";
-        }
-        for (let i in productsList) {
-            if (!this.products.has(productsList[i].id)) {
-                this.writeToLog(
-                    "info",
-                    "addCafeteriaOrder",
-                    "The product " + productsList[i].id + " does not exist"
-                );
-                return "Product does not exist";
-            }
-            if (productsList[i].quantity < 0) {
-                this.writeToLog(
-                    "info",
-                    "addCafeteriaOrder",
-                    "The quantity " + productsList[i].quantity + " is invalid"
-                );
-                return "Quantity inserted is invalid";
-            }
-        }
-        let date = new Date(strDate);
-        if (isNaN(date.valueOf())) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaOrder",
-                "The order date " + strDate + " is invalid"
-            );
-            return "The order date is invalid";
-        }
-
-        let order = new Order(
             orderId,
+            strDate,
             supplierId,
-            date,
+            productsList,
             creatorEmployeeId,
             orderName
-        );
-
-        //Database
-        let orderObject = order.getOrderAdditionObject();
-        let actionsList = [orderObject];
-        for (let i in productsList) {
-            let productId = productsList[i].id;
-            let quantity = productsList[i].quantity;
-            actionsList = actionsList.concat({
-                name: DB._add,
-                model: "cafeteria_product_order",
-                params: {
-                    element: {
-                        orderId: orderId,
-                        productId: productId,
-                        expectedQuantity: quantity,
-                    },
-                },
-            });
-        }
-        let result = await DB.executeActions(actionsList);
-        if (typeof result === "string") {
-            DBlogger.info("InventoryManagemnt - addCafeteriaOrder - ", result);
-            return "The order cannot be added\n" + result;
-        }
-
-        //System
-        for (let i in productsList) {
-            let productId = productsList[i].id;
-            let quantity = productsList[i].quantity;
-            let product = this.products.get(productId);
-            let productOrder = product.createOrder(order, quantity);
-            order.productOrders.set(productId, productOrder);
-        }
-        this.orders.set(orderId, order);
-        return "The order added successfully";
-    }
-
-    async editOrder(orderId, date, supplierId, productsList) {
-        if (!this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "editOrder",
-                "Order " + orderId + " does not exsits."
-            );
-            return "Order " + orderId + " does not exsits.";
-        }
-        return this.orders.get(orderId).editOrder(date, supplierId, productsList);
-    }
-
-    async confirmOrder(orderId, productsList, recipientEmployeeId) {
-        if (!this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "confirmOrder",
-                "Order " + orderId + " does not exsits."
-            );
-            return "Order " + orderId + " does not exsits.";
-        }
-        return this.orders
-            .get(orderId)
-            .confirmOrder(productsList, recipientEmployeeId);
-    }
-
-    async addCafeteriaProduct(
-        productId,
-        name,
-        categoryID,
-        price,
-        quantity,
-        maxQuantity,
-        minQuantity
-    ) {
-        if (this.products.has(productId)) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaProduct",
-                "This product already exists"
-            );
-            return "This product already exists";
-        }
-        if (!this.categories.has(categoryID)) {
-            this.writeToLog("info", "addCafeteriaProduct", "Category doesn't exist");
-            return "Category doesn't exist";
-        }
-        if (price <= 0) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaProduct",
-                "Product price must be greater than 0"
-            );
-            return "Product price must be greater than 0";
-        }
-        if (quantity < 0) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaProduct",
-                "Product quantity must be greater or equal to 0"
-            );
-            return "Product quantity must be greater or equal to 0";
-        }
-        if (
-            typeof maxQuantity === "number" &&
-            typeof minQuantity === "number" &&
-            maxQuantity <= minQuantity
         ) {
-            this.writeToLog(
-                "info",
-                "addCafeteriaProduct",
-                "Maximum product quantity must be greater than minimum product quantity"
+            if (this.orders.has(orderId)) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaOrder",
+                    "This order " + orderId + " already exists"
+                );
+                return "This order already exists";
+            }
+            if (!this.suppliers.has(supplierId)) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaOrder",
+                    "The supplier " + supplierId + " does not exist"
+                );
+                return "The supplier does not exist";
+            }
+            for (let i in productsList) {
+                if (!this.products.has(productsList[i].id)) {
+                    this.writeToLog(
+                        "info",
+                        "addCafeteriaOrder",
+                        "The product " + productsList[i].id + " does not exist"
+                    );
+                    return "Product does not exist";
+                }
+                if (productsList[i].quantity < 0) {
+                    this.writeToLog(
+                        "info",
+                        "addCafeteriaOrder",
+                        "The quantity " + productsList[i].quantity + " is invalid"
+                    );
+                    return "Quantity inserted is invalid";
+                }
+            }
+            let date = new Date(strDate);
+            if (isNaN(date.valueOf())) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaOrder",
+                    "The order date " + strDate + " is invalid"
+                );
+                return "The order date is invalid";
+            }
+
+            let order = new Order(
+                orderId,
+                supplierId,
+                date,
+                creatorEmployeeId,
+                orderName
             );
-            return "Maximum product quantity must be greater than minimum product quantity";
+
+            //Database
+            let orderObject = order.getOrderAdditionObject();
+            let actionsList = [orderObject];
+            for (let i in productsList) {
+                let productId = productsList[i].id;
+                let quantity = productsList[i].quantity;
+                actionsList = actionsList.concat({
+                    name: DB._add,
+                    model: "cafeteria_product_order",
+                    params: {
+                        element: {
+                            orderId: orderId,
+                            productId: productId,
+                            expectedQuantity: quantity,
+                        },
+                    },
+                });
+            }
+            let result = await DB.executeActions(actionsList);
+            if (typeof result === "string") {
+                DBlogger.info("InventoryManagemnt - addCafeteriaOrder - ", result);
+                return "The order cannot be added\n" + result;
+            }
+
+            //System
+            for (let i in productsList) {
+                let productId = productsList[i].id;
+                let quantity = productsList[i].quantity;
+                let product = this.products.get(productId);
+                let productOrder = product.createOrder(order, quantity);
+                order.productOrders.set(productId, productOrder);
+            }
+            this.orders.set(orderId, order);
+            return "The order added successfully";
         }
-        const productToInsert = new CafeteriaProduct(
+        /**
+         * edit the order 
+         * @param {string} orderId Unique ID of edit invitation
+         * @param {string} date New date of the order if exists
+         * @param {string} supplierId New supplier Id of the order if exists
+         * @param {Array(Objects)} productsList List of objects with the data for each product change (must contain unique identifier of the product)
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async editOrder(orderId, date, supplierId, productsList) {
+            if (!this.orders.has(orderId)) {
+                this.writeToLog(
+                    "info",
+                    "editOrder",
+                    "Order " + orderId + " does not exsits."
+                );
+                return "Order " + orderId + " does not exsits.";
+            }
+            return this.orders.get(orderId).editOrder(date, supplierId, productsList);
+        }
+        /**
+         * Confirmation of the order received by an employee
+         * @param {Number} orderId Unique ID of order
+         * @param {Array(Objects)} productsList List of objects with the id of the product and actual quantity that gotten.
+         * @param {Number} recipientEmployeeId Unique identifier of the employee who received the order
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async confirmOrder(orderId, productsList, recipientEmployeeId) {
+            if (!this.orders.has(orderId)) {
+                this.writeToLog(
+                    "info",
+                    "confirmOrder",
+                    "Order " + orderId + " does not exsits."
+                );
+                return "Order " + orderId + " does not exsits.";
+            }
+            return this.orders
+                .get(orderId)
+                .confirmOrder(productsList, recipientEmployeeId);
+        }
+        /**
+         * Add a new cafeteria product to the system
+         * @param {Number} productId Unique ID of cafeteria product
+         * @param {String} name The name of the product
+         * @param {Number} categoryID Identifier of the category to which the product belongs
+         * @param {Number} price The price of the product
+         * @param {Number} quantity Quantity of new product in stock
+         * @param {Number} maxQuantity Maximum limit of product quantity in stock (Optional parameter)
+         * @param {Number} minQuantity Minimum limit of product quantity in stock (Optional parameter)
+         * @returns {Promise(string)} Success or failure string
+         **/
+    async addCafeteriaProduct(
             productId,
             name,
             categoryID,
@@ -489,20 +475,78 @@ class InventoryManagemnt {
             quantity,
             maxQuantity,
             minQuantity
-        );
-        let result = await productToInsert.initCafeteriaProduct();
-        if (typeof result === "string") {
-            this.writeToLog(
-                "error",
-                "addCafeteriaProduct",
-                "The operation failed - DB failure -" + result
+        ) {
+            if (this.products.has(productId)) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaProduct",
+                    "This product already exists"
+                );
+                return "This product already exists";
+            }
+            if (!this.categories.has(categoryID)) {
+                this.writeToLog("info", "addCafeteriaProduct", "Category doesn't exist");
+                return "Category doesn't exist";
+            }
+            if (price <= 0) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaProduct",
+                    "Product price must be greater than 0"
+                );
+                return "Product price must be greater than 0";
+            }
+            if (quantity < 0) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaProduct",
+                    "Product quantity must be greater or equal to 0"
+                );
+                return "Product quantity must be greater or equal to 0";
+            }
+            if (
+                typeof maxQuantity === "number" &&
+                typeof minQuantity === "number" &&
+                maxQuantity <= minQuantity
+            ) {
+                this.writeToLog(
+                    "info",
+                    "addCafeteriaProduct",
+                    "Maximum product quantity must be greater than minimum product quantity"
+                );
+                return "Maximum product quantity must be greater than minimum product quantity";
+            }
+            const productToInsert = new CafeteriaProduct(
+                productId,
+                name,
+                categoryID,
+                price,
+                quantity,
+                maxQuantity,
+                minQuantity
             );
-            return "The operation failed - DB failure -" + result;
+            let result = await productToInsert.initCafeteriaProduct();
+            if (typeof result === "string") {
+                this.writeToLog(
+                    "error",
+                    "addCafeteriaProduct",
+                    "The operation failed - DB failure -" + result
+                );
+                return "The operation failed - DB failure -" + result;
+            }
+            this.products.set(productToInsert.id, productToInsert);
+            return "The product was successfully added to the system";
         }
-        this.products.set(productToInsert.id, productToInsert);
-        return "The product was successfully added to the system";
-    }
-
+        /**
+         * Editing the cafeteria product
+         * @param {Number} productId Unique ID of cafeteria product
+         * @param {String} categoryID Identifier of the new category to which the product belongs (Optional parameter)
+         * @param {Number} price The new price of the product (Optional parameter)
+         * @param {Number} quantity New quantity of product in stock (Optional parameter)
+         * @param {Number} maxQuantity New maximum limit of product quantity in stock (Optional parameter)
+         * @param {Number} minQuantity New minimum limit of product quantity in stock (Optional parameter)
+         * @returns {Promise(string)} Success or failure string
+         **/
     async editCafeteriaProduct(
         productId,
         categoryId,
@@ -517,6 +561,11 @@ class InventoryManagemnt {
             .editProduct(categoryId, price, quantity, maxQuantity, minQuantity);
     }
 
+    /**
+     * Remove the cafeteria product
+     * @param {Number} productId Unique ID of cafeteria product
+     * @returns {Promise(string)} Success or failure string
+     **/
     removeCafeteriaProduct = async(productId) => {
         if (!this.products.has(productId)) return "This product not exists";
         let result = await this.products.get(productId).removeProduct();
@@ -698,87 +747,103 @@ class InventoryManagemnt {
         return output;
     }
     getCategoryDetails(categotyId) {
-        if (!this.categories.has(categotyId)) {
-            this.writeToLog(
-                "info",
-                "getCategoryDetails",
-                "The category - " + categotyId + " doesn't exists"
-            );
-            return "The category - " + categotyId + " doesn't exists";
+            if (!this.categories.has(categotyId)) {
+                this.writeToLog(
+                    "info",
+                    "getCategoryDetails",
+                    "The category - " + categotyId + " doesn't exists"
+                );
+                return "The category - " + categotyId + " doesn't exists";
+            }
+            let parent = "The category is root of his tree";
+            if (this.categories.has(this.categories.get(categotyId).parentId))
+                parent = this.categories.get(this.categories.get(categotyId).parentId)
+                .name;
+            return {
+                categoryName: this.categories.get(categotyId).name,
+                categoryParent: parent,
+            };
         }
-        let parent = "The category is root of his tree";
-        if (this.categories.has(this.categories.get(categotyId).parentId))
-            parent = this.categories.get(this.categories.get(categotyId).parentId)
-            .name;
-        return {
-            categoryName: this.categories.get(categotyId).name,
-            categoryParent: parent,
-        };
-    }
-
+        /**
+         * Add a new category to the system
+         * @param {Number} categoryId Unique ID of category
+         * @param {String} categoryName The name of the new category
+         * @param {Number} parentID Id of the new parent category
+         * @returns {Promise(string)} Success or failure string
+         **/
     async addCategory(categoryId, categoryName, parentID) {
-        if (this.categories.has(categoryId)) {
-            this.writeToLog(
-                "info",
-                "addCategory",
-                "The Category " + categoryId + " already exist"
-            );
-            return "The Category ID already exist";
+            if (this.categories.has(categoryId)) {
+                this.writeToLog(
+                    "info",
+                    "addCategory",
+                    "The Category " + categoryId + " already exist"
+                );
+                return "The Category ID already exist";
+            }
+            if (parentID !== undefined && !this.categories.has(parentID)) {
+                this.writeToLog(
+                    "info",
+                    "addCategory",
+                    "The parent category " + parentID + " doesn't exist"
+                );
+                return "The parent category  doesn't exist";
+            }
+            const categoryToInsert = new Category(categoryId, categoryName, parentID);
+            let result = await categoryToInsert.initCategory();
+            if (typeof result === "string") {
+                this.writeToLog(
+                    "error",
+                    "addCategory",
+                    "The operation failed - DB failure" + result
+                );
+                return result;
+            }
+            this.categories.set(categoryToInsert.id, categoryToInsert);
+            return "The category was successfully added to the system";
         }
-        if (parentID !== undefined && !this.categories.has(parentID)) {
-            this.writeToLog(
-                "info",
-                "addCategory",
-                "The parent category " + parentID + " doesn't exist"
-            );
-            return "The parent category  doesn't exist";
-        }
-        const categoryToInsert = new Category(categoryId, categoryName, parentID);
-        let result = await categoryToInsert.initCategory();
-        if (typeof result === "string") {
-            this.writeToLog(
-                "error",
-                "addCategory",
-                "The operation failed - DB failure" + result
-            );
-            return result;
-        }
-        this.categories.set(categoryToInsert.id, categoryToInsert);
-        return "The category was successfully added to the system";
-    }
-
+        /**
+         * Edit a category's data
+         * @param {Number} categoryId Unique ID of category
+         * @param {Number} parentID New id of the parent category
+         * @returns {Promise(string)} Success or failure string
+         **/
     async editCategory(categoryId, parentID) {
-        if (!this.categories.has(categoryId)) {
-            this.writeToLog(
-                "info",
-                "editCategory",
-                "The Category " + categoryId + " doesn't exist"
-            );
-            return "The Category ID doesn't exist";
+            if (!this.categories.has(categoryId)) {
+                this.writeToLog(
+                    "info",
+                    "editCategory",
+                    "The Category " + categoryId + " doesn't exist"
+                );
+                return "The Category ID doesn't exist";
+            }
+            if (
+                parentID !== undefined &&
+                !this.categories.has(parentID) &&
+                parentID !== -1
+            ) {
+                this.writeToLog(
+                    "info",
+                    "editCategory",
+                    "The parent category " + parentID + " doesn't exist"
+                );
+                return "The parent category  doesn't exist";
+            }
+            let result = await this.categories.get(categoryId).editCategory(parentID);
+            if (typeof result === "string") {
+                this.writeToLog(
+                    "error",
+                    "editCategory",
+                    "The operation failed - DB failure" + result
+                );
+                return result;
+            }
+            return "The category was successfully updateded";
         }
-        if (
-            parentID !== undefined &&
-            !this.categories.has(parentID) &&
-            parentID !== -1
-        ) {
-            this.writeToLog(
-                "info",
-                "editCategory",
-                "The parent category " + parentID + " doesn't exist"
-            );
-            return "The parent category  doesn't exist";
-        }
-        let result = await this.categories.get(categoryId).editCategory(parentID);
-        if (typeof result === "string") {
-            this.writeToLog(
-                "error",
-                "editCategory",
-                "The operation failed - DB failure" + result
-            );
-            return result;
-        }
-        return "The category was successfully updateded";
-    }
+        /**
+         * Deleting a product from the system
+         * @param {Number} categoryId Unique ID of category
+         * @returns {Promise(string)} Success or failure string
+         **/
     async removeCategory(categoryId) {
         if (!this.categories.has(categoryId)) {
             this.writeToLog(

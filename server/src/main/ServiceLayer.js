@@ -25,35 +25,6 @@ class ServiceLayer {
         this.users.set("admin", this.userCounter);
         this.userCounter++;
         let result = SystemInitializer.initSystem(this, dbName);
-        // await this.login("admin", "admin");
-        // await this.addNewEmployee(
-        //     "aviv",
-        //     "aviv",
-        //     "aviv",
-        //     "aviv",
-        //     "ADMIN",
-        //     "aviv",
-        //     "admin",
-        //     false
-        // );
-        // await this.login("aviv", "aviv");
-        // await this.addNewSupplier("supplier", "aviv", "aviv");
-        // await this.addCategory("a", "aviv");
-        // await this.addNewProduct("product", 1, 1, null, null, "a", "aviv");
-        // await this.addCafeteriaOrder(
-        //     "aviv" + new Date(),
-        //     new Date(),
-        //     "supplier", [{ name: "product", quantity: "10" }],
-        //     "aviv"
-        // );
-        // await this.addMovie("movie", "a", "aviv");
-        // await this.addMovieOrder(
-        //     "aviv movie " + new Date(),
-        //     new Date(),
-        //     "supplier", ["movie"],
-        //     "aviv"
-        // );
-        // await this.logout("aviv");
         return result;
     }
 

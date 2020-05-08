@@ -66,13 +66,17 @@ class Order {
         });
     };
     /**
-     * edit order of cafetria product
+     * edit the order 
      * @param {string} date New date of the order if exists
-     * @param {string} supplierId New supplier Id of the order
-     * @param {Array(string)} productsList List of product in the order (list of product's unique name)
+     * @param {string} supplierId New supplier Id of the order if exists
+     * @param {Array(Objects)} productsList List of objects with the data for each product change (must contain unique identifier of the product)
      * @returns {Promise(string)} Success or failure string
      **/
     async editOrder(date, supplierId, productsList) {
+            let productOrderIdSet = new Set();
+            productsList.forEach((product) => {
+                productOrderIdSet.add(product.id)
+            });
             let DBActionList = [];
             //DATABASES
             //If the date is a type that can be converted to a date then you will take the action
@@ -107,6 +111,15 @@ class Order {
                     },
                 });
             }
+            this.productOrders.forEach((product) => {
+                let id;
+                if (product instanceof CafeteriaProductOrder)
+                    id = product.product.id;
+                else
+                    id = product.movie.id;
+                if (!productOrderIdSet.has(id))
+                    DBActionList = DBActionList.concat(product.getProductOrderRemove());
+            })
             productsList.forEach((product) => {
                 if (this.productOrders.has(product.id)) {
                     console.log(product)
@@ -153,6 +166,17 @@ class Order {
             if (typeof supplierId === "number") {
                 this.supplierId = supplierId;
             }
+            this.productOrders.forEach((product) => {
+                let id;
+                if (product instanceof CafeteriaProductOrder)
+                    id = product.product.id;
+                else
+                    id = product.movie.id;
+                if (!productOrderIdSet.has(id)) {
+                    product.remove();
+                    this.productOrders.delete(id);
+                }
+            })
             productsList.forEach((product) => {
                 let res = product.id;
                 if (this.productOrders.has(product.id)) {
@@ -175,7 +199,8 @@ class Order {
         }
         /**
          * Confirmation of the order received by an employee
-         * @param {list} productList List of all products received
+         * @param {Array(Objects)} productsList List of objects with the id of the product and actual quantity that gotten.
+         * @param {Number} recipientEmployeeId Unique identifier of the employee who received the order
          * @returns {Promise(string)} Success or failure string
          **/
     async confirmOrder(productList, recipientEmployeeId) {
@@ -251,30 +276,37 @@ class Order {
     }
 
     equals(toCompare) {
-        return (
-            toCompare.id === this.id &&
-            toCompare.date.toISOString() === this.date.toISOString() &&
-            toCompare.creatorEmployeeId === this.creatorEmployeeId &&
-            toCompare.recipientEmployeeId === this.recipientEmployeeId &&
-            toCompare.supplierId === this.supplierId &&
-            _.isEqualWith(toCompare.productOrders, this.productOrders, function(
-                val1,
-                val2
-            ) {
-                if (_.isFunction(val1) && _.isFunction(val2)) {
-                    return val1.toString() === val2.toString();
-                }
-            })
-        );
-    }
-
+            return (
+                toCompare.id === this.id &&
+                toCompare.date.toISOString() === this.date.toISOString() &&
+                toCompare.creatorEmployeeId === this.creatorEmployeeId &&
+                toCompare.recipientEmployeeId === this.recipientEmployeeId &&
+                toCompare.supplierId === this.supplierId &&
+                _.isEqualWith(toCompare.productOrders, this.productOrders, function(
+                    val1,
+                    val2
+                ) {
+                    if (_.isFunction(val1) && _.isFunction(val2)) {
+                        return val1.toString() === val2.toString();
+                    }
+                })
+            );
+        }
+        /**
+         * Checks if ordering is a type of cafeteria order
+         * @returns {Boolean}
+         **/
     hasCafetriaProductInOrder() {
-        let hasCafetriaProduct = false;
-        this.productOrders.forEach((value, key) => {
-            if (value instanceof CafeteriaProductOrder) hasCafetriaProduct = true;
-        });
-        return hasCafetriaProduct;
-    }
+            let hasCafetriaProduct = false;
+            this.productOrders.forEach((value, key) => {
+                if (value instanceof CafeteriaProductOrder) hasCafetriaProduct = true;
+            });
+            return hasCafetriaProduct;
+        }
+        /**
+         * Checks if ordering is a type of cafeteria order
+         * @returns {Boolean}
+         **/
     hasMoviesInOrder() {
         let hasMovies = false;
         this.productOrders.forEach((value, key) => {

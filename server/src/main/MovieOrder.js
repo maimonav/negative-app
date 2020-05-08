@@ -19,6 +19,17 @@ class MovieOrder {
         params: { where: { orderId: this.order.id } },
     });
 
+    getProductOrderRemove = () => ({
+        name: DataBase._remove,
+        model: "movie_order",
+        params: {
+            where: {
+                orderId: this.order.id,
+                movieId: this.movie.id,
+            }
+        },
+    });
+
     remove() {
         this.movie.removeOrder(this.order.id);
     }

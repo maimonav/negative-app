@@ -14,6 +14,18 @@ class CafeteriaProductOrder {
         params: { where: { orderId: this.order.id } },
     });
 
+    getProductOrderRemove = () => ({
+        name: DataBase._remove,
+        model: "cafeteria_product_order",
+        params: {
+            where: {
+                orderId: this.order.id,
+                productId: this.product.id,
+            }
+        },
+    });
+
+
     remove() {
         this.product.removeOrder(this.order.id);
     }
@@ -31,10 +43,6 @@ class CafeteriaProductOrder {
          * @returns {Array[object,object]} The action that the DB need to do for update the order
          **/
     getConfirmOrderDB(addedQuantity) {
-            console.log('orderId', this.order.id);
-            console.log('productId', this.product.id);
-            console.log('actualQuantity', typeof addedQuantity, addedQuantity);
-
             let orderAction = {
                 name: DataBase._update,
                 model: "cafeteria_product_order",

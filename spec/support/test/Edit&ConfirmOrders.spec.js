@@ -69,6 +69,13 @@ describe("edit&confirmCafeteriaOrder", () => {
         expect(orderForCafeteriaProduct.date).toEqual(new Date(1992, 6, 9));
         expect(orderForCafeteriaProduct.supplierId).toBe(-3);
         expect(orderForCafeteriaProduct.productOrders.get(product.id).expectedQuantity).toBe(7);
+        productList = [];
+        expect(await orderForCafeteriaProduct.editOrder(new Date(1992, 6, 9), -3, productList)).toBe("The order edited successfully completed");
+        expect(orderForCafeteriaProduct.productOrders.size).toBe(0);
+        //remove product from order
+        productList = [];
+        expect(await orderForCafeteriaProduct.editOrder(new Date(1992, 6, 9), -3, productList)).toBe("The order edited successfully completed");
+        expect(orderForCafeteriaProduct.productOrders.size).toBe(0);
         let movieList = [{ id: movie.id, quantity: 7, key: -3, examinationRoom: -4 }];
         expect(await orderFormovie.editOrder(null, null, movieList)).toBe("The order edited successfully completed");
         expect(orderFormovie.productOrders.get(movie.id).expectedQuantity).toBe(7);
