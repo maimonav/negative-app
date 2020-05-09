@@ -20,7 +20,12 @@ import {
   handleEditMovie,
   handleRemoveMovie,
 } from "../../../Handlers/Handlers";
-import { editActionHook, removeActionHook } from "../../../consts/data-hooks";
+import {
+  showActionHook,
+  addActionHook,
+  editActionHook,
+  removeActionHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
@@ -56,6 +61,7 @@ export default class ManageMovies extends React.Component {
                       size="small"
                       onClick={() => this.onChange("show")}
                       style={iconStyle}
+                      data-hook={showActionHook}
                     >
                       <ShowIcon />
                     </Fab>
@@ -66,6 +72,7 @@ export default class ManageMovies extends React.Component {
                       size="small"
                       onClick={() => this.onChange("add")}
                       style={iconStyle}
+                      data-hook={addActionHook}
                     >
                       <AddIcon />
                     </Fab>

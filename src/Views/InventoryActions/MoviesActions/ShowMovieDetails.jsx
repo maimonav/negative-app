@@ -11,6 +11,7 @@ import {
   handleGetMovies,
   handleGetMovieDetails,
 } from "../../../Handlers/Handlers";
+import { movieNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowMovieDetails extends React.Component {
@@ -63,6 +64,7 @@ export default class ShowMovieDetails extends React.Component {
                     boxLabel={"Choose movie"}
                     setName={this.setMovieName}
                     isMultiple={false}
+                    data-hook={movieNameHook}
                   />
                 </GridItem>
                 {movieName && (
