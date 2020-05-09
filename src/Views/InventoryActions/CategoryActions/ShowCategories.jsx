@@ -11,6 +11,7 @@ import {
   handleGetCategories,
   handleGetCategoryDetails,
 } from "../../../Handlers/Handlers";
+import { categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowCategories extends React.Component {
@@ -56,6 +57,7 @@ export default class ShowCategories extends React.Component {
                     boxLabel={"Choose category"}
                     setName={this.setCategoryName}
                     isMultiple={false}
+                    data-hook={categoryNameHook}
                   />
                 </GridItem>
                 {this.state.categoryName && (
