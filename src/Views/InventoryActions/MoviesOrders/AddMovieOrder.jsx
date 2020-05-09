@@ -13,6 +13,7 @@ import {
   handleGetMovies,
   handleGetSuppliers,
 } from "../../../Handlers/Handlers";
+import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovieOrder extends React.Component {
@@ -94,6 +95,7 @@ export default class AddMovieOrder extends React.Component {
                       boxLabel={"Choose supplier"}
                       setName={this.setSupplier}
                       isMultiple={false}
+                      data-hook={userNameHook}
                     />
                   </GridItem>
                 </GridContainer>

@@ -13,7 +13,6 @@ import {
   handleGetCafeteriaProducts,
   handleGetSuppliers,
 } from "../../../Handlers/Handlers";
-import { orderNameHook } from "../../../consts/data-hooks";
 import EditTable from "../../../Components/Tables/EditTable";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -109,7 +108,6 @@ export default class AddCafeteriaOrder extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      data-hook={orderNameHook}
                       id={"productsName"}
                       items={this.state.products}
                       boxLabel={"Choose product"}

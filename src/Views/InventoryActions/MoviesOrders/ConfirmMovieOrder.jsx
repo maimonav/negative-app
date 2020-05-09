@@ -14,6 +14,7 @@ import {
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ConfirmMovieOrder extends React.Component {
@@ -140,6 +141,7 @@ export default class ConfirmMovieOrder extends React.Component {
                         boxLabel={"Choose order"}
                         setName={this.setOrderName}
                         isMultiple={false}
+                        data-hook={orderNameHook}
                       />
                     </GridItem>
                   </GridContainer>

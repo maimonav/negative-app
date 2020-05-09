@@ -1,8 +1,9 @@
 import {
   inventoryActionsTabHook,
   ordersTabHook,
-  cafeteriaOrdersHook,
+  moviesOrdersHook,
   orderNameHook,
+  userNameHook,
   actionButtonHook,
   addActionHook,
   editActionHook,
@@ -12,25 +13,30 @@ import {
 } from "../../../src/consts/data-hooks";
 
 const order = "order";
-const product = "product";
+const movie = "movie";
+const supplier = "supplier";
 
 context("Type all fields", () => {
-  it("add cafeteria order", () => {
+  it("add movies order", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(ordersTabHook);
-    cy.get(`#${cafeteriaOrdersHook}`).click();
+    cy.get(`#${moviesOrdersHook}`).click();
     cy.chooseAction(addActionHook);
 
-    cy.get(`#productsName`)
+    cy.get(`#moviesName`)
       .click()
-      .type(product)
+      .type(movie)
       .type("{esc}");
+
+    cy.get(`[data-hook=${userNameHook}`)
+      .click()
+      .type(supplier);
   });
 
-  it("show cafeteria order", () => {
+  it("show movies order", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(ordersTabHook);
-    cy.get(`#${cafeteriaOrdersHook}`).click();
+    cy.get(`#${moviesOrdersHook}`).click();
     cy.chooseAction(showActionHook);
 
     cy.get(`[data-hook=${orderNameHook}`)
@@ -39,10 +45,10 @@ context("Type all fields", () => {
       .type("{esc}");
   });
 
-  it("edit cafeteria order", () => {
+  it("edit movies order", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(ordersTabHook);
-    cy.get(`#${cafeteriaOrdersHook}`).click();
+    cy.get(`#${moviesOrdersHook}`).click();
     cy.chooseAction(editActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
@@ -52,10 +58,10 @@ context("Type all fields", () => {
       .type("{esc}");
   });
 
-  it("remove cafeteria order", () => {
+  it("remove movies order", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(ordersTabHook);
-    cy.get(`#${cafeteriaOrdersHook}`).click();
+    cy.get(`#${moviesOrdersHook}`).click();
     cy.chooseAction(removeActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
@@ -65,10 +71,10 @@ context("Type all fields", () => {
       .type("{esc}");
   });
 
-  it("confirm cafeteria order", () => {
+  it("confirm movies order", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(ordersTabHook);
-    cy.get(`#${cafeteriaOrdersHook}`).click();
+    cy.get(`#${moviesOrdersHook}`).click();
     cy.chooseAction(confirmActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
