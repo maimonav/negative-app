@@ -11,6 +11,10 @@ import {
   manageCafeteriaOrdersPath,
   manageMoviesOrdersPath,
 } from "../../../consts/paths";
+import {
+  cafeteriaOrdersHook,
+  moviesOrdersHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ManageOrders extends React.Component {
@@ -32,7 +36,7 @@ export default class ManageOrders extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <CardFooter>
                       <Link to={manageCafeteriaOrdersPath}>
-                        <Button color="info">
+                        <Button id={cafeteriaOrdersHook} color="info">
                           <p>Manage Products Orders</p>
                         </Button>
                       </Link>
@@ -41,7 +45,7 @@ export default class ManageOrders extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <CardFooter>
                       <Link to={manageMoviesOrdersPath}>
-                        <Button color="info">
+                        <Button id={moviesOrdersHook} color="info">
                           <p>Manage Movies Orders</p>
                         </Button>
                       </Link>

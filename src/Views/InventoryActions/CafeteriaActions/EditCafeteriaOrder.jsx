@@ -15,6 +15,7 @@ import {
   handleGetProductsAndQuantityByOrder,
   handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditCafeteriaOrder extends React.Component {
@@ -152,6 +153,7 @@ export default class EditCafeteriaOrder extends React.Component {
                         boxLabel={"Choose order"}
                         setName={this.setOrderName}
                         isMultiple={false}
+                        data-hook={orderNameHook}
                       />
                     </GridItem>
                   </GridContainer>

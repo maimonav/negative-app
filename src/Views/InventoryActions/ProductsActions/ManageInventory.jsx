@@ -13,19 +13,25 @@ import {
   AddProduct,
   EditProduct,
   RemoveProduct,
-  ShowProductDetails
+  ShowProductDetails,
 } from "../../index";
 import {
   handleAddProduct,
   handleEditProduct,
-  handleRemoveProduct
+  handleRemoveProduct,
 } from "../../../Handlers/Handlers";
+import {
+  showActionHook,
+  addActionHook,
+  editActionHook,
+  removeActionHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white"
+  color: "white",
 };
 
 export default class ManageInventory extends React.Component {
@@ -34,7 +40,7 @@ export default class ManageInventory extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = action => {
+  onChange = (action) => {
     this.setState({ action });
   };
 
@@ -55,6 +61,7 @@ export default class ManageInventory extends React.Component {
                       size="small"
                       onClick={() => this.onChange("show")}
                       style={iconStyle}
+                      data-hook={showActionHook}
                     >
                       <ShowIcon />
                     </Fab>
@@ -65,6 +72,7 @@ export default class ManageInventory extends React.Component {
                       size="small"
                       onClick={() => this.onChange("add")}
                       style={iconStyle}
+                      data-hook={addActionHook}
                     >
                       <AddIcon />
                     </Fab>
@@ -76,6 +84,7 @@ export default class ManageInventory extends React.Component {
                       size="small"
                       onClick={() => this.onChange("edit")}
                       style={iconStyle}
+                      data-hook={editActionHook}
                     >
                       <EditIcon />
                     </Fab>
@@ -87,6 +96,7 @@ export default class ManageInventory extends React.Component {
                       size="small"
                       onClick={() => this.onChange("delete")}
                       style={iconStyle}
+                      data-hook={removeActionHook}
                     >
                       <DeleteIcon />
                     </Fab>

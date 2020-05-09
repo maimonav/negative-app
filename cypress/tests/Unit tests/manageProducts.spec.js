@@ -11,6 +11,7 @@ import {
   addActionHook,
   editActionHook,
   removeActionHook,
+  showActionHook,
 } from "../../../src/consts/data-hooks";
 
 const product = "product";
@@ -31,23 +32,35 @@ context("Type all fields", () => {
       .type(category)
       .type("{esc}");
 
-    cy.get(`[data-hook=${productNameHook}`).click().type(product).type("{esc}");
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product);
 
-    cy.get(`[data-hook=${productPriceHook}]`).click().type(price).type("{esc}");
+    cy.get(`[data-hook=${productPriceHook}]`)
+      .click()
+      .type(price);
 
     cy.get(`[data-hook=${productQuantityHook}]`)
       .click()
-      .type(quantity)
-      .type("{esc}");
+      .type(quantity);
 
     cy.get(`[data-hook=${productMaxQuantityHook}]`)
       .click()
-      .type(max)
-      .type("{esc}");
+      .type(max);
 
     cy.get(`[data-hook=${productMinQuantityHook}]`)
       .click()
-      .type(min)
+      .type(min);
+  });
+
+  it("show product", () => {
+    cy.accessTab(inventoryActionsTabHook);
+    cy.accessTab(inventoryTabHook);
+    cy.chooseAction(showActionHook);
+
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product)
       .type("{esc}");
   });
 
@@ -56,29 +69,31 @@ context("Type all fields", () => {
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(editActionHook);
 
-    cy.get(`[data-hook=${productNameHook}`).click().type(product).type("{esc}");
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product)
+      .type("{esc}");
 
     cy.get(`[data-hook=${categoryNameHook}]`)
       .click()
       .type(category)
       .type("{esc}");
 
-    cy.get(`[data-hook=${productPriceHook}]`).click().type(price).type("{esc}");
+    cy.get(`[data-hook=${productPriceHook}]`)
+      .click()
+      .type(price);
 
     cy.get(`[data-hook=${productQuantityHook}]`)
       .click()
-      .type(quantity)
-      .type("{esc}");
+      .type(quantity);
 
     cy.get(`[data-hook=${productMaxQuantityHook}]`)
       .click()
-      .type(max)
-      .type("{esc}");
+      .type(max);
 
     cy.get(`[data-hook=${productMinQuantityHook}]`)
       .click()
-      .type(min)
-      .type("{esc}");
+      .type(min);
   });
 
   it("remove product", () => {
@@ -86,21 +101,29 @@ context("Type all fields", () => {
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(removeActionHook);
 
-    cy.get(`[data-hook=${productNameHook}`).click().type(product).type("{esc}");
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product)
+      .type("{esc}");
   });
 });
 
 context("Click all buttons", () => {
-  it("edit movie", () => {
+  it("add new product", () => {
+    cy.accessTab(inventoryActionsTabHook);
+    cy.accessTab(inventoryTabHook);
+    cy.chooseAction(addActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
+
+  it("edit product", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(editActionHook);
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
-  it("remove movie", () => {
+  it("remove product", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(removeActionHook);

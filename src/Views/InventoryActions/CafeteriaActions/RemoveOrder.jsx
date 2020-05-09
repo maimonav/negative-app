@@ -10,6 +10,7 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetOrdersByDates } from "../../../Handlers/Handlers";
 import SelectDates from "../../../Components/SelectDates";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveOrder extends React.Component {
@@ -93,6 +94,7 @@ export default class RemoveOrder extends React.Component {
                         boxLabel={"Choose order"}
                         setName={this.setOrderName}
                         isMultiple={false}
+                        data-hook={orderNameHook}
                       />
                     </GridItem>
                   </GridContainer>

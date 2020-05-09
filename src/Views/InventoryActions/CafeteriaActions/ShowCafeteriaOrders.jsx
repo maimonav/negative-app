@@ -13,6 +13,7 @@ import {
 } from "../../../Handlers/Handlers";
 import SimpleTable from "../../../Components/Tables/SimpleTable";
 import moment from "moment";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowCafeteriaOrders extends React.Component {
@@ -65,6 +66,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                     boxLabel={"Choose order"}
                     setName={this.setOrderId}
                     isMultiple={false}
+                    data-hook={orderNameHook}
                   />
                 </GridItem>
                 {this.state.orderId && (
