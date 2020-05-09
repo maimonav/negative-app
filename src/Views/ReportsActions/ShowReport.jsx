@@ -42,7 +42,11 @@ export default class ShowReport extends React.Component {
     )
       .then(response => response.json())
       .then(state => {
-        this.setState({ reportData: state.result });
+        if (typeof state.result !== "string") {
+          this.setState({ reportData: state.result });
+        } else {
+          alert(state.result);
+        }
       });
   };
 

@@ -28,6 +28,7 @@ class App extends React.Component {
    * Login to system
    * onLogin
    * @param {string} username username for login to system
+   * @param {string} permission username permission's
    * @returns {void}
    **/
   onLogin = (username, permission) => {
