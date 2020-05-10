@@ -64,9 +64,22 @@ class ReportController {
    */
   static async createDailyReport(type, records) {
     //validate type from enum of types
-    if (!this._isValidType(type)) return "The requested report type is invalid";
+    if (!this._isValidType(type)) {
+      logger.info(
+        "ReportController- createDailyReport - The requested report type " +
+          type +
+          " is invalid"
+      );
+      return "The requested report type is invalid";
+    }
     let actionsList = [];
     for (let i in records) {
+      if (!records[i].date || !this._isValidDate(records[i].date)) {
+        logger.info(
+          "ReportController- createDailyReport - Report record date is invalid"
+        );
+        return "Report record date is invalid";
+      }
       records[i].date = new Date(
         this._getSyncDateFormat(new Date(records[i].date))
       );
@@ -91,9 +104,23 @@ class ReportController {
    * otherwise returns error string.
    */
   static async getReport(type, date) {
-    if (!this._isValidType(type)) return "The requested report type is invalid";
+    if (!this._isValidType(type)) {
+      logger.info(
+        "ReportController- getReport - The requested report type " +
+          type +
+          " is invalid"
+      );
+      return "The requested report type is invalid";
+    }
 
-    if (!this._isValidDate(date)) return "The requested report date is invalid";
+    if (!this._isValidDate(date)) {
+      logger.info(
+        "ReportController- getReport - The requested report date " +
+          date +
+          " is invalid"
+      );
+      return "The requested report date is invalid";
+    }
     let result = await DataBase.singleFindAll(
       type,
       {
