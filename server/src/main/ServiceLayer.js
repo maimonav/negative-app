@@ -245,6 +245,7 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async addMovie(movieName, category, ActionIDOfTheOperation) {
+    console.log("category:", category);
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(category)

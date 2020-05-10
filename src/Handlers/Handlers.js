@@ -11,8 +11,8 @@ export function handleLogin(username, password, onLogin) {
       username
     )}&password=${encodeURIComponent(password)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       if (
         state.result &&
         typeof state.result !== "string" &&
@@ -33,8 +33,8 @@ export function handleLogin(username, password, onLogin) {
 export function handleLogout(onLogout) {
   const username = localStorage.getItem("username");
   fetch(`/api/logout?username=${encodeURIComponent(username)}`)
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       onLogout();
       alert(state.result);
     });
@@ -70,8 +70,8 @@ export function handleAddEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -106,8 +106,8 @@ export function handleEditEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -123,8 +123,8 @@ export function handleRemoveEmployee(userName) {
       userName
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -152,8 +152,8 @@ export function handleAddProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -181,8 +181,8 @@ export function handleEditProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -193,8 +193,8 @@ export function handleRemoveProduct(productName) {
     `api/removeProduct?productName=${encodeURIComponent(productName)}
     &user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -209,8 +209,8 @@ export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
     &moviesName=${JSON.stringify(moviesName)}
     &user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -224,8 +224,8 @@ export function handleAddMovie(movieName, category) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -248,8 +248,8 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
       examinationRoom
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -264,8 +264,8 @@ export function handleRemoveMovie(movieName) {
       movieName
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -284,8 +284,8 @@ export function handleAddSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -304,8 +304,8 @@ export function handleEditSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -321,8 +321,8 @@ export function handleRemoveSupplier(name) {
       name
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -336,8 +336,8 @@ export function handleAddCategory(categoryName, parentName) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -351,8 +351,8 @@ export function handleEditCategory(categoryName, parentName) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -364,8 +364,8 @@ export function handleRemoveCategory(categoryName) {
       categoryName
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -382,8 +382,8 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -404,8 +404,8 @@ export function handleEditCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -417,8 +417,8 @@ export function handleRemoveOrder(orderId) {
       orderId
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -436,8 +436,8 @@ export function handleConfirmCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -595,8 +595,8 @@ export function handleConfirmMovieOrder(orderId, updatedMovies) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -613,8 +613,8 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }

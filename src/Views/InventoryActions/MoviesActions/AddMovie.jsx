@@ -10,10 +10,7 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
-import {
-  movieNameHook,
-  categoryNameHook,
-} from "../../../consts/data-hooks";
+import { movieNameHook, categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddMovie extends React.Component {
@@ -38,8 +35,8 @@ export default class AddMovie extends React.Component {
     this.setState({ movieName: event.target.value });
   }
 
-  setCategory = (category) => {
-    this.setState({ category });
+  setCategory = (name) => {
+    this.setState({ category: name });
   };
 
   render() {

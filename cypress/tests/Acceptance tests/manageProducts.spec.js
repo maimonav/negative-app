@@ -1,25 +1,30 @@
 import {
   inventoryActionsTabHook,
-  movieNameHook,
-  categoriesTabHook,
+  inventoryTabHook,
+  productNameHook,
   categoryNameHook,
+  productPriceHook,
+  productQuantityHook,
+  productMaxQuantityHook,
+  productMinQuantityHook,
   actionButtonHook,
   addActionHook,
-  showActionHook,
   editActionHook,
   removeActionHook,
-  moviesTabHook,
-  keyHook,
-  examinationRoomHook,
+  showActionHook,
+  categoriesTabHook,
 } from "../../../src/consts/data-hooks";
 
-const movie = "movie";
-const category = "categoryMovie";
-const key = "key";
-const examinationRoom = "examinationRoom";
+const product = "product";
+const price = "20";
+const updatePrice = "40";
+const quantity = "100";
+const min = "20";
+const max = "100";
+const category = "category";
 
-context("Manage Movies", () => {
-  it("add movie", () => {
+context("Manage Products", () => {
+  it("add product", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(categoriesTabHook);
     cy.chooseAction(addActionHook);
@@ -31,12 +36,8 @@ context("Manage Movies", () => {
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
     cy.accessTab(inventoryActionsTabHook);
-    cy.accessTab(moviesTabHook);
+    cy.accessTab(inventoryTabHook);
     cy.chooseAction(addActionHook);
-
-    cy.get(`[data-hook=${movieNameHook}`)
-      .click()
-      .type(movie);
 
     cy.get(`[data-hook=${categoryNameHook}]`)
       .click()
@@ -44,22 +45,39 @@ context("Manage Movies", () => {
       .type("{downarrow}")
       .type("{enter}")
       .type("{esc}");
+
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product);
+
+    cy.get(`[data-hook=${productPriceHook}]`)
+      .click()
+      .type(price);
+
+    cy.get(`[data-hook=${productQuantityHook}]`)
+      .click()
+      .type(quantity);
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max);
+
+    cy.get(`[data-hook=${productMinQuantityHook}]`)
+      .click()
+      .type(min);
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
     cy.chooseAction(showActionHook);
 
-    cy.get(`[data-hook=${movieNameHook}`)
+    cy.get(`[data-hook=${productNameHook}`)
       .click()
-      .type(movie)
+      .type(product)
       .type("{downarrow}")
-      .type("{enter}")
       .type("{esc}");
-
-    cy.get(`[data-hook=${categoryNameHook}]`);
   });
 
-  it("edit movie", () => {
+  it("edit product", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(categoriesTabHook);
     cy.chooseAction(addActionHook);
@@ -71,12 +89,8 @@ context("Manage Movies", () => {
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
     cy.accessTab(inventoryActionsTabHook);
-    cy.accessTab(moviesTabHook);
+    cy.accessTab(inventoryTabHook);
     cy.chooseAction(addActionHook);
-
-    cy.get(`[data-hook=${movieNameHook}`)
-      .click()
-      .type(movie);
 
     cy.get(`[data-hook=${categoryNameHook}]`)
       .click()
@@ -85,37 +99,52 @@ context("Manage Movies", () => {
       .type("{enter}")
       .type("{esc}");
 
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product);
+
+    cy.get(`[data-hook=${productPriceHook}]`)
+      .click()
+      .type(price);
+
+    cy.get(`[data-hook=${productQuantityHook}]`)
+      .click()
+      .type(quantity);
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max);
+
+    cy.get(`[data-hook=${productMinQuantityHook}]`)
+      .click()
+      .type(min);
+
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
     cy.accessTab(inventoryActionsTabHook);
-    cy.accessTab(moviesTabHook);
+    cy.accessTab(inventoryTabHook);
     cy.chooseAction(editActionHook);
-    cy.get(`[data-hook=${movieNameHook}`)
+
+    cy.get(`[data-hook=${productNameHook}`)
       .click()
-      .type(movie)
+      .type(product)
       .type("{downarrow}")
       .type("{enter}")
       .type("{esc}");
 
     cy.get(`[data-hook=${categoryNameHook}]`)
       .click()
-      .type(movie)
+      .type(category)
       .type("{downarrow}")
       .type("{enter}")
       .type("{esc}");
 
-    cy.get(`[data-hook=${keyHook}]`)
+    cy.get(`[data-hook=${productPriceHook}]`)
       .click()
-      .type(key);
-
-    cy.get(`[data-hook=${examinationRoomHook}]`)
-      .click()
-      .type(examinationRoom);
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
+      .type(updatePrice);
   });
 
-  it("remove movie", () => {
+  it("remove product", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(categoriesTabHook);
     cy.chooseAction(addActionHook);
@@ -127,12 +156,8 @@ context("Manage Movies", () => {
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
     cy.accessTab(inventoryActionsTabHook);
-    cy.accessTab(moviesTabHook);
+    cy.accessTab(inventoryTabHook);
     cy.chooseAction(addActionHook);
-
-    cy.get(`[data-hook=${movieNameHook}`)
-      .click()
-      .type(movie);
 
     cy.get(`[data-hook=${categoryNameHook}]`)
       .click()
@@ -141,16 +166,35 @@ context("Manage Movies", () => {
       .type("{enter}")
       .type("{esc}");
 
+    cy.get(`[data-hook=${productNameHook}`)
+      .click()
+      .type(product);
+
+    cy.get(`[data-hook=${productPriceHook}]`)
+      .click()
+      .type(price);
+
+    cy.get(`[data-hook=${productQuantityHook}]`)
+      .click()
+      .type(quantity);
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max);
+
+    cy.get(`[data-hook=${productMinQuantityHook}]`)
+      .click()
+      .type(min);
+
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 
     cy.accessTab(inventoryActionsTabHook);
-    cy.accessTab(moviesTabHook);
+    cy.accessTab(inventoryTabHook);
     cy.chooseAction(removeActionHook);
 
-    cy.get(`[data-hook=${movieNameHook}`)
+    cy.get(`[data-hook=${productNameHook}`)
       .click()
-      .type(movie)
-      .type("{downarrow}")
+      .type(product)
       .type("{enter}")
       .type("{esc}");
 
