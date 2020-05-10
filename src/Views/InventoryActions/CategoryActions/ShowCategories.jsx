@@ -11,7 +11,10 @@ import {
   handleGetCategories,
   handleGetCategoryDetails,
 } from "../../../Handlers/Handlers";
-import { categoryNameHook } from "../../../consts/data-hooks";
+import {
+  categoryNameHook,
+  categoryParentNameHook,
+} from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowCategories extends React.Component {
@@ -82,6 +85,7 @@ export default class ShowCategories extends React.Component {
                           readOnly: true,
                         }}
                         variant="filled"
+                        data-hook={categoryParentNameHook}
                       />
                     </GridItem>
                   </GridContainer>
