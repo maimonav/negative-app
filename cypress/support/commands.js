@@ -2,7 +2,15 @@ import {
   userNameHook,
   passwordHook,
   actionButtonHook,
-  logoutTabHook
+  logoutTabHook,
+  permissionsHook,
+  userActionsTabHook,
+  employeesTabHook,
+  addActionHook,
+  firstNameHook,
+  lastNameHook,
+  contactDetailsHook,
+  showActionHook,
 } from "../../src/consts/data-hooks";
 
 Cypress.Commands.add("startSystem", () => {
@@ -26,14 +34,51 @@ Cypress.Commands.add("logout", () => {
   cy.get(`[data-hook=${actionButtonHook}]`).click();
 });
 
-Cypress.Commands.add("accessTab", tab => {
+Cypress.Commands.add("accessTab", (tab) => {
   cy.get(`[data-hook=${tab}]`).click();
 });
 
-Cypress.Commands.add("chooseAction", action => {
+Cypress.Commands.add("chooseAction", (action) => {
   cy.get(`[data-hook=${action}]`).click();
 });
 
-Cypress.Commands.add("matchSnapshot", action => {
+Cypress.Commands.add("matchSnapshot", (action) => {
   cy.document().toMatchImageSnapshot();
 });
+
+Cypress.Commands.add(
+  "addEmployee",
+  (permissions, employee, password, firstName, lastName, contactDetails) => {
+    cy.accessTab(userActionsTabHook);
+    cy.accessTab(employeesTabHook);
+    cy.chooseAction(addActionHook);
+
+    cy.get(`[data-hook=${permissionsHook}`)
+      .click()
+      .type(permissions)
+      .type("{downarrow}")
+      .type("{enter}");
+
+    cy.get(`[data-hook=${userNameHook}`)
+      .click()
+      .type(employee);
+
+    cy.get(`[data-hook=${passwordHook}`)
+      .click()
+      .type(password);
+
+    cy.get(`[data-hook=${firstNameHook}`)
+      .click()
+      .type(firstName);
+
+    cy.get(`[data-hook=${lastNameHook}`)
+      .click()
+      .type(lastName);
+
+    cy.get(`[data-hook=${contactDetailsHook}]`)
+      .click()
+      .type(contactDetails);
+
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  }
+);

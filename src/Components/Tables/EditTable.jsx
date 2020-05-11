@@ -65,12 +65,11 @@ export default class EditTable extends React.Component {
   render() {
     const { columns, data } = this.state;
     const checkifDone = this.props.data !== this.state.data;
-    console.log("checkifDone:", checkifDone);
     return (
       <>
         {data && (
           <MaterialTable
-            title="Editable Example"
+            title="Edit Products Table"
             columns={columns}
             data={data}
             icons={tableIcons}
@@ -114,7 +113,11 @@ export default class EditTable extends React.Component {
           />
         )}
         {checkifDone && (
-          <Button color="info" onClick={this.handleOnclick}>
+          <Button
+            id={"editTableButton"}
+            color="info"
+            onClick={this.handleOnclick}
+          >
             Finish Manage Products Quantity
           </Button>
         )}

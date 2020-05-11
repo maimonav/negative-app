@@ -1,3 +1,4 @@
+import moment from "moment";
 /**
  * Handle login to system
  * @param {string} username
@@ -201,7 +202,8 @@ export function handleRemoveProduct(productName) {
 
 export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
   const user = localStorage.getItem("username");
-  const orderId = `${user} , ${new Date()}`;
+  const date = moment(orderDate).format("DD/MM/YYYY");
+  const orderId = `${user} , ${date}`;
   fetch(
     `api/addMovieOrder?orderId=${encodeURIComponent(orderId)}
     &orderDate=${encodeURIComponent(orderDate)}
@@ -373,7 +375,8 @@ export function handleRemoveCategory(categoryName) {
 export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
   const productsList = JSON.stringify(productsName);
   const user = localStorage.getItem("username");
-  const orderId = `${user} , ${orderDate}`;
+  const date = moment(orderDate).format("DD/MM/YYYY");
+  const orderId = `${user} , ${date}`;
   fetch(
     `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
     &productsList=${productsList}&supplierName=${encodeURIComponent(

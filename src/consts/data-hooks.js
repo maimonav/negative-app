@@ -19,6 +19,7 @@ export const productMinQuantityHook = "productMinQuantityField";
 export const cafeteriaOrdersHook = "cafeteriaOrdersButton";
 export const moviesOrdersHook = "moviesOrdersButton";
 export const orderNameHook = "orderNameField";
+export const orderDateHook = "orderDateField";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";

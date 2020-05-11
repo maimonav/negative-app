@@ -103,6 +103,7 @@ export default class RemoveOrder extends React.Component {
               {isOpened && (
                 <CardFooter>
                   <Button
+                    id={"removeOrder"}
                     color="info"
                     onClick={() => this.props.handleRemoveOrder(orderName)}
                   >
