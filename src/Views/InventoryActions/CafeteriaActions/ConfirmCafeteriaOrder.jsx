@@ -147,7 +147,11 @@ export default class ConfirmCafeteriaOrder extends React.Component {
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
                     {orderId && (
-                      <Button color="info" onClick={this.toggleSecondBox}>
+                      <Button
+                        id={"chooseOrder"}
+                        color="info"
+                        onClick={this.toggleSecondBox}
+                      >
                         Choose order
                       </Button>
                     )}

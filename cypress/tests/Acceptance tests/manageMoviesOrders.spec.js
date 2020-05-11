@@ -17,7 +17,6 @@ import {
   userActionsTabHook,
   suppliersTabHook,
   contactDetailsHook,
-  orderDateHook,
 } from "../../../src/consts/data-hooks";
 import moment from "moment";
 

@@ -14,6 +14,7 @@ import {
   handleGetSuppliers,
 } from "../../../Handlers/Handlers";
 import EditTable from "../../../Components/Tables/EditTable";
+import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
@@ -98,7 +99,7 @@ export default class AddCafeteriaOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new Cafeteria Order</h4>
@@ -156,6 +157,7 @@ export default class AddCafeteriaOrder extends React.Component {
                         boxLabel={"Choose supplier"}
                         setName={this.setSupplierName}
                         isMultiple={false}
+                        data-hook={userNameHook}
                       />
                     </GridItem>
                   </GridContainer>
@@ -164,6 +166,7 @@ export default class AddCafeteriaOrder extends React.Component {
               {openSecond && (
                 <CardFooter style={{ justifyContent: "center" }}>
                   <Button
+                    id={"addCafeteriaOrder"}
                     color="info"
                     onClick={() =>
                       this.props.handleAddCafeteriaOrder(
