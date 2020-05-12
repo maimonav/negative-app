@@ -24,7 +24,7 @@ export default class ShowProductDetails extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCafeteriaProducts(localStorage.getItem("username"))
+    handleGetCafeteriaProducts()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ products: state.result });
@@ -33,7 +33,7 @@ export default class ShowProductDetails extends React.Component {
 
   setProductName = (productName) => {
     this.setState({ productName });
-    handleGetProductDetails(productName, localStorage.getItem("username"))
+    handleGetProductDetails(productName)
       .then((response) => response.json())
       .then((state) => {
         this.setState({ productName: state.result });

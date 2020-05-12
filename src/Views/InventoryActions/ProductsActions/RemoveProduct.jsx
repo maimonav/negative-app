@@ -22,7 +22,7 @@ export default class RemoveProduct extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCafeteriaProducts(localStorage.getItem("username"))
+    handleGetCafeteriaProducts()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ products: state.result });

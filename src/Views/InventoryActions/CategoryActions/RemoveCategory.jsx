@@ -22,7 +22,7 @@ export default class RemoveCategory extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCategories(localStorage.getItem("username"))
+    handleGetCategories()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ categories: state.result });

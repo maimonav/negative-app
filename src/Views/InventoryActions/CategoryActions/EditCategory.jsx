@@ -21,20 +21,20 @@ export default class EditCategory extends React.Component {
     super(props);
     this.state = {
       categoryName: "",
-      parentName: ""
+      parentName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
-    handleGetCategories(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+    handleGetCategories()
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = name => {
+  setCategoryName = (name) => {
     this.setState({ categoryName: name });
   };
 
@@ -72,9 +72,9 @@ export default class EditCategory extends React.Component {
                       labelText="Category Parent Name"
                       id="categoryParentName"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setCategoryParentName(event)}
+                      onChange={(event) => this.setCategoryParentName(event)}
                       data-hook={categoryParentNameHook}
                     />
                   </GridItem>

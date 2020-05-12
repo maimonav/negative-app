@@ -27,7 +27,7 @@ export default class ShowCategories extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCategories(localStorage.getItem("username"))
+    handleGetCategories()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ categories: state.result });
@@ -36,7 +36,7 @@ export default class ShowCategories extends React.Component {
 
   setCategoryName = (categoryName) => {
     this.setState({ categoryName });
-    handleGetCategoryDetails(categoryName, localStorage.getItem("username"))
+    handleGetCategoryDetails(categoryName)
       .then((response) => response.json())
       .then((state) => {
         this.setState({ categoryName: state.result });

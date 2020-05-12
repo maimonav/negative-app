@@ -33,7 +33,7 @@ export default class ShowMovieDetails extends React.Component {
 
   setMovieName = (movieName) => {
     this.setState({ movieName });
-    handleGetMovieDetails(movieName, localStorage.getItem("username"))
+    handleGetMovieDetails(movieName)
       .then((response) => response.json())
       .then((state) => {
         this.setState({ movieName: state.result });

@@ -38,12 +38,12 @@ export default class AddProduct extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCafeteriaProducts(localStorage.getItem("username"))
+    handleGetCafeteriaProducts()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ products: state.result });
       });
-    handleGetCategories(localStorage.getItem("username"))
+    handleGetCategories()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ categories: state.result });
