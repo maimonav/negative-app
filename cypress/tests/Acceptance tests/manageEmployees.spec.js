@@ -69,7 +69,7 @@ context("Manage Employees", () => {
     cy.get(`[data-hook=${contactDetailsHook}]`);
   });
 
-  it.only("edit employee - first name", () => {
+  it("edit employee - first name", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(employeesTabHook);
     cy.chooseAction(editActionHook);

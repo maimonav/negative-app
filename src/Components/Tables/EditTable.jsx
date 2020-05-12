@@ -71,6 +71,7 @@ export default class EditTable extends React.Component {
       <>
         {data && (
           <MaterialTable
+            id={"lala"}
             title="Edit Products Table"
             columns={columns}
             data={data}
