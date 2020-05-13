@@ -248,7 +248,6 @@ async function connectAndCreate(dbName, password) {
       if (error) {
         throw error;
       }
-      console.log("Connected!");
     });
 
     await DataBase.connection
@@ -256,7 +255,7 @@ async function connectAndCreate(dbName, password) {
       .query(
         "CREATE DATABASE IF NOT EXISTS " + (dbName ? dbName : defaultDBName)
       );
-    console.log("Database created");
+    console.log("Connected!\nDatabase created");
   } catch (error) {
     let errId = uniqid();
     DBlogger.error(

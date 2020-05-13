@@ -1,40 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var http = require("http");
+const Http = require("http");
 const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const NotificationController = require("./src/main/NotificationController");
 const service = new ServiceLayer();
-
 const app = express();
-const server = http.createServer(app);
-const socketServer = new WebSocket.Server({ server });
+const server = Http.createServer(app);
+//NotificationController.initServerSocket(server);
+const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-let result = service.initSeviceLayer(undefined, "admin123");
+const initResult = service.initSeviceLayer(undefined, "admin123");
 
-const messages = ["Start Chatting!"];
-
-socketServer.on("connection", async (socketClient) => {
-  console.log("connected");
-  console.log("client Set length: ", socketServer.clients.size);
-
-  socketClient.on("close", (socketClient) => {
-    console.log("closed");
-    console.log("Number of clients: ", socketServer.clients.size);
-  });
-
-  let initResult = await result;
-  if (typeof initResult === "string") {
-    socketServer.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(initResult);
-      }
-    });
-  }
-});
+NotificationController.setConnectionHandler(serverSocket, initResult);
 
 app.get("/api/isLoggedIn", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
@@ -46,6 +27,8 @@ app.get("/api/login", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
   const password = (req.query.password && req.query.password.trim()) || "";
   const result = service.login(username, password);
+  if (typeof result !== "string")
+    NotificationController.setLoginHandler(username, req.headers.referer);
   res.send(JSON.stringify({ result }));
 });
 
