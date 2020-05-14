@@ -2,11 +2,12 @@ const WebSocket = require("ws");
 
 class NotificationController {
   static serverSocket;
-  static ManagerUsername;
-  static DeputyManagerUsername;
+  static ManagerId;
+  static DeputyManagerId;
   static clientsMap = new Map();
-  static usersMap = new Map();
-  static loggedIn = new Set();
+  static usersIdToUrl = new Map();
+  static loggedInUsers = new Set();
+  static connectedUsers = new Set();
   static initServerSocket(httpServer) {
     this.serverSocket = new WebSocket.Server({ httpServer });
   }
@@ -16,10 +17,12 @@ class NotificationController {
       let clientUrl = request.headers.origin;
       console.log("connected to", clientUrl);
       this.clientsMap.set(clientUrl, socketClient);
+      this.connectedUsers.add(clientUrl);
       console.log("Number of clients:", serverSocket.clients.size);
 
       socketClient.on("close", (socketClient) => {
         console.log(clientUrl, "closed");
+        this.connectedUsers.delete(clientUrl);
         console.log("Number of clients:", serverSocket.clients.size);
       });
 
@@ -35,21 +38,21 @@ class NotificationController {
     });
   }
 
-  static loginHandler(username, url) {
+  static loginHandler(userId, url) {
     url = new URL(url);
     let clientSocket = this.clientsMap.get(url.origin);
-    this.usersMap.set(username, clientSocket);
-    this.loggedIn.add(username);
+    this.usersIdToUrl.set(userId, url.origin);
+    this.loggedInUsers.add(userId);
     //send all notifications from db?? that have not sent, and update to seen
   }
 
-  static logoutHandler(username) {
-    this.loggedIn.delete(username);
+  static logoutHandler(userId) {
+    this.loggedInUsers.delete(userId);
   }
 
   static notifyLowQuantity(productList) {
     this.notify(
-      [this.ManagerUsername, this.DeputyManagerUsername],
+      [this.ManagerId, this.DeputyManagerId],
       "LOW QUANTITY",
       productList
     );
@@ -57,7 +60,7 @@ class NotificationController {
 
   static notifyHighQuantity(productList) {
     this.notify(
-      [this.ManagerUsername, this.DeputyManagerUsername],
+      [this.ManagerId, this.DeputyManagerId],
       "HIGH QUANTITY",
       productList
     );
@@ -70,8 +73,16 @@ class NotificationController {
       content: content,
     });
     for (let i in usersList) {
-      let clientSocket = this.usersMap.get(usersList[i]);
-      if (clientSocket) clientSocket.send(notification); // todo:: insert to db seen
+      let userId = usersList[i];
+      let userUrl = this.usersIdToUrl.get(userId);
+      if (
+        this.loggedInUsers.has(userId) &&
+        userUrl &&
+        this.connectedUsers.has(userUrl)
+      ) {
+        let clientSocket = this.clientsMap.get(userUrl);
+        clientSocket.send(notification); // todo:: insert to db seen - maybe wait to respone to seen??
+      }
       //else - insert to db unseen
     }
 

@@ -155,14 +155,15 @@ class ServiceLayer {
       isPasswordHashed
     );
     if (result === "The employee added successfully.") {
+      let employeeId = this.userCounter;
       if (permissions === "MANAGER")
-        NotificationController.ManagerUsername = userName;
+        NotificationController.ManagerId = employeeId;
       else if (
         permissions === "DEPUTY MANAGER" ||
         permissions === "DEPUTY_MANAGER"
       )
-        NotificationController.DeputyManagerUsername = userName;
-      this.users.set(userName, this.userCounter);
+        NotificationController.DeputyManagerId = employeeId;
+      this.users.set(userName, employeeId);
       this.userCounter++;
     }
     return result;
