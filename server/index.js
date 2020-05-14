@@ -28,13 +28,15 @@ app.get("/api/login", (req, res) => {
   const password = (req.query.password && req.query.password.trim()) || "";
   const result = service.login(username, password);
   if (typeof result !== "string")
-    NotificationController.setLoginHandler(username, req.headers.referer);
+    NotificationController.loginHandler(username, req.headers.referer);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/logout", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
   const result = service.logout(username);
+  if (result === "Logout succeded.")
+    NotificationController.logoutHandler(username);
   res.send(JSON.stringify({ result }));
 });
 

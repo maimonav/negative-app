@@ -1,5 +1,6 @@
 const CinemaSystem = require("./CinemaSystem");
 const SystemInitializer = require("./SystemInitializer");
+const NotificationController = require("./NotificationController");
 const logger = require("simple-node-logger").createSimpleLogger("project.log");
 
 class ServiceLayer {
@@ -154,6 +155,13 @@ class ServiceLayer {
       isPasswordHashed
     );
     if (result === "The employee added successfully.") {
+      if (permissions === "MANAGER")
+        NotificationController.ManagerUsername = userName;
+      else if (
+        permissions === "DEPUTY MANAGER" ||
+        permissions === "DEPUTY_MANAGER"
+      )
+        NotificationController.DeputyManagerUsername = userName;
       this.users.set(userName, this.userCounter);
       this.userCounter++;
     }
