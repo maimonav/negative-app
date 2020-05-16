@@ -74,7 +74,9 @@ class CinemaSystem {
           if (result !== "Product details update successfully completed")
             return result;
           record.quantityInStock = currentQuantity;
+          records[i] = record;
         }
+        return records;
       },
       general_purpose_daily_report: async (records) => {
         let props = await this.getGeneralReportProps();
@@ -97,6 +99,7 @@ class CinemaSystem {
           report.currentProps = props;
           records[i] = record;
         }
+        return records;
       },
       incomes_daily_report: async (records) => {
         for (let i in records) {
