@@ -18,7 +18,7 @@ socket.addEventListener("open", function(event) {
 socket.addEventListener("message", function(event) {
   let msg = JSON.parse(event.data);
   if (msg.type === "ERROR") console.log("Error:\n", msg.content);
-  console.log("Message from server:\ntype:", msg.subtype, "\n", msg.content);
+  console.log("Message from server:\n", msg);
 });
 
 // If you want your app to work offline and load faster, you can change

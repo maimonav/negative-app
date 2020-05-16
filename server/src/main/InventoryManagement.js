@@ -445,34 +445,50 @@ class InventoryManagemnt {
          * @returns {Promise(string)} Success or failure string
          **/
     async confirmOrder(orderId, productsList, recipientEmployeeId) {
-        if (!this.orders.has(orderId)) {
-            this.writeToLog(
-                "info",
-                "confirmOrder",
-                "Order " + orderId + " does not exsits."
-            );
-            return "Order " + orderId + " does not exsits.";
-        }
-        let result = await this.orders
-            .get(orderId)
-            .confirmOrder(productsList, recipientEmployeeId);
+            if (!this.orders.has(orderId)) {
+                this.writeToLog(
+                    "info",
+                    "confirmOrder",
+                    "Order " + orderId + " does not exsits."
+                );
+                return "Order " + orderId + " does not exsits.";
+            }
+            let result = await this.orders
+                .get(orderId)
+                .confirmOrder(productsList, recipientEmployeeId);
 
-        if (result === "Order confirmation success") {
-            this.checkAndnotifyLowAndHighQuantity(productsList);
-        }
+            if (result === "Order confirmation success") {
+                this.checkAndnotifyLowAndHighQuantity(productsList);
+                this.notifyMovieExamination(productsList);
+            }
 
-        return result;
+            return result;
+        }
+        /**
+         * notify after examination about movie key and examination room update
+         * @param {Array(Object)} productsList
+         */
+    notifyMovieExamination(productsList) {
+        let movieList = [];
+        productsList.forEach((product) => {
+            product = this.products.get(product.id);
+            if (product.quantity) return;
+            movieList = movieList.concat(product.name);
+        });
+        if (movieList.length > 0)
+            NotificationController.notifyMovieExamination(movieList);
     }
 
     /**
      * check if the quantity of the products lower or higher from min or max quantity
-     * @param {productsList} productsList
+     * @param {Array(Object)} productsList
      */
     checkAndnotifyLowAndHighQuantity(productsList) {
         let lowQuantityList = [];
         let highQuantityList = [];
         productsList.forEach((product) => {
             product = this.products.get(product.id);
+            if (!product.quantity) return;
             let quantity = parseInt(product.quantity);
             let maxQuantity = parseInt(product.maxQuantity);
             let minQuantity = parseInt(product.minQuantity);
@@ -519,7 +535,7 @@ class InventoryManagemnt {
                 this.writeToLog(
                     "info",
                     "addCafeteriaProduct",
-                    "This product already exists"
+                    "This product " + productId + " already exists"
                 );
                 return "This product already exists";
             }
