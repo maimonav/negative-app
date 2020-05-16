@@ -30,6 +30,7 @@ export default class AddCafeteriaOrder extends React.Component {
       arrayOfProducts: [],
       clearField: false,
     };
+    this.checkValidate = true;
     this.setInitialState();
   }
 
@@ -59,19 +60,22 @@ export default class AddCafeteriaOrder extends React.Component {
   };
 
   setArrayOfProducts = () => {
-    this.setState({
-      arrayOfProducts: [
-        ...this.state.arrayOfProducts,
-        {
-          name: this.state.product,
-          quantity: this.state.quantity,
-        },
-      ],
-      clearField: true,
-      product: "",
-      quantity: "",
-    });
-    document.getElementById("quantity").value = "";
+    this.validateInput();
+    if (this.checkValidate) {
+      this.setState({
+        arrayOfProducts: [
+          ...this.state.arrayOfProducts,
+          {
+            name: this.state.product,
+            quantity: this.state.quantity,
+          },
+        ],
+        clearField: true,
+        product: "",
+        quantity: "",
+      });
+      document.getElementById("quantity").value = "";
+    }
   };
 
   setOrderDate = (date) => {
@@ -86,6 +90,15 @@ export default class AddCafeteriaOrder extends React.Component {
     { title: "Product Name", field: "name" },
     { title: "Quantity", field: "expectedQuantity" },
   ];
+
+  validateInput() {
+    if (this.state.quantity === "" || this.state.product === "") {
+      alert("product and quantity are required");
+      this.checkValidate = false;
+    } else {
+      this.checkValidate = true;
+    }
+  }
 
   render() {
     const {
@@ -121,6 +134,9 @@ export default class AddCafeteriaOrder extends React.Component {
                       <CustomInput
                         labelText="Set Product Qunatity"
                         id="quantity"
+                        inputProps={{
+                          type: "number",
+                        }}
                         formControlProps={{
                           fullWidth: true,
                         }}
@@ -144,7 +160,7 @@ export default class AddCafeteriaOrder extends React.Component {
               )}
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={4}>
                     <ComboBox
                       id={"supplierName"}
                       items={this.state.suppliers}

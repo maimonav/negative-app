@@ -112,7 +112,7 @@ export default class EditCafeteriaOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit Cafeteria Order</h4>
