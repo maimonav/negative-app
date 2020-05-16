@@ -26,27 +26,19 @@ export default class CreateReportTable extends React.Component {
   }
 
   onRowAdd = () => {
-    this.setState(prevState => {
-      const data = [...prevState.data];
-      data.push({
-        productName: this.state.productName,
-        quantitySold: this.state.quantitySold,
-        quantityThrown: this.state.quantityThrown
+    if (this.state.productName) {
+      this.setState(prevState => {
+        const data = [...prevState.data];
+        data.push({
+          productName: this.state.productName,
+          quantitySold: this.state.quantitySold,
+          quantityThrown: this.state.quantityThrown
+        });
+        const result = { ...prevState, data };
+        this.props.onChangeInventoryData(result.data);
+        return result;
       });
-      const result = { ...prevState, data };
-      this.props.onChangeInventoryData(result.data);
-      return result;
-    });
-  };
-
-  onRowDelete = oldData => {
-    this.setState(prevState => {
-      const data = [...prevState.data];
-      data.splice(data.indexOf(oldData), 1);
-      const result = { ...prevState, data };
-      this.props.onChangeInventoryData(result.data);
-      return result;
-    });
+    }
   };
 
   render() {
@@ -103,11 +95,6 @@ export default class CreateReportTable extends React.Component {
             tooltip: "Add product",
             isFreeAction: true,
             onClick: this.onRowAdd
-          },
-          {
-            icon: tableIcons.Delete,
-            tooltip: "Delete",
-            onClick: this.onRowDelete
           }
         ]}
         columns={columns}
@@ -126,6 +113,19 @@ export default class CreateReportTable extends React.Component {
                     return result;
                   });
                 }
+              });
+            }),
+          onRowDelete: oldData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                this.setState(prevState => {
+                  const data = [...prevState.data];
+                  data.splice(data.indexOf(oldData), 1);
+                  const result = { ...prevState, data };
+                  this.props.onChangeInventoryData(result.data);
+                  return result;
+                });
               });
             })
         }}
