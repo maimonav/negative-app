@@ -920,8 +920,8 @@ class CinemaSystem {
       let type = report.type;
       let content = report.content;
       report = await this.toDBConvertionMethods[type](content);
-      if (typeof record === "string") {
-        return record;
+      if (typeof report === "string") {
+        return report;
       }
       reports[i] = report;
     }
