@@ -13,6 +13,7 @@ class NotificationController {
   static DeputyManagerId;
   static clientsMap = new Map();
   static usersIdToUrl = new Map();
+  static urlToUserId = new Map();
   static loggedInUsers = new Set();
   static initServerSocket(httpServer) {
     this.serverSocket = new WebSocket.Server({ httpServer });
@@ -24,6 +25,9 @@ class NotificationController {
       console.log("connected to", clientUrl);
       this.clientsMap.set(clientUrl, socketClient);
       console.log("Number of clients:", serverSocket.clients.size);
+      let userId = this.urlToUserId.get(clientUrl);
+      if (userId && this.loggedInUsers.has(userId))
+        this.sendAllNotificationsToUserFromDB(userId, clientSocket);
 
       socketClient.on("close", (socketClient) => {
         console.log(clientUrl, "closed");
@@ -56,13 +60,18 @@ class NotificationController {
       );
       return;
     }
+    this.urlToUserId.set(url.origin, userId);
     this.usersIdToUrl.set(userId, url.origin);
     this.loggedInUsers.add(userId);
 
+    this.sendAllNotificationsToUserFromDB(userId, clientSocket);
+  }
+
+  static async sendAllNotificationsToUserFromDB(userId, clientSocket) {
     //get all notification from db and send it to the logged in user
     let notifications = await DataBase.singleFindAll(
       "notification",
-      { recipientUserId: userId },
+      { recipientUserId: userId, seen: false },
       undefined,
       [["recipientUserId", "ASC"]]
     );
@@ -115,6 +124,9 @@ class NotificationController {
 
   static logoutHandler(userId) {
     this.loggedInUsers.delete(userId);
+    let url = this.urlToUserId.get(userId);
+    this.urlToUserId.delete(url);
+    this.usersIdToUrl.delete(userId);
   }
 
   /**
