@@ -81,8 +81,8 @@ export default class ConfirmCafeteriaOrder extends React.Component {
   };
 
   columns = [
-    { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "expectedQuantity" },
+    { title: "Product Name", field: "name", editable: "never" },
+    { title: "Quantity", field: "expectedQuantity", editable: "never" },
     { title: "Actual Quantity", field: "actualQuantity" },
   ];
 

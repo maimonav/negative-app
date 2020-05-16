@@ -92,8 +92,8 @@ export default class EditCafeteriaOrder extends React.Component {
   };
 
   columns = [
-    { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "expectedQuantity" },
+    { title: "Product Name", field: "name", editable: "never" },
+    { title: "Quantity", field: "expectedQuantity", editable: "never" },
     { title: "New Quantity", field: "actualQuantity" },
   ];
 

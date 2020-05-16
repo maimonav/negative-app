@@ -95,7 +95,7 @@ export default class EditMovieOrder extends React.Component {
   };
 
   columns = [
-    { title: "Movie Name", field: "name" },
+    { title: "Movie Name", field: "name", editable: "never" },
     { title: "Key", field: "key" },
     { title: "Examination room", field: "examinationRoom" },
   ];

@@ -98,7 +98,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
-                      <h3 style={{ margin: "auto" }}>
+                      <h3 style={{ margin: "auto", marginTop: "20px" }}>
                         Order's products details:{" "}
                       </h3>
                       <SimpleTable
