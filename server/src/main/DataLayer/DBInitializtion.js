@@ -226,13 +226,13 @@ async function initDB(dbName, password) {
 }
 
 async function _initGeneralReport() {
-  let result = await DataBase.singleGetById("general_purpose_daily_report", {});
-  if (result != null) return;
   let todayDate = new Date();
   let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
   return DataBase.singleAdd("general_purpose_daily_report", {
     date: date.toISOString().substring(0, 10),
-    additionalProps: [[], {}],
+    currentProps: [],
+    propsObject: {},
+    allProps: [],
   });
 }
 

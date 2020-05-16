@@ -13,29 +13,142 @@ class CinemaSystem {
     this.userOfflineMsg =
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
-    this.convertionMethods = {
-      inventory_daily_report: (record) => {
+    this.toUserConvertionMethods = {
+      inventory_daily_report: async (record) => {
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      general_purpose_daily_report: (record) => {
-        let keys = Object.keys(record.additionalProps[1]);
+      general_purpose_daily_report: async (record) => {
+        let keys = Object.keys(record.propsObject);
         for (let i in keys) {
           let propName = keys[i];
-          record[propName] = record.additionalProps[1][propName];
+          record[propName] = record.propsObject[propName];
         }
-        record.props = this.getGeneralReportProps();
+        record.props = await this.getAllGeneralReportProps();
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
+      incomes_daily_report: async (record) =>
+        this.employeeAndDateConvertion(record),
+    };
+    this.toDBConvertionMethods = {
+      inventory_daily_report: async (records) => {
+        for (let i in records) {
+          let record = records[i];
+          if (
+            !record.quantitySold ||
+            !record.stockThrown ||
+            !Number.isInteger(record.quantitySold) ||
+            !Number.isInteger(record.stockThrown)
+          ) {
+            logger.info(
+              "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
+            );
+            return "Report content is invalid";
+          }
+          if (
+            parseInt(record.quantitySold) < 0 ||
+            parseInt(record.stockThrown) < 0
+          ) {
+            logger.info(
+              "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - negative numbers are invalid"
+            );
+            return "Negative numbers are invalid";
+          }
+
+          let product = this.inventoryManagement.products.get(record.productId);
+          let oldQuantity = product.quantity;
+          let currentQuantity =
+            oldQuantity -
+            parseInt(record.quantitySold) -
+            parseInt(record.stockThrown);
+          let result = await this.inventoryManagement.editCafeteriaProduct(
+            record.productId,
+            product.categoryId,
+            product.price,
+            currentQuantity
+          );
+          if (result !== "Product details update successfully completed")
+            return result;
+          record.quantityInStock = currentQuantity;
+        }
+      },
+      general_purpose_daily_report: async (records) => {
+        let props = await this.getGeneralReportProps();
+        if (typeof props === "string") return props;
+        for (let i in records) {
+          let record = records[i];
+          record.propObject = {};
+          for (let j in props) {
+            if (!record[props[j]]) {
+              logger.info(
+                "CinemaSystem - createDailyReport - toDBConvertionMethods[general_purpose_daily_report] - Report content is invalid"
+              );
+              return "Report content is invalid";
+            }
+            record.propObject[props[j]] = record[props[j]];
+            delete record[props[j]];
+          }
+          record.allProps = await this.getAllGeneralReportProps();
+          if (typeof record.allProps === "string") return record.allProps;
+          report.currentProps = props;
+          records[i] = record;
+        }
+      },
+      incomes_daily_report: async (records) => {
+        for (let i in records) {
+          let record = records[i];
+          if (
+            !record.numOfTabsSales ||
+            !Number.isInteger(record.numOfTabsSales) ||
+            !record.cafeteriaCashRevenues ||
+            isNaN(record.cafeteriaCashRevenues) ||
+            !record.cafeteriaCreditCardRevenues ||
+            isNaN(record.cafeteriaCreditCardRevenues) ||
+            !record.ticketsCashRevenues ||
+            isNaN(record.ticketsCashRevenues) ||
+            !record.ticketsCreditCardRevenues ||
+            isNaN(record.ticketsCreditCardRevenues) ||
+            !record.tabsCashRevenues ||
+            isNaN(record.tabsCashRevenues) ||
+            !record.tabsCreditCardRevenues ||
+            isNaN(record.tabsCreditCardRevenues)
+          ) {
+            logger.info(
+              "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
+            );
+            return "Report content is invalid";
+          }
+          if (
+            parseInt(record.numOfTabsSales) < 0 ||
+            parseFloat(record.cafeteriaCashRevenues) < 0 ||
+            parseFloat(record.cafeteriaCreditCardRevenues) < 0 ||
+            parseFloat(record.ticketsCashRevenues) < 0 ||
+            parseFloat(record.ticketsCreditCardRevenues) < 0 ||
+            parseFloat(record.tabsCashRevenues) < 0 ||
+            parseFloat(record.tabsCreditCardRevenues) < 0
+          ) {
+            logger.info(
+              "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - negative numbers are invalid"
+            );
+            return "Negative numbers are invalid";
+          }
+        }
+        return records;
+      },
     };
   }
 
-  getGeneralReportProps = () => ReportController._generalDailyReoprtFormat;
+  isValidReportType = (type) => ReportController._isValidType(type);
+
+  getGeneralReportProps = async () =>
+    ReportController.getCurrentGeneralDailyReoprtFormat();
+
+  getAllGeneralReportProps = async () =>
+    ReportController.getAllgeneralDailyReoprtFormat();
 
   creatorEmployeeConvertion(record) {
     if (record.creatorEmployeeId !== null) {
@@ -781,11 +894,11 @@ class CinemaSystem {
 
   /**
    * @param {string} type Type of the report
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Reports to add in the report
    * @param {string} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(string)} success or failure
    */
-  async createDailyReport(type, records, ActionIDOfTheOperation) {
+  async createDailyReport(reports, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "SHIFT_MANAGER",
@@ -802,7 +915,24 @@ class CinemaSystem {
       );
       return "Cannot create report - creator employee id is not exist";
     }
-    return ReportController.createDailyReport(type, records);
+    if (reports.length === 0) {
+      logger.info(
+        "CinemaSystem - createDailyReport - action failed - empty input reports:",
+        reports
+      );
+      return "Invalid report - missing information";
+    }
+    for (let i in reports) {
+      let report = reports[i];
+      let type = report.type;
+      let content = report.content;
+      report = await this.toDBConvertionMethods[type](content);
+      if (typeof report === "string") {
+        return report;
+      }
+      reports[i] = report;
+    }
+    return ReportController.createDailyReport(reports);
   }
 
   /**
@@ -822,7 +952,7 @@ class CinemaSystem {
     result = await ReportController.getReport(type, date);
     if (typeof result !== "string")
       for (let i in result)
-        result[i] = this.convertionMethods[type](result[i].dataValues);
+        result[i] = this.toUserConvertionMethods[type](result[i].dataValues);
     return result;
   }
 
