@@ -16,7 +16,10 @@ import {
   moviesTabHook,
   categoriesTabHook
 } from "../../consts/data-hooks";
-import { isAtLeastShiftManager } from "../../consts/permissions";
+import {
+  isAtLeastShiftManager,
+  isAtLeastDeputyManager
+} from "../../consts/permissions";
 const style = { textDecoration: "none", color: "black" };
 const menuStyle = { justifyContent: "center" };
 
@@ -59,43 +62,49 @@ export default function InventoryActionsDropDownTab(props) {
           maxWidth: "175px"
         }}
       >
-        <Link to={manageInventoryPath} style={style}>
-          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab
-              label="Manage Inventory"
-              style={{ textTransform: "none" }}
-              data-hook={inventoryTabHook}
-            />
-          </MenuItem>
-        </Link>
-        <Link to={manageOrdersPath} style={style}>
-          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab
-              label="Manage Orders"
-              style={{ textTransform: "none" }}
-              data-hook={ordersTabHook}
-            />
-          </MenuItem>
-        </Link>
-        <Link to={manageMoviesPath} style={style}>
-          <MenuItem
-            value={1}
-            onClick={handleClose}
-            data-hook={moviesTabHook}
-            style={menuStyle}
-          >
-            <Tab label="Manage Movies" style={{ textTransform: "none" }} />
-          </MenuItem>
-        </Link>
-        <Link to={manageCategoriesPath} style={style}>
-          <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-            <Tab
-              label="Manage Categories"
-              style={{ textTransform: "none" }}
-              data-hook={categoriesTabHook}
-            />
-          </MenuItem>
-        </Link>
+        {isAtLeastShiftManager(props.permission) && (
+          <Link to={manageInventoryPath} style={style}>
+            <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+              <Tab
+                label="Manage Inventory"
+                style={{ textTransform: "none" }}
+                data-hook={inventoryTabHook}
+              />
+            </MenuItem>
+          </Link>
+        )}
+        {isAtLeastDeputyManager(props.permission) && (
+          <>
+            <Link to={manageOrdersPath} style={style}>
+              <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+                <Tab
+                  label="Manage Orders"
+                  style={{ textTransform: "none" }}
+                  data-hook={ordersTabHook}
+                />
+              </MenuItem>
+            </Link>
+            <Link to={manageMoviesPath} style={style}>
+              <MenuItem
+                value={1}
+                onClick={handleClose}
+                data-hook={moviesTabHook}
+                style={menuStyle}
+              >
+                <Tab label="Manage Movies" style={{ textTransform: "none" }} />
+              </MenuItem>
+            </Link>
+            <Link to={manageCategoriesPath} style={style}>
+              <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+                <Tab
+                  label="Manage Categories"
+                  style={{ textTransform: "none" }}
+                  data-hook={categoriesTabHook}
+                />
+              </MenuItem>
+            </Link>
+          </>
+        )}
       </Menu>
     </>
   );
