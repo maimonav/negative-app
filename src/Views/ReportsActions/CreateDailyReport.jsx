@@ -8,7 +8,6 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
-import { handleCreateDailyReports } from "../../Handlers/Handlers";
 import { reportsTypesObj } from "../../consts/data";
 import CreateReportTable from "../../Components/Tables/CreateReportTable";
 
@@ -58,7 +57,6 @@ export default class CreateDailyReport extends React.Component {
   }
 
   onChangeInventoryData = data => {
-    console.log("hey");
     this.setState({ data });
   };
 
@@ -97,9 +95,9 @@ export default class CreateDailyReport extends React.Component {
   createReport = () => {
     const incomes = this.createIncomeReport();
     const inventory = this.createInventoryReport();
-    const general = this.createGeneralReport();
+    // const general = this.createGeneralReport();
 
-    return [incomes, inventory, general];
+    return [incomes, inventory /*general*/];
   };
 
   render() {

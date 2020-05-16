@@ -14,14 +14,14 @@ class CinemaSystem {
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
     this.toUserConvertionMethods = {
-      inventory_daily_report: async (record) => {
+      inventory_daily_report: async record => {
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      general_purpose_daily_report: async (record) => {
+      general_purpose_daily_report: async record => {
         let keys = Object.keys(record.propsObject);
         for (let i in keys) {
           let propName = keys[i];
@@ -31,11 +31,11 @@ class CinemaSystem {
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      incomes_daily_report: async (record) =>
-        this.employeeAndDateConvertion(record),
+      incomes_daily_report: async record =>
+        this.employeeAndDateConvertion(record)
     };
     this.toDBConvertionMethods = {
-      inventory_daily_report: async (records) => {
+      inventory_daily_report: async records => {
         for (let i in records) {
           let record = records[i];
           if (
@@ -76,7 +76,7 @@ class CinemaSystem {
           record.quantityInStock = currentQuantity;
         }
       },
-      general_purpose_daily_report: async (records) => {
+      general_purpose_daily_report: async records => {
         let props = await this.getGeneralReportProps();
         if (typeof props === "string") return props;
         for (let i in records) {
@@ -98,7 +98,7 @@ class CinemaSystem {
           records[i] = record;
         }
       },
-      incomes_daily_report: async (records) => {
+      incomes_daily_report: async records => {
         for (let i in records) {
           let record = records[i];
           if (
@@ -138,11 +138,11 @@ class CinemaSystem {
           }
         }
         return records;
-      },
+      }
     };
   }
 
-  isValidReportType = (type) => ReportController._isValidType(type);
+  isValidReportType = type => ReportController._isValidType(type);
 
   getGeneralReportProps = async () =>
     ReportController.getCurrentGeneralDailyReoprtFormat();
@@ -919,6 +919,7 @@ class CinemaSystem {
       let report = reports[i];
       let type = report.type;
       let content = report.content;
+      console.log("type", type);
       report = await this.toDBConvertionMethods[type](content);
       if (typeof report === "string") {
         return report;

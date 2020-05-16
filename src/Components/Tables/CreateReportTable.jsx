@@ -1,9 +1,7 @@
 import React from "react";
 import MaterialTable from "material-table";
 import ComboBox from "../../Components/AutoComplete";
-import GridContainer from "../../Components/Grid/GridContainer.js";
 import CustomInput from "../../Components/CustomInput/CustomInput.js";
-import GridItem from "../../Components/Grid/GridItem";
 import { tableIcons } from "./EditTable";
 
 export default class CreateReportTable extends React.Component {

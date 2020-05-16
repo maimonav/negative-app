@@ -1303,7 +1303,7 @@ class ServiceLayer {
     for (let i in reports) {
       let report = reports[i];
       let type = report.type;
-      let content = report.type;
+      let content = report.content;
       if (!type || !this.cinemaSystem.isValidReportType(type)) {
         logger.info(
           "CinemaSystem- createDailyReport - The requested report type " +
