@@ -166,6 +166,7 @@ class NotificationController {
     for (let i in usersList) {
       let userId = usersList[i];
       let userUrl = this.usersIdToUrl.get(userId);
+      let seenFalg = false;
       if (
         this.loggedInUsers.has(userId) &&
         userUrl &&
@@ -183,7 +184,7 @@ class NotificationController {
           element: {
             recipientUserId: userId,
             timeFired: timeFired,
-            seen: seenFalg ? true : false,
+            seen: seenFalg,
             content: notificationContent,
           },
         },
