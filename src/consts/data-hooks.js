@@ -32,6 +32,7 @@ export const inventoryTabHook = "inventoryTab";
 export const ordersTabHook = "ordersTab";
 export const categoriesTabHook = "categoriesTab";
 export const showReportTabHook = "showReportTab";
+export const createDailyReportTabHook = "createDailyReportTab";
 export const logoutTabHook = "logoutTab";
 
 //Actions

@@ -29,11 +29,10 @@ class ServiceLayer {
 
           let validationResult = !this._isInputValid(record.productName)
             ? "Product Name is not valid"
-            : !this._isInputValid(record.date);
-          ("Valid");
+            : "Valid";
           if (validationResult !== "Valid") {
             logger.info(
-              "ServiceLayer- ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
+              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
               validationResult
             );
             return validationResult;
@@ -1302,29 +1301,27 @@ class ServiceLayer {
     }
     for (let i in reports) {
       let report = reports[i];
-      let type = report.type;
-      let content = report.type;
-      if (!type || !this.cinemaSystem.isValidReportType(type)) {
+      if (!report.type || !this.cinemaSystem.isValidReportType(report.type)) {
         logger.info(
-          "CinemaSystem- createDailyReport - The requested report type " +
-            type +
+          "ServiceLayer - createDailyReport - The requested report type " +
+            report.type +
             " is invalid"
         );
         return "Requested report type is invalid";
       }
-      if (!content || content.length === 0) {
+      if (!report.content || report.content.length === 0) {
         logger.info(
-          "CinemaSystem- createDailyReport - Report content is invalid"
+          "ServiceLayer - createDailyReport - Report content is invalid"
         );
         return "Report content is invalid";
       }
-      report = this.convertionMethods[report.type](
+      report.content = this.convertionMethods[report.type](
         report.content,
         ActionIDOfTheOperation,
         date
       );
-      if (typeof report === "string") {
-        return report;
+      if (typeof report.content === "string") {
+        return report.content;
       }
       reports[i] = report;
     }
