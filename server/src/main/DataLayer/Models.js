@@ -337,6 +337,37 @@ const inventoryDailyReportSchema = (CafeteriaProduct, Employee) => {
   };
 };
 
+const notificationSchema = (User) => {
+  return {
+    // attributes
+    recipientUserId: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      references: {
+        // This is a reference to another model
+        model: User,
+
+        // This is the column name of the referenced model
+        key: "id",
+      },
+    },
+    timeFired: {
+      type: Sequelize.DATE,
+      primaryKey: true,
+      notEmpty: true,
+      allowNull: false,
+    },
+    seen: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    content: {
+      type: Sequelize.JSON,
+      allowNull: false,
+    },
+  };
+};
+
 /*validate: {
     is: ["^[a-z]+$",'i'],     // will only allow letters
     is: /^[a-z]+$/i,          // same as the previous example using real RegExp
@@ -397,3 +428,4 @@ exports.incomesDailyReportSchema = incomesDailyReportSchema;
 exports.moviesDailyReportSchema = moviesDailyReportSchema;
 exports.inventoryDailyReportSchema = inventoryDailyReportSchema;
 exports.generalPurposeDailyReportSchema = generalPurposeDailyReportSchema;
+exports.notificationSchema = notificationSchema;

@@ -13,7 +13,9 @@ import EditTable from "../../../Components/Tables/EditTable";
 import {
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
+  handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditCafeteriaOrder extends React.Component {
@@ -23,7 +25,7 @@ export default class EditCafeteriaOrder extends React.Component {
       startDate: new Date(),
       endDate: new Date(),
       orderId: "",
-      orderDate: new Date(),
+      orderDate: "",
       updatedProducts: "",
       isOpened: false,
       openSecond: false,
@@ -35,7 +37,7 @@ export default class EditCafeteriaOrder extends React.Component {
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
-    handleGetOrdersByDates(startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate, true)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };
@@ -58,6 +60,8 @@ export default class EditCafeteriaOrder extends React.Component {
 
   toggleThirdBox() {
     this.setState((oldState) => ({ openThird: !oldState.openThird }));
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   setStartDate = (date) => {
@@ -68,8 +72,13 @@ export default class EditCafeteriaOrder extends React.Component {
     this.setState({ endDate: date });
   };
 
-  setOrderName = (name) => {
-    this.setState({ orderId: name });
+  setOrderName = (orderId) => {
+    this.setState({ orderId });
+    handleGetOrderDetails(orderId)
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ orderDate: state.result.orderDate });
+      });
   };
 
   setOrderDate = (date) => {
@@ -83,9 +92,9 @@ export default class EditCafeteriaOrder extends React.Component {
   };
 
   columns = [
-    { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "quantity" },
-    { title: "New Quantity", field: "new-quantity" },
+    { title: "Product Name", field: "name", editable: "never" },
+    { title: "Quantity", field: "expectedQuantity", editable: "never" },
+    { title: "New Quantity", field: "actualQuantity" },
   ];
 
   render() {
@@ -144,13 +153,20 @@ export default class EditCafeteriaOrder extends React.Component {
                         boxLabel={"Choose order"}
                         setName={this.setOrderName}
                         isMultiple={false}
+                        data-hook={orderNameHook}
                       />
                     </GridItem>
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
-                    <Button color="info" onClick={this.toggleSecondBox}>
-                      Choose order
-                    </Button>
+                    {orderId && (
+                      <Button
+                        id={"chooseOrder"}
+                        color="info"
+                        onClick={this.toggleSecondBox}
+                      >
+                        Choose order
+                      </Button>
+                    )}
                   </GridContainer>
                 </CardBody>
               )}
@@ -179,7 +195,7 @@ export default class EditCafeteriaOrder extends React.Component {
                 </CardBody>
               )}
               {openThird && (
-                <CardFooter>
+                <CardFooter style={{ justifyContent: "center" }}>
                   <Button
                     color="info"
                     onClick={() =>

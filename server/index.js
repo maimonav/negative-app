@@ -1,49 +1,21 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-var http = require("http");
+const Http = require("http");
 const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const NotificationController = require("./src/main/NotificationController");
 const service = new ServiceLayer();
-
 const app = express();
-const server = http.createServer(app);
-const socketServer = new WebSocket.Server({ server });
+const server = Http.createServer(app);
+//NotificationController.initServerSocket(server);
+const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-let result = service.initSeviceLayer(undefined, "admin123");
+const initResult = service.initSeviceLayer(undefined, "admin123");
 
-const messages = ["Start Chatting!"];
-
-socketServer.on("connection", async socketClient => {
-  console.log("connected");
-  console.log("client Set length: ", socketServer.clients.size);
-
-  socketClient.on("close", socketClient => {
-    console.log("closed");
-    console.log("Number of clients: ", socketServer.clients.size);
-  });
-
-  /*socketClient.on("message", (message) => {
-    console.log(message);
-    messages.push(message);
-    socketServer.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(JSON.stringify([message]));
-      }
-    });
-  });*/
-  let initResult = await result;
-  if (typeof initResult === "string") {
-    socketServer.clients.forEach(client => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(initResult);
-      }
-    });
-  }
-});
+NotificationController.setConnectionHandler(serverSocket, initResult);
 
 app.get("/api/isLoggedIn", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
@@ -55,12 +27,20 @@ app.get("/api/login", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
   const password = (req.query.password && req.query.password.trim()) || "";
   const result = service.login(username, password);
+  if (typeof result !== "string") {
+    let userId = service.users.get(username);
+    NotificationController.loginHandler(userId, req.headers.referer);
+  }
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/logout", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
   const result = service.logout(username);
+  if (result === "Logout succeded.") {
+    let userId = service.users.get(username);
+    NotificationController.logoutHandler(userId);
+  }
   res.send(JSON.stringify({ result }));
 });
 
@@ -280,16 +260,18 @@ app.get("/api/addCafeteriaOrder", async (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/editCafeteriaOrder", (req, res) => {
+app.get("/api/editCafeteriaOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
   const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
   const updatedProducts =
     (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
+  const productsList = JSON.parse(updatedProducts);
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.editCafeteriaOrder(
+  const result = await service.editOrder(
     orderId,
     orderDate,
-    updatedProducts,
+    null,
+    productsList,
     user
   );
   res.send(JSON.stringify({ result }));
@@ -302,21 +284,13 @@ app.get("/api/RemoveOrder", async (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-app.get("/api/confirmCafeteriaOrder", (req, res) => {
+app.get("/api/confirmCafeteriaOrder", async (req, res) => {
   const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
-  const productsName =
-    (req.query.productsName && req.query.productsName.trim()) || "";
-  const updatedProductsAndQuantity =
-    (req.query.updatedProductsAndQuantity &&
-      req.query.updatedProductsAndQuantity.trim()) ||
-    "";
+  const updatedProducts =
+    (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
+  const productsList = JSON.parse(updatedProducts);
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.editCafetriaOrder(
-    orderId,
-    productsName,
-    updatedProductsAndQuantity,
-    user
-  );
+  const result = await service.confirmOrder(orderId, productsList, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -381,16 +355,13 @@ app.get("/api/getMovies", (req, res) => {
 });
 
 app.get("/api/getCategories", (req, res) => {
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getCategories(user);
-  console.log("result = ");
-  result.map(category => console.log(category));
+  const result = service.getCategories();
+  result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getCafeteriaProducts", (req, res) => {
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getCafeteriaProducts(user);
+  const result = service.getCafeteriaProducts();
   res.send(JSON.stringify({ result }));
 });
 
@@ -409,7 +380,14 @@ app.get("/api/getOrdersByDates", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const startDate = (req.query.startDate && req.query.startDate.trim()) || "";
   const endDate = (req.query.endDate && req.query.endDate.trim()) || "";
-  const result = service.getOrdersByDates(startDate, endDate, user);
+  const isCafeteriaOrder =
+    (req.query.isCafeteriaOrder && req.query.isCafeteriaOrder.trim()) || "";
+  const result = service.getOrdersByDates(
+    startDate,
+    endDate,
+    isCafeteriaOrder,
+    user
+  );
   res.send(JSON.stringify({ result }));
 });
 
@@ -423,29 +401,27 @@ app.get("/api/getProductsByOrder", (req, res) => {
 app.get("/api/getOrderDetails", (req, res) => {
   const order = (req.query.order && req.query.order.trim()) || "";
   const result = service.getOrderDetails(order);
+  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getMovieDetails", (req, res) => {
   const movieName = (req.query.movieName && req.query.movieName.trim()) || "";
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getMovieDetails(movieName, user);
+  const result = service.getMovieDetails(movieName);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getProductDetails", (req, res) => {
   const productName =
     (req.query.productName && req.query.productName.trim()) || "";
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getProductDetails(productName, user);
+  const result = service.getProductDetails(productName);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getCategoryDetails", (req, res) => {
   const categoryName =
     (req.query.categoryName && req.query.categoryName.trim()) || "";
-  const user = (req.query.user && req.query.user.trim()) || "";
-  const result = service.getCategoryDetails(categoryName, user);
+  const result = service.getCategoryDetails(categoryName);
   res.send(JSON.stringify({ result }));
 });
 
@@ -473,10 +449,51 @@ app.get("/api/getMovieOrders", (req, res) => {
 app.get("/api/getMovieOrderDetails", (req, res) => {
   const order = (req.query.order && req.query.order.trim()) || "";
   const result = service.getOrderDetails(order);
-  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
 server.listen(3001, () => {
   console.log("Express server is running on localhost:3001");
+});
+
+//example purpose only
+app.get("/api/getInventoryReport", (req, res) => {
+  const result = service.getInventoryReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getIncomesReport", (req, res) => {
+  const result = service.getIncomesReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getGeneralReport", (req, res) => {
+  const result = service.getGeneralReport();
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/confirmMovieOrder", async (req, res) => {
+  const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
+  const movieList = (req.query.movieList && req.query.movieList.trim()) || "";
+  const updatedMovieList = JSON.parse(movieList);
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.confirmOrder(orderId, updatedMovieList, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/editMovieOrder", async (req, res) => {
+  const orderId = (req.query.orderId && req.query.orderId.trim()) || "";
+  const orderDate = (req.query.orderDate && req.query.orderDate.trim()) || "";
+  const updatedProducts =
+    (req.query.updatedProducts && req.query.updatedProducts.trim()) || "";
+  const moviesList = JSON.parse(updatedProducts);
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.editOrder(
+    orderId,
+    orderDate,
+    null,
+    moviesList,
+    user
+  );
+  res.send(JSON.stringify({ result }));
 });

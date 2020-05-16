@@ -16,6 +16,10 @@ export const productPriceHook = "productPriceField";
 export const productQuantityHook = "productQuantityField";
 export const productMaxQuantityHook = "productMaxQuantityField";
 export const productMinQuantityHook = "productMinQuantityField";
+export const cafeteriaOrdersHook = "cafeteriaOrdersButton";
+export const moviesOrdersHook = "moviesOrdersButton";
+export const orderNameHook = "orderNameField";
+export const orderDateHook = "orderDateField";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";
@@ -35,6 +39,7 @@ export const showActionHook = "showAction";
 export const addActionHook = "addAction";
 export const editActionHook = "editAction";
 export const removeActionHook = "removeAction";
+export const confirmActionHook = "confirmAction";
 
 //Buttons
 export const actionButtonHook = "actionButton";

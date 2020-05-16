@@ -8,32 +8,33 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
+import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import SelectDates from "../../../Components/SelectDates";
+import SimpleTable from "../../../Components/Tables/SimpleTable";
 import {
   handleGetCafeteriaProducts,
   handleGetSuppliers,
 } from "../../../Handlers/Handlers";
-import EditTable from "../../../Components/Tables/EditTable";
+import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productsName: "",
       supplierName: "",
       orderDate: new Date(),
-      productsWithQuantity: "",
-      isOpened: false,
-      openSecond: false,
+      addMore: true,
+      product: "",
+      quantity: "",
+      arrayOfProducts: [],
+      clearField: false,
     };
-    this.toggleBox = this.toggleBox.bind(this);
-    this.toggleSecondBox = this.toggleSecondBox.bind(this);
     this.setInitialState();
   }
 
   setInitialState = () => {
-    handleGetCafeteriaProducts(localStorage.getItem("username"))
+    handleGetCafeteriaProducts()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ products: state.result });
@@ -45,32 +46,32 @@ export default class AddCafeteriaOrder extends React.Component {
       });
   };
 
-  toggleBox() {
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
-  }
-
-  toggleSecondBox() {
-    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
-  }
-
-  setProductsName = (name) => {
-    this.setState({
-      productsName: name.map((item) => ({ name: item.title, quantity: "" })),
-    });
+  stopAddmore = () => {
+    this.setState((oldState) => ({ addMore: !oldState.addMore }));
   };
 
-  setProductsWithQuantity = (name) => {
-    this.setState(
-      {
-        productsWithQuantity: name,
-      },
-      () => {
-        for (let i = 0; i < this.state.productsWithQuantity.length; i++) {
-          delete this.state.productsWithQuantity[i].tableData;
-        }
-      }
-    );
+  setQuantity(event) {
+    this.setState({ quantity: event.target.value });
+  }
+
+  setProduct = (name) => {
+    this.setState({ product: name, clearField: false });
+  };
+
+  setArrayOfProducts = () => {
+    this.setState({
+      arrayOfProducts: [
+        ...this.state.arrayOfProducts,
+        {
+          name: this.state.product,
+          quantity: this.state.quantity,
+        },
+      ],
+      clearField: true,
+      product: "",
+      quantity: "",
+    });
+    document.getElementById("quantity").value = "";
   };
 
   setOrderDate = (date) => {
@@ -83,100 +84,114 @@ export default class AddCafeteriaOrder extends React.Component {
 
   columns = [
     { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "quantity" },
+    { title: "Quantity", field: "expectedQuantity" },
   ];
 
   render() {
     const {
-      productsName,
       supplierName,
       orderDate,
-      productsWithQuantity,
-      isOpened,
-      openSecond,
+      addMore,
+      arrayOfProducts,
+      clearField,
     } = this.state;
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new Cafeteria Order</h4>
                 <p>Complete order's details</p>
               </CardHeader>
+              {addMore && (
+                <CardBody>
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <ComboBox
+                        id={"productsName"}
+                        items={this.state.products}
+                        boxLabel={"Choose product"}
+                        setName={this.setProduct}
+                        isMultiple={false}
+                        clearField={clearField}
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={4}>
+                      <CustomInput
+                        labelText="Set Product Qunatity"
+                        id="quantity"
+                        formControlProps={{
+                          fullWidth: true,
+                        }}
+                        onChange={(event) => this.setQuantity(event)}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                  <CardFooter style={{ justifyContent: "center" }}>
+                    <Button color="info" onClick={this.setArrayOfProducts}>
+                      Add Product
+                    </Button>
+                  </CardFooter>
+                </CardBody>
+              )}
+              {addMore && (
+                <CardFooter style={{ justifyContent: "center" }}>
+                  <Button color="info" onClick={this.stopAddmore}>
+                    Finish add products
+                  </Button>
+                </CardFooter>
+              )}
               <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"productsName"}
-                      items={this.state.products}
-                      boxLabel={"Choose product"}
-                      setName={this.setProductsName}
-                      isMultiple={true}
+                      id={"supplierName"}
+                      items={this.state.suppliers}
+                      boxLabel={"Choose supplier"}
+                      setName={this.setSupplierName}
+                      isMultiple={false}
+                      data-hook={userNameHook}
+                    />
+                  </GridItem>
+                  <GridItem>
+                    <SelectDates
+                      id={"add-order-date"}
+                      label={"Choose Order Date"}
+                      setDate={this.setOrderDate}
+                      date={this.state.orderDate}
                     />
                   </GridItem>
                 </GridContainer>
-                {!openSecond && (
-                  <CardFooter>
-                    <Button color="info" onClick={this.toggleBox}>
-                      Manage Products Quantity
-                    </Button>
-                  </CardFooter>
-                )}
-                {isOpened && (
+                {!addMore && (
                   <GridContainer>
-                    <GridItem xs={12} sm={12} md={15}>
-                      <EditTable
-                        columns={this.columns}
-                        data={productsName}
-                        setItems={this.setProductsWithQuantity}
-                        openSecondBox={this.toggleSecondBox}
+                    <GridItem xs={12} sm={12} md={8}>
+                      <h3 style={{ margin: "auto", marginTop: "20px" }}>
+                        Order's products details:{" "}
+                      </h3>
+                      <SimpleTable
+                        colums={this.columns}
+                        data={arrayOfProducts}
                       />
                     </GridItem>
                   </GridContainer>
                 )}
               </CardBody>
-              {openSecond && (
-                <CardBody>
-                  <GridContainer>
-                    <GridItem>
-                      <SelectDates
-                        id={"add-order-date"}
-                        label={"Choose Order Date"}
-                        setDate={this.setOrderDate}
-                        date={this.state.orderDate}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={6}>
-                      <ComboBox
-                        id={"supplierName"}
-                        items={this.state.suppliers}
-                        boxLabel={"Choose supplier"}
-                        setName={this.setSupplierName}
-                        isMultiple={false}
-                      />
-                    </GridItem>
-                  </GridContainer>
-                </CardBody>
-              )}
-              {openSecond && (
-                <CardFooter>
-                  <Button
-                    color="info"
-                    onClick={() =>
-                      this.props.handleAddCafeteriaOrder(
-                        productsWithQuantity,
-                        supplierName,
-                        orderDate
-                      )
-                    }
-                  >
-                    Add New Order
-                  </Button>
-                </CardFooter>
-              )}
+              <CardFooter style={{ justifyContent: "center" }}>
+                <Button
+                  id={"addCafeteriaOrder"}
+                  color="info"
+                  onClick={() =>
+                    this.props.handleAddCafeteriaOrder(
+                      arrayOfProducts,
+                      supplierName,
+                      orderDate
+                    )
+                  }
+                >
+                  Add New Order
+                </Button>
+              </CardFooter>
             </Card>
           </GridItem>
         </GridContainer>

@@ -11,9 +11,11 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import EditTable from "../../../Components/Tables/EditTable";
 import {
+  handleGetMovieOrders,
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditMovieOrder extends React.Component {
@@ -24,7 +26,7 @@ export default class EditMovieOrder extends React.Component {
       endDate: new Date(),
       orderId: "",
       orderDate: new Date(),
-      updatedProducts: "",
+      updatedMovies: "",
       isOpened: false,
       openSecond: false,
       openThird: false,
@@ -35,18 +37,23 @@ export default class EditMovieOrder extends React.Component {
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
-    handleGetOrdersByDates(localStorage.getItem("username"), startDate, endDate)
+    handleGetOrdersByDates(startDate, endDate, false)
       .then((response) => response.json())
       .then((state) => this.setState({ orders: state.result }));
   };
 
   handleGetProductAndQuntityByOrder = (orderId) => {
-    handleGetProductsAndQuantityByOrder(
-      localStorage.getItem("username"),
-      orderId
-    )
+    handleGetProductsAndQuantityByOrder(orderId)
       .then((response) => response.json())
-      .then((state) => this.setState({ productsWithQuantity: state.result }));
+      .then((state) => this.setState({ movies: state.result }));
+  };
+
+  handleGetMovieOrders = () => {
+    handleGetMovieOrders()
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ orders: state.result });
+      });
   };
 
   toggleBox() {
@@ -61,6 +68,8 @@ export default class EditMovieOrder extends React.Component {
 
   toggleThirdBox() {
     this.setState((oldState) => ({ openThird: !oldState.openThird }));
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   setStartDate = (date) => {
@@ -79,20 +88,24 @@ export default class EditMovieOrder extends React.Component {
     this.setState({ orderDate: date });
   };
 
-  setProductsWithQuantity = (name) => {
+  setUpdatedMovies = (name) => {
     this.setState({
-      updatedProducts: name,
+      updatedMovies: name,
     });
   };
 
-  columns = [{ title: "Product Name", field: "name" }];
+  columns = [
+    { title: "Movie Name", field: "name", editable: "never" },
+    { title: "Key", field: "key" },
+    { title: "Examination room", field: "examinationRoom" },
+  ];
 
   render() {
     const {
       orderId,
-      productsWithQuantity,
+      movies,
       orderDate,
-      updatedProducts,
+      updatedMovies,
       isOpened,
       openSecond,
       openThird,
@@ -141,13 +154,20 @@ export default class EditMovieOrder extends React.Component {
                         boxLabel={"Choose order"}
                         setName={this.setOrderName}
                         isMultiple={false}
+                        data-hook={orderNameHook}
                       />
                     </GridItem>
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
-                    <Button color="info" onClick={this.toggleSecondBox}>
-                      Choose order
-                    </Button>
+                    {orderId && (
+                      <Button
+                        id={"chooseOrder"}
+                        color="info"
+                        onClick={this.toggleSecondBox}
+                      >
+                        Choose order
+                      </Button>
+                    )}
                   </GridContainer>
                 </CardBody>
               )}
@@ -167,8 +187,8 @@ export default class EditMovieOrder extends React.Component {
                     <GridItem xs={12} sm={12} md={15}>
                       <EditTable
                         columns={this.columns}
-                        data={this.state.productsWithQuantity}
-                        setItems={this.setProductsWithQuantity}
+                        data={movies}
+                        setItems={this.setUpdatedMovies}
                         openSecondBox={this.toggleThirdBox}
                       />
                     </GridItem>
@@ -176,8 +196,17 @@ export default class EditMovieOrder extends React.Component {
                 </CardBody>
               )}
               {openThird && (
-                <CardFooter>
-                  <Button color="info" onClick={() => ""}>
+                <CardFooter style={{ justifyContent: "center" }}>
+                  <Button
+                    color="info"
+                    onClick={() =>
+                      this.props.handleEditMovieOrder(
+                        orderId,
+                        orderDate,
+                        updatedMovies
+                      )
+                    }
+                  >
                     Edit Order
                   </Button>
                 </CardFooter>

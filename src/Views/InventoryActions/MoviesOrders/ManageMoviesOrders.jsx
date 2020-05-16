@@ -5,6 +5,7 @@ import ShowIcon from "@material-ui/icons/Visibility";
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import CheckIcon from "@material-ui/icons/Check";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import Card from "../../../Components/Card/Card.js";
@@ -14,26 +15,37 @@ import {
   EditMovieOrder,
   RemoveOrder,
   ShowMovieOrders,
+  ConfirmMovieOrder
 } from "../../index";
 import {
   handleAddMovieOrder,
   handleRemoveOrder,
+  handleConfirmMovieOrder,
+  handleEditMovieOrder
 } from "../../../Handlers/Handlers";
+import {
+  showActionHook,
+  addActionHook,
+  editActionHook,
+  removeActionHook,
+  confirmActionHook
+} from "../../../consts/data-hooks";
+import { isAtLeastDeputyManager } from "../../../consts/permissions";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white",
+  color: "white"
 };
 
 export default class ManageMoviesOrders extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { action: "add" };
+    this.state = { action: "show" };
   }
 
-  onChange = (action) => {
+  onChange = action => {
     this.setState({ action });
   };
 
@@ -54,40 +66,59 @@ export default class ManageMoviesOrders extends React.Component {
                       size="small"
                       onClick={() => this.onChange("show")}
                       style={iconStyle}
+                      data-hook={showActionHook}
                     >
                       <ShowIcon />
                     </Fab>
                   </Tooltip>
-                  <Tooltip title="Add" aria-label="add">
-                    <Fab
-                      color="default"
-                      size="small"
-                      onClick={() => this.onChange("add")}
-                      style={iconStyle}
-                    >
-                      <AddIcon />
-                    </Fab>
-                  </Tooltip>
+                  {isAtLeastDeputyManager(this.props.permission) && (
+                    <>
+                      <Tooltip title="Add" aria-label="add">
+                        <Fab
+                          color="default"
+                          size="small"
+                          onClick={() => this.onChange("add")}
+                          style={iconStyle}
+                          data-hook={addActionHook}
+                        >
+                          <AddIcon />
+                        </Fab>
+                      </Tooltip>
 
-                  <Tooltip title="Edit" aria-label="edit">
-                    <Fab
-                      color="default"
-                      size="small"
-                      onClick={() => this.onChange("edit")}
-                      style={iconStyle}
-                    >
-                      <EditIcon />
-                    </Fab>
-                  </Tooltip>
+                      <Tooltip title="Edit" aria-label="edit">
+                        <Fab
+                          color="default"
+                          size="small"
+                          onClick={() => this.onChange("edit")}
+                          style={iconStyle}
+                          data-hook={editActionHook}
+                        >
+                          <EditIcon />
+                        </Fab>
+                      </Tooltip>
 
-                  <Tooltip title="Delete" aria-label="delete">
+                      <Tooltip title="Delete" aria-label="delete">
+                        <Fab
+                          color="default"
+                          size="small"
+                          onClick={() => this.onChange("delete")}
+                          style={iconStyle}
+                          data-hook={removeActionHook}
+                        >
+                          <DeleteIcon />
+                        </Fab>
+                      </Tooltip>
+                    </>
+                  )}
+                  <Tooltip title="Confirm" aria-label="confirm">
                     <Fab
                       color="default"
                       size="small"
-                      onClick={() => this.onChange("delete")}
+                      onClick={() => this.onChange("confirm")}
                       style={iconStyle}
+                      data-hook={confirmActionHook}
                     >
-                      <DeleteIcon />
+                      <CheckIcon />
                     </Fab>
                   </Tooltip>
                 </GridContainer>
@@ -96,9 +127,16 @@ export default class ManageMoviesOrders extends React.Component {
               {this.state.action === "add" && (
                 <AddMovieOrder handleAddMovieOrder={handleAddMovieOrder} />
               )}
-              {this.state.action === "edit" && <EditMovieOrder />}
+              {this.state.action === "edit" && (
+                <EditMovieOrder handleEditMovieOrder={handleEditMovieOrder} />
+              )}
               {this.state.action === "delete" && (
                 <RemoveOrder handleRemoveOrder={handleRemoveOrder} />
+              )}
+              {this.state.action === "confirm" && (
+                <ConfirmMovieOrder
+                  handleConfirmMovieOrder={handleConfirmMovieOrder}
+                />
               )}
             </Card>
           </GridItem>

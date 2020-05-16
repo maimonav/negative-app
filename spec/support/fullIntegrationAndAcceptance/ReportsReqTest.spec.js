@@ -59,7 +59,7 @@ describe("Report Operations Tests", function() {
     console.log("Database deleted");
   });
 
-  it("createDailyReport req 1.1.12, 2.4, 2.6", async function(done) {
+  it("createDailyReport req 1.1.13, 2.4, 2.6", async function(done) {
     setTimeout(done, 5000);
 
     let user = "admin";
@@ -109,7 +109,7 @@ describe("Report Operations Tests", function() {
     }
   }, 6000);
 
-  it("getReport req 1.1.13, 2.5, 2.7", async function(done) {
+  it("getReport req 1.1.14, 2.5, 2.7", async function(done) {
     setTimeout(done, 5000);
 
     let user = "admin";

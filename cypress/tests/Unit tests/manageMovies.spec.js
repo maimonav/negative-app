@@ -9,6 +9,7 @@ import {
   moviesTabHook,
   keyHook,
   examinationRoomHook,
+  showActionHook,
 } from "../../../src/consts/data-hooks";
 
 const movie = "movie";
@@ -21,9 +22,25 @@ context("Type all fields", () => {
     cy.accessTab(moviesTabHook);
     cy.chooseAction(addActionHook);
 
-    cy.get(`[data-hook=${movieNameHook}`).click().type(movie).type("{esc}");
+    cy.get(`[data-hook=${movieNameHook}`)
+      .click()
+      .type(movie);
 
-    cy.get(`[data-hook=${categoryNameHook}]`).click().type(movie).type("{esc}");
+    cy.get(`[data-hook=${categoryNameHook}]`)
+      .click()
+      .type(movie)
+      .type("{esc}");
+  });
+
+  it("show movie", () => {
+    cy.accessTab(inventoryActionsTabHook);
+    cy.accessTab(moviesTabHook);
+    cy.chooseAction(showActionHook);
+
+    cy.get(`[data-hook=${movieNameHook}`)
+      .click()
+      .type(movie)
+      .type("{esc}");
   });
 
   it("edit movie", () => {
@@ -31,13 +48,23 @@ context("Type all fields", () => {
     cy.accessTab(moviesTabHook);
     cy.chooseAction(editActionHook);
 
-    cy.get(`[data-hook=${movieNameHook}`).click().type(movie).type("{esc}");
+    cy.get(`[data-hook=${movieNameHook}`)
+      .click()
+      .type(movie)
+      .type("{esc}");
 
-    cy.get(`[data-hook=${categoryNameHook}]`).click().type(movie).type("{esc}");
+    cy.get(`[data-hook=${categoryNameHook}]`)
+      .click()
+      .type(movie)
+      .type("{esc}");
 
-    cy.get(`[data-hook=${keyHook}]`).click().type(key);
+    cy.get(`[data-hook=${keyHook}]`)
+      .click()
+      .type(key);
 
-    cy.get(`[data-hook=${examinationRoomHook}]`).click().type(examinationRoom);
+    cy.get(`[data-hook=${examinationRoomHook}]`)
+      .click()
+      .type(examinationRoom);
   });
 
   it("remove movie", () => {
@@ -45,13 +72,21 @@ context("Type all fields", () => {
     cy.accessTab(moviesTabHook);
     cy.chooseAction(removeActionHook);
 
-    cy.get(`[data-hook=${movieNameHook}`).click().type(movie).type("{esc}");
-
-    cy.get(`[data-hook=${actionButtonHook}]`).click();
+    cy.get(`[data-hook=${movieNameHook}`)
+      .click()
+      .type(movie)
+      .type("{esc}");
   });
 });
 
 context("Click all buttons", () => {
+  it("add new movie", () => {
+    cy.accessTab(inventoryActionsTabHook);
+    cy.accessTab(moviesTabHook);
+    cy.chooseAction(addActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+  });
+
   it("edit movie", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(moviesTabHook);

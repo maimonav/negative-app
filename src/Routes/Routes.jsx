@@ -14,14 +14,14 @@ import {
   manageMoviesPath,
   showReportPath,
   manageOrdersPath,
-  manageMoviesOrdersPath,
+  manageMoviesOrdersPath
 } from "../consts/paths";
 
 import {
   handleLogin,
   handleLogout,
   handleEditMovie,
-  handleRemoveMovie,
+  handleRemoveMovie
 } from "../Handlers/Handlers";
 
 import {
@@ -37,7 +37,7 @@ import {
   ShowReport,
   ManageCategories,
   ManageOrders,
-  ManageMoviesOrders,
+  ManageMoviesOrders
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -66,12 +66,15 @@ export default function Routes(props) {
         <Route path={manageSuppliersPath} component={ManageSuppliers} />
       )}
       {props.isLogged && (
-        <Route path={manageInventoryPath} component={ManageInventory} />
+        <Route
+          path={manageInventoryPath}
+          component={() => <ManageInventory {...props} />}
+        />
       )}
       {props.isLogged && (
         <Route
           path={manageCafeteriaOrdersPath}
-          component={ManageCafeteriaOrders}
+          component={() => <ManageCafeteriaOrders {...props} />}
         />
       )}
       {props.isLogged && (
@@ -81,7 +84,10 @@ export default function Routes(props) {
         <Route path={manageOrdersPath} component={ManageOrders} />
       )}
       {props.isLogged && (
-        <Route path={manageMoviesOrdersPath} component={ManageMoviesOrders} />
+        <Route
+          path={manageMoviesOrdersPath}
+          component={() => <ManageMoviesOrders {...props} />}
+        />
       )}
       {props.isLogged && (
         <Route

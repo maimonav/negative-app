@@ -20,13 +20,15 @@ import Button from "../CustomButtons/Button.js";
 
 const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => (
+    <Check id={"check"} {...props} ref={ref} />
+  )),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
   DetailPanel: forwardRef((props, ref) => (
     <ChevronRight {...props} ref={ref} />
   )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <Edit id={"edit"} {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -64,26 +66,28 @@ export default class EditTable extends React.Component {
 
   render() {
     const { columns, data } = this.state;
+    const checkifDone = this.props.data !== this.state.data;
     return (
       <>
         {data && (
           <MaterialTable
-            title="Editable Example"
+            id={"lala"}
+            title="Edit Products Table"
             columns={columns}
             data={data}
             icons={tableIcons}
             editable={{
-              onRowAdd: (newData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    this.setState((prevState) => {
-                      const data = [...prevState.data];
-                      data.push(newData);
-                      return { ...prevState, data };
-                    });
-                  }, 600);
-                }),
+              // onRowAdd: (newData) =>
+              //   new Promise((resolve) => {
+              //     setTimeout(() => {
+              //       resolve();
+              //       this.setState((prevState) => {
+              //         const data = [...prevState.data];
+              //         data.push(newData);
+              //         return { ...prevState, data };
+              //       });
+              //     }, 600);
+              //   }),
               onRowUpdate: (newData, oldData) =>
                 new Promise((resolve) => {
                   setTimeout(() => {
@@ -111,9 +115,15 @@ export default class EditTable extends React.Component {
             }}
           />
         )}
-        <Button color="info" onClick={this.handleOnclick}>
-          Finish Manage Products Quantity
-        </Button>
+        {checkifDone && (
+          <Button
+            id={"editTableButton"}
+            color="info"
+            onClick={this.handleOnclick}
+          >
+            Finish Manage Products Quantity
+          </Button>
+        )}
       </>
     );
   }

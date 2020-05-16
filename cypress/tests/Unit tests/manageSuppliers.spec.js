@@ -7,7 +7,7 @@ import {
   addActionHook,
   editActionHook,
   removeActionHook,
-  suppliersTabHook
+  suppliersTabHook,
 } from "../../../src/consts/data-hooks";
 
 const supplier = "supplier";

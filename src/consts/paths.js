@@ -25,3 +25,4 @@ export const manageOrdersPath = "/manageOrders";
 export const manageMoviesOrdersPath = "/manageMoviesOrders";
 export const editMovieOrderPath = "/editMovieOrder";
 export const showMovieOrdersPath = "/showMovieOrders";
+export const confirmMovieOrderPath = "/confirmMovieOrder";

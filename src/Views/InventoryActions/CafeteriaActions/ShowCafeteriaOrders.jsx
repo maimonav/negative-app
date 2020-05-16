@@ -12,6 +12,8 @@ import {
   handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
 import SimpleTable from "../../../Components/Tables/SimpleTable";
+import moment from "moment";
+import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowCafeteriaOrders extends React.Component {
@@ -24,7 +26,7 @@ export default class ShowCafeteriaOrders extends React.Component {
   }
 
   setInitialState = () => {
-    handleGetCafeteriaOrders(localStorage.getItem("username"))
+    handleGetCafeteriaOrders()
       .then((response) => response.json())
       .then((state) => {
         this.setState({ orders: state.result });
@@ -33,7 +35,7 @@ export default class ShowCafeteriaOrders extends React.Component {
 
   setOrderId = (orderId) => {
     this.setState({ orderId });
-    handleGetOrderDetails(orderId, localStorage.getItem("username"))
+    handleGetOrderDetails(orderId)
       .then((response) => response.json())
       .then((state) => {
         this.setState({ orderId: state.result });
@@ -42,10 +44,12 @@ export default class ShowCafeteriaOrders extends React.Component {
 
   columns = [
     { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "quantity" },
+    { title: "Quantity", field: "expectedQuantity" },
+    { title: "Actual Quantity", field: "actualQuantity" },
   ];
 
   render() {
+    const { orderId } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -62,6 +66,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                     boxLabel={"Choose order"}
                     setName={this.setOrderId}
                     isMultiple={false}
+                    data-hook={orderNameHook}
                   />
                 </GridItem>
                 {this.state.orderId && (
@@ -71,7 +76,9 @@ export default class ShowCafeteriaOrders extends React.Component {
                         id="field1"
                         defaultValue=""
                         label="Order Date"
-                        value={this.state.orderId.orderDate || ""}
+                        value={
+                          moment(orderId.orderDate).format("DD/MM/YYYY") || ""
+                        }
                         InputProps={{
                           readOnly: true,
                         }}
@@ -83,7 +90,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                         id="field2"
                         defaultValue=""
                         label="supplier Details"
-                        value={this.state.orderId.supplierDetails || ""}
+                        value={orderId.supplierDetails || ""}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -91,12 +98,12 @@ export default class ShowCafeteriaOrders extends React.Component {
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
-                      <h3 style={{ margin: "auto" }}>
+                      <h3 style={{ margin: "auto", marginTop: "20px" }}>
                         Order's products details:{" "}
                       </h3>
                       <SimpleTable
                         colums={this.columns}
-                        data={this.state.orderId.products}
+                        data={orderId.products}
                       />
                     </GridItem>
                   </GridContainer>

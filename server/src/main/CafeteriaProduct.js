@@ -40,27 +40,73 @@ class CafeteriaProduct extends Product {
         if (typeof param === "undefined") return false;
         if (param === null) return false;
         if (typeof param === "string" && param === "") return false;
-        if (isQuantityFiled && typeof param === "number" && param < 0) return false;
+        if (!isNaN(param)) {
+            let paramNumbet = parseInt(param);
+            if (paramNumbet < 0)
+                return false;
+        }
         return true;
     }
     quantityCheck(maxQuantity, minQuantity) {
         if (this.isNeedToUpdate(maxQuantity, true)) {
-            if ((this.isNeedToUpdate(minQuantity, false) && maxQuantity <= minQuantity)) {
-                this.writeToLog('info', 'quantityCheck', "The max quntity(" + maxQuantity + ") have to be greater then new min quntity(" + minQuantity + ")");
+            if (
+                this.isNeedToUpdate(minQuantity, false) &&
+                maxQuantity <= minQuantity
+            ) {
+                this.writeToLog(
+                    "info",
+                    "quantityCheck",
+                    "The max quntity(" +
+                    maxQuantity +
+                    ") have to be greater then new min quntity(" +
+                    minQuantity +
+                    ")"
+                );
                 return "The max quntity have to be greater then min quntity";
             }
-            if ((!this.isNeedToUpdate(minQuantity, false) && maxQuantity <= this.minQuantity)) {
-                this.writeToLog('info', 'quantityCheck', "The max quntity(" + maxQuantity + ") have to be greater then current min quntity(" + this.minQuantity + ")");
+            if (!this.isNeedToUpdate(minQuantity, false) &&
+                maxQuantity <= this.minQuantity
+            ) {
+                this.writeToLog(
+                    "info",
+                    "quantityCheck",
+                    "The max quntity(" +
+                    maxQuantity +
+                    ") have to be greater then current min quntity(" +
+                    this.minQuantity +
+                    ")"
+                );
                 return "The max quntity have to be greater then min quntity";
             }
         }
         if (this.isNeedToUpdate(minQuantity, false)) {
-            if ((this.isNeedToUpdate(maxQuantity, true) && maxQuantity <= minQuantity)) {
-                this.writeToLog('info', 'quantityCheck', "The new max quntity(" + maxQuantity + ") have to be greater then min quntity(" + minQuantity + ")");
+            if (
+                this.isNeedToUpdate(maxQuantity, true) &&
+                maxQuantity <= minQuantity
+            ) {
+                this.writeToLog(
+                    "info",
+                    "quantityCheck",
+                    "The new max quntity(" +
+                    maxQuantity +
+                    ") have to be greater then min quntity(" +
+                    minQuantity +
+                    ")"
+                );
                 return "The max quntity have to be greater then min quntity";
             }
-            if ((!this.isNeedToUpdate(maxQuantity, true) && this.maxQuantity <= minQuantity)) {
-                this.writeToLog('info', 'quantityCheck', "The current max quntity(" + this.maxQuantity + ") have to be greater then min quntity(" + minQuantity + ")");
+            if (!this.isNeedToUpdate(maxQuantity, true) &&
+                this.maxQuantity <= minQuantity
+            ) {
+                this.writeToLog(
+                    "info",
+                    "quantityCheck",
+                    "The current max quntity(" +
+                    this.maxQuantity +
+                    ") have to be greater then min quntity(" +
+                    minQuantity +
+                    ")"
+                );
                 return "The max quntity have to be greater then min quntity";
             }
         }
@@ -68,7 +114,7 @@ class CafeteriaProduct extends Product {
     }
     async editProduct(categoryId, price, quantity, maxQuantity, minQuantity) {
         let result = this.quantityCheck(maxQuantity, minQuantity);
-        if (typeof result === 'string') {
+        if (typeof result === "string") {
             return result;
         }
         const backupObj = {
@@ -132,21 +178,49 @@ class CafeteriaProduct extends Product {
     }
 
     async removeProduct() {
-        if (this.isProductRemoved == null) {
-            this.isProductRemoved = new Date();
-            let result = await DataBase.singleUpdate(
-                "cafeteria_product", { id: this.id }, { isProductRemoved: this.isProductRemoved }
-            );
-            if (typeof result === "string") {
-                this.isProductRemoved = null;
-                this.writeToLog("error", "removeProduct", "DB failure " + result);
-                return "The removed operation failed - DB failure";
+            if (this.isProductRemoved == null) {
+                this.isProductRemoved = new Date();
+                let result = await DataBase.singleUpdate(
+                    "cafeteria_product", { id: this.id }, { isProductRemoved: this.isProductRemoved }
+                );
+                if (typeof result === "string") {
+                    this.isProductRemoved = null;
+                    this.writeToLog("error", "removeProduct", "DB failure " + result);
+                    return "The removed operation failed - DB failure";
+                }
+                return true;
             }
-            return true;
+            return "The product already removed";
         }
-        return "The product already removed";
+        /**
+         * Returns the action to update the quantity of products in stock
+         * @param {string} addedQuantity The actual inventory that came in the order.
+         * @returns {Object} The action.
+         **/
+    getConfirmOrderDB(addedQuantity) {
+            let updatedQuantity = this.quantity + parseInt(addedQuantity);
+            return {
+                name: DataBase._update,
+                model: "cafeteria_product",
+                params: {
+                    where: {
+                        id: this.id,
+                    },
+                    element: {
+                        quantity: updatedQuantity,
+                    },
+                },
+            };
+        }
+        /**
+         * Returns the action to update the quantity of products in stock
+         * @param {string} addedQuantity The actual inventory that came in the order.
+         * @returns {Object} The action.
+         **/
+    confirmOrder(addedQuantity) {
+        let updatedQuantity = this.quantity + parseInt(addedQuantity);
+        this.quantity = updatedQuantity;
     }
-
     equals(toCompare) {
         return (
             super.equals(toCompare) &&
