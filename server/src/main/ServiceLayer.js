@@ -1226,5 +1226,9 @@ class ServiceLayer {
       this.categories.get(categoryName)
     );
   }
+
+  getGeneralDailyReportProps() {
+    return this.cinemaSystem.getGeneralDailyReportProps();
+  }
 }
 module.exports = ServiceLayer;

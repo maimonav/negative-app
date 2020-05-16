@@ -27,13 +27,15 @@ class CinemaSystem {
           let propName = keys[i];
           record[propName] = record.additionalProps[1][propName];
         }
-        record.props = ReportController._generalDailyReoprtFormat;
+        record.props = this.getGeneralDailyReportProps();
         record = this.employeeAndDateConvertion(record);
         return record;
       },
       incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
     };
   }
+
+  getGeneralDailyReportProps = () => ReportController._generalDailyReoprtFormat;
 
   creatorEmployeeConvertion(record) {
     if (record.creatorEmployeeId !== null) {
