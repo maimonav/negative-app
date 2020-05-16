@@ -17,14 +17,10 @@ class ServiceLayer {
     this.orders = new Map();
     this.ordersCounter = 0;
     this.convertionMethods = {
-      inventory_daily_report: (records) => {
+      inventory_daily_report: (records, user, date) => {
         for (let i in records) {
           let record = records[i];
-          if (
-            !record.productName ||
-            !record.creatorEmployeeUsername ||
-            !record.date
-          ) {
+          if (!record.productName) {
             logger.info(
               "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content is invalid"
             );
@@ -33,11 +29,8 @@ class ServiceLayer {
 
           let validationResult = !this._isInputValid(record.productName)
             ? "Product Name is not valid"
-            : !this._isInputValid(record.creatorEmployeeUsername)
-            ? "Creator Employee Username is not valid"
-            : !this._isInputValid(record.date)
-            ? "Date is not valid"
-            : "Valid";
+            : !this._isInputValid(record.date);
+          ("Valid");
           if (validationResult !== "Valid") {
             logger.info(
               "ServiceLayer- ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
@@ -45,8 +38,6 @@ class ServiceLayer {
             );
             return validationResult;
           }
-          record = this._employeeConvertion(record);
-          if (typeof record === "string") return record;
           if (!this.products.has(record.productName)) {
             logger.info(
               "ServiceLayer - convertionMethods[inventory_daily_report] - The product " +
@@ -57,49 +48,26 @@ class ServiceLayer {
           }
           record.productId = this.products.get(record.productName);
           delete record.productName;
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
           records[i] = record;
         }
         return records;
       },
-      general_purpose_daily_report: (records) => {
+      general_purpose_daily_report: (records, user, date) => {
         for (let i in records) {
           let record = records[i];
-          if (!record.creatorEmployeeUsername || !record.date) {
-            logger.info(
-              "ServiceLayer - createDailyReport - convertionMethods[general_purpose_daily_report] - Report content is invalid"
-            );
-            return "Report content is invalid";
-          }
-          let validationResult = !this._isInputValid(record.creatorEmployeeName)
-            ? "Creator Employee Username is not valid"
-            : !this._isInputValid(record.date)
-            ? "Date is not valid"
-            : "Valid";
-          if (validationResult !== "Valid") {
-            logger.info(
-              "ServiceLayer- ServiceLayer - createDailyReport - convertionMethods[general_purpose_daily_report] - ",
-              validationResult
-            );
-            return validationResult;
-          }
-
-          record = this._employeeConvertion(record);
-          if (typeof record === "string") return record;
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
           records[i] = record;
         }
         return records;
       },
-      incomes_daily_report: (records) => {
+      incomes_daily_report: (records, user, date) => {
         for (let i in records) {
           let record = records[i];
-          if (!record.creatorEmployeeUsername || !record.date) {
-            logger.info(
-              "ServiceLayer - createDailyReport - convertionMethods[incomes_daily_report] - Report content is invalid"
-            );
-            return "Report content is invalid";
-          }
-          record = this._employeeConvertion(record);
-          if (typeof record === "string") return record;
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
           records[i] = record;
         }
         return records;
@@ -121,20 +89,6 @@ class ServiceLayer {
   _isInputValid(param) {
     if (param === undefined || param === "") return false;
     return true;
-  }
-
-  _employeeConvertion(record) {
-    if (!this.users.has(record.creatorEmployeeUsername)) {
-      logger.info(
-        "ServiceLayer - _employeeConvertion - The user " +
-          record.creatorEmployeeUsername +
-          " does not exists in the system."
-      );
-      return "The user does not exist.";
-    }
-    record.creatorEmployeeId = this.users.get(record.creatorEmployeeUsername);
-    delete record.creatorEmployeeUsername;
-    return record;
   }
 
   async register(userName, password) {
@@ -1318,8 +1272,10 @@ class ServiceLayer {
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(string)} Success or failure
    */
-  async createDailyReport(reports, ActionIDOfTheOperation) {
-    let validationResult = !this._isInputValid(reports)
+  async createDailyReport(date, reports, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(reports)
       ? "Reports is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -1337,6 +1293,13 @@ class ServiceLayer {
       return "The user performing the operation does not exist in the system";
     }
     reports = JSON.parse(reports);
+    if (reports.length === 0) {
+      logger.info(
+        "ServiceLayer - createDailyReport - action failed - empty input reports:",
+        reports
+      );
+      return "Invalid report - missing information";
+    }
     for (let i in reports) {
       let report = reports[i];
       let type = report.type;
@@ -1355,7 +1318,11 @@ class ServiceLayer {
         );
         return "Report content is invalid";
       }
-      report = this.convertionMethods[report.type](report.content);
+      report = this.convertionMethods[report.type](
+        report.content,
+        ActionIDOfTheOperation,
+        date
+      );
       if (typeof report === "string") {
         return report;
       }

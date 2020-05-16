@@ -915,13 +915,6 @@ class CinemaSystem {
       );
       return "Cannot create report - creator employee id is not exist";
     }
-    if (reports.length === 0) {
-      logger.info(
-        "CinemaSystem - createDailyReport - action failed - empty input reports:",
-        reports
-      );
-      return "Invalid report - missing information";
-    }
     for (let i in reports) {
       let report = reports[i];
       let type = report.type;
