@@ -34,7 +34,7 @@ describe("Init System Tests", function() {
     try {
       await DB.sequelize.query("use " + dbName + ";");
       let result = await DB.sequelize.query("show tables in " + dbName + ";");
-      expect(result[0].length).toBe(13);
+      expect(result[0].length).toBe(14);
     } catch (error) {
       fail("Tables creation test" + error);
     }
@@ -52,7 +52,7 @@ describe("Init System Tests", function() {
     try {
       await DB.sequelize.query("use " + dbName + ";");
       let result = await DB.sequelize.query("show events in " + dbName + ";");
-      expect(result[0].length).toBe(13);
+      expect(result[0].length).toBe(14);
     } catch (error) {
       fail("Tables creation test" + error);
     }
