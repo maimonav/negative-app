@@ -29,11 +29,10 @@ class ServiceLayer {
 
           let validationResult = !this._isInputValid(record.productName)
             ? "Product Name is not valid"
-            : !this._isInputValid(record.date);
-          ("Valid");
+            : "Valid";
           if (validationResult !== "Valid") {
             logger.info(
-              "ServiceLayer- ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
+              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
               validationResult
             );
             return validationResult;
@@ -1304,6 +1303,7 @@ class ServiceLayer {
       let report = reports[i];
       let type = report.type;
       let content = report.content;
+      console.log("empty content", report);
       if (!type || !this.cinemaSystem.isValidReportType(type)) {
         logger.info(
           "ServiceLayer - createDailyReport - The requested report type " +
