@@ -18,6 +18,7 @@ const {
   orderSchema,
   userSchema,
   employeeSchema,
+  notificationSchema,
 } = require("./Models");
 const Sequelize = require("sequelize");
 const mysql = require("mysql2");
@@ -102,6 +103,12 @@ async function _setDestroyTimerForAllTables() {
     deleteTime: "1 YEAR",
     eventTime: "1 DAY",
   };
+  let notificationObj = {
+    table: "notifications",
+    afterCreate: true,
+    deleteTime: "1 MONTH",
+    eventTime: "1 DAY",
+  };
   return DataBase.executeActions([
     { name: DataBase._setDestroyTimer, params: userObj },
     { name: DataBase._setDestroyTimer, params: employeeObj },
@@ -116,6 +123,7 @@ async function _setDestroyTimerForAllTables() {
     { name: DataBase._setDestroyTimer, params: incomesReportObj },
     { name: DataBase._setDestroyTimer, params: inventoryReportObj },
     { name: DataBase._setDestroyTimer, params: generalReportObj },
+    { name: DataBase._setDestroyTimer, params: notificationObj },
   ]);
 }
 
@@ -171,6 +179,7 @@ async function initDB(dbName, password) {
     inventory_daily_report: DataBase.InventoryDailyReport,
     movie_daily_report: DataBase.MoviesDailyReport,
     incomes_daily_report: DataBase.IncomesDailyReport,
+    notification: DataBase.Notification,
   };
 
   try {
@@ -393,6 +402,11 @@ function _initModels() {
   DataBase.IncomesDailyReport = DataBase.sequelize.define(
     "incomes_daily_report",
     incomesDailyReportSchema(DataBase.Employee),
+    {}
+  );
+  DataBase.Notification = DataBase.sequelize.define(
+    "notification",
+    notificationSchema(DataBase.User),
     {}
   );
 }
