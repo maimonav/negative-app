@@ -126,6 +126,9 @@ export default class AddProduct extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                       }}
+                      inputProps={{
+                        type: "number",
+                      }}
                       onChange={(event) => this.setProuctPrice(event)}
                       data-hook={productPriceHook}
                     />
@@ -138,6 +141,9 @@ export default class AddProduct extends React.Component {
                       id="productQuantity"
                       formControlProps={{
                         fullWidth: true,
+                      }}
+                      inputProps={{
+                        type: "number",
                       }}
                       onChange={(event) => this.setProuctQuantity(event)}
                       data-hook={productQuantityHook}
@@ -152,6 +158,9 @@ export default class AddProduct extends React.Component {
                       formControlProps={{
                         fullWidth: true,
                       }}
+                      inputProps={{
+                        type: "number",
+                      }}
                       onChange={(event) => this.setMaxQuantity(event)}
                       data-hook={productMaxQuantityHook}
                     />
@@ -164,6 +173,9 @@ export default class AddProduct extends React.Component {
                       id="productMinQuantity"
                       formControlProps={{
                         fullWidth: true,
+                      }}
+                      inputProps={{
+                        type: "number",
                       }}
                       onChange={(event) => this.setMinQuantity(event)}
                       data-hook={productMinQuantityHook}

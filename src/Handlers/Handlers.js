@@ -148,6 +148,17 @@ export function handleAddProduct(
   minQuantity,
   productCategory
 ) {
+  if (
+    productName === "" ||
+    productPrice === "" ||
+    productQuantity === "" ||
+    maxQuantity === "" ||
+    minQuantity === "" ||
+    productCategory === ""
+  ) {
+    alert("All product fields are required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/addNewProduct?productName=${encodeURIComponent(
@@ -187,6 +198,10 @@ export function handleEditProduct(
   minQuantity,
   productCategory
 ) {
+  if (productName === "") {
+    alert("Product name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/editProduct?productName=${encodeURIComponent(
@@ -214,6 +229,10 @@ export function handleEditProduct(
  * @returns void
  */
 export function handleRemoveProduct(productName) {
+  if (productName === "") {
+    alert("Product name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/removeProduct?productName=${encodeURIComponent(productName)}
@@ -226,13 +245,21 @@ export function handleRemoveProduct(productName) {
 }
 
 /**
- * Handle add new product to system
+ * Handle add new movies to system
  * @param {string} orderDate
  * @param {string} supplierName
  * @param {string} moviesName
  * @returns void
  */
 export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
+  if (moviesName === "") {
+    alert("Movie name is required");
+    return;
+  }
+  if (supplierName === "") {
+    alert("Supplier name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   const date = moment(orderDate).format("MMMM Do YYYY, h:mm:ss a");
   const orderId = `${user} - ${date}`;
@@ -256,6 +283,14 @@ export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
  * @returns void
  */
 export function handleAddMovie(movieName, category) {
+  if (movieName === "") {
+    alert("movie name is required");
+    return;
+  }
+  if (category === "") {
+    alert("category is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/addMovie?movieName=${encodeURIComponent(
@@ -279,6 +314,10 @@ export function handleAddMovie(movieName, category) {
  * @returns void
  */
 export function handleEditMovie(movieName, category, key, examinationRoom) {
+  if (movieName === "") {
+    alert("movie name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/editMovie?movieName=${encodeURIComponent(
@@ -299,6 +338,10 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
  * @param {string} movieName
  */
 export function handleRemoveMovie(movieName) {
+  if (movieName === "") {
+    alert("movie name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/removeMovie?movieName=${encodeURIComponent(

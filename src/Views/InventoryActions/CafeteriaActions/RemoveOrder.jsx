@@ -100,7 +100,7 @@ export default class RemoveOrder extends React.Component {
                   </GridContainer>
                 )}
               </CardBody>
-              {isOpened && (
+              {orderName && (
                 <CardFooter>
                   <Button
                     id={"removeOrder"}
