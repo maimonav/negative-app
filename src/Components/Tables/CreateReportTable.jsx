@@ -3,6 +3,7 @@ import MaterialTable from "material-table";
 import ComboBox from "../../Components/AutoComplete";
 import CustomInput from "../../Components/CustomInput/CustomInput.js";
 import { tableIcons } from "./EditTable";
+import { handleGetCafeteriaProducts } from "../../Handlers/Handlers";
 
 export default class CreateReportTable extends React.Component {
   constructor(props) {
@@ -11,7 +12,16 @@ export default class CreateReportTable extends React.Component {
       data: [],
       columns: this.props.columns
     };
+    this.setInitialState();
   }
+
+  setInitialState = () => {
+    handleGetCafeteriaProducts()
+      .then(response => response.json())
+      .then(state => {
+        this.setState({ products: state.result });
+      });
+  };
 
   setProductName = productName => {
     this.setState({ productName });
@@ -57,7 +67,7 @@ export default class CreateReportTable extends React.Component {
             >
               <ComboBox
                 id="product"
-                items={[{ title: "milk" }]}
+                items={this.state.products}
                 boxLabel={"Choose product"}
                 setName={this.setProductName}
                 isMultiple={false}
