@@ -73,6 +73,10 @@ class Order {
      * @returns {Promise(string)} Success or failure string
      **/
     async editOrder(date, supplierId, productsList) {
+            if (typeof this.recipientEmployeeId === 'number') {
+                this.writeToLog('info', 'editOrder', 'Edit of order ' + this.name + ' fail- You cannot edit a previously approved order.')
+                return 'Edit of order ' + this.name + ' fail- You cannot edit a previously approved order.';
+            }
             let productOrderIdSet = new Set();
             productsList.forEach((product) => {
                 productOrderIdSet.add(product.id)
@@ -204,10 +208,24 @@ class Order {
          * @returns {Promise(string)} Success or failure string
          **/
     async confirmOrder(productList, recipientEmployeeId) {
+        if (typeof this.recipientEmployeeId === 'number') {
+            this.writeToLog('info', 'confirmOrder', 'Confirm of order ' + this.name + ' fail- You cannot re-confirm order.')
+            return 'Confirm of order ' + this.name + ' fail- You cannot re-confirm order.';
+        }
         let numOfProduct = this.productOrders.size;
-        //Checks whether all ordered products were accepted within the list
+        //Test parameters are correct
+        let problematicProductID;
         productList.forEach((product) => {
             if (this.productOrders.has(product.id)) numOfProduct--;
+            if (this.productOrders.get(product.id) instanceof CafeteriaProductOrder) {
+                if (product.actualQuantity < 0) problematicProductID = product.id;
+            } else {
+                if (typeof product.examinationRoom === 'undefined' || product.examinationRoom === null || typeof product.examinationRoom === '' ||
+                    typeof product.key === 'undefined' || product.key === null || typeof product.key === '')
+                    problematicProductID = product.id;
+
+            }
+
         });
         if (numOfProduct > 0) {
             this.writeToLog(
@@ -216,6 +234,10 @@ class Order {
                 "No status was received for all order products"
             );
             return "No status was received for all order products";
+        }
+        if (typeof problematicProductID !== 'undefined') {
+            this.writeToLog('indo', 'confirmOrder', 'Not all parameters required for product or film approval were accepted')
+            return 'Not all parameters required for product or film approval were accepted';
         }
         //Database actions
         let DBActionList = [{

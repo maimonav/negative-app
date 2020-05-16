@@ -40,7 +40,11 @@ class CafeteriaProduct extends Product {
         if (typeof param === "undefined") return false;
         if (param === null) return false;
         if (typeof param === "string" && param === "") return false;
-        if (isQuantityFiled && typeof param === "number" && param < 0) return false;
+        if (!isNaN(param)) {
+            let paramNumbet = parseInt(param);
+            if (paramNumbet < 0)
+                return false;
+        }
         return true;
     }
     quantityCheck(maxQuantity, minQuantity) {
