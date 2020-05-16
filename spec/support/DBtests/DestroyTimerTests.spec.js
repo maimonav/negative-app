@@ -1,4 +1,10 @@
-const { addEmployee, removeEmployee } = require("./UserEmployeeTests.spec");
+const {
+  addUser,
+  addEmployee,
+  removeEmployee,
+} = require("./UserEmployeeTests.spec");
+const { addNotificationAfterUser } = require("./NotificationTests.spec");
+
 const {
   addIncomesDailyReport,
   addMoviesDailyReport,
@@ -21,7 +27,7 @@ const {
 } = require("./OrdersTests.spec");
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 
-async function getReport(model, where, isRecordExists, failMsg) {
+async function getRecord(model, where, isRecordExists, failMsg) {
   await DB.singleGetById(model, where).then((result) => {
     let cond = isRecordExists ? result == null : result != null;
     if (cond) fail(failMsg);
@@ -250,6 +256,23 @@ describe("DB Test - destroy timer", function() {
       done
     );
   });
+
+  it("delete notification after time test", async function(done) {
+    await addUser();
+    let date = new Date();
+    await addNotificationAfterUser(date);
+    await deleteModel(
+      "notification",
+      "notifications",
+      true,
+      {
+        recipientUserId: 0,
+        timeFired: date,
+      },
+      6000,
+      done
+    );
+  });
 });
 async function deleteModel(model, table, afterCreate, where, time, done, prop) {
   setTimeout(done, time);
@@ -260,10 +283,10 @@ async function deleteModel(model, table, afterCreate, where, time, done, prop) {
     "1 SECOND",
     prop
   );
-  await getReport(model, where, true, table + " - before event failed").then(
+  await getRecord(model, where, true, table + " - before event failed").then(
     async () => {
       setTimeout(async function() {
-        await getReport(model, where, false, table + " - after event failed");
+        await getRecord(model, where, false, table + " - after event failed");
       }, 4000);
     }
   );
