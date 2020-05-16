@@ -196,7 +196,7 @@ class NotificationController {
           element: {
             recipientUserId: userId,
             timeFired: timeFired,
-            seen: seenFalg,
+            seen: seenFlag,
             content: notificationContent,
           },
         },
