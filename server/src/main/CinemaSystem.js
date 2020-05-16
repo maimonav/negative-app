@@ -14,14 +14,14 @@ class CinemaSystem {
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
     this.toUserConvertionMethods = {
-      inventory_daily_report: async record => {
+      inventory_daily_report: async (record) => {
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      general_purpose_daily_report: async record => {
+      general_purpose_daily_report: async (record) => {
         let keys = Object.keys(record.propsObject);
         for (let i in keys) {
           let propName = keys[i];
@@ -31,18 +31,18 @@ class CinemaSystem {
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      incomes_daily_report: async record =>
-        this.employeeAndDateConvertion(record)
+      incomes_daily_report: async (record) =>
+        this.employeeAndDateConvertion(record),
     };
     this.toDBConvertionMethods = {
-      inventory_daily_report: async records => {
+      inventory_daily_report: async (records) => {
         for (let i in records) {
           let record = records[i];
           if (
             !record.quantitySold ||
             !record.stockThrown ||
-            !Number.isInteger(record.quantitySold) ||
-            !Number.isInteger(record.stockThrown)
+            isNaN(parseInt(record.quantitySold)) ||
+            isNaN(parseInt(record.stockThrown))
           ) {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
@@ -76,7 +76,7 @@ class CinemaSystem {
           record.quantityInStock = currentQuantity;
         }
       },
-      general_purpose_daily_report: async records => {
+      general_purpose_daily_report: async (records) => {
         let props = await this.getGeneralReportProps();
         if (typeof props === "string") return props;
         for (let i in records) {
@@ -98,24 +98,24 @@ class CinemaSystem {
           records[i] = record;
         }
       },
-      incomes_daily_report: async records => {
+      incomes_daily_report: async (records) => {
         for (let i in records) {
           let record = records[i];
           if (
             !record.numOfTabsSales ||
-            !Number.isInteger(record.numOfTabsSales) ||
+            isNaN(parseInt(record.numOfTabsSales)) ||
             !record.cafeteriaCashRevenues ||
-            isNaN(record.cafeteriaCashRevenues) ||
+            isNaN(parseFloat(record.cafeteriaCashRevenues)) ||
             !record.cafeteriaCreditCardRevenues ||
-            isNaN(record.cafeteriaCreditCardRevenues) ||
+            isNaN(parseFloat(record.cafeteriaCreditCardRevenues)) ||
             !record.ticketsCashRevenues ||
-            isNaN(record.ticketsCashRevenues) ||
+            isNaN(parseFloat(record.ticketsCashRevenues)) ||
             !record.ticketsCreditCardRevenues ||
-            isNaN(record.ticketsCreditCardRevenues) ||
+            isNaN(parseFloat(record.ticketsCreditCardRevenues)) ||
             !record.tabsCashRevenues ||
-            isNaN(record.tabsCashRevenues) ||
+            isNaN(parseFloat(record.tabsCashRevenues)) ||
             !record.tabsCreditCardRevenues ||
-            isNaN(record.tabsCreditCardRevenues)
+            isNaN(parseFloat(record.tabsCreditCardRevenues))
           ) {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
@@ -138,11 +138,11 @@ class CinemaSystem {
           }
         }
         return records;
-      }
+      },
     };
   }
 
-  isValidReportType = type => ReportController._isValidType(type);
+  isValidReportType = (type) => ReportController._isValidType(type);
 
   getGeneralReportProps = async () =>
     ReportController.getCurrentGeneralDailyReoprtFormat();
@@ -919,10 +919,9 @@ class CinemaSystem {
       let report = reports[i];
       let type = report.type;
       let content = report.content;
-      console.log("type", type);
       report = await this.toDBConvertionMethods[type](content);
-      if (typeof report === "string") {
-        return report;
+      if (typeof record === "string") {
+        return record;
       }
       reports[i] = report;
     }
