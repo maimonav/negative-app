@@ -16,6 +16,12 @@ export default function ComboBox(props) {
     setValue(newValue);
   };
 
+  React.useEffect(() => {
+    if (props.clearField === true) {
+      setValue("");
+    }
+  }, [props.clearField]);
+
   return (
     <>
       {!props.isMultiple && (
@@ -40,12 +46,7 @@ export default function ComboBox(props) {
           getOptionLabel={(option) => option.title}
           filterSelectedOptions
           renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              label={props.boxLabel}
-              placeholder="Favorites"
-            />
+            <TextField {...params} variant="outlined" label={props.boxLabel} />
           )}
           onChange={handleMultipleChange}
         />
