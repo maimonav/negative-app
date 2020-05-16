@@ -38,10 +38,6 @@ export default class AddCategory extends React.Component {
     this.setState({ categoryName: event.target.value });
   }
 
-  // setCategoryParentName(event) {
-  //   this.setState({ parentName: event.target.value });
-  // }
-
   setCategoryParentName = (name) => {
     this.setState({ parentName: name });
   };
@@ -65,6 +61,9 @@ export default class AddCategory extends React.Component {
                       id="categoryName"
                       formControlProps={{
                         fullWidth: true,
+                      }}
+                      inputProps={{
+                        type: "string",
                       }}
                       onChange={(event) => this.setCategoryName(event)}
                       data-hook={categoryNameHook}
