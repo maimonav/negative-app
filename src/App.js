@@ -12,14 +12,14 @@ class App extends React.Component {
 
   setInitialState = () => {
     const user = localStorage.getItem("username");
+    const permission = localStorage.getItem("permission");
     if (user) {
       handleIsLoggedIn(user)
         .then(response => response.json())
         .then(state => {
           const isLogged = Boolean(state.result);
           const username = isLogged ? user : "";
-          this.setState({ isLogged, username });
-          localStorage.setItem("username", username);
+          this.setState({ isLogged, username, permission });
         });
     }
   };
@@ -34,6 +34,7 @@ class App extends React.Component {
   onLogin = (username, permission) => {
     this.setState({ isLogged: true, username, permission });
     localStorage.setItem("username", username);
+    localStorage.setItem("permission", permission);
   };
 
   /**
@@ -44,10 +45,11 @@ class App extends React.Component {
   onLogout = () => {
     this.setState({
       isLogged: false,
-      userName: undefined,
+      username: undefined,
       permission: undefined
     });
     localStorage.setItem("username", "");
+    localStorage.setItem("permission", "");
   };
 
   render() {

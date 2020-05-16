@@ -63,18 +63,16 @@ export default function InventoryActionsDropDownTab(props) {
         }}
       >
         {isAtLeastShiftManager(props.permission) && (
-          <Link to={manageInventoryPath} style={style}>
-            <MenuItem value={1} onClick={handleClose} style={menuStyle}>
-              <Tab
-                label="Manage Inventory"
-                style={{ textTransform: "none" }}
-                data-hook={inventoryTabHook}
-              />
-            </MenuItem>
-          </Link>
-        )}
-        {isAtLeastDeputyManager(props.permission) && (
           <>
+            <Link to={manageInventoryPath} style={style}>
+              <MenuItem value={1} onClick={handleClose} style={menuStyle}>
+                <Tab
+                  label="Manage Inventory"
+                  style={{ textTransform: "none" }}
+                  data-hook={inventoryTabHook}
+                />
+              </MenuItem>
+            </Link>
             <Link to={manageOrdersPath} style={style}>
               <MenuItem value={1} onClick={handleClose} style={menuStyle}>
                 <Tab
@@ -84,6 +82,10 @@ export default function InventoryActionsDropDownTab(props) {
                 />
               </MenuItem>
             </Link>
+          </>
+        )}
+        {isAtLeastDeputyManager(props.permission) && (
+          <>
             <Link to={manageMoviesPath} style={style}>
               <MenuItem
                 value={1}
