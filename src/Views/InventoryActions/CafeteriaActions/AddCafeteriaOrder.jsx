@@ -160,7 +160,7 @@ export default class AddCafeteriaOrder extends React.Component {
               )}
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={4}>
                     <ComboBox
                       id={"supplierName"}
                       items={this.state.suppliers}
