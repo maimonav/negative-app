@@ -31,6 +31,7 @@ import RemoveCategory from "./InventoryActions/CategoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 import ShowReport from "./ReportsActions/ShowReport";
+import CreateDailyReport from "./ReportsActions/CreateDailyReport";
 import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
 import ManageOrders from "./InventoryActions/CafeteriaActions/ManageOrders";
 import ManageMoviesOrders from "./InventoryActions/MoviesOrders/ManageMoviesOrders";
@@ -73,11 +74,12 @@ export {
   RemoveCategory,
   EditCafeteriaOrder,
   ShowReport,
+  CreateDailyReport,
   ConfirmCafeteriaOrder,
   ManageOrders,
   ManageMoviesOrders,
   AddMovieOrder,
   EditMovieOrder,
   ShowMovieOrders,
-  ConfirmMovieOrder,
+  ConfirmMovieOrder
 };

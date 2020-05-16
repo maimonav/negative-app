@@ -71,7 +71,7 @@ class ServiceLayer {
           records[i] = record;
         }
         return records;
-      },
+      }
     };
   }
 
@@ -995,7 +995,7 @@ class ServiceLayer {
       supplierID = this.suppliers.get(supplierName);
     let problemticProductName;
     let problematicQuantityName;
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       if (!this.products.has(product.name)) {
         logger.info(
           "ServiceLayer- editOrder - The product " +
@@ -1071,7 +1071,7 @@ class ServiceLayer {
     }
     let problemticProductName;
     let problematicQuantityName;
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       if (!this.products.has(product.name)) {
         logger.info(
           "ServiceLayer- confirmOrder - The product " +
