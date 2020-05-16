@@ -31,8 +31,8 @@ export default class CreateReportTable extends React.Component {
     this.setState({ quantitySold: event.target.value });
   }
 
-  setQuantityThrown(event) {
-    this.setState({ quantityThrown: event.target.value });
+  setStockThrown(event) {
+    this.setState({ stockThrown: event.target.value });
   }
 
   onRowAdd = () => {
@@ -42,7 +42,7 @@ export default class CreateReportTable extends React.Component {
         data.push({
           productName: this.state.productName,
           quantitySold: this.state.quantitySold,
-          quantityThrown: this.state.quantityThrown
+          stockThrown: this.state.stockThrown
         });
         const result = { ...prevState, data };
         this.props.onChangeInventoryData(result.data);
@@ -86,12 +86,12 @@ export default class CreateReportTable extends React.Component {
               </div>
               <div style={{ marginLeft: "30px" }}>
                 <CustomInput
-                  labelText="Quantity thrown"
-                  id="quantityThrown"
+                  labelText="Stock thrown"
+                  id="stockThrown"
                   formControlProps={{
                     fullWidth: true
                   }}
-                  onChange={event => this.setQuantityThrown(event)}
+                  onChange={event => this.setStockThrown(event)}
                   data-hook={""}
                 />
               </div>

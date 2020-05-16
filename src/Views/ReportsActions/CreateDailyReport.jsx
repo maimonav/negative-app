@@ -17,7 +17,7 @@ const columns = [
     title: "Quantity sold",
     field: "quantitySold"
   },
-  { title: "Quantity thrown", field: "quantityThrown" }
+  { title: "Stock thrown", field: "stockThrown" }
 ];
 
 const style = { justifyContent: "center", top: "auto" };
