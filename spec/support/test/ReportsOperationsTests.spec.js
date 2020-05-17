@@ -90,10 +90,12 @@ describe("Report Operations Tests", () => {
       "create report"
     );
     cinemaSystem.employeeManagement.employeeDictionary.set(1, null);
+    spyOn(ReportController, "createDailyReport").and.returnValue("test");
+
     await testInventoryTypeCinemaSystem(cinemaSystem);
     await testIncomesTypeCinemaSystem(cinemaSystem);
-    await testGeneralTypeCinemaSystem(cinemaSystem);
   });
+
   it("UnitTest  getReport - Cinema System", async () => {
     let cinemaSystem = new CinemaSystem();
     await testCinemaFunctions(cinemaSystem, async () =>
@@ -140,87 +142,51 @@ describe("Report Operations Tests", () => {
 
   it("Integration createDailyReport", async () => {
     let serviceLayer = new ServiceLayer();
-    let reports = [];
+    let date = new Date().toISOString();
+    let reports = [
+      {
+        type: "incomes_daily_report",
+        content: [
+          {
+            numOfTabsSales: "2",
+            cafeteriaCashRevenues: "2.2",
+            cafeteriaCreditCardRevenues: "5.5",
+            ticketsCashRevenues: "4",
+            ticketsCreditCardRevenues: "3",
+            tabsCashRevenues: "0",
+            tabsCreditCardRevenues: "0",
+          },
+        ],
+      },
+      {
+        type: "inventory_daily_report",
+        content: [
+          {
+            productName: "Product",
+            quantitySold: "2",
+            stockThrown: "4",
+          },
+        ],
+      },
+    ];
     serviceLayer.users.set("User", 1);
-    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.createDailyReport(JSON.stringify(reports), "User")
-    );
+    serviceLayer.products.set("Product", 0);
 
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
-    serviceLayer.cinemaSystem.users.set(1, user);
-    let result = await serviceLayer.createDailyReport(
-      JSON.stringify(reports),
-      "User"
-    );
-    expect(result).toBe(
-      "Cannot create report - creator employee id is not exist"
+    await testCinemaFunctions(
+      serviceLayer.cinemaSystem,
+      () =>
+        serviceLayer.createDailyReport(date, JSON.stringify(reports), "User"),
+      true,
+      "create report"
     );
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       1,
       null
     );
-
+    product = new CafeteriaProduct(0, "Product", 1, 1, 7, 12, 2);
+    serviceLayer.cinemaSystem.inventoryManagement.products.set(0, product);
     result = await serviceLayer.createDailyReport(
-      JSON.stringify(reports),
-      "User"
-    );
-    expect(result).toBe("Invalid report - missing information");
-
-    reports = reports.concat({ type: "type" });
-    result = await serviceLayer.createDailyReport(
-      JSON.stringify(reports),
-      "User"
-    );
-    expect(result).toBe("Requested report type is invalid");
-    ReportController._currentGeneralDailyReoprtFormat = [
-      "Cash Counted",
-      "Report Z Taken",
-    ];
-    let todayDate = new Date();
-    reports = [
-      {
-        type: "inventory_daily_report",
-        content: [
-          {
-            date: todayDate,
-            productName: "Product",
-            creatorEmployeeName: "User",
-            quantitySold: "4",
-            //quantityInStock: "8",
-            stockThrown: "8",
-          },
-        ],
-      },
-      {
-        type: "incomes_daily_report",
-        content: [
-          {
-            date: todayDate,
-            creatorEmployeeName: "User",
-            numOfTabsSales: "0",
-            cafeteriaCashRevenues: "20.0",
-            cafeteriaCreditCardRevenues: "20.0",
-            ticketsCashRevenues: "20.0",
-            ticketsCreditCardRevenues: "20.0",
-            tabsCashRevenues: "20.0",
-            tabsCreditCardRevenues: "20.0",
-          },
-        ],
-      },
-      {
-        type: "general_purpose_daily_report",
-        content: [
-          {
-            date: todayDate,
-            creatorEmployeeName: "User",
-            "Cash Counted": true,
-            "Report Z Taken": true,
-          },
-        ],
-      },
-    ];
-
-    result = await serviceLayer.createDailyReport(
+      date,
       JSON.stringify(reports),
       "User"
     );
@@ -278,6 +244,13 @@ async function testInventoryTypeServiceLayer(reports, serviceLayer, date) {
       serviceLayer.createDailyReport(date, JSON.stringify(reports), "User"),
     "The product does not exist."
   );
+  serviceLayer.products.set("Product", null);
+  reports[0].content = [{ productName: "Product" }, { productName: "Product" }];
+  await testFunctions(
+    async () =>
+      serviceLayer.createDailyReport(date, JSON.stringify(reports), "User"),
+    "Cannot add the same product more than once to invetory report."
+  );
 }
 
 async function testIncomesAndGeneralTypeServiceLayer(
@@ -320,8 +293,6 @@ async function testConvertionForAllTypesServiceLayer(
 }
 
 async function testInventoryTypeCinemaSystem(cinemaSystem) {
-  spyOn(ReportController, "createDailyReport").and.returnValue("test");
-
   let reports = [{ type: "inventory_daily_report", content: [{}] }];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
@@ -335,14 +306,15 @@ async function testInventoryTypeCinemaSystem(cinemaSystem) {
   reports[0].content = [{ quantitySold: "2", stockThrown: "-4" }];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
-    "Negative numbers are invalid"
+    "Only non-negative numbers are allowed in inventory report"
   );
   let product = new CafeteriaProduct(0, "product", 1, 1, 4, 12, 2);
   cinemaSystem.inventoryManagement.products.set(0, product);
   reports[0].content = [{ productId: 0, quantitySold: "2", stockThrown: "4" }];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
-    "lalalalala" //todo:: edit product failed
+    "Problem occurred while editing products quantities (you should check the quantity in stock).\n" +
+      "Quantity must be graeter or equal to 0"
   );
 
   product = new CafeteriaProduct(0, "product", 1, 1, 7, 12, 2);
@@ -354,32 +326,47 @@ async function testInventoryTypeCinemaSystem(cinemaSystem) {
   );
 }
 async function testIncomesTypeCinemaSystem(cinemaSystem) {
-  spyOn(ReportController, "createDailyReport").and.returnValue("test");
-
   let reports = [{ type: "incomes_daily_report", content: [{}] }];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
     "Report content structure is invalid"
   );
-  reports[0].content = [{ quantitySold: "lala" }];
+  reports[0].content = [{ numOfTabsSales: "lala" }];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
     "Report content structure is invalid"
   );
-  reports[0].content = [{ quantitySold: "2", stockThrown: "-4" }];
+  reports[0].content = [
+    {
+      numOfTabsSales: "-2",
+      cafeteriaCashRevenues: "2.2",
+      cafeteriaCreditCardRevenues: "5.5",
+      ticketsCashRevenues: "4",
+      ticketsCreditCardRevenues: "3",
+      tabsCashRevenues: "0",
+      tabsCreditCardRevenues: "0",
+    },
+  ];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
-    "Negative numbers are invalid"
+    "Only non-negative numbers are allowed in incomes report"
   );
-  let product = new CafeteriaProduct(0, "product", 1, 1, 4, 12, 2);
-  cinemaSystem.inventoryManagement.products.set(0, product);
-  reports[0].content = [{ productId: 0, quantitySold: "2", stockThrown: "4" }];
+  reports[0].content = [
+    {
+      numOfTabsSales: "2",
+      cafeteriaCashRevenues: "2.2",
+      cafeteriaCreditCardRevenues: "5.5",
+      ticketsCashRevenues: "4",
+      ticketsCreditCardRevenues: "3",
+      tabsCashRevenues: "0",
+      tabsCreditCardRevenues: "0",
+    },
+  ];
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
     "test"
   );
 }
-async function testGeneralTypeCinemaSystem(cinemaSystem) {}
 
 async function testFunctions(method, output) {
   let result = await method();

@@ -58,6 +58,16 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
+      JSON.parse('["Movie","Movie"]'),
+      "User"
+    );
+    expect(result).toBe(
+      "Cannot add the same movie more than once to the order."
+    );
+    result = await serviceLayer.addMovieOrder(
+      "Order",
+      "date",
+      "Supplier",
       JSON.parse('["Movie"]'),
       "User"
     );

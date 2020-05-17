@@ -38,25 +38,22 @@ class CinemaSystem {
       inventory_daily_report: async (records) => {
         for (let i in records) {
           let record = records[i];
-          if (
-            !record.quantitySold ||
-            !record.stockThrown ||
-            isNaN(parseInt(record.quantitySold)) ||
-            isNaN(parseInt(record.stockThrown))
-          ) {
+          if (!record.quantitySold || !record.stockThrown) {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
             );
             return "Report content structure is invalid";
           }
           if (
+            isNaN(parseInt(record.quantitySold)) ||
+            isNaN(parseInt(record.stockThrown)) ||
             parseInt(record.quantitySold) < 0 ||
             parseInt(record.stockThrown) < 0
           ) {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - negative numbers are invalid"
             );
-            return "Negative numbers are invalid";
+            return "Only non-negative numbers are allowed in inventory report";
           }
 
           let product = this.inventoryManagement.products.get(record.productId);
@@ -72,7 +69,10 @@ class CinemaSystem {
             currentQuantity
           );
           if (result !== "Product details update successfully completed")
-            return result;
+            return (
+              "Problem occurred while editing products quantities (you should check the quantity in stock).\n" +
+              result
+            );
           record.quantityInStock = currentQuantity;
           records[i] = record;
         }
@@ -106,27 +106,27 @@ class CinemaSystem {
           let record = records[i];
           if (
             !record.numOfTabsSales ||
-            isNaN(parseInt(record.numOfTabsSales)) ||
             !record.cafeteriaCashRevenues ||
-            isNaN(parseFloat(record.cafeteriaCashRevenues)) ||
             !record.cafeteriaCreditCardRevenues ||
-            isNaN(parseFloat(record.cafeteriaCreditCardRevenues)) ||
             !record.ticketsCashRevenues ||
-            isNaN(parseFloat(record.ticketsCashRevenues)) ||
             !record.ticketsCreditCardRevenues ||
-            isNaN(parseFloat(record.ticketsCreditCardRevenues)) ||
             !record.tabsCashRevenues ||
-            isNaN(parseFloat(record.tabsCashRevenues)) ||
-            !record.tabsCreditCardRevenues ||
-            isNaN(parseFloat(record.tabsCreditCardRevenues))
+            !record.tabsCreditCardRevenues
           ) {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
             );
-            return "Report content is invalid";
+            return "Report content structure is invalid";
           }
           if (
             parseInt(record.numOfTabsSales) < 0 ||
+            isNaN(parseInt(record.numOfTabsSales)) ||
+            isNaN(parseFloat(record.cafeteriaCashRevenues)) ||
+            isNaN(parseFloat(record.cafeteriaCreditCardRevenues)) ||
+            isNaN(parseFloat(record.ticketsCashRevenues)) ||
+            isNaN(parseFloat(record.ticketsCreditCardRevenues)) ||
+            isNaN(parseFloat(record.tabsCashRevenues)) ||
+            isNaN(parseFloat(record.tabsCreditCardRevenues)) ||
             parseFloat(record.cafeteriaCashRevenues) < 0 ||
             parseFloat(record.cafeteriaCreditCardRevenues) < 0 ||
             parseFloat(record.ticketsCashRevenues) < 0 ||
@@ -137,7 +137,7 @@ class CinemaSystem {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - negative numbers are invalid"
             );
-            return "Negative numbers are invalid";
+            return "Only non-negative numbers are allowed in incomes report";
           }
         }
         return records;

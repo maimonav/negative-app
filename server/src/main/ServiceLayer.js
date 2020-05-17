@@ -25,6 +25,7 @@ class ServiceLayer {
           );
           return "Report content structure is invalid";
         }
+        let products = new Set();
         for (let i in records) {
           let record = records[i];
           if (!record.productName || !this._isInputValid(record.productName)) {
@@ -43,6 +44,15 @@ class ServiceLayer {
             );
             return "The product does not exist.";
           }
+          if (products.has(record.productName)) {
+            logger.info(
+              "ServiceLayer - convertionMethods[inventory_daily_report] - The product " +
+                record.productName +
+                " already exists in the report."
+            );
+            return "Cannot add the same product more than once to invetory report.";
+          }
+          products.add(record.productName);
           record.productId = this.products.get(record.productName);
           delete record.productName;
           record.creatorEmployeeId = this.users.get(user);
@@ -940,6 +950,7 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
+    let movies = new Set();
     for (let i in moviesList) {
       if (!this.products.has(moviesList[i])) {
         logger.info(
@@ -949,6 +960,15 @@ class ServiceLayer {
         );
         return "Movie does not exist";
       }
+      if (movies.has(moviesList[i])) {
+        logger.info(
+          "ServiceLayer - addMovieOrder - The movie " +
+            moviesList[i] +
+            " already exists in the order."
+        );
+        return "Cannot add the same movie more than once to the order.";
+      }
+      movies.add(moviesList[i]);
       moviesList[i] = this.products.get(moviesList[i]);
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
@@ -1220,6 +1240,7 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
+    let products = new Set();
     for (let i = 0; i < productsList.length; i++) {
       if (!this.products.has(productsList[i].name)) {
         logger.info(
@@ -1229,6 +1250,15 @@ class ServiceLayer {
         );
         return "Product does not exist";
       }
+      if (products.has(productsList[i].name)) {
+        logger.info(
+          "ServiceLayer - addCafeteriaOrder - The product " +
+            productsList[i].name +
+            " already exists in the order."
+        );
+        return "Cannot add the same product more than once to the order.";
+      }
+      products.add(productsList[i].name);
       productsList[i].id = this.products.get(productsList[i].name);
       productsList[i].quantity = parseInt(productsList[i].quantity);
       delete productsList[i].name;

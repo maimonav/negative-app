@@ -115,6 +115,22 @@ class ReportController {
       }
    */
   static async createDailyReport(reports) {
+    //For now, one of the types report created indicates that all of them did.
+    let isDailyReportCreated = await DataBase.singleGetById(reports[0].type, {
+      date: new Date(
+        this._getSyncDateFormat(new Date(reports[0].content[0].date))
+      ),
+    });
+    if (typeof isDailyReportCreated === "string") {
+      DBlogger.info("ReportController - createDailyReport - ", result);
+      return "The report cannot be created\n" + result;
+    }
+    if (isDailyReportCreated && isDailyReportCreated !== null) {
+      logger.info(
+        "ReportController- createDailyReport - Daily report already exists in this date"
+      );
+      return "Cannot add this report - daily report already exists in this date";
+    }
     let actionsList = [];
     for (let j in reports) {
       let records = reports[j].content;

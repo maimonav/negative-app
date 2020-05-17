@@ -58,6 +58,18 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
+      JSON.parse(
+        '[{"name":"Product","quantity":"3"},{"name":"Product","quantity":"3"}]'
+      ),
+      "User"
+    );
+    expect(result).toBe(
+      "Cannot add the same product more than once to the order."
+    );
+    result = await serviceLayer.addCafeteriaOrder(
+      "Order",
+      "date",
+      "Supplier",
       JSON.parse('[{"name":"Product","quantity":"3"}]'),
       "User"
     );
