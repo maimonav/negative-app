@@ -4,8 +4,11 @@ import { Link } from "react-router-dom";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Tab from "@material-ui/core/Tab";
-import { showReportPath } from "../../consts/paths";
-import { showReportTabHook } from "../../consts/data-hooks";
+import { showReportPath, createDailyReportPath } from "../../consts/paths";
+import {
+  showReportTabHook,
+  createDailyReportTabHook
+} from "../../consts/data-hooks";
 import { isAtLeastShiftManager } from "../../consts/permissions";
 const style = { textDecoration: "none", color: "black" };
 
@@ -59,6 +62,20 @@ export default function ReportsActionsDropDownTab(props) {
               label="Show Report"
               style={{ textTransform: "none" }}
               data-hook={showReportTabHook}
+            />
+          </MenuItem>
+        </Link>
+        <Link to={createDailyReportPath} style={style}>
+          <MenuItem
+            value={1}
+            onClick={handleClose}
+            style={{ justifyContent: "center" }}
+            d
+          >
+            <Tab
+              label="Create Daily Report"
+              style={{ textTransform: "none" }}
+              data-hook={createDailyReportTabHook}
             />
           </MenuItem>
         </Link>

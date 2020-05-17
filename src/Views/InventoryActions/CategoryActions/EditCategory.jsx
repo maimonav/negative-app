@@ -2,7 +2,6 @@ import React from "react";
 // core components
 import GridItem from "../../../Components/Grid/GridItem";
 import GridContainer from "../../../Components/Grid/GridContainer.js";
-import CustomInput from "../../../Components/CustomInput/CustomInput.js";
 import Button from "../../../Components/CustomButtons/Button.js";
 import Card from "../../../Components/Card/Card.js";
 import CardHeader from "../../../Components/Card/CardHeader.js";
@@ -38,9 +37,9 @@ export default class EditCategory extends React.Component {
     this.setState({ categoryName: name });
   };
 
-  setCategoryParentName(event) {
-    this.setState({ parentName: event.target.value });
-  }
+  setCategoryParentName = (name) => {
+    this.setState({ parentName: name });
+  };
 
   render() {
     const { categoryName, parentName } = this.state;
@@ -66,19 +65,26 @@ export default class EditCategory extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Category Parent Name"
-                      id="categoryParentName"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(event) => this.setCategoryParentName(event)}
-                      data-hook={categoryParentNameHook}
-                    />
-                  </GridItem>
-                </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"categoryName"}
+                        items={this.state.categories}
+                        boxLabel={"Choose category"}
+                        setName={this.setCategoryParentName}
+                        isMultiple={false}
+                        data-hook={categoryParentNameHook}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
               </CardBody>
               <CardFooter>
                 <Button

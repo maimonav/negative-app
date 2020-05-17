@@ -177,8 +177,9 @@ class NotificationController {
     let notificationObjectsList = [];
     for (let i in usersList) {
       let userId = usersList[i];
+      if (!userId) continue;
       let userUrl = this.usersIdToUrl.get(userId);
-      let seenFalg = false;
+      let seenFlag = false;
       if (
         this.loggedInUsers.has(userId) &&
         userUrl &&
@@ -196,7 +197,7 @@ class NotificationController {
           element: {
             recipientUserId: userId,
             timeFired: timeFired,
-            seen: seenFalg,
+            seen: seenFlag,
             content: notificationContent,
           },
         },
@@ -210,7 +211,8 @@ class NotificationController {
     let result = await DataBase.executeActions(notificationObjectsList);
 
     if (typeof result === "string") {
-      clientSocket.send([
+      //todo:: send to all users!
+      /*clientSocket.send([
         {
           type: "ERROR",
           subtype: "SAVE NOTIFICATIONS",
@@ -225,7 +227,7 @@ class NotificationController {
         notificationObjectsList,
         "\n",
         result
-      );
+      );*/
     }
   }
 }

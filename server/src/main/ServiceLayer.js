@@ -16,7 +16,64 @@ class ServiceLayer {
     this.categoriesCounter = 0;
     this.orders = new Map();
     this.ordersCounter = 0;
+    this.convertionMethods = {
+      inventory_daily_report: (records, user, date) => {
+        for (let i in records) {
+          let record = records[i];
+          if (!record.productName) {
+            logger.info(
+              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content is invalid"
+            );
+            return "Report content is invalid";
+          }
+
+          let validationResult = !this._isInputValid(record.productName)
+            ? "Product Name is not valid"
+            : "Valid";
+          if (validationResult !== "Valid") {
+            logger.info(
+              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
+              validationResult
+            );
+            return validationResult;
+          }
+          if (!this.products.has(record.productName)) {
+            logger.info(
+              "ServiceLayer - convertionMethods[inventory_daily_report] - The product " +
+                record.productName +
+                " does not exist in the system."
+            );
+            return "The product does not exist.";
+          }
+          record.productId = this.products.get(record.productName);
+          delete record.productName;
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+      general_purpose_daily_report: (records, user, date) => {
+        for (let i in records) {
+          let record = records[i];
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+      incomes_daily_report: (records, user, date) => {
+        for (let i in records) {
+          let record = records[i];
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+    };
   }
+
   /**
    * @param {string} dbName The database name
    * @returns {string} Success or failure string
@@ -254,7 +311,6 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async addMovie(movieName, category, ActionIDOfTheOperation) {
-    console.log("category:", category);
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(category)
@@ -1253,15 +1309,15 @@ class ServiceLayer {
 
   /**
    * @param {string} type Type of the report
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Reports to add in the report
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(string)} Success or failure
    */
-  async createDailyReport(type, records, ActionIDOfTheOperation) {
-    let validationResult = !this._isInputValid(type)
-      ? "Type is not valid"
-      : !this._isInputValid(records)
-      ? "Records is not valid"
+  async createDailyReport(date, reports, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(reports)
+      ? "Reports is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
@@ -1277,9 +1333,43 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
+    reports = JSON.parse(reports);
+    if (reports.length === 0) {
+      logger.info(
+        "ServiceLayer - createDailyReport - action failed - empty input reports:",
+        reports
+      );
+      return "Invalid report - missing information";
+    }
+    for (let i in reports) {
+      let report = reports[i];
+      if (!report.type || !this.cinemaSystem.isValidReportType(report.type)) {
+        logger.info(
+          "ServiceLayer - createDailyReport - The requested report type " +
+            report.type +
+            " is invalid"
+        );
+        return "Requested report type is invalid";
+      }
+      if (!report.content || report.content.length === 0) {
+        logger.info(
+          "ServiceLayer - createDailyReport - Report content is invalid"
+        );
+        return "Report content is invalid";
+      }
+      report.content = this.convertionMethods[report.type](
+        report.content,
+        ActionIDOfTheOperation,
+        date
+      );
+      if (typeof report.content === "string") {
+        return report.content;
+      }
+      reports[i] = report;
+    }
+
     return await this.cinemaSystem.createDailyReport(
-      type,
-      JSON.parse(records),
+      reports,
       this.users.get(ActionIDOfTheOperation)
     );
   }

@@ -58,7 +58,7 @@ export default class AddMovieOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Create New Movie Order</h4>

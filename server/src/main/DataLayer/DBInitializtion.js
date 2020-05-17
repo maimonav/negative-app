@@ -232,7 +232,9 @@ async function _initGeneralReport() {
   let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
   return DataBase.singleAdd("general_purpose_daily_report", {
     date: date.toISOString().substring(0, 10),
-    additionalProps: [[], {}],
+    currentProps: [],
+    propsObject: {},
+    allProps: [],
   });
 }
 
