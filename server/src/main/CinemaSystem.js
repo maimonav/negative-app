@@ -47,7 +47,7 @@ class CinemaSystem {
             logger.info(
               "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
             );
-            return "Report content is invalid";
+            return "Report content structure is invalid";
           }
           if (
             parseInt(record.quantitySold) < 0 ||

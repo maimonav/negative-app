@@ -6,9 +6,9 @@ const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
 const {
-  asyncValidate,
-  asyncTestCinemaFunctions,
-} = require("./MovieOrderOperationsTests.spec");
+  validate,
+  testCinemaFunctions,
+} = require("./MovieOperationsTests.spec");
 
 describe("CafeteriaProductOrder Operations Tests", () => {
   beforeAll(() => {
@@ -18,7 +18,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
   it("UnitTest addCafeteriaOrder  - Service Layer", async () => {
     let serviceLayer = new ServiceLayer();
     //Input validation
-    await asyncValidate(serviceLayer, serviceLayer.addCafeteriaOrder, {
+    await validate(serviceLayer, serviceLayer.addCafeteriaOrder, {
       "Order ID ": "Order",
       "Date ": "date",
       "Supplier Name ": "Supplier",
@@ -68,8 +68,12 @@ describe("CafeteriaProductOrder Operations Tests", () => {
 
   it("UnitTest addCafeteriaOrder - Cinema System", async () => {
     let cinemaSystem = new CinemaSystem();
-    await asyncTestCinemaFunctions(cinemaSystem, () =>
-      cinemaSystem.addCafeteriaOrder(1, "", 1, [{ id: 1, quantity: 3 }], 1)
+    await testCinemaFunctions(
+      cinemaSystem,
+      () =>
+        cinemaSystem.addCafeteriaOrder(1, "", 1, [{ id: 1, quantity: 3 }], 1),
+      true,
+      "add order"
     );
   });
 
@@ -129,7 +133,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
     serviceLayer.users.set("User", userId);
     serviceLayer.suppliers.set("Supplier", supplierId);
     serviceLayer.products.set("Product", productId);
-    await asyncTestCinemaFunctions(
+    await testCinemaFunctions(
       serviceLayer.cinemaSystem,
       () =>
         serviceLayer.addCafeteriaOrder(
@@ -139,24 +143,15 @@ describe("CafeteriaProductOrder Operations Tests", () => {
           JSON.parse('[{"name":"Product","quantity":"-1"}]'),
           "User"
         ),
+      true,
+      "add order",
       userId
     );
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
-    serviceLayer.cinemaSystem.users.set(userId, user);
-
-    serviceLayer.cinemaSystem.inventoryManagement.orders.set(orderId, null);
-    let result = await serviceLayer.addCafeteriaOrder(
-      "Order",
-      "date",
-      "Supplier",
-      JSON.parse('[{"name":"Product","quantity":"-1"}]'),
-      "User"
-    );
-    expect(result).toBe("Cannot add order - creator employee id is not exist");
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       userId,
       null
     );
+    serviceLayer.cinemaSystem.inventoryManagement.orders.set(orderId, null);
     result = await serviceLayer.addCafeteriaOrder(
       "Order",
       "date",

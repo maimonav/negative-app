@@ -18,25 +18,23 @@ class ServiceLayer {
     this.ordersCounter = 0;
     this.convertionMethods = {
       inventory_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          logger.info(
+            "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content structure is invalid",
+            records
+          );
+          return "Report content structure is invalid";
+        }
         for (let i in records) {
           let record = records[i];
-          if (!record.productName) {
+          if (!record.productName || !this._isInputValid(record.productName)) {
             logger.info(
-              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content is invalid"
+              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content is invalid",
+              records
             );
-            return "Report content is invalid";
+            return "Product Name is not valid";
           }
 
-          let validationResult = !this._isInputValid(record.productName)
-            ? "Product Name is not valid"
-            : "Valid";
-          if (validationResult !== "Valid") {
-            logger.info(
-              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - ",
-              validationResult
-            );
-            return validationResult;
-          }
           if (!this.products.has(record.productName)) {
             logger.info(
               "ServiceLayer - convertionMethods[inventory_daily_report] - The product " +
@@ -54,6 +52,13 @@ class ServiceLayer {
         return records;
       },
       general_purpose_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          logger.info(
+            "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content structure is invalid",
+            records
+          );
+          return "Report content structure is invalid";
+        }
         for (let i in records) {
           let record = records[i];
           record.creatorEmployeeId = this.users.get(user);
@@ -63,6 +68,13 @@ class ServiceLayer {
         return records;
       },
       incomes_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          logger.info(
+            "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content structure is invalid",
+            records
+          );
+          return "Report content structure is invalid";
+        }
         for (let i in records) {
           let record = records[i];
           record.creatorEmployeeId = this.users.get(user);
@@ -1297,7 +1309,7 @@ class ServiceLayer {
         "ServiceLayer - createDailyReport - action failed - empty input reports:",
         reports
       );
-      return "Invalid report - missing information";
+      return "There is missing information in the report - Please try again.";
     }
     for (let i in reports) {
       let report = reports[i];
@@ -1307,13 +1319,13 @@ class ServiceLayer {
             report.type +
             " is invalid"
         );
-        return "Requested report type is invalid";
+        return "Given report type is invalid";
       }
       if (!report.content || report.content.length === 0) {
         logger.info(
           "ServiceLayer - createDailyReport - Report content is invalid"
         );
-        return "Report content is invalid";
+        return "There is missing information in the report - Please try again.";
       }
       report.content = this.convertionMethods[report.type](
         report.content,
