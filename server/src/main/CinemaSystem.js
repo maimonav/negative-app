@@ -922,9 +922,9 @@ class CinemaSystem {
       let report = reports[i];
       let type = report.type;
       let content = report.content;
-      report = await this.toDBConvertionMethods[type](content);
-      if (typeof report === "string") {
-        return report;
+      report.content = await this.toDBConvertionMethods[type](content);
+      if (typeof report.content === "string") {
+        return report.content;
       }
       reports[i] = report;
     }

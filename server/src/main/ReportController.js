@@ -136,7 +136,6 @@ class ReportController {
         });
       }
     }
-
     let result = await DataBase.executeActions(actionsList);
     if (typeof result === "string") {
       DBlogger.info("ReportController - createDailyReport - ", result);
