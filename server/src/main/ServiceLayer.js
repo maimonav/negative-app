@@ -657,6 +657,11 @@ class ServiceLayer {
     }
     return result;
   }
+  _isParamTypeOfNumber(param) {
+    if (typeof param === "undefined" || param === null || param === "")
+      return false;
+    return isNaN(param);
+  }
   /**
    * Editing the cafeteria product
    * @param {String} productName Unique ID of cafeteria product
@@ -697,6 +702,43 @@ class ServiceLayer {
     else {
       categoryID = this.categories.get(productCategory);
     }
+    if (this._isParamTypeOfNumber(productPrice)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail price " +
+          productPrice +
+          " is must to be number"
+      );
+      return "The Opertaion fail - Price is must to be number";
+    }
+    if (this._isParamTypeOfNumber(productQuantity)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail Quantity " +
+          productQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - Quantity is must to be number";
+    }
+    if (this._isParamTypeOfNumber(minQuantity)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail minQuantity " +
+          minQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - minQuantity is must to be number";
+    }
+    if (this._isParamTypeOfNumber(maxQuantity)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail maxQuantity " +
+          maxQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - maxQuantity is must to be number";
+    }
+
     return await this.cinemaSystem.editCafeteriaProduct(
       this.products.get(productName),
       categoryID,
