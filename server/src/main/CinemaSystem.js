@@ -948,7 +948,9 @@ class CinemaSystem {
     result = await ReportController.getReport(type, date);
     if (typeof result !== "string")
       for (let i in result)
-        result[i] = this.toUserConvertionMethods[type](result[i].dataValues);
+        result[i] = await this.toUserConvertionMethods[type](
+          result[i].dataValues
+        );
     return result;
   }
 
