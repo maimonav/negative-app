@@ -186,7 +186,7 @@ class NotificationController {
         this.clientsMap.has(userUrl)
       ) {
         let clientSocket = this.clientsMap.get(userUrl);
-        clientSocket.send([notification]);
+        clientSocket.send(JSON.stringify([notification]));
         //set notification as seen
         seenFlag = true;
       }
