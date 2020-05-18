@@ -136,7 +136,7 @@ describe("Report Operations Tests", function() {
     await testAddGeneralPurposeDailyReport(reportAfter, true);
   });
 
-  it("createDailyReport req 1.1.13, 2.4, 2.6", async function(done) {
+  it("createDailyReport req 1.1.13, 2.4, 2.6, 3.1", async function(done) {
     setTimeout(done, 5000);
 
     let user = "admin";
@@ -261,6 +261,69 @@ describe("Report Operations Tests", function() {
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
+    }
+  }, 6000);
+
+  it("getFullDailyReport req  2.10, 2.11", async function(done) {
+    setTimeout(done, 5000);
+
+    let user = "admin";
+    service.login(user, user);
+
+    await service.addFieldToDailyReport("Cash Counted", user);
+    await service.addFieldToDailyReport("Report Z Taken", user);
+
+    await service.addCategory("category", "admin");
+    await service.addNewProduct(
+      "product",
+      "10",
+      "10",
+      "2",
+      "20",
+      "category",
+      "admin"
+    );
+
+    await service.addNewEmployee(
+      "username",
+      "password",
+      "first",
+      "last",
+      "MANAGER",
+      "contact",
+      user
+    );
+    service.login("username", "password");
+
+    await service.createDailyReport(
+      todayDate.toISOString(),
+      JSON.stringify(reports),
+      "username"
+    );
+
+    //Get reports
+
+    let testFunctions = [
+      testIncomeDailyReportResult,
+      testInventoryDailyReportResult,
+      testGeneralPurposeDailyReportResult,
+    ];
+
+    let result = await service.getFullDailyReport(
+      todayDate.toISOString(),
+      "username"
+    );
+
+    let reportsAfter = records;
+    reportsAfter[1].productName = "product";
+    for (let i in reportsAfter) {
+      reportsAfter[i].date = reportsAfter[i].date.toDateString();
+      reportsAfter[i].creatorEmployeeName = "first last";
+    }
+
+    for (let i in types) {
+      let report = result[i].content;
+      testFunctions[i](report[0], reportsAfter[i]);
     }
   }, 6000);
 });

@@ -1450,6 +1450,46 @@ class ServiceLayer {
     );
   }
 
+  /**
+   * get all types report to show full daily report
+   * @param {string} date Date of the report
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(Array(Object) | string)} In success returns list of the reports by type,
+   * otherwise returns error string.
+   */
+  async getFullDailyReport(date, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      logger.info("ServiceLayer- getFullDailyReport - ", validationResult);
+      return validationResult;
+    }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      logger.info(
+        "ServiceLayer- getReport - The user " +
+          ActionIDOfTheOperation +
+          " performing the operation does not exist in the system"
+      );
+      return "The user performing the operation does not exist in the system";
+    }
+    let reports = [];
+    let types = this.cinemaSystem.getReportTypes();
+    for (let i in types) {
+      let type = types[i];
+      let result = await this.cinemaSystem.getReport(
+        type,
+        new Date(date),
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (typeof result === "string") return result;
+      reports = reports.concat({ type: type, content: result });
+    }
+    return reports;
+  }
+
   getMovies() {
     return this.cinemaSystem.getMovies();
   }
