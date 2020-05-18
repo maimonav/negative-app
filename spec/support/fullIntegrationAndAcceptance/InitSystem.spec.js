@@ -1,4 +1,5 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
+const moment = require("moment");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const MovieOrder = require("../../../server/src/main/MovieOrder");
 const { addEmployee } = require("../DBtests/UserEmployeeTests.spec");
@@ -66,7 +67,9 @@ describe("Init System Tests", function() {
     });
     expect(result != null).toBe(true);
     expect(result.creatorEmployeeId).toBe(null);
-    expect(result.additionalProps).toEqual([[], {}]);
+    expect(result.allProps).toEqual([]);
+    expect(result.currentProps).toEqual([]);
+    expect(result.propsObject).toEqual({});
   });
 });
 
@@ -221,7 +224,11 @@ describe("Init System Tests - Restore data Tests", function() {
       await service.initSeviceLayer(dbName);
       if (service.orders.size === 0) fail("restore order - serviceLayer");
       let orderId = service.ordersCounter - 1;
-      expect(service.orders.get("manager" + date.toString())).toBe(orderId);
+      expect(
+        service.orders.get(
+          "manager" + " - " + moment(date).format("MMMM Do YYYY, h:mm:ss a")
+        )
+      ).toBe(orderId);
       if (service.cinemaSystem.inventoryManagement.orders.size === 0)
         fail("restore order - inventoryManagement");
 
@@ -235,7 +242,9 @@ describe("Init System Tests - Restore data Tests", function() {
           expect(productOrder.movie.id).toEqual(0);
         else expect(productOrder.product.id).toEqual(0);
       });
-      expect(order.name).toBe("manager" + date.toString());
+      expect(order.name).toBe(
+        "manager" + " - " + moment(date).format("MMMM Do YYYY, h:mm:ss a")
+      );
     }, 1000);
   }, 7000);
 });

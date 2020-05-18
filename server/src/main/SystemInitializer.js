@@ -223,7 +223,7 @@ class SystemInitializer {
       }));
       await this._executeActionInSystem(creatorEmployee, async () => {
         //TODO::add edit movie order with all the details after order supplied
-        if (movieList.length != 0)
+        if (movieList.length != 0) {
           await this.serviceLayer.addMovieOrder(
             creatorEmployeeName +
               " - " +
@@ -233,8 +233,12 @@ class SystemInitializer {
             movieList,
             creatorEmployeeName
           );
+          if (order.recipientEmployeeId !== null) {
+            //todo
+          }
+        }
         //TODO::add edit movie order with all the details after order supplied
-        if (productList.length != 0)
+        if (productList.length != 0) {
           await this.serviceLayer.addCafeteriaOrder(
             creatorEmployeeName +
               " - " +
@@ -244,6 +248,10 @@ class SystemInitializer {
             productList,
             creatorEmployeeName
           );
+          if (order.recipientEmployeeId !== null) {
+            //to do
+          }
+        }
       });
     }
   }
