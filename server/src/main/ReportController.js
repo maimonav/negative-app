@@ -30,7 +30,7 @@ class ReportController {
     return result ? result : this._currentGeneralDailyReoprtFormat;
   }
 
-  static async updatePropsLists() {
+  static async updatePropsLists(calledFunctionName) {
     let result = await DataBase.singleFindAll(
       this._types.GENERAL,
       {},
@@ -48,21 +48,25 @@ class ReportController {
         result
       );
     }
-    result = await DataBase.singleGetById(this._types.GENERAL, {
-      date: new Date(result[0].date),
-    });
-    if (typeof result === "string") {
-      DBlogger.info(
-        "ReportController - " + calledFunctionName
-          ? calledFunctionName + " - "
-          : "" + "getCurrentGeneralDailyReoprtFormat - singleGetById -",
-        result
-      );
+    if (result) {
+      result = await DataBase.singleGetById(this._types.GENERAL, {
+        date: new Date(result[0].date),
+      });
+      if (typeof result === "string") {
+        DBlogger.info(
+          "ReportController - " + calledFunctionName
+            ? calledFunctionName + " - "
+            : "" + "getCurrentGeneralDailyReoprtFormat - singleGetById -",
+          result
+        );
+        return result;
+      }
+
+      this._currentGeneralDailyReoprtFormat = result.currentProps;
+      this._allGeneralDailyReoprtFormat = result.allProps;
       return result;
     }
-    this._currentGeneralDailyReoprtFormat = result.currentProps;
-    this._allGeneralDailyReoprtFormat = result.allProps;
-    return result;
+    return { currentProps: [], allProps: [] };
   }
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
@@ -115,22 +119,6 @@ class ReportController {
       }
    */
   static async createDailyReport(reports) {
-    //For now, one of the types report created indicates that all of them did.
-    let isDailyReportCreated = await DataBase.singleGetById(reports[0].type, {
-      date: new Date(
-        this._getSyncDateFormat(new Date(reports[0].content[0].date))
-      ),
-    });
-    if (typeof isDailyReportCreated === "string") {
-      DBlogger.info("ReportController - createDailyReport - ", result);
-      return "The report cannot be created\n" + result;
-    }
-    if (isDailyReportCreated && isDailyReportCreated !== null) {
-      logger.info(
-        "ReportController- createDailyReport - Daily report already exists in this date"
-      );
-      return "Cannot add this report - daily report already exists in this date";
-    }
     let actionsList = [];
     for (let j in reports) {
       let records = reports[j].content;
@@ -145,6 +133,19 @@ class ReportController {
         records[i].date = new Date(
           this._getSyncDateFormat(new Date(records[i].date))
         );
+        let isDailyReportCreated = await DataBase.singleGetById(type, {
+          date: records[i].date,
+        });
+        if (typeof isDailyReportCreated === "string") {
+          DBlogger.info("ReportController - createDailyReport - ", result);
+          return "The report cannot be created\n" + result;
+        }
+        if (isDailyReportCreated && isDailyReportCreated !== null) {
+          logger.info(
+            "ReportController- createDailyReport - Daily report already exists in this date"
+          );
+          return "Cannot add this report - daily report already exists in this date";
+        }
         actionsList = actionsList.concat({
           name: DataBase._add,
           model: type,
@@ -207,7 +208,7 @@ class ReportController {
    * @returns {Promise(string)} success or failure
    */
   static async addFieldToDailyReport(newField) {
-    let result = this.updatePropsLists("addFieldToDailyReport");
+    let result = await this.updatePropsLists("addFieldToDailyReport");
     if (typeof result === "string") {
       return "The report field cannot be added\n" + result;
     }
@@ -237,7 +238,7 @@ class ReportController {
    * @returns {Promise(string)} success or failure
    */
   static async removeFieldFromDailyReport(fieldToRemove) {
-    let result = this.updatePropsLists("removeFieldFromDailyReport");
+    let result = await this.updatePropsLists("removeFieldFromDailyReport");
     if (typeof result === "string") {
       return "The report field cannot be added\n" + result;
     }

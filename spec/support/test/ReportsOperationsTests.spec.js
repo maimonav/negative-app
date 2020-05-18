@@ -17,18 +17,30 @@ describe("Report Operations Tests", () => {
     let serviceLayer = new ServiceLayer();
     await serviceLayer.initSeviceLayer();
     serviceLayer.users.set("User", 1);
-    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
+    cinemaSystem = await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.addFieldToDailyReport("test", "User")
     );
+    serviceLayer.cinemaSystem = cinemaSystem;
+    let result = await serviceLayer.addFieldToDailyReport("test", "User");
+    expect(result).toBe("The report field added successfully");
+    expect(ReportController._allGeneralDailyReoprtFormat).toEqual(["test"]);
+    expect(ReportController._currentGeneralDailyReoprtFormat).toEqual(["test"]);
   });
 
   it("Unit & Integration removeField", async () => {
+    ReportController._allGeneralDailyReoprtFormat = ["test"];
+    ReportController._currentGeneralDailyReoprtFormat = ["test"];
     let serviceLayer = new ServiceLayer();
     await serviceLayer.initSeviceLayer();
     serviceLayer.users.set("User", 1);
-    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
+    cinemaSystem = await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.removeFieldFromDailyReport("test", "User")
     );
+    serviceLayer.cinemaSystem = cinemaSystem;
+    let result = await serviceLayer.removeFieldFromDailyReport("test", "User");
+    expect(result).toBe("The report field removed successfully");
+    expect(ReportController._allGeneralDailyReoprtFormat).toEqual(["test"]);
+    expect(ReportController._currentGeneralDailyReoprtFormat).toEqual([]);
   });
 
   it("UnitTest getReport - Service Layer", async () => {

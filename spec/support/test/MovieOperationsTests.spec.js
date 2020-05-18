@@ -284,9 +284,9 @@ async function testCinemaFunctions(
   cinemaSystem.users.set(id, user);
   result = await method();
   expect(result).toBe("User does not have proper permissions");
+  user = { isLoggedin: () => true, permissionCheck: () => true };
+  cinemaSystem.users.set(id, user);
   if (isEmployeeTest) {
-    user = { isLoggedin: () => true, permissionCheck: () => true };
-    cinemaSystem.users.set(id, user);
     result = await method();
     expect(result).toBe(
       "Cannot " + toAdd + " - creator employee id is not exist"

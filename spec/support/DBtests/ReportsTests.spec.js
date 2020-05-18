@@ -112,13 +112,9 @@ exports.testAddGeneralPurposeDailyReport = testAddGeneralPurposeDailyReport;
 function testGeneralPurposeDailyReportResult(result, report) {
   expect(result.date).toEqual(report.date);
   expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
-  expect(result.additionalProps).toEqual(report.additionalProps);
-  expect(result.creatorEmployeeName).toBe(report.creatorEmployeeName);
-  expect(result.props).toEqual(report.props);
-  let keys = Object.keys(report.additionalProps[1]);
-  for (let i in keys) {
-    expect(result[keys[i]]).toBe(report[keys[i]]);
-  }
+  expect(result.propsObject).toEqual(report.propsObject);
+  expect(result.allProps).toEqual(report.allProps);
+  expect(result.currentProps).toEqual(report.currentProps);
 }
 
 exports.testGeneralPurposeDailyReportResult = testGeneralPurposeDailyReportResult;

@@ -83,7 +83,7 @@ class CinemaSystem {
         if (typeof props === "string") return props;
         for (let i in records) {
           let record = records[i];
-          record.propObject = {};
+          record.propsObject = {};
           for (let j in props) {
             if (!record[props[j]]) {
               logger.info(
@@ -91,12 +91,12 @@ class CinemaSystem {
               );
               return "Report content is invalid";
             }
-            record.propObject[props[j]] = record[props[j]];
+            record.propsObject[props[j]] = record[props[j]];
             delete record[props[j]];
           }
           record.allProps = await this.getAllGeneralReportProps();
           if (typeof record.allProps === "string") return record.allProps;
-          report.currentProps = props;
+          record.currentProps = props;
           records[i] = record;
         }
         return records;
