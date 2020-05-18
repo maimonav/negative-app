@@ -8,10 +8,10 @@ const DBlogger = simpleLogger.createSimpleLogger({
 
 class ReportController {
   static _types = {
+    INCOMES: "incomes_daily_report",
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
-    MOVIES: "movie_daily_report",
-    INCOMES: "incomes_daily_report",
+    //MOVIES: "movie_daily_report",
   };
   static _allGeneralDailyReoprtFormat;
   static _currentGeneralDailyReoprtFormat;
@@ -197,7 +197,7 @@ class ReportController {
       DBlogger.info("ReportController - getReport - ", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result.length === 0) return "The report does not exist";
+    if (result && result.length === 0) return "The report does not exist";
 
     return result;
   }

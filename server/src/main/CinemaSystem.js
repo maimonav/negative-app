@@ -994,8 +994,7 @@ class CinemaSystem {
   }
 
   getReportTypes() {
-    //TODO: IMPLEMENT THIS.
-    return data.dataExample;
+    return ReportController._types;
   }
 
   getProductsAndQuantityByOrder(orderId) {
