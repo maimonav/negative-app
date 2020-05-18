@@ -328,7 +328,9 @@ describe("DB Test - reports", function() {
     let report = {
       date: getSyncDateFormat(new Date("2020-03-02 00:00:00")),
       creatorEmployeeId: 1,
-      additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+      propsObject: { "Cash counted": "true" },
+      allProps: ["Cash counted"],
+      currentProps: ["Cash counted"],
     };
     await addEmployee(1, "MANAGER");
     await updateGeneralPurposeDailyReport(report);
@@ -447,7 +449,9 @@ async function addGeneralPurposeDailyReport(isTest) {
   let report = {
     date: getSyncDateFormat(new Date("2020-03-02 00:00:00")),
     creatorEmployeeId: 0,
-    additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+    propsObject: { "Cash counted": "true" },
+    allProps: ["Cash counted"],
+    currentProps: ["Cash counted"],
   };
   await addEmployee(0, "MANAGER");
   await addGeneralPurposeReport(report);
