@@ -7,7 +7,7 @@ import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
-import ReactVirtualizedTable from "../../Components/Tables/ReportTable";
+import ReportTable from "../../Components/Tables/ReportTable";
 import { handleGetReport } from "../../Handlers/Handlers";
 import { reportsTypes, reportsPrettyTypes } from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
@@ -88,7 +88,7 @@ export default class ShowReport extends React.Component {
                 {this.state.reportType &&
                   this.state.date &&
                   this.state.reportData && (
-                    <ReactVirtualizedTable
+                    <ReportTable
                       data={this.state.reportData}
                       reportType={this.state.reportType}
                     />

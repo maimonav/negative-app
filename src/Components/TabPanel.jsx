@@ -16,7 +16,7 @@ import {
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook,
+  reportsActionsTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
@@ -28,7 +28,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px",
+                marginLeft: "15px"
               }}
             ></Tab>
           )}
