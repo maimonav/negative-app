@@ -74,31 +74,31 @@ export const incomesColumns = [
   },
   {
     width: 200,
-    label: "Cafeteria Credit Incomes",
+    label: "Cafeteria CreditCard",
     dataKey: "cafeteriaCreditCardRevenues",
     numeric: true
   },
   {
     width: 200,
-    label: "Tickets Cash Incomes",
+    label: "Tickets Cash",
     dataKey: "ticketsCashRevenues",
     numeric: true
   },
   {
     width: 200,
-    label: "Tickets Credit Incomes",
+    label: "Tickets CreditCard",
     dataKey: "ticketsCreditCardRevenues",
     numeric: true
   },
   {
     width: 200,
-    label: "Tabs Cash Incomes",
+    label: "Tabs Cash",
     dataKey: "tabsCashRevenues",
     numeric: true
   },
   {
     width: 200,
-    label: "Tabs Credit Incomes",
+    label: "Tabs CreditCard",
     dataKey: "tabsCreditCardRevenues",
     numeric: true
   }

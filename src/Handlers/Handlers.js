@@ -810,10 +810,6 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
     });
 }
 
-/**
- *
- * @param {*} reports
- */
 export function handleCreateDailyReports(reports) {
   const user = localStorage.getItem("username");
   const date = new Date();
@@ -822,6 +818,39 @@ export function handleCreateDailyReports(reports) {
     `api/createDailyReport?date=${encodeURIComponent(
       date
     )}&reports=${encodeURIComponent(reports)}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function HandleAddFieldToGeneralDailyReport(field) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addFieldToGeneralDailyReport?field=${encodeURIComponent(
+      field
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleGetFieldsGeneralDailyReport() {
+  const user = localStorage.getItem("username");
+  return fetch(
+    `api/getFieldsGeneralDailyReport?user=${encodeURIComponent(user)}`
+  );
+}
+
+export function HandleRemoveFieldToGeneralDailyReport(field) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/removeFieldToGeneralDailyReport?field=${encodeURIComponent(
+      field
+    )}&user=${encodeURIComponent(user)}`
   )
     .then(response => response.json())
     .then(state => {

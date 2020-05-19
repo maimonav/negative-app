@@ -30,6 +30,7 @@ import EditCategoey from "./InventoryActions/CategoryActions/EditCategory";
 import RemoveCategory from "./InventoryActions/CategoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
+import ManageReports from "./ReportsActions/ManageReports";
 import ShowReport from "./ReportsActions/ShowReport";
 import CreateDailyReport from "./ReportsActions/CreateDailyReport";
 import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
@@ -73,6 +74,7 @@ export {
   EditCategoey,
   RemoveCategory,
   EditCafeteriaOrder,
+  ManageReports,
   ShowReport,
   CreateDailyReport,
   ConfirmCafeteriaOrder,

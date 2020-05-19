@@ -8,6 +8,7 @@ import {
   editMoviePath,
   removeMoviePath,
   manageSuppliersPath,
+  manageReportsPath,
   manageInventoryPath,
   manageCafeteriaOrdersPath,
   manageCategoriesPath,
@@ -31,6 +32,7 @@ import {
   Logout,
   ManageEmployees,
   ManageSuppliers,
+  ManageReports,
   EditMovie,
   RemoveMovie,
   ManageInventory,
@@ -113,6 +115,9 @@ export default function Routes(props) {
         />
       )}
 
+      {props.isLogged && (
+        <Route path={manageReportsPath} component={ManageReports} />
+      )}
       {props.isLogged && <Route path={showReportPath} component={ShowReport} />}
       {props.isLogged && (
         <Route
