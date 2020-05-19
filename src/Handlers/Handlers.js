@@ -847,13 +847,9 @@ export function handleGetFieldsGeneralDailyReport() {
 
 export function HandleRemoveFieldToGeneralDailyReport(field) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeFieldToGeneralDailyReport?field=${encodeURIComponent(
       field
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }

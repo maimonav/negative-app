@@ -61,7 +61,14 @@ export default class RemoveField extends React.Component {
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
-                  onClick={() => HandleRemoveFieldToGeneralDailyReport(field)}
+                  onClick={() => {
+                    HandleRemoveFieldToGeneralDailyReport(field)
+                      .then(response => response.json())
+                      .then(state => {
+                        alert(state.result);
+                        this.setInitialState();
+                      });
+                  }}
                 >
                   Remove field
                 </Button>
