@@ -15,7 +15,8 @@ import {
   showReportPath,
   createDailyReportPath,
   manageOrdersPath,
-  manageMoviesOrdersPath
+  manageMoviesOrdersPath,
+  notificationPath,
 } from "../consts/paths";
 
 import {
@@ -23,7 +24,7 @@ import {
   handleLogout,
   handleEditMovie,
   handleRemoveMovie,
-  handleCreateDailyReports
+  handleCreateDailyReports,
 } from "../Handlers/Handlers";
 
 import {
@@ -40,7 +41,8 @@ import {
   CreateDailyReport,
   ManageCategories,
   ManageOrders,
-  ManageMoviesOrders
+  ManageMoviesOrders,
+  NotificationHandler,
 } from "../Views/index";
 
 export default function Routes(props) {

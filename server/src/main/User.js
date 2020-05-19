@@ -1,5 +1,7 @@
 const DataBase = require("./DataLayer/DBManager");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 const permissionDictionery = {
   ADMIN: 5,
   MANAGER: 4,
@@ -83,19 +85,21 @@ class User {
 
   login(userName, password) {
     if (this.Loggedin) {
-      logger.info("User - login - The " + userName + " already connected");
+      this.writeToLog(
+        "info",
+        "login",
+        "The " + userName + " already connected"
+      );
       return "The user already connected";
     }
     if (
       this.userName !== userName ||
       this.password !== this.sha256(userName + password)
     ) {
-      logger.info(
-        "User - login - Incorrect user name(" +
-          userName +
-          ") or password (" +
-          password +
-          ") "
+      this.writeToLog(
+        "info",
+        "login",
+        "Incorrect user name(" + userName + ") or password "
       );
       return "Incorrect user name or password";
     }
@@ -105,8 +109,10 @@ class User {
 
   logout() {
     if (!this.Loggedin) {
-      logger.info(
-        "User - logout - The user " +
+      this.writeToLog(
+        "info",
+        "logout",
+        "The user " +
           this.userName +
           " tried to disconnect but was not connected in the first place."
       );
@@ -144,7 +150,7 @@ class User {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "User - " + functionName + " - " + msg);
+    logger.writeToLog(type, "User", functionName, msg);
   }
 
   isNeedToEdit(varibleToCheck) {

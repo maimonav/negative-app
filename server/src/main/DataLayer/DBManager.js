@@ -1,7 +1,6 @@
-const DBlogger = require("simple-node-logger").createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS"
-});
+const LogControllerFile = require("../LogController");
+const LogController = LogControllerFile.LogController;
+const DBlogger = LogController.getInstance("db");
 const uniqid = require("uniqid");
 
 class DataBase {
@@ -43,7 +42,7 @@ class DataBase {
     SequelizeAccessDeniedError: () =>
       this._connectionMsg +
       " Refused due to insufficient privileges" +
-      " - Password to database should be checked." // wrong password
+      " - Password to database should be checked.", // wrong password
   };
 
   /**
@@ -74,7 +73,7 @@ class DataBase {
       await this.sequelize.close();
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(errId, " - DBManager - close  - ", error);
+      DBlogger.writeToLog("error", "DBManager", "close", errId + " - " + error);
       return this._errorHandler(error, errId);
     }
   }
@@ -104,34 +103,32 @@ class DataBase {
     let name;
     try {
       return this.sequelize
-        .transaction(async t => {
+        .transaction(async (t) => {
           for (let i in actionsList) {
             action = actionsList[i];
             model = action.model ? this.models[action.model] : undefined;
             await action.name(action.params, t, model);
           }
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - executeActions  - ",
-            "add",
-            ", ",
-            model,
-            ", ",
-            action.params,
-            " - ",
-            error
+          let errMsg =
+            "add" + ", " + model + ", " + action.params + " - " + error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "executeActions",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - executeActions  - transaction - ",
-        error
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "executeActions - transaction - ",
+        errId + " - " + error
       );
       return this._errorHandler(error, errId);
     }
@@ -148,7 +145,7 @@ class DataBase {
   static async _update(params, t, model) {
     return model.update(params.element, {
       where: params.where,
-      transaction: t
+      transaction: t,
     });
   }
   static async _findAll(params, t, model) {
@@ -162,12 +159,12 @@ class DataBase {
             attributes.fn,
             this.sequelize.col(attributes.fnField)
           ),
-          attributes.fnField
-        ]
+          attributes.fnField,
+        ],
       ];
     let argument = {
       where: params.where,
-      transaction: t
+      transaction: t,
     };
     if (attributes) argument.attributes = attributesArray;
     if (order) argument.order = order;
@@ -186,13 +183,13 @@ class DataBase {
           attributes.fn,
           this.sequelize.col(attributes.fnField)
         ),
-        attributes.fnField
-      ]
+        attributes.fnField,
+      ],
     ];
     return model.findAll({
       attributes: attributesArray,
       where: params.where,
-      transaction: t
+      transaction: t,
     });
   }
 
@@ -204,14 +201,14 @@ class DataBase {
       params.eventTime,
       params.prop
     );
-    return DataBase.sequelize.query(destroyQuery, { t }).catch(error => {
+    return DataBase.sequelize.query(destroyQuery, { t }).catch((error) => {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - setDestroyTimer - query - ",
-        destroyQuery,
-        " - ",
-        error
+      let errMsg = destroyQuery + " - " + error;
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "setDestroyTimer - query -",
+        errId + " - " + errMsg
       );
       return this._errorHandler(error, errId);
     });
@@ -228,25 +225,28 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction(t => {
+        .transaction((t) => {
           return model.create(element, { transaction: t });
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - singleAdd - ",
-            modelName,
-            ", ",
-            element,
-            " - ",
-            error
+          let errMsg = modelName + ", " + element + " - " + error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "singleAdd",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(errId, " - DBManager - singleAdd - transaction - ", error);
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "singleAdd - transaction",
+        errId + " - " + error
+      );
       return this._errorHandler(error, errId);
     }
   }
@@ -262,29 +262,28 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction(t => {
+        .transaction((t) => {
           let res = model.findOne({ where: where, transaction: t });
           return res;
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - singleGetById - ",
-            modelName,
-            ", ",
-            where,
-            " - ",
-            error
+          let errMsg = modelName + ", " + where + " - " + error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "singleGetById",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - singleGetById - transaction - ",
-        error
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "singleGetById- transaction ",
+        errId + " - " + error
       );
       return this._errorHandler(error, errId);
     }
@@ -302,30 +301,27 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction(t => {
+        .transaction((t) => {
           return model.update(element, { where: where, transaction: t });
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - singleUpdate - ",
-            modelName,
-            ", ",
-            where,
-            ", ",
-            element,
-            " - ",
-            error
+          let errMsg = modelName + ", " + where + " - " + error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "singleUpdate",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - singleUpdate - transaction - ",
-        error
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "singleUpdate - transaction",
+        errId + " - " + error
       );
       return this._errorHandler(error, errId);
     }
@@ -343,28 +339,27 @@ class DataBase {
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction(t => {
+        .transaction((t) => {
           return model.destroy({ where: where, transaction: t });
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - singleRemove - ",
-            modelName,
-            ", ",
-            where,
-            " - ",
-            error
+          let errMsg = modelName + ", " + where + " - " + error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "singleRemove",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - singleRemove - transaction - ",
-        error
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "singleRemove- transaction",
+        errId + " - " + error
       );
       return this._errorHandler(error, errId);
     }
@@ -391,43 +386,41 @@ class DataBase {
             attributes.fn,
             this.sequelize.col(attributes.fnField)
           ),
-          attributes.fnField
-        ]
+          attributes.fnField,
+        ],
       ];
     const model = this.models[modelName];
     try {
       return this.sequelize
-        .transaction(t => {
+        .transaction((t) => {
           let argument = {
             where: where,
-            transaction: t
+            transaction: t,
           };
           if (attributes) argument.attributes = attributesArray;
           if (order) argument.order = order;
 
           return model.findAll(argument);
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - singleFindAll - ",
-            modelName,
-            ", ",
-            where,
-            ", ",
-            attributes,
-            " - ",
-            error
+          let errMsg =
+            modelName + ", " + where + ", " + attributes + " - " + error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "singleFindAll",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - singleFindAll - transaction - ",
-        error
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "singleFindAll - transaction ",
+        errId + " - " + error
       );
       return this._errorHandler(error, errId);
     }
@@ -459,34 +452,38 @@ class DataBase {
     );
     try {
       return this.sequelize
-        .transaction(t => {
+        .transaction((t) => {
           return this.sequelize.query(destroyQuery, { t });
         })
-        .catch(error => {
+        .catch((error) => {
           let errId = uniqid();
-          DBlogger.error(
-            errId,
-            " - DBManager - singleSetDestroyTimer - ",
-            table,
-            ", ",
-            afterCreate,
-            ", ",
-            deleteTime,
-            ", ",
-            eventTime,
-            ", ",
-            prop,
-            " - ",
-            error
+          let errMsg =
+            table +
+            ", " +
+            afterCreate +
+            ", " +
+            deleteTime +
+            ", " +
+            eventTime +
+            ", " +
+            prop +
+            " - " +
+            error;
+          DBlogger.writeToLog(
+            "error",
+            "DBManager",
+            "singleSetDestroyTimer",
+            errId + " - " + errMsg
           );
           return this._errorHandler(error, errId);
         });
     } catch (error) {
       let errId = uniqid();
-      DBlogger.error(
-        errId,
-        " - DBManager - singleSetDestroyTimer - transaction - ",
-        error
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "singleSetDestroyTimer - transaction",
+        errId + " - " + error
       );
       return this._errorHandler(error, errId);
     }
