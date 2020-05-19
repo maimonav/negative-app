@@ -239,10 +239,10 @@ class Order {
         if (
           typeof product.examinationRoom === "undefined" ||
           product.examinationRoom === null ||
-          typeof product.examinationRoom === "" ||
+          product.examinationRoom === "" ||
           typeof product.key === "undefined" ||
           product.key === null ||
-          typeof product.key === ""
+          product.key === ""
         )
           problematicProductID = product.id;
       }

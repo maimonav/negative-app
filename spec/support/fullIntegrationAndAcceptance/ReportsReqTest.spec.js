@@ -1,6 +1,7 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { testMovie } = require("../DBtests/ProductsTests.spec");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
+
 const {
   getSyncDateFormat,
   testAddInventoryDailyReport,
@@ -11,40 +12,78 @@ const {
   testGeneralPurposeDailyReportResult,
 } = require("./../DBtests/ReportsTests.spec");
 
+//TODO:: test general
 describe("Report Operations Tests", function() {
   let service = new ServiceLayer();
   let dbName = "reporttest";
   let todayDate = new Date();
   let types = [
-    "inventory_daily_report",
     "incomes_daily_report",
+    "inventory_daily_report",
     "general_purpose_daily_report",
+  ];
+  let records = [
+    {
+      date: getSyncDateFormat(todayDate),
+      numOfTabsSales: 2,
+      cafeteriaCashRevenues: 2.2,
+      cafeteriaCreditCardRevenues: 5.5,
+      ticketsCashRevenues: 4,
+      ticketsCreditCardRevenues: 3,
+      tabsCashRevenues: 0,
+      tabsCreditCardRevenues: 0,
+      creatorEmployeeId: 1,
+    },
+    {
+      date: getSyncDateFormat(todayDate),
+      productId: 0,
+      quantitySold: 2,
+      stockThrown: 4,
+      quantityInStock: 4,
+      creatorEmployeeId: 1,
+    },
+    {
+      date: getSyncDateFormat(todayDate),
+      creatorEmployeeId: 1,
+      allProps: ["Cash Counted", "Report Z Taken"],
+      currentProps: ["Cash Counted", "Report Z Taken"],
+      propsObject: { "Cash Counted": "true", "Report Z Taken": "true" },
+    },
   ];
 
   let reports = [
     {
-      date: todayDate,
-      productId: 0,
-      creatorEmployeeId: 1,
-      quantitySold: 4,
-      quantityInStock: 8,
-      stockThrown: 8,
+      type: "incomes_daily_report",
+      content: [
+        {
+          numOfTabsSales: "2",
+          cafeteriaCashRevenues: "2.2",
+          cafeteriaCreditCardRevenues: "5.5",
+          ticketsCashRevenues: "4",
+          ticketsCreditCardRevenues: "3",
+          tabsCashRevenues: "0",
+          tabsCreditCardRevenues: "0",
+        },
+      ],
     },
     {
-      date: todayDate,
-      creatorEmployeeId: 1,
-      numOfTabsSales: 0,
-      cafeteriaCashRevenues: 20.0,
-      cafeteriaCreditCardRevenues: 20.0,
-      ticketsCashRevenues: 20.0,
-      ticketsCreditCardRevenues: 20.0,
-      tabsCashRevenues: 20.0,
-      tabsCreditCardRevenues: 20.0,
+      type: "inventory_daily_report",
+      content: [
+        {
+          productName: "product",
+          quantitySold: "2",
+          stockThrown: "4",
+        },
+      ],
     },
     {
-      date: todayDate,
-      creatorEmployeeId: 1,
-      additionalProps: [[], { "Cash counted": "true" }],
+      type: "general_purpose_daily_report",
+      content: [
+        {
+          "Cash Counted": "true",
+          "Report Z Taken": "true",
+        },
+      ],
     },
   ];
 
@@ -59,14 +98,75 @@ describe("Report Operations Tests", function() {
     console.log("Database deleted");
   });
 
-  it("createDailyReport req 1.1.13, 2.4, 2.6", async function(done) {
+  it("addFieldToDailyReport req 2.8", async function() {
+    let user = "admin";
+    service.login(user, user);
+
+    let result = await service.addFieldToDailyReport("new_field", user);
+    expect(result).toBe("The report field added successfully");
+    let reportAfter = {
+      date: getSyncDateFormat(
+        new Date(todayDate.setDate(todayDate.getDate() - 1))
+      ),
+      creatorEmployeeId: null,
+      allProps: ["new_field"],
+      currentProps: ["new_field"],
+      propsObject: {},
+    };
+    await testAddGeneralPurposeDailyReport(reportAfter, true);
+  });
+
+  it("removeFieldFromDailyReport req 2.9", async function() {
+    let user = "admin";
+    service.login(user, user);
+
+    await service.addFieldToDailyReport("new_field", user);
+
+    let result = await service.removeFieldFromDailyReport("new_field", user);
+    expect(result).toBe("The report field removed successfully");
+    let reportAfter = {
+      date: getSyncDateFormat(
+        new Date(todayDate.setDate(todayDate.getDate() - 1))
+      ),
+      creatorEmployeeId: null,
+      allProps: ["new_field"],
+      currentProps: [],
+      propsObject: {},
+    };
+    await testAddGeneralPurposeDailyReport(reportAfter, true);
+  });
+
+  it("createDailyReport req 1.1.13, 2.4, 2.6, 3.1", async function(done) {
     setTimeout(done, 5000);
 
     let user = "admin";
-    let records = JSON.stringify([]);
     service.login(user, user);
 
-    let result = await service.createDailyReport("type", records, user);
+    await service.addFieldToDailyReport("Cash Counted", user);
+    await service.addFieldToDailyReport("Report Z Taken", user);
+
+    let result = await service.createDailyReport(
+      todayDate.toISOString(),
+      JSON.stringify(reports),
+      user
+    );
+    expect(result).toBe("The product does not exist.");
+    await service.addCategory("category", "admin");
+    await service.addNewProduct(
+      "product",
+      "10",
+      "10",
+      "2",
+      "20",
+      "category",
+      "admin"
+    );
+
+    result = await service.createDailyReport(
+      todayDate.toISOString(),
+      JSON.stringify(reports),
+      user
+    );
     expect(result).toBe(
       "Cannot create report - creator employee id is not exist"
     );
@@ -81,30 +181,23 @@ describe("Report Operations Tests", function() {
       user
     );
     service.login("username", "password");
-    await service.addCategory("categoryTest", user);
-    await service.addNewProduct(
-      "productTest",
-      10,
-      5,
-      0,
-      10,
-      "categoryTest",
-      user
+
+    result = await service.createDailyReport(
+      todayDate.toISOString(),
+      JSON.stringify(reports),
+      "username"
     );
+    expect(result).toBe("The report created successfully");
 
     let testFunctions = [
-      testAddInventoryDailyReport,
       testAddIncomesDailyReport,
+      testAddInventoryDailyReport,
       testAddGeneralPurposeDailyReport,
     ];
 
     for (let i in types) {
-      records = JSON.stringify([reports[i]]);
-      result = await service.createDailyReport(types[i], records, "username");
-      expect(result).toBe("The report created successfully");
       setTimeout(async () => {
-        reports[i].date = getSyncDateFormat(reports[i].date);
-        await testFunctions[i](reports[i], true);
+        await testFunctions[i](records[i], true);
       }, (i + 1) * 1000);
     }
   }, 6000);
@@ -113,10 +206,22 @@ describe("Report Operations Tests", function() {
     setTimeout(done, 5000);
 
     let user = "admin";
-    let records = JSON.stringify([]);
     service.login(user, user);
 
-    //Create reports
+    await service.addFieldToDailyReport("Cash Counted", user);
+    await service.addFieldToDailyReport("Report Z Taken", user);
+
+    await service.addCategory("category", "admin");
+    await service.addNewProduct(
+      "product",
+      "10",
+      "10",
+      "2",
+      "20",
+      "category",
+      "admin"
+    );
+
     await service.addNewEmployee(
       "username",
       "password",
@@ -127,53 +232,58 @@ describe("Report Operations Tests", function() {
       user
     );
     service.login("username", "password");
-    await service.addCategory("categoryTest", user);
-    await service.addNewProduct(
-      "productTest",
-      10,
-      5,
-      0,
-      10,
-      "categoryTest",
-      user
-    );
 
-    for (let i in types) {
-      records = JSON.stringify([reports[i]]);
-      await service.createDailyReport(types[i], records, "username");
-    }
+    await service.createDailyReport(
+      todayDate.toISOString(),
+      JSON.stringify(reports),
+      "username"
+    );
 
     //Get reports
 
     let testFunctions = [
-      testInventoryDailyReportResult,
       testIncomeDailyReportResult,
+      testInventoryDailyReportResult,
       testGeneralPurposeDailyReportResult,
     ];
 
-    let reportsAfter = reports;
-    reportsAfter[0].productName = "productTest";
+    let reportsAfter = records;
+    reportsAfter[1].productName = "product";
     for (let i in reportsAfter) {
       reportsAfter[i].date = reportsAfter[i].date.toDateString();
       reportsAfter[i].creatorEmployeeName = "first last";
     }
 
     for (let i in types) {
-      if (types[i] === "general_purpose_daily_report") {
-        reportsAfter[i].props = [];
-        reportsAfter[i]["Cash counted"] = "true";
-      }
-      result = await service.getReport(types[i], todayDate, "username");
+      let result = await service.getReport(
+        types[i],
+        todayDate.toISOString(),
+        "username"
+      );
       testFunctions[i](result[0], reportsAfter[i]);
     }
   }, 6000);
 
-  it("addFieldToDailyReport req 2.8", async function() {
+  it("getFullDailyReport req  2.10, 2.11", async function(done) {
+    setTimeout(done, 5000);
+
     let user = "admin";
-    let records = JSON.stringify([]);
     service.login(user, user);
 
-    //Create reports
+    await service.addFieldToDailyReport("Cash Counted", user);
+    await service.addFieldToDailyReport("Report Z Taken", user);
+
+    await service.addCategory("category", "admin");
+    await service.addNewProduct(
+      "product",
+      "10",
+      "10",
+      "2",
+      "20",
+      "category",
+      "admin"
+    );
+
     await service.addNewEmployee(
       "username",
       "password",
@@ -184,46 +294,36 @@ describe("Report Operations Tests", function() {
       user
     );
     service.login("username", "password");
-    records = JSON.stringify([reports[2]]);
-    await service.createDailyReport(types[2], records, "username");
 
-    result = await service.addFieldToDailyReport("new_field", "username");
-    expect(result).toBe("The report field added successfully");
-    let reportAfter = reports[2];
-    reportAfter.date = getSyncDateFormat(reportAfter.date);
-    reportAfter.additionalProps[0] = reportAfter.additionalProps[0].concat(
-      "new_field"
-    );
-    await testAddGeneralPurposeDailyReport(reportAfter, true);
-  });
-
-  it("removeFieldFromDailyReport req 2.9", async function() {
-    let user = "admin";
-    let records = JSON.stringify([]);
-    service.login(user, user);
-
-    //Create reports
-    await service.addNewEmployee(
-      "username",
-      "password",
-      "first",
-      "last",
-      "MANAGER",
-      "contact",
-      user
-    );
-    service.login("username", "password");
-    records = JSON.stringify([reports[2]]);
-    await service.createDailyReport(types[2], records, "username");
-
-    result = await service.removeFieldFromDailyReport(
-      "Cash counted",
+    await service.createDailyReport(
+      todayDate.toISOString(),
+      JSON.stringify(reports),
       "username"
     );
-    expect(result).toBe("The report field removed successfully");
-    let reportAfter = reports[2];
-    reportAfter.date = getSyncDateFormat(reportAfter.date);
-    reportAfter.additionalProps[0] = [];
-    await testAddGeneralPurposeDailyReport(reportAfter, true);
-  });
+
+    //Get reports
+
+    let testFunctions = [
+      testIncomeDailyReportResult,
+      testInventoryDailyReportResult,
+      testGeneralPurposeDailyReportResult,
+    ];
+
+    let result = await service.getFullDailyReport(
+      todayDate.toISOString(),
+      "username"
+    );
+
+    let reportsAfter = records;
+    reportsAfter[1].productName = "product";
+    for (let i in reportsAfter) {
+      reportsAfter[i].date = reportsAfter[i].date.toDateString();
+      reportsAfter[i].creatorEmployeeName = "first last";
+    }
+
+    for (let i in types) {
+      let report = result[i].content;
+      testFunctions[i](report[0], reportsAfter[i]);
+    }
+  }, 6000);
 });

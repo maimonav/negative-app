@@ -62,7 +62,9 @@ context("Type all fields", () => {
 
     cy.get(`[data-hook=${categoryParentNameHook}`)
       .click()
-      .type(editCategoryName);
+      .type(editCategoryName)
+      .type("{downarrow}")
+      .type("{esc}");
 
     cy.get(`[data-hook=${actionButtonHook}]`).click();
 

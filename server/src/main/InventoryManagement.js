@@ -633,7 +633,46 @@ class InventoryManagemnt {
     let result = await this.products
       .get(productId)
       .editProduct(categoryId, price, quantity, maxQuantity, minQuantity);
-
+    if (typeof price === "number" && !isNaN(price) && price < 0) {
+      this.writeToLog(
+        "info",
+        "editCafeteriaProduct",
+        "Price must be graeter or equal to 0"
+      );
+      return "Price must be graeter or equal to 0";
+    }
+    if (typeof quantity === "number" && !isNaN(quantity) && quantity < 0) {
+      this.writeToLog(
+        "info",
+        "editCafeteriaProduct",
+        "quantity must be graeter or equal to 0"
+      );
+      return "Quantity must be graeter or equal to 0";
+    }
+    if (
+      typeof maxQuantity === "number" &&
+      !isNaN(maxQuantity) &&
+      maxQuantity < 0
+    ) {
+      this.writeToLog(
+        "info",
+        "editCafeteriaProduct",
+        "maxQuantity must be graeter or equal to 0"
+      );
+      return "maxQuantity must be graeter or equal to 0";
+    }
+    if (
+      typeof minQuantity === "number" &&
+      !isNaN(minQuantity) &&
+      minQuantity < 0
+    ) {
+      this.writeToLog(
+        "info",
+        "editCafeteriaProduct",
+        "maxQuantity must be graeter or equal to 0"
+      );
+      return "minQuantity must be graeter or equal to 0";
+    }
     if (result === "Product details update successfully completed")
       this.checkAndnotifyLowAndHighQuantity([{ id: productId }]);
     return result;

@@ -6,12 +6,66 @@ const DBlogger = LogController.getInstance("db");
 
 class ReportController {
   static _types = {
+    INCOMES: "incomes_daily_report",
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
-    MOVIES: "movie_daily_report",
-    INCOMES: "incomes_daily_report",
+    //MOVIES: "movie_daily_report",
   };
-  static _generalDailyReoprtFormat = [];
+  static _allGeneralDailyReoprtFormat;
+  static _currentGeneralDailyReoprtFormat;
+
+  static async getAllgeneralDailyReoprtFormat(calledFunctionName) {
+    let result;
+    if (!this._allGeneralDailyReoprtFormat)
+      result = await this.updatePropsLists(calledFunctionName);
+    return result ? result : this._allGeneralDailyReoprtFormat;
+  }
+
+  static async getCurrentGeneralDailyReoprtFormat(calledFunctionName) {
+    let result;
+    if (!this._currentGeneralDailyReoprtFormat)
+      result = await this.updatePropsLists(calledFunctionName);
+    return result ? result : this._currentGeneralDailyReoprtFormat;
+  }
+
+  static async updatePropsLists(calledFunctionName) {
+    let result = await DataBase.singleFindAll(
+      this._types.GENERAL,
+      {},
+      { fn: "max", fnField: "date" }
+    );
+    if (typeof result === "string") {
+      DBlogger.info(
+        "ReportController - " + calledFunctionName
+          ? calledFunctionName + " - "
+          : "" + "getCurrentGeneralDailyReoprtFormat - singleFindAll -",
+        result
+      );
+      return (
+        "Cannot get reports fields. Action cannot be completed, details:\n" +
+        result
+      );
+    }
+    if (result) {
+      result = await DataBase.singleGetById(this._types.GENERAL, {
+        date: new Date(result[0].date),
+      });
+      if (typeof result === "string") {
+        DBlogger.info(
+          "ReportController - " + calledFunctionName
+            ? calledFunctionName + " - "
+            : "" + "getCurrentGeneralDailyReoprtFormat - singleGetById -",
+          result
+        );
+        return result;
+      }
+
+      this._currentGeneralDailyReoprtFormat = result.currentProps;
+      this._allGeneralDailyReoprtFormat = result.allProps;
+      return result;
+    }
+    return { currentProps: [], allProps: [] };
+  }
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
@@ -46,7 +100,9 @@ class ReportController {
    * "general_purpose_daily_report" => {
         date: todayDate,
         creatorEmployeeId: 1,
-        additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+        propsObject: { "Cash Counted": "true" },
+        currentProps: ["Cash Counted"]
+        allProps: ["Cash Counted","Report Z Taken"],
       }
    * "incomes_daily_report" => {
         date: todayDate,
@@ -60,36 +116,40 @@ class ReportController {
         tabsCreditCardRevenues: 20.0,
       }
    */
-  static async createDailyReport(type, records) {
-    //validate type from enum of types
-    if (!this._isValidType(type)) {
-      logger.writeToLog(
-        "info",
-        "ReportController",
-        "createDailyReport",
-        "The requested report type " + type + " is invalid"
-      );
-      return "The requested report type is invalid";
-    }
+  static async createDailyReport(reports) {
     let actionsList = [];
-    for (let i in records) {
-      if (!records[i].date || !this._isValidDate(records[i].date)) {
-        logger.writeToLog(
-          "info",
-          "ReportController",
-          "createDailyReport",
-          "Report record date is invalid"
+    for (let j in reports) {
+      let records = reports[j].content;
+      let type = reports[j].type;
+      for (let i in records) {
+        if (!records[i].date || !this._isValidDate(records[i].date)) {
+          logger.info(
+            "ReportController- createDailyReport - Report record date is invalid"
+          );
+          return "Report record date is invalid";
+        }
+        records[i].date = new Date(
+          this._getSyncDateFormat(new Date(records[i].date))
         );
-        return "Report record date is invalid";
+        let isDailyReportCreated = await DataBase.singleGetById(type, {
+          date: records[i].date,
+        });
+        if (typeof isDailyReportCreated === "string") {
+          DBlogger.info("ReportController - createDailyReport - ", result);
+          return "The report cannot be created\n" + result;
+        }
+        if (isDailyReportCreated && isDailyReportCreated !== null) {
+          logger.info(
+            "ReportController- createDailyReport - Daily report already exists in this date"
+          );
+          return "Cannot add this report - daily report already exists in this date";
+        }
+        actionsList = actionsList.concat({
+          name: DataBase._add,
+          model: type,
+          params: { element: records[i] },
+        });
       }
-      records[i].date = new Date(
-        this._getSyncDateFormat(new Date(records[i].date))
-      );
-      actionsList = actionsList.concat({
-        name: DataBase._add,
-        model: type,
-        params: { element: records[i] },
-      });
     }
     let result = await DataBase.executeActions(actionsList);
     if (typeof result === "string") {
@@ -142,7 +202,7 @@ class ReportController {
       DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result.length === 0) return "The report does not exist";
+    if (result && result.length === 0) return "The report does not exist";
 
     return result;
   }
@@ -153,38 +213,18 @@ class ReportController {
    * @returns {Promise(string)} success or failure
    */
   static async addFieldToDailyReport(newField) {
-    let result = await DataBase.singleFindAll(
-      this._types.GENERAL,
-      {},
-      { fn: "max", fnField: "date" }
-    );
+    let result = await this.updatePropsLists("addFieldToDailyReport");
     if (typeof result === "string") {
-      DBlogger.writeToLog(
-        "info",
-        "ReportController",
-        "addFieldToDailyReport",
-        result
-      );
       return "The report field cannot be added\n" + result;
     }
-    if (result.length === 0) return "The report field cannot be added";
-    result = await DataBase.singleGetById(this._types.GENERAL, {
-      date: new Date(result[0].date),
-    });
-    if (typeof result === "string") {
-      DBlogger.writeToLog(
-        "info",
-        "ReportController",
-        "addFieldToDailyReport",
-        result
-      );
-      return "The report field cannot be added\n" + result;
-    }
-    let newProps = result.additionalProps[0].concat(newField);
+
+    let newCurrentProps = result.currentProps.concat(newField);
+    let newAllProps = result.allProps.concat(newField);
+
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
       { date: new Date(result.date) },
-      { additionalProps: [newProps, result.additionalProps[1]] }
+      { currentProps: newCurrentProps, allProps: newAllProps }
     );
     if (typeof result === "string") {
       DBlogger.writeToLog(
@@ -195,9 +235,10 @@ class ReportController {
       );
       return "The report field cannot be added\n" + result;
     }
-    this._generalDailyReoprtFormat = this._generalDailyReoprtFormat.concat(
-      newField
-    );
+
+    this._currentGeneralDailyReoprtFormat = newCurrentProps;
+    this._allGeneralDailyReoprtFormat = newAllProps;
+
     return "The report field added successfully";
   }
 
@@ -207,40 +248,19 @@ class ReportController {
    * @returns {Promise(string)} success or failure
    */
   static async removeFieldFromDailyReport(fieldToRemove) {
-    let result = await DataBase.singleFindAll(
-      this._types.GENERAL,
-      {},
-      { fn: "max", fnField: "date" }
-    );
+    let result = await this.updatePropsLists("removeFieldFromDailyReport");
     if (typeof result === "string") {
-      DBlogger.writeToLog(
-        "info",
-        "ReportController",
-        "removeFieldFromDailyReport",
-        result
-      );
-      return "The report field cannot be removed\n" + result;
+      return "The report field cannot be added\n" + result;
     }
-    if (result.length === 0) return "The report field cannot be added";
-    result = await DataBase.singleGetById(this._types.GENERAL, {
-      date: new Date(result[0].date),
-    });
-    if (typeof result === "string") {
-      DBlogger.writeToLog(
-        "info",
-        "ReportController",
-        "removeFieldFromDailyReport",
-        result
-      );
-      return "The report field cannot be removed\n" + result;
-    }
-    let newProps = result.additionalProps[0].filter(
+
+    let newCurrentProps = result.currentProps.filter(
       (value) => value !== fieldToRemove
     );
+
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
       { date: new Date(result.date) },
-      { additionalProps: [newProps, result.additionalProps[1]] }
+      { currentProps: newCurrentProps }
     );
     if (typeof result === "string") {
       DBlogger.writeToLog(
@@ -251,6 +271,9 @@ class ReportController {
       );
       return "The report field cannot be removed\n" + result;
     }
+
+    this._currentGeneralDailyReoprtFormat = newCurrentProps;
+
     return "The report field removed successfully";
   }
 }

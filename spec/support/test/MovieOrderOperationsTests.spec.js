@@ -5,43 +5,10 @@ const Order = require("../../../server/src/main/Order");
 const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
-
-async function validate(serviceLayer, method, params) {
-  Object.keys(params).forEach(async (key) => {
-    let withEmptyParam = Object.keys(params).map((k) =>
-      k === key ? "" : params[k]
-    );
-    let withUndefinedParam = Object.keys(params).map((k) =>
-      k === key ? undefined : params[k]
-    );
-    let expected = key + "is not valid";
-    let result = await method.apply(serviceLayer, withEmptyParam);
-    expect(result).toBe(expected);
-    result = await method.apply(serviceLayer, withUndefinedParam);
-    expect(result).toBe(expected);
-  });
-}
-
-exports.asyncValidate = validate;
-
-async function testCinemaFunctions(cinemaSystem, method) {
-  let result = await method();
-  expect(result).toBe(
-    "The operation cannot be completed - the user is not connected to the system"
-  );
-  let user = { isLoggedin: () => false };
-  cinemaSystem.users.set(1, user);
-  result = await method();
-  expect(result).toBe(
-    "The operation cannot be completed - the user is not connected to the system"
-  );
-  user = { isLoggedin: () => true, permissionCheck: () => false };
-  cinemaSystem.users.set(1, user);
-  result = await method();
-  expect(result).toBe("User does not have proper permissions");
-}
-
-exports.asyncTestCinemaFunctions = testCinemaFunctions;
+const {
+  validate,
+  testCinemaFunctions,
+} = require("./MovieOperationsTests.spec");
 
 describe("MovieOrder Operations Tests", () => {
   beforeAll(() => {
@@ -91,6 +58,16 @@ describe("MovieOrder Operations Tests", () => {
       "Order",
       "date",
       "Supplier",
+      JSON.parse('["Movie","Movie"]'),
+      "User"
+    );
+    expect(result).toBe(
+      "Cannot add the same movie more than once to the order."
+    );
+    result = await serviceLayer.addMovieOrder(
+      "Order",
+      "date",
+      "Supplier",
       JSON.parse('["Movie"]'),
       "User"
     );
@@ -118,8 +95,11 @@ describe("MovieOrder Operations Tests", () => {
 
   it("UnitTest addMovieOrder, removeOrder - Cinema System", async () => {
     let cinemaSystem = new CinemaSystem();
-    await testCinemaFunctions(cinemaSystem, () =>
-      cinemaSystem.addMovieOrder(1, "", 1, [], 1)
+    await testCinemaFunctions(
+      cinemaSystem,
+      () => cinemaSystem.addMovieOrder(1, "", 1, [], 1),
+      true,
+      "add order"
     );
 
     cinemaSystem = new CinemaSystem();

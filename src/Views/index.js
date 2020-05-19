@@ -31,6 +31,7 @@ import RemoveCategory from "./InventoryActions/CategoryActions/RemoveCategory";
 import ManageMovies from "./InventoryActions/MoviesActions/ManageMovies";
 import EditCafeteriaOrder from "./InventoryActions/CafeteriaActions/EditCafeteriaOrder";
 import ShowReport from "./ReportsActions/ShowReport";
+import CreateDailyReport from "./ReportsActions/CreateDailyReport";
 import ConfirmCafeteriaOrder from "./InventoryActions/CafeteriaActions/ConfirmCafeteriaOrder";
 import ManageOrders from "./InventoryActions/CafeteriaActions/ManageOrders";
 import ManageMoviesOrders from "./InventoryActions/MoviesOrders/ManageMoviesOrders";
@@ -38,6 +39,7 @@ import AddMovieOrder from "./InventoryActions/MoviesOrders/AddMovieOrder";
 import EditMovieOrder from "./InventoryActions/MoviesOrders/EditMovieOrder";
 import ShowMovieOrders from "./InventoryActions/MoviesOrders/ShowMovieOrder";
 import ConfirmMovieOrder from "./InventoryActions/MoviesOrders/ConfirmMovieOrder";
+import NotificationHandler from "../Components/NotificationHandler";
 
 export {
   Login,
@@ -73,6 +75,7 @@ export {
   RemoveCategory,
   EditCafeteriaOrder,
   ShowReport,
+  CreateDailyReport,
   ConfirmCafeteriaOrder,
   ManageOrders,
   ManageMoviesOrders,
@@ -80,4 +83,5 @@ export {
   EditMovieOrder,
   ShowMovieOrders,
   ConfirmMovieOrder,
+  NotificationHandler,
 };

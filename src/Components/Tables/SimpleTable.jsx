@@ -35,8 +35,10 @@ export default class SimpleTable extends React.Component {
                   <TableCell>
                     {row.expectedQuantity ? row.expectedQuantity : row.quantity}
                   </TableCell>
-                  {row.actualQuantity && (
+                  {row.actualQuantity ? (
                     <TableCell>{row.actualQuantity}</TableCell>
+                  ) : (
+                    ""
                   )}
                 </TableRow>
               ))}

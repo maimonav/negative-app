@@ -13,15 +13,18 @@ import {
   manageCategoriesPath,
   manageMoviesPath,
   showReportPath,
+  createDailyReportPath,
   manageOrdersPath,
-  manageMoviesOrdersPath
+  manageMoviesOrdersPath,
+  notificationPath,
 } from "../consts/paths";
 
 import {
   handleLogin,
   handleLogout,
   handleEditMovie,
-  handleRemoveMovie
+  handleRemoveMovie,
+  handleCreateDailyReports,
 } from "../Handlers/Handlers";
 
 import {
@@ -35,9 +38,11 @@ import {
   ManageCafeteriaOrders,
   ManageMovies,
   ShowReport,
+  CreateDailyReport,
   ManageCategories,
   ManageOrders,
-  ManageMoviesOrders
+  ManageMoviesOrders,
+  NotificationHandler,
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -111,6 +116,16 @@ export default function Routes(props) {
       )}
 
       {props.isLogged && <Route path={showReportPath} component={ShowReport} />}
+      {props.isLogged && (
+        <Route
+          path={createDailyReportPath}
+          component={() => (
+            <CreateDailyReport
+              handleCreateDailyReports={handleCreateDailyReports}
+            />
+          )}
+        />
+      )}
     </Switch>
   );
 }

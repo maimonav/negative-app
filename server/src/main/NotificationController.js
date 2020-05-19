@@ -35,12 +35,12 @@ class NotificationController {
 
       let initResult = await initRes;
       if (typeof initResult === "string") {
-        let err = JSON.stringify({
+        let err = {
           type: "ERROR",
           subtype: "INIT",
           content: initResult,
-        });
-        socketClient.send([err]);
+        };
+        socketClient.send(JSON.stringify([err]));
       }
     });
   }
@@ -182,15 +182,16 @@ class NotificationController {
     let notificationObjectsList = [];
     for (let i in usersList) {
       let userId = usersList[i];
+      if (!userId) continue;
       let userUrl = this.usersIdToUrl.get(userId);
-      let seenFalg = false;
+      let seenFlag = false;
       if (
         this.loggedInUsers.has(userId) &&
         userUrl &&
         this.clientsMap.has(userUrl)
       ) {
         let clientSocket = this.clientsMap.get(userUrl);
-        clientSocket.send([notification]);
+        clientSocket.send(JSON.stringify([notification]));
         //set notification as seen
         seenFlag = true;
       }
@@ -201,7 +202,7 @@ class NotificationController {
           element: {
             recipientUserId: userId,
             timeFired: timeFired,
-            seen: seenFalg,
+            seen: seenFlag,
             content: notificationContent,
           },
         },
@@ -215,7 +216,8 @@ class NotificationController {
     let result = await DataBase.executeActions(notificationObjectsList);
 
     if (typeof result === "string") {
-      clientSocket.send([
+      //todo:: send to all users!
+      /*clientSocket.send([
         {
           type: "ERROR",
           subtype: "SAVE NOTIFICATIONS",
@@ -225,15 +227,12 @@ class NotificationController {
           result,
         },
       ]);
-      DBlogger.writeToLog(
-        "info",
-        "NotificationController",
-        "notify ",
-        "problem to insert notification to database, notifications got lost\n. Notifications List:\n" +
-          notificationObjectsList +
-          "\n" +
-          result
-      );
+      DBlogger.info(
+        "NotificationController - notify - problem to insert notification to database, notifications got lost\n. Notifications List:\n",
+        notificationObjectsList,
+        "\n",
+        result
+      );*/
     }
   }
 }

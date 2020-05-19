@@ -16,7 +16,86 @@ class ServiceLayer {
     this.categoriesCounter = 0;
     this.orders = new Map();
     this.ordersCounter = 0;
+    this.convertionMethods = {
+      inventory_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          logger.info(
+            "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content structure is invalid",
+            records
+          );
+          return "Report content structure is invalid";
+        }
+        let products = new Set();
+        for (let i in records) {
+          let record = records[i];
+          if (!record.productName || !this._isInputValid(record.productName)) {
+            logger.info(
+              "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content is invalid",
+              records
+            );
+            return "Product Name is not valid";
+          }
+
+          if (!this.products.has(record.productName)) {
+            logger.info(
+              "ServiceLayer - convertionMethods[inventory_daily_report] - The product " +
+                record.productName +
+                " does not exist in the system."
+            );
+            return "The product does not exist.";
+          }
+          if (products.has(record.productName)) {
+            logger.info(
+              "ServiceLayer - convertionMethods[inventory_daily_report] - The product " +
+                record.productName +
+                " already exists in the report."
+            );
+            return "Cannot add the same product more than once to invetory report.";
+          }
+          products.add(record.productName);
+          record.productId = this.products.get(record.productName);
+          delete record.productName;
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+      general_purpose_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          logger.info(
+            "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content structure is invalid",
+            records
+          );
+          return "Report content structure is invalid";
+        }
+        for (let i in records) {
+          let record = records[i];
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+      incomes_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          logger.info(
+            "ServiceLayer - createDailyReport - convertionMethods[inventory_daily_report] - Report content structure is invalid",
+            records
+          );
+          return "Report content structure is invalid";
+        }
+        for (let i in records) {
+          let record = records[i];
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+    };
   }
+
   /**
    * @param {string} dbName The database name
    * @returns {string} Success or failure string
@@ -254,7 +333,6 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async addMovie(movieName, category, ActionIDOfTheOperation) {
-    console.log("category:", category);
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(category)
@@ -589,6 +667,11 @@ class ServiceLayer {
     }
     return result;
   }
+  _isParamTypeOfNumber(param) {
+    if (typeof param === "undefined" || param === null || param === "")
+      return false;
+    return isNaN(param);
+  }
   /**
    * Editing the cafeteria product
    * @param {String} productName Unique ID of cafeteria product
@@ -629,6 +712,43 @@ class ServiceLayer {
     else {
       categoryID = this.categories.get(productCategory);
     }
+    if (this._isParamTypeOfNumber(productPrice)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail price " +
+          productPrice +
+          " is must to be number"
+      );
+      return "The Opertaion fail - Price is must to be number";
+    }
+    if (this._isParamTypeOfNumber(productQuantity)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail Quantity " +
+          productQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - Quantity is must to be number";
+    }
+    if (this._isParamTypeOfNumber(minQuantity)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail minQuantity " +
+          minQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - minQuantity is must to be number";
+    }
+    if (this._isParamTypeOfNumber(maxQuantity)) {
+      logger.log(
+        "info",
+        "ServiceLayer - editProduct - The Opertaion fail maxQuantity " +
+          maxQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - maxQuantity is must to be number";
+    }
+
     return await this.cinemaSystem.editCafeteriaProduct(
       this.products.get(productName),
       categoryID,
@@ -830,6 +950,7 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
+    let movies = new Set();
     for (let i in moviesList) {
       if (!this.products.has(moviesList[i])) {
         logger.info(
@@ -839,6 +960,15 @@ class ServiceLayer {
         );
         return "Movie does not exist";
       }
+      if (movies.has(moviesList[i])) {
+        logger.info(
+          "ServiceLayer - addMovieOrder - The movie " +
+            moviesList[i] +
+            " already exists in the order."
+        );
+        return "Cannot add the same movie more than once to the order.";
+      }
+      movies.add(moviesList[i]);
       moviesList[i] = this.products.get(moviesList[i]);
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
@@ -1110,6 +1240,7 @@ class ServiceLayer {
       );
       return "The supplier does not exist";
     }
+    let products = new Set();
     for (let i = 0; i < productsList.length; i++) {
       if (!this.products.has(productsList[i].name)) {
         logger.info(
@@ -1119,6 +1250,15 @@ class ServiceLayer {
         );
         return "Product does not exist";
       }
+      if (products.has(productsList[i].name)) {
+        logger.info(
+          "ServiceLayer - addCafeteriaOrder - The product " +
+            productsList[i].name +
+            " already exists in the order."
+        );
+        return "Cannot add the same product more than once to the order.";
+      }
+      products.add(productsList[i].name);
       productsList[i].id = this.products.get(productsList[i].name);
       productsList[i].quantity = parseInt(productsList[i].quantity);
       delete productsList[i].name;
@@ -1211,15 +1351,15 @@ class ServiceLayer {
 
   /**
    * @param {string} type Type of the report
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Reports to add in the report
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(string)} Success or failure
    */
-  async createDailyReport(type, records, ActionIDOfTheOperation) {
-    let validationResult = !this._isInputValid(type)
-      ? "Type is not valid"
-      : !this._isInputValid(records)
-      ? "Records is not valid"
+  async createDailyReport(date, reports, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(reports)
+      ? "Reports is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
@@ -1235,9 +1375,43 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
+    reports = JSON.parse(reports);
+    if (reports.length === 0) {
+      logger.info(
+        "ServiceLayer - createDailyReport - action failed - empty input reports:",
+        reports
+      );
+      return "There is missing information in the report - Please try again.";
+    }
+    for (let i in reports) {
+      let report = reports[i];
+      if (!report.type || !this.cinemaSystem.isValidReportType(report.type)) {
+        logger.info(
+          "ServiceLayer - createDailyReport - The requested report type " +
+            report.type +
+            " is invalid"
+        );
+        return "Given report type is invalid";
+      }
+      if (!report.content || report.content.length === 0) {
+        logger.info(
+          "ServiceLayer - createDailyReport - Report content is invalid"
+        );
+        return "There is missing information in the report - Please try again.";
+      }
+      report.content = this.convertionMethods[report.type](
+        report.content,
+        ActionIDOfTheOperation,
+        date
+      );
+      if (typeof report.content === "string") {
+        return report.content;
+      }
+      reports[i] = report;
+    }
+
     return await this.cinemaSystem.createDailyReport(
-      type,
-      JSON.parse(records),
+      reports,
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -1274,6 +1448,46 @@ class ServiceLayer {
       new Date(date),
       this.users.get(ActionIDOfTheOperation)
     );
+  }
+
+  /**
+   * get all types report to show full daily report
+   * @param {string} date Date of the report
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(Array(Object) | string)} In success returns list of the reports by type,
+   * otherwise returns error string.
+   */
+  async getFullDailyReport(date, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      logger.info("ServiceLayer- getFullDailyReport - ", validationResult);
+      return validationResult;
+    }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      logger.info(
+        "ServiceLayer- getReport - The user " +
+          ActionIDOfTheOperation +
+          " performing the operation does not exist in the system"
+      );
+      return "The user performing the operation does not exist in the system";
+    }
+    let reports = [];
+    let types = this.cinemaSystem.getReportTypes();
+    for (let i in types) {
+      let type = types[i];
+      let result = await this.cinemaSystem.getReport(
+        type,
+        new Date(date),
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (typeof result === "string") return result;
+      reports = reports.concat({ type: type, content: result });
+    }
+    return reports;
   }
 
   getMovies() {

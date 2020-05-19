@@ -301,7 +301,9 @@ const generalPurposeDailyReportSchema = (Employee) => {
         key: "id",
       },
     },
-    additionalProps: { type: Sequelize.JSON, allowNull: false },
+    propsObject: { type: Sequelize.JSON, allowNull: false },
+    currentProps: { type: Sequelize.JSON, allowNull: false },
+    allProps: { type: Sequelize.JSON, allowNull: false },
   };
 };
 

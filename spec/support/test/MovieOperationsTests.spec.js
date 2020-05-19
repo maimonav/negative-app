@@ -262,20 +262,36 @@ async function testServiceFunctions(serviceLayer, method) {
   );
 }
 
-async function testCinemaFunctions(cinemaSystem, method) {
+async function testCinemaFunctions(
+  cinemaSystem,
+  method,
+  isEmployeeTest,
+  toAdd,
+  userId
+) {
   let result = await method();
   expect(result).toBe(
     "The operation cannot be completed - the user is not connected to the system"
   );
   let user = { isLoggedin: () => false };
-  cinemaSystem.users.set(1, user);
+  let id = userId ? userId : 1;
+  cinemaSystem.users.set(id, user);
   result = await method();
   expect(result).toBe(
     "The operation cannot be completed - the user is not connected to the system"
   );
   user = { isLoggedin: () => true, permissionCheck: () => false };
-  cinemaSystem.users.set(1, user);
+  cinemaSystem.users.set(id, user);
   result = await method();
   expect(result).toBe("User does not have proper permissions");
+  user = { isLoggedin: () => true, permissionCheck: () => true };
+  cinemaSystem.users.set(id, user);
+  if (isEmployeeTest) {
+    result = await method();
+    expect(result).toBe(
+      "Cannot " + toAdd + " - creator employee id is not exist"
+    );
+  }
+  return cinemaSystem;
 }
 exports.testCinemaFunctions = testCinemaFunctions;
