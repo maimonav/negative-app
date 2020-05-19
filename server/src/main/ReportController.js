@@ -15,14 +15,12 @@ class ReportController {
   static _currentGeneralDailyReoprtFormat;
 
   static async getAllgeneralDailyReoprtFormat(calledFunctionName) {
-    let result;
     if (!this._allGeneralDailyReoprtFormat)
       await this.updatePropsLists(calledFunctionName);
     return this._allGeneralDailyReoprtFormat;
   }
 
   static async getCurrentGeneralDailyReoprtFormat(calledFunctionName) {
-    let result;
     if (!this._currentGeneralDailyReoprtFormat)
       await this.updatePropsLists(calledFunctionName);
     return this._currentGeneralDailyReoprtFormat;
@@ -83,38 +81,53 @@ class ReportController {
   }
 
   /**
-   * @param {string} type Type of report from _types
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Records to add in the report
    * @returns {Promise(string)} success or failure
    *
-   * @example of one record, record => array of records
+   * @example reports
    *
-   * "inventory_daily_report" =>  {
-        date: todayDate,
-        productId: 0,
-        creatorEmployeeId: 1,
-        quantitySold: 4,
-        quantityInStock: 8,
-        stockThrown: 8,
-      }
-   * "general_purpose_daily_report" => {
-        date: todayDate,
-        creatorEmployeeId: 1,
-        propsObject: { "Cash Counted": "true" },
-        currentProps: ["Cash Counted"]
-        allProps: ["Cash Counted","Report Z Taken"],
-      }
-   * "incomes_daily_report" => {
-        date: todayDate,
-        creatorEmployeeId: 1,
-        numOfTabsSales: 0,
-        cafeteriaCashRevenues: 20.0,
-        cafeteriaCreditCardRevenues: 20.0,
-        ticketsCashRevenues: 20.0,
-        ticketsCreditCardRevenues: 20.0,
-        tabsCashRevenues: 20.0,
-        tabsCreditCardRevenues: 20.0,
-      }
+   * reports= [
+        { 
+        type:"incomes_daily_report",
+        content: [
+            {
+              date: [Date],
+              creatorEmployeeUsername: [Name],
+              numOfTabsSales: [#],
+              cafeteriaCashRevenues:  [#],
+              cafeteriaCreditCardRevenues:  [#],
+              ticketsCashRevenues:  [#],
+              ticketsCreditCardRevenues:  [#],
+              tabsCashRevenues:  [#],
+              tabsCreditCardRevenues:  [#],
+            }
+          ]
+        },
+        {
+        type: "inventory_daily_report",
+        content: [
+            {
+              productName: [Name],
+              quantitySold: [#],
+              stockThrown: [#],
+            },
+            {
+              productName: [Name],
+              quantitySold: [#],
+              stockThrown: [#],
+            }
+          ]
+        },
+        {
+        type: "general_purpose_daily_report",
+        content: [
+            {
+              prop1: [...] (i.e Cash Counted)
+              prop2: [...] (i.e Report Z Taken)
+            }
+          ]
+        }
+        ]
    */
   static async createDailyReport(reports) {
     let actionsList = [];
@@ -123,11 +136,11 @@ class ReportController {
       let type = reports[j].type;
       for (let i in records) {
         if (!records[i].date || !this._isValidDate(records[i].date)) {
-          DBlogger.writeToLog(
+          logger.writeToLog(
             "info",
             "ReportController",
-            "createDailyReport -getCurrentGeneralDailyReoprtFormat - singleGetById",
-            result
+            "createDailyReport",
+            "Report record date: " + records[i].date + ", is invalid"
           );
           return "Report record date is invalid";
         }
@@ -142,16 +155,16 @@ class ReportController {
             "info",
             "ReportController",
             "createDailyReport",
-            result
+            isDailyReportCreated
           );
-          return "The report cannot be created\n" + result;
+          return "The report cannot be created\n" + isDailyReportCreated;
         }
         if (isDailyReportCreated && isDailyReportCreated !== null) {
-          DBlogger.writeToLog(
+          logger.writeToLog(
             "info",
             "ReportController",
-            "createDailyReport",
-            " Daily report already exists in this date"
+            "getReport",
+            "daily report already exists in this date " + records[i].date
           );
           return "Cannot add this report - daily report already exists in this date";
         }
@@ -230,10 +243,11 @@ class ReportController {
     }
 
     if (this._currentGeneralDailyReoprtFormat.includes(newField)) {
-      logger.info(
-        "ReportController- addFieldToDailyReport - The field " +
-          newField +
-          " already exists"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        "The field " + newField + " already exists"
       );
       return "The field already exists";
     }
@@ -273,10 +287,11 @@ class ReportController {
     }
 
     if (!this._currentGeneralDailyReoprtFormat.includes(fieldToRemove)) {
-      logger.info(
-        "ReportController- addFieldToDailyReport - The field " +
-          fieldToRemove +
-          " does not exist"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        "The field " + fieldToRemove + " does not exist"
       );
       return "The field does not exist";
     }

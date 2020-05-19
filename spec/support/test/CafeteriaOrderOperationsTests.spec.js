@@ -85,7 +85,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
       () =>
         cinemaSystem.addCafeteriaOrder(1, "", 1, [{ id: 1, quantity: 3 }], 1),
       true,
-      "add order"
+      "order"
     );
   });
 
@@ -156,7 +156,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
           "User"
         ),
       true,
-      "add order",
+      "order",
       userId
     );
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(

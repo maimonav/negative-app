@@ -168,7 +168,7 @@ describe("Report Operations Tests", function() {
       user
     );
     expect(result).toBe(
-      "Cannot create report - creator employee id is not exist"
+      "Cannot create report - only employees can create reports"
     );
 
     await service.addNewEmployee(

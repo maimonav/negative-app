@@ -289,7 +289,7 @@ async function testCinemaFunctions(
   if (isEmployeeTest) {
     result = await method();
     expect(result).toBe(
-      "Cannot " + toAdd + " - creator employee id is not exist"
+      "Cannot create " + toAdd + " - only employees can create " + toAdd + "s"
     );
   }
   return cinemaSystem;

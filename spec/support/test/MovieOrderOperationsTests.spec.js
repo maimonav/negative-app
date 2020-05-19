@@ -99,7 +99,7 @@ describe("MovieOrder Operations Tests", () => {
       cinemaSystem,
       () => cinemaSystem.addMovieOrder(1, "", 1, [], 1),
       true,
-      "add order"
+      "order"
     );
 
     cinemaSystem = new CinemaSystem();
@@ -166,26 +166,21 @@ describe("MovieOrder Operations Tests", () => {
     serviceLayer.users.set("User", userId);
     serviceLayer.suppliers.set("Supplier", supplirId);
     serviceLayer.products.set("Movie", productId);
-    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.addMovieOrder(
-        "Order",
-        "date",
-        "Supplier",
-        JSON.parse('["Movie"]'),
-        "User"
-      )
+    await testCinemaFunctions(
+      serviceLayer.cinemaSystem,
+      () =>
+        serviceLayer.addMovieOrder(
+          "Order",
+          "date",
+          "Supplier",
+          JSON.parse('["Movie"]'),
+          "User"
+        ),
+      true,
+      "order"
     );
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
-    serviceLayer.cinemaSystem.users.set(userId, user);
+
     serviceLayer.cinemaSystem.inventoryManagement.orders.set(orderId, null);
-    let result = await serviceLayer.addMovieOrder(
-      "Order",
-      "date",
-      "Supplier",
-      JSON.parse('["Movie"]'),
-      "User"
-    );
-    expect(result).toBe("Cannot add order - creator employee id is not exist");
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       userId,
       null

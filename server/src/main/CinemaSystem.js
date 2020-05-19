@@ -481,7 +481,7 @@ class CinemaSystem {
           ActionIDOfTheOperation +
           " is not exist"
       );
-      return "Cannot add order - creator employee id is not exist";
+      return "Cannot create order - only employees can create orders";
     }
     return this.inventoryManagement.addMovieOrder(
       orderId,
@@ -542,7 +542,7 @@ class CinemaSystem {
           ActionIDOfTheOperation +
           " is not exist"
       );
-      return "Cannot add order - creator employee id is not exist";
+      return "Cannot create order - only employees can create orders";
     }
     return this.inventoryManagement.addCafeteriaOrder(
       orderId,
@@ -979,7 +979,7 @@ class CinemaSystem {
           ActionIDOfTheOperation +
           " is not exist"
       );
-      return "Cannot create report - creator employee id is not exist";
+      return "Cannot create report - only employees can create reports";
     }
     for (let i in reports) {
       let report = reports[i];

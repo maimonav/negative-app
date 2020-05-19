@@ -125,7 +125,7 @@ describe("Report Operations Tests", () => {
       cinemaSystem,
       async () => cinemaSystem.createDailyReport(undefined, 1),
       true,
-      "create report"
+      "report"
     );
     cinemaSystem.employeeManagement.employeeDictionary.set(1, null);
     spyOn(ReportController, "createDailyReport").and.returnValue("test");
@@ -215,7 +215,7 @@ describe("Report Operations Tests", () => {
       () =>
         serviceLayer.createDailyReport(date, JSON.stringify(reports), "User"),
       true,
-      "create report"
+      "report"
     );
     serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.set(
       1,
