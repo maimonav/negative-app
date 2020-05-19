@@ -213,6 +213,14 @@ class ReportController {
       return "The report field cannot be added\n" + result;
     }
 
+    if (this._currentGeneralDailyReoprtFormat.includes(newField)) {
+      logger.info(
+        "ReportController- addFieldToDailyReport - The field " +
+          newField +
+          " already exists"
+      );
+      return "The field already exists";
+    }
     let newCurrentProps = result.currentProps.concat(newField);
     let newAllProps = result.allProps.concat(newField);
 
@@ -241,6 +249,15 @@ class ReportController {
     let result = await this.updatePropsLists("removeFieldFromDailyReport");
     if (typeof result === "string") {
       return "The report field cannot be added\n" + result;
+    }
+
+    if (!this._currentGeneralDailyReoprtFormat.includes(fieldToRemove)) {
+      logger.info(
+        "ReportController- addFieldToDailyReport - The field " +
+          fieldToRemove +
+          " does not exist"
+      );
+      return "The field does not exist";
     }
 
     let newCurrentProps = result.currentProps.filter(

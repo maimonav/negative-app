@@ -17,7 +17,6 @@ socket.addEventListener("open", function(event) {
 // Listen for messages
 socket.addEventListener("message", function(event) {
   let msg = JSON.parse(event.data);
-  if (msg.type === "ERROR") console.log("Error:\n", msg.content);
   console.log("Message from server:\n", msg);
 });
 
