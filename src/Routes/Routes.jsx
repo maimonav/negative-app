@@ -17,7 +17,6 @@ import {
   createDailyReportPath,
   manageOrdersPath,
   manageMoviesOrdersPath,
-  notificationPath,
 } from "../consts/paths";
 
 import {
@@ -44,7 +43,6 @@ import {
   ManageCategories,
   ManageOrders,
   ManageMoviesOrders,
-  NotificationHandler,
 } from "../Views/index";
 
 export default function Routes(props) {

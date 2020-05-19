@@ -3,7 +3,6 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
