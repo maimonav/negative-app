@@ -1,29 +1,29 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { addEmployee } = require("./UserEmployeeTests.spec");
 
-describe("DB Unit Testing - findAll", function () {
+describe("DB Unit Testing - findAll", function() {
   let sequelize;
-  beforeEach(async function () {
+  beforeEach(async function() {
     //create connection & mydb
     await DB.connectAndCreate("mydbTest");
     sequelize = await DB.initDB("mydbTest");
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     //create connection & drop mydb
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE mydbTest");
     console.log("Database deleted");
   });
 
-  it("init", async function () {
+  it("init", async function() {
     //Testing connection
     await sequelize
       .authenticate()
       .catch((err) => fail("Unable to connect to the database:", err));
   });
 
-  it("findAll - employee", async function () {
+  it("findAll - employee", async function() {
     await addEmployee(0);
     await addEmployee(1);
     let result = await DB.singleFindAll(
@@ -39,16 +39,20 @@ describe("DB Unit Testing - findAll", function () {
     expect(result.length).toBe(5);
   });
 
-  it("findAll - general purpose report", async function () {
+  it("findAll - general purpose report", async function() {
     await addEmployee(0);
     await DB.singleAdd("general_purpose_daily_report", {
       date: new Date(),
-      additionalProps: [["oldField"], {}],
+      propsObject: {},
+      allProps: ["oldField"],
+      currentProps: ["oldField"],
       creatorEmployeeId: 0,
     });
     await DB.singleAdd("general_purpose_daily_report", {
       date: new Date("2015-01-01"),
-      additionalProps: [["oldField"], {}],
+      propsObject: {},
+      allProps: [],
+      currentProps: [],
       creatorEmployeeId: 0,
     });
     let result = await DB.singleFindAll(
@@ -62,6 +66,8 @@ describe("DB Unit Testing - findAll", function () {
     expect(result.date.toISOString().substring(0, 10)).toEqual(
       new Date().toISOString().substring(0, 10)
     );
-    expect(result.additionalProps).toEqual([["oldField"], {}]);
+
+    expect(result.allProps).toEqual(["oldField"]);
+    expect(result.currentProps).toEqual(["oldField"]);
   });
 });

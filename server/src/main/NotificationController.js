@@ -1,11 +1,9 @@
 const WebSocket = require("ws");
 const DataBase = require("./DataLayer/DBManager");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 
 class NotificationController {
   static serverSocket;
@@ -37,12 +35,12 @@ class NotificationController {
 
       let initResult = await initRes;
       if (typeof initResult === "string") {
-        let err = JSON.stringify({
+        let err = {
           type: "ERROR",
           subtype: "INIT",
           content: initResult,
-        });
-        socketClient.send([err]);
+        };
+        socketClient.send(JSON.stringify([err]));
       }
     });
   }
@@ -51,8 +49,11 @@ class NotificationController {
     url = new URL(url);
     let clientSocket = this.clientsMap.get(url.origin);
     if (!clientSocket) {
-      logger.info(
-        "NotificationController - loginHandler - Web socket connection to user " +
+      logger.writeToLog(
+        "info",
+        "NotificationController",
+        "loginHandler",
+        "Web socket connection to user " +
           userId +
           ", URL: " +
           url.origin +
@@ -77,9 +78,11 @@ class NotificationController {
     );
 
     if (typeof notifications === "string") {
-      DBlogger.info(
-        "NotificationController - loginHandler - singleFindAll error - userId: " +
-          userId
+      DBlogger.writeToLog(
+        "info",
+        "NotificationController",
+        "loginHandler- singleFindAll ",
+        "userId: " + userId
       );
       clientSocket.send([
         {
@@ -114,9 +117,11 @@ class NotificationController {
         { seen: true }
       );
       if (typeof result === "string") {
-        DBlogger.info(
-          "NotificationController - loginHandler - singleUpdate error - seen update - userId: " +
-            userId
+        DBlogger.writeToLog(
+          "info",
+          "NotificationController",
+          "loginHandler- singleUpdate ",
+          "error - seen update - userId: " + userId
         );
       }
     }

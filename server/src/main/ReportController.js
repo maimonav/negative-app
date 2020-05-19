@@ -1,17 +1,15 @@
 const DataBase = require("./DataLayer/DBManager");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 
 class ReportController {
   static _types = {
+    INCOMES: "incomes_daily_report",
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
-    MOVIES: "movie_daily_report",
-    INCOMES: "incomes_daily_report",
+    //MOVIES: "movie_daily_report",
   };
   static _allGeneralDailyReoprtFormat;
   static _currentGeneralDailyReoprtFormat;
@@ -37,11 +35,11 @@ class ReportController {
       { fn: "max", fnField: "date" }
     );
     if (typeof result === "string") {
-      DBlogger.info(
-        "ReportController - " + calledFunctionName
-          ? calledFunctionName + " - "
-          : "" + "getCurrentGeneralDailyReoprtFormat - singleFindAll -",
-        result
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        calledFunctionName ? calledFunctionName : "",
+        "getCurrentGeneralDailyReoprtFormat - singleFindAll -" + result
       );
       return (
         "Cannot get reports fields. Action cannot be completed, details:\n" +
@@ -53,11 +51,11 @@ class ReportController {
         date: new Date(result[0].date),
       });
       if (typeof result === "string") {
-        DBlogger.info(
-          "ReportController - " + calledFunctionName
-            ? calledFunctionName + " - "
-            : "" + "getCurrentGeneralDailyReoprtFormat - singleGetById -",
-          result
+        DBlogger.writeToLog(
+          "info",
+          "ReportController",
+          calledFunctionName ? calledFunctionName : "",
+          "getCurrentGeneralDailyReoprtFormat - singleGetById -" + result
         );
         return result;
       }
@@ -125,8 +123,11 @@ class ReportController {
       let type = reports[j].type;
       for (let i in records) {
         if (!records[i].date || !this._isValidDate(records[i].date)) {
-          logger.info(
-            "ReportController- createDailyReport - Report record date is invalid"
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport -getCurrentGeneralDailyReoprtFormat - singleGetById",
+            result
           );
           return "Report record date is invalid";
         }
@@ -137,12 +138,20 @@ class ReportController {
           date: records[i].date,
         });
         if (typeof isDailyReportCreated === "string") {
-          DBlogger.info("ReportController - createDailyReport - ", result);
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport",
+            result
+          );
           return "The report cannot be created\n" + result;
         }
         if (isDailyReportCreated && isDailyReportCreated !== null) {
-          logger.info(
-            "ReportController- createDailyReport - Daily report already exists in this date"
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport",
+            " Daily report already exists in this date"
           );
           return "Cannot add this report - daily report already exists in this date";
         }
@@ -155,7 +164,12 @@ class ReportController {
     }
     let result = await DataBase.executeActions(actionsList);
     if (typeof result === "string") {
-      DBlogger.info("ReportController - createDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "createDailyReport",
+        result
+      );
       return "The report cannot be created\n" + result;
     }
     return "The report created successfully";
@@ -169,19 +183,21 @@ class ReportController {
    */
   static async getReport(type, date) {
     if (!this._isValidType(type)) {
-      logger.info(
-        "ReportController- getReport - The requested report type " +
-          type +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report type " + type + " is invalid"
       );
       return "The requested report type is invalid";
     }
 
     if (!this._isValidDate(date)) {
-      logger.info(
-        "ReportController- getReport - The requested report date " +
-          date +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report date " + date + " is invalid"
       );
       return "The requested report date is invalid";
     }
@@ -194,10 +210,10 @@ class ReportController {
       [["date", "ASC"]]
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - getReport - ", result);
+      DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result.length === 0) return "The report does not exist";
+    if (result && result.length === 0) return "The report does not exist";
 
     return result;
   }
@@ -222,7 +238,12 @@ class ReportController {
       { currentProps: newCurrentProps, allProps: newAllProps }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        result
+      );
       return "The report field cannot be added\n" + result;
     }
 
@@ -253,7 +274,12 @@ class ReportController {
       { currentProps: newCurrentProps }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        result
+      );
       return "The report field cannot be removed\n" + result;
     }
 

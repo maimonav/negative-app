@@ -1,11 +1,8 @@
 const DataBase = require("./DataLayer/DBManager");
 const User = require("./User");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 
 class SystemInitializer {
@@ -27,7 +24,12 @@ class SystemInitializer {
     if (typeof result === "string") return this._errorHandler(result);
     result = await DataBase.initDB(dbName, password);
     if (typeof result === "string") {
-      DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
+      DBlogger.writeToLog(
+        "info",
+        "SystemInitializer",
+        "initSystem - initDB",
+        result
+      );
       return "Server initialization error\n" + result;
     }
 
@@ -87,7 +89,7 @@ class SystemInitializer {
 
       if (category.isCategoryRemoved === null) {
         let parentName;
-        if (category.parentId != -1)
+        if (category.parentId !== -1)
           parentName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
             category.parentId
           ).name;
@@ -175,7 +177,7 @@ class SystemInitializer {
       let supplier = suppliers[i];
       if (supplier.isSupplierRemoved === null) {
         await this._executeActionInSystem(admin, async () => {
-          let result = await this.serviceLayer.addNewSupplier(
+          await this.serviceLayer.addNewSupplier(
             supplier.name,
             supplier.contactDetails,
             admin.userName
@@ -222,8 +224,7 @@ class SystemInitializer {
         quantity: e.expectedQuantity,
       }));
       await this._executeActionInSystem(creatorEmployee, async () => {
-        //TODO::add edit movie order with all the details after order supplied
-        if (movieList.length != 0)
+        if (movieList.length !== 0) {
           await this.serviceLayer.addMovieOrder(
             creatorEmployeeName +
               " - " +
@@ -233,8 +234,27 @@ class SystemInitializer {
             movieList,
             creatorEmployeeName
           );
-        //TODO::add edit movie order with all the details after order supplied
-        if (productList.length != 0)
+          if (order.recipientEmployeeId !== null) {
+            let recipientEmployee = this.serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.get(
+              order.recipientEmployeeId
+            );
+            let recipientEmployeeName = recipientEmployee.userName;
+            let movieListToConfirm = movies.map((e) => ({
+              name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
+                e.movieId
+              ).name,
+              actualQuantity: e.actualQuantity,
+            }));
+            await this.serviceLayer.confirmOrder(
+              creatorEmployeeName +
+                " - " +
+                moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+              movieListToConfirm,
+              recipientEmployeeName
+            );
+          }
+        }
+        if (productList.length !== 0) {
           await this.serviceLayer.addCafeteriaOrder(
             creatorEmployeeName +
               " - " +
@@ -244,14 +264,37 @@ class SystemInitializer {
             productList,
             creatorEmployeeName
           );
+          if (order.recipientEmployeeId !== null) {
+            let recipientEmployee = this.serviceLayer.cinemaSystem.employeeManagement.employeeDictionary.get(
+              order.recipientEmployeeId
+            );
+            let recipientEmployeeName = recipientEmployee.userName;
+            let productsListToConfirm = products.map((e) => ({
+              name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
+                e.productId
+              ).name,
+              actualQuantity: e.actualQuantity,
+            }));
+            await this.serviceLayer.confirmOrder(
+              creatorEmployeeName +
+                " - " +
+                moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+              productsListToConfirm,
+              recipientEmployeeName
+            );
+          }
+        }
       });
     }
   }
 
   static _errorHandler(result, info) {
-    DBlogger.info(
-      "SystemInitializer - initSystem - " + info ? info + " - " : "",
-      result
+    let errMsg = (info ? info + " - " : "") + result;
+    DBlogger.writeToLog(
+      "info",
+      "SystemInitializer",
+      "initSystem - initDB",
+      errMsg
     );
     return "Server initialization error\n" + result;
   }

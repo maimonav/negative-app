@@ -58,6 +58,20 @@ describe("Report Operations Tests", () => {
     );
   });
 
+  it("UnitTest getFullDailyReport - Service Layer", async () => {
+    let serviceLayer = new ServiceLayer();
+
+    await validate(serviceLayer, serviceLayer.getFullDailyReport, {
+      "Date ": "date",
+      "Username ": "User",
+    });
+
+    await testFunctions(
+      async () => serviceLayer.getFullDailyReport("date", "User"),
+      "The user performing the operation does not exist in the system"
+    );
+  });
+
   it("UnitTest createDailyReport - Service Layer", async () => {
     let serviceLayer = new ServiceLayer();
     let date = new Date("2020-03-02 14:35:00");
@@ -233,7 +247,36 @@ describe("Report Operations Tests", () => {
       let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
       result = await serviceLayer.getReport(type, date, "User");
       expect(result).toBe("The requested report date is invalid");
+
+      todayDate = new Date();
+      result = await serviceLayer.getReport(type, date, "User");
+      expect(Array.isArray(result)).toBeTrue;
     }
+  });
+
+  it("Integration getFullDailyReport", async () => {
+    //add report
+    let serviceLayer = new ServiceLayer();
+    await serviceLayer.initSeviceLayer();
+    serviceLayer.users.set("User", 1);
+    await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
+      serviceLayer.getFullDailyReport("test", "User")
+    );
+    let user = { isLoggedin: () => true, permissionCheck: () => true };
+    serviceLayer.cinemaSystem.users.set(1, user);
+    serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
+    let result = await serviceLayer.getFullDailyReport("test", "User");
+    expect(result).toBe("The requested report date is invalid");
+    let todayDate = new Date();
+    let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
+    result = await serviceLayer.getFullDailyReport(date, "User");
+    expect(result).toBe("The requested report date is invalid");
+    todayDate = new Date();
+    result = await serviceLayer.getFullDailyReport(
+      todayDate.toISOString(),
+      "User"
+    );
+    expect(Array.isArray(result)).toBeTrue;
   });
 });
 
