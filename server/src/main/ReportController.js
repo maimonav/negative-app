@@ -19,15 +19,15 @@ class ReportController {
   static async getAllgeneralDailyReoprtFormat(calledFunctionName) {
     let result;
     if (!this._allGeneralDailyReoprtFormat)
-      result = await this.updatePropsLists(calledFunctionName);
-    return result ? result : this._allGeneralDailyReoprtFormat;
+      await this.updatePropsLists(calledFunctionName);
+    return this._allGeneralDailyReoprtFormat;
   }
 
   static async getCurrentGeneralDailyReoprtFormat(calledFunctionName) {
     let result;
     if (!this._currentGeneralDailyReoprtFormat)
-      result = await this.updatePropsLists(calledFunctionName);
-    return result ? result : this._currentGeneralDailyReoprtFormat;
+      await this.updatePropsLists(calledFunctionName);
+    return this._currentGeneralDailyReoprtFormat;
   }
 
   static async updatePropsLists(calledFunctionName) {
