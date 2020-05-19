@@ -10,6 +10,7 @@ import CardBody from "../../Components/Card/CardBody.js";
 import CardFooter from "../../Components/Card/CardFooter.js";
 import { reportsTypesObj } from "../../consts/data";
 import CreateReportTable from "../../Components/Tables/CreateReportTable";
+import { handleGetFieldsGeneralDailyReport } from "../../Handlers/Handlers";
 
 const columns = [
   { title: "Product name", field: "productName", editable: "never" },
@@ -26,6 +27,18 @@ export default class CreateDailyReport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
+    this.setInitialState();
+  }
+
+  setInitialState() {
+    handleGetFieldsGeneralDailyReport()
+      .then(response => response.json())
+      .then(state => {
+        let generalFields = [];
+        state.result.length &&
+          state.result.forEach(obj => generalFields.push(obj.title));
+        this.setState({ generalFields });
+      });
   }
 
   setNumOfTabsSales(event) {
@@ -84,23 +97,57 @@ export default class CreateDailyReport extends React.Component {
     };
   };
 
-  //TODO: implement this
   createGeneralReport = () => {
-    return {
-      type: reportsTypesObj.General,
-      content: []
-    };
+    const { generalContent } = this.state;
+    if (generalContent)
+      return {
+        type: reportsTypesObj.General,
+        content: [generalContent]
+      };
+
+    return null;
   };
 
   createReport = () => {
     const incomes = this.createIncomeReport();
     const inventory = this.createInventoryReport();
-    // const general = this.createGeneralReport();
+    const general = this.createGeneralReport();
 
-    return [incomes, inventory /*general*/];
+    return general ? [incomes, inventory, general] : [incomes, inventory];
+  };
+
+  generateDynamicGeneralFields = () => {
+    let dynamicGeneralFields = [];
+    const { generalFields } = this.state;
+
+    generalFields.forEach(field => {
+      let dynamicField = (
+        <GridItem xs={12} sm={12} md={6}>
+          <CustomInput
+            labelText={field}
+            id={field}
+            formControlProps={{
+              fullWidth: true
+            }}
+            onChange={event => {
+              const state = {};
+              state[field] = event.target.value;
+              this.setState({
+                generalContent: { ...this.state.generalContent, ...state }
+              });
+            }}
+            data-hook={field}
+          />
+        </GridItem>
+      );
+      dynamicGeneralFields.push(dynamicField);
+    });
+
+    return dynamicGeneralFields;
   };
 
   render() {
+    const { generalFields } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -218,42 +265,23 @@ export default class CreateDailyReport extends React.Component {
           </GridItem>
         </GridContainer>
 
-        {/* <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
-            <Card>
-              <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>General</h4>
-                <p>Complete the fields below</p>
-              </CardHeader>
-              <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Cash Counted"
-                      id="cashCounted"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setCashCounted(event)}
-                      data-hook={""}
-                    />
-                  </GridItem>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Report Z Taken"
-                      id="reportZTaken"
-                      formControlProps={{
-                        fullWidth: true
-                      }}
-                      onChange={event => this.setReportZTaken(event)}
-                      data-hook={""}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-            </Card>
-          </GridItem>
-        </GridContainer> */}
+        {generalFields && generalFields.length > 0 && (
+          <GridContainer style={style}>
+            <GridItem xs={12} sm={12} md={8}>
+              <Card>
+                <CardHeader color="info" style={{ maxHeight: "50px" }}>
+                  <h4 style={{ margin: "auto" }}>General</h4>
+                  <p>Complete the fields below</p>
+                </CardHeader>
+                <CardBody>
+                  <GridContainer>
+                    {this.generateDynamicGeneralFields()}
+                  </GridContainer>
+                </CardBody>
+              </Card>
+            </GridItem>
+          </GridContainer>
+        )}
         <CardFooter style={{ justifyContent: "center" }}>
           <Button
             color="info"

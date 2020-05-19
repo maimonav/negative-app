@@ -1625,15 +1625,5 @@ class ServiceLayer {
   getGeneralReportProps() {
     return this.cinemaSystem.getGeneralReportProps();
   }
-
-  getInventoryReport() {
-    return data.inventory_daily_report;
-  }
-  getIncomesReport() {
-    return data.incomes_daily_report;
-  }
-  getGeneralReport() {
-    return data.general_purpose_daily_report;
-  }
 }
 module.exports = ServiceLayer;
