@@ -1729,6 +1729,9 @@ class ServiceLayer {
   getGeneralReport() {
     return data.general_purpose_daily_report;
   }
+  getLogContent(year) {
+    logger.readLog(year);
+  }
   writeToLog(type, functionName, msg) {
     logger.writeToLog(type, "ServiceLayer", functionName, msg);
   }
