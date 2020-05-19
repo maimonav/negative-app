@@ -4,6 +4,7 @@ const NotificationController = require("./NotificationController");
 const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 
 class ServiceLayer {
   constructor() {
@@ -1729,8 +1730,13 @@ class ServiceLayer {
   getGeneralReport() {
     return data.general_purpose_daily_report;
   }
-  getLogContent(year) {
-    logger.readLog(year);
+  getLogContent(type, year) {
+    switch (type) {
+      case "db":
+        return DBlogger.readLog(year);
+      default:
+        logger.readLog(year);
+    }
   }
   writeToLog(type, functionName, msg) {
     logger.writeToLog(type, "ServiceLayer", functionName, msg);
