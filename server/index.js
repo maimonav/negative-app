@@ -356,7 +356,7 @@ app.get("/api/getMovies", (req, res) => {
 
 app.get("/api/getCategories", (req, res) => {
   const result = service.getCategories();
-  result.map(category => console.log(category));
+  result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -513,11 +513,11 @@ app.get("/api/addFieldToGeneralDailyReport", async (req, res) => {
   res.send(JSON.stringify({ result }));
 });
 
-// app.get("/api/getFieldsGeneralDailyReport", async (req, res) => {
-//   const user = (req.query.user && req.query.user.trim()) || "";
-//   const result = await service.getFields(user);
-//   res.send(JSON.stringify({ result }));
-// });
+app.get("/api/getFieldsGeneralDailyReport", async (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getFields();
+  res.send(JSON.stringify({ result }));
+});
 
 app.get("/api/removeFieldToGeneralDailyReport", async (req, res) => {
   const field = (req.query.field && req.query.field.trim()) || "";

@@ -1612,6 +1612,16 @@ class ServiceLayer {
       this.categories.get(categoryName)
     );
   }
+
+  getFields() {
+    let props = this.cinemaSystem.getGeneralReportProps();
+    const output = {};
+    for (let i in props) {
+      output = output.concat({ title: props[i] });
+    }
+    return output;
+  }
+
   getGeneralReportProps() {
     return this.cinemaSystem.getGeneralReportProps();
   }
