@@ -1,7 +1,9 @@
 const DataBase = require("./DataLayer/DBManager");
 const Product = require("./Product");
 const CafeteriaProductOrder = require("./CafeteriaProductOrder");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 
 class CafeteriaProduct extends Product {
   constructor(id, name, categoryId, price, quantity, maxQuantity, minQuantity) {
@@ -239,7 +241,7 @@ class CafeteriaProduct extends Product {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "cafeteriaProduct - " + functionName + " - " + msg);
+    logger.writeToLog(type, "cafeteriaProduct", functionName, msg);
   }
 }
 module.exports = CafeteriaProduct;

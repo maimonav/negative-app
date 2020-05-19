@@ -1,11 +1,9 @@
 const DataBase = require("./DataLayer/DBManager");
 const User = require("./User");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 
 class SystemInitializer {
@@ -27,7 +25,12 @@ class SystemInitializer {
     if (typeof result === "string") return this._errorHandler(result);
     result = await DataBase.initDB(dbName, password);
     if (typeof result === "string") {
-      DBlogger.info("CinemaSystem - initCinemaSystem - initDB -", result);
+      DBlogger.writeToLog(
+        "info",
+        "Systeminitializer",
+        "initSystem - initDB",
+        result
+      );
       return "Server initialization error\n" + result;
     }
 
@@ -257,9 +260,12 @@ class SystemInitializer {
   }
 
   static _errorHandler(result, info) {
-    DBlogger.info(
-      "SystemInitializer - initSystem - " + info ? info + " - " : "",
-      result
+    let errMsg = (info ? info + " - " : "") + result;
+    DBlogger.writeToLog(
+      "info",
+      "Systeminitializer",
+      "initSystem - initDB",
+      errMsg
     );
     return "Server initialization error\n" + result;
   }

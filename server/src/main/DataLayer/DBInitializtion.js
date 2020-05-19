@@ -1,9 +1,9 @@
 const DataBase = require("./DBManager");
 const uniqid = require("uniqid");
-const DBlogger = require("simple-node-logger").createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("../LogController");
+const LogController = LogControllerFile.LogController;
+const DBlogger = LogController.getInstance("db");
+
 const {
   generalPurposeDailyReportSchema,
   inventoryDailyReportSchema,
@@ -151,14 +151,17 @@ async function initDB(dbName, password) {
     await DataBase.sequelize.authenticate();
   } catch (error) {
     let errId = uniqid();
-    DBlogger.error(
-      errId,
-      " - DBInitialization - initDB - authenticate - ",
-      dbName ? dbName : defaultDBName,
-      ", ",
-      password ? password : defaultPassword,
-      " - ",
-      error
+    let errMsg =
+      (dbName ? dbName : defaultDBName) +
+      ", " +
+      (password ? password : defaultPassword) +
+      " - " +
+      error;
+    DBlogger.writeToLog(
+      "error",
+      "DBInitializtion",
+      "initDB- authenticate",
+      errId + " - " + errMsg
     );
     return DataBase._errorHandler.apply(DataBase, [error, errId]);
   }
@@ -192,8 +195,10 @@ async function initDB(dbName, password) {
     if (dbName === undefined || dbName.toLowerCase() !== "mydbtest") {
       result = await _setDestroyTimerForAllTables();
       if (typeof result === "string") {
-        DBlogger.info(
-          " - DBInitialization - initDB - setDestroyTimerForAllTables - ",
+        DBlogger.writeToLog(
+          "info",
+          "DBInitializtion",
+          "initDB- initDB -setDestroyTimerForAllTables",
           result
         );
         return result;
@@ -202,22 +207,27 @@ async function initDB(dbName, password) {
 
     result = await _initGeneralReport();
     if (typeof result === "string") {
-      DBlogger.info(
-        " - DBInitialization - initDB - initGeneralReport - ",
+      DBlogger.writeToLog(
+        "info",
+        "DBInitializtion",
+        "initDB- initGeneralReport -setDestroyTimerForAllTables",
         result
       );
       return result;
     }
   } catch (error) {
     let errId = uniqid();
-    DBlogger.error(
-      errId,
-      " - DBInitialization - initDB - init tables - ",
-      dbName ? dbName : defaultDBName,
-      ", ",
-      password ? password : defaultPassword,
-      " - ",
-      error
+    let errMsg =
+      (dbName ? dbName : defaultDBName) +
+      ", " +
+      (password ? password : defaultPassword) +
+      " - " +
+      error;
+    DBlogger.writeToLog(
+      "error",
+      "DBInitializtion",
+      "initDB- authenticate",
+      errId + " - " + errMsg
     );
     return DataBase._errorHandler.apply(DataBase, [error, errId]);
   }
@@ -269,14 +279,17 @@ async function connectAndCreate(dbName, password) {
     console.log("Connected!\nDatabase created");
   } catch (error) {
     let errId = uniqid();
-    DBlogger.error(
-      errId,
-      " - DBInitialization - connectAndCreate - ",
-      dbName ? dbName : defaultDBName,
-      ", ",
-      password ? password : defaultPassword,
-      " - ",
-      error
+    let errMsg =
+      (dbName ? dbName : defaultDBName) +
+      ", " +
+      (password ? password : defaultPassword) +
+      " - " +
+      error;
+    DBlogger.writeToLog(
+      "error",
+      "DBInitializtion",
+      "connectAndCreate",
+      errId + " - " + errMsg
     );
     return DataBase._errorHandler.apply(DataBase, [error, errId]);
   }

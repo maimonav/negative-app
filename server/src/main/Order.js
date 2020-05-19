@@ -1,11 +1,9 @@
 const DataBase = require("./DataLayer/DBManager");
 const CafeteriaProductOrder = require("./CafeteriaProductOrder");
 const MovieOrder = require("./MovieOrder");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 
 const _ = require("lodash");
 
@@ -238,18 +236,6 @@ class Order {
       if (this.productOrders.get(product.id) instanceof CafeteriaProductOrder) {
         if (product.actualQuantity < 0) problematicProductID = product.id;
       } else {
-        this.writeToLog(
-          "info",
-          "confirmOrder",
-          "key=" +
-            product.key +
-            "typeof key=" +
-            typeof product.key +
-            " , examinationRoom=" +
-            product.examinationRoom +
-            "typeof examinationRoom=" +
-            typeof product.examinationRoom
-        );
         if (
           typeof product.examinationRoom === "undefined" ||
           product.examinationRoom === null ||
@@ -378,7 +364,7 @@ class Order {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "Order - " + functionName + " - " + msg);
+    logger.writeToLog(type, "Order", functionName, msg);
   }
 }
 module.exports = Order;
