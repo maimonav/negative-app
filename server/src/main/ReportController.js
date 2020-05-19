@@ -1,10 +1,8 @@
 const DataBase = require("./DataLayer/DBManager");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 
 class ReportController {
   static _types = {
@@ -65,18 +63,22 @@ class ReportController {
   static async createDailyReport(type, records) {
     //validate type from enum of types
     if (!this._isValidType(type)) {
-      logger.info(
-        "ReportController- createDailyReport - The requested report type " +
-          type +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "createDailyReport",
+        "The requested report type " + type + " is invalid"
       );
       return "The requested report type is invalid";
     }
     let actionsList = [];
     for (let i in records) {
       if (!records[i].date || !this._isValidDate(records[i].date)) {
-        logger.info(
-          "ReportController- createDailyReport - Report record date is invalid"
+        logger.writeToLog(
+          "info",
+          "ReportController",
+          "createDailyReport",
+          "Report record date is invalid"
         );
         return "Report record date is invalid";
       }
@@ -91,7 +93,12 @@ class ReportController {
     }
     let result = await DataBase.executeActions(actionsList);
     if (typeof result === "string") {
-      DBlogger.info("ReportController - createDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "createDailyReport",
+        result
+      );
       return "The report cannot be created\n" + result;
     }
     return "The report created successfully";
@@ -105,19 +112,21 @@ class ReportController {
    */
   static async getReport(type, date) {
     if (!this._isValidType(type)) {
-      logger.info(
-        "ReportController- getReport - The requested report type " +
-          type +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report type " + type + " is invalid"
       );
       return "The requested report type is invalid";
     }
 
     if (!this._isValidDate(date)) {
-      logger.info(
-        "ReportController- getReport - The requested report date " +
-          date +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report date " + date + " is invalid"
       );
       return "The requested report date is invalid";
     }
@@ -130,7 +139,7 @@ class ReportController {
       [["date", "ASC"]]
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - getReport - ", result);
+      DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
     }
     if (result.length === 0) return "The report does not exist";
@@ -150,7 +159,12 @@ class ReportController {
       { fn: "max", fnField: "date" }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        result
+      );
       return "The report field cannot be added\n" + result;
     }
     if (result.length === 0) return "The report field cannot be added";
@@ -158,7 +172,12 @@ class ReportController {
       date: new Date(result[0].date),
     });
     if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        result
+      );
       return "The report field cannot be added\n" + result;
     }
     let newProps = result.additionalProps[0].concat(newField);
@@ -168,7 +187,12 @@ class ReportController {
       { additionalProps: [newProps, result.additionalProps[1]] }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        result
+      );
       return "The report field cannot be added\n" + result;
     }
     this._generalDailyReoprtFormat = this._generalDailyReoprtFormat.concat(
@@ -189,7 +213,12 @@ class ReportController {
       { fn: "max", fnField: "date" }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        result
+      );
       return "The report field cannot be removed\n" + result;
     }
     if (result.length === 0) return "The report field cannot be added";
@@ -197,7 +226,12 @@ class ReportController {
       date: new Date(result[0].date),
     });
     if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        result
+      );
       return "The report field cannot be removed\n" + result;
     }
     let newProps = result.additionalProps[0].filter(
@@ -209,7 +243,12 @@ class ReportController {
       { additionalProps: [newProps, result.additionalProps[1]] }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        result
+      );
       return "The report field cannot be removed\n" + result;
     }
     return "The report field removed successfully";

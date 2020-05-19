@@ -1,7 +1,8 @@
 const ReportController = require("./ReportController");
 const User = require("./User");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
 
@@ -124,12 +125,17 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info("CinemaSystem - addNewEmployee - " + this.userOfflineMsg);
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addNewEmployee",
+        this.userOfflineMsg
+      );
       return this.userOfflineMsg;
     }
     const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
     if (argCheckRes !== "") {
-      logger.info("CinemaSystem - addNewEmployee - " + argCheckRes);
+      logger.writeToLog("info", "CinemaSystem", "addNewEmployee", argCheckRes);
       return argCheckRes;
     }
     //If the operator does not have the permission of a deputy manager or if he is not admin and also tries to add someone his own higher permission.
@@ -142,11 +148,11 @@ class CinemaSystem {
         this.users.get(ActionIDOfTheOperation).getPermissionValue() !==
           User.getPermissionTypeList["ADMIN"])
     ) {
-      logger.info(
-        "CinemaSystem - addNewEmployee - " +
-          userName +
-          " " +
-          this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addNewEmployee",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -191,7 +197,12 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info("CinemaSystem - editEmployee - " + this.userOfflineMsg);
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "editEmployee",
+        this.userOfflineMsg
+      );
       return this.userOfflineMsg;
     }
     if (
@@ -200,11 +211,11 @@ class CinemaSystem {
         .permissionCheck("DEPUTY_MANAGER") &&
       ActionIDOfTheOperation !== employeeID
     ) {
-      logger.info(
-        "CinemaSystem - editEmployee - " +
-          employeeID +
-          " " +
-          this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "editEmployee",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -229,26 +240,40 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info("CinemaSystem - deleteEmployee - " + this.userOfflineMsg);
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        this.userOfflineMsg
+      );
       return this.userOfflineMsg;
     }
     if (
       !this.users.get(ActionIDOfTheOperation).permissionCheck("DEPUTY_MANAGER")
     ) {
-      logger.info(
-        "CinemaSystem - deleteEmployee - " + this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
     if (employeeID === ActionIDOfTheOperation) {
-      logger.info(
-        "CinemaSystem - deleteEmployee - A user cannot erase himself"
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        "A user cannot erase himself"
       );
       return "A user cannot erase himself";
     }
     if (this.users.get(employeeID).isLoggedin()) {
-      logger.info(
-        "CinemaSystem - deleteEmployee - A user cannot delete a logged in user"
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        "A user cannot delete a logged in user"
       );
       return "You cannot delete a logged in user";
     }
@@ -269,8 +294,11 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info(
-        "CinemaSystem - " + functionName + " - " + this.userOfflineMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "checkUser",
+        this.userOfflineMsg
       );
       return this.userOfflineMsg;
     }
@@ -279,11 +307,11 @@ class CinemaSystem {
         .get(ActionIDOfTheOperation)
         .permissionCheck(permissionRequired)
     ) {
-      logger.info(
-        "CinemaSystem - " +
-          functionName +
-          " - " +
-          this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "checkUser",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -315,8 +343,11 @@ class CinemaSystem {
     if (
       !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
     ) {
-      logger.info(
-        "CinemaSystem - addMovieOrder - Cannot add order - creator employee id " +
+      logger.writeToLog(
+        "info",
+        "addMovieOrder",
+        "checkUser",
+        "Cannot add order - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
       );
@@ -373,8 +404,11 @@ class CinemaSystem {
     if (
       !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
     ) {
-      logger.info(
-        "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
+      logger.writeToLog(
+        "info",
+        "addCafeteriaOrder",
+        "checkUser",
+        "Cannot add order - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
       );
@@ -598,16 +632,22 @@ class CinemaSystem {
     );
     if (result != null) return result;
     if (isNaN(price) && typeof price !== "number") {
-      logger.info(
-        "addNewProduct - add new product fail - Product price must be number "
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        " Product price must be number"
       );
       return (
         "Add new product fail - Product price " + price + " must be number "
       );
     }
     if (isNaN(quantity) && typeof quantity !== "number") {
-      logger.info(
-        "addNewProduct - add new product fail - Product quantity must be number "
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        "Product quantity must be number"
       );
       return "Add new product fail - Product quantity must be number ";
     }
@@ -615,8 +655,11 @@ class CinemaSystem {
       (isNaN(minQuantity) && typeof minQuantity !== "number") ||
       typeof minQuantity === "undefined"
     ) {
-      logger.info(
-        "addNewProduct - add new product fail - Product minQuantity must be number "
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        "add new product fail - Product minQuantity must be number"
       );
       return "Add new product fail - Product minQuantity must be number ";
     }
@@ -624,8 +667,11 @@ class CinemaSystem {
       (isNaN(maxQuantity) && typeof maxQuantity !== "number") ||
       typeof maxQuantity === "undefined"
     ) {
-      logger.info(
-        "addNewProduct - add new product fail - Product maxQuantity must be number "
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        "add new product fail - Product maxQuantity must be number"
       );
       return "Add new product fail - Product maxQuantity must be number ";
     }
@@ -795,8 +841,11 @@ class CinemaSystem {
     if (
       !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
     ) {
-      logger.info(
-        "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "createDailyReport",
+        "Cannot create report - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
       );

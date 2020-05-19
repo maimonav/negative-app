@@ -1,6 +1,8 @@
 const User = require("./User");
 const DataBase = require("./DataLayer/DBManager");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 
 class Employee extends User {
   constructor(
@@ -186,7 +188,7 @@ class Employee extends User {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "Employee - " + functionName + " - " + msg);
+    logger.log(type, "Employee", functionName, msg);
   }
 }
 module.exports = Employee;
