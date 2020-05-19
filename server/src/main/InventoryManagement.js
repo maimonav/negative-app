@@ -1145,7 +1145,7 @@ class InventoryManagemnt {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "InventoryManagemnt", functionName, msg);
+    logger.writeToLog(type, "InventoryManagemnt", functionName, msg);
   }
 }
 module.exports = InventoryManagemnt;

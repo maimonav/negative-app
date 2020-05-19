@@ -139,7 +139,7 @@ class EmployeeManagemnt {
     return {};
   }
   writeToLog(type, functionName, msg) {
-    logger.log(type, "EmployeeManagement ", functionName, msg);
+    logger.writeToLog(type, "EmployeeManagement ", functionName, msg);
   }
 }
 module.exports = EmployeeManagemnt;

@@ -84,7 +84,7 @@ class MovieOrder {
     );
   }
   writeToLog(type, functionName, msg) {
-    logger.log(type, "MovieOrder", functionName, msg);
+    logger.writeToLog(type, "MovieOrder", functionName, msg);
   }
 }
 module.exports = MovieOrder;

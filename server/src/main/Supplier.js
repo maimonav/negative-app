@@ -34,7 +34,6 @@ class Supplier {
       { isSupplierRemoved: this.isSupplierRemoved }
     );
     if (typeof result === "string") {
-      DBlogger.info("Supplier - removeSupplier - ", result);
       return "The supplier cannot be removed\n" + result;
     }
     return true;

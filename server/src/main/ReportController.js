@@ -35,11 +35,11 @@ class ReportController {
       { fn: "max", fnField: "date" }
     );
     if (typeof result === "string") {
-      DBlogger.info(
-        "ReportController - " + calledFunctionName
-          ? calledFunctionName + " - "
-          : "" + "getCurrentGeneralDailyReoprtFormat - singleFindAll -",
-        result
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        calledFunctionName ? calledFunctionName : "",
+        "getCurrentGeneralDailyReoprtFormat - singleFindAll -" + result
       );
       return (
         "Cannot get reports fields. Action cannot be completed, details:\n" +
@@ -51,11 +51,11 @@ class ReportController {
         date: new Date(result[0].date),
       });
       if (typeof result === "string") {
-        DBlogger.info(
-          "ReportController - " + calledFunctionName
-            ? calledFunctionName + " - "
-            : "" + "getCurrentGeneralDailyReoprtFormat - singleGetById -",
-          result
+        DBlogger.writeToLog(
+          "info",
+          "ReportController",
+          calledFunctionName ? calledFunctionName : "",
+          "getCurrentGeneralDailyReoprtFormat - singleGetById -" + result
         );
         return result;
       }
@@ -123,8 +123,11 @@ class ReportController {
       let type = reports[j].type;
       for (let i in records) {
         if (!records[i].date || !this._isValidDate(records[i].date)) {
-          logger.info(
-            "ReportController- createDailyReport - Report record date is invalid"
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport -getCurrentGeneralDailyReoprtFormat - singleGetById",
+            result
           );
           return "Report record date is invalid";
         }
@@ -135,12 +138,20 @@ class ReportController {
           date: records[i].date,
         });
         if (typeof isDailyReportCreated === "string") {
-          DBlogger.info("ReportController - createDailyReport - ", result);
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport",
+            result
+          );
           return "The report cannot be created\n" + result;
         }
         if (isDailyReportCreated && isDailyReportCreated !== null) {
-          logger.info(
-            "ReportController- createDailyReport - Daily report already exists in this date"
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport",
+            " Daily report already exists in this date"
           );
           return "Cannot add this report - daily report already exists in this date";
         }

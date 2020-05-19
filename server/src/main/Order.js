@@ -364,7 +364,7 @@ class Order {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "Order", functionName, msg);
+    logger.writeToLog(type, "Order", functionName, msg);
   }
 }
 module.exports = Order;

@@ -13,7 +13,7 @@ var LogController = (function() {
       });
     }
     writeToLog(type, className, functionName, msg) {
-      if (this.year !== new Date().getFullYear) {
+      if (this.year !== new Date().getFullYear()) {
         this.year = new Date().getFullYear();
         this.filename = this.name + "_" + this.year + ".log";
         this.logger = simpleLogger.createSimpleLogger({
@@ -21,7 +21,7 @@ var LogController = (function() {
           timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
         });
       }
-      this.logger.log(type, className + " - " + functionName + " - " + msg);
+      this.logger.log(type, "test" + " - " + "test" + " - " + "test");
     }
     readLog(year) {
       if (typeof year === "undefined") return this._readFile(this.filename);

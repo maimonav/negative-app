@@ -40,8 +40,11 @@ class CinemaSystem {
         for (let i in records) {
           let record = records[i];
           if (!record.quantitySold || !record.stockThrown) {
-            logger.info(
-              "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
+            logger.writeToLog(
+              "info",
+              "CinemaSystem",
+              "createDailyReport",
+              "toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
             );
             return "Report content structure is invalid";
           }
@@ -51,8 +54,11 @@ class CinemaSystem {
             parseInt(record.quantitySold) < 0 ||
             parseInt(record.stockThrown) < 0
           ) {
-            logger.info(
-              "CinemaSystem - createDailyReport - toDBConvertionMethods[inventory_daily_report] - negative numbers are invalid"
+            logger.writeToLog(
+              "info",
+              "CinemaSystem",
+              "createDailyReport",
+              "toDBConvertionMethods[inventory_daily_report] - negative numbers are invalid"
             );
             return "Only non-negative numbers are allowed in inventory report";
           }
@@ -87,8 +93,11 @@ class CinemaSystem {
           record.propsObject = {};
           for (let j in props) {
             if (!record[props[j]]) {
-              logger.info(
-                "CinemaSystem - createDailyReport - toDBConvertionMethods[general_purpose_daily_report] - Report content is invalid"
+              logger.writeToLog(
+                "info",
+                "CinemaSystem",
+                "createDailyReport",
+                "toDBConvertionMethods[general_purpose_daily_report] - Report content is invalid"
               );
               return "Report content is invalid";
             }
@@ -114,8 +123,11 @@ class CinemaSystem {
             !record.tabsCashRevenues ||
             !record.tabsCreditCardRevenues
           ) {
-            logger.info(
-              "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
+            logger.writeToLog(
+              "info",
+              "CinemaSystem",
+              "createDailyReport",
+              " toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
             );
             return "Report content structure is invalid";
           }
@@ -135,8 +147,10 @@ class CinemaSystem {
             parseFloat(record.tabsCashRevenues) < 0 ||
             parseFloat(record.tabsCreditCardRevenues) < 0
           ) {
-            logger.info(
-              "CinemaSystem - createDailyReport - toDBConvertionMethods[incomes_daily_report] - negative numbers are invalid"
+            logger.writeToLog(
+              "info",
+              "createDailyReport",
+              "toDBConvertionMethods[incomes_daily_report] - negative numbers are invalid"
             );
             return "Only non-negative numbers are allowed in incomes report";
           }

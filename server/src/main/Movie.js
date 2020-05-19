@@ -93,7 +93,7 @@ class Movie extends Product {
     );
   }
   writeToLog(type, functionName, msg) {
-    logger.log(type, "Movie", functionName, msg);
+    logger.writeToLog(type, "Movie", functionName, msg);
   }
 }
 module.exports = Movie;

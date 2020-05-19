@@ -88,12 +88,6 @@ class Employee extends User {
     let needToUpdate = false;
     if (this.isNeedToEdit(firstName)) {
       needToUpdate = true;
-      logger.info(
-        "firstName - " +
-          firstName +
-          "isNeedToEdit " +
-          this.isNeedToEdit(firstName)
-      );
       this.firstName = firstName;
     }
     if (this.isNeedToEdit(lastName)) {
@@ -188,7 +182,7 @@ class Employee extends User {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "Employee", functionName, msg);
+    logger.writeToLog(type, "Employee", functionName, msg);
   }
 }
 module.exports = Employee;
