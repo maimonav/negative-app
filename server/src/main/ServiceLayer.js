@@ -107,7 +107,7 @@ class ServiceLayer {
           records[i] = record;
         }
         return records;
-      },
+      }
     };
   }
 
@@ -1150,7 +1150,7 @@ class ServiceLayer {
       supplierID = this.suppliers.get(supplierName);
     let problemticProductName;
     let problematicQuantityName;
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       if (!this.products.has(product.name)) {
         this.writeToLog(
           "info",
@@ -1230,7 +1230,7 @@ class ServiceLayer {
     }
     let problemticProductName;
     let problematicQuantityName;
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       if (!this.products.has(product.name)) {
         this.writeToLog(
           "info",
@@ -1717,18 +1717,18 @@ class ServiceLayer {
       this.categories.get(categoryName)
     );
   }
-  getGeneralReportProps() {
-    return this.cinemaSystem.getGeneralReportProps();
+
+  async getFields() {
+    let props = await this.cinemaSystem.getGeneralReportProps();
+    let output = [];
+    for (let i in props) {
+      output = output.concat({ title: props[i] });
+    }
+    return output;
   }
 
-  getInventoryReport() {
-    return data.inventory_daily_report;
-  }
-  getIncomesReport() {
-    return data.incomes_daily_report;
-  }
-  getGeneralReport() {
-    return data.general_purpose_daily_report;
+  getGeneralReportProps() {
+    return this.cinemaSystem.getGeneralReportProps();
   }
   getLogContent(type, year) {
     switch (type) {

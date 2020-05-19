@@ -54,7 +54,7 @@ export default class ShowReport extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={11}>
             <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show Report</h4>

@@ -20,6 +20,7 @@ export const manageCategoriesPath = "/manageCategories";
 export const addCategoryPath = "/addCategory";
 export const editCategoryPath = "/editCategory";
 export const removeCategoryPath = "/removeCategory";
+export const manageReportsPath = "/manageReports";
 export const showReportPath = "/showReport";
 export const createDailyReportPath = "/createDailyReport";
 export const manageOrdersPath = "/manageOrders";
