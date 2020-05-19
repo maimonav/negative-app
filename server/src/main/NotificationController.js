@@ -27,7 +27,7 @@ class NotificationController {
       console.log("Number of clients:", serverSocket.clients.size);
       let userId = this.urlToUserId.get(clientUrl);
       if (userId && this.loggedInUsers.has(userId))
-        this.sendAllNotificationsToUserFromDB(userId, clientSocket);
+        this.sendAllNotificationsToUserFromDB(userId, socketClient);
 
       socketClient.on("close", (socketClient) => {
         console.log(clientUrl, "closed");
