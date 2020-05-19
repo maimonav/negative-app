@@ -10,6 +10,7 @@ import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
 import ShowReport from "./ShowReport";
 import AddField from "./AddField";
+import RemoveField from "./RemoveField";
 
 import {
   showActionHook,
@@ -82,7 +83,7 @@ export default class ManageReports extends React.Component {
               </CardHeader>
               {this.state.action === "show" && <ShowReport></ShowReport>}
               {this.state.action === "add" && <AddField></AddField>}
-              {this.state.action === "delete"}
+              {this.state.action === "delete" && <RemoveField></RemoveField>}
             </Card>
           </GridItem>
         </GridContainer>
