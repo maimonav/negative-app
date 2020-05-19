@@ -14,6 +14,13 @@ describe("Report Operations Tests", () => {
     DB._testModeOn();
   });
   it("Unit & Integration addField", async () => {
+    ReportController._allGeneralDailyReoprtFormat = ["test"];
+    ReportController._currentGeneralDailyReoprtFormat = ["test"];
+    let result = await ReportController.addFieldToDailyReport("test");
+    expect(result).toBe("The field already exists");
+
+    ReportController._allGeneralDailyReoprtFormat = [];
+    ReportController._currentGeneralDailyReoprtFormat = [];
     let serviceLayer = new ServiceLayer();
     await serviceLayer.initSeviceLayer();
     serviceLayer.users.set("User", 1);
@@ -21,13 +28,18 @@ describe("Report Operations Tests", () => {
       serviceLayer.addFieldToDailyReport("test", "User")
     );
     serviceLayer.cinemaSystem = cinemaSystem;
-    let result = await serviceLayer.addFieldToDailyReport("test", "User");
+    result = await serviceLayer.addFieldToDailyReport("test", "User");
     expect(result).toBe("The report field added successfully");
     expect(ReportController._allGeneralDailyReoprtFormat).toEqual(["test"]);
     expect(ReportController._currentGeneralDailyReoprtFormat).toEqual(["test"]);
   });
 
   it("Unit & Integration removeField", async () => {
+    ReportController._allGeneralDailyReoprtFormat = [];
+    ReportController._currentGeneralDailyReoprtFormat = [];
+    let result = await ReportController.removeFieldFromDailyReport("test");
+    expect(result).toBe("The field does not exist");
+
     ReportController._allGeneralDailyReoprtFormat = ["test"];
     ReportController._currentGeneralDailyReoprtFormat = ["test"];
     let serviceLayer = new ServiceLayer();
@@ -37,7 +49,7 @@ describe("Report Operations Tests", () => {
       serviceLayer.removeFieldFromDailyReport("test", "User")
     );
     serviceLayer.cinemaSystem = cinemaSystem;
-    let result = await serviceLayer.removeFieldFromDailyReport("test", "User");
+    result = await serviceLayer.removeFieldFromDailyReport("test", "User");
     expect(result).toBe("The report field removed successfully");
     expect(ReportController._allGeneralDailyReoprtFormat).toEqual(["test"]);
     expect(ReportController._currentGeneralDailyReoprtFormat).toEqual([]);
