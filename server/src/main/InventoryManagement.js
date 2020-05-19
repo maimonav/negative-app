@@ -7,12 +7,10 @@ const CafeteriaProductOrder = require("./CafeteriaProductOrder");
 const NotificationController = require("./NotificationController");
 const MovieOrder = require("./MovieOrder");
 const Category = require("./Category");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 
 class InventoryManagemnt {
   constructor() {
@@ -46,7 +44,7 @@ class InventoryManagemnt {
     let movie = new Movie(movieId, name, categoryId);
     let result = await movie.initMovie();
     if (typeof result === "string") {
-      DBlogger.info("InventoryManagemnt - addMovie - ", result);
+      DBlogger.writeToLog("info", "InventoryManagemnt ", "addMovie", result);
       return "The movie cannot be added\n" + result;
     }
     this.products.set(movieId, movie);
@@ -403,7 +401,12 @@ class InventoryManagemnt {
     }
     let result = await DB.executeActions(actionsList);
     if (typeof result === "string") {
-      DBlogger.info("InventoryManagemnt - addCafeteriaOrder - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "InventoryManagemnt ",
+        "addCafeteriaOrder",
+        result
+      );
       return "The order cannot be added\n" + result;
     }
 
@@ -1142,7 +1145,7 @@ class InventoryManagemnt {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.log(type, "InventoryManagemnt - " + functionName + " - " + msg);
+    logger.writeToLog(type, "InventoryManagemnt", functionName, msg);
   }
 }
 module.exports = InventoryManagemnt;
