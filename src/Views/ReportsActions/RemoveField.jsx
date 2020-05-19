@@ -20,15 +20,15 @@ export default class RemoveField extends React.Component {
     this.setInitialState();
   }
   setInitialState = () => {
-    handleGetFieldsGeneralDailyReport(localStorage.getItem("username"))
+    handleGetFieldsGeneralDailyReport()
       .then(response => response.json())
       .then(state => {
-        this.setState({ suppliers: state.result });
+        this.setState({ fields: state.result });
       });
   };
 
-  setField(event) {
-    this.setState({ field: event.target.value });
+  setField(field) {
+    this.setState({ field });
   }
 
   render() {
@@ -40,7 +40,7 @@ export default class RemoveField extends React.Component {
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>
-                  Remove field from General report
+                  Remove field from General Daily report
                 </h4>
               </CardHeader>
               <CardBody>
@@ -48,9 +48,9 @@ export default class RemoveField extends React.Component {
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"supplierName"}
-                      items={this.state.fields || []}
-                      boxLabel={"Choose supplier"}
-                      setName={this.setSupplierName}
+                      items={this.state.fields}
+                      boxLabel={"Choose field"}
+                      setName={this.setField}
                       isMultiple={false}
                       // data-hook={}
                     />
