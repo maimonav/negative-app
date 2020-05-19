@@ -37,12 +37,12 @@ class NotificationController {
 
       let initResult = await initRes;
       if (typeof initResult === "string") {
-        let err = JSON.stringify({
+        let err = {
           type: "ERROR",
           subtype: "INIT",
           content: initResult,
-        });
-        socketClient.send([err]);
+        };
+        socketClient.send(JSON.stringify([err]));
       }
     });
   }
