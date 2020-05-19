@@ -39,6 +39,7 @@ import AddMovieOrder from "./InventoryActions/MoviesOrders/AddMovieOrder";
 import EditMovieOrder from "./InventoryActions/MoviesOrders/EditMovieOrder";
 import ShowMovieOrders from "./InventoryActions/MoviesOrders/ShowMovieOrder";
 import ConfirmMovieOrder from "./InventoryActions/MoviesOrders/ConfirmMovieOrder";
+import NotificationHandler from "../Components/NotificationHandler";
 
 export {
   Login,
@@ -81,5 +82,6 @@ export {
   AddMovieOrder,
   EditMovieOrder,
   ShowMovieOrders,
-  ConfirmMovieOrder
+  ConfirmMovieOrder,
+  NotificationHandler,
 };
