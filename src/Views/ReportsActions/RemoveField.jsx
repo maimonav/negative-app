@@ -27,9 +27,9 @@ export default class RemoveField extends React.Component {
       });
   };
 
-  setField(field) {
+  setField = field => {
     this.setState({ field });
-  }
+  };
 
   render() {
     const { field } = this.state;

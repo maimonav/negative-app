@@ -356,7 +356,7 @@ app.get("/api/getMovies", (req, res) => {
 
 app.get("/api/getCategories", (req, res) => {
   const result = service.getCategories();
-  result.map((category) => console.log(category));
+  result.map(category => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -514,12 +514,7 @@ app.get("/api/addFieldToGeneralDailyReport", async (req, res) => {
 });
 
 app.get("/api/getFieldsGeneralDailyReport", async (req, res) => {
-<<<<<<< HEAD
-  const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.getFields();
-=======
-  const result = await service.getGeneralReportProps();
->>>>>>> 6ae5c9d36862d3859fc3a113d0895830e51860e8
   res.send(JSON.stringify({ result }));
 });
 
