@@ -17,6 +17,11 @@ class NotificationController {
     this.serverSocket = new WebSocket.Server({ httpServer });
   }
 
+  /**
+   * define event listener - on connection to server
+   * @param {WebSocket} serverSocket the server websocket
+   * @param {Promise(void|string)} initRes result of the server initialization, void in success, string on failure.
+   */
   static setConnectionHandler(serverSocket, initRes) {
     serverSocket.on("connection", async (socketClient, request) => {
       let clientUrl = request.headers.origin;
@@ -25,7 +30,7 @@ class NotificationController {
       console.log("Number of clients:", serverSocket.clients.size);
       let userId = this.urlToUserId.get(clientUrl);
       if (userId && this.loggedInUsers.has(userId))
-        this.sendAllNotificationsToUserFromDB(userId, socketClient);
+        this._sendAllNotificationsToUserFromDB(userId, socketClient);
 
       socketClient.on("close", (socketClient) => {
         console.log(clientUrl, "closed");
@@ -45,6 +50,11 @@ class NotificationController {
     });
   }
 
+  /**
+   * mapping clients urls to usernames, sending new notifications the client had not seen yet
+   * @param {string} userId username of the logged in user
+   * @param {string} url url of the client
+   */
   static async loginHandler(userId, url) {
     url = new URL(url);
     let clientSocket = this.clientsMap.get(url.origin);
@@ -65,10 +75,10 @@ class NotificationController {
     this.usersIdToUrl.set(userId, url.origin);
     this.loggedInUsers.add(userId);
 
-    this.sendAllNotificationsToUserFromDB(userId, clientSocket);
+    this._sendAllNotificationsToUserFromDB(userId, clientSocket);
   }
 
-  static async sendAllNotificationsToUserFromDB(userId, clientSocket) {
+  static async _sendAllNotificationsToUserFromDB(userId, clientSocket) {
     //get all notification from db and send it to the logged in user
     let notifications = await DataBase.singleFindAll(
       "notification",
@@ -127,6 +137,10 @@ class NotificationController {
     }
   }
 
+  /**
+   * delete client url and username from maps
+   * @param {string} userId username of the logged out client
+   */
   static logoutHandler(userId) {
     this.loggedInUsers.delete(userId);
     let url = this.urlToUserId.get(userId);
