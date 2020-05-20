@@ -50,6 +50,7 @@ export default class NotificationHandler extends React.Component {
     this.state = {
       notifications: [],
       view: false,
+      newNotifications: 0,
     };
   }
 
@@ -70,9 +71,12 @@ export default class NotificationHandler extends React.Component {
         content.quantity,
         requiredQuantity
       );
-      this.setState({
-        notifications: [...this.state.notifications, notificationMessage],
-      });
+      this.setState(
+        {
+          notifications: [...this.state.notifications, notificationMessage],
+        },
+        () => this.setState({ newNotifications: message[0].content.length })
+      );
       console.log(message);
     };
 
@@ -82,24 +86,42 @@ export default class NotificationHandler extends React.Component {
   }
 
   handleNotificationNumber() {
-    const { view } = this.state;
-    return;
+    const { notifications, view } = this.state;
+    if (view) {
+      return 0;
+    }
+    return notifications.length;
   }
 
+  handleOnEnter = () => {
+    this.setState({ view: true });
+  };
+
+  handleOnExited = () => {
+    this.setState({ view: false, newNotifications: 0 });
+  };
+
   render() {
-    const { notifications } = this.state;
+    const { notifications, view, newNotifications } = this.state;
     console.log("array:", notifications);
+    console.log("view:", view);
+    console.log("newNotifications:", newNotifications);
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
           <div>
             <IconButton aria-label="show 1 new notifications" color="inherit">
-              <Badge badgeContent={notifications.length} color="secondary">
+              <Badge
+                badgeContent={view ? 0 : newNotifications}
+                color="secondary"
+              >
                 <NotificationsIcon {...bindTrigger(popupState)} />
               </Badge>
             </IconButton>
             <Popover
               {...bindPopover(popupState)}
+              onEntered={this.handleOnEnter}
+              onExited={this.handleOnExited}
               anchorOrigin={{
                 vertical: "bottom",
                 horizontal: "center",
