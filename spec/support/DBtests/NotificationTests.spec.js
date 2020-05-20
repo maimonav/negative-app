@@ -1,57 +1,70 @@
 const { addUser } = require("./UserEmployeeTests.spec");
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 
+async function testNotification(notification) {
+  await DB.singleGetById("notification", {
+    recipientUserId: notification.recipientUserId,
+  }).then((result) => {
+    expect(result.content).toEqual(notification.content);
+    expect(result.seen).toBe(notification.seen);
+  });
+}
+exports.testNotification = testNotification;
+
 async function addNotificationBeforeUser(isTest) {
   console.log("START ADD NOTIFICATION BEFORE USER\n");
-  let date = new Date();
-  await DB.singleAdd("notification", {
-    recipientUserId: 0,
-    timeFired: date,
-    content: JSON.stringify({
-      type: "NOTIFICATION",
-      subtype: "LOW QUANTITY",
-      content: {
+  let timeFired = new Date();
+  let content = {
+    type: "INFO",
+    subtype: "LOW QUANTITY",
+    content: [
+      {
         name: "productName",
         quantity: "5",
         minQuantity: "10",
       },
-    }),
+    ],
+  };
+  await DB.singleAdd("notification", {
+    recipientUserId: 0,
+    timeFired: timeFired,
+    content: content,
   });
 
   if (isTest)
     await DB.singleGetById("notification", {
       recipientUserId: 0,
-      timeFired: date,
+      timeFired: timeFired,
     }).then((result) => {
       if (result != null) fail("addNotificationBeforeUser failed");
     });
 }
 
-async function addNotificationAfterUser(date, isTest) {
+async function addNotificationAfterUser(isTest) {
   console.log("START ADD NOTIFICATION AFTER USER\n");
-  let content = JSON.stringify({
-    type: "NOTIFICATION",
+  let timeFired = new Date();
+  let content = {
+    type: "INFO",
     subtype: "LOW QUANTITY",
-    content: {
-      name: "productName",
-      quantity: "5",
-      minQuantity: "10",
-    },
-  });
+    content: [
+      {
+        name: "productName",
+        quantity: "5",
+        minQuantity: "10",
+      },
+    ],
+  };
   await DB.singleAdd("notification", {
     recipientUserId: 0,
-    timeFired: date,
-    type: "INFO",
-    subtype: "HIGH QUANTITY",
+    timeFired: timeFired,
     content: content,
   });
   if (isTest)
-    await DB.singleGetById("notification", {
+    testNotification({
       recipientUserId: 0,
-      timeFired: date,
-    }).then((result) => {
-      expect(result.content).toBe(content);
-      expect(result.seen).toBe(false);
+      timeFired: timeFired,
+      content: content,
+      seen: false,
     });
 }
 
@@ -59,31 +72,40 @@ exports.addNotificationAfterUser = addNotificationAfterUser;
 
 async function updateNotification(isTest) {
   console.log("START UPDATE NOTIFICATION\n");
-  let date = new Date();
+  let timeFired = new Date();
+  let content = {
+    type: "INFO",
+    subtype: "LOW QUANTITY",
+    content: [
+      {
+        name: "productName",
+        quantity: "5",
+        minQuantity: "10",
+      },
+    ],
+  };
   await DB.singleUpdate(
     "notification",
     {
       recipientUserId: 0,
-      timeFired: date,
+      timeFired: timeFired,
     },
     { seen: true }
   );
   if (isTest)
-    await DB.singleGetById("notification", {
+    testNotification({
+      timeFired: timeFired,
       recipientUserId: 0,
-      timeFired: date,
-    }).then((result) => {
-      expect(result.seen).toBe(true);
+      content: content,
+      seen: true,
     });
 }
 
 describe("DB Tests - notification", function() {
-  let sequelize;
-
   beforeEach(async function() {
     //create connection & mydb
     await DB.connectAndCreate("mydbTest");
-    sequelize = await DB.initDB("mydbTest");
+    await DB.initDB("mydbTest");
   });
 
   afterEach(async function() {
@@ -95,20 +117,26 @@ describe("DB Tests - notification", function() {
 
   it("init", async function() {
     //Testing connection
-    await sequelize
+    await DB.sequelize
       .authenticate()
       .catch((err) => fail("Unable to connect to the database:", err));
   });
 
-  it("add notification", async function() {
+  it("add notification", async function(done) {
+    setTimeout(done, 400);
     await addNotificationBeforeUser(true);
     await addUser();
-    await addNotificationAfterUser(new Date(), true);
+    setTimeout(async () => {
+      await addNotificationAfterUser(true);
+    }, 100);
   });
 
-  it("update notification", async function() {
+  it("update notification", async function(done) {
+    setTimeout(done, 400);
     await addUser();
-    await addNotificationAfterUser(new Date());
-    await updateNotification(true);
+    await addNotificationAfterUser();
+    setTimeout(async () => {
+      await updateNotification(true);
+    }, 100);
   });
 });

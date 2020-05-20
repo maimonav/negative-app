@@ -22,7 +22,7 @@ describe("Report Operations Tests", () => {
     ReportController._allGeneralDailyReoprtFormat = [];
     ReportController._currentGeneralDailyReoprtFormat = [];
     let serviceLayer = new ServiceLayer();
-    await serviceLayer.initSeviceLayer();
+    await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     cinemaSystem = await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.addFieldToDailyReport("test", "User")
@@ -43,7 +43,7 @@ describe("Report Operations Tests", () => {
     ReportController._allGeneralDailyReoprtFormat = ["test"];
     ReportController._currentGeneralDailyReoprtFormat = ["test"];
     let serviceLayer = new ServiceLayer();
-    await serviceLayer.initSeviceLayer();
+    await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     cinemaSystem = await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.removeFieldFromDailyReport("test", "User")
@@ -234,7 +234,7 @@ describe("Report Operations Tests", () => {
   it("Integration getReport", async () => {
     //add report
     let serviceLayer = new ServiceLayer();
-    await serviceLayer.initSeviceLayer();
+    await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.getReport("type", "test", "User")
@@ -269,7 +269,7 @@ describe("Report Operations Tests", () => {
   it("Integration getFullDailyReport", async () => {
     //add report
     let serviceLayer = new ServiceLayer();
-    await serviceLayer.initSeviceLayer();
+    await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.getFullDailyReport("test", "User")

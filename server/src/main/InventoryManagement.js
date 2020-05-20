@@ -461,7 +461,7 @@ class InventoryManagemnt {
       .confirmOrder(productsList, recipientEmployeeId);
 
     if (result === "Order confirmation success") {
-      this.checkAndnotifyLowAndHighQuantity(productsList);
+      this.checkAndNotifyLowAndHighQuantity(productsList);
       this.notifyMovieExamination(productsList);
     }
 
@@ -486,7 +486,7 @@ class InventoryManagemnt {
    * check if the quantity of the products lower or higher from min or max quantity
    * @param {Array(Object)} productsList
    */
-  checkAndnotifyLowAndHighQuantity(productsList) {
+  checkAndNotifyLowAndHighQuantity(productsList) {
     let lowQuantityList = [];
     let highQuantityList = [];
     productsList.forEach((product) => {
@@ -501,7 +501,7 @@ class InventoryManagemnt {
           quantity: quantity,
           maxQuantity: maxQuantity,
         });
-      if (product.quantity <= minQuantity)
+      if (quantity <= minQuantity)
         lowQuantityList = lowQuantityList.concat({
           name: product.name,
           quantity: quantity,
@@ -593,7 +593,7 @@ class InventoryManagemnt {
       return "The operation failed - DB failure -" + result;
     }
     this.products.set(productToInsert.id, productToInsert);
-    this.checkAndnotifyLowAndHighQuantity([{ id: productId }]);
+    this.checkAndNotifyLowAndHighQuantity([{ id: productId }]);
     return "The product was successfully added to the system";
   }
   /**
@@ -674,7 +674,7 @@ class InventoryManagemnt {
       return "minQuantity must be graeter or equal to 0";
     }
     if (result === "Product details update successfully completed")
-      this.checkAndnotifyLowAndHighQuantity([{ id: productId }]);
+      this.checkAndNotifyLowAndHighQuantity([{ id: productId }]);
     return result;
   }
 

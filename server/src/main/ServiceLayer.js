@@ -107,7 +107,7 @@ class ServiceLayer {
           records[i] = record;
         }
         return records;
-      }
+      },
     };
   }
 
@@ -115,7 +115,7 @@ class ServiceLayer {
    * @param {string} dbName The database name
    * @returns {string} Success or failure string
    */
-  async initSeviceLayer(dbName, password) {
+  async initServiceLayer(dbName, password) {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
     let result = await SystemInitializer.initSystem(this, dbName, password);
@@ -1150,7 +1150,7 @@ class ServiceLayer {
       supplierID = this.suppliers.get(supplierName);
     let problemticProductName;
     let problematicQuantityName;
-    productsList.forEach(product => {
+    productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
         this.writeToLog(
           "info",
@@ -1230,7 +1230,7 @@ class ServiceLayer {
     }
     let problemticProductName;
     let problematicQuantityName;
-    productsList.forEach(product => {
+    productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
         this.writeToLog(
           "info",

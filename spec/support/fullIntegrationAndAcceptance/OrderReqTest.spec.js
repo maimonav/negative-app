@@ -11,7 +11,7 @@ describe("Order Operations Tests", function() {
   let dbName = "ordertest";
 
   beforeEach(async function() {
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
   });
 
   afterEach(async function() {

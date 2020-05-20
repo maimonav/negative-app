@@ -88,7 +88,7 @@ describe("Report Operations Tests", function() {
   ];
 
   beforeEach(async function() {
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
   });
 
   afterEach(async function() {

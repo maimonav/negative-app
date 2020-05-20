@@ -257,7 +257,7 @@ class Order {
     }
     if (typeof problematicProductID !== "undefined") {
       this.writeToLog(
-        "indo",
+        "info",
         "confirmOrder",
         "Not all parameters required for product or film approval were accepted"
       );
@@ -300,8 +300,8 @@ class Order {
     });
     let result = await DataBase.executeActions(DBActionList);
     if (typeof result === "string") {
-      this.writeToLog("info", "confirmOrder", "DB fauiler- " + result);
-      return "DB fauiler- " + result;
+      this.writeToLog("info", "confirmOrder", "DB failure- " + result);
+      return "DB failure- " + result;
     }
     //system actions
     this.recipientEmployeeId = recipientEmployeeId;

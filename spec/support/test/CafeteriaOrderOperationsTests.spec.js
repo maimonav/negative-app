@@ -136,7 +136,7 @@ describe("CafeteriaProductOrder Operations Tests", () => {
 
   it("Integration addCafeteriaOrder", async () => {
     let serviceLayer = new ServiceLayer();
-    serviceLayer.initSeviceLayer();
+    serviceLayer.initServiceLayer();
     let todayDate = new Date();
     let userId = serviceLayer.userCounter;
     let supplierId = serviceLayer.supplierCounter;

@@ -10,20 +10,20 @@ describe("Notifications Methods Tests", () => {
     DB._testModeOn();
   });
 
-  it("Unit Test - checkAndnotifyLowAndHighQuantity - Inventory Management", async () => {
+  it("Unit Test - checkAndNotifyLowAndHighQuantity - Inventory Management", async () => {
     spyOn(NotificationController, "notifyLowQuantity").and.stub();
     spyOn(NotificationController, "notifyHighQuantity").and.stub();
 
     let product = new CafeteriaProduct(0, "productTest", 0, 10, 6, 8, 2);
     inventoryManagement.products.set(0, product);
-    inventoryManagement.checkAndnotifyLowAndHighQuantity([{ id: 0 }]);
+    inventoryManagement.checkAndNotifyLowAndHighQuantity([{ id: 0 }]);
 
     expect(NotificationController.notifyHighQuantity.calls.count()).toEqual(0);
     expect(NotificationController.notifyLowQuantity.calls.count()).toEqual(0);
 
     product.quantity = 10;
     inventoryManagement.products.set(0, product);
-    inventoryManagement.checkAndnotifyLowAndHighQuantity([{ id: 0 }]);
+    inventoryManagement.checkAndNotifyLowAndHighQuantity([{ id: 0 }]);
 
     expect(NotificationController.notifyHighQuantity.calls.count()).toEqual(1);
     expect(NotificationController.notifyLowQuantity.calls.count()).toEqual(0);
@@ -38,13 +38,13 @@ describe("Notifications Methods Tests", () => {
       2
     );
     inventoryManagement.products.set(1, anotherProduct);
-    inventoryManagement.checkAndnotifyLowAndHighQuantity([{ id: 1 }]);
+    inventoryManagement.checkAndNotifyLowAndHighQuantity([{ id: 1 }]);
 
     expect(NotificationController.notifyHighQuantity.calls.count()).toEqual(1);
     expect(NotificationController.notifyLowQuantity.calls.count()).toEqual(1);
   });
 
-  it("Integration Test - checkAndnotifyLowAndHighQuantity - addCafeteriaProduct - Inventory Management", async () => {
+  it("Integration Test - checkAndNotifyLowAndHighQuantity - addCafeteriaProduct - Inventory Management", async () => {
     spyOn(NotificationController, "notifyLowQuantity").and.stub();
     spyOn(NotificationController, "notifyHighQuantity").and.stub();
 
@@ -88,7 +88,7 @@ describe("Notifications Methods Tests", () => {
     expect(NotificationController.notifyLowQuantity.calls.count()).toEqual(1);
   });
 
-  it("Integration Test - checkAndnotifyLowAndHighQuantity - editCafeteriaProduct - Inventory Management", async () => {
+  it("Integration Test - checkAndNotifyLowAndHighQuantity - editCafeteriaProduct - Inventory Management", async () => {
     spyOn(NotificationController, "notifyLowQuantity").and.stub();
     spyOn(NotificationController, "notifyHighQuantity").and.stub();
 
@@ -111,7 +111,7 @@ describe("Notifications Methods Tests", () => {
     expect(NotificationController.notifyLowQuantity.calls.count()).toEqual(1);
   });
 
-  it("Integration Test - checkAndnotifyLowAndHighQuantity - confirmOrder - Inventory Management", async () => {
+  it("Integration Test - checkAndNotifyLowAndHighQuantity - confirmOrder - Inventory Management", async () => {
     spyOn(NotificationController, "notifyLowQuantity").and.stub();
     spyOn(NotificationController, "notifyHighQuantity").and.stub();
     let todayDate = new Date();

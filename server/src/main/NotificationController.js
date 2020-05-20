@@ -176,9 +176,8 @@ class NotificationController {
       type: "INFO",
       subtype: subtype,
       content: content,
+      timeFired: timeFired,
     };
-    let notification = notificationContent;
-    notification.timeFired = timeFired;
     let notificationObjectsList = [];
     for (let i in usersList) {
       let userId = usersList[i];
@@ -191,10 +190,12 @@ class NotificationController {
         this.clientsMap.has(userUrl)
       ) {
         let clientSocket = this.clientsMap.get(userUrl);
-        clientSocket.send(JSON.stringify([notification]));
+        clientSocket.send(JSON.stringify([notificationContent]));
         //set notification as seen
         seenFlag = true;
       }
+      delete notificationContent.timeFired;
+
       let notificationObject = {
         name: DataBase._add,
         model: "notification",
@@ -216,23 +217,35 @@ class NotificationController {
     let result = await DataBase.executeActions(notificationObjectsList);
 
     if (typeof result === "string") {
-      //todo:: send to all users!
-      /*clientSocket.send([
-        {
-          type: "ERROR",
-          subtype: "SAVE NOTIFICATIONS",
-          content:
-            "There was a problem saving your notifications," +
-            "information got lost.\n",
-          result,
-        },
-      ]);
+      for (let i in usersList) {
+        let userId = usersList[i];
+        if (!userId) continue;
+        let userUrl = this.usersIdToUrl.get(userId);
+        if (
+          this.loggedInUsers.has(userId) &&
+          userUrl &&
+          this.clientsMap.has(userUrl)
+        ) {
+          let clientSocket = this.clientsMap.get(userUrl);
+          clientSocket.send([
+            {
+              type: "ERROR",
+              subtype: "SAVE NOTIFICATIONS",
+              content:
+                "There was a problem saving your notifications," +
+                "information got lost.\n",
+              result,
+            },
+          ]);
+        }
+      }
+
       DBlogger.info(
         "NotificationController - notify - problem to insert notification to database, notifications got lost\n. Notifications List:\n",
         notificationObjectsList,
         "\n",
         result
-      );*/
+      );
     }
   }
 }

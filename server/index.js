@@ -13,7 +13,7 @@ const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-const initResult = service.initSeviceLayer(undefined, "admin123");
+const initResult = service.initServiceLayer(undefined, "admin123");
 
 NotificationController.setConnectionHandler(serverSocket, initResult);
 
@@ -356,7 +356,7 @@ app.get("/api/getMovies", (req, res) => {
 
 app.get("/api/getCategories", (req, res) => {
   const result = service.getCategories();
-  result.map(category => console.log(category));
+  result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 

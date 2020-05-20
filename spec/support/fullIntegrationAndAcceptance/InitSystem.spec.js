@@ -21,7 +21,7 @@ describe("Init System Tests", function() {
   beforeAll(async function() {
     dbName = "inittest";
     service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
   });
 
   afterAll(async function() {
@@ -91,7 +91,7 @@ describe("Init System Tests - Restore data Tests", function() {
     for (let i = 1; i < 5; i++) await addEmployee(i, "employee" + i);
 
     service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
     if (service.users.size === 0) fail("restore users - serviceLayer");
     service.users.forEach((value, key) => {
       if (key !== "admin") expect(value).toBe(parseInt(key.slice(-1)));
@@ -114,7 +114,7 @@ describe("Init System Tests - Restore data Tests", function() {
       await addCategory(i, "category" + i, false, i - 1);
 
     service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
     if (service.categories.size === 0)
       fail("restore categories - serviceLayer");
 
@@ -141,7 +141,7 @@ describe("Init System Tests - Restore data Tests", function() {
       await addMovieAfterCategory(i, "movie" + i);
     }
     service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
     if (service.products.size === 0) fail("restore movies - serviceLayer");
     service.products.forEach((value, key) => {
       expect(value).toBe(parseInt(key.slice(-1)));
@@ -171,7 +171,7 @@ describe("Init System Tests - Restore data Tests", function() {
       );
     }
     service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
     if (service.products.size === 0) fail("restore products - serviceLayer");
     service.products.forEach((value, key) => {
       expect(value).toBe(parseInt(key.slice(-1)));
@@ -195,7 +195,7 @@ describe("Init System Tests - Restore data Tests", function() {
     for (let i = 0; i < 4; i++) await addSupplier(i, "supplier" + i);
 
     service = new ServiceLayer();
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
     if (service.suppliers.size === 0) fail("restore supplier - serviceLayer");
 
     service.suppliers.forEach((value, key) => {
@@ -236,7 +236,7 @@ describe("Init System Tests - Restore data Tests", function() {
 
     setTimeout(async () => {
       service = new ServiceLayer();
-      await service.initSeviceLayer(dbName);
+      await service.initServiceLayer(dbName);
       if (service.orders.size === 0) fail("restore order - serviceLayer");
       let orderId = service.ordersCounter - 1;
       expect(
