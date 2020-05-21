@@ -21,7 +21,7 @@ class User {
       ? password
       : this.sha256(userName + password);
     this.permissions = permissions;
-    this.Loggedin = false;
+    this.LoggedIn = false;
     this.isUserRemoved = null;
   }
 
@@ -84,7 +84,7 @@ class User {
   };
 
   login(userName, password) {
-    if (this.Loggedin) {
+    if (this.LoggedIn) {
       this.writeToLog(
         "info",
         "login",
@@ -103,12 +103,12 @@ class User {
       );
       return "Incorrect user name or password";
     }
-    this.Loggedin = true;
+    this.LoggedIn = true;
     return ["User Logged in succesfully.", this.permissions];
   }
 
   logout() {
-    if (!this.Loggedin) {
+    if (!this.LoggedIn) {
       this.writeToLog(
         "info",
         "logout",
@@ -118,12 +118,12 @@ class User {
       );
       return "The user isn't connected";
     }
-    this.Loggedin = false;
+    this.LoggedIn = false;
     return "Logout succeded.";
   }
 
-  isLoggedin() {
-    return this.Loggedin;
+  isLoggedIn() {
+    return this.LoggedIn;
   }
 
   permissionCheck(permissionRequired) {

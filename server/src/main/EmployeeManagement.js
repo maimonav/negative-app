@@ -3,7 +3,7 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 
-class EmployeeManagemnt {
+class EmployeeManagement {
   constructor() {
     this.employeeDictionary = new Map();
     this.shiftBoardsDictionary = new Map();
@@ -78,7 +78,7 @@ class EmployeeManagemnt {
       this.writeToLog(
         "info",
         "editEmployee",
-        "EmployeeManagemnt- editEmployee - The " +
+        "EmployeeManagement- editEmployee - The " +
           employeeID +
           " does not exist"
       );
@@ -142,4 +142,4 @@ class EmployeeManagemnt {
     logger.writeToLog(type, "EmployeeManagement ", functionName, msg);
   }
 }
-module.exports = EmployeeManagemnt;
+module.exports = EmployeeManagement;

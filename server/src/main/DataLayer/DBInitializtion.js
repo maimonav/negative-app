@@ -80,7 +80,7 @@ async function _setDestroyTimerForAllTables() {
     eventTime: "1 DAY",
   };
   let moviesReportObj = {
-    table: "movie_daily_reports",
+    table: "movies_daily_reports",
     afterCreate: true,
     deleteTime: "1 YEAR",
     eventTime: "1 DAY",
@@ -180,7 +180,7 @@ async function initDB(dbName, password) {
     cafeteria_product_order: DataBase.CafeteriaProductOrder,
     general_purpose_daily_report: DataBase.GeneralPurposeDailyReport,
     inventory_daily_report: DataBase.InventoryDailyReport,
-    movie_daily_report: DataBase.MoviesDailyReport,
+    movies_daily_report: DataBase.MoviesDailyReport,
     incomes_daily_report: DataBase.IncomesDailyReport,
     notification: DataBase.Notification,
   };
@@ -410,7 +410,7 @@ function _initModels() {
     {}
   );
   DataBase.MoviesDailyReport = DataBase.sequelize.define(
-    "movie_daily_report",
+    "movies_daily_report",
     moviesDailyReportSchema(),
     {}
   );

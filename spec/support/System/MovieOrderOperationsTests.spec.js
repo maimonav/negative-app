@@ -267,7 +267,7 @@ describe("MovieOrder Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.removeOrder("Order", "User")
     );
-    user = { isLoggedin: () => true, permissionCheck: () => true };
+    user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
 
     let result = await serviceLayer.removeOrder("Order", "User");

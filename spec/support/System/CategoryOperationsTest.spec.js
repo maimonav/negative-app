@@ -24,7 +24,7 @@ describe("CategoryOperationsTest", () => {
     inventoryManagement.categories.set(parentCategory.id, parentCategory);
     cinemaSystem = new CinemaSystem("");
     admin = new Employee(0, "admin", "123456", "ADMIN", "admin", "admin", "");
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     cinemaSystem.inventoryManagement = inventoryManagement;
     cinemaSystem.users.set(admin.id, admin);
 
@@ -78,7 +78,7 @@ describe("CategoryOperationsTest", () => {
     ).toEqual("The Category ID doesn't exist");
     expect(
       await inventoryManagement.editCategory(category.id, parentCategory.id)
-    ).toEqual("The category was successfully updateded");
+    ).toEqual("The category was successfully updated");
     expect(category.parentId).toEqual(parentCategory.id);
   });
 
@@ -254,7 +254,7 @@ describe("CategoryOperationsTest", () => {
     ).toEqual(cinemaSystem.userOfflineMsg);
     expect(
       await cinemaSystem.editCategory(category.id, category.parentId, admin.id)
-    ).toEqual("The category was successfully updateded");
+    ).toEqual("The category was successfully updated");
   });
 
   it("integration-CinemaSystem- removeCategory", async () => {
@@ -322,7 +322,7 @@ describe("CategoryOperationsTest", () => {
         admin.userName,
         parentCategory.name
       )
-    ).toEqual("The category was successfully updateded");
+    ).toEqual("The category was successfully updated");
   });
 
   it("integration-ServiceLayer- removeCategory", async () => {

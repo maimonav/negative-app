@@ -76,15 +76,15 @@ describe("DeleteEmployeeTest", () => {
   it("UnitTest-DeleteEmployee Test on class CinemaSystem", async () => {
     spyOn(employeeManagemnt, "deleteEmployee").and.returnValue("dummy");
     cinemaSystem.employeeManagement = employeeManagemnt;
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(await cinemaSystem.deleteEmployee(adminID, adminID)).toEqual(
       "A user cannot erase himself"
     );
-    user.Loggedin = true;
+    user.LoggedIn = true;
     expect(await cinemaSystem.deleteEmployee(adminID, userID)).toEqual(
       cinemaSystem.inappropriatePermissionsMsg
     );
-    user.Loggedin = false;
+    user.LoggedIn = false;
     expect(await cinemaSystem.deleteEmployee(-1, adminID)).toEqual(
       "The id is not exists"
     );
@@ -94,7 +94,7 @@ describe("DeleteEmployeeTest", () => {
   it("UnitTest-DeleteEmployee Test on class ServiceLayer", async () => {
     spyOn(cinemaSystem, "deleteEmployee").and.returnValue("dummy");
     servicelayer.cinemaSystem = cinemaSystem;
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(await servicelayer.deleteEmployee("dummy", adminUserName)).toEqual(
       "The employee does not exist"
     );
@@ -107,15 +107,15 @@ describe("DeleteEmployeeTest", () => {
   });
 
   it("integration-DeleteEmployee Test on class CinemaSystem", async () => {
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(await cinemaSystem.deleteEmployee(adminID, adminID)).toEqual(
       "A user cannot erase himself"
     );
-    user.Loggedin = true;
+    user.LoggedIn = true;
     expect(await cinemaSystem.deleteEmployee(adminID, userID)).toEqual(
       cinemaSystem.inappropriatePermissionsMsg
     );
-    user.Loggedin = false;
+    user.LoggedIn = false;
     expect(await cinemaSystem.deleteEmployee(-1, adminID)).toEqual(
       "The id is not exists"
     );
@@ -125,7 +125,7 @@ describe("DeleteEmployeeTest", () => {
   });
 
   it("integration-DeleteEmployee Test on class ServiceLayer", async () => {
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(await servicelayer.deleteEmployee("dummy", adminUserName)).toEqual(
       "The employee does not exist"
     );

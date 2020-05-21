@@ -76,7 +76,7 @@ describe("EditEmployeeTest", () => {
         adminID
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await cinemaSystem.editEmployee(
         "dummy user name",
@@ -139,7 +139,7 @@ describe("EditEmployeeTest", () => {
         adminID
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await cinemaSystem.editEmployee(
         "dummy user name",
@@ -165,7 +165,7 @@ describe("EditEmployeeTest", () => {
   });
 
   it("integration-EditEmployee Test on class ServiceLayer", async () => {
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await servicelayer.editEmployee(
         -1,

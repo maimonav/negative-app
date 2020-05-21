@@ -147,7 +147,7 @@ describe("Movie Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.addMovie("Movie", "fantasy", "User")
     );
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
+    let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(userId, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(productId, null);
     let result = await serviceLayer.addMovie("Movie", "fantasy", "User");
@@ -178,7 +178,7 @@ describe("Movie Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.editMovie("Movie", "fantasy", "key", "1", "User")
     );
-    user = { isLoggedin: () => true, permissionCheck: () => true };
+    user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     result = await serviceLayer.editMovie(
       "Movie",
@@ -234,7 +234,7 @@ describe("Movie Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.removeMovie("Movie", "User")
     );
-    user = { isLoggedin: () => true, permissionCheck: () => true };
+    user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     result = await serviceLayer.removeMovie("Movie", "User");
     expect(result).toBe("The movie does not exist");
@@ -273,18 +273,18 @@ async function testCinemaFunctions(
   expect(result).toBe(
     "The operation cannot be completed - the user is not connected to the system"
   );
-  let user = { isLoggedin: () => false };
+  let user = { isLoggedIn: () => false };
   let id = userId ? userId : 1;
   cinemaSystem.users.set(id, user);
   result = await method();
   expect(result).toBe(
     "The operation cannot be completed - the user is not connected to the system"
   );
-  user = { isLoggedin: () => true, permissionCheck: () => false };
+  user = { isLoggedIn: () => true, permissionCheck: () => false };
   cinemaSystem.users.set(id, user);
   result = await method();
   expect(result).toBe("User does not have proper permissions");
-  user = { isLoggedin: () => true, permissionCheck: () => true };
+  user = { isLoggedIn: () => true, permissionCheck: () => true };
   cinemaSystem.users.set(id, user);
   if (isEmployeeTest) {
     result = await method();

@@ -2,7 +2,7 @@ describe("cafitriaProductActionTest", () => {
   const Employee = require("../../../server/src/main/Employee");
   const CinemaSystem = require("../../../server/src/main/CinemaSystem");
   const ServiceLayer = require("../../../server/src/main/ServiceLayer");
-  const EmployeeManagemnt = require("../../../server/src/main/EmployeeManagement");
+  const EmployeeManagement = require("../../../server/src/main/EmployeeManagement");
   const InventoryManagement = require("../../../server/src/main/InventoryManagement");
   const CafeteriaProduct = require("../../../server/src/main/CafeteriaProduct");
   const Category = require("../../../server/src/main/Category");
@@ -184,7 +184,7 @@ describe("cafitriaProductActionTest", () => {
         admin.id
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     admin.permissions = "EMPLOYEE";
     expect(
       await cinemaSystem.addCafeteriaProduct(
@@ -226,7 +226,7 @@ describe("cafitriaProductActionTest", () => {
         admin.id
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     admin.permissions = "EMPLOYEE";
     expect(
       await cinemaSystem.editCafeteriaProduct(
@@ -260,7 +260,7 @@ describe("cafitriaProductActionTest", () => {
     expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(
       cinemaSystem.userOfflineMsg
     );
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     admin.permissions = "EMPLOYEE";
     expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(
       cinemaSystem.inappropriatePermissionsMsg
@@ -465,7 +465,7 @@ describe("cafitriaProductActionTest", () => {
         admin.id
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     admin.permissions = "EMPLOYEE";
     expect(
       await cinemaSystem.addCafeteriaProduct(
@@ -507,7 +507,7 @@ describe("cafitriaProductActionTest", () => {
         admin.id
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     admin.permissions = "EMPLOYEE";
     expect(
       await cinemaSystem.editCafeteriaProduct(
@@ -539,7 +539,7 @@ describe("cafitriaProductActionTest", () => {
     expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(
       cinemaSystem.userOfflineMsg
     );
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     admin.permissions = "EMPLOYEE";
     expect(await cinemaSystem.removeCafeteriaProduct(p1.id, admin.id)).toEqual(
       cinemaSystem.inappropriatePermissionsMsg
@@ -551,7 +551,7 @@ describe("cafitriaProductActionTest", () => {
   });
 
   it("Integration-ServiceLayer- addNewProduct", async () => {
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await serviceLayer.addNewProduct(
         p1.name,
@@ -634,7 +634,7 @@ describe("cafitriaProductActionTest", () => {
   it("Integration-ServiceLayer- editProduct", async () => {
     inventoryManagement.products.set(p1.id, p1);
     serviceLayer.products.set(p1.name, p1.id);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await serviceLayer.editProduct(
         p1.name,
@@ -692,7 +692,7 @@ describe("cafitriaProductActionTest", () => {
         category.name,
         admin.userName
       )
-    ).toEqual("The Opertaion fail - Price is must to be number");
+    ).toEqual("The Operation fail - Price is must to be number");
     expect(
       await serviceLayer.editProduct(
         p1.name,
@@ -703,13 +703,13 @@ describe("cafitriaProductActionTest", () => {
         category.name,
         admin.userName
       )
-    ).toEqual("Quantity must be graeter or equal to 0");
+    ).toEqual("Quantity must be greater or equal to 0");
   });
 
   it("Integration-ServiceLayer- removeProduct", async () => {
     inventoryManagement.products.set(p1.id, p1);
     serviceLayer.products.set(p1.name, p1.id);
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     serviceLayer.products.set(p1.name, p1.id);
     expect(
       await serviceLayer.removeProduct(p1.name, admin.userName + "aaa")

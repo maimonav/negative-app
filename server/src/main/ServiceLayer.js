@@ -19,13 +19,13 @@ class ServiceLayer {
     this.categoriesCounter = 0;
     this.orders = new Map();
     this.ordersCounter = 0;
-    this.convertionMethods = {
+    this.conversionMethods = {
       inventory_daily_report: (records, user, date) => {
         if (!Array.isArray(records) || records.length === 0) {
           this.writeToLog(
             "info",
             "createDailyReport",
-            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+            "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
               records
           );
           return "Report content structure is invalid";
@@ -37,7 +37,7 @@ class ServiceLayer {
             this.writeToLog(
               "info",
               "createDailyReport",
-              "convertionMethods[inventory_daily_report] - Report content is invalid" +
+              "conversionMethods[inventory_daily_report] - Report content is invalid" +
                 records
             );
             return "Product Name is not valid";
@@ -47,7 +47,7 @@ class ServiceLayer {
             this.writeToLog(
               "info",
               "createDailyReport",
-              "convertionMethods[inventory_daily_report] - The product " +
+              "conversionMethods[inventory_daily_report] - The product " +
                 record.productName +
                 " does not exist in the system."
             );
@@ -57,11 +57,11 @@ class ServiceLayer {
             this.writeToLog(
               "info",
               "createDailyReport",
-              "convertionMethods[inventory_daily_report] - The product " +
+              "conversionMethods[inventory_daily_report] - The product " +
                 record.productName +
                 " already exists in the report."
             );
-            return "Cannot add the same product more than once to invetory report.";
+            return "Cannot add the same product more than once to inventory report.";
           }
           products.add(record.productName);
           record.productId = this.products.get(record.productName);
@@ -77,7 +77,7 @@ class ServiceLayer {
           this.writeToLog(
             "info",
             "createDailyReport",
-            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+            "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
               records
           );
           return "Report content structure is invalid";
@@ -95,7 +95,7 @@ class ServiceLayer {
           this.writeToLog(
             "info",
             "createDailyReport",
-            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+            "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
               records
           );
           return "Report content structure is invalid";
@@ -178,7 +178,7 @@ class ServiceLayer {
   // eslint-disable-next-line no-dupe-class-members
   isLoggedIn(userName) {
     if (this.users.has(userName)) {
-      return this.cinemaSystem.isLoggedin(this.users.get(userName));
+      return this.cinemaSystem.isLoggedIn(this.users.get(userName));
     }
   }
   /**
@@ -200,7 +200,7 @@ class ServiceLayer {
     return "Incorrect user name.";
   }
 
-  printallUser() {
+  printAllUser() {
     this.users.forEach((value, key, map) => {
       console.log(`m[${key}] = ${value}`);
     });
@@ -784,40 +784,40 @@ class ServiceLayer {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail price " + productPrice + " is must to be number"
+        "The Operation fail price " + productPrice + " is must to be number"
       );
-      return "The Opertaion fail - Price is must to be number";
+      return "The Operation fail - Price is must to be number";
     }
     if (this._isParamTypeOfNumber(productQuantity)) {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail Quantity " +
+        "The Operation fail Quantity " +
           productQuantity +
           " is must to be number"
       );
-      return "The Opertaion fail - Quantity is must to be number";
+      return "The Operation fail - Quantity is must to be number";
     }
     if (this._isParamTypeOfNumber(minQuantity)) {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail minQuantity " +
+        "The Operation fail minQuantity " +
           minQuantity +
           " is must to be number"
       );
 
-      return "The Opertaion fail - minQuantity is must to be number";
+      return "The Operation fail - minQuantity is must to be number";
     }
     if (this._isParamTypeOfNumber(maxQuantity)) {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail maxQuantity " +
+        "The Operation fail maxQuantity " +
           maxQuantity +
           " is must to be number"
       );
-      return "The Opertaion fail - maxQuantity is must to be number";
+      return "The Operation fail - maxQuantity is must to be number";
     }
 
     return await this.cinemaSystem.editCafeteriaProduct(
@@ -1148,7 +1148,7 @@ class ServiceLayer {
     let supplierID;
     if (this.suppliers.has(supplierName))
       supplierID = this.suppliers.get(supplierName);
-    let problemticProductName;
+    let problematicProductName;
     let problematicQuantityName;
     productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
@@ -1157,7 +1157,7 @@ class ServiceLayer {
           "editOrder",
           "The product " + product.name + " doesn't exists"
         );
-        problemticProductName = product.name;
+        problematicProductName = product.name;
         return "The product " + product.name + " doesn't exists";
       }
       //if there quantity to edit -> check the type of the quantity
@@ -1179,8 +1179,8 @@ class ServiceLayer {
       product.actualQuantity = parseInt(product.actualQuantity);
       product.id = this.products.get(product.name);
     });
-    if (typeof problemticProductName !== "undefined")
-      return "The product " + problemticProductName + " doesn't exists";
+    if (typeof problematicProductName !== "undefined")
+      return "The product " + problematicProductName + " doesn't exists";
     if (typeof problematicQuantityName !== "undefined")
       return (
         "The product " +
@@ -1228,7 +1228,7 @@ class ServiceLayer {
       );
       return " The order " + orderName + " doesn't exists";
     }
-    let problemticProductName;
+    let problematicProductName;
     let problematicQuantityName;
     productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
@@ -1237,7 +1237,7 @@ class ServiceLayer {
           "confirmOrder",
           "The product " + product.name + " doesn't exists"
         );
-        problemticProductName = product.name;
+        problematicProductName = product.name;
         return "The product " + product.name + " doesn't exists";
       }
       if (
@@ -1258,8 +1258,8 @@ class ServiceLayer {
       product.actualQuantity = parseInt(product.actualQuantity);
       product.id = this.products.get(product.name);
     });
-    if (typeof problemticProductName !== "undefined")
-      return "The product " + problemticProductName + " doesn't exists";
+    if (typeof problematicProductName !== "undefined")
+      return "The product " + problematicProductName + " doesn't exists";
     if (typeof problematicQuantityName !== "undefined")
       return (
         "The product " +
@@ -1499,7 +1499,7 @@ class ServiceLayer {
         );
         return "There is missing information in the report - Please try again.";
       }
-      report.content = this.convertionMethods[report.type](
+      report.content = this.conversionMethods[report.type](
         report.content,
         ActionIDOfTheOperation,
         date
@@ -1588,7 +1588,8 @@ class ServiceLayer {
         new Date(date),
         this.users.get(ActionIDOfTheOperation)
       );
-      if (typeof result === "string") return result;
+      if (typeof result === "string")
+        return "There was a problem to get " + type + " report.\n" + result;
       reports = reports.concat({ type: type, content: result });
     }
     return reports;
@@ -1720,6 +1721,7 @@ class ServiceLayer {
 
   async getFields() {
     let props = await this.cinemaSystem.getGeneralReportProps();
+    console.log(props);
     let output = [];
     for (let i in props) {
       output = output.concat({ title: props[i] });

@@ -74,7 +74,7 @@ describe("edit&confirmOrder", () => {
       "employee",
       true
     );
-    employee.Loggedin = true;
+    employee.LoggedIn = true;
     manager = new Employee(
       -2,
       "manager",
@@ -85,7 +85,7 @@ describe("edit&confirmOrder", () => {
       "manager",
       true
     );
-    manager.Loggedin = true;
+    manager.LoggedIn = true;
     cinemaSystem.users.set(employee.id, employee);
     cinemaSystem.users.set(manager.id, manager);
 
@@ -180,7 +180,7 @@ describe("edit&confirmOrder", () => {
         -3,
         productList
       )
-    ).toBe("Order " + fakeOrderID + " does not exsits.");
+    ).toBe("Order " + fakeOrderID + " does not exist.");
     expect(
       await inventoryManagement.editOrder(
         orderForCafeteriaProduct.id,
@@ -214,7 +214,7 @@ describe("edit&confirmOrder", () => {
         -3,
         productList
       )
-    ).toBe("Order " + fakeOrderID + " does not exsits.");
+    ).toBe("Order " + fakeOrderID + " does not exist.");
     expect(
       await inventoryManagement.confirmOrder(
         orderForCafeteriaProduct.id,
@@ -372,7 +372,7 @@ describe("edit&confirmOrder", () => {
         -3,
         productList
       )
-    ).toBe("Order " + fakeOrderID + " does not exsits.");
+    ).toBe("Order " + fakeOrderID + " does not exist.");
     expect(
       await inventoryManagement.editOrder(
         orderForCafeteriaProduct.id,
@@ -407,7 +407,7 @@ describe("edit&confirmOrder", () => {
     let fakeOrderID = -1390;
     expect(
       await inventoryManagement.confirmOrder(fakeOrderID, productList)
-    ).toBe("Order " + fakeOrderID + " does not exsits.");
+    ).toBe("Order " + fakeOrderID + " does not exist.");
     expect(
       await inventoryManagement.confirmOrder(
         orderForCafeteriaProduct.id,
@@ -447,7 +447,7 @@ describe("edit&confirmOrder", () => {
         productList,
         manager.id
       )
-    ).toBe("Order " + fakeOrderID + " does not exsits.");
+    ).toBe("Order " + fakeOrderID + " does not exist.");
     expect(
       await cinemaSystem.editOrder(
         orderForCafeteriaProduct.id,
@@ -491,7 +491,7 @@ describe("edit&confirmOrder", () => {
     let fakeOrderID = -1390;
     expect(
       await cinemaSystem.confirmOrder(fakeOrderID, productList, manager.id)
-    ).toBe("Order " + fakeOrderID + " does not exsits.");
+    ).toBe("Order " + fakeOrderID + " does not exist.");
     expect(
       await cinemaSystem.confirmOrder(
         orderForCafeteriaProduct.id,

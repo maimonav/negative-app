@@ -301,9 +301,9 @@ class SystemInitializer {
 
   static async _executeActionInSystem(user, method) {
     DataBase._testModeOn();
-    user.Loggedin = true;
+    user.LoggedIn = true;
     await method();
-    user.Loggedin = false;
+    user.LoggedIn = false;
     DataBase._testModeOff();
   }
 }

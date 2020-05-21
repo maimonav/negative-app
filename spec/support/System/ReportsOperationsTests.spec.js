@@ -14,13 +14,13 @@ describe("Report Operations Tests", () => {
     DB._testModeOn();
   });
   it("Unit & Integration addField", async () => {
-    ReportController._allGeneralDailyReoprtFormat = ["test"];
-    ReportController._currentGeneralDailyReoprtFormat = ["test"];
+    ReportController._allGeneralDailyReportFormat = ["test"];
+    ReportController._currentGeneralDailyReportFormat = ["test"];
     let result = await ReportController.addFieldToDailyReport("test");
     expect(result).toBe("The field already exists");
 
-    ReportController._allGeneralDailyReoprtFormat = [];
-    ReportController._currentGeneralDailyReoprtFormat = [];
+    ReportController._allGeneralDailyReportFormat = [];
+    ReportController._currentGeneralDailyReportFormat = [];
     let serviceLayer = new ServiceLayer();
     await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
@@ -30,18 +30,18 @@ describe("Report Operations Tests", () => {
     serviceLayer.cinemaSystem = cinemaSystem;
     result = await serviceLayer.addFieldToDailyReport("test", "User");
     expect(result).toBe("The report field added successfully");
-    expect(ReportController._allGeneralDailyReoprtFormat).toEqual(["test"]);
-    expect(ReportController._currentGeneralDailyReoprtFormat).toEqual(["test"]);
+    expect(ReportController._allGeneralDailyReportFormat).toEqual(["test"]);
+    expect(ReportController._currentGeneralDailyReportFormat).toEqual(["test"]);
   });
 
   it("Unit & Integration removeField", async () => {
-    ReportController._allGeneralDailyReoprtFormat = [];
-    ReportController._currentGeneralDailyReoprtFormat = [];
+    ReportController._allGeneralDailyReportFormat = [];
+    ReportController._currentGeneralDailyReportFormat = [];
     let result = await ReportController.removeFieldFromDailyReport("test");
     expect(result).toBe("The field does not exist");
 
-    ReportController._allGeneralDailyReoprtFormat = ["test"];
-    ReportController._currentGeneralDailyReoprtFormat = ["test"];
+    ReportController._allGeneralDailyReportFormat = ["test"];
+    ReportController._currentGeneralDailyReportFormat = ["test"];
     let serviceLayer = new ServiceLayer();
     await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
@@ -51,8 +51,8 @@ describe("Report Operations Tests", () => {
     serviceLayer.cinemaSystem = cinemaSystem;
     result = await serviceLayer.removeFieldFromDailyReport("test", "User");
     expect(result).toBe("The report field removed successfully");
-    expect(ReportController._allGeneralDailyReoprtFormat).toEqual(["test"]);
-    expect(ReportController._currentGeneralDailyReoprtFormat).toEqual([]);
+    expect(ReportController._allGeneralDailyReportFormat).toEqual(["test"]);
+    expect(ReportController._currentGeneralDailyReportFormat).toEqual([]);
   });
 
   it("UnitTest getReport - Service Layer", async () => {
@@ -239,7 +239,7 @@ describe("Report Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.getReport("type", "test", "User")
     );
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
+    let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
     let result = await serviceLayer.getReport("lol", "test", "User");
@@ -274,7 +274,7 @@ describe("Report Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
       serviceLayer.getFullDailyReport("test", "User")
     );
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
+    let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
     let result = await serviceLayer.getFullDailyReport("test", "User");
@@ -316,7 +316,7 @@ async function testInventoryTypeServiceLayer(reports, serviceLayer, date) {
   await testFunctions(
     async () =>
       serviceLayer.createDailyReport(date, JSON.stringify(reports), "User"),
-    "Cannot add the same product more than once to invetory report."
+    "Cannot add the same product more than once to inventory report."
   );
 }
 
@@ -381,7 +381,7 @@ async function testInventoryTypeCinemaSystem(cinemaSystem) {
   await testFunctions(
     async () => cinemaSystem.createDailyReport(reports, 1),
     "Problem occurred while editing products quantities (you should check the quantity in stock).\n" +
-      "Quantity must be graeter or equal to 0"
+      "Quantity must be greater or equal to 0"
   );
 
   product = new CafeteriaProduct(0, "product", 1, 1, 7, 12, 2);

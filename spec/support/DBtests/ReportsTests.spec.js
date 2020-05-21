@@ -16,7 +16,7 @@ async function addIncomesReport(report) {
   await DB.singleAdd("incomes_daily_report", report);
 }
 async function addMoviesReport(report) {
-  await DB.singleAdd("movie_daily_report", report);
+  await DB.singleAdd("movies_daily_report", report);
 }
 async function addGeneralPurposeReport(report) {
   await DB.singleAdd("general_purpose_daily_report", report);
@@ -64,13 +64,13 @@ exports.testIncomeDailyReportResult = testIncomeDailyReportResult;
 
 async function testAddMoviesDailyReport(report, success) {
   if (success)
-    await DB.singleGetById("movie_daily_report", {
+    await DB.singleGetById("movies_daily_report", {
       date: new Date(report.date),
     }).then((result) => {
       testMoviesDailyReportResult(result, report);
     });
   else {
-    await DB.singleGetById("movie_daily_report", {
+    await DB.singleGetById("movies_daily_report", {
       date: new Date(report.date),
     }).then((result) => {
       if (typeof result == "string")
@@ -161,7 +161,7 @@ async function updateIncomesDailyReport(report) {
 async function updateMoviesDailyReport(report) {
   await addMoviesReport(report);
   await DB.singleUpdate(
-    "movie_daily_report",
+    "movies_daily_report",
     { date: new Date(report.date) },
     report
   );
@@ -191,7 +191,7 @@ async function testUpdateIncomesDailyReport(report) {
   });
 }
 async function testUpdateMoviesDailyReport(report) {
-  await DB.singleGetById("movie_daily_report", {
+  await DB.singleGetById("movies_daily_report", {
     date: new Date(report.date),
   }).then((result) => {
     testMoviesDailyReportResult(result, report);
@@ -218,7 +218,7 @@ async function removeIncomesDailyReport(report, where) {
 }
 async function removeMoviesDailyReport(report, where) {
   await addMoviesReport(report);
-  await DB.singleRemove("movie_daily_report", where);
+  await DB.singleRemove("movies_daily_report", where);
 }
 async function removeGeneralPurposeDailyReport(report, where) {
   await addGeneralPurposeReport(report);
@@ -235,7 +235,7 @@ async function testRemoveIncomesDailyReport(where) {
   });
 }
 async function testRemoveMoviesDailyReport(where) {
-  await DB.singleGetById("movie_daily_report", where).then((result) => {
+  await DB.singleGetById("movies_daily_report", where).then((result) => {
     if (result != null) fail("removeMoviesDailyReport failed");
   });
 }

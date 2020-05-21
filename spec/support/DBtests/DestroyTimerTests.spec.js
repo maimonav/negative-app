@@ -69,8 +69,8 @@ describe("DB Test - destroy timer", function() {
   it("delete movies reports after time test", async function(done) {
     await addMoviesDailyReport();
     await deleteModel(
-      "movie_daily_report",
-      "movie_daily_reports",
+      "movies_daily_report",
+      "movies_daily_reports",
       true,
       { date: getSyncDateFormat(new Date("2020-03-02 00:00:00")) },
       6000,

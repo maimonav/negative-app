@@ -1,43 +1,31 @@
 const DataBase = require("./DataLayer/DBManager");
-<<<<<<< HEAD
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
-const DBlogger = simpleLogger.createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
-const { CsvToJson } = require("./EventBuzzScript");
-=======
 const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
->>>>>>> master
+const { CsvToJson } = require("./EventBuzzScript");
 
 class ReportController {
   static _types = {
     INCOMES: "incomes_daily_report",
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
-    //MOVIES: "movie_daily_report",
+    //MOVIES: "movies_daily_report",
   };
-<<<<<<< HEAD
-  static _generalDailyReoprtFormat = [];
-  static MovieReport = CsvToJson();
-=======
-  static _allGeneralDailyReoprtFormat;
-  static _currentGeneralDailyReoprtFormat;
+  static _allGeneralDailyReportFormat;
+  static _currentGeneralDailyReportFormat;
+  static _MovieReportJson = CsvToJson();
 
-  static async getAllgeneralDailyReoprtFormat(calledFunctionName) {
-    if (!this._allGeneralDailyReoprtFormat)
+  static async getAllGeneralDailyReportFormat(calledFunctionName) {
+    if (!this._allGeneralDailyReportFormat)
       await this.updatePropsLists(calledFunctionName);
-    return this._allGeneralDailyReoprtFormat;
+    return this._allGeneralDailyReportFormat;
   }
 
-  static async getCurrentGeneralDailyReoprtFormat(calledFunctionName) {
-    if (!this._currentGeneralDailyReoprtFormat)
+  static async getCurrentGeneralDailyReportFormat(calledFunctionName) {
+    if (!this._currentGeneralDailyReportFormat)
       await this.updatePropsLists(calledFunctionName);
-    return this._currentGeneralDailyReoprtFormat;
+    return this._currentGeneralDailyReportFormat;
   }
 
   static async updatePropsLists(calledFunctionName) {
@@ -51,7 +39,7 @@ class ReportController {
         "info",
         "ReportController",
         calledFunctionName ? calledFunctionName : "",
-        "getCurrentGeneralDailyReoprtFormat - singleFindAll -" + result
+        "getCurrentGeneralDailyReportFormat - singleFindAll -" + result
       );
       return (
         "Cannot get reports fields. Action cannot be completed, details:\n" +
@@ -67,18 +55,17 @@ class ReportController {
           "info",
           "ReportController",
           calledFunctionName ? calledFunctionName : "",
-          "getCurrentGeneralDailyReoprtFormat - singleGetById -" + result
+          "getCurrentGeneralDailyReportFormat - singleGetById -" + result
         );
         return result;
       }
 
-      this._currentGeneralDailyReoprtFormat = result.currentProps;
-      this._allGeneralDailyReoprtFormat = result.allProps;
+      this._currentGeneralDailyReportFormat = result.currentProps;
+      this._allGeneralDailyReportFormat = result.allProps;
       return result;
     }
     return { currentProps: [], allProps: [] };
   }
->>>>>>> master
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
@@ -257,7 +244,7 @@ class ReportController {
       return "The report field cannot be added\n" + result;
     }
 
-    if (this._currentGeneralDailyReoprtFormat.includes(newField)) {
+    if (this._currentGeneralDailyReportFormat.includes(newField)) {
       logger.writeToLog(
         "info",
         "ReportController",
@@ -266,8 +253,10 @@ class ReportController {
       );
       return "The field already exists";
     }
-    let newCurrentProps = result.currentProps.concat(newField);
-    let newAllProps = result.allProps.concat(newField);
+    let newCurrentProps = this._currentGeneralDailyReportFormat.concat(
+      newField
+    );
+    let newAllProps = this._allGeneralDailyReportFormat.concat(newField);
 
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
@@ -284,8 +273,8 @@ class ReportController {
       return "The report field cannot be added\n" + result;
     }
 
-    this._currentGeneralDailyReoprtFormat = newCurrentProps;
-    this._allGeneralDailyReoprtFormat = newAllProps;
+    this._currentGeneralDailyReportFormat = newCurrentProps;
+    this._allGeneralDailyReportFormat = newAllProps;
 
     return "The report field added successfully";
   }
@@ -301,7 +290,7 @@ class ReportController {
       return "The report field cannot be added\n" + result;
     }
 
-    if (!this._currentGeneralDailyReoprtFormat.includes(fieldToRemove)) {
+    if (!this._currentGeneralDailyReportFormat.includes(fieldToRemove)) {
       logger.writeToLog(
         "info",
         "ReportController",
@@ -330,7 +319,7 @@ class ReportController {
       return "The report field cannot be removed\n" + result;
     }
 
-    this._currentGeneralDailyReoprtFormat = newCurrentProps;
+    this._currentGeneralDailyReportFormat = newCurrentProps;
 
     return "The report field removed successfully";
   }

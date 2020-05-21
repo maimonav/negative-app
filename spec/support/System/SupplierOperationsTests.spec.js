@@ -98,7 +98,7 @@ describe("Supplier Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.addNewSupplier("Supplier", "050", "User")
     );
-    let user = { isLoggedin: () => true, permissionCheck: () => true };
+    let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     let supplierId = serviceLayer.supplierCounter;
     serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(
@@ -134,7 +134,7 @@ describe("Supplier Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.editSupplier("Supplier", "050", "User")
     );
-    user = { isLoggedin: () => true, permissionCheck: () => true };
+    user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     result = await serviceLayer.editSupplier("Supplier", "050", "User");
     expect(result).toBe("The supplier does not exist");
@@ -158,7 +158,7 @@ describe("Supplier Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.removeSupplier("Supplier", "User")
     );
-    user = { isLoggedin: () => true, permissionCheck: () => true };
+    user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     result = await serviceLayer.removeSupplier("Supplier", "User");
     expect(result).toBe("The supplier does not exist");

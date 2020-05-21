@@ -7,7 +7,7 @@ describe("addEmployeeTest", () => {
   const Employee = require("../../../server/src/main/Employee");
   const CinemaSystem = require("../../../server/src/main/CinemaSystem");
   const ServiceLayer = require("../../../server/src/main/ServiceLayer");
-  let EmployeeManagemnt = require("../../../server/src/main/EmployeeManagement");
+  let EmployeeManagement = require("../../../server/src/main/EmployeeManagement");
   let servicelayer;
   let employeeManagemnt;
   let cinemaSystem;
@@ -47,13 +47,13 @@ describe("addEmployeeTest", () => {
     userlname = "admin";
     usercontactDetails = "tel.-123456789";
 
-    employeeManagemnt = new EmployeeManagemnt();
+    employeeManagemnt = new EmployeeManagement();
 
     cinemaSystem.employeeManagement = employeeManagemnt;
     servicelayer.cinemaSystem = cinemaSystem;
   });
 
-  it("UnitTest-addEmployee Test on class EmployeeManagemnt", async () => {
+  it("UnitTest-addEmployee Test on class EmployeeManagement", async () => {
     let test = await employeeManagemnt.addNewEmployee(
       adminID,
       adminUserName,
@@ -94,7 +94,7 @@ describe("addEmployeeTest", () => {
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
 
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await cinemaSystem.addNewEmployee(
         userID,
@@ -178,7 +178,7 @@ describe("addEmployeeTest", () => {
       )
     ).toEqual(cinemaSystem.userOfflineMsg);
 
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     expect(
       await cinemaSystem.addNewEmployee(
         userID,
@@ -206,7 +206,7 @@ describe("addEmployeeTest", () => {
   });
 
   it("Integration-addEmployee Test on class ServiceLayer", async () => {
-    admin.Loggedin = true;
+    admin.LoggedIn = true;
     const expectedUserCounter = servicelayer.userCounter + 1;
     expect(
       await servicelayer.addNewEmployee(
