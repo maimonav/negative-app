@@ -11,7 +11,7 @@ import {
   handleGetMovies,
   handleGetMovieDetails,
 } from "../../../Handlers/Handlers";
-import { movieNameHook } from "../../../consts/data-hooks";
+import { movieNameHook, categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowMovieDetails extends React.Component {
@@ -33,7 +33,7 @@ export default class ShowMovieDetails extends React.Component {
 
   setMovieName = (movieName) => {
     this.setState({ movieName });
-    handleGetMovieDetails(movieName, localStorage.getItem("username"))
+    handleGetMovieDetails(movieName)
       .then((response) => response.json())
       .then((state) => {
         this.setState({ movieName: state.result });
@@ -91,6 +91,7 @@ export default class ShowMovieDetails extends React.Component {
                           readOnly: true,
                         }}
                         variant="filled"
+                        data-hook={categoryNameHook}
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>

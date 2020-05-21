@@ -623,7 +623,30 @@ describe("edit&confirmOrder", () => {
     ).toBe("Order confirmation success");
     expect(orderProduct.actualQuantity).toBe(7);
     expect(product.quantity).toBe(12);
-    let movieList = [
+    productList = [{ name: product.name, actualQuantity: "s" }];
+
+    expect(
+      await serviceLayer.confirmOrder(
+        orderForCafeteriaProduct.name,
+        productList,
+        manager.userName
+      )
+    ).toBe(
+      "The product " +
+        product.name +
+        "'s quantity received is not a number type"
+    );
+    let movieList = [{ name: movie.name, examinationRoom: -4, key: "" }];
+    expect(
+      await serviceLayer.confirmOrder(
+        orderFormovie.name,
+        movieList,
+        manager.userName
+      )
+    ).toBe(
+      "Not all parameters required for product or film approval were accepted"
+    );
+    movieList = [
       { name: movie.name, quantity: 7, key: -3, examinationRoom: -4 },
     ];
     expect(
@@ -636,5 +659,29 @@ describe("edit&confirmOrder", () => {
     expect(orderFormovie.productOrders.get(movie.id).actualQuantity).toBe(1);
     expect(movie.movieKey).toBe(-3);
     expect(movie.examinationRoom).toBe(-4);
+    expect(
+      await serviceLayer.editOrder(
+        orderFormovie.name,
+        null,
+        null,
+        movieList,
+        manager.userName
+      )
+    ).toBe(
+      "Edit of order " +
+        orderFormovie.name +
+        " fail- You cannot edit a previously approved order."
+    );
+    expect(
+      await serviceLayer.confirmOrder(
+        orderFormovie.name,
+        movieList,
+        manager.userName
+      )
+    ).toBe(
+      "Confirm of order " +
+        orderFormovie.name +
+        " fail- You cannot re-confirm order."
+    );
   });
 });

@@ -1,9 +1,9 @@
 const DataBase = require("./DBManager");
 const uniqid = require("uniqid");
-const DBlogger = require("simple-node-logger").createSimpleLogger({
-  logFilePath: "database.log",
-  timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
-});
+const LogControllerFile = require("../LogController");
+const LogController = LogControllerFile.LogController;
+const DBlogger = LogController.getInstance("db");
+
 const {
   generalPurposeDailyReportSchema,
   inventoryDailyReportSchema,
@@ -18,6 +18,7 @@ const {
   orderSchema,
   userSchema,
   employeeSchema,
+  notificationSchema,
 } = require("./Models");
 const Sequelize = require("sequelize");
 const mysql = require("mysql2");
@@ -102,6 +103,12 @@ async function _setDestroyTimerForAllTables() {
     deleteTime: "1 YEAR",
     eventTime: "1 DAY",
   };
+  let notificationObj = {
+    table: "notifications",
+    afterCreate: true,
+    deleteTime: "1 MONTH",
+    eventTime: "1 DAY",
+  };
   return DataBase.executeActions([
     { name: DataBase._setDestroyTimer, params: userObj },
     { name: DataBase._setDestroyTimer, params: employeeObj },
@@ -116,6 +123,7 @@ async function _setDestroyTimerForAllTables() {
     { name: DataBase._setDestroyTimer, params: incomesReportObj },
     { name: DataBase._setDestroyTimer, params: inventoryReportObj },
     { name: DataBase._setDestroyTimer, params: generalReportObj },
+    { name: DataBase._setDestroyTimer, params: notificationObj },
   ]);
 }
 
@@ -143,14 +151,17 @@ async function initDB(dbName, password) {
     await DataBase.sequelize.authenticate();
   } catch (error) {
     let errId = uniqid();
-    DBlogger.error(
-      errId,
-      " - DBInitialization - initDB - authenticate - ",
-      dbName ? dbName : defaultDBName,
-      ", ",
-      password ? password : defaultPassword,
-      " - ",
-      error
+    let errMsg =
+      (dbName ? dbName : defaultDBName) +
+      ", " +
+      (password ? password : defaultPassword) +
+      " - " +
+      error;
+    DBlogger.writeToLog(
+      "error",
+      "DBInitializtion",
+      "initDB- authenticate",
+      errId + " - " + errMsg
     );
     return DataBase._errorHandler.apply(DataBase, [error, errId]);
   }
@@ -171,6 +182,7 @@ async function initDB(dbName, password) {
     inventory_daily_report: DataBase.InventoryDailyReport,
     movie_daily_report: DataBase.MoviesDailyReport,
     incomes_daily_report: DataBase.IncomesDailyReport,
+    notification: DataBase.Notification,
   };
 
   try {
@@ -183,8 +195,10 @@ async function initDB(dbName, password) {
     if (dbName === undefined || dbName.toLowerCase() !== "mydbtest") {
       result = await _setDestroyTimerForAllTables();
       if (typeof result === "string") {
-        DBlogger.info(
-          " - DBInitialization - initDB - setDestroyTimerForAllTables - ",
+        DBlogger.writeToLog(
+          "info",
+          "DBInitializtion",
+          "initDB- initDB -setDestroyTimerForAllTables",
           result
         );
         return result;
@@ -193,22 +207,27 @@ async function initDB(dbName, password) {
 
     result = await _initGeneralReport();
     if (typeof result === "string") {
-      DBlogger.info(
-        " - DBInitialization - initDB - initGeneralReport - ",
+      DBlogger.writeToLog(
+        "info",
+        "DBInitializtion",
+        "initDB- initGeneralReport -setDestroyTimerForAllTables",
         result
       );
       return result;
     }
   } catch (error) {
     let errId = uniqid();
-    DBlogger.error(
-      errId,
-      " - DBInitialization - initDB - init tables - ",
-      dbName ? dbName : defaultDBName,
-      ", ",
-      password ? password : defaultPassword,
-      " - ",
-      error
+    let errMsg =
+      (dbName ? dbName : defaultDBName) +
+      ", " +
+      (password ? password : defaultPassword) +
+      " - " +
+      error;
+    DBlogger.writeToLog(
+      "error",
+      "DBInitializtion",
+      "initDB- authenticate",
+      errId + " - " + errMsg
     );
     return DataBase._errorHandler.apply(DataBase, [error, errId]);
   }
@@ -223,7 +242,9 @@ async function _initGeneralReport() {
   let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
   return DataBase.singleAdd("general_purpose_daily_report", {
     date: date.toISOString().substring(0, 10),
-    additionalProps: [[], {}],
+    currentProps: [],
+    propsObject: {},
+    allProps: [],
   });
 }
 
@@ -248,7 +269,6 @@ async function connectAndCreate(dbName, password) {
       if (error) {
         throw error;
       }
-      console.log("Connected!");
     });
 
     await DataBase.connection
@@ -256,17 +276,20 @@ async function connectAndCreate(dbName, password) {
       .query(
         "CREATE DATABASE IF NOT EXISTS " + (dbName ? dbName : defaultDBName)
       );
-    console.log("Database created");
+    console.log("Connected!\nDatabase created");
   } catch (error) {
     let errId = uniqid();
-    DBlogger.error(
-      errId,
-      " - DBInitialization - connectAndCreate - ",
-      dbName ? dbName : defaultDBName,
-      ", ",
-      password ? password : defaultPassword,
-      " - ",
-      error
+    let errMsg =
+      (dbName ? dbName : defaultDBName) +
+      ", " +
+      (password ? password : defaultPassword) +
+      " - " +
+      error;
+    DBlogger.writeToLog(
+      "error",
+      "DBInitializtion",
+      "connectAndCreate",
+      errId + " - " + errMsg
     );
     return DataBase._errorHandler.apply(DataBase, [error, errId]);
   }
@@ -394,6 +417,11 @@ function _initModels() {
   DataBase.IncomesDailyReport = DataBase.sequelize.define(
     "incomes_daily_report",
     incomesDailyReportSchema(DataBase.Employee),
+    {}
+  );
+  DataBase.Notification = DataBase.sequelize.define(
+    "notification",
+    notificationSchema(DataBase.User),
     {}
   );
 }

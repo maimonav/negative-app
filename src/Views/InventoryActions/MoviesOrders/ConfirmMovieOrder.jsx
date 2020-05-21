@@ -81,7 +81,7 @@ export default class ConfirmMovieOrder extends React.Component {
   };
 
   columns = [
-    { title: "Movie Name", field: "name" },
+    { title: "Movie Name", field: "name", editable: "never" },
     { title: "Key", field: "key" },
     { title: "Examination room", field: "examinationRoom" },
   ];
@@ -100,7 +100,7 @@ export default class ConfirmMovieOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Confirm Cafeteria Order</h4>
@@ -147,7 +147,11 @@ export default class ConfirmMovieOrder extends React.Component {
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
                     {orderId && (
-                      <Button color="info" onClick={this.toggleSecondBox}>
+                      <Button
+                        id={"chooseOrder"}
+                        color="info"
+                        onClick={this.toggleSecondBox}
+                      >
                         Choose order
                       </Button>
                     )}

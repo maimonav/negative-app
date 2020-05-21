@@ -15,27 +15,28 @@ import {
   AddCafeteriaOrder,
   EditCafeteriaOrder,
   RemoveOrder,
-  ConfirmCafeteriaOrder,
+  ConfirmCafeteriaOrder
 } from "../../index";
 import {
   handleAddCafeteriaOrder,
   handleEditCafeteriaOrder,
   handleRemoveOrder,
-  handleConfirmCafeteriaOrder,
+  handleConfirmCafeteriaOrder
 } from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
   removeActionHook,
-  confirmActionHook,
+  confirmActionHook
 } from "../../../consts/data-hooks";
+import { isAtLeastDeputyManager } from "../../../consts/permissions";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white",
+  color: "white"
 };
 
 export default class ManageCafeteriaOrders extends React.Component {
@@ -44,7 +45,7 @@ export default class ManageCafeteriaOrders extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = (action) => {
+  onChange = action => {
     this.setState({ action });
   };
 
@@ -70,41 +71,45 @@ export default class ManageCafeteriaOrders extends React.Component {
                       <ShowIcon />
                     </Fab>
                   </Tooltip>
-                  <Tooltip title="Add" aria-label="add">
-                    <Fab
-                      color="default"
-                      size="small"
-                      onClick={() => this.onChange("add")}
-                      style={iconStyle}
-                      data-hook={addActionHook}
-                    >
-                      <AddIcon />
-                    </Fab>
-                  </Tooltip>
+                  {isAtLeastDeputyManager(this.props.permission) && (
+                    <>
+                      <Tooltip title="Add" aria-label="add">
+                        <Fab
+                          color="default"
+                          size="small"
+                          onClick={() => this.onChange("add")}
+                          style={iconStyle}
+                          data-hook={addActionHook}
+                        >
+                          <AddIcon />
+                        </Fab>
+                      </Tooltip>
 
-                  <Tooltip title="Edit" aria-label="edit">
-                    <Fab
-                      color="default"
-                      size="small"
-                      onClick={() => this.onChange("edit")}
-                      style={iconStyle}
-                      data-hook={editActionHook}
-                    >
-                      <EditIcon />
-                    </Fab>
-                  </Tooltip>
+                      <Tooltip title="Edit" aria-label="edit">
+                        <Fab
+                          color="default"
+                          size="small"
+                          onClick={() => this.onChange("edit")}
+                          style={iconStyle}
+                          data-hook={editActionHook}
+                        >
+                          <EditIcon />
+                        </Fab>
+                      </Tooltip>
 
-                  <Tooltip title="Delete" aria-label="delete">
-                    <Fab
-                      color="default"
-                      size="small"
-                      onClick={() => this.onChange("delete")}
-                      style={iconStyle}
-                      data-hook={removeActionHook}
-                    >
-                      <DeleteIcon />
-                    </Fab>
-                  </Tooltip>
+                      <Tooltip title="Delete" aria-label="delete">
+                        <Fab
+                          color="default"
+                          size="small"
+                          onClick={() => this.onChange("delete")}
+                          style={iconStyle}
+                          data-hook={removeActionHook}
+                        >
+                          <DeleteIcon />
+                        </Fab>
+                      </Tooltip>
+                    </>
+                  )}
                   <Tooltip title="Confirm" aria-label="confirm">
                     <Fab
                       color="default"

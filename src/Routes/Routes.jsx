@@ -8,11 +8,13 @@ import {
   editMoviePath,
   removeMoviePath,
   manageSuppliersPath,
+  manageReportsPath,
   manageInventoryPath,
   manageCafeteriaOrdersPath,
   manageCategoriesPath,
   manageMoviesPath,
   showReportPath,
+  createDailyReportPath,
   manageOrdersPath,
   manageMoviesOrdersPath,
 } from "../consts/paths";
@@ -22,6 +24,7 @@ import {
   handleLogout,
   handleEditMovie,
   handleRemoveMovie,
+  handleCreateDailyReports,
 } from "../Handlers/Handlers";
 
 import {
@@ -29,12 +32,14 @@ import {
   Logout,
   ManageEmployees,
   ManageSuppliers,
+  ManageReports,
   EditMovie,
   RemoveMovie,
   ManageInventory,
   ManageCafeteriaOrders,
   ManageMovies,
   ShowReport,
+  CreateDailyReport,
   ManageCategories,
   ManageOrders,
   ManageMoviesOrders,
@@ -66,12 +71,15 @@ export default function Routes(props) {
         <Route path={manageSuppliersPath} component={ManageSuppliers} />
       )}
       {props.isLogged && (
-        <Route path={manageInventoryPath} component={ManageInventory} />
+        <Route
+          path={manageInventoryPath}
+          component={() => <ManageInventory {...props} />}
+        />
       )}
       {props.isLogged && (
         <Route
           path={manageCafeteriaOrdersPath}
-          component={ManageCafeteriaOrders}
+          component={() => <ManageCafeteriaOrders {...props} />}
         />
       )}
       {props.isLogged && (
@@ -81,7 +89,10 @@ export default function Routes(props) {
         <Route path={manageOrdersPath} component={ManageOrders} />
       )}
       {props.isLogged && (
-        <Route path={manageMoviesOrdersPath} component={ManageMoviesOrders} />
+        <Route
+          path={manageMoviesOrdersPath}
+          component={() => <ManageMoviesOrders {...props} />}
+        />
       )}
       {props.isLogged && (
         <Route
@@ -104,7 +115,20 @@ export default function Routes(props) {
         />
       )}
 
+      {props.isLogged && (
+        <Route path={manageReportsPath} component={ManageReports} />
+      )}
       {props.isLogged && <Route path={showReportPath} component={ShowReport} />}
+      {props.isLogged && (
+        <Route
+          path={createDailyReportPath}
+          component={() => (
+            <CreateDailyReport
+              handleCreateDailyReports={handleCreateDailyReports}
+            />
+          )}
+        />
+      )}
     </Switch>
   );
 }

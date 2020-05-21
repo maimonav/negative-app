@@ -11,7 +11,7 @@ import {
   showActionHook,
   editActionHook,
   removeActionHook,
-  actionButtonHook
+  actionButtonHook,
 } from "../../../src/consts/data-hooks";
 
 const employee = "employee";

@@ -1,6 +1,10 @@
 const CinemaSystem = require("./CinemaSystem");
 const SystemInitializer = require("./SystemInitializer");
-const logger = require("simple-node-logger").createSimpleLogger("project.log");
+const NotificationController = require("./NotificationController");
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
 
 class ServiceLayer {
   constructor() {
@@ -15,12 +19,103 @@ class ServiceLayer {
     this.categoriesCounter = 0;
     this.orders = new Map();
     this.ordersCounter = 0;
+    this.convertionMethods = {
+      inventory_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          this.writeToLog(
+            "info",
+            "createDailyReport",
+            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+              records
+          );
+          return "Report content structure is invalid";
+        }
+        let products = new Set();
+        for (let i in records) {
+          let record = records[i];
+          if (!record.productName || !this._isInputValid(record.productName)) {
+            this.writeToLog(
+              "info",
+              "createDailyReport",
+              "convertionMethods[inventory_daily_report] - Report content is invalid" +
+                records
+            );
+            return "Product Name is not valid";
+          }
+
+          if (!this.products.has(record.productName)) {
+            this.writeToLog(
+              "info",
+              "createDailyReport",
+              "convertionMethods[inventory_daily_report] - The product " +
+                record.productName +
+                " does not exist in the system."
+            );
+            return "The product does not exist.";
+          }
+          if (products.has(record.productName)) {
+            this.writeToLog(
+              "info",
+              "createDailyReport",
+              "convertionMethods[inventory_daily_report] - The product " +
+                record.productName +
+                " already exists in the report."
+            );
+            return "Cannot add the same product more than once to invetory report.";
+          }
+          products.add(record.productName);
+          record.productId = this.products.get(record.productName);
+          delete record.productName;
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+      general_purpose_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          this.writeToLog(
+            "info",
+            "createDailyReport",
+            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+              records
+          );
+          return "Report content structure is invalid";
+        }
+        for (let i in records) {
+          let record = records[i];
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+      incomes_daily_report: (records, user, date) => {
+        if (!Array.isArray(records) || records.length === 0) {
+          this.writeToLog(
+            "info",
+            "createDailyReport",
+            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+              records
+          );
+          return "Report content structure is invalid";
+        }
+        for (let i in records) {
+          let record = records[i];
+          record.creatorEmployeeId = this.users.get(user);
+          record.date = date;
+          records[i] = record;
+        }
+        return records;
+      },
+    };
   }
+
   /**
    * @param {string} dbName The database name
    * @returns {string} Success or failure string
    */
-  async initSeviceLayer(dbName, password) {
+  async initServiceLayer(dbName, password) {
     this.users.set("admin", this.userCounter);
     this.userCounter++;
     let result = await SystemInitializer.initSystem(this, dbName, password);
@@ -34,8 +129,10 @@ class ServiceLayer {
 
   async register(userName, password) {
     if (this.users.has(userName)) {
-      logger.info(
-        "ServiceLayer - The registration process failed - the " +
+      this.writeToLog(
+        "info",
+        "register",
+        "The registration process failed - the " +
           userName +
           " exists on the system."
       );
@@ -68,8 +165,10 @@ class ServiceLayer {
         this.users.get(userName)
       );
     }
-    logger.info(
-      "ServiceLayer - The login process failed - the " +
+    this.writeToLog(
+      "info",
+      "login",
+      "The login process failed - the " +
         userName +
         " isn't exists on the system."
     );
@@ -91,8 +190,10 @@ class ServiceLayer {
     if (this.users.has(userName)) {
       return this.cinemaSystem.logout(this.users.get(userName));
     }
-    logger.info(
-      "ServiceLayer - The logout process failed - the " +
+    this.writeToLog(
+      "info",
+      "logout",
+      "The login process failed - the " +
         userName +
         " isn't exists on the system."
     );
@@ -127,16 +228,20 @@ class ServiceLayer {
     isPasswordHashed
   ) {
     if (this.users.has(userName)) {
-      logger.info(
-        "ServiceLayer - The addNewEmployee process failed - the " +
+      this.writeToLog(
+        "info",
+        "addNewEmployee",
+        "The addNewEmployee process failed - the " +
           userName +
           " exists on the system."
       );
       return "The user already exists";
     }
     if (!this.users.has(ActionIDofTheOperation)) {
-      logger.info(
-        "ServiceLayer - The addNewEmployee process failed - the " +
+      this.writeToLog(
+        "info",
+        "addNewEmployee",
+        "The addNewEmployee process failed - the " +
           ActionIDofTheOperation +
           " , who initiated the operation, does not exist in the system"
       );
@@ -154,7 +259,15 @@ class ServiceLayer {
       isPasswordHashed
     );
     if (result === "The employee added successfully.") {
-      this.users.set(userName, this.userCounter);
+      let employeeId = this.userCounter;
+      if (permissions === "MANAGER")
+        NotificationController.ManagerId = employeeId;
+      else if (
+        permissions === "DEPUTY MANAGER" ||
+        permissions === "DEPUTY_MANAGER"
+      )
+        NotificationController.DeputyManagerId = employeeId;
+      this.users.set(userName, employeeId);
       this.userCounter++;
     }
     return result;
@@ -180,16 +293,20 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (!this.users.has(userName)) {
-      logger.info(
-        "ServiceLayer - editEmployee - The addNewEmployee process failed - the " +
+      this.writeToLog(
+        "info",
+        "editEmployee",
+        "The editEmployee process failed - the " +
           userName +
           " not exists on the system."
       );
       return "The employee does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer - The editEmployee process failed - the " +
+      this.writeToLog(
+        "info",
+        "editEmployee",
+        "The editEmployee process failed - the " +
           ActionIDOfTheOperation +
           " , who initiated the operation, does not exist in the system"
       );
@@ -213,16 +330,20 @@ class ServiceLayer {
    **/
   async deleteEmployee(userName, ActionIDOfTheOperation) {
     if (!this.users.has(userName)) {
-      logger.info(
-        "ServiceLayer - deleteEmployee - The deleteEmployee process failed - the " +
+      this.writeToLog(
+        "info",
+        "deleteEmployee",
+        "The deleteEmployee process failed - the " +
           userName +
           " not exists on the system."
       );
       return "The employee does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer - The deleteEmployee process failed - the " +
+      this.writeToLog(
+        "info",
+        "deleteEmployee",
+        "The deleteEmployee process failed - the " +
           ActionIDOfTheOperation +
           " , who initiated the operation, does not exist in the system"
       );
@@ -253,27 +374,33 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- addMovie - ", validationResult);
+      this.writeToLog("info", "addMovie", validationResult);
       return validationResult;
     }
 
     if (this.products.has(movieName)) {
-      logger.info(
-        "ServiceLayer- addMovie - The movie " + movieName + " already exists"
+      this.writeToLog(
+        "info",
+        "addMovie",
+        "The movie " + movieName + " already exists"
       );
       return "The movie already exists";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- addMovie - The user " +
+      this.writeToLog(
+        "info",
+        "addMovie",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
     if (!this.categories.has(category)) {
-      logger.info(
-        "ServiceLayer- addMovie - The category " + category + " does not exist"
+      this.writeToLog(
+        "info",
+        "addMovie",
+        "The category " + category + " does not exist"
       );
       return "The category does not exist";
     }
@@ -317,27 +444,33 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- editMovie - ", validationResult);
+      this.writeToLog("info", "editMovie", validationResult);
       return validationResult;
     }
 
     if (!this.products.has(movieName)) {
-      logger.info(
-        "ServiceLayer- editMovie - The movie " + movieName + " does not exist"
+      this.writeToLog(
+        "info",
+        "editMovie",
+        "The movie " + movieName + " does not exist"
       );
       return "The movie does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- editMovie - The user " +
+      this.writeToLog(
+        "info",
+        "editMovie",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
     if (!this.categories.has(category)) {
-      logger.info(
-        "ServiceLayer- editMovie - The category " + category + " does not exist"
+      this.writeToLog(
+        "info",
+        "editMovie",
+        "The category " + category + " does not exist"
       );
       return "The category does not exist";
     }
@@ -362,19 +495,23 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- removeMovie - ", validationResult);
+      this.writeToLog("info", "removeMovie", validationResult);
       return validationResult;
     }
 
     if (!this.products.has(movieName)) {
-      logger.info(
-        "ServiceLayer- removeMovie - The movie " + movieName + " does not exist"
+      this.writeToLog(
+        "info",
+        "removeMovie",
+        " The movie " + movieName + " does not exist"
       );
       return "The movie does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- removeMovie - The user " +
+      this.writeToLog(
+        "info",
+        "removeMovie",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -406,21 +543,23 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- addNewSupplier - ", validationResult);
+      this.writeToLog("info", "addNewSupplier", validationResult);
       return validationResult;
     }
 
     if (this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- addNewSupplier - The supplier " +
-          supplierName +
-          " already exists"
+      this.writeToLog(
+        "info",
+        "addNewSupplier",
+        "The supplier " + supplierName + " already exists"
       );
       return "The supplier already exists";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- addNewSupplier - The user " +
+      this.writeToLog(
+        "info",
+        "addNewSupplier",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -454,20 +593,22 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- editSupplier - ", validationResult);
+      this.writeToLog("info", "editSupplier", validationResult);
       return validationResult;
     }
     if (!this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- editSupplier - The supplier " +
-          supplierName +
-          " does not exist"
+      this.writeToLog(
+        "info",
+        "editSupplier",
+        "The supplier " + supplierName + " does not exist"
       );
       return "The supplier does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- editSupplier - The user " +
+      this.writeToLog(
+        "info",
+        "editSupplier",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -494,21 +635,23 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- removeSupplier - ", validationResult);
+      this.writeToLog("info", "removeSupplier", validationResult);
       return validationResult;
     }
 
     if (!this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- removeSupplier - The supplier " +
-          supplierName +
-          " does not exist"
+      this.writeToLog(
+        "info",
+        "removeSupplier",
+        "The supplier " + supplierName + " does not exist"
       );
       return "The supplier does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- removeSupplier - The user " +
+      this.writeToLog(
+        "info",
+        "removeSupplier",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -558,9 +701,18 @@ class ServiceLayer {
       : !this._isInputValid(productCategory)
       ? "Product category is not valid"
       : "Valid";
-    if (validationResult !== "Valid") return validationResult;
-    if (!this.categories.has(productCategory))
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "addNewProduct", validationResult);
+      return validationResult;
+    }
+    if (!this.categories.has(productCategory)) {
+      this.writeToLog(
+        "info",
+        "addNewProduct",
+        "Product category does not exist"
+      );
       return "Product category does not exist";
+    }
     let result = await this.cinemaSystem.addCafeteriaProduct(
       this.productsCounter,
       productName,
@@ -575,9 +727,14 @@ class ServiceLayer {
       this.products.set(productName, this.productsCounter);
       this.productsCounter++;
     } else {
-      logger.info("ServiceLayer- addNewProduct - " + result);
+      this.writeToLog("info", "addNewProduct", result);
     }
     return result;
+  }
+  _isParamTypeOfNumber(param) {
+    if (typeof param === "undefined" || param === null || param === "")
+      return false;
+    return isNaN(param);
   }
   /**
    * Editing the cafeteria product
@@ -600,10 +757,13 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (!this.products.has(productName)) {
+      this.writeToLog("info", "editProduct", "The product doesn't exist");
       return "The product doesn't exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
+      this.writeToLog(
+        "info",
+        "editProduct",
         "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
@@ -614,11 +774,52 @@ class ServiceLayer {
     if (
       this._isInputValid(productCategory) &&
       !this.categories.has(productCategory)
-    )
+    ) {
+      this.writeToLog("info", "editProduct", "Product category does not exist");
       return "Product category does not exist";
-    else {
+    } else {
       categoryID = this.categories.get(productCategory);
     }
+    if (this._isParamTypeOfNumber(productPrice)) {
+      this.writeToLog(
+        "info",
+        "editProduct",
+        "The Opertaion fail price " + productPrice + " is must to be number"
+      );
+      return "The Opertaion fail - Price is must to be number";
+    }
+    if (this._isParamTypeOfNumber(productQuantity)) {
+      this.writeToLog(
+        "info",
+        "editProduct",
+        "The Opertaion fail Quantity " +
+          productQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - Quantity is must to be number";
+    }
+    if (this._isParamTypeOfNumber(minQuantity)) {
+      this.writeToLog(
+        "info",
+        "editProduct",
+        "The Opertaion fail minQuantity " +
+          minQuantity +
+          " is must to be number"
+      );
+
+      return "The Opertaion fail - minQuantity is must to be number";
+    }
+    if (this._isParamTypeOfNumber(maxQuantity)) {
+      this.writeToLog(
+        "info",
+        "editProduct",
+        "The Opertaion fail maxQuantity " +
+          maxQuantity +
+          " is must to be number"
+      );
+      return "The Opertaion fail - maxQuantity is must to be number";
+    }
+
     return await this.cinemaSystem.editCafeteriaProduct(
       this.products.get(productName),
       categoryID,
@@ -637,9 +838,15 @@ class ServiceLayer {
    **/
   async removeProduct(productName, ActionIDOfTheOperation) {
     if (!this.products.has(productName)) {
+      this.writeToLog("info", "removeProduct", "The product does not exist");
       return "The product does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
+      this.writeToLog(
+        "info",
+        "removeProduct",
+        "The user performing the operation does not exist in the system"
+      );
       return "The user performing the operation does not exist in the system";
     }
     let result = await this.cinemaSystem.removeCafeteriaProduct(
@@ -649,7 +856,7 @@ class ServiceLayer {
     if (result === "The product removed successfully") {
       this.products.delete(productName);
     } else {
-      logger.info("ServiceLayer- removeProduct - " + result);
+      this.writeToLog("info", "removeProduct", result);
     }
     return result;
   }
@@ -662,13 +869,14 @@ class ServiceLayer {
    **/
   async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
     if (this.categories.has(categoryName)) {
-      logger.info("ServiceLayer- addCategory - ", "The category already exist");
+      this.writeToLog("info", "addCategory", "The category already exist");
       return "The category already exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- addCategory - " +
-          "The user performing the operation does not exist in the system"
+      this.writeToLog(
+        "info",
+        "addCategory",
+        "The user performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -681,11 +889,10 @@ class ServiceLayer {
       if (this.categories.has(parentName))
         parentId = this.categories.get(parentName);
       else {
-        logger.info(
-          "ServiceLayer- addCategory - " +
-            "The parent " +
-            parentName +
-            " does not exist"
+        this.writeToLog(
+          "info",
+          "addCategory",
+          "The parent " + parentName + " does not exist"
         );
         return "The parent " + parentName + " does not exist";
       }
@@ -712,16 +919,14 @@ class ServiceLayer {
    **/
   async editCategory(categoryName, ActionIDOfTheOperation, parentName) {
     if (!this.categories.has(categoryName)) {
-      logger.info(
-        "ServiceLayer- editCategory - ",
-        "The category doesn't exist"
-      );
+      this.writeToLog("info", "editCategory", "The category doesn't exist");
       return "The category doesn't exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- editCategory - " +
-          "The user performing the operation does not exist in the system"
+      this.writeToLog(
+        "info",
+        "editCategory",
+        "The user performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -730,11 +935,10 @@ class ServiceLayer {
       if (this.categories.has(parentName))
         parentId = this.categories.get(parentName);
       else {
-        logger.info(
-          "ServiceLayer- editCategory - " +
-            "The parent " +
-            parentName +
-            " does not exist"
+        this.writeToLog(
+          "info",
+          "editCategory",
+          "The parent " + parentName + " does not exist"
         );
         return "The parent " + parentName + " does not exist";
       }
@@ -753,16 +957,14 @@ class ServiceLayer {
    **/
   async removeCategory(categoryName, ActionIDOfTheOperation) {
     if (!this.categories.has(categoryName)) {
-      logger.info(
-        "ServiceLayer- editCategory - ",
-        "The category doesn't exist"
-      );
+      this.writeToLog("info", "removeCategory", "The category doesn't exist");
       return "The category doesn't exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- editCategory - " +
-          "The user performing the operation does not exist in the system"
+      this.writeToLog(
+        "info",
+        "removeCategory",
+        "The user performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -803,37 +1005,51 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- addMovieOrder - ", validationResult);
+      this.writeToLog("info", "addMovieOrder", validationResult);
       return validationResult;
     }
     if (this.orders.has(orderId)) {
-      logger.info(
-        "ServiceLayer- addMovieOrder - The order " + orderId + " already exists"
+      this.writeToLog(
+        "info",
+        "addMovieOrder",
+        "The order " + orderId + " already exists"
       );
       return "The order already exists";
     }
     if (!this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- addMovieOrder - The supplier " +
-          supplierName +
-          " does not exist"
+      this.writeToLog(
+        "info",
+        "addMovieOrder",
+        "The supplier " + supplierName + " does not exist"
       );
       return "The supplier does not exist";
     }
+    let movies = new Set();
     for (let i in moviesList) {
       if (!this.products.has(moviesList[i])) {
-        logger.info(
-          "ServiceLayer- addMovieOrder - The movie " +
-            moviesList[i] +
-            " does not exist"
+        this.writeToLog(
+          "info",
+          "addMovieOrder",
+          "The movie " + moviesList[i] + " does not exist"
         );
         return "Movie does not exist";
       }
+      if (movies.has(moviesList[i])) {
+        this.writeToLog(
+          "info",
+          "addMovieOrder",
+          "The movie " + moviesList[i] + " already exists in the order."
+        );
+        return "Cannot add the same movie more than once to the order.";
+      }
+      movies.add(moviesList[i]);
       moviesList[i] = this.products.get(moviesList[i]);
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- addMovieOrder - The user " +
+      this.writeToLog(
+        "info",
+        "addMovieOrder",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -866,18 +1082,22 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- removeOrder - ", validationResult);
+      this.writeToLog("info", "removeOrder", validationResult);
       return validationResult;
     }
     if (!this.orders.has(orderId)) {
-      logger.info(
-        "ServiceLayer- removeOrder - The order " + orderId + " does not exist"
+      this.writeToLog(
+        "info",
+        "removeOrder",
+        "The order " + orderId + " does not exist"
       );
       return "The order does not exist";
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- removeOrder - The user " +
+      this.writeToLog(
+        "info",
+        "removeOrder",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -907,12 +1127,14 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- editOrder - ", validationResult);
+      this.writeToLog("info", "editOrder", validationResult);
       return validationResult;
     }
     if (!this.orders.has(orderName)) {
-      logger.info(
-        "ServiceLayer- editOrder - The order " + orderName + " doesn't exists"
+      this.writeToLog(
+        "info",
+        "editOrder",
+        "The order " + orderName + " doesn't exists"
       );
       return " The order " + orderName + " doesn't exists";
     }
@@ -927,24 +1149,50 @@ class ServiceLayer {
     if (this.suppliers.has(supplierName))
       supplierID = this.suppliers.get(supplierName);
     let problemticProductName;
+    let problematicQuantityName;
     productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
-        logger.info(
-          "ServiceLayer- editOrder - The product " +
-            product.name +
-            " doesn't exists"
+        this.writeToLog(
+          "info",
+          "editOrder",
+          "The product " + product.name + " doesn't exists"
         );
         problemticProductName = product.name;
         return "The product " + product.name + " doesn't exists";
       }
+      //if there quantity to edit -> check the type of the quantity
+      if (
+        typeof product.actualQuantity !== "undefined" &&
+        isNaN(product.actualQuantity) &&
+        typeof product.actualQuantity !== "number"
+      ) {
+        this.writeToLog(
+          "info",
+          "editOrder",
+          "The product " +
+            product.name +
+            "'s quantity received is not a number type"
+        );
+        problematicQuantityName = product.name;
+        return "The product " + product.name + " doesn't exists";
+      }
+      product.actualQuantity = parseInt(product.actualQuantity);
       product.id = this.products.get(product.name);
     });
     if (typeof problemticProductName !== "undefined")
       return "The product " + problemticProductName + " doesn't exists";
+    if (typeof problematicQuantityName !== "undefined")
+      return (
+        "The product " +
+        product.name +
+        "'s quantity received is not a number type"
+      );
 
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- editOrder - The user " +
+      this.writeToLog(
+        "info",
+        "editOrder",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -969,36 +1217,60 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- confirmOrder - ", validationResult);
+      this.writeToLog("info", "confirmOrder", validationResult);
       return validationResult;
     }
     if (!this.orders.has(orderName)) {
-      logger.info(
-        "ServiceLayer- confirmOrder - The order " +
-          orderName +
-          " doesn't exists"
+      this.writeToLog(
+        "info",
+        "confirmOrder",
+        "The order " + orderName + " doesn't exists"
       );
       return " The order " + orderName + " doesn't exists";
     }
     let problemticProductName;
+    let problematicQuantityName;
     productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
-        logger.info(
-          "ServiceLayer- editOrder - The product " +
-            product.name +
-            " doesn't exists"
+        this.writeToLog(
+          "info",
+          "confirmOrder",
+          "The product " + product.name + " doesn't exists"
         );
         problemticProductName = product.name;
         return "The product " + product.name + " doesn't exists";
       }
+      if (
+        typeof product.actualQuantity !== "undefined" &&
+        isNaN(product.actualQuantity) &&
+        typeof product.actualQuantity !== "number"
+      ) {
+        this.writeToLog(
+          "info",
+          "confirmOrder",
+          "The product " +
+            product.name +
+            "'s quantity received is not a number type"
+        );
+        problematicQuantityName = product.name;
+        return "The product " + product.name + " doesn't exists";
+      }
+      product.actualQuantity = parseInt(product.actualQuantity);
       product.id = this.products.get(product.name);
     });
     if (typeof problemticProductName !== "undefined")
       return "The product " + problemticProductName + " doesn't exists";
-
+    if (typeof problematicQuantityName !== "undefined")
+      return (
+        "The product " +
+        problematicQuantityName +
+        "'s quantity received is not a number type"
+      );
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- confirmOrder - The user " +
+      this.writeToLog(
+        "info",
+        "confirmOrder",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -1039,41 +1311,55 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- addCafeteriaOrder - ", validationResult);
+      this.writeToLog("info", "addCafeteriaOrder", validationResult);
       return validationResult;
     }
     if (this.orders.has(orderId)) {
-      logger.info(
-        "ServiceLayer- addCafeteriaOrder - The order " +
-          orderId +
-          " already exists"
+      this.writeToLog(
+        "info",
+        "addCafeteriaOrder",
+        "The order " + orderId + " already exist"
       );
       return "The order already exists";
     }
     if (!this.suppliers.has(supplierName)) {
-      logger.info(
-        "ServiceLayer- addCafeteriaOrder - The supplier " +
-          supplierName +
-          " does not exist"
+      this.writeToLog(
+        "info",
+        "addCafeteriaOrder",
+        "The supplier " + supplierName + " does not exist"
       );
       return "The supplier does not exist";
     }
+    let products = new Set();
     for (let i = 0; i < productsList.length; i++) {
       if (!this.products.has(productsList[i].name)) {
-        logger.info(
-          "ServiceLayer- addCafeteriaOrder - The product " +
-            productsList[i].name +
-            " does not exist"
+        this.writeToLog(
+          "info",
+          "addCafeteriaOrder",
+          " The product " + productsList[i].name + " does not exist"
         );
         return "Product does not exist";
       }
+      if (products.has(productsList[i].name)) {
+        this.writeToLog(
+          "info",
+          "addCafeteriaOrder",
+          "The product " +
+            productsList[i].name +
+            " already exists in the order."
+        );
+        return "Cannot add the same product more than once to the order.";
+      }
+      products.add(productsList[i].name);
       productsList[i].id = this.products.get(productsList[i].name);
       productsList[i].quantity = parseInt(productsList[i].quantity);
       delete productsList[i].name;
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- addCafeteriaOrder - The user " +
+      this.writeToLog(
+        "info",
+        "addCafeteriaOrder",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -1107,15 +1393,14 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info(
-        "ServiceLayer- removeFieldFromDailyReport - ",
-        validationResult
-      );
+      this.writeToLog("info", "removeFieldFromDailyReport", validationResult);
       return validationResult;
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- removeFieldFromDailyReport - The user " +
+      this.writeToLog(
+        "info",
+        "removeFieldFromDailyReport",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -1140,12 +1425,14 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- addFieldToDailyReport - ", validationResult);
+      this.writeToLog("info", "addFieldToDailyReport", validationResult);
       return validationResult;
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- addFieldToDailyReport - The user " +
+      this.writeToLog(
+        "info",
+        "addFieldToDailyReport",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -1159,33 +1446,72 @@ class ServiceLayer {
 
   /**
    * @param {string} type Type of the report
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Reports to add in the report
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(string)} Success or failure
    */
-  async createDailyReport(type, records, ActionIDOfTheOperation) {
-    let validationResult = !this._isInputValid(type)
-      ? "Type is not valid"
-      : !this._isInputValid(records)
-      ? "Records is not valid"
+  async createDailyReport(date, reports, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(reports)
+      ? "Reports is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- createDailyReport - ", validationResult);
+      this.writeToLog("info", "createDailyReport", validationResult);
       return validationResult;
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- createDailyReport - The user " +
+      this.writeToLog(
+        "info",
+        "createDailyReport",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
+    reports = JSON.parse(reports);
+    if (reports.length === 0) {
+      this.writeToLog(
+        "info",
+        "createDailyReport",
+        "action failed - empty input reports:" + reports
+      );
+      return "There is missing information in the report - Please try again.";
+    }
+    for (let i in reports) {
+      let report = reports[i];
+      if (!report.type || !this.cinemaSystem.isValidReportType(report.type)) {
+        this.writeToLog(
+          "info",
+          "createDailyReport",
+          "The requested report type " + report.type + " is invalid"
+        );
+        return "Given report type is invalid";
+      }
+      if (!report.content || report.content.length === 0) {
+        this.writeToLog(
+          "info",
+          "createDailyReport",
+          "Report content is invalid"
+        );
+        return "There is missing information in the report - Please try again.";
+      }
+      report.content = this.convertionMethods[report.type](
+        report.content,
+        ActionIDOfTheOperation,
+        date
+      );
+      if (typeof report.content === "string") {
+        return report.content;
+      }
+      reports[i] = report;
+    }
+
     return await this.cinemaSystem.createDailyReport(
-      type,
-      JSON.parse(records),
+      reports,
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -1206,12 +1532,14 @@ class ServiceLayer {
       ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
-      logger.info("ServiceLayer- getReport - ", validationResult);
+      this.writeToLog("info", "getReport", validationResult);
       return validationResult;
     }
     if (!this.users.has(ActionIDOfTheOperation)) {
-      logger.info(
-        "ServiceLayer- getReport - The user " +
+      this.writeToLog(
+        "info",
+        "getReport",
+        "The user " +
           ActionIDOfTheOperation +
           " performing the operation does not exist in the system"
       );
@@ -1222,6 +1550,48 @@ class ServiceLayer {
       new Date(date),
       this.users.get(ActionIDOfTheOperation)
     );
+  }
+
+  /**
+   * get all types report to show full daily report
+   * @param {string} date Date of the report
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(Array(Object) | string)} In success returns list of the reports by type,
+   * otherwise returns error string.
+   */
+  async getFullDailyReport(date, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(date)
+      ? "Date is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "getFullDailyReport", validationResult);
+      return validationResult;
+    }
+    if (!this.users.has(ActionIDOfTheOperation)) {
+      this.writeToLog(
+        "info",
+        "getFullDailyReport",
+        "The user " +
+          ActionIDOfTheOperation +
+          " performing the operation does not exist in the system"
+      );
+      return "The user performing the operation does not exist in the system";
+    }
+    let reports = [];
+    let types = this.cinemaSystem.getReportTypes();
+    for (let i in types) {
+      let type = types[i];
+      let result = await this.cinemaSystem.getReport(
+        type,
+        new Date(date),
+        this.users.get(ActionIDOfTheOperation)
+      );
+      if (typeof result === "string") return result;
+      reports = reports.concat({ type: type, content: result });
+    }
+    return reports;
   }
 
   getMovies() {
@@ -1287,16 +1657,17 @@ class ServiceLayer {
 
   getProductsByOrder(orderName) {
     if (!this.orders.has(orderName)) {
-      logger.info(
-        "ServiceLayer- getProductsByOrder - The order " +
-          orderName +
-          " doesn't exists"
+      this.writeToLog(
+        "info",
+        "getProductsByOrder",
+        "The order " + orderName + " doesn't exists"
       );
+
       return { title: "The order " + orderName + " doesn't exists" };
     }
     return this.cinemaSystem.getProductsByOrder(this.orders.get(orderName));
   }
-
+  //this getter return only not confirmed orders.
   getOrdersByDates(startDate, endDate, isCafeteriaOrder) {
     return this.cinemaSystem.getOrdersByDates(
       startDate,
@@ -1307,10 +1678,10 @@ class ServiceLayer {
 
   getProductsAndQuantityByOrder(orderName) {
     if (!this.orders.has(orderName)) {
-      logger.info(
-        "ServiceLayer- getProductsByOrder - The order " +
-          orderName +
-          " doesn't exists"
+      this.writeToLog(
+        "info",
+        "getProductsByOrder",
+        "The order " + orderName + " doesn't exists"
       );
       return { title: "The order " + orderName + " doesn't exists" };
     }
@@ -1321,10 +1692,10 @@ class ServiceLayer {
 
   getProductDetails(productName) {
     if (!this.products.has(productName)) {
-      logger.info(
-        "ServiceLayer- getProductDetails - The product " +
-          productName +
-          " doesn't exists"
+      this.writeToLog(
+        "info",
+        "getProductDetails",
+        " The product " + productName + " doesn't exists"
       );
       return "The product " + productName + " doesn't exists";
     }
@@ -1335,10 +1706,10 @@ class ServiceLayer {
 
   getCategoryDetails(categoryName) {
     if (!this.categories.has(categoryName)) {
-      logger.info(
-        "ServiceLayer- getCategoryDetails - The category " +
-          categoryName +
-          " doesn't exists"
+      this.writeToLog(
+        "info",
+        "getCategoryDetails",
+        "The category " + categoryName + " doesn't exists"
       );
       return "The product " + categoryName + " doesn't exists";
     }
@@ -1347,14 +1718,28 @@ class ServiceLayer {
     );
   }
 
-  getInventoryReport() {
-    return data.inventory_daily_report;
+  async getFields() {
+    let props = await this.cinemaSystem.getGeneralReportProps();
+    let output = [];
+    for (let i in props) {
+      output = output.concat({ title: props[i] });
+    }
+    return output;
   }
-  getIncomesReport() {
-    return data.incomes_daily_report;
+
+  getGeneralReportProps() {
+    return this.cinemaSystem.getGeneralReportProps();
   }
-  getGeneralReport() {
-    return data.general_purpose_daily_report;
+  getLogContent(type, year) {
+    switch (type) {
+      case "db":
+        return DBlogger.readLog(year);
+      default:
+        logger.readLog(year);
+    }
+  }
+  writeToLog(type, functionName, msg) {
+    logger.writeToLog(type, "ServiceLayer", functionName, msg);
   }
 }
 module.exports = ServiceLayer;

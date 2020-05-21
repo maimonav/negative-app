@@ -176,21 +176,24 @@ const addColumn = (column, columns) =>
   });
 
 export default function ReactVirtualizedTable(props) {
-  // console.log(columns[props.reportType]);
   const data = props.data;
   let columns = defaultColumns[props.reportType];
-  let additionalColumns = [];
-  const additionalProps = data && data[0] && data[0].props;
-  if (
-    additionalProps &&
-    additionalProps.length > 0 &&
-    props.reportType === reportsTypesObj.General
-  ) {
-    additionalProps.forEach(prop => addColumn(prop, additionalColumns));
-    columns = [...columns, ...additionalColumns];
+  if (props.reportType === reportsTypesObj.General) {
+    let additionalColumns = [];
+    const propsObj = data && data[0] && data[0].propsObject;
+    const additionalProps = Object.keys(propsObj);
+    if (
+      additionalProps &&
+      additionalProps.length > 0 &&
+      props.reportType === reportsTypesObj.General
+    ) {
+      additionalProps.forEach(prop => addColumn(prop, additionalColumns));
+      columns = [...columns, ...additionalColumns];
+    }
   }
+
   return (
-    <Paper style={{ height: 450, width: "100%" }}>
+    <Paper style={{ height: 100 + (data.length - 1) * 50, width: "100%" }}>
       <VirtualizedTable
         rowCount={data.length}
         rowGetter={({ index }) => data[index]}

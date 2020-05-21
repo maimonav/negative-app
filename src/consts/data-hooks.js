@@ -19,6 +19,7 @@ export const productMinQuantityHook = "productMinQuantityField";
 export const cafeteriaOrdersHook = "cafeteriaOrdersButton";
 export const moviesOrdersHook = "moviesOrdersButton";
 export const orderNameHook = "orderNameField";
+export const orderDateHook = "orderDateField";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";
@@ -30,7 +31,8 @@ export const moviesTabHook = "moviesTab";
 export const inventoryTabHook = "inventoryTab";
 export const ordersTabHook = "ordersTab";
 export const categoriesTabHook = "categoriesTab";
-export const showReportTabHook = "showReportTab";
+export const manageReportsTabHook = "manageReportsTab";
+export const createDailyReportTabHook = "createDailyReportTab";
 export const logoutTabHook = "logoutTab";
 
 //Actions

@@ -7,7 +7,7 @@ describe("Movie Operations Tests", function() {
   let dbName = "movietest";
 
   beforeEach(async function() {
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
   });
 
   afterEach(async function() {

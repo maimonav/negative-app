@@ -7,7 +7,7 @@ describe("Supplier Operations Tests", function() {
   let dbName = "suppliertest";
 
   beforeEach(async function() {
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
   });
 
   afterEach(async function() {

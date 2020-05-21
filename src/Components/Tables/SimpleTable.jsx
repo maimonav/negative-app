@@ -32,8 +32,14 @@ export default class SimpleTable extends React.Component {
                   <TableCell component="th" scope="row">
                     {row.name}
                   </TableCell>
-                  <TableCell>{row.expectedQuantity}</TableCell>
-                  <TableCell>{row.actualQuantity}</TableCell>
+                  <TableCell>
+                    {row.expectedQuantity ? row.expectedQuantity : row.quantity}
+                  </TableCell>
+                  {row.actualQuantity ? (
+                    <TableCell>{row.actualQuantity}</TableCell>
+                  ) : (
+                    ""
+                  )}
                 </TableRow>
               ))}
             </TableBody>

@@ -11,7 +11,7 @@ describe("Order Operations Tests", function() {
   let dbName = "ordertest";
 
   beforeEach(async function() {
-    await service.initSeviceLayer(dbName);
+    await service.initServiceLayer(dbName);
   });
 
   afterEach(async function() {
@@ -57,7 +57,9 @@ describe("Order Operations Tests", function() {
       JSON.parse('["' + movie + '"]'),
       user
     );
-    expect(result).toBe("Cannot add order - creator employee id is not exist");
+    expect(result).toBe(
+      "Cannot create order - only employees can create orders"
+    );
 
     await service.addNewEmployee(
       "username",
@@ -144,7 +146,9 @@ describe("Order Operations Tests", function() {
       JSON.parse(productsList),
       user
     );
-    expect(result).toBe("Cannot add order - creator employee id is not exist");
+    expect(result).toBe(
+      "Cannot create order - only employees can create orders"
+    );
 
     await service.addNewEmployee(
       "username",

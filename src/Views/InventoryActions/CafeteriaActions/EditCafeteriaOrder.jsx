@@ -92,8 +92,8 @@ export default class EditCafeteriaOrder extends React.Component {
   };
 
   columns = [
-    { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "expectedQuantity" },
+    { title: "Product Name", field: "name", editable: "never" },
+    { title: "Quantity", field: "expectedQuantity", editable: "never" },
     { title: "New Quantity", field: "actualQuantity" },
   ];
 
@@ -112,7 +112,7 @@ export default class EditCafeteriaOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit Cafeteria Order</h4>
@@ -159,7 +159,11 @@ export default class EditCafeteriaOrder extends React.Component {
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
                     {orderId && (
-                      <Button color="info" onClick={this.toggleSecondBox}>
+                      <Button
+                        id={"chooseOrder"}
+                        color="info"
+                        onClick={this.toggleSecondBox}
+                      >
                         Choose order
                       </Button>
                     )}

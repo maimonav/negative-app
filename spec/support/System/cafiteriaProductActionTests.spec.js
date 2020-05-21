@@ -44,20 +44,20 @@ describe("cafitriaProductActionTest", () => {
     expect(p1.quantity).toBe(1);
     expect(p1.maxQuantity).toBe(9999999);
     expect(p1.minQuantity).toBe(0);
-    p1.editProduct(-3, 20, 2, -1, 10); //Test that all the field update except the max because the quntity is under 0.
-    expect(p1.categoryId).toBe(-3);
+    p1.editProduct(3, 20, 2, -1, 10); //Test that all the field update except the max because the quntity is under 0.
+    expect(p1.categoryId).toBe(3);
     expect(p1.price).toBe(20);
     expect(p1.quantity).toBe(2);
     expect(p1.maxQuantity).toBe(9999999);
     expect(p1.minQuantity).toBe(10);
     p1.editProduct(null, null, null, 20); //no update needed
-    expect(p1.categoryId).toBe(-3);
+    expect(p1.categoryId).toBe(3);
     expect(p1.price).toBe(20);
     expect(p1.quantity).toBe(2);
     expect(p1.maxQuantity).toBe(20);
     expect(p1.minQuantity).toBe(10);
     p1.editProduct(null, null, null, 1, 22); //no update needed
-    expect(p1.categoryId).toBe(-3);
+    expect(p1.categoryId).toBe(3);
     expect(p1.price).toBe(20);
     expect(p1.quantity).toBe(2);
     expect(p1.maxQuantity).toBe(20);
@@ -679,6 +679,31 @@ describe("cafitriaProductActionTest", () => {
         admin.userName
       )
     ).toEqual("Product details update successfully completed");
+    let price = p1.price;
+    let minQuantity = p1.minQuantity;
+    let maxQuantity = p1.maxQuantity;
+    expect(
+      await serviceLayer.editProduct(
+        p1.name,
+        "a",
+        "1234",
+        "sds",
+        "sda",
+        category.name,
+        admin.userName
+      )
+    ).toEqual("The Opertaion fail - Price is must to be number");
+    expect(
+      await serviceLayer.editProduct(
+        p1.name,
+        null,
+        "-1",
+        null,
+        null,
+        category.name,
+        admin.userName
+      )
+    ).toEqual("Quantity must be graeter or equal to 0");
   });
 
   it("Integration-ServiceLayer- removeProduct", async () => {

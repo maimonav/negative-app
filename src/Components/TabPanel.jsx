@@ -3,13 +3,13 @@ import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
-import NotificationsIcon from "@material-ui/icons/Notifications";
 import { BrowserRouter as Router, Link } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
-import { logoutPath, notificationPath } from "../consts/paths";
+import { logoutPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
+import NotificationHandler from "./NotificationHandler";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
@@ -51,19 +51,15 @@ export default function TablPanel(props) {
             />
           )}
           {props.isLogged && (
-            <Link to={notificationPath} style={{ marginLeft: "auto" }}>
-              <Tab
-                label={<NotificationsIcon></NotificationsIcon>}
-                data-hook={notificationTabHook}
-              ></Tab>
-            </Link>
+            <Tab
+              style={{ marginLeft: "auto" }}
+              label={<NotificationHandler />}
+              data-hook={notificationTabHook}
+            ></Tab>
           )}
           {props.isLogged && (
             <Link to={logoutPath}>
-              <Tab
-                label={<LogoutIcon></LogoutIcon>}
-                data-hook={logoutTabHook}
-              ></Tab>
+              <Tab label={<LogoutIcon />} data-hook={logoutTabHook}></Tab>
             </Link>
           )}
         </Tabs>

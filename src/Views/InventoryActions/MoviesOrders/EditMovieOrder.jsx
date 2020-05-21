@@ -94,11 +94,7 @@ export default class EditMovieOrder extends React.Component {
     });
   };
 
-  columns = [
-    { title: "Movie Name", field: "name" },
-    { title: "Key", field: "key" },
-    { title: "Examination room", field: "examinationRoom" },
-  ];
+  columns = [{ title: "Movie Name", field: "name", editable: "never" }];
 
   render() {
     const {
@@ -113,7 +109,7 @@ export default class EditMovieOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit Movie Order</h4>
@@ -160,7 +156,11 @@ export default class EditMovieOrder extends React.Component {
                   </GridContainer>
                   <GridContainer style={{ justifyContent: "center" }}>
                     {orderId && (
-                      <Button color="info" onClick={this.toggleSecondBox}>
+                      <Button
+                        id={"chooseOrder"}
+                        color="info"
+                        onClick={this.toggleSecondBox}
+                      >
                         Choose order
                       </Button>
                     )}

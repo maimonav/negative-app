@@ -8,8 +8,8 @@ import {
   ordersTabHook,
   moviesTabHook,
   categoriesTabHook,
-  showReportTabHook,
-  logoutTabHook
+  logoutTabHook,
+  manageReportsTabHook
 } from "../../../src/consts/data-hooks";
 
 context("Click all tabs", () => {
@@ -47,8 +47,8 @@ context("Click all tabs", () => {
     cy.accessTab(categoriesTabHook);
   });
 
-  it("Show report", () => {
+  it("Manage reports", () => {
     cy.accessTab(reportsActionsTabHook);
-    cy.accessTab(showReportTabHook);
+    cy.accessTab(manageReportsTabHook);
   });
 });

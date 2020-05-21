@@ -112,13 +112,9 @@ exports.testAddGeneralPurposeDailyReport = testAddGeneralPurposeDailyReport;
 function testGeneralPurposeDailyReportResult(result, report) {
   expect(result.date).toEqual(report.date);
   expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
-  expect(result.additionalProps).toEqual(report.additionalProps);
-  expect(result.creatorEmployeeName).toBe(report.creatorEmployeeName);
-  expect(result.props).toEqual(report.props);
-  let keys = Object.keys(report.additionalProps[1]);
-  for (let i in keys) {
-    expect(result[keys[i]]).toBe(report[keys[i]]);
-  }
+  expect(result.propsObject).toEqual(report.propsObject);
+  expect(result.allProps).toEqual(report.allProps);
+  expect(result.currentProps).toEqual(report.currentProps);
 }
 
 exports.testGeneralPurposeDailyReportResult = testGeneralPurposeDailyReportResult;
@@ -332,7 +328,9 @@ describe("DB Test - reports", function() {
     let report = {
       date: getSyncDateFormat(new Date("2020-03-02 00:00:00")),
       creatorEmployeeId: 1,
-      additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+      propsObject: { "Cash counted": "true" },
+      allProps: ["Cash counted"],
+      currentProps: ["Cash counted"],
     };
     await addEmployee(1, "MANAGER");
     await updateGeneralPurposeDailyReport(report);
@@ -451,7 +449,9 @@ async function addGeneralPurposeDailyReport(isTest) {
   let report = {
     date: getSyncDateFormat(new Date("2020-03-02 00:00:00")),
     creatorEmployeeId: 0,
-    additionalProps: [["Cash counted"], { "Cash counted": "true" }],
+    propsObject: { "Cash counted": "true" },
+    allProps: ["Cash counted"],
+    currentProps: ["Cash counted"],
   };
   await addEmployee(0, "MANAGER");
   await addGeneralPurposeReport(report);

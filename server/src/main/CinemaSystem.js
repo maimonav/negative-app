@@ -1,7 +1,8 @@
 const ReportController = require("./ReportController");
 const User = require("./User");
-const simpleLogger = require("simple-node-logger");
-const logger = simpleLogger.createSimpleLogger("project.log");
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
 
@@ -13,27 +14,159 @@ class CinemaSystem {
     this.userOfflineMsg =
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
-    this.convertionMethods = {
-      inventory_daily_report: (record) => {
+    this.toUserConvertionMethods = {
+      inventory_daily_report: async (record) => {
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      general_purpose_daily_report: (record) => {
-        let keys = Object.keys(record.additionalProps[1]);
+      general_purpose_daily_report: async (record) => {
+        let keys = Object.keys(record.propsObject);
         for (let i in keys) {
           let propName = keys[i];
-          record[propName] = record.additionalProps[1][propName];
+          record[propName] = record.propsObject[propName];
         }
-        record.props = ReportController._generalDailyReoprtFormat;
+        record.props = await this.getAllGeneralReportProps();
         record = this.employeeAndDateConvertion(record);
         return record;
       },
-      incomes_daily_report: (record) => this.employeeAndDateConvertion(record),
+      incomes_daily_report: async (record) =>
+        this.employeeAndDateConvertion(record),
+    };
+    this.toDBConvertionMethods = {
+      inventory_daily_report: async (records) => {
+        for (let i in records) {
+          let record = records[i];
+          if (!record.quantitySold || !record.stockThrown) {
+            logger.writeToLog(
+              "info",
+              "CinemaSystem",
+              "createDailyReport",
+              "toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
+            );
+            return "Report content structure is invalid";
+          }
+          if (
+            isNaN(parseInt(record.quantitySold)) ||
+            isNaN(parseInt(record.stockThrown)) ||
+            parseInt(record.quantitySold) < 0 ||
+            parseInt(record.stockThrown) < 0
+          ) {
+            logger.writeToLog(
+              "info",
+              "CinemaSystem",
+              "createDailyReport",
+              "toDBConvertionMethods[inventory_daily_report] - negative numbers are invalid"
+            );
+            return "Only non-negative numbers are allowed in inventory report";
+          }
+
+          let product = this.inventoryManagement.products.get(record.productId);
+          let oldQuantity = product.quantity;
+          let currentQuantity =
+            oldQuantity -
+            parseInt(record.quantitySold) -
+            parseInt(record.stockThrown);
+          let result = await this.inventoryManagement.editCafeteriaProduct(
+            record.productId,
+            product.categoryId,
+            product.price,
+            currentQuantity
+          );
+          if (result !== "Product details update successfully completed")
+            return (
+              "Problem occurred while editing products quantities (you should check the quantity in stock).\n" +
+              result
+            );
+          record.quantityInStock = currentQuantity;
+          records[i] = record;
+        }
+        return records;
+      },
+      general_purpose_daily_report: async (records) => {
+        let props = await this.getGeneralReportProps();
+        if (typeof props === "string") return props;
+        for (let i in records) {
+          let record = records[i];
+          record.propsObject = {};
+          for (let j in props) {
+            if (!record[props[j]]) {
+              logger.writeToLog(
+                "info",
+                "CinemaSystem",
+                "createDailyReport",
+                "toDBConvertionMethods[general_purpose_daily_report] - Report content is invalid"
+              );
+              return "Report content is invalid";
+            }
+            record.propsObject[props[j]] = record[props[j]];
+            delete record[props[j]];
+          }
+          record.allProps = await this.getAllGeneralReportProps();
+          if (typeof record.allProps === "string") return record.allProps;
+          record.currentProps = props;
+          records[i] = record;
+        }
+        return records;
+      },
+      incomes_daily_report: async (records) => {
+        for (let i in records) {
+          let record = records[i];
+          if (
+            !record.numOfTabsSales ||
+            !record.cafeteriaCashRevenues ||
+            !record.cafeteriaCreditCardRevenues ||
+            !record.ticketsCashRevenues ||
+            !record.ticketsCreditCardRevenues ||
+            !record.tabsCashRevenues ||
+            !record.tabsCreditCardRevenues
+          ) {
+            logger.writeToLog(
+              "info",
+              "CinemaSystem",
+              "createDailyReport",
+              " toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
+            );
+            return "Report content structure is invalid";
+          }
+          if (
+            parseInt(record.numOfTabsSales) < 0 ||
+            isNaN(parseInt(record.numOfTabsSales)) ||
+            isNaN(parseFloat(record.cafeteriaCashRevenues)) ||
+            isNaN(parseFloat(record.cafeteriaCreditCardRevenues)) ||
+            isNaN(parseFloat(record.ticketsCashRevenues)) ||
+            isNaN(parseFloat(record.ticketsCreditCardRevenues)) ||
+            isNaN(parseFloat(record.tabsCashRevenues)) ||
+            isNaN(parseFloat(record.tabsCreditCardRevenues)) ||
+            parseFloat(record.cafeteriaCashRevenues) < 0 ||
+            parseFloat(record.cafeteriaCreditCardRevenues) < 0 ||
+            parseFloat(record.ticketsCashRevenues) < 0 ||
+            parseFloat(record.ticketsCreditCardRevenues) < 0 ||
+            parseFloat(record.tabsCashRevenues) < 0 ||
+            parseFloat(record.tabsCreditCardRevenues) < 0
+          ) {
+            logger.writeToLog(
+              "info",
+              "createDailyReport",
+              "toDBConvertionMethods[incomes_daily_report] - negative numbers are invalid"
+            );
+            return "Only non-negative numbers are allowed in incomes report";
+          }
+        }
+        return records;
+      },
     };
   }
+
+  isValidReportType = (type) => ReportController._isValidType(type);
+
+  getGeneralReportProps = async () =>
+    ReportController.getCurrentGeneralDailyReoprtFormat();
+
+  getAllGeneralReportProps = async () =>
+    ReportController.getAllgeneralDailyReoprtFormat();
 
   creatorEmployeeConvertion(record) {
     if (record.creatorEmployeeId !== null) {
@@ -122,12 +255,17 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info("CinemaSystem - addNewEmployee - " + this.userOfflineMsg);
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addNewEmployee",
+        this.userOfflineMsg
+      );
       return this.userOfflineMsg;
     }
     const argCheckRes = this.UserDetailsCheck(userName, password, permissions);
     if (argCheckRes !== "") {
-      logger.info("CinemaSystem - addNewEmployee - " + argCheckRes);
+      logger.writeToLog("info", "CinemaSystem", "addNewEmployee", argCheckRes);
       return argCheckRes;
     }
     //If the operator does not have the permission of a deputy manager or if he is not admin and also tries to add someone his own higher permission.
@@ -140,11 +278,11 @@ class CinemaSystem {
         this.users.get(ActionIDOfTheOperation).getPermissionValue() !==
           User.getPermissionTypeList["ADMIN"])
     ) {
-      logger.info(
-        "CinemaSystem - addNewEmployee - " +
-          userName +
-          " " +
-          this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addNewEmployee",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -189,7 +327,12 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info("CinemaSystem - editEmployee - " + this.userOfflineMsg);
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "editEmployee",
+        this.userOfflineMsg
+      );
       return this.userOfflineMsg;
     }
     if (
@@ -198,11 +341,11 @@ class CinemaSystem {
         .permissionCheck("DEPUTY_MANAGER") &&
       ActionIDOfTheOperation !== employeeID
     ) {
-      logger.info(
-        "CinemaSystem - editEmployee - " +
-          employeeID +
-          " " +
-          this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "editEmployee",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -227,26 +370,40 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info("CinemaSystem - deleteEmployee - " + this.userOfflineMsg);
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        this.userOfflineMsg
+      );
       return this.userOfflineMsg;
     }
     if (
       !this.users.get(ActionIDOfTheOperation).permissionCheck("DEPUTY_MANAGER")
     ) {
-      logger.info(
-        "CinemaSystem - deleteEmployee - " + this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
     if (employeeID === ActionIDOfTheOperation) {
-      logger.info(
-        "CinemaSystem - deleteEmployee - A user cannot erase himself"
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        "A user cannot erase himself"
       );
       return "A user cannot erase himself";
     }
     if (this.users.get(employeeID).isLoggedin()) {
-      logger.info(
-        "CinemaSystem - deleteEmployee - A user cannot delete a logged in user"
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "deleteEmployee",
+        "A user cannot delete a logged in user"
       );
       return "You cannot delete a logged in user";
     }
@@ -267,8 +424,11 @@ class CinemaSystem {
       !this.users.has(ActionIDOfTheOperation) ||
       !this.users.get(ActionIDOfTheOperation).isLoggedin()
     ) {
-      logger.info(
-        "CinemaSystem - " + functionName + " - " + this.userOfflineMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "checkUser",
+        this.userOfflineMsg
       );
       return this.userOfflineMsg;
     }
@@ -277,11 +437,11 @@ class CinemaSystem {
         .get(ActionIDOfTheOperation)
         .permissionCheck(permissionRequired)
     ) {
-      logger.info(
-        "CinemaSystem - " +
-          functionName +
-          " - " +
-          this.inappropriatePermissionsMsg
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "checkUser",
+        this.inappropriatePermissionsMsg
       );
       return this.inappropriatePermissionsMsg;
     }
@@ -313,12 +473,15 @@ class CinemaSystem {
     if (
       !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
     ) {
-      logger.info(
-        "CinemaSystem - addMovieOrder - Cannot add order - creator employee id " +
+      logger.writeToLog(
+        "info",
+        "addMovieOrder",
+        "checkUser",
+        "Cannot add order - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
       );
-      return "Cannot add order - creator employee id is not exist";
+      return "Cannot create order - only employees can create orders";
     }
     return this.inventoryManagement.addMovieOrder(
       orderId,
@@ -371,12 +534,15 @@ class CinemaSystem {
     if (
       !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
     ) {
-      logger.info(
-        "CinemaSystem - addCafeteriaOrder - Cannot add order - creator employee id " +
+      logger.writeToLog(
+        "info",
+        "addCafeteriaOrder",
+        "checkUser",
+        "Cannot add order - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
       );
-      return "Cannot add order - creator employee id is not exist";
+      return "Cannot create order - only employees can create orders";
     }
     return this.inventoryManagement.addCafeteriaOrder(
       orderId,
@@ -595,25 +761,69 @@ class CinemaSystem {
       "addCafeteriaProduct"
     );
     if (result != null) return result;
+    if (isNaN(price) && typeof price !== "number") {
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        " Product price must be number"
+      );
+      return (
+        "Add new product fail - Product price " + price + " must be number "
+      );
+    }
+    if (isNaN(quantity) && typeof quantity !== "number") {
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        "Product quantity must be number"
+      );
+      return "Add new product fail - Product quantity must be number ";
+    }
+    if (
+      (isNaN(minQuantity) && typeof minQuantity !== "number") ||
+      typeof minQuantity === "undefined"
+    ) {
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        "add new product fail - Product minQuantity must be number"
+      );
+      return "Add new product fail - Product minQuantity must be number ";
+    }
+    if (
+      (isNaN(maxQuantity) && typeof maxQuantity !== "number") ||
+      typeof maxQuantity === "undefined"
+    ) {
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "addCafeteriaProduct",
+        "add new product fail - Product maxQuantity must be number"
+      );
+      return "Add new product fail - Product maxQuantity must be number ";
+    }
     return await this.inventoryManagement.addCafeteriaProduct(
       productId,
       name,
       categoryID,
-      price,
-      quantity,
-      maxQuantity,
-      minQuantity
+      parseInt(price),
+      parseInt(quantity),
+      parseInt(maxQuantity),
+      parseInt(minQuantity)
     );
   }
   /**
    * Editing the cafeteria product
    * @param {Number} productId Unique ID of cafeteria product
-   * @param {String} categoryID Identifier of the new category to which the product belongs (Optional parameter)
-   * @param {Number} price The new price of the product (Optional parameter)
-   * @param {Number} quantity New quantity of product in stock (Optional parameter)
-   * @param {Number} maxQuantity New maximum limit of product quantity in stock (Optional parameter)
-   * @param {Number} minQuantity New minimum limit of product quantity in stock (Optional parameter)
-   * @param {Number} ActionIDOfTheOperation Id of the user performed the action
+   * @param {Number} categoryID Identifier of the new category to which the product belongs (Optional parameter)
+   * @param {String} price The new price of the product (Optional parameter)
+   * @param {String} quantity New quantity of product in stock (Optional parameter)
+   * @param {String} maxQuantity New maximum limit of product quantity in stock (Optional parameter)
+   * @param {String} minQuantity New minimum limit of product quantity in stock (Optional parameter)
+   * @param {String} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(string)} Success or failure string
    **/
   async editCafeteriaProduct(
@@ -747,11 +957,11 @@ class CinemaSystem {
 
   /**
    * @param {string} type Type of the report
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Reports to add in the report
    * @param {string} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(string)} success or failure
    */
-  async createDailyReport(type, records, ActionIDOfTheOperation) {
+  async createDailyReport(reports, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "SHIFT_MANAGER",
@@ -761,14 +971,27 @@ class CinemaSystem {
     if (
       !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
     ) {
-      logger.info(
-        "CinemaSystem - createDailyReport - Cannot create report - creator employee id " +
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "createDailyReport",
+        "Cannot create report - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
       );
-      return "Cannot create report - creator employee id is not exist";
+      return "Cannot create report - only employees can create reports";
     }
-    return ReportController.createDailyReport(type, records);
+    for (let i in reports) {
+      let report = reports[i];
+      let type = report.type;
+      let content = report.content;
+      report.content = await this.toDBConvertionMethods[type](content);
+      if (typeof report.content === "string") {
+        return report.content;
+      }
+      reports[i] = report;
+    }
+    return ReportController.createDailyReport(reports);
   }
 
   /**
@@ -788,7 +1011,9 @@ class CinemaSystem {
     result = await ReportController.getReport(type, date);
     if (typeof result !== "string")
       for (let i in result)
-        result[i] = this.convertionMethods[type](result[i].dataValues);
+        result[i] = await this.toUserConvertionMethods[type](
+          result[i].dataValues
+        );
     return result;
   }
 
@@ -832,8 +1057,7 @@ class CinemaSystem {
   }
 
   getReportTypes() {
-    //TODO: IMPLEMENT THIS.
-    return data.dataExample;
+    return ReportController._types;
   }
 
   getProductsAndQuantityByOrder(orderId) {
@@ -843,7 +1067,7 @@ class CinemaSystem {
   getProductsByOrder(orderId) {
     return this.inventoryManagement.getProductsByOrder(orderId);
   }
-
+  //this getter return only not confirmed orders.
   getOrdersByDates(startDate, endDate, isCafeteriaOrder) {
     return this.inventoryManagement.getOrdersByDates(
       startDate,

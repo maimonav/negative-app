@@ -1,3 +1,4 @@
+import moment from "moment";
 /**
  * Handle login to system
  * @param {string} username
@@ -129,6 +130,16 @@ export function handleRemoveEmployee(userName) {
     });
 }
 
+/**
+ * Handle add new product to system
+ * @param {string} productName
+ * @param {string} productPrice
+ * @param {string} productQuantity
+ * @param {string} maxQuantity
+ * @param {string} minQuantity
+ * @param {string} productCategory
+ * @returns void
+ */
 export function handleAddProduct(
   productName,
   productPrice,
@@ -137,6 +148,17 @@ export function handleAddProduct(
   minQuantity,
   productCategory
 ) {
+  if (
+    productName === "" ||
+    productPrice === "" ||
+    productQuantity === "" ||
+    maxQuantity === "" ||
+    minQuantity === "" ||
+    productCategory === ""
+  ) {
+    alert("All product fields are required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/addNewProduct?productName=${encodeURIComponent(
@@ -158,6 +180,16 @@ export function handleAddProduct(
     });
 }
 
+/**
+ * Handle add new product to system
+ * @param {string} productName
+ * @param {string} productPrice
+ * @param {string} productQuantity
+ * @param {string} maxQuantity
+ * @param {string} minQuantity
+ * @param {string} productCategory
+ * @returns void
+ */
 export function handleEditProduct(
   productName,
   productPrice,
@@ -166,6 +198,10 @@ export function handleEditProduct(
   minQuantity,
   productCategory
 ) {
+  if (productName === "") {
+    alert("Product name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/editProduct?productName=${encodeURIComponent(
@@ -187,7 +223,16 @@ export function handleEditProduct(
     });
 }
 
+/**
+ * Handle add new product to system
+ * @param {string} productName
+ * @returns void
+ */
 export function handleRemoveProduct(productName) {
+  if (productName === "") {
+    alert("Product name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/removeProduct?productName=${encodeURIComponent(productName)}
@@ -199,9 +244,25 @@ export function handleRemoveProduct(productName) {
     });
 }
 
+/**
+ * Handle add new movies to system
+ * @param {string} orderDate
+ * @param {string} supplierName
+ * @param {string} moviesName
+ * @returns void
+ */
 export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
+  if (moviesName === "") {
+    alert("Movie name is required");
+    return;
+  }
+  if (supplierName === "") {
+    alert("Supplier name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
-  const orderId = `${user} , ${new Date()}`;
+  const date = moment(orderDate).format("MMMM Do YYYY, h:mm:ss a");
+  const orderId = `${user} - ${date}`;
   fetch(
     `api/addMovieOrder?orderId=${encodeURIComponent(orderId)}
     &orderDate=${encodeURIComponent(orderDate)}
@@ -215,7 +276,21 @@ export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
     });
 }
 
+/**
+ * Handle add new movie to system
+ * @param {string} movieName
+ * @param {string} category
+ * @returns void
+ */
 export function handleAddMovie(movieName, category) {
+  if (movieName === "") {
+    alert("movie name is required");
+    return;
+  }
+  if (category === "") {
+    alert("category is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/addMovie?movieName=${encodeURIComponent(
@@ -229,6 +304,7 @@ export function handleAddMovie(movieName, category) {
       alert(state.result);
     });
 }
+
 /**
  * Handle edit movie in system
  * @param {string} movieName
@@ -238,6 +314,10 @@ export function handleAddMovie(movieName, category) {
  * @returns void
  */
 export function handleEditMovie(movieName, category, key, examinationRoom) {
+  if (movieName === "") {
+    alert("movie name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/editMovie?movieName=${encodeURIComponent(
@@ -258,6 +338,10 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
  * @param {string} movieName
  */
 export function handleRemoveMovie(movieName) {
+  if (movieName === "") {
+    alert("movie name is required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/removeMovie?movieName=${encodeURIComponent(
@@ -289,6 +373,7 @@ export function handleAddSupplier(name, contactDetails) {
       alert(state.result);
     });
 }
+
 /**
  * Handle edit supplier
  * @param {string} name
@@ -309,6 +394,7 @@ export function handleEditSupplier(name, contactDetails) {
       alert(state.result);
     });
 }
+
 /**
  * Handle remove supplier from system
  * @param {string} name
@@ -327,7 +413,17 @@ export function handleRemoveSupplier(name) {
     });
 }
 
+/**
+ * Handle add new category to system
+ * @param {string} categoryName
+ * @param {string} parentName
+ * @returns void
+ */
 export function handleAddCategory(categoryName, parentName) {
+  if (categoryName === "") {
+    alert("category name are required");
+    return;
+  }
   const user = localStorage.getItem("username");
   fetch(
     `api/addCategory?categoryName=${encodeURIComponent(
@@ -342,6 +438,12 @@ export function handleAddCategory(categoryName, parentName) {
     });
 }
 
+/**
+ * Handle edit category
+ * @param {string} categoryName
+ * @param {string} parentName
+ * @returns void
+ */
 export function handleEditCategory(categoryName, parentName) {
   const user = localStorage.getItem("username");
   fetch(
@@ -357,6 +459,11 @@ export function handleEditCategory(categoryName, parentName) {
     });
 }
 
+/**
+ * Handle remove category
+ * @param {string} categoryName
+ * @returns void
+ */
 export function handleRemoveCategory(categoryName) {
   const user = localStorage.getItem("username");
   fetch(
@@ -370,10 +477,18 @@ export function handleRemoveCategory(categoryName) {
     });
 }
 
+/**
+ * Handle add new cafeteria order to system
+ * @param {string} productsName
+ * @param {string} supplierName
+ * @param {string} orderDate
+ * @returns void
+ */
 export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
   const productsList = JSON.stringify(productsName);
   const user = localStorage.getItem("username");
-  const orderId = `${user} , ${orderDate}`;
+  const date = moment(orderDate).format("MMMM Do YYYY, h:mm:ss a");
+  const orderId = `${user} , ${date}`;
   fetch(
     `api/addCafeteriaOrder?orderId=${encodeURIComponent(orderId)}
     &productsList=${productsList}&supplierName=${encodeURIComponent(
@@ -388,6 +503,13 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
     });
 }
 
+/**
+ * Handle edit cafeteria order
+ * @param {string} orderId
+ * @param {string} orderDate
+ * @param {string} updatedProductsAndQuantity
+ * @returns void
+ */
 export function handleEditCafeteriaOrder(
   orderId,
   orderDate,
@@ -410,6 +532,11 @@ export function handleEditCafeteriaOrder(
     });
 }
 
+/**
+ * Handle remove order from system
+ * @param {string} orderId
+ * @returns void
+ */
 export function handleRemoveOrder(orderId) {
   const user = localStorage.getItem("username");
   fetch(
@@ -423,6 +550,12 @@ export function handleRemoveOrder(orderId) {
     });
 }
 
+/**
+ * Handle confirm cafeteria order in system
+ * @param {string} orderId
+ * @param {string} updatedProductsAndQuantity
+ * @returns void
+ */
 export function handleConfirmCafeteriaOrder(
   orderId,
   updatedProductsAndQuantity
@@ -442,6 +575,13 @@ export function handleConfirmCafeteriaOrder(
     });
 }
 
+/**
+ * Handle get products in system
+ * @param {string} startDate
+ * @param {string} endDate
+ * @param {boolean} isCafeteriaOrder
+ * @returns {Promise(Array)} array of orders
+ */
 export function handleGetOrdersByDates(startDate, endDate, isCafeteriaOrder) {
   return fetch(
     `api/getOrdersByDates?startDate=${encodeURIComponent(
@@ -452,19 +592,17 @@ export function handleGetOrdersByDates(startDate, endDate, isCafeteriaOrder) {
   );
 }
 
-export function handleGetProductsByOrder(username, orderName) {
-  return fetch(
-    `api/getProductsByOrder?orderName=${encodeURIComponent(
-      orderName
-    )}&user=${encodeURIComponent(username)}`
-  );
-}
-
+/**
+ * Handle get products in system
+ * @param {string} orderName
+ * @returns {Promise(Array)} array of products
+ */
 export function handleGetProductsAndQuantityByOrder(orderName) {
   return fetch(
     `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(orderName)}`
   );
 }
+
 /**
  * Handle get suppliers in system
  * @param {string} username
@@ -473,6 +611,7 @@ export function handleGetProductsAndQuantityByOrder(orderName) {
 export function handleGetSuppliers(username) {
   return fetch(`/api/getSuppliers?user=${encodeURIComponent(username)}`);
 }
+
 /**
  * Handle get employees in system
  * @param {string} username
@@ -482,30 +621,45 @@ export function handleGetEmployees(username) {
   return fetch(`/api/getEmployees?user=${encodeURIComponent(username)}`);
 }
 
+/**
+ * Handle get movies in system
+ * @param {string} username
+ * @returns {Promise(Array)} array of movies
+ */
 export function handleGetMovies(username) {
   return fetch(`/api/getMovies?user=${encodeURIComponent(username)}`);
 }
 
-export function handleGetInventoryProducts(username) {
-  return fetch(
-    `/api/getInventoryProducts?user=${encodeURIComponent(username)}`
-  );
+/**
+ * Handle get categories from system
+ * @returns {Promise(Array)} array of categories
+ */
+export function handleGetCategories() {
+  return fetch(`/api/getCategories`);
 }
 
-export function handleGetCategories(username) {
-  return fetch(`/api/getCategories?user=${encodeURIComponent(username)}`);
+/**
+ * Handle get cafeteria products from system
+ * @returns {Promise(Array)} array of categories
+ */
+export function handleGetCafeteriaProducts() {
+  return fetch(`/api/getCafeteriaProducts`);
 }
 
-export function handleGetCafeteriaProducts(username) {
-  return fetch(
-    `/api/getCafeteriaProducts?user=${encodeURIComponent(username)}`
-  );
-}
-
+/**
+ * Handle get orders from system
+ * @returns {Promise(Array)} array of orders
+ */
 export function handleGetCafeteriaOrders() {
   return fetch(`/api/getCafeteriaOrders`);
 }
 
+/**
+ * Handle get supplier's details
+ * @param {string} supplier
+ * @param {string} user
+ * @returns {Promise(string)} contact details of supplier
+ */
 export function handleGetSupplierDetails(supplier, user) {
   return fetch(
     `/api/getSupplierDetails?supplier=${encodeURIComponent(
@@ -513,11 +667,12 @@ export function handleGetSupplierDetails(supplier, user) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
+
 /**
  * Handle get employee's details
  * @param {string} employee
  * @param {string} user
- * @returns {Promise(string)} contact details of supplier
+ * @returns {Promise(string)} contact details of employee
  */
 export function handleGetEmployeeDetails(employee, user) {
   return fetch(
@@ -527,31 +682,45 @@ export function handleGetEmployeeDetails(employee, user) {
   );
 }
 
+/**
+ * Handle get order details from system
+ * @param {string} order
+ * @returns {Promise(string)} details of orders
+ */
 export function handleGetOrderDetails(order) {
   return fetch(`/api/getOrderDetails?order=${encodeURIComponent(order)}`);
 }
 
-export function handleGetMovieDetails(movieName, user) {
+/**
+ * Handle get movie details from system
+ * @param {string} movieName
+ * @returns {Promise(string)} details of movie
+ */
+export function handleGetMovieDetails(movieName) {
   return fetch(
-    `/api/getMovieDetails?movieName=${encodeURIComponent(
-      movieName
-    )}&user=${encodeURIComponent(user)}`
+    `/api/getMovieDetails?movieName=${encodeURIComponent(movieName)}`
   );
 }
 
-export function handleGetProductDetails(productName, user) {
+/**
+ * Handle get product details from system
+ * @param {string} productName
+ * @returns {Promise(string)} details of product
+ */
+export function handleGetProductDetails(productName) {
   return fetch(
-    `/api/getProductDetails?productName=${encodeURIComponent(
-      productName
-    )}&user=${encodeURIComponent(user)}`
+    `/api/getProductDetails?productName=${encodeURIComponent(productName)}`
   );
 }
 
-export function handleGetCategoryDetails(categoryName, user) {
+/**
+ * Handle get category details from system
+ * @param {string} categoryName
+ * @returns {Promise(string)} details of category
+ */
+export function handleGetCategoryDetails(categoryName) {
   return fetch(
-    `/api/getCategoryDetails?categoryName=${encodeURIComponent(
-      categoryName
-    )}&user=${encodeURIComponent(user)}`
+    `/api/getCategoryDetails?categoryName=${encodeURIComponent(categoryName)}`
   );
 }
 /**
@@ -577,14 +746,29 @@ export function handleIsLoggedIn(username) {
   return fetch(`/api/isLoggedIn?username=${encodeURIComponent(username)}`);
 }
 
+/**
+ * Handle get movies orders from system
+ * @returns {Promise(array)} array of movies orders
+ */
 export function handleGetMovieOrders() {
   return fetch(`/api/getMovieOrders?`);
 }
 
+/**
+ * Handle get order details from system
+ * @param {string} order
+ * @returns {Promise(string)} details of order
+ */
 export function handleGetMovieOrderDetails(order) {
   return fetch(`/api/getMovieOrderDetails?order=${encodeURIComponent(order)}`);
 }
 
+/**
+ * Handle confirm order from system
+ * @param {string} orderId
+ * @param {string} updatedMovies
+ * @returns void
+ */
 export function handleConfirmMovieOrder(orderId, updatedMovies) {
   const user = localStorage.getItem("username");
   const movieList = JSON.stringify(updatedMovies);
@@ -601,6 +785,13 @@ export function handleConfirmMovieOrder(orderId, updatedMovies) {
     });
 }
 
+/**
+ * Handle edit movie order system
+ * @param {string} orderId
+ * @param {string} orderDate
+ * @param {string} updatedMovies
+ * @returns void
+ */
 export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
   const user = localStorage.getItem("username");
   const updatedProducts = JSON.stringify(updatedMovies);
@@ -617,4 +808,48 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
     .then(state => {
       alert(state.result);
     });
+}
+
+export function handleCreateDailyReports(reports) {
+  const user = localStorage.getItem("username");
+  const date = new Date();
+  reports = JSON.stringify(reports);
+  fetch(
+    `api/createDailyReport?date=${encodeURIComponent(
+      date
+    )}&reports=${encodeURIComponent(reports)}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function HandleAddFieldToGeneralDailyReport(field) {
+  const user = localStorage.getItem("username");
+  fetch(
+    `api/addFieldToGeneralDailyReport?field=${encodeURIComponent(
+      field
+    )}&user=${encodeURIComponent(user)}`
+  )
+    .then(response => response.json())
+    .then(state => {
+      alert(state.result);
+    });
+}
+
+export function handleGetFieldsGeneralDailyReport() {
+  const user = localStorage.getItem("username");
+  return fetch(
+    `api/getFieldsGeneralDailyReport?user=${encodeURIComponent(user)}`
+  );
+}
+
+export function HandleRemoveFieldToGeneralDailyReport(field) {
+  const user = localStorage.getItem("username");
+  return fetch(
+    `api/removeFieldToGeneralDailyReport?field=${encodeURIComponent(
+      field
+    )}&user=${encodeURIComponent(user)}`
+  );
 }

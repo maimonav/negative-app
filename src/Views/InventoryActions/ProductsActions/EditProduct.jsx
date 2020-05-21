@@ -11,7 +11,7 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaProducts,
-  handleGetCategories,
+  handleGetCategories
 } from "../../../Handlers/Handlers";
 import {
   productNameHook,
@@ -19,8 +19,12 @@ import {
   productPriceHook,
   productQuantityHook,
   productMaxQuantityHook,
-  productMinQuantityHook,
+  productMinQuantityHook
 } from "../../../consts/data-hooks";
+import {
+  isAtLeastShiftManager,
+  isAtLeastDeputyManager
+} from "../../../consts/permissions";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditProduct extends React.Component {
@@ -32,25 +36,25 @@ export default class EditProduct extends React.Component {
       productQuantity: "",
       maxQuantity: "",
       minQuantity: "",
-      productCategory: "",
+      productCategory: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
-    handleGetCafeteriaProducts(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+    handleGetCafeteriaProducts()
+      .then(response => response.json())
+      .then(state => {
         this.setState({ products: state.result });
       });
-    handleGetCategories(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+    handleGetCategories()
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
 
-  setProuctName = (name) => {
+  setProuctName = name => {
     this.setState({ productName: name });
   };
 
@@ -70,7 +74,7 @@ export default class EditProduct extends React.Component {
     this.setState({ minQuantity: event.target.value });
   }
 
-  setProductCategory = (name) => {
+  setProductCategory = name => {
     this.setState({ productCategory: name });
   };
 
@@ -81,7 +85,7 @@ export default class EditProduct extends React.Component {
       productQuantity,
       minQuantity,
       maxQuantity,
-      productCategory,
+      productCategory
     } = this.state;
     return (
       <div>
@@ -105,70 +109,80 @@ export default class EditProduct extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"productCategory"}
-                      items={this.state.categories}
-                      boxLabel={"Choose new category"}
-                      setName={this.setProductCategory}
-                      isMultiple={false}
-                      data-hook={categoryNameHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Change Product Price"
-                      id="productPrice"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(event) => this.setProuctPrice(event)}
-                      data-hook={productPriceHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Change Product Quantity"
-                      id="productQuantity"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(event) => this.setProuctQuantity(event)}
-                      data-hook={productQuantityHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Change Product Max Quantity"
-                      id="productMaxQuantity"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(event) => this.setMaxQuantity(event)}
-                      data-hook={productMaxQuantityHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Change Product Min Quantity"
-                      id="productMinQuantity"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      onChange={(event) => this.setMinQuantity(event)}
-                      data-hook={productMinQuantityHook}
-                    />
-                  </GridItem>
-                </GridContainer>
+                {isAtLeastDeputyManager(this.props.permission) && (
+                  <>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <ComboBox
+                          id={"productCategory"}
+                          items={this.state.categories}
+                          boxLabel={"Choose new category"}
+                          setName={this.setProductCategory}
+                          isMultiple={false}
+                          data-hook={categoryNameHook}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CustomInput
+                          labelText="Change Product Price"
+                          id="productPrice"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          onChange={event => this.setProuctPrice(event)}
+                          data-hook={productPriceHook}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                  </>
+                )}
+                {isAtLeastShiftManager(this.props.permission) && (
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <CustomInput
+                        labelText="Change Product Quantity"
+                        id="productQuantity"
+                        formControlProps={{
+                          fullWidth: true
+                        }}
+                        onChange={event => this.setProuctQuantity(event)}
+                        data-hook={productQuantityHook}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                )}
+                {isAtLeastDeputyManager(this.props.permission) && (
+                  <>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CustomInput
+                          labelText="Change Product Max Quantity"
+                          id="productMaxQuantity"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          onChange={event => this.setMaxQuantity(event)}
+                          data-hook={productMaxQuantityHook}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={6}>
+                        <CustomInput
+                          labelText="Change Product Min Quantity"
+                          id="productMinQuantity"
+                          formControlProps={{
+                            fullWidth: true
+                          }}
+                          onChange={event => this.setMinQuantity(event)}
+                          data-hook={productMinQuantityHook}
+                        />
+                      </GridItem>
+                    </GridContainer>
+                  </>
+                )}
               </CardBody>
               <CardFooter>
                 <Button

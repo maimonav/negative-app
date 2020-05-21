@@ -284,7 +284,9 @@ const generalPurposeDailyReportSchema = (Employee) => {
         key: "id",
       },
     },
-    additionalProps: { type: Sequelize.JSON, allowNull: false },
+    propsObject: { type: Sequelize.JSON, allowNull: false },
+    currentProps: { type: Sequelize.JSON, allowNull: false },
+    allProps: { type: Sequelize.JSON, allowNull: false },
   };
 };
 
@@ -317,6 +319,37 @@ const inventoryDailyReportSchema = (CafeteriaProduct, Employee) => {
     quantitySold: { type: Sequelize.INTEGER, allowNull: false },
     quantityInStock: { type: Sequelize.INTEGER, allowNull: false },
     stockThrown: { type: Sequelize.INTEGER, allowNull: false },
+  };
+};
+
+const notificationSchema = (User) => {
+  return {
+    // attributes
+    recipientUserId: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      references: {
+        // This is a reference to another model
+        model: User,
+
+        // This is the column name of the referenced model
+        key: "id",
+      },
+    },
+    timeFired: {
+      type: Sequelize.DATE,
+      primaryKey: true,
+      notEmpty: true,
+      allowNull: false,
+    },
+    seen: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    content: {
+      type: Sequelize.JSON,
+      allowNull: false,
+    },
   };
 };
 
@@ -380,3 +413,4 @@ exports.incomesDailyReportSchema = incomesDailyReportSchema;
 exports.moviesDailyReportSchema = moviesDailyReportSchema;
 exports.inventoryDailyReportSchema = inventoryDailyReportSchema;
 exports.generalPurposeDailyReportSchema = generalPurposeDailyReportSchema;
+exports.notificationSchema = notificationSchema;

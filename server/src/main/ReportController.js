@@ -1,4 +1,5 @@
 const DataBase = require("./DataLayer/DBManager");
+<<<<<<< HEAD
 const simpleLogger = require("simple-node-logger");
 const logger = simpleLogger.createSimpleLogger("project.log");
 const DBlogger = simpleLogger.createSimpleLogger({
@@ -6,16 +7,78 @@ const DBlogger = simpleLogger.createSimpleLogger({
   timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
 });
 const { CsvToJson } = require("./EventBuzzScript");
+=======
+const LogControllerFile = require("./LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+const DBlogger = LogController.getInstance("db");
+>>>>>>> master
 
 class ReportController {
   static _types = {
+    INCOMES: "incomes_daily_report",
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
-    MOVIES: "movie_daily_report",
-    INCOMES: "incomes_daily_report",
+    //MOVIES: "movie_daily_report",
   };
+<<<<<<< HEAD
   static _generalDailyReoprtFormat = [];
   static MovieReport = CsvToJson();
+=======
+  static _allGeneralDailyReoprtFormat;
+  static _currentGeneralDailyReoprtFormat;
+
+  static async getAllgeneralDailyReoprtFormat(calledFunctionName) {
+    if (!this._allGeneralDailyReoprtFormat)
+      await this.updatePropsLists(calledFunctionName);
+    return this._allGeneralDailyReoprtFormat;
+  }
+
+  static async getCurrentGeneralDailyReoprtFormat(calledFunctionName) {
+    if (!this._currentGeneralDailyReoprtFormat)
+      await this.updatePropsLists(calledFunctionName);
+    return this._currentGeneralDailyReoprtFormat;
+  }
+
+  static async updatePropsLists(calledFunctionName) {
+    let result = await DataBase.singleFindAll(
+      this._types.GENERAL,
+      {},
+      { fn: "max", fnField: "date" }
+    );
+    if (typeof result === "string") {
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        calledFunctionName ? calledFunctionName : "",
+        "getCurrentGeneralDailyReoprtFormat - singleFindAll -" + result
+      );
+      return (
+        "Cannot get reports fields. Action cannot be completed, details:\n" +
+        result
+      );
+    }
+    if (result) {
+      result = await DataBase.singleGetById(this._types.GENERAL, {
+        date: new Date(result[0].date),
+      });
+      if (typeof result === "string") {
+        DBlogger.writeToLog(
+          "info",
+          "ReportController",
+          calledFunctionName ? calledFunctionName : "",
+          "getCurrentGeneralDailyReoprtFormat - singleGetById -" + result
+        );
+        return result;
+      }
+
+      this._currentGeneralDailyReoprtFormat = result.currentProps;
+      this._allGeneralDailyReoprtFormat = result.allProps;
+      return result;
+    }
+    return { currentProps: [], allProps: [] };
+  }
+>>>>>>> master
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
@@ -33,67 +96,108 @@ class ReportController {
   }
 
   /**
-   * @param {string} type Type of report from _types
-   * @param {Array(Object)} records Records to add in the report
+   * @param {Array(Object)} reports Records to add in the report
    * @returns {Promise(string)} success or failure
    *
-   * @example of one record, record => array of records
+   * @example reports
    *
-   * "inventory_daily_report" =>  {
-        date: todayDate,
-        productId: 0,
-        creatorEmployeeId: 1,
-        quantitySold: 4,
-        quantityInStock: 8,
-        stockThrown: 8,
-      }
-   * "general_purpose_daily_report" => {
-        date: todayDate,
-        creatorEmployeeId: 1,
-        additionalProps: [["Cash counted"], { "Cash counted": "true" }],
-      }
-   * "incomes_daily_report" => {
-        date: todayDate,
-        creatorEmployeeId: 1,
-        numOfTabsSales: 0,
-        cafeteriaCashRevenues: 20.0,
-        cafeteriaCreditCardRevenues: 20.0,
-        ticketsCashRevenues: 20.0,
-        ticketsCreditCardRevenues: 20.0,
-        tabsCashRevenues: 20.0,
-        tabsCreditCardRevenues: 20.0,
-      }
+   * reports= [
+        { 
+        type:"incomes_daily_report",
+        content: [
+            {
+              date: [Date],
+              creatorEmployeeUsername: [Name],
+              numOfTabsSales: [#],
+              cafeteriaCashRevenues:  [#],
+              cafeteriaCreditCardRevenues:  [#],
+              ticketsCashRevenues:  [#],
+              ticketsCreditCardRevenues:  [#],
+              tabsCashRevenues:  [#],
+              tabsCreditCardRevenues:  [#],
+            }
+          ]
+        },
+        {
+        type: "inventory_daily_report",
+        content: [
+            {
+              productName: [Name],
+              quantitySold: [#],
+              stockThrown: [#],
+            },
+            {
+              productName: [Name],
+              quantitySold: [#],
+              stockThrown: [#],
+            }
+          ]
+        },
+        {
+        type: "general_purpose_daily_report",
+        content: [
+            {
+              prop1: [...] (i.e Cash Counted)
+              prop2: [...] (i.e Report Z Taken)
+            }
+          ]
+        }
+        ]
    */
-  static async createDailyReport(type, records) {
-    //validate type from enum of types
-    if (!this._isValidType(type)) {
-      logger.info(
-        "ReportController- createDailyReport - The requested report type " +
-          type +
-          " is invalid"
-      );
-      return "The requested report type is invalid";
-    }
+  static async createDailyReport(reports) {
     let actionsList = [];
-    for (let i in records) {
-      if (!records[i].date || !this._isValidDate(records[i].date)) {
-        logger.info(
-          "ReportController- createDailyReport - Report record date is invalid"
+    for (let j in reports) {
+      let records = reports[j].content;
+      let type = reports[j].type;
+      for (let i in records) {
+        if (!records[i].date || !this._isValidDate(records[i].date)) {
+          logger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport",
+            "Report record date: " + records[i].date + ", is invalid"
+          );
+          return "Report record date is invalid";
+        }
+        records[i].date = new Date(
+          this._getSyncDateFormat(new Date(records[i].date))
         );
-        return "Report record date is invalid";
+        let isDailyReportCreated = await DataBase.singleGetById(type, {
+          date: records[i].date,
+        });
+        if (typeof isDailyReportCreated === "string") {
+          DBlogger.writeToLog(
+            "info",
+            "ReportController",
+            "createDailyReport",
+            isDailyReportCreated
+          );
+          return "The report cannot be created\n" + isDailyReportCreated;
+        }
+        if (isDailyReportCreated && isDailyReportCreated !== null) {
+          logger.writeToLog(
+            "info",
+            "ReportController",
+            "getReport",
+            "daily report already exists in this date " + records[i].date
+          );
+          return "Cannot add this report - daily report already exists in this date";
+        }
+        actionsList = actionsList.concat({
+          name: DataBase._add,
+          model: type,
+          params: { element: records[i] },
+        });
       }
-      records[i].date = new Date(
-        this._getSyncDateFormat(new Date(records[i].date))
-      );
-      actionsList = actionsList.concat({
-        name: DataBase._add,
-        model: type,
-        params: { element: records[i] },
-      });
     }
     let result = await DataBase.executeActions(actionsList);
     if (typeof result === "string") {
-      DBlogger.info("ReportController - createDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "createDailyReport",
+        result
+      );
       return "The report cannot be created\n" + result;
     }
     return "The report created successfully";
@@ -107,19 +211,21 @@ class ReportController {
    */
   static async getReport(type, date) {
     if (!this._isValidType(type)) {
-      logger.info(
-        "ReportController- getReport - The requested report type " +
-          type +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report type " + type + " is invalid"
       );
       return "The requested report type is invalid";
     }
 
     if (!this._isValidDate(date)) {
-      logger.info(
-        "ReportController- getReport - The requested report date " +
-          date +
-          " is invalid"
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report date " + date + " is invalid"
       );
       return "The requested report date is invalid";
     }
@@ -132,10 +238,10 @@ class ReportController {
       [["date", "ASC"]]
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - getReport - ", result);
+      DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result.length === 0) return "The report does not exist";
+    if (result && result.length === 0) return "The report does not exist";
 
     return result;
   }
@@ -146,36 +252,41 @@ class ReportController {
    * @returns {Promise(string)} success or failure
    */
   static async addFieldToDailyReport(newField) {
-    let result = await DataBase.singleFindAll(
-      this._types.GENERAL,
-      {},
-      { fn: "max", fnField: "date" }
-    );
+    let result = await this.updatePropsLists("addFieldToDailyReport");
     if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
       return "The report field cannot be added\n" + result;
     }
-    if (result.length === 0) return "The report field cannot be added";
-    result = await DataBase.singleGetById(this._types.GENERAL, {
-      date: new Date(result[0].date),
-    });
-    if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
-      return "The report field cannot be added\n" + result;
+
+    if (this._currentGeneralDailyReoprtFormat.includes(newField)) {
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        "The field " + newField + " already exists"
+      );
+      return "The field already exists";
     }
-    let newProps = result.additionalProps[0].concat(newField);
+    let newCurrentProps = result.currentProps.concat(newField);
+    let newAllProps = result.allProps.concat(newField);
+
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
       { date: new Date(result.date) },
-      { additionalProps: [newProps, result.additionalProps[1]] }
+      { currentProps: newCurrentProps, allProps: newAllProps }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - addFieldToDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "addFieldToDailyReport",
+        result
+      );
       return "The report field cannot be added\n" + result;
     }
-    this._generalDailyReoprtFormat = this._generalDailyReoprtFormat.concat(
-      newField
-    );
+
+    this._currentGeneralDailyReoprtFormat = newCurrentProps;
+    this._allGeneralDailyReoprtFormat = newAllProps;
+
     return "The report field added successfully";
   }
 
@@ -185,35 +296,42 @@ class ReportController {
    * @returns {Promise(string)} success or failure
    */
   static async removeFieldFromDailyReport(fieldToRemove) {
-    let result = await DataBase.singleFindAll(
-      this._types.GENERAL,
-      {},
-      { fn: "max", fnField: "date" }
-    );
+    let result = await this.updatePropsLists("removeFieldFromDailyReport");
     if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
-      return "The report field cannot be removed\n" + result;
+      return "The report field cannot be added\n" + result;
     }
-    if (result.length === 0) return "The report field cannot be added";
-    result = await DataBase.singleGetById(this._types.GENERAL, {
-      date: new Date(result[0].date),
-    });
-    if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
-      return "The report field cannot be removed\n" + result;
+
+    if (!this._currentGeneralDailyReoprtFormat.includes(fieldToRemove)) {
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        "The field " + fieldToRemove + " does not exist"
+      );
+      return "The field does not exist";
     }
-    let newProps = result.additionalProps[0].filter(
+
+    let newCurrentProps = result.currentProps.filter(
       (value) => value !== fieldToRemove
     );
+
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
       { date: new Date(result.date) },
-      { additionalProps: [newProps, result.additionalProps[1]] }
+      { currentProps: newCurrentProps }
     );
     if (typeof result === "string") {
-      DBlogger.info("ReportController - removeFieldFromDailyReport - ", result);
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "removeFieldFromDailyReport",
+        result
+      );
       return "The report field cannot be removed\n" + result;
     }
+
+    this._currentGeneralDailyReoprtFormat = newCurrentProps;
+
     return "The report field removed successfully";
   }
 }

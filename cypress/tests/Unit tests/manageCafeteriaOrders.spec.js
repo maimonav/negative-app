@@ -78,26 +78,3 @@ context("Type all fields", () => {
       .type("{esc}");
   });
 });
-
-// context("Click all buttons", () => {
-//   it("add new cafeteria order", () => {
-//     cy.accessTab(inventoryActionsTabHook);
-//     cy.accessTab(ordersTabHook);
-//     cy.get(`#${cafeteriaOrdersHook}`).click();
-//     cy.chooseAction(addActionHook);
-//   });
-
-//   it("edit cafeteria order", () => {
-//     cy.accessTab(inventoryActionsTabHook);
-//     cy.accessTab(ordersTabHook);
-//     cy.get(`#${cafeteriaOrdersHook}`).click();
-//     cy.chooseAction(editActionHook);
-//   });
-
-//   it("remove cafeteria order", () => {
-//     cy.accessTab(inventoryActionsTabHook);
-//     cy.accessTab(ordersTabHook);
-//     cy.get(`#${cafeteriaOrdersHook}`).click();
-//     cy.chooseAction(removeActionHook);
-//   });
-// });

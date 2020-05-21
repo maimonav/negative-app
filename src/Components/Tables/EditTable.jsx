@@ -18,15 +18,17 @@ import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
 import Button from "../CustomButtons/Button.js";
 
-const tableIcons = {
+export const tableIcons = {
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
-  Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Check: forwardRef((props, ref) => (
+    <Check id={"check"} {...props} ref={ref} />
+  )),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Delete: forwardRef((props, ref) => <DeleteOutline {...props} ref={ref} />),
   DetailPanel: forwardRef((props, ref) => (
     <ChevronRight {...props} ref={ref} />
   )),
-  Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
+  Edit: forwardRef((props, ref) => <Edit id={"edit"} {...props} ref={ref} />),
   Export: forwardRef((props, ref) => <SaveAlt {...props} ref={ref} />),
   Filter: forwardRef((props, ref) => <FilterList {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -39,7 +41,7 @@ const tableIcons = {
   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
 };
 
 export default class EditTable extends React.Component {
@@ -47,7 +49,7 @@ export default class EditTable extends React.Component {
     super(props);
     this.state = {
       data: this.props.data,
-      columns: this.props.columns,
+      columns: this.props.columns
     };
   }
 
@@ -65,33 +67,33 @@ export default class EditTable extends React.Component {
   render() {
     const { columns, data } = this.state;
     const checkifDone = this.props.data !== this.state.data;
-    console.log("checkifDone:", checkifDone);
     return (
       <>
         {data && (
           <MaterialTable
-            title="Editable Example"
+            id={"lala"}
+            title="Edit Products Table"
             columns={columns}
             data={data}
             icons={tableIcons}
             editable={{
-              onRowAdd: (newData) =>
-                new Promise((resolve) => {
-                  setTimeout(() => {
-                    resolve();
-                    this.setState((prevState) => {
-                      const data = [...prevState.data];
-                      data.push(newData);
-                      return { ...prevState, data };
-                    });
-                  }, 600);
-                }),
+              // onRowAdd: (newData) =>
+              //   new Promise((resolve) => {
+              //     setTimeout(() => {
+              //       resolve();
+              //       this.setState((prevState) => {
+              //         const data = [...prevState.data];
+              //         data.push(newData);
+              //         return { ...prevState, data };
+              //       });
+              //     }, 600);
+              //   }),
               onRowUpdate: (newData, oldData) =>
-                new Promise((resolve) => {
+                new Promise(resolve => {
                   setTimeout(() => {
                     resolve();
                     if (oldData) {
-                      this.setState((prevState) => {
+                      this.setState(prevState => {
                         const data = [...prevState.data];
                         data[data.indexOf(oldData)] = newData;
                         return { ...prevState, data };
@@ -99,22 +101,26 @@ export default class EditTable extends React.Component {
                     }
                   }, 600);
                 }),
-              onRowDelete: (oldData) =>
-                new Promise((resolve) => {
+              onRowDelete: oldData =>
+                new Promise(resolve => {
                   setTimeout(() => {
                     resolve();
-                    this.setState((prevState) => {
+                    this.setState(prevState => {
                       const data = [...prevState.data];
                       data.splice(data.indexOf(oldData), 1);
                       return { ...prevState, data };
                     });
                   }, 600);
-                }),
+                })
             }}
           />
         )}
         {checkifDone && (
-          <Button color="info" onClick={this.handleOnclick}>
+          <Button
+            id={"editTableButton"}
+            color="info"
+            onClick={this.handleOnclick}
+          >
             Finish Manage Products Quantity
           </Button>
         )}
