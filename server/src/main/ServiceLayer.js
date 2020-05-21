@@ -1588,8 +1588,7 @@ class ServiceLayer {
         new Date(date),
         this.users.get(ActionIDOfTheOperation)
       );
-      if (typeof result === "string")
-        return "There was a problem to get " + type + " report.\n" + result;
+      if (typeof result === "string") return result;
       reports = reports.concat({ type: type, content: result });
     }
     return reports;
