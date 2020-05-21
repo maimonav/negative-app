@@ -254,36 +254,19 @@ const incomesDailyReportSchema = (Employee) => {
   };
 };
 
-const moviesDailyReportSchema = (Movie, Employee) => {
+const moviesDailyReportSchema = () => {
   return {
     // attributes
     date: { type: Sequelize.DATE, primaryKey: true },
-    creatorEmployeeId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-      references: {
-        // This is a reference to another model
-        model: Employee,
-
-        // This is the column name of the referenced model
-        key: "id",
-      },
-    },
-    movieId: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      references: {
-        // This is a reference to another model
-        model: Movie,
-
-        // This is the column name of the referenced model
-        key: "id",
-      },
-    },
-    theater: { type: Sequelize.INTEGER, allowNull: false },
-    numOfTicketsSales: { type: Sequelize.INTEGER, allowNull: false },
-    numOfUsedTickets: { type: Sequelize.INTEGER, allowNull: false },
-    wasAirConditionGlitches: { type: Sequelize.BOOLEAN, defaultValue: false },
+    name: { type: Sequelize.STRING, defaultValue: "-" },
+    location: { type: Sequelize.STRING, defaultValue: "-" },
+    numOfTicketsSales: { type: Sequelize.STRING, defaultValue: "-" },
+    numOfTicketsAssigned: { type: Sequelize.STRING, defaultValue: "-" },
+    totalSalesIncomes: { type: Sequelize.STRING, defaultValue: "-" },
+    totalTicketsReturns: { type: Sequelize.STRING, defaultValue: "-" },
+    totalFees: { type: Sequelize.STRING, defaultValue: "-" },
+    totalRevenuesWithoutCash: { type: Sequelize.STRING, defaultValue: "-" },
+    totalCashIncomes: { type: Sequelize.STRING, defaultValue: "-" },
   };
 };
 

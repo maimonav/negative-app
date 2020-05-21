@@ -5,6 +5,7 @@ const DBlogger = simpleLogger.createSimpleLogger({
   logFilePath: "database.log",
   timestampFormat: "YYYY-MM-DD HH:mm:ss.SSS",
 });
+const { CsvToJson } = require("./EventBuzzScript");
 
 class ReportController {
   static _types = {
@@ -14,6 +15,7 @@ class ReportController {
     INCOMES: "incomes_daily_report",
   };
   static _generalDailyReoprtFormat = [];
+  static MovieReport = CsvToJson();
 
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 

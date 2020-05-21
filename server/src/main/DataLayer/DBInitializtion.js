@@ -388,7 +388,7 @@ function _initModels() {
   );
   DataBase.MoviesDailyReport = DataBase.sequelize.define(
     "movie_daily_report",
-    moviesDailyReportSchema(DataBase.Movie, DataBase.Employee),
+    moviesDailyReportSchema(),
     {}
   );
   DataBase.IncomesDailyReport = DataBase.sequelize.define(
