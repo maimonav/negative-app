@@ -3,7 +3,6 @@ import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom"; //DO NOT REMOVE ROUTER&LINK
 import {
   loginPath,
-  logoutPath,
   manageEmployeesPath,
   editMoviePath,
   removeMoviePath,
@@ -21,7 +20,6 @@ import {
 
 import {
   handleLogin,
-  handleLogout,
   handleEditMovie,
   handleRemoveMovie,
   handleCreateDailyReports,
@@ -29,7 +27,6 @@ import {
 
 import {
   Login,
-  Logout,
   ManageEmployees,
   ManageSuppliers,
   ManageReports,
@@ -53,14 +50,6 @@ export default function Routes(props) {
           path={loginPath}
           component={() => (
             <Login handleLogin={handleLogin} onLogin={props.onLogin} />
-          )}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={logoutPath}
-          component={() => (
-            <Logout handleLogout={handleLogout} onLogout={props.onLogout} />
           )}
         />
       )}
