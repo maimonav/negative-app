@@ -154,14 +154,20 @@ export default class AddEmployee extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleAddEmployee(
-                      userName,
-                      password,
-                      firstName,
-                      lastName,
-                      permission,
-                      contactDetails
-                    )
+                    this.state.permission &&
+                    this.state.userName &&
+                    this.state.password
+                      ? this.props.handleAddEmployee(
+                          userName,
+                          password,
+                          firstName,
+                          lastName,
+                          permission,
+                          contactDetails
+                        )
+                      : alert(
+                          "User name, password and permission are required."
+                        )
                   }
                 >
                   Add New Employee

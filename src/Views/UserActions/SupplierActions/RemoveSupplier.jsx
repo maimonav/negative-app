@@ -67,10 +67,12 @@ export default class RemoveSupplier extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleRemoveSupplier(
-                      supplierName,
-                      contactDetails
-                    )
+                    this.state.supplierName
+                      ? this.props.handleRemoveSupplier(
+                          supplierName,
+                          contactDetails
+                        )
+                      : alert("Supplier name is required.")
                   }
                 >
                   Remove Supplier

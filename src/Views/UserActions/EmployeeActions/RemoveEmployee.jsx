@@ -60,7 +60,11 @@ export default class RemoveEmployee extends React.Component {
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveEmployee(userName)}
+                  onClick={() =>
+                    this.state.userName
+                      ? this.props.handleRemoveEmployee(userName)
+                      : alert("Employee name is required.")
+                  }
                 >
                   Remove Employee
                 </Button>

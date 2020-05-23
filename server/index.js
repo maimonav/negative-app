@@ -7,6 +7,7 @@ const ServiceLayer = require("./src/main/ServiceLayer");
 const NotificationController = require("./src/main/NotificationController");
 const service = new ServiceLayer();
 const app = express();
+var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
 //NotificationController.initServerSocket(server);
 const serverSocket = new WebSocket.Server({ server });
@@ -25,7 +26,9 @@ app.get("/api/isLoggedIn", (req, res) => {
 
 app.get("/api/login", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
-  const password = (req.query.password && req.query.password.trim()) || "";
+  let password = (req.query.password && req.query.password.trim()) || "";
+  const bytes = CryptoJS.AES.decrypt(password, "Password");
+  password = bytes.toString(CryptoJS.enc.Utf8);
   const result = service.login(username, password);
   if (typeof result !== "string") {
     let userId = service.users.get(username);
@@ -355,18 +358,21 @@ app.get("/api/getMovies", (req, res) => {
 });
 
 app.get("/api/getCategories", (req, res) => {
-  const result = service.getCategories();
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = service.getCategories(user);
   result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getCafeteriaProducts", (req, res) => {
-  const result = service.getCafeteriaProducts();
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = service.getCafeteriaProducts(user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getCafeteriaOrders", (req, res) => {
-  const result = service.getCafeteriaOrders();
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = service.getCafeteriaOrders(user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -399,35 +405,40 @@ app.get("/api/getProductsByOrder", (req, res) => {
 });
 
 app.get("/api/getOrderDetails", (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
   const order = (req.query.order && req.query.order.trim()) || "";
-  const result = service.getOrderDetails(order);
+  const result = service.getOrderDetails(order, user);
   console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getMovieDetails", (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
   const movieName = (req.query.movieName && req.query.movieName.trim()) || "";
-  const result = service.getMovieDetails(movieName);
+  const result = service.getMovieDetails(movieName, user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getProductDetails", (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
   const productName =
     (req.query.productName && req.query.productName.trim()) || "";
-  const result = service.getProductDetails(productName);
+  const result = service.getProductDetails(productName, user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getCategoryDetails", (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
   const categoryName =
     (req.query.categoryName && req.query.categoryName.trim()) || "";
-  const result = service.getCategoryDetails(categoryName);
+  const result = service.getCategoryDetails(categoryName, user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getProductAndQuntityByOrder", (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
   const orderName = (req.query.orderName && req.query.orderName.trim()) || "";
-  const result = service.getProductsAndQuantityByOrder(orderName);
+  const result = service.getProductsAndQuantityByOrder(orderName, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -442,13 +453,15 @@ app.get("/api/getReport", async (req, res) => {
 });
 
 app.get("/api/getMovieOrders", (req, res) => {
-  const result = service.getMovieOrders();
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = service.getMovieOrders(user);
   res.send(JSON.stringify({ result }));
 });
 
 app.get("/api/getMovieOrderDetails", (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
   const order = (req.query.order && req.query.order.trim()) || "";
-  const result = service.getOrderDetails(order);
+  const result = service.getOrderDetails(order, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -522,5 +535,12 @@ app.get("/api/removeFieldToGeneralDailyReport", async (req, res) => {
   const field = (req.query.field && req.query.field.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.removeFieldFromDailyReport(field, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getFullDailyReport", async (req, res) => {
+  const date = (req.query.date && req.query.date.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getFullDailyReport(date, user);
   res.send(JSON.stringify({ result }));
 });

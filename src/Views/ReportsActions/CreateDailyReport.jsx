@@ -1,5 +1,4 @@
 import React from "react";
-// core components
 import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import CustomInput from "../../Components/CustomInput/CustomInput.js";
@@ -99,13 +98,10 @@ export default class CreateDailyReport extends React.Component {
 
   createGeneralReport = () => {
     const { generalContent } = this.state;
-    if (generalContent)
-      return {
-        type: reportsTypesObj.General,
-        content: [generalContent]
-      };
-
-    return null;
+    return {
+      type: reportsTypesObj.General,
+      content: [generalContent || {}]
+    };
   };
 
   createReport = () => {
@@ -145,6 +141,16 @@ export default class CreateDailyReport extends React.Component {
 
     return dynamicGeneralFields;
   };
+
+  isAllFieldsFilled = () =>
+    this.state.numOfTabsSales &&
+    this.state.cafeteriaCashRevenues &&
+    this.state.cafeteriaCreditCardRevenues &&
+    this.state.ticketsCashRevenues &&
+    this.state.ticketsCreditCardRevenues &&
+    this.state.tabsCashRevenues &&
+    this.state.tabsCreditCardRevenues &&
+    this.state.data;
 
   render() {
     const { generalFields } = this.state;
@@ -286,8 +292,12 @@ export default class CreateDailyReport extends React.Component {
           <Button
             color="info"
             onClick={() => {
-              const report = this.createReport();
-              this.props.handleCreateDailyReports(report);
+              if (this.isAllFieldsFilled()) {
+                const report = this.createReport();
+                this.props.handleCreateDailyReports(report);
+              } else {
+                alert("All fields are required.");
+              }
             }}
           >
             Create Daily Report

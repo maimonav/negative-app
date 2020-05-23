@@ -8,7 +8,9 @@ import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab"
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import NotificationHandler from "./NotificationHandler";
-import Logout from "../Views/SystemActions/Logout";
+import IconButton from "@material-ui/core/IconButton";
+import { handleLogout } from "../Handlers/Handlers";
+import LogoutIcon from "@material-ui/icons/ExitToApp";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
@@ -28,13 +30,13 @@ export default function TablPanel(props) {
                 textTransform: "none",
                 marginLeft: "15px",
               }}
-            ></Tab>
+            />
           )}
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
               permission={props.permission}
-            ></UserActionsDropDownTab>
+            />
           )}
           {props.isLogged && (
             <InventoryActionsDropDownTab
@@ -51,16 +53,25 @@ export default function TablPanel(props) {
           )}
           {props.isLogged && (
             <Tab
-              style={{ marginLeft: "auto" }}
+              style={{ marginLeft: "auto", paddingLeft: "105px" }}
               label={<NotificationHandler />}
               data-hook={notificationTabHook}
-            ></Tab>
+            />
           )}
           {props.isLogged && (
             <Tab
-              label={<Logout onLogout={props.onLogout} />}
+              label={
+                <IconButton
+                  style={{ marginRight: "100px" }}
+                  onClick={() => handleLogout(props.onLogout)}
+                  color="inherit"
+                  aria-label="add to shopping cart"
+                >
+                  <LogoutIcon />
+                </IconButton>
+              }
               data-hook={logoutTabHook}
-            ></Tab>
+            />
           )}
         </Tabs>
       </Paper>

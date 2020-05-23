@@ -237,6 +237,7 @@ class ReportController {
     if (type === this._types.MOVIES)
       return [
         {
+<<<<<<< HEAD
           date: moment(new Date().toISOString(), "DD-MM-YYYY HH:mm").toDate(),
           name: "",
           location: "",
@@ -247,6 +248,20 @@ class ReportController {
           totalFees: "",
           totalRevenuesWithoutCash: "",
           totalCashIncomes: "",
+=======
+          dataValues: {
+            date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
+            name: "סרט",
+            location: "אולם 6",
+            numOfTicketsSales: 7,
+            numOfTicketsAssigned: 8,
+            totalSalesIncomes: 500,
+            totalTicketsReturns: 0,
+            totalFees: 1.2,
+            totalRevenuesWithoutCash: 500,
+            totalCashIncomes: 400,
+          },
+>>>>>>> master
         },
       ];
     let result = await DataBase.singleFindAll(
