@@ -70,7 +70,12 @@ export default class AddSupplier extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleAddSupplier(supplierName, contactDetails)
+                    this.state.supplierName && this.state.contactDetails
+                      ? this.props.handleAddSupplier(
+                          supplierName,
+                          contactDetails
+                        )
+                      : alert("All fields are required.")
                   }
                 >
                   Add New Supplier

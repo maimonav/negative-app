@@ -42,19 +42,17 @@ export default class ShowReport extends React.Component {
   };
 
   setReport = () => {
-    const result =
-      this.state.reportType === reportsTypes.Daily
-        ? HandleGetFullDailyReport(
-            this.state.date,
-            localStorage.getItem("username")
-          )
-        : handleGetReport(
-            this.state.reportType,
-            this.state.date,
-            localStorage.getItem("username")
-          );
-
-    result
+    (this.state.reportType === reportsTypes.Daily
+      ? HandleGetFullDailyReport(
+          this.state.date,
+          localStorage.getItem("username")
+        )
+      : handleGetReport(
+          this.state.reportType,
+          this.state.date,
+          localStorage.getItem("username")
+        )
+    )
       .then(response => response.json())
       .then(state => {
         if (typeof state.result !== "string") {
@@ -119,7 +117,9 @@ export default class ShowReport extends React.Component {
                   <Button
                     color="info"
                     onClick={() => {
-                      this.setReport();
+                      this.state.reportType && this.state.date
+                        ? this.setReport()
+                        : alert("All fields are required.");
                     }}
                     style={{ marginLeft: "15px", marginTop: "10px" }}
                   >

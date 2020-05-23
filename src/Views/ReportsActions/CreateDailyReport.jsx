@@ -142,6 +142,16 @@ export default class CreateDailyReport extends React.Component {
     return dynamicGeneralFields;
   };
 
+  isAllFieldsFilled = () =>
+    this.state.numOfTabsSales &&
+    this.state.cafeteriaCashRevenues &&
+    this.state.cafeteriaCreditCardRevenues &&
+    this.state.ticketsCashRevenues &&
+    this.state.ticketsCreditCardRevenues &&
+    this.state.tabsCashRevenues &&
+    this.state.tabsCreditCardRevenues &&
+    this.state.data;
+
   render() {
     const { generalFields } = this.state;
     return (
@@ -282,8 +292,12 @@ export default class CreateDailyReport extends React.Component {
           <Button
             color="info"
             onClick={() => {
-              const report = this.createReport();
-              this.props.handleCreateDailyReports(report);
+              if (this.isAllFieldsFilled()) {
+                const report = this.createReport();
+                this.props.handleCreateDailyReports(report);
+              } else {
+                alert("All fields are required.");
+              }
             }}
           >
             Create Daily Report
