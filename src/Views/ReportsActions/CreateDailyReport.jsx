@@ -1,5 +1,4 @@
 import React from "react";
-// core components
 import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import CustomInput from "../../Components/CustomInput/CustomInput.js";
