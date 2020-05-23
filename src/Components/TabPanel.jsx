@@ -2,20 +2,19 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import LogoutIcon from "@material-ui/icons/ExitToApp";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
-import { logoutPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import NotificationHandler from "./NotificationHandler";
+import Logout from "../Views/SystemActions/Logout";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook
+  reportsActionsTabHook,
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
@@ -27,7 +26,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px"
+                marginLeft: "15px",
               }}
             ></Tab>
           )}
@@ -58,9 +57,10 @@ export default function TablPanel(props) {
             ></Tab>
           )}
           {props.isLogged && (
-            <Link to={logoutPath}>
-              <Tab label={<LogoutIcon />} data-hook={logoutTabHook}></Tab>
-            </Link>
+            <Tab
+              label={<Logout onLogout={props.onLogout} />}
+              data-hook={logoutTabHook}
+            ></Tab>
           )}
         </Tabs>
       </Paper>
