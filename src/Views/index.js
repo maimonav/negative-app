@@ -1,5 +1,4 @@
 import Login from "./SystemActions/Login";
-import Logout from "./SystemActions/Logout";
 import ManageEmployees from "./UserActions/EmployeeActions/ManageEmployees";
 import ShowEmployee from "./UserActions/EmployeeActions/ShowEmployee";
 import AddEmployee from "./UserActions/EmployeeActions/AddEmployee";
@@ -44,7 +43,6 @@ import NotificationHandler from "../Components/NotificationHandler";
 
 export {
   Login,
-  Logout,
   ManageEmployees,
   ShowEmployee,
   AddEmployee,
