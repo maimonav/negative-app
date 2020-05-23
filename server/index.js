@@ -537,3 +537,10 @@ app.get("/api/removeFieldToGeneralDailyReport", async (req, res) => {
   const result = await service.removeFieldFromDailyReport(field, user);
   res.send(JSON.stringify({ result }));
 });
+
+app.get("/api/getFullDailyReport", async (req, res) => {
+  const date = (req.query.date && req.query.date.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getFullDailyReport(date, user);
+  res.send(JSON.stringify({ result }));
+});

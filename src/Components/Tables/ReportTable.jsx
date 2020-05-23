@@ -182,7 +182,7 @@ export default function ReactVirtualizedTable(props) {
   if (props.reportType === reportsTypesObj.General) {
     let additionalColumns = [];
     const propsObj = data && data[0] && data[0].propsObject;
-    const additionalProps = Object.keys(propsObj);
+    const additionalProps = propsObj && Object.keys(propsObj);
     if (
       additionalProps &&
       additionalProps.length > 0 &&
