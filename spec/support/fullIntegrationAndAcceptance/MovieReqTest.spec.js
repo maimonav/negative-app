@@ -1,6 +1,9 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const { testMovie } = require("../DBtests/ProductsTests.spec");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
+const LogControllerFile = require("../../../server/src/main/LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
 
 describe("Movie Operations Tests", function() {
   let service = new ServiceLayer();
@@ -8,6 +11,7 @@ describe("Movie Operations Tests", function() {
 
   beforeEach(async function() {
     await service.initServiceLayer(dbName);
+    logger.testModeOn();
   });
 
   afterEach(async function() {
@@ -15,6 +19,7 @@ describe("Movie Operations Tests", function() {
     await DB.close();
     await DB.connection.promise().query("DROP DATABASE " + dbName + ";");
     console.log("Database deleted");
+    logger.testModeOff();
   });
 
   it("addMovie req 2.1.4", async function() {

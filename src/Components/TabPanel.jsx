@@ -2,20 +2,21 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import LogoutIcon from "@material-ui/icons/ExitToApp";
-import { BrowserRouter as Router, Link } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
-import { logoutPath } from "../consts/paths";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
 import ReportsActionsDropDownTab from "../Views/ReportsActions/ReportsActionsDropDownTab";
 import NotificationHandler from "./NotificationHandler";
+import IconButton from "@material-ui/core/IconButton";
+import { handleLogout } from "../Handlers/Handlers";
+import LogoutIcon from "@material-ui/icons/ExitToApp";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook
+  reportsActionsTabHook,
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
@@ -27,15 +28,15 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px"
+                marginLeft: "15px",
               }}
-            ></Tab>
+            />
           )}
           {props.isLogged && (
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
               permission={props.permission}
-            ></UserActionsDropDownTab>
+            />
           )}
           {props.isLogged && (
             <InventoryActionsDropDownTab
@@ -52,15 +53,25 @@ export default function TablPanel(props) {
           )}
           {props.isLogged && (
             <Tab
-              style={{ marginLeft: "auto" }}
+              style={{ marginLeft: "auto", paddingLeft: "105px" }}
               label={<NotificationHandler />}
               data-hook={notificationTabHook}
-            ></Tab>
+            />
           )}
           {props.isLogged && (
-            <Link to={logoutPath}>
-              <Tab label={<LogoutIcon />} data-hook={logoutTabHook}></Tab>
-            </Link>
+            <Tab
+              label={
+                <IconButton
+                  style={{ marginRight: "100px" }}
+                  onClick={() => handleLogout(props.onLogout)}
+                  color="inherit"
+                  aria-label="add to shopping cart"
+                >
+                  <LogoutIcon />
+                </IconButton>
+              }
+              data-hook={logoutTabHook}
+            />
           )}
         </Tabs>
       </Paper>

@@ -8,8 +8,15 @@ import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
 import ReportTable from "../../Components/Tables/ReportTable";
-import { handleGetReport } from "../../Handlers/Handlers";
-import { reportsTypes, reportsPrettyTypes } from "../../consts/data";
+import {
+  handleGetReport,
+  HandleGetFullDailyReport
+} from "../../Handlers/Handlers";
+import {
+  reportsTypes,
+  reportsPrettyTypes,
+  reportsTypesInverseObj
+} from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -35,11 +42,19 @@ export default class ShowReport extends React.Component {
   };
 
   setReport = () => {
-    handleGetReport(
-      this.state.reportType,
-      this.state.date,
-      localStorage.getItem("username")
-    )
+    const result =
+      this.state.reportType === reportsTypes.Daily
+        ? HandleGetFullDailyReport(
+            this.state.date,
+            localStorage.getItem("username")
+          )
+        : handleGetReport(
+            this.state.reportType,
+            this.state.date,
+            localStorage.getItem("username")
+          );
+
+    result
       .then(response => response.json())
       .then(state => {
         if (typeof state.result !== "string") {
@@ -48,6 +63,32 @@ export default class ShowReport extends React.Component {
           alert(state.result);
         }
       });
+  };
+
+  renderReport = () => {
+    const isFullReport = this.state.reportType === reportsTypes.Daily;
+    if (!isFullReport) {
+      return (
+        <ReportTable
+          data={this.state.reportData}
+          reportType={this.state.reportType}
+        />
+      );
+    } else {
+      const reports = [];
+      this.state.reportData.forEach(report => {
+        const reportComponent = (
+          <GridItem xs={12} sm={12} md={6}>
+            <h1>
+              {reportsTypesInverseObj[report.type]}
+              <ReportTable data={report.content} reportType={report.type} />
+            </h1>
+          </GridItem>
+        );
+        reports.push(reportComponent);
+      });
+      return reports;
+    }
   };
 
   render() {
@@ -87,12 +128,8 @@ export default class ShowReport extends React.Component {
                 </div>
                 {this.state.reportType &&
                   this.state.date &&
-                  this.state.reportData && (
-                    <ReportTable
-                      data={this.state.reportData}
-                      reportType={this.state.reportType}
-                    />
-                  )}
+                  this.state.reportData &&
+                  this.renderReport()}
               </CardBody>
             </Card>
           </GridItem>

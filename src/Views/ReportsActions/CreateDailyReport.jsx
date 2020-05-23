@@ -1,5 +1,4 @@
 import React from "react";
-// core components
 import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import CustomInput from "../../Components/CustomInput/CustomInput.js";
@@ -99,13 +98,10 @@ export default class CreateDailyReport extends React.Component {
 
   createGeneralReport = () => {
     const { generalContent } = this.state;
-    if (generalContent)
-      return {
-        type: reportsTypesObj.General,
-        content: [generalContent]
-      };
-
-    return null;
+    return {
+      type: reportsTypesObj.General,
+      content: [generalContent || {}]
+    };
   };
 
   createReport = () => {

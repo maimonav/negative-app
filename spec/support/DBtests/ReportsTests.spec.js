@@ -1,3 +1,4 @@
+const moment = require("moment");
 const { addEmployee } = require("./OrdersTests.spec");
 const {
   addCategory,
@@ -81,12 +82,15 @@ async function testAddMoviesDailyReport(report, success) {
 }
 function testMoviesDailyReportResult(result, report) {
   expect(result.date).toEqual(report.date);
-  expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
-  expect(result.movieId).toBe(report.movieId);
-  expect(result.theater).toBe(report.theater);
+  expect(result.name).toBe(report.name);
+  expect(result.location).toBe(report.location);
+  expect(result.numOfTicketsAssigned).toBe(report.numOfTicketsAssigned);
   expect(result.numOfTicketsSales).toBe(report.numOfTicketsSales);
-  expect(result.numOfUsedTickets).toBe(report.numOfUsedTickets);
-  expect(result.wasAirConditionGlitches).toBe(report.wasAirConditionGlitches);
+  expect(result.totalSalesIncomes).toBe(report.totalSalesIncomes);
+  expect(result.totalTicketsReturns).toBe(report.totalTicketsReturns);
+  expect(result.totalFees).toBe(report.totalFees);
+  expect(result.totalRevenuesWithoutCash).toBe(report.totalRevenuesWithoutCash);
+  expect(result.totalCashIncomes).toBe(report.totalCashIncomes);
 }
 
 async function testAddGeneralPurposeDailyReport(report, success) {
@@ -460,13 +464,16 @@ async function addGeneralPurposeDailyReport(isTest) {
 exports.addGeneralPurposeDailyReport = addGeneralPurposeDailyReport;
 async function addMoviesDailyReport(isTest) {
   let report = {
-    date: getSyncDateFormat(new Date("2020-03-02 00:00:00")),
-    creatorEmployeeId: 0,
-    movieId: 0,
-    theater: 4,
-    numOfTicketsSales: 30,
-    numOfUsedTickets: 25,
-    wasAirConditionGlitches: false,
+    date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
+    name: "סרט",
+    location: "אולם 6",
+    numOfTicketsSales: 7,
+    numOfTicketsAssigned: 8,
+    totalSalesIncomes: 500,
+    totalTicketsReturns: 0,
+    totalFees: 1.2,
+    totalRevenuesWithoutCash: 500,
+    totalCashIncomes: 400,
   };
   await addMoviesReport(report);
   if (isTest) await testAddMoviesDailyReport(report, false);

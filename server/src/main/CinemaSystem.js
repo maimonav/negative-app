@@ -5,6 +5,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
+const moment = require("moment");
 
 class CinemaSystem {
   constructor() {
@@ -34,7 +35,11 @@ class CinemaSystem {
       },
       incomes_daily_report: async (record) =>
         this.employeeAndDateConversion(record),
-      movies_daily_report: async (record) => record,
+      movies_daily_report: async (record) => {
+        record.date = moment(record.date).format("lll");
+        console.log(record.date);
+        return record;
+      },
     };
     this.toDBConversionMethods = {
       inventory_daily_report: async (records) => {
@@ -1010,6 +1015,8 @@ class CinemaSystem {
     );
     if (result != null) return result;
     result = await ReportController.getReport(type, date);
+    console.log(result);
+
     if (typeof result !== "string")
       for (let i in result)
         result[i] = await this.toUserConversionMethods[type](

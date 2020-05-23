@@ -8,51 +8,52 @@ import {
   incomesColumns,
   inventoryColumns,
   generalColumns,
-  reportsTypesObj,
+  moviesColumns,
+  reportsTypesObj
 } from "../../consts/data";
 import { AutoSizer, Column, Table } from "react-virtualized";
 
-const styles = (theme) => ({
+const styles = theme => ({
   flexContainer: {
     display: "flex",
     alignItems: "center",
-    boxSizing: "border-box",
+    boxSizing: "border-box"
   },
   table: {
     // temporary right-to-left patch, waiting for
     // https://github.com/bvaughn/react-virtualized/issues/454
     "& .ReactVirtualized__Table__headerRow": {
       flip: false,
-      paddingRight: theme.direction === "rtl" ? "0px !important" : undefined,
-    },
+      paddingRight: theme.direction === "rtl" ? "0px !important" : undefined
+    }
   },
   tableRow: {
-    cursor: "pointer",
+    cursor: "pointer"
   },
   tableRowHover: {
     "&:hover": {
-      backgroundColor: theme.palette.grey[200],
-    },
+      backgroundColor: theme.palette.grey[200]
+    }
   },
   tableCell: {
-    flex: 1,
+    flex: 1
   },
   noClick: {
-    cursor: "initial",
-  },
+    cursor: "initial"
+  }
 });
 
 class ReportTable extends React.PureComponent {
   static defaultProps = {
     headerHeight: 48,
-    rowHeight: 48,
+    rowHeight: 48
   };
 
   getRowClassName = ({ index }) => {
     const { classes, onRowClick } = this.props;
 
     return clsx(classes.tableRow, classes.flexContainer, {
-      [classes.tableRowHover]: index !== -1 && onRowClick != null,
+      [classes.tableRowHover]: index !== -1 && onRowClick != null
     });
   };
 
@@ -62,7 +63,7 @@ class ReportTable extends React.PureComponent {
       <TableCell
         component="div"
         className={clsx(classes.tableCell, classes.flexContainer, {
-          [classes.noClick]: onRowClick == null,
+          [classes.noClick]: onRowClick == null
         })}
         variant="body"
         style={{ height: rowHeight }}
@@ -113,7 +114,7 @@ class ReportTable extends React.PureComponent {
             width={width}
             rowHeight={rowHeight}
             gridStyle={{
-              direction: "inherit",
+              direction: "inherit"
             }}
             headerHeight={headerHeight}
             className={classes.table}
@@ -124,10 +125,10 @@ class ReportTable extends React.PureComponent {
               return (
                 <Column
                   key={dataKey}
-                  headerRenderer={(headerProps) =>
+                  headerRenderer={headerProps =>
                     this.headerRenderer({
                       ...headerProps,
-                      columnIndex: index,
+                      columnIndex: index
                     })
                   }
                   className={classes.flexContainer}
@@ -151,12 +152,12 @@ ReportTable.propTypes = {
       dataKey: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       numeric: PropTypes.bool,
-      width: PropTypes.number.isRequired,
+      width: PropTypes.number.isRequired
     })
   ).isRequired,
   headerHeight: PropTypes.number,
   onRowClick: PropTypes.func,
-  rowHeight: PropTypes.number,
+  rowHeight: PropTypes.number
 };
 
 const VirtualizedTable = withStyles(styles)(ReportTable);
@@ -165,14 +166,14 @@ const defaultColumns = {
   inventory_daily_report: inventoryColumns,
   general_purpose_daily_report: generalColumns,
   incomes_daily_report: incomesColumns,
-  movies_daily_report: [],
+  movies_daily_report: moviesColumns
 };
 
 const addColumn = (column, columns) =>
   columns.push({
     width: 150,
     label: column,
-    dataKey: column,
+    dataKey: column
   });
 
 export default function ReactVirtualizedTable(props) {
@@ -181,13 +182,13 @@ export default function ReactVirtualizedTable(props) {
   if (props.reportType === reportsTypesObj.General) {
     let additionalColumns = [];
     const propsObj = data && data[0] && data[0].propsObject;
-    const additionalProps = Object.keys(propsObj);
+    const additionalProps = propsObj && Object.keys(propsObj);
     if (
       additionalProps &&
       additionalProps.length > 0 &&
       props.reportType === reportsTypesObj.General
     ) {
-      additionalProps.forEach((prop) => addColumn(prop, additionalColumns));
+      additionalProps.forEach(prop => addColumn(prop, additionalColumns));
       columns = [...columns, ...additionalColumns];
     }
   }
