@@ -215,7 +215,7 @@ function msgProcessor(data) {
   let downloadUrl = extractHref(parsedMessage.textHtml);
   download(downloadUrl).then(
     setTimeout(() => {
-      CsvToJson();
+      csvToJson();
     }, 90000)
   );
 }
@@ -263,7 +263,7 @@ function getValueFormatByType(value) {
   return String(value);
 }
 
-function CsvToJson() {
+function csvToJson() {
   if (!reportPath) {
     throw new Error("inputFileName is not defined!!!");
   }
@@ -371,5 +371,5 @@ module.exports = {
   eventbuzzScript,
   downlowdReportMainFlow,
   json_ans,
-  CsvToJson,
+  csvToJson: csvToJson,
 };

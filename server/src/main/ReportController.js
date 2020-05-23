@@ -3,18 +3,35 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
-const { CsvToJson } = require("./EventBuzzScript");
+const moment = require("moment");
+const { csvToJson } = require("./EventBuzzScript");
 
 class ReportController {
   static _types = {
     INCOMES: "incomes_daily_report",
     INVENTORY: "inventory_daily_report",
     GENERAL: "general_purpose_daily_report",
-    //MOVIES: "movies_daily_report",
+    MOVIES: "movies_daily_report",
   };
   static _allGeneralDailyReportFormat;
   static _currentGeneralDailyReportFormat;
-  static _MovieReportJson = CsvToJson();
+  static _MovieReportJson = csvToJson();
+
+  static async createMovieReport() {
+    let record = this._MovieReportJson[0];
+    return await DataBase.singleAdd(this._types.MOVIES, {
+      date: moment(record.date, "YYYY-MM-DD").toDate(),
+      name: record.name,
+      location: record.location,
+      numOfTicketsSales: record.numberOfTicketsSales,
+      numOfTicketsAssigned: record.numberOfTicketsAssigned,
+      totalSalesIncomes: record.totalSalesIncomes,
+      totalTicketsReturns: record.totalTicketsReturns,
+      totalFees: record.totalFees,
+      totalRevenuesWithoutCash: record.totalRevenuesWithoutCash,
+      totalCashIncomes: record.totalCashIncomes,
+    });
+  }
 
   static async getAllGeneralDailyReportFormat(calledFunctionName) {
     if (!this._allGeneralDailyReportFormat)
@@ -165,7 +182,7 @@ class ReportController {
           logger.writeToLog(
             "info",
             "ReportController",
-            "getReport",
+            "createDailyReport",
             "daily report already exists in this date " + records[i].date
           );
           return "Cannot add this report - daily report already exists in this date";
@@ -216,6 +233,22 @@ class ReportController {
       );
       return "The requested report date is invalid";
     }
+    //TO DO : to remove
+    if (type === this._types.MOVIES)
+      return [
+        {
+          date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
+          name: "סרט",
+          location: "אולם 6",
+          numOfTicketsSales: 7,
+          numOfTicketsAssigned: 8,
+          totalSalesIncomes: 500,
+          totalTicketsReturns: 0,
+          totalFees: 1.2,
+          totalRevenuesWithoutCash: 500,
+          totalCashIncomes: 400,
+        },
+      ];
     let result = await DataBase.singleFindAll(
       type,
       {

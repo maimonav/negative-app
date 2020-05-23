@@ -1,6 +1,6 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
-const { testMovie } = require("../DBtests/ProductsTests.spec");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
+const ReportController = require("../../../server/src/main/ReportController");
 
 const {
   getSyncDateFormat,
@@ -325,5 +325,11 @@ describe("Report Operations Tests", function() {
       let report = result[i].content;
       testFunctions[i](report[0], reportsAfter[i]);
     }
+  }, 6000);
+
+  it("createMovieReport - ReportController", async (done) => {
+    setTimeout(done, 5000);
+    let result = await ReportController.createMovieReport();
+    console.log();
   }, 6000);
 });
