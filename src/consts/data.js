@@ -119,7 +119,7 @@ export const generalColumns = [
 
 export const moviesColumns = [
   {
-    width: 150,
+    width: 200,
     label: "Date",
     dataKey: "date"
   },
