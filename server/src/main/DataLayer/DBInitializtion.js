@@ -156,7 +156,7 @@ async function initDB(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",
@@ -222,7 +222,7 @@ async function initDB(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",
@@ -284,7 +284,7 @@ async function connectAndCreate(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",

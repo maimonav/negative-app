@@ -2,7 +2,6 @@ const moment = require("moment");
 const { addEmployee } = require("./OrdersTests.spec");
 const {
   addCategory,
-  addMovieAfterCategory,
   addProductAfterCategory,
 } = require("./ProductsTests.spec");
 const DB = require("../../../server/src/main/DataLayer/DBManager");
@@ -313,17 +312,17 @@ describe("DB Test - reports", function() {
 
   it("update movies daily reports", async function() {
     let report = {
-      date: getSyncDateFormat(new Date("2020-03-02 00:00:00")),
-      creatorEmployeeId: 1,
-      movieId: 0,
-      theater: 5,
-      numOfTicketsSales: 31,
-      numOfUsedTickets: 26,
-      wasAirConditionGlitches: true,
+      date: moment("08.11.2018 21:00", "YYYY-MM-DD").toDate(),
+      name: "2סרט",
+      location: "אולם 8",
+      numOfTicketsSales: "9",
+      numOfTicketsAssigned: "9",
+      totalSalesIncomes: "9",
+      totalTicketsReturns: "0",
+      totalFees: "1",
+      totalRevenuesWithoutCash: "900",
+      totalCashIncomes: "900",
     };
-    await addCategory(0, "fantasy");
-    await addMovieAfterCategory();
-    await addEmployee(1, "MANAGER");
     await updateMoviesDailyReport(report);
     await testUpdateMoviesDailyReport(report);
   });
@@ -378,21 +377,21 @@ describe("DB Test - reports", function() {
   });
 
   it("remove movies daily reports", async function() {
-    let date = getSyncDateFormat(new Date("2020-03-02 00:00:00"));
+    let date = moment("08.11.2018 21:30", "YYYY-MM-DD").toDate();
 
     let report = {
-      date: date,
-      creatorEmployeeId: 0,
-      movieId: 0,
-      theater: 4,
-      numOfTicketsSales: 30,
-      numOfUsedTickets: 25,
-      wasAirConditionGlitches: false,
+      date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
+      name: "סרט",
+      location: "אולם 6",
+      numOfTicketsSales: "7",
+      numOfTicketsAssigned: "8",
+      totalSalesIncomes: "500",
+      totalTicketsReturns: "0",
+      totalFees: "1.2",
+      totalRevenuesWithoutCash: "500",
+      totalCashIncomes: "400",
     };
     let where = { date };
-    await addCategory(0, "fantasy");
-    await addMovieAfterCategory();
-    await addEmployee(1, "MANAGER");
     await removeMoviesDailyReport(report, where);
     await testRemoveMoviesDailyReport(where);
   });
@@ -467,21 +466,14 @@ async function addMoviesDailyReport(isTest) {
     date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
     name: "סרט",
     location: "אולם 6",
-    numOfTicketsSales: 7,
-    numOfTicketsAssigned: 8,
-    totalSalesIncomes: 500,
-    totalTicketsReturns: 0,
-    totalFees: 1.2,
-    totalRevenuesWithoutCash: 500,
-    totalCashIncomes: 400,
+    numOfTicketsSales: "7",
+    numOfTicketsAssigned: "8",
+    totalSalesIncomes: "500",
+    totalTicketsReturns: "0",
+    totalFees: "1.2",
+    totalRevenuesWithoutCash: "500",
+    totalCashIncomes: "400",
   };
-  await addMoviesReport(report);
-  if (isTest) await testAddMoviesDailyReport(report, false);
-  await addCategory(0, "fantasy");
-  await addMovieAfterCategory();
-  await addMoviesReport(report);
-  if (isTest) await testAddMoviesDailyReport(report, false);
-  await addEmployee(0, "MANAGER");
   await addMoviesReport(report);
   if (isTest) await testAddMoviesDailyReport(report, true);
 }

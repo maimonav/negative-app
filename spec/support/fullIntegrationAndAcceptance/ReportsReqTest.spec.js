@@ -1,7 +1,6 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const ReportController = require("../../../server/src/main/ReportController");
-const moment = require("moment");
 
 const {
   getSyncDateFormat,

@@ -20,7 +20,7 @@ class ReportController {
   static async createMovieReport() {
     let record = this._MovieReportJson[0];
     return await DataBase.singleAdd(this._types.MOVIES, {
-      date: moment(record.date, "YYYY-MM-DD").toDate(),
+      date: moment(record.date, "DD-MM-YYYY HH:mm").toDate(),
       name: record.name,
       location: record.location,
       numOfTicketsSales: record.numberOfTicketsSales,
@@ -237,16 +237,16 @@ class ReportController {
     if (type === this._types.MOVIES)
       return [
         {
-          date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
-          name: "סרט",
-          location: "אולם 6",
-          numOfTicketsSales: 7,
-          numOfTicketsAssigned: 8,
-          totalSalesIncomes: 500,
-          totalTicketsReturns: 0,
-          totalFees: 1.2,
-          totalRevenuesWithoutCash: 500,
-          totalCashIncomes: 400,
+          date: moment(new Date().toISOString(), "DD-MM-YYYY HH:mm").toDate(),
+          name: "",
+          location: "",
+          numOfTicketsSales: "",
+          numOfTicketsAssigned: "",
+          totalSalesIncomes: "",
+          totalTicketsReturns: "",
+          totalFees: "",
+          totalRevenuesWithoutCash: "",
+          totalCashIncomes: "",
         },
       ];
     let result = await DataBase.singleFindAll(
