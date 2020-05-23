@@ -15,30 +15,12 @@ socket.addEventListener("open", function(event) {
   socket.send("Hello Server!");
 });
 
-// Listen for messages
-// socket.addEventListener("message", function(event) {
-//   let msg = JSON.parse(event.data);
-//   console.log("Message from server:\n", msg);
-// });
-
-/*
-msg:
-0:
-content: Array(1)
-0: {name: "milk", quantity: 10, minQuantity: 20}
-length: 1
-__proto__: Array(0)
-subtype: "LOW QUANTITY"
-timeFired: "2020-05-19T14:57:06.488Z"
-type: "INFO"
-__proto__: Object
-*/
 function getNotificationMessage(type, product, quantity, requiredQuantity) {
   switch (type) {
     case "LOW QUANTITY":
-      return `Warning: you have low quantity in ${product}, required: ${requiredQuantity}, got ${quantity}`;
+      return `Warning: you have low quantity in product ${product}, required: ${requiredQuantity}, got ${quantity}`;
     case "HIGH QUANTITY":
-      return `Warning: you have high quantity in ${product}, required: ${requiredQuantity}, got ${quantity}`;
+      return `Warning: you have high quantity in product ${product}, required: ${requiredQuantity}, got ${quantity}`;
     default:
       return "";
   }
@@ -51,6 +33,7 @@ export default class NotificationHandler extends React.Component {
       notifications: [],
       view: false,
       newNotifications: 0,
+      changeColor: false,
     };
   }
 
@@ -73,9 +56,16 @@ export default class NotificationHandler extends React.Component {
       );
       this.setState(
         {
-          notifications: [...this.state.notifications, notificationMessage],
+          notifications: [
+            { name: notificationMessage, hasUserView: false },
+            ...this.state.notifications,
+          ],
         },
-        () => this.setState({ newNotifications: message[0].content.length })
+        () =>
+          this.setState({
+            newNotifications:
+              this.state.newNotifications + message[0].content.length,
+          })
       );
       console.log(message);
     };
@@ -98,7 +88,12 @@ export default class NotificationHandler extends React.Component {
   };
 
   handleOnExited = () => {
-    this.setState({ view: false, newNotifications: 0 });
+    const { notifications } = this.state;
+    for (let i in notifications) {
+      let notification = notifications[i];
+      notification.hasUserView = true;
+    }
+    this.setState({ view: false, newNotifications: 0, notifications });
   };
 
   render() {
@@ -132,8 +127,13 @@ export default class NotificationHandler extends React.Component {
               }}
             >
               {notifications.map((notification) => (
-                <Box p={2}>
-                  <Typography color="primary">{notification}</Typography>
+                <Box
+                  bgcolor={
+                    notification.hasUserView ? "text.disabled" : "info.main"
+                  }
+                  p={2}
+                >
+                  <Typography>{notification.name}</Typography>
                 </Box>
               ))}
             </Popover>
