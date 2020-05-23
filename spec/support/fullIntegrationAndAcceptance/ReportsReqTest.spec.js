@@ -1,6 +1,7 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const ReportController = require("../../../server/src/main/ReportController");
+const moment = require("moment");
 
 const {
   getSyncDateFormat,
@@ -327,9 +328,10 @@ describe("Report Operations Tests", function() {
     }
   }, 6000);
 
-  it("createMovieReport - ReportController", async (done) => {
+  it("Movies Report Event Buzz - create and get from DB", async (done) => {
     setTimeout(done, 5000);
     let result = await ReportController.createMovieReport();
+    result = await ReportController.getReport("movies_daily_report");
     console.log();
   }, 6000);
 });
