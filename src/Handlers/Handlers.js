@@ -872,3 +872,12 @@ export function HandleRemoveFieldToGeneralDailyReport(field) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
+
+export function HandleGetFullDailyReport(date, user) {
+  console.log(date);
+  return fetch(
+    `/api/getFullDailyReport?date=${encodeURIComponent(
+      date
+    )}&user=${encodeURIComponent(user)}`
+  );
+}

@@ -98,13 +98,10 @@ export default class CreateDailyReport extends React.Component {
 
   createGeneralReport = () => {
     const { generalContent } = this.state;
-    if (generalContent)
-      return {
-        type: reportsTypesObj.General,
-        content: [generalContent]
-      };
-
-    return null;
+    return {
+      type: reportsTypesObj.General,
+      content: [generalContent || {}]
+    };
   };
 
   createReport = () => {
