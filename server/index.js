@@ -7,6 +7,7 @@ const ServiceLayer = require("./src/main/ServiceLayer");
 const NotificationController = require("./src/main/NotificationController");
 const service = new ServiceLayer();
 const app = express();
+var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
 //NotificationController.initServerSocket(server);
 const serverSocket = new WebSocket.Server({ server });
@@ -25,7 +26,9 @@ app.get("/api/isLoggedIn", (req, res) => {
 
 app.get("/api/login", (req, res) => {
   const username = (req.query.username && req.query.username.trim()) || "";
-  const password = (req.query.password && req.query.password.trim()) || "";
+  let password = (req.query.password && req.query.password.trim()) || "";
+  const bytes = CryptoJS.AES.decrypt(password, "Password");
+  password = bytes.toString(CryptoJS.enc.Utf8);
   const result = service.login(username, password);
   if (typeof result !== "string") {
     let userId = service.users.get(username);
@@ -356,7 +359,7 @@ app.get("/api/getMovies", (req, res) => {
 
 app.get("/api/getCategories", (req, res) => {
   const result = service.getCategories();
-  result.map((category) => console.log(category));
+  result.map(category => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
