@@ -54,7 +54,12 @@ export default function TablPanel(props) {
           {props.isLogged && (
             <Tab
               style={{ marginLeft: "auto", paddingLeft: "105px" }}
-              label={<NotificationHandler />}
+              label={
+                <NotificationHandler
+                  messageType={props.messageType}
+                  messageContent={props.messageContent}
+                />
+              }
               data-hook={notificationTabHook}
             />
           )}

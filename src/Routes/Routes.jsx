@@ -16,6 +16,7 @@ import {
   createDailyReportPath,
   manageOrdersPath,
   manageMoviesOrdersPath,
+  errorPagePath,
 } from "../consts/paths";
 
 import {
@@ -56,6 +57,7 @@ export default function Routes(props) {
       {props.isLogged && (
         <Route path={manageEmployeesPath} component={ManageEmployees} />
       )}
+      {/* {<Route path={errorPagePath} component={errorPage} />} */}
       {props.isLogged && (
         <Route path={manageSuppliersPath} component={ManageSuppliers} />
       )}
