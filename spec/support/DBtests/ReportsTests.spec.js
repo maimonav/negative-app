@@ -79,6 +79,8 @@ async function testAddMoviesDailyReport(report, success) {
     });
   }
 }
+exports.testAddMoviesDailyReport = testAddMoviesDailyReport;
+
 function testMoviesDailyReportResult(result, report) {
   expect(result.date).toEqual(report.date);
   expect(result.name).toBe(report.name);
@@ -91,6 +93,7 @@ function testMoviesDailyReportResult(result, report) {
   expect(result.totalRevenuesWithoutCash).toBe(report.totalRevenuesWithoutCash);
   expect(result.totalCashIncomes).toBe(report.totalCashIncomes);
 }
+exports.testMoviesDailyReportResult = testMoviesDailyReportResult;
 
 async function testAddGeneralPurposeDailyReport(report, success) {
   if (success)
@@ -463,7 +466,7 @@ async function addGeneralPurposeDailyReport(isTest) {
 exports.addGeneralPurposeDailyReport = addGeneralPurposeDailyReport;
 async function addMoviesDailyReport(isTest) {
   let report = {
-    date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
+    date: moment("08.11.2018 21:30", "YYYY-MM-DD hh:mm").toDate(),
     name: "סרט",
     location: "אולם 6",
     numOfTicketsSales: "7",

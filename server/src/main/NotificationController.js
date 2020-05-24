@@ -184,6 +184,18 @@ class NotificationController {
     );
   }
 
+  static async getSeenNotifications(userId) {
+    let result = await DataBase.singleFindAll("notification", {
+      recipientUserId: userId,
+      seen: true,
+    });
+    result = result.map((notification) => {
+      notification.content.timeFired = notification.timeFired;
+      return notification.content;
+    });
+    return result;
+  }
+
   static async _notify(usersList, subtype, content) {
     let timeFired = new Date();
     let notificationContent = {

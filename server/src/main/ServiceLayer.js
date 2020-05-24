@@ -1926,6 +1926,12 @@ class ServiceLayer {
     );
   }
 
+  async getSeenNotifications(ActionIDofTheOperation) {
+    return NotificationController.getSeenNotifications(
+      this.users.get(ActionIDofTheOperation)
+    );
+  }
+
   getProductsAndQuantityByOrder(orderName, ActionIDofTheOperation) {
     if (
       typeof ActionIDofTheOperation !== "undefined" &&

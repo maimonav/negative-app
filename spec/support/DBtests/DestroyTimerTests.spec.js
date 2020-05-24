@@ -4,6 +4,7 @@ const {
   removeEmployee,
 } = require("./UserEmployeeTests.spec");
 const { addNotificationAfterUser } = require("./NotificationTests.spec");
+const moment = require("moment");
 
 const {
   addIncomesDailyReport,
@@ -72,7 +73,7 @@ describe("DB Test - destroy timer", function() {
       "movies_daily_report",
       "movies_daily_reports",
       true,
-      { date: getSyncDateFormat(new Date("2020-03-02 00:00:00")) },
+      { date: moment("08.11.2018 21:30", "YYYY-MM-DD hh:mm").toDate() },
       6000,
       done
     );

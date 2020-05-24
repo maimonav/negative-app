@@ -4,6 +4,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
+const Sequelize = require("sequelize");
 const { csvToJson } = require("./EventBuzzScript");
 
 class ReportController {
@@ -17,20 +18,44 @@ class ReportController {
   static _currentGeneralDailyReportFormat;
   static _MovieReportJson = csvToJson();
 
-  static async createMovieReport() {
-    let record = this._MovieReportJson[0];
-    return await DataBase.singleAdd(this._types.MOVIES, {
-      date: moment(record.date, "DD-MM-YYYY HH:mm").toDate(),
-      name: record.name,
-      location: record.location,
-      numOfTicketsSales: record.numberOfTicketsSales,
-      numOfTicketsAssigned: record.numberOfTicketsAssigned,
-      totalSalesIncomes: record.totalSalesIncomes,
-      totalTicketsReturns: record.totalTicketsReturns,
-      totalFees: record.totalFees,
-      totalRevenuesWithoutCash: record.totalRevenuesWithoutCash,
-      totalCashIncomes: record.totalCashIncomes,
-    });
+  /**
+   * add movies report records to db
+   * @param {Array(Object)} report list of records to add to movies report
+   * @returns {Promise(void|string)} void in success or string in failure
+   */
+  static async createMovieReport(report) {
+    let recordsToAdd = [];
+    for (let i in report) {
+      let record = report[i];
+      recordsToAdd = recordsToAdd.concat({
+        name: DataBase._add,
+        model: this._types.MOVIES,
+        params: {
+          element: {
+            date: moment(record.date, "DD-MM-YYYY HH:mm").toDate(),
+            name: record.name,
+            location: record.location,
+            numOfTicketsSales: record.numberOfTicketsSales,
+            numOfTicketsAssigned: record.numberOfTicketsAssigned,
+            totalSalesIncomes: record.totalSalesIncomes,
+            totalTicketsReturns: record.totalTicketsReturns,
+            totalFees: record.totalFees,
+            totalRevenuesWithoutCash: record.totalRevenuesWithoutCash,
+            totalCashIncomes: record.totalCashIncomes,
+          },
+        },
+      });
+    }
+    let result = await DataBase.executeActions(recordsToAdd);
+    if (typeof result === "string") {
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "createMovieReport",
+        result
+      );
+      return "The report cannot be added\n" + result;
+    }
   }
 
   static async getAllGeneralDailyReportFormat(calledFunctionName) {
@@ -237,41 +262,42 @@ class ReportController {
     if (type === this._types.MOVIES)
       return [
         {
-<<<<<<< HEAD
-          date: moment(new Date().toISOString(), "DD-MM-YYYY HH:mm").toDate(),
-          name: "",
-          location: "",
-          numOfTicketsSales: "",
-          numOfTicketsAssigned: "",
-          totalSalesIncomes: "",
-          totalTicketsReturns: "",
-          totalFees: "",
-          totalRevenuesWithoutCash: "",
-          totalCashIncomes: "",
-=======
           dataValues: {
-            date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
-            name: "סרט",
-            location: "אולם 6",
-            numOfTicketsSales: 7,
-            numOfTicketsAssigned: 8,
-            totalSalesIncomes: 500,
-            totalTicketsReturns: 0,
-            totalFees: 1.2,
-            totalRevenuesWithoutCash: 500,
-            totalCashIncomes: 400,
+            date: new Date(),
+            name: "",
+            location: "",
+            numOfTicketsSales: "",
+            numOfTicketsAssigned: "",
+            totalSalesIncomes: "",
+            totalTicketsReturns: "",
+            totalFees: "",
+            totalRevenuesWithoutCash: "",
+            totalCashIncomes: "",
           },
->>>>>>> master
         },
       ];
-    let result = await DataBase.singleFindAll(
-      type,
-      {
-        date: new Date(this._getSyncDateFormat(new Date(date))),
-      },
-      undefined,
-      [["date", "ASC"]]
+    let requestedDateMidnight = new Date(
+      this._getSyncDateFormat(new Date(date))
     );
+    let requestedDateTomorrowMidnight = new Date(
+      this._getSyncDateFormat(new Date(date.setDate(date.getDate() + 1)))
+    );
+    let where =
+      type === this._types.MOVIES
+        ? {
+            date: {
+              [Sequelize.Op.between]: [
+                requestedDateMidnight,
+                requestedDateTomorrowMidnight,
+              ],
+            },
+          }
+        : {
+            date: requestedDateMidnight,
+          };
+    let result = await DataBase.singleFindAll(type, where, undefined, [
+      ["date", "ASC"],
+    ]);
     if (typeof result === "string") {
       DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
