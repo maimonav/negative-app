@@ -262,7 +262,6 @@ class ReportController {
     if (type === this._types.MOVIES)
       return [
         {
-<<<<<<< HEAD
           dataValues: {
             date: new Date(),
             name: "",
@@ -275,18 +274,6 @@ class ReportController {
             totalRevenuesWithoutCash: "",
             totalCashIncomes: "",
           },
-=======
-          date: moment(new Date().toISOString(), "DD-MM-YYYY HH:mm").toDate(),
-          name: "",
-          location: "",
-          numOfTicketsSales: "",
-          numOfTicketsAssigned: "",
-          totalSalesIncomes: "",
-          totalTicketsReturns: "",
-          totalFees: "",
-          totalRevenuesWithoutCash: "",
-          totalCashIncomes: "",
->>>>>>> master
         },
       ];
     let requestedDateMidnight = new Date(
