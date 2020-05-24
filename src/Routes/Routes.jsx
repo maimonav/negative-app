@@ -41,11 +41,13 @@ import {
   ManageCategories,
   ManageOrders,
   ManageMoviesOrders,
+  ErrorPage,
 } from "../Views/index";
 
 export default function Routes(props) {
   return (
     <Switch>
+      {<Route path={errorPagePath} component={ErrorPage} />}
       {!props.isLogged && (
         <Route
           path={loginPath}
@@ -57,7 +59,6 @@ export default function Routes(props) {
       {props.isLogged && (
         <Route path={manageEmployeesPath} component={ManageEmployees} />
       )}
-      {/* {<Route path={errorPagePath} component={errorPage} />} */}
       {props.isLogged && (
         <Route path={manageSuppliersPath} component={ManageSuppliers} />
       )}

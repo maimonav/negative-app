@@ -40,6 +40,7 @@ import EditMovieOrder from "./InventoryActions/MoviesOrders/EditMovieOrder";
 import ShowMovieOrders from "./InventoryActions/MoviesOrders/ShowMovieOrder";
 import ConfirmMovieOrder from "./InventoryActions/MoviesOrders/ConfirmMovieOrder";
 import NotificationHandler from "../Components/NotificationHandler";
+import ErrorPage from "../Components/ErrorPage";
 
 export {
   Login,
@@ -84,4 +85,5 @@ export {
   ShowMovieOrders,
   ConfirmMovieOrder,
   NotificationHandler,
+  ErrorPage,
 };

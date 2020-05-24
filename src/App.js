@@ -1,16 +1,8 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
-import { Login } from "./Views";
+import { Login, ErrorPage } from "./Views";
 import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
-import { errorPagePath } from "./consts/paths";
-import { Link } from "react-router-dom";
-/*
-0:
-content: [{…}]
-subtype: "LOW QUANTITY"
-timeFired: "2020-05-24T10:27:30.023Z"
-type: "INFO"
- */
+
 export const socket = new WebSocket("ws://localhost:3001");
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +10,7 @@ class App extends React.Component {
     this.state = {
       messageType: "",
       messageContent: "",
+      messageError: "",
     };
     this.setInitialState();
   }
@@ -43,8 +36,11 @@ class App extends React.Component {
 
     socket.onmessage = (evt) => {
       const message = JSON.parse(evt.data);
+      console.log("message:", message);
       if (message[0].type === "INFO") {
         this.setState({ messageType: "INFO", messageContent: message });
+      } else if (message[0].type === "ERROR") {
+        this.setState({ messageType: "ERROR", messageError: message });
       }
       console.log(message);
     };
@@ -83,9 +79,10 @@ class App extends React.Component {
   };
 
   render() {
-    // if (isError()) {
-    //   return <Link to={errorPagePath}></Link>;
-    // }
+    const { messageType } = this.state;
+    if (messageType === "ERROR") {
+      return <ErrorPage />;
+    }
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
     } else {
