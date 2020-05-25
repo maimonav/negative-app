@@ -73,7 +73,12 @@ class DataBase {
       await this.sequelize.close();
     } catch (error) {
       let errId = uniqid();
-      DBlogger.writeToLog("error", "DBManager", "close", errId + " - " + error);
+      DBlogger.writeToLog(
+        "error",
+        "DBManager",
+        "close",
+        errId + " - " + JSON.stringify(error) + error.toString()
+      );
       return this._errorHandler(error, errId);
     }
   }
@@ -113,7 +118,14 @@ class DataBase {
         .catch((error) => {
           let errId = uniqid();
           let errMsg =
-            "add" + ", " + model + ", " + action.params + " - " + error;
+            "add" +
+            ", " +
+            model +
+            ", " +
+            JSON.stringify(action.params) +
+            " - " +
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -128,7 +140,7 @@ class DataBase {
         "error",
         "DBManager",
         "executeActions - transaction - ",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }
@@ -203,7 +215,8 @@ class DataBase {
     );
     return DataBase.sequelize.query(destroyQuery, { t }).catch((error) => {
       let errId = uniqid();
-      let errMsg = destroyQuery + " - " + error;
+      let errMsg =
+        destroyQuery + " - " + JSON.stringify(error) + error.toString();
       DBlogger.writeToLog(
         "error",
         "DBManager",
@@ -230,7 +243,13 @@ class DataBase {
         })
         .catch((error) => {
           let errId = uniqid();
-          let errMsg = modelName + ", " + element + " - " + error;
+          let errMsg =
+            modelName +
+            ", " +
+            JSON.stringify(element) +
+            " - " +
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -245,7 +264,7 @@ class DataBase {
         "error",
         "DBManager",
         "singleAdd - transaction",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }
@@ -268,7 +287,13 @@ class DataBase {
         })
         .catch((error) => {
           let errId = uniqid();
-          let errMsg = modelName + ", " + where + " - " + error;
+          let errMsg =
+            modelName +
+            ", " +
+            JSON.stringify(where) +
+            " - " +
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -283,7 +308,7 @@ class DataBase {
         "error",
         "DBManager",
         "singleGetById- transaction ",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }
@@ -306,7 +331,13 @@ class DataBase {
         })
         .catch((error) => {
           let errId = uniqid();
-          let errMsg = modelName + ", " + where + " - " + error;
+          let errMsg =
+            modelName +
+            ", " +
+            JSON.stringify(where) +
+            " - " +
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -321,7 +352,7 @@ class DataBase {
         "error",
         "DBManager",
         "singleUpdate - transaction",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }
@@ -344,7 +375,13 @@ class DataBase {
         })
         .catch((error) => {
           let errId = uniqid();
-          let errMsg = modelName + ", " + where + " - " + error;
+          let errMsg =
+            modelName +
+            ", " +
+            JSON.stringify(where) +
+            " - " +
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -359,7 +396,7 @@ class DataBase {
         "error",
         "DBManager",
         "singleRemove- transaction",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }
@@ -405,7 +442,14 @@ class DataBase {
         .catch((error) => {
           let errId = uniqid();
           let errMsg =
-            modelName + ", " + where + ", " + attributes + " - " + error;
+            modelName +
+            ", " +
+            JSON.stringify(where) +
+            ", " +
+            JSON.stringify(attributes) +
+            " - " +
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -420,7 +464,7 @@ class DataBase {
         "error",
         "DBManager",
         "singleFindAll - transaction ",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }
@@ -468,7 +512,8 @@ class DataBase {
             ", " +
             prop +
             " - " +
-            error;
+            JSON.stringify(error) +
+            error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",
@@ -483,7 +528,7 @@ class DataBase {
         "error",
         "DBManager",
         "singleSetDestroyTimer - transaction",
-        errId + " - " + error
+        errId + " - " + JSON.stringify(error) + error.toString()
       );
       return this._errorHandler(error, errId);
     }

@@ -82,7 +82,12 @@ export default class EditSupplier extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleEditSupplier(supplierName, contactDetails)
+                    this.state.supplierName && this.state.contactDetails
+                      ? this.props.handleEditSupplier(
+                          supplierName,
+                          contactDetails
+                        )
+                      : alert("All fields are required.")
                   }
                 >
                   Edit Supplier

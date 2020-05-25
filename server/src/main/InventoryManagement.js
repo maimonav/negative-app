@@ -12,7 +12,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 
-class InventoryManagemnt {
+class InventoryManagement {
   constructor() {
     this.products = new Map();
     this.orders = new Map();
@@ -44,7 +44,7 @@ class InventoryManagemnt {
     let movie = new Movie(movieId, name, categoryId);
     let result = await movie.initMovie();
     if (typeof result === "string") {
-      DBlogger.writeToLog("info", "InventoryManagemnt ", "addMovie", result);
+      DBlogger.writeToLog("info", "InventoryManagement ", "addMovie", result);
       return "The movie cannot be added\n" + result;
     }
     this.products.set(movieId, movie);
@@ -313,11 +313,11 @@ class InventoryManagemnt {
     return "The order removed successfully";
   }
   /**
-   * Add new order of cafetria products to the system
+   * Add new order of cafeteria products to the system
    * @param {number} orderId unique identifier
    * @param {string} strDate Date the order was performed
    * @param {number} supplierId Order supplier's ID
-   * @param {Array(Object)} productsList List of cafetria products in the order
+   * @param {Array(Object)} productsList List of cafeteria products in the order
    * @param {number} creatorEmployeeId Id of the employee performed the action
    * @returns {Promise(string)} Success or failure string
    **/
@@ -403,7 +403,7 @@ class InventoryManagemnt {
     if (typeof result === "string") {
       DBlogger.writeToLog(
         "info",
-        "InventoryManagemnt ",
+        "InventoryManagement ",
         "addCafeteriaOrder",
         result
       );
@@ -434,9 +434,9 @@ class InventoryManagemnt {
       this.writeToLog(
         "info",
         "editOrder",
-        "Order " + orderId + " does not exsits."
+        "Order " + orderId + " does not exist."
       );
-      return "Order " + orderId + " does not exsits.";
+      return "Order " + orderId + " does not exist.";
     }
     return this.orders.get(orderId).editOrder(date, supplierId, productsList);
   }
@@ -452,9 +452,9 @@ class InventoryManagemnt {
       this.writeToLog(
         "info",
         "confirmOrder",
-        "Order " + orderId + " does not exsits."
+        "Order " + orderId + " does not exist."
       );
-      return "Order " + orderId + " does not exsits.";
+      return "Order " + orderId + " does not exist.";
     }
     let result = await this.orders
       .get(orderId)
@@ -637,17 +637,17 @@ class InventoryManagemnt {
       this.writeToLog(
         "info",
         "editCafeteriaProduct",
-        "Price must be graeter or equal to 0"
+        "Price must be greater or equal to 0"
       );
-      return "Price must be graeter or equal to 0";
+      return "Price must be greater or equal to 0";
     }
     if (typeof quantity === "number" && !isNaN(quantity) && quantity < 0) {
       this.writeToLog(
         "info",
         "editCafeteriaProduct",
-        "quantity must be graeter or equal to 0"
+        "quantity must be greater or equal to 0"
       );
-      return "Quantity must be graeter or equal to 0";
+      return "Quantity must be greater or equal to 0";
     }
     if (
       typeof maxQuantity === "number" &&
@@ -657,9 +657,9 @@ class InventoryManagemnt {
       this.writeToLog(
         "info",
         "editCafeteriaProduct",
-        "maxQuantity must be graeter or equal to 0"
+        "maxQuantity must be greater or equal to 0"
       );
-      return "maxQuantity must be graeter or equal to 0";
+      return "maxQuantity must be greater or equal to 0";
     }
     if (
       typeof minQuantity === "number" &&
@@ -669,9 +669,9 @@ class InventoryManagemnt {
       this.writeToLog(
         "info",
         "editCafeteriaProduct",
-        "maxQuantity must be graeter or equal to 0"
+        "maxQuantity must be greater or equal to 0"
       );
-      return "minQuantity must be graeter or equal to 0";
+      return "minQuantity must be greater or equal to 0";
     }
     if (result === "Product details update successfully completed")
       this.checkAndNotifyLowAndHighQuantity([{ id: productId }]);
@@ -690,9 +690,7 @@ class InventoryManagemnt {
         "removeCafeteriaProduct",
         "This product not exists"
       );
-      {
-        return "This product not exists";
-      }
+      return "This product not exists";
     }
     let result = await this.products.get(productId).removeProduct();
     if (typeof result === "string") {
@@ -872,21 +870,21 @@ class InventoryManagemnt {
     }
     return output;
   }
-  getCategoryDetails(categotyId) {
-    if (!this.categories.has(categotyId)) {
+  getCategoryDetails(categoryId) {
+    if (!this.categories.has(categoryId)) {
       this.writeToLog(
         "info",
         "getCategoryDetails",
-        "The category - " + categotyId + " doesn't exists"
+        "The category - " + categoryId + " doesn't exists"
       );
-      return "The category - " + categotyId + " doesn't exists";
+      return "The category - " + categoryId + " doesn't exists";
     }
     let parent = "The category is root of his tree";
-    if (this.categories.has(this.categories.get(categotyId).parentId))
-      parent = this.categories.get(this.categories.get(categotyId).parentId)
+    if (this.categories.has(this.categories.get(categoryId).parentId))
+      parent = this.categories.get(this.categories.get(categoryId).parentId)
         .name;
     return {
-      categoryName: this.categories.get(categotyId).name,
+      categoryName: this.categories.get(categoryId).name,
       categoryParent: parent,
     };
   }
@@ -963,7 +961,7 @@ class InventoryManagemnt {
       );
       return result;
     }
-    return "The category was successfully updateded";
+    return "The category was successfully updated";
   }
   /**
    * Deleting a category from the system
@@ -1018,7 +1016,7 @@ class InventoryManagemnt {
         }
       }
     });
-    //categories tree arrnge
+    //categories tree arrange
     this.categories.forEach((category) => {
       if (category.parentId === categoryToRemove.id)
         DBActionList.push({
@@ -1117,7 +1115,7 @@ class InventoryManagemnt {
         result.push({
           title: product.movie.name,
           key: "",
-          exeminationRoom: "",
+          examinationRoom: "",
         });
       }
     });
@@ -1145,7 +1143,7 @@ class InventoryManagemnt {
   }
 
   writeToLog(type, functionName, msg) {
-    logger.writeToLog(type, "InventoryManagemnt", functionName, msg);
+    logger.writeToLog(type, "InventoryManagement", functionName, msg);
   }
 }
-module.exports = InventoryManagemnt;
+module.exports = InventoryManagement;

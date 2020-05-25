@@ -14,6 +14,8 @@ import {
 import { userNameHook, contactDetailsHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
+
 export default class ShowEmployee extends React.Component {
   constructor(props) {
     super(props);
@@ -58,10 +60,11 @@ export default class ShowEmployee extends React.Component {
                     setName={this.setUsername}
                     isMultiple={false}
                     data-hook={userNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.userName && this.state.employee && (
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={8}>
                     <TextField
                       id="filled-read-only-input"
                       defaultValue=""
@@ -70,7 +73,8 @@ export default class ShowEmployee extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="filled-read-only-input"
@@ -80,7 +84,8 @@ export default class ShowEmployee extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
 
                     <TextField
@@ -91,7 +96,8 @@ export default class ShowEmployee extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="filled-read-only-input"
@@ -101,7 +107,8 @@ export default class ShowEmployee extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                       data-hook={contactDetailsHook}
                     />
                   </GridItem>

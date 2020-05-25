@@ -11,6 +11,7 @@ class ServiceLayer {
     this.cinemaSystem = new CinemaSystem();
     this.users = new Map();
     this.userCounter = 0;
+    this.userActivation = new Map();
     this.suppliers = new Map();
     this.supplierCounter = 0;
     this.products = new Map();
@@ -19,13 +20,14 @@ class ServiceLayer {
     this.categoriesCounter = 0;
     this.orders = new Map();
     this.ordersCounter = 0;
-    this.convertionMethods = {
+    setInterval(this.cleanUnactiveUsers.bind(this), 20000); // 60000);
+    this.conversionMethods = {
       inventory_daily_report: (records, user, date) => {
         if (!Array.isArray(records) || records.length === 0) {
           this.writeToLog(
             "info",
             "createDailyReport",
-            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+            "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
               records
           );
           return "Report content structure is invalid";
@@ -37,7 +39,7 @@ class ServiceLayer {
             this.writeToLog(
               "info",
               "createDailyReport",
-              "convertionMethods[inventory_daily_report] - Report content is invalid" +
+              "conversionMethods[inventory_daily_report] - Report content is invalid" +
                 records
             );
             return "Product Name is not valid";
@@ -47,7 +49,7 @@ class ServiceLayer {
             this.writeToLog(
               "info",
               "createDailyReport",
-              "convertionMethods[inventory_daily_report] - The product " +
+              "conversionMethods[inventory_daily_report] - The product " +
                 record.productName +
                 " does not exist in the system."
             );
@@ -57,11 +59,11 @@ class ServiceLayer {
             this.writeToLog(
               "info",
               "createDailyReport",
-              "convertionMethods[inventory_daily_report] - The product " +
+              "conversionMethods[inventory_daily_report] - The product " +
                 record.productName +
                 " already exists in the report."
             );
-            return "Cannot add the same product more than once to invetory report.";
+            return "Cannot add the same product more than once to inventory report.";
           }
           products.add(record.productName);
           record.productId = this.products.get(record.productName);
@@ -77,7 +79,7 @@ class ServiceLayer {
           this.writeToLog(
             "info",
             "createDailyReport",
-            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+            "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
               records
           );
           return "Report content structure is invalid";
@@ -95,7 +97,7 @@ class ServiceLayer {
           this.writeToLog(
             "info",
             "createDailyReport",
-            "convertionMethods[inventory_daily_report] - Report content structure is invalid" +
+            "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
               records
           );
           return "Report content structure is invalid";
@@ -159,11 +161,15 @@ class ServiceLayer {
    **/
   login(userName, password) {
     if (this.users.has(userName)) {
-      return this.cinemaSystem.login(
+      let output = this.cinemaSystem.login(
         userName,
         password,
         this.users.get(userName)
       );
+      if (output[0] === "User Logged in succesfully.") {
+        this.userActivation.set(userName, { lastActTime: new Date() });
+      }
+      return output;
     }
     this.writeToLog(
       "info",
@@ -177,8 +183,10 @@ class ServiceLayer {
 
   // eslint-disable-next-line no-dupe-class-members
   isLoggedIn(userName) {
+    if (this.userActivation.has(userName))
+      this.userActivation.get(userName).lastActTime = new Date();
     if (this.users.has(userName)) {
-      return this.cinemaSystem.isLoggedin(this.users.get(userName));
+      return this.cinemaSystem.isLoggedIn(this.users.get(userName));
     }
   }
   /**
@@ -188,7 +196,10 @@ class ServiceLayer {
    **/
   logout(userName) {
     if (this.users.has(userName)) {
-      return this.cinemaSystem.logout(this.users.get(userName));
+      let output = this.cinemaSystem.logout(this.users.get(userName));
+      if (output === "Logout succeded." && this.userActivation.has(userName))
+        this.userActivation.delete(userName);
+      return output;
     }
     this.writeToLog(
       "info",
@@ -200,7 +211,7 @@ class ServiceLayer {
     return "Incorrect user name.";
   }
 
-  printallUser() {
+  printAllUser() {
     this.users.forEach((value, key, map) => {
       console.log(`m[${key}] = ${value}`);
     });
@@ -227,6 +238,12 @@ class ServiceLayer {
     ActionIDofTheOperation,
     isPasswordHashed
   ) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (this.users.has(userName)) {
       this.writeToLog(
         "info",
@@ -292,6 +309,12 @@ class ServiceLayer {
     contactDetails,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (!this.users.has(userName)) {
       this.writeToLog(
         "info",
@@ -329,6 +352,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async deleteEmployee(userName, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (!this.users.has(userName)) {
       this.writeToLog(
         "info",
@@ -366,6 +395,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async addMovie(movieName, category, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(category)
@@ -432,6 +467,12 @@ class ServiceLayer {
     examinationRoom,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(category)
@@ -489,6 +530,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async removeMovie(movieName, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
@@ -535,6 +582,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
       : !this._isInputValid(contactDetails)
@@ -585,6 +638,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
       : !this._isInputValid(contactDetails)
@@ -629,6 +688,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    */
   async removeSupplier(supplierName, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
@@ -686,6 +751,12 @@ class ServiceLayer {
     productCategory,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (this.products.has(productName)) {
       return "The product already exist";
     }
@@ -756,6 +827,12 @@ class ServiceLayer {
     productCategory,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (!this.products.has(productName)) {
       this.writeToLog("info", "editProduct", "The product doesn't exist");
       return "The product doesn't exist";
@@ -784,40 +861,40 @@ class ServiceLayer {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail price " + productPrice + " is must to be number"
+        "The Operation fail price " + productPrice + " is must to be number"
       );
-      return "The Opertaion fail - Price is must to be number";
+      return "The Operation fail - Price is must to be number";
     }
     if (this._isParamTypeOfNumber(productQuantity)) {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail Quantity " +
+        "The Operation fail Quantity " +
           productQuantity +
           " is must to be number"
       );
-      return "The Opertaion fail - Quantity is must to be number";
+      return "The Operation fail - Quantity is must to be number";
     }
     if (this._isParamTypeOfNumber(minQuantity)) {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail minQuantity " +
+        "The Operation fail minQuantity " +
           minQuantity +
           " is must to be number"
       );
 
-      return "The Opertaion fail - minQuantity is must to be number";
+      return "The Operation fail - minQuantity is must to be number";
     }
     if (this._isParamTypeOfNumber(maxQuantity)) {
       this.writeToLog(
         "info",
         "editProduct",
-        "The Opertaion fail maxQuantity " +
+        "The Operation fail maxQuantity " +
           maxQuantity +
           " is must to be number"
       );
-      return "The Opertaion fail - maxQuantity is must to be number";
+      return "The Operation fail - maxQuantity is must to be number";
     }
 
     return await this.cinemaSystem.editCafeteriaProduct(
@@ -837,6 +914,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async removeProduct(productName, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (!this.products.has(productName)) {
       this.writeToLog("info", "removeProduct", "The product does not exist");
       return "The product does not exist";
@@ -868,6 +951,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (this.categories.has(categoryName)) {
       this.writeToLog("info", "addCategory", "The category already exist");
       return "The category already exist";
@@ -918,6 +1007,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async editCategory(categoryName, ActionIDOfTheOperation, parentName) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (!this.categories.has(categoryName)) {
       this.writeToLog("info", "editCategory", "The category doesn't exist");
       return "The category doesn't exist";
@@ -956,6 +1051,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async removeCategory(categoryName, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     if (!this.categories.has(categoryName)) {
       this.writeToLog("info", "removeCategory", "The category doesn't exist");
       return "The category doesn't exist";
@@ -993,6 +1094,12 @@ class ServiceLayer {
     moviesList,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
       : !this._isInputValid(date)
@@ -1076,6 +1183,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async removeOrder(orderId, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
@@ -1119,6 +1232,12 @@ class ServiceLayer {
     productsList,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
       : !this._isInputValid(productsList)
@@ -1148,7 +1267,7 @@ class ServiceLayer {
     let supplierID;
     if (this.suppliers.has(supplierName))
       supplierID = this.suppliers.get(supplierName);
-    let problemticProductName;
+    let problematicProductName;
     let problematicQuantityName;
     productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
@@ -1157,7 +1276,7 @@ class ServiceLayer {
           "editOrder",
           "The product " + product.name + " doesn't exists"
         );
-        problemticProductName = product.name;
+        problematicProductName = product.name;
         return "The product " + product.name + " doesn't exists";
       }
       //if there quantity to edit -> check the type of the quantity
@@ -1179,8 +1298,8 @@ class ServiceLayer {
       product.actualQuantity = parseInt(product.actualQuantity);
       product.id = this.products.get(product.name);
     });
-    if (typeof problemticProductName !== "undefined")
-      return "The product " + problemticProductName + " doesn't exists";
+    if (typeof problematicProductName !== "undefined")
+      return "The product " + problematicProductName + " doesn't exists";
     if (typeof problematicQuantityName !== "undefined")
       return (
         "The product " +
@@ -1209,6 +1328,12 @@ class ServiceLayer {
   }
 
   async confirmOrder(orderName, productsList, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
       : !this._isInputValid(productsList)
@@ -1228,7 +1353,7 @@ class ServiceLayer {
       );
       return " The order " + orderName + " doesn't exists";
     }
-    let problemticProductName;
+    let problematicProductName;
     let problematicQuantityName;
     productsList.forEach((product) => {
       if (!this.products.has(product.name)) {
@@ -1237,7 +1362,7 @@ class ServiceLayer {
           "confirmOrder",
           "The product " + product.name + " doesn't exists"
         );
-        problemticProductName = product.name;
+        problematicProductName = product.name;
         return "The product " + product.name + " doesn't exists";
       }
       if (
@@ -1258,8 +1383,8 @@ class ServiceLayer {
       product.actualQuantity = parseInt(product.actualQuantity);
       product.id = this.products.get(product.name);
     });
-    if (typeof problemticProductName !== "undefined")
-      return "The product " + problemticProductName + " doesn't exists";
+    if (typeof problematicProductName !== "undefined")
+      return "The product " + problematicProductName + " doesn't exists";
     if (typeof problematicQuantityName !== "undefined")
       return (
         "The product " +
@@ -1299,6 +1424,12 @@ class ServiceLayer {
     productsList,
     ActionIDOfTheOperation
   ) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
       : !this._isInputValid(date)
@@ -1387,6 +1518,12 @@ class ServiceLayer {
    * @returns {Promise(string)} success or failure
    */
   async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(fieldToRemove)
       ? "Field is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
@@ -1419,6 +1556,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure
    */
   async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(newField)
       ? "Field is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
@@ -1451,6 +1594,12 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure
    */
   async createDailyReport(date, reports, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(date)
       ? "Date is not valid"
       : !this._isInputValid(reports)
@@ -1499,7 +1648,7 @@ class ServiceLayer {
         );
         return "There is missing information in the report - Please try again.";
       }
-      report.content = this.convertionMethods[report.type](
+      report.content = this.conversionMethods[report.type](
         report.content,
         ActionIDOfTheOperation,
         date
@@ -1518,16 +1667,25 @@ class ServiceLayer {
 
   /**
    * @param {string} type Type of the report
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  async getReport(type, date, ActionIDOfTheOperation) {
+  async getReport(type, fromDate, toDate, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
     let validationResult = !this._isInputValid(type)
       ? "Type is not valid"
-      : !this._isInputValid(date)
-      ? "Date is not valid"
+      : !this._isInputValid(fromDate)
+      ? "From Date is not valid"
+      : !this._isInputValid(toDate)
+      ? "To Date is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
@@ -1547,21 +1705,31 @@ class ServiceLayer {
     }
     return await this.cinemaSystem.getReport(
       type,
-      new Date(date),
+      fromDate,
+      toDate,
       this.users.get(ActionIDOfTheOperation)
     );
   }
 
   /**
    * get all types report to show full daily report
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @param {string} ActionIDOfTheOperation Username of the user performed the action
    * @returns {Promise(Array(Object) | string)} In success returns list of the reports by type,
    * otherwise returns error string.
    */
-  async getFullDailyReport(date, ActionIDOfTheOperation) {
-    let validationResult = !this._isInputValid(date)
-      ? "Date is not valid"
+  async getFullDailyReport(fromDate, toDate, ActionIDOfTheOperation) {
+    if (
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
+    ) {
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
+    let validationResult = !this._isInputValid(fromDate)
+      ? "From Date is not valid"
+      : !this._isInputValid(toDate)
+      ? "To Date is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
       : "Valid";
@@ -1585,7 +1753,8 @@ class ServiceLayer {
       let type = types[i];
       let result = await this.cinemaSystem.getReport(
         type,
-        new Date(date),
+        fromDate,
+        toDate,
         this.users.get(ActionIDOfTheOperation)
       );
       if (typeof result === "string") return result;
@@ -1594,15 +1763,33 @@ class ServiceLayer {
     return reports;
   }
 
-  getMovies() {
+  getMovies(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getMovies();
   }
 
-  getSuppliers() {
+  getSuppliers(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getSuppliers();
   }
 
-  getSupplierDetails(supplierName) {
+  getSupplierDetails(supplierName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.suppliers.has(supplierName)) {
       return "The supplier does not exist";
     }
@@ -1611,36 +1798,84 @@ class ServiceLayer {
     );
   }
 
-  getCafeteriaOrders() {
+  getCafeteriaOrders(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getCafeteriaOrders();
   }
-  getEmployees() {
+  getEmployees(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getEmployees();
   }
 
-  getEmployeeDetails(employeeName) {
+  getEmployeeDetails(employeeName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.users.has(employeeName)) {
       return "The employee does not exist";
     }
     return this.cinemaSystem.getEmployeeDetails(this.users.get(employeeName));
   }
 
-  getCategories() {
+  getCategories(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getCategories();
   }
 
-  getCafeteriaProducts() {
+  getCafeteriaProducts(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getCafeteriaProducts();
   }
-  getMovieOrders() {
+  getMovieOrders(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getMovieOrders();
   }
 
-  getInventoryProducts() {
+  getInventoryProducts(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getInventoryProducts();
   }
 
-  getOrderDetails(orderId) {
+  getOrderDetails(orderId, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.orders.has(orderId)) {
       return "The order does not exist";
     }
@@ -1648,14 +1883,26 @@ class ServiceLayer {
     return result;
   }
 
-  getMovieDetails(movieName) {
+  getMovieDetails(movieName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.products.has(movieName)) {
       return "The movie does not exist";
     }
     return this.cinemaSystem.getMovieDetails(this.products.get(movieName));
   }
 
-  getProductsByOrder(orderName) {
+  getProductsByOrder(orderName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.orders.has(orderName)) {
       this.writeToLog(
         "info",
@@ -1668,7 +1915,18 @@ class ServiceLayer {
     return this.cinemaSystem.getProductsByOrder(this.orders.get(orderName));
   }
   //this getter return only not confirmed orders.
-  getOrdersByDates(startDate, endDate, isCafeteriaOrder) {
+  getOrdersByDates(
+    startDate,
+    endDate,
+    isCafeteriaOrder,
+    ActionIDofTheOperation
+  ) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return this.cinemaSystem.getOrdersByDates(
       startDate,
       endDate,
@@ -1676,7 +1934,19 @@ class ServiceLayer {
     );
   }
 
-  getProductsAndQuantityByOrder(orderName) {
+  async getSeenNotifications(ActionIDofTheOperation) {
+    return NotificationController.getSeenNotifications(
+      this.users.get(ActionIDofTheOperation)
+    );
+  }
+
+  getProductsAndQuantityByOrder(orderName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.orders.has(orderName)) {
       this.writeToLog(
         "info",
@@ -1690,7 +1960,13 @@ class ServiceLayer {
     );
   }
 
-  getProductDetails(productName) {
+  getProductDetails(productName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.products.has(productName)) {
       this.writeToLog(
         "info",
@@ -1704,7 +1980,13 @@ class ServiceLayer {
     );
   }
 
-  getCategoryDetails(categoryName) {
+  getCategoryDetails(categoryName, ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     if (!this.categories.has(categoryName)) {
       this.writeToLog(
         "info",
@@ -1720,6 +2002,7 @@ class ServiceLayer {
 
   async getFields() {
     let props = await this.cinemaSystem.getGeneralReportProps();
+    console.log(props);
     let output = [];
     for (let i in props) {
       output = output.concat({ title: props[i] });
@@ -1740,6 +2023,21 @@ class ServiceLayer {
   }
   writeToLog(type, functionName, msg) {
     logger.writeToLog(type, "ServiceLayer", functionName, msg);
+  }
+  cleanUnactiveUsers() {
+    if (typeof this.userActivation === "undefined") {
+      return;
+    }
+    this.userActivation.forEach((value, key, map) => {
+      //calculate the diff in minutes unit
+      let diffTime =
+        Math.abs(value.lastActTime.getTime() - new Date().getTime()) /
+        (1000 * 60);
+      if (diffTime >= 3) {
+        console.log("disconnect " + key + " the diff is " + diffTime);
+        this.logout(key);
+      }
+    });
   }
 }
 module.exports = ServiceLayer;

@@ -1,6 +1,7 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
-const { testMovie } = require("../DBtests/ProductsTests.spec");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
+const ReportController = require("../../../server/src/main/ReportController");
+const moment = require("moment");
 
 const {
   getSyncDateFormat,
@@ -10,6 +11,7 @@ const {
   testInventoryDailyReportResult,
   testIncomeDailyReportResult,
   testGeneralPurposeDailyReportResult,
+  testMoviesDailyReportResult,
 } = require("./../DBtests/ReportsTests.spec");
 
 //TODO:: test general
@@ -258,6 +260,7 @@ describe("Report Operations Tests", function() {
       let result = await service.getReport(
         types[i],
         todayDate.toISOString(),
+        todayDate.toISOString(),
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
@@ -311,6 +314,7 @@ describe("Report Operations Tests", function() {
 
     let result = await service.getFullDailyReport(
       todayDate.toISOString(),
+      todayDate.toISOString(),
       "username"
     );
 
@@ -326,4 +330,18 @@ describe("Report Operations Tests", function() {
       testFunctions[i](report[0], reportsAfter[i]);
     }
   }, 6000);
+
+  it("Movies Report Event Buzz - create and get from DB", async () => {
+    let report = ReportController._MovieReportJson.slice(0, 5);
+    let result = await ReportController.createMovieReport(report);
+    expect(result).toBe(undefined);
+    let reportAfter = report;
+    for (let i in report) {
+      reportAfter[i].date = moment(
+        reportAfter[i].date,
+        "DD-MM-YYYY HH:mm"
+      ).toDate();
+      testMoviesDailyReportResult(report[i], reportAfter[i]);
+    }
+  });
 });

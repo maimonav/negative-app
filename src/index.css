@@ -5,7 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: url(https://download.hipwallpaper.com/desktop/1920/1080/20/53/PvWypl.jpg);
+  background: url('./Images/background_image.jpg');
+  display: grid;
 }
 
 code {

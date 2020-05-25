@@ -1,5 +1,4 @@
 import Login from "./SystemActions/Login";
-import Logout from "./SystemActions/Logout";
 import ManageEmployees from "./UserActions/EmployeeActions/ManageEmployees";
 import ShowEmployee from "./UserActions/EmployeeActions/ShowEmployee";
 import AddEmployee from "./UserActions/EmployeeActions/AddEmployee";
@@ -41,10 +40,11 @@ import EditMovieOrder from "./InventoryActions/MoviesOrders/EditMovieOrder";
 import ShowMovieOrders from "./InventoryActions/MoviesOrders/ShowMovieOrder";
 import ConfirmMovieOrder from "./InventoryActions/MoviesOrders/ConfirmMovieOrder";
 import NotificationHandler from "../Components/NotificationHandler";
+import ErrorPage from "../Components/ErrorPage";
+import LogFile from "../Components/LogFile";
 
 export {
   Login,
-  Logout,
   ManageEmployees,
   ShowEmployee,
   AddEmployee,
@@ -86,4 +86,6 @@ export {
   ShowMovieOrders,
   ConfirmMovieOrder,
   NotificationHandler,
+  ErrorPage,
+  LogFile,
 };

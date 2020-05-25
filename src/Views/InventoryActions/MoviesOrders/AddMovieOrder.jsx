@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
   handleGetMovies,
-  handleGetSuppliers,
+  handleGetSuppliers
 } from "../../../Handlers/Handlers";
 import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -22,34 +22,34 @@ export default class AddMovieOrder extends React.Component {
     this.state = {
       moviesNames: "",
       supplier: "",
-      orderDate: new Date(),
+      orderDate: new Date()
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ movies: state.result });
       });
 
     handleGetSuppliers(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setMoviesNames = (names) => {
-    this.setState({ moviesNames: names.map((item) => item.title) });
+  setMoviesNames = names => {
+    this.setState({ moviesNames: names.map(item => item.title) });
   };
 
-  setSupplier = (supplier) => {
+  setSupplier = supplier => {
     this.setState({ supplier });
   };
 
-  setOrderDate = (date) => {
+  setOrderDate = date => {
     this.setState({ orderDate: date });
   };
 

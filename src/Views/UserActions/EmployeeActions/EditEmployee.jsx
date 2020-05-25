@@ -163,14 +163,16 @@ export default class EditEmployee extends React.Component {
                 <Button
                   color="info"
                   onClick={() =>
-                    this.props.handleEditEmployee(
-                      userName,
-                      password,
-                      firstName,
-                      lastName,
-                      permission,
-                      contactDetails
-                    )
+                    this.state.userName
+                      ? this.props.handleEditEmployee(
+                          userName,
+                          password,
+                          firstName,
+                          lastName,
+                          permission,
+                          contactDetails
+                        )
+                      : alert("Employee name is required.")
                   }
                 >
                   Edit Employee

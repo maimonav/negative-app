@@ -8,6 +8,7 @@ import {
   incomesColumns,
   inventoryColumns,
   generalColumns,
+  moviesColumns,
   reportsTypesObj
 } from "../../consts/data";
 import { AutoSizer, Column, Table } from "react-virtualized";
@@ -165,7 +166,7 @@ const defaultColumns = {
   inventory_daily_report: inventoryColumns,
   general_purpose_daily_report: generalColumns,
   incomes_daily_report: incomesColumns,
-  movie_daily_report: []
+  movies_daily_report: moviesColumns
 };
 
 const addColumn = (column, columns) =>
@@ -180,8 +181,9 @@ export default function ReactVirtualizedTable(props) {
   let columns = defaultColumns[props.reportType];
   if (props.reportType === reportsTypesObj.General) {
     let additionalColumns = [];
-    const propsObj = data && data[0] && data[0].propsObject;
-    const additionalProps = Object.keys(propsObj);
+    const additionalProps =
+      data && data[data.length - 1] && data[data.length - 1].allProps;
+    // const additionalProps = propsObj && Object.keys(propsObj);
     if (
       additionalProps &&
       additionalProps.length > 0 &&
@@ -192,10 +194,14 @@ export default function ReactVirtualizedTable(props) {
     }
   }
 
+  const rowsNumCalc = data ? data.length - 1 : 0;
+  const rowsNum = data ? data.length : 0;
+  const height = rowsNumCalc * 50 + 100;
+
   return (
-    <Paper style={{ height: 100 + (data.length - 1) * 50, width: "100%" }}>
+    <Paper style={{ height: height, width: "100%" }}>
       <VirtualizedTable
-        rowCount={data.length}
+        rowCount={rowsNum}
         rowGetter={({ index }) => data[index]}
         columns={columns}
       />

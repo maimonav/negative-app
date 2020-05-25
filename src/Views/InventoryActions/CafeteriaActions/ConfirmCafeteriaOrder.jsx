@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
   handleGetOrdersByDates,
-  handleGetProductsAndQuantityByOrder,
+  handleGetProductsAndQuantityByOrder
 } from "../../../Handlers/Handlers";
 import EditTable from "../../../Components/Tables/EditTable";
 import { orderNameHook } from "../../../consts/data-hooks";
@@ -27,7 +27,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
       openThird: false,
       startDate: new Date(),
       endDate: new Date(),
-      updatedProducts: "",
+      updatedProducts: ""
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
@@ -36,54 +36,54 @@ export default class ConfirmCafeteriaOrder extends React.Component {
 
   handleGetItemsByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate, true)
-      .then((response) => response.json())
-      .then((state) => this.setState({ orders: state.result }));
+      .then(response => response.json())
+      .then(state => this.setState({ orders: state.result }));
   };
 
-  handleGetProductAndQuntityByOrder = (orderId) => {
+  handleGetProductAndQuntityByOrder = orderId => {
     handleGetProductsAndQuantityByOrder(orderId)
-      .then((response) => response.json())
-      .then((state) => this.setState({ productsWithQuantity: state.result }));
+      .then(response => response.json())
+      .then(state => this.setState({ productsWithQuantity: state.result }));
   };
 
   toggleBox() {
     this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
     this.handleGetProductAndQuntityByOrder(this.state.orderId);
-    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
   }
 
   toggleThirdBox() {
-    this.setState((oldState) => ({ openThird: !oldState.openThird }));
-    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ openThird: !oldState.openThird }));
+    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
-  setStartDate = (date) => {
+  setStartDate = date => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = (date) => {
+  setEndDate = date => {
     this.setState({ endDate: date });
   };
 
-  setOrderName = (name) => {
+  setOrderName = name => {
     this.setState({ orderId: name });
   };
 
-  setProductsWithQuantity = (name) => {
+  setProductsWithQuantity = name => {
     this.setState({
-      updatedProducts: name,
+      updatedProducts: name
     });
   };
 
   columns = [
     { title: "Product Name", field: "name", editable: "never" },
     { title: "Quantity", field: "expectedQuantity", editable: "never" },
-    { title: "Actual Quantity", field: "actualQuantity" },
+    { title: "Actual Quantity", field: "actualQuantity" }
   ];
 
   render() {
@@ -95,7 +95,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
       updatedProducts,
       isOpened,
       openSecond,
-      openThird,
+      openThird
     } = this.state;
     return (
       <div>

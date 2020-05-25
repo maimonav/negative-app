@@ -8,8 +8,15 @@ import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
 import ReportTable from "../../Components/Tables/ReportTable";
-import { handleGetReport } from "../../Handlers/Handlers";
-import { reportsTypes, reportsPrettyTypes } from "../../consts/data";
+import {
+  handleGetReport,
+  HandleGetFullDailyReport
+} from "../../Handlers/Handlers";
+import {
+  reportsTypes,
+  reportsPrettyTypes,
+  reportsTypesInverseObj
+} from "../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -17,7 +24,8 @@ export default class ShowReport extends React.Component {
     super(props);
     this.state = {
       reportType: "",
-      date: new Date()
+      fromDate: new Date(),
+      toDate: new Date()
     };
   }
 
@@ -26,8 +34,12 @@ export default class ShowReport extends React.Component {
     this.resetData();
   };
 
-  setDate = date => {
-    this.setState({ date });
+  setFromDate = fromDate => {
+    this.setState({ fromDate });
+  };
+
+  setToDate = toDate => {
+    this.setState({ toDate });
   };
 
   resetData = () => {
@@ -35,10 +47,18 @@ export default class ShowReport extends React.Component {
   };
 
   setReport = () => {
-    handleGetReport(
-      this.state.reportType,
-      this.state.date,
-      localStorage.getItem("username")
+    (this.state.reportType === reportsTypes.Daily
+      ? HandleGetFullDailyReport(
+          this.state.fromDate,
+          this.state.toDate,
+          localStorage.getItem("username")
+        )
+      : handleGetReport(
+          this.state.reportType,
+          this.state.fromDate,
+          this.state.toDate,
+          localStorage.getItem("username")
+        )
     )
       .then(response => response.json())
       .then(state => {
@@ -48,6 +68,32 @@ export default class ShowReport extends React.Component {
           alert(state.result);
         }
       });
+  };
+
+  renderReport = () => {
+    const isFullReport = this.state.reportType === reportsTypes.Daily;
+    if (!isFullReport) {
+      return (
+        <ReportTable
+          data={this.state.reportData}
+          reportType={this.state.reportType}
+        />
+      );
+    } else {
+      const reports = [];
+      this.state.reportData.forEach(report => {
+        const reportComponent = (
+          <GridItem xs={12} sm={12} md={6}>
+            <h1>
+              {reportsTypesInverseObj[report.type]}
+              <ReportTable data={report.content} reportType={report.type} />
+            </h1>
+          </GridItem>
+        );
+        reports.push(reportComponent);
+      });
+      return reports;
+    }
   };
 
   render() {
@@ -70,15 +116,26 @@ export default class ShowReport extends React.Component {
                   />
                   <SelectDates
                     id={"remove-start-date"}
-                    label={"Choose Date"}
-                    setDate={this.setDate}
+                    label={"Choose from date"}
+                    setDate={this.setFromDate}
                     style={{ width: "auto" }}
-                    date={this.state.date}
+                    date={this.state.fromDate}
+                  />
+                  <SelectDates
+                    id={"remove-start-date"}
+                    label={"Choose to date"}
+                    setDate={this.setToDate}
+                    style={{ width: "auto" }}
+                    date={this.state.toDate}
                   />
                   <Button
                     color="info"
                     onClick={() => {
-                      this.setReport();
+                      this.state.reportType &&
+                      this.state.fromDate &&
+                      this.state.toDate
+                        ? this.setReport()
+                        : alert("All fields are required.");
                     }}
                     style={{ marginLeft: "15px", marginTop: "10px" }}
                   >
@@ -86,13 +143,10 @@ export default class ShowReport extends React.Component {
                   </Button>
                 </div>
                 {this.state.reportType &&
-                  this.state.date &&
-                  this.state.reportData && (
-                    <ReportTable
-                      data={this.state.reportData}
-                      reportType={this.state.reportType}
-                    />
-                  )}
+                  this.state.fromDate &&
+                  this.state.toDate &&
+                  this.state.reportData &&
+                  this.renderReport()}
               </CardBody>
             </Card>
           </GridItem>

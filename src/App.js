@@ -1,12 +1,17 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
-import { Login } from "./Views";
+import { Login, ErrorPage } from "./Views";
 import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
 
+export const socket = new WebSocket("ws://localhost:3001");
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      messageType: "",
+      messageContent: "",
+      messageError: "",
+    };
     this.setInitialState();
   }
 
@@ -15,14 +20,33 @@ class App extends React.Component {
     const permission = localStorage.getItem("permission");
     if (user) {
       handleIsLoggedIn(user)
-        .then(response => response.json())
-        .then(state => {
+        .then((response) => response.json())
+        .then((state) => {
           const isLogged = Boolean(state.result);
           const username = isLogged ? user : "";
           this.setState({ isLogged, username, permission });
         });
     }
   };
+
+  componentDidMount() {
+    socket.onopen = () => {
+      console.log("connected");
+    };
+
+    socket.onmessage = (evt) => {
+      const message = JSON.parse(evt.data);
+      if (message[0].type === "INFO") {
+        this.setState({ messageType: "INFO", messageContent: message });
+      } else if (message[0].type === "ERROR") {
+        this.setState({ messageType: "ERROR", messageError: message });
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("disconnected");
+    };
+  }
 
   /**
    * Login to system
@@ -46,13 +70,17 @@ class App extends React.Component {
     this.setState({
       isLogged: false,
       username: undefined,
-      permission: undefined
+      permission: undefined,
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");
   };
 
   render() {
+    const { messageType } = this.state;
+    if (messageType === "ERROR") {
+      return <ErrorPage />;
+    }
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
     } else {
@@ -63,6 +91,8 @@ class App extends React.Component {
           onLogout={this.onLogout}
           userName={this.state.username}
           permission={this.state.permission}
+          messageType={this.state.messageType}
+          messageContent={this.state.messageContent}
         ></TabPanel>
       );
     }

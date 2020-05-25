@@ -9,33 +9,34 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaProducts,
-  handleGetProductDetails,
+  handleGetProductDetails
 } from "../../../Handlers/Handlers";
 import { productNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: "",
+      productName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaProducts()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ products: state.result });
       });
   };
 
-  setProductName = (productName) => {
+  setProductName = productName => {
     this.setState({ productName });
     handleGetProductDetails(productName)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ productName: state.result });
       });
   };
@@ -58,6 +59,7 @@ export default class ShowProductDetails extends React.Component {
                     setName={this.setProductName}
                     isMultiple={false}
                     data-hook={productNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.productName && (
@@ -68,9 +70,10 @@ export default class ShowProductDetails extends React.Component {
                       label="productName"
                       value={this.state.productName.productName || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field2"
@@ -78,9 +81,10 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Category"
                       value={this.state.productName.productCategory || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field3"
@@ -88,9 +92,10 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Price"
                       value={this.state.productName.productPrice || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field4"
@@ -98,9 +103,10 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Quantity"
                       value={this.state.productName.productQuantity || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field5"
@@ -108,9 +114,10 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Max Qunatity"
                       value={this.state.productName.productMaxQunatity || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field6"
@@ -118,9 +125,10 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Mim Qunatity"
                       value={this.state.productName.productMimQunatity || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                   </GridItem>
                 )}

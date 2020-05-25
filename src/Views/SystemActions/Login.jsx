@@ -3,10 +3,11 @@ import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import BaseButton from "../../Components/Button";
 import { Box } from "@material-ui/core";
+import CryptoJS from "crypto-js";
 import {
   userNameHook,
   passwordHook,
-  actionButtonHook
+  actionButtonHook,
 } from "../../consts/data-hooks";
 import "./Login.scss";
 
@@ -14,13 +15,13 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.classes = makeStyles(theme => ({
+    this.classes = makeStyles((theme) => ({
       root: {
         "& > *": {
           margin: theme.spacing(1),
-          width: 200
-        }
-      }
+          width: 200,
+        },
+      },
     }));
   }
 
@@ -28,7 +29,11 @@ class Login extends React.Component {
     this.setState({ username: event.target.value });
   }
   setPassword(event) {
-    this.setState({ password: event.target.value });
+    const password = CryptoJS.AES.encrypt(
+      event.target.value,
+      "Password"
+    ).toString();
+    this.setState({ password });
   }
 
   render() {
@@ -41,12 +46,12 @@ class Login extends React.Component {
               <TextField
                 label="Username"
                 data-hook={userNameHook}
-                onChange={event => this.setUsername(event)}
+                onChange={(event) => this.setUsername(event)}
                 id="loginusername"
               />
               <TextField
                 label="Password"
-                onChange={event => this.setPassword(event)}
+                onChange={(event) => this.setPassword(event)}
                 data-hook={passwordHook}
                 type="password"
                 id="loginpassword"
@@ -54,6 +59,7 @@ class Login extends React.Component {
             </Box>
             <BaseButton
               name="Login"
+              color="info"
               data-hook={actionButtonHook}
               onClick={() =>
                 this.props.handleLogin(

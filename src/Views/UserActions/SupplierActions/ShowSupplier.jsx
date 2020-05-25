@@ -13,6 +13,7 @@ import {
 } from "../../../Handlers/Handlers";
 import { userNameHook, contactDetailsHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowSupplier extends React.Component {
   constructor(props) {
@@ -58,6 +59,7 @@ export default class ShowSupplier extends React.Component {
                     setName={this.setSupplierName}
                     isMultiple={false}
                     data-hook={userNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.supplierName && this.state.contactDetails && (
@@ -70,7 +72,8 @@ export default class ShowSupplier extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      variant="outlined"
+                      style={marginStyle}
                       data-hook={contactDetailsHook}
                     />
                   </GridItem>

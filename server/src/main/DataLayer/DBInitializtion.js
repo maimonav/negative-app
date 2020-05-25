@@ -80,7 +80,7 @@ async function _setDestroyTimerForAllTables() {
     eventTime: "1 DAY",
   };
   let moviesReportObj = {
-    table: "movie_daily_reports",
+    table: "movies_daily_reports",
     afterCreate: true,
     deleteTime: "1 YEAR",
     eventTime: "1 DAY",
@@ -156,7 +156,7 @@ async function initDB(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",
@@ -180,7 +180,7 @@ async function initDB(dbName, password) {
     cafeteria_product_order: DataBase.CafeteriaProductOrder,
     general_purpose_daily_report: DataBase.GeneralPurposeDailyReport,
     inventory_daily_report: DataBase.InventoryDailyReport,
-    movie_daily_report: DataBase.MoviesDailyReport,
+    movies_daily_report: DataBase.MoviesDailyReport,
     incomes_daily_report: DataBase.IncomesDailyReport,
     notification: DataBase.Notification,
   };
@@ -222,7 +222,7 @@ async function initDB(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",
@@ -238,10 +238,8 @@ async function initDB(dbName, password) {
 async function _initGeneralReport() {
   let result = await DataBase.singleGetById("general_purpose_daily_report", {});
   if (result != null) return;
-  let todayDate = new Date();
-  let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
   return DataBase.singleAdd("general_purpose_daily_report", {
-    date: date.toISOString().substring(0, 10),
+    date: new Date("01/01/2000").toISOString().substring(0, 10),
     currentProps: [],
     propsObject: {},
     allProps: [],
@@ -284,7 +282,7 @@ async function connectAndCreate(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",
@@ -410,8 +408,8 @@ function _initModels() {
     {}
   );
   DataBase.MoviesDailyReport = DataBase.sequelize.define(
-    "movie_daily_report",
-    moviesDailyReportSchema(DataBase.Movie, DataBase.Employee),
+    "movies_daily_report",
+    moviesDailyReportSchema(),
     {}
   );
   DataBase.IncomesDailyReport = DataBase.sequelize.define(

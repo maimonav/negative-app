@@ -5,6 +5,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const InventoryManagement = require("./InventoryManagement");
 const EmployeeManagement = require("./EmployeeManagement");
+const moment = require("moment");
 
 class CinemaSystem {
   constructor() {
@@ -14,12 +15,12 @@ class CinemaSystem {
     this.userOfflineMsg =
       "The operation cannot be completed - the user is not connected to the system";
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
-    this.toUserConvertionMethods = {
+    this.toUserConversionMethods = {
       inventory_daily_report: async (record) => {
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
-        record = this.employeeAndDateConvertion(record);
+        record = this.employeeAndDateConversion(record);
         return record;
       },
       general_purpose_daily_report: async (record) => {
@@ -29,13 +30,18 @@ class CinemaSystem {
           record[propName] = record.propsObject[propName];
         }
         record.props = await this.getAllGeneralReportProps();
-        record = this.employeeAndDateConvertion(record);
+        record = this.employeeAndDateConversion(record);
         return record;
       },
       incomes_daily_report: async (record) =>
-        this.employeeAndDateConvertion(record),
+        this.employeeAndDateConversion(record),
+      movies_daily_report: async (record) => {
+        record.date = moment(record.date).format("lll");
+        console.log(record.date);
+        return record;
+      },
     };
-    this.toDBConvertionMethods = {
+    this.toDBConversionMethods = {
       inventory_daily_report: async (records) => {
         for (let i in records) {
           let record = records[i];
@@ -44,7 +50,7 @@ class CinemaSystem {
               "info",
               "CinemaSystem",
               "createDailyReport",
-              "toDBConvertionMethods[inventory_daily_report] - Report content is invalid"
+              "toDBConversionMethods[inventory_daily_report] - Report content is invalid"
             );
             return "Report content structure is invalid";
           }
@@ -58,7 +64,7 @@ class CinemaSystem {
               "info",
               "CinemaSystem",
               "createDailyReport",
-              "toDBConvertionMethods[inventory_daily_report] - negative numbers are invalid"
+              "toDBConversionMethods[inventory_daily_report] - negative numbers are invalid"
             );
             return "Only non-negative numbers are allowed in inventory report";
           }
@@ -97,7 +103,7 @@ class CinemaSystem {
                 "info",
                 "CinemaSystem",
                 "createDailyReport",
-                "toDBConvertionMethods[general_purpose_daily_report] - Report content is invalid"
+                "toDBConversionMethods[general_purpose_daily_report] - Report content is invalid"
               );
               return "Report content is invalid";
             }
@@ -127,7 +133,7 @@ class CinemaSystem {
               "info",
               "CinemaSystem",
               "createDailyReport",
-              " toDBConvertionMethods[incomes_daily_report] - Report content is invalid"
+              " toDBConversionMethods[incomes_daily_report] - Report content is invalid"
             );
             return "Report content structure is invalid";
           }
@@ -150,7 +156,7 @@ class CinemaSystem {
             logger.writeToLog(
               "info",
               "createDailyReport",
-              "toDBConvertionMethods[incomes_daily_report] - negative numbers are invalid"
+              "toDBConversionMethods[incomes_daily_report] - negative numbers are invalid"
             );
             return "Only non-negative numbers are allowed in incomes report";
           }
@@ -163,12 +169,12 @@ class CinemaSystem {
   isValidReportType = (type) => ReportController._isValidType(type);
 
   getGeneralReportProps = async () =>
-    ReportController.getCurrentGeneralDailyReoprtFormat();
+    ReportController.getCurrentGeneralDailyReportFormat();
 
   getAllGeneralReportProps = async () =>
-    ReportController.getAllgeneralDailyReoprtFormat();
+    ReportController.getAllGeneralDailyReportFormat();
 
-  creatorEmployeeConvertion(record) {
+  creatorEmployeeConversion(record) {
     if (record.creatorEmployeeId !== null) {
       let employee = this.employeeManagement.employeeDictionary.get(
         record.creatorEmployeeId
@@ -178,9 +184,9 @@ class CinemaSystem {
     return record;
   }
 
-  employeeAndDateConvertion(record) {
+  employeeAndDateConversion(record) {
     record.date = record.date.toDateString();
-    record = this.creatorEmployeeConvertion(record);
+    record = this.creatorEmployeeConversion(record);
     return record;
   }
 
@@ -202,9 +208,9 @@ class CinemaSystem {
     return err;
   }
 
-  isLoggedin(userId) {
+  isLoggedIn(userId) {
     if (!this.users.has(userId)) return "The user isn't exists";
-    return this.users.get(userId).isLoggedin();
+    return this.users.get(userId).isLoggedIn();
   }
   /**
    * User connect to system
@@ -253,7 +259,7 @@ class CinemaSystem {
     if (this.users.has(userID)) return "The id is already exists";
     if (
       !this.users.has(ActionIDOfTheOperation) ||
-      !this.users.get(ActionIDOfTheOperation).isLoggedin()
+      !this.users.get(ActionIDOfTheOperation).isLoggedIn()
     ) {
       logger.writeToLog(
         "info",
@@ -325,7 +331,7 @@ class CinemaSystem {
     if (!this.users.has(employeeID)) return "The id is not exists";
     if (
       !this.users.has(ActionIDOfTheOperation) ||
-      !this.users.get(ActionIDOfTheOperation).isLoggedin()
+      !this.users.get(ActionIDOfTheOperation).isLoggedIn()
     ) {
       logger.writeToLog(
         "info",
@@ -368,7 +374,7 @@ class CinemaSystem {
     if (!this.users.has(employeeID)) return "The id is not exists";
     if (
       !this.users.has(ActionIDOfTheOperation) ||
-      !this.users.get(ActionIDOfTheOperation).isLoggedin()
+      !this.users.get(ActionIDOfTheOperation).isLoggedIn()
     ) {
       logger.writeToLog(
         "info",
@@ -398,7 +404,7 @@ class CinemaSystem {
       );
       return "A user cannot erase himself";
     }
-    if (this.users.get(employeeID).isLoggedin()) {
+    if (this.users.get(employeeID).isLoggedIn()) {
       logger.writeToLog(
         "info",
         "CinemaSystem",
@@ -422,7 +428,7 @@ class CinemaSystem {
   checkUser(ActionIDOfTheOperation, permissionRequired, functionName) {
     if (
       !this.users.has(ActionIDOfTheOperation) ||
-      !this.users.get(ActionIDOfTheOperation).isLoggedin()
+      !this.users.get(ActionIDOfTheOperation).isLoggedIn()
     ) {
       logger.writeToLog(
         "info",
@@ -985,7 +991,7 @@ class CinemaSystem {
       let report = reports[i];
       let type = report.type;
       let content = report.content;
-      report.content = await this.toDBConvertionMethods[type](content);
+      report.content = await this.toDBConversionMethods[type](content);
       if (typeof report.content === "string") {
         return report.content;
       }
@@ -996,22 +1002,25 @@ class CinemaSystem {
 
   /**
    * @param {string} type Type of the report
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @param {string} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  async getReport(type, date, ActionIDOfTheOperation) {
+  async getReport(type, fromDate, toDate, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
       "getReport"
     );
     if (result != null) return result;
-    result = await ReportController.getReport(type, date);
+    result = await ReportController.getReport(type, fromDate, toDate);
+    console.log(result);
+
     if (typeof result !== "string")
       for (let i in result)
-        result[i] = await this.toUserConvertionMethods[type](
+        result[i] = await this.toUserConversionMethods[type](
           result[i].dataValues
         );
     return result;
@@ -1076,8 +1085,8 @@ class CinemaSystem {
     );
   }
 
-  getCategoryDetails(categotyId) {
-    return this.inventoryManagement.getCategoryDetails(categotyId);
+  getCategoryDetails(categoryId) {
+    return this.inventoryManagement.getCategoryDetails(categoryId);
   }
   getCafeteriaOrders() {
     return this.inventoryManagement.getCafeteriaOrders();

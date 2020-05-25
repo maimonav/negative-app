@@ -26,7 +26,10 @@ import {
   editActionHook,
   removeActionHook
 } from "../../../consts/data-hooks";
-const style = { justifyContent: "center", top: "auto" };
+const style = {
+  justifyContent: "center",
+  top: "auto"
+};
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
@@ -49,7 +52,7 @@ export default class ManageSuppliers extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={6}>
-            <Card style={style}>
+            <Card>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>
