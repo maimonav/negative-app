@@ -178,6 +178,14 @@ class NotificationController {
   }
 
   /**
+   * send message to the client about auto logged out user
+   * @param {Array(Object)} userId the user who logged out
+   */
+  async autoLogoutHandler(userId) {
+    this._notify([userId], "INFO", "AUTO LOGGED OUT");
+  }
+
+  /**
    * send notification for all products with high quantity
    * @param {Array(Object)} productList @example {name:"product", quantity:20 , maxQuantity:10}
    */
@@ -251,7 +259,7 @@ class NotificationController {
         //set notification as seen
         seenFlag = type === "ERROR" ? false : true;
       }
-      delete notificationContent.timeFired;
+      if (notificationContent.timeFired) delete notificationContent.timeFired;
 
       let notificationObject = {
         name: DataBase._add,
@@ -269,6 +277,8 @@ class NotificationController {
         notificationObject
       );
     }
+
+    if (subtype === "AUTO LOGGED OUT") return;
 
     //insert list of notification to db
     let result = await DataBase.executeActions(notificationObjectsList);

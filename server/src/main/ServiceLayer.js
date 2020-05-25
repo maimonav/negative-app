@@ -2035,6 +2035,7 @@ class ServiceLayer {
         (1000 * 60);
       if (diffTime >= 10) {
         console.log("disconnect " + key + " the diff is " + diffTime);
+        NotificationController.autoLogoutHandler(this.users.get(key));
         this.logout(key);
       }
     });
