@@ -13,6 +13,7 @@ import {
 } from "../../../Handlers/Handlers";
 import { productNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowProductDetails extends React.Component {
   constructor(props) {
@@ -58,6 +59,7 @@ export default class ShowProductDetails extends React.Component {
                     setName={this.setProductName}
                     isMultiple={false}
                     data-hook={productNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.productName && (
@@ -70,7 +72,8 @@ export default class ShowProductDetails extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field2"
@@ -80,7 +83,8 @@ export default class ShowProductDetails extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field3"
@@ -90,7 +94,8 @@ export default class ShowProductDetails extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field4"
@@ -100,7 +105,8 @@ export default class ShowProductDetails extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field5"
@@ -110,7 +116,8 @@ export default class ShowProductDetails extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field6"
@@ -120,7 +127,8 @@ export default class ShowProductDetails extends React.Component {
                       InputProps={{
                         readOnly: true
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                   </GridItem>
                 )}

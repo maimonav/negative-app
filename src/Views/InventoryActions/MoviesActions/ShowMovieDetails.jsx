@@ -13,6 +13,7 @@ import {
 } from "../../../Handlers/Handlers";
 import { movieNameHook, categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowMovieDetails extends React.Component {
   constructor(props) {
@@ -65,59 +66,56 @@ export default class ShowMovieDetails extends React.Component {
                     setName={this.setMovieName}
                     isMultiple={false}
                     data-hook={movieNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {movieName && (
                   <GridContainer style={style}>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field1"
-                        defaultValue=""
-                        label="movieName"
-                        value={movieName.movieName || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field2"
-                        defaultValue=""
-                        label="category"
-                        value={movieName.category || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                        data-hook={categoryNameHook}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field3"
-                        defaultValue=""
-                        label="Movie Key"
-                        value={movieName.movieKey || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field4"
-                        defaultValue=""
-                        label="Examination Room"
-                        value={movieName.examinationRoom || ""}
-                        InputProps={{
-                          readOnly: true
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
+                    <TextField
+                      id="field1"
+                      defaultValue=""
+                      label="movieName"
+                      value={movieName.movieName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field2"
+                      defaultValue=""
+                      label="category"
+                      value={movieName.category || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                      data-hook={categoryNameHook}
+                    />
+                    <TextField
+                      id="field3"
+                      defaultValue=""
+                      label="Movie Key"
+                      value={movieName.movieKey || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field4"
+                      defaultValue=""
+                      label="Examination Room"
+                      value={movieName.examinationRoom || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
                   </GridContainer>
                 )}
               </CardBody>

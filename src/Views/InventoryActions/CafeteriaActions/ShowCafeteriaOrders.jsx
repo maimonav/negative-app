@@ -15,6 +15,7 @@ import SimpleTable from "../../../Components/Tables/SimpleTable";
 import moment from "moment";
 import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowCafeteriaOrders extends React.Component {
   constructor(props) {
@@ -67,6 +68,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                     setName={this.setOrderId}
                     isMultiple={false}
                     data-hook={orderNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.orderId && (
@@ -82,7 +84,8 @@ export default class ShowCafeteriaOrders extends React.Component {
                         InputProps={{
                           readOnly: true
                         }}
-                        variant="filled"
+                        style={marginStyle}
+                        variant="outlined"
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
@@ -94,7 +97,8 @@ export default class ShowCafeteriaOrders extends React.Component {
                         InputProps={{
                           readOnly: true
                         }}
-                        variant="filled"
+                        style={marginStyle}
+                        variant="outlined"
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={8}>
