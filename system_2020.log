@@ -1,2 +1,6 @@
 2020-05-23 22:26:06.568 INFO  ServiceLayer - getReport - Type is not valid 
 2020-05-23 22:26:09.773 INFO  ServiceLayer - getReport - Type is not valid 
+2020-05-25 14:14:36.271 INFO  ServiceLayer - getReport - The user aviv performing the operation does not exist in the system 
+2020-05-25 14:14:38.533 INFO  ServiceLayer - logout - The login process failed - the aviv isn't exists on the system. 
+2020-05-25 14:14:42.624 INFO  ServiceLayer - login - The login process failed - the aviv isn't exists on the system. 
+2020-05-25 14:14:47.244 INFO  NotificationController - loginHandler - Web socket connection to user 0, URL: http://localhost:3000 failed 

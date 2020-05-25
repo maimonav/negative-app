@@ -193,8 +193,9 @@ export default function ReactVirtualizedTable(props) {
     }
   }
 
-  const rowsNum = data ? data.length - 1 : 0;
-  const height = rowsNum * 50 + 100;
+  const rowsNumCalc = data ? data.length - 1 : 0;
+  const rowsNum = data ? data.length : 0;
+  const height = rowsNumCalc * 50 + 100;
 
   return (
     <Paper style={{ height: height, width: "100%" }}>
