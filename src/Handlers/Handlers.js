@@ -857,3 +857,12 @@ export function HandleGetFullDailyReport(fromDate, toDate, user) {
     )}&toDate=${encodeURIComponent(toDate)}&user=${encodeURIComponent(user)}`
   );
 }
+
+/**
+ * Handle get fields general daily report
+ * @returns {Promise(Array)} Success - array, Failure - string error message
+ */
+export function handleGetSeenNotifications() {
+  const user = localStorage.getItem("username");
+  return fetch(`api/getSeenNotifications?user=${encodeURIComponent(user)}`);
+}

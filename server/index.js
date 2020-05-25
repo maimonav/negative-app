@@ -546,3 +546,9 @@ app.get("/api/getFullDailyReport", async (req, res) => {
   const result = await service.getFullDailyReport(fromDate, toDate, user);
   res.send(JSON.stringify({ result }));
 });
+
+app.get("/api/getSeenNotifications", async (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getSeenNotifications(user);
+  res.send(JSON.stringify({ result }));
+});
