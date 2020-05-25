@@ -192,16 +192,17 @@ export default function ReactVirtualizedTable(props) {
       columns = [...columns, ...additionalColumns];
     }
   }
-  if (data) {
-    return (
-      <Paper style={{ height: 100 + (data.length - 1) * 50, width: "100%" }}>
-        <VirtualizedTable
-          rowCount={data.length}
-          rowGetter={({ index }) => data[index]}
-          columns={columns}
-        />
-      </Paper>
-    );
-  }
-  return null;
+
+  const rowsNum = data ? data.length - 1 : 0;
+  const height = rowsNum * 50 + 100;
+
+  return (
+    <Paper style={{ height: height, width: "100%" }}>
+      <VirtualizedTable
+        rowCount={rowsNum}
+        rowGetter={({ index }) => data[index]}
+        columns={columns}
+      />
+    </Paper>
+  );
 }
