@@ -286,9 +286,9 @@ class ReportController {
           },
         },
       ];
-    let requestedFromDateMidnight = new Date(
-      this._getSyncDateFormat(new Date(fromDate))
-    );
+    fromDate = new Date(fromDate);
+    toDate = new Date(toDate);
+    let requestedFromDateMidnight = new Date(this._getSyncDateFormat(fromDate));
     let requestedToDateTomorrowMidnight = new Date(
       this._getSyncDateFormat(new Date(toDate.setDate(toDate.getDate() + 1)))
     );

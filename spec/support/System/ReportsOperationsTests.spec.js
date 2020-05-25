@@ -162,7 +162,6 @@ describe("Report Operations Tests", () => {
   it("UnitTest getReport - ReportController", async () => {
     let result = await ReportController.getReport("lol");
     expect(result).toBe("The requested report type is invalid");
-    let todayDate;
     let types = [
       "inventory_daily_report",
       "incomes_daily_report",
@@ -171,12 +170,19 @@ describe("Report Operations Tests", () => {
     for (let i in types) {
       let type = types[i];
       result = await ReportController.getReport(type, "test");
-      expect(result).toBe("The requested report date is invalid");
+      expect(result).toBe("The requested report starting date is invalid");
 
-      todayDate = new Date();
+      let todayDate = new Date();
       let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
-      result = await ReportController.getReport(type, date);
-      expect(result).toBe("The requested report date is invalid");
+      todayDate = new Date();
+      result = await ReportController.getReport(type, date, "test");
+      expect(result).toBe("The requested report starting date is invalid");
+
+      result = await ReportController.getReport(type, todayDate, "test");
+      expect(result).toBe("The requested report ending date is invalid");
+
+      result = await ReportController.getReport(type, todayDate, date);
+      expect(result).toBe("The requested report ending date is invalid");
     }
   });
 
