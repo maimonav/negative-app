@@ -11,13 +11,13 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetMovies,
-  handleGetCategories,
+  handleGetCategories
 } from "../../../Handlers/Handlers";
 import {
   movieNameHook,
   categoryNameHook,
   keyHook,
-  examinationRoomHook,
+  examinationRoomHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -28,38 +28,38 @@ export default class EditMovie extends React.Component {
       movieName: "",
       category: "",
       key: "",
-      examinationRoom: "",
+      examinationRoom: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ movies: state.result });
       });
 
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
 
-  setMovieName = (movieName) => {
+  setMovieName = movieName => {
     this.setState({ movieName: movieName });
   };
 
-  setCategory = (category) => {
+  setCategory = category => {
     this.setState({ category: category });
   };
 
-  setKey = (event) => {
+  setKey = event => {
     this.setState({ key: event.target.value });
   };
 
-  setExaminationRoom = (event) => {
+  setExaminationRoom = event => {
     this.setState({ examinationRoom: event.target.value });
   };
 
@@ -69,7 +69,7 @@ export default class EditMovie extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit movie</h4>
               </CardHeader>
@@ -104,9 +104,9 @@ export default class EditMovie extends React.Component {
                       labelText="Key"
                       id="key"
                       formControlProps={{
-                        fullWidth: true,
+                        fullWidth: true
                       }}
-                      onChange={(event) => this.setKey(event)}
+                      onChange={event => this.setKey(event)}
                       data-hook={keyHook}
                     />
                   </GridItem>
@@ -117,9 +117,9 @@ export default class EditMovie extends React.Component {
                       labelText="Examination room"
                       id="examinationRoom"
                       formControlProps={{
-                        fullWidth: true,
+                        fullWidth: true
                       }}
-                      onChange={(event) => this.setExaminationRoom(event)}
+                      onChange={event => this.setExaminationRoom(event)}
                       data-hook={examinationRoomHook}
                     />
                   </GridItem>

@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaProducts,
-  handleGetProductDetails,
+  handleGetProductDetails
 } from "../../../Handlers/Handlers";
 import { productNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -18,24 +18,24 @@ export default class ShowProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: "",
+      productName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaProducts()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ products: state.result });
       });
   };
 
-  setProductName = (productName) => {
+  setProductName = productName => {
     this.setState({ productName });
     handleGetProductDetails(productName)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ productName: state.result });
       });
   };
@@ -45,7 +45,7 @@ export default class ShowProductDetails extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show product details</h4>
               </CardHeader>
@@ -68,7 +68,7 @@ export default class ShowProductDetails extends React.Component {
                       label="productName"
                       value={this.state.productName.productName || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -78,7 +78,7 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Category"
                       value={this.state.productName.productCategory || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -88,7 +88,7 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Price"
                       value={this.state.productName.productPrice || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -98,7 +98,7 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Quantity"
                       value={this.state.productName.productQuantity || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -108,7 +108,7 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Max Qunatity"
                       value={this.state.productName.productMaxQunatity || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -118,7 +118,7 @@ export default class ShowProductDetails extends React.Component {
                       label="Product Mim Qunatity"
                       value={this.state.productName.productMimQunatity || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />

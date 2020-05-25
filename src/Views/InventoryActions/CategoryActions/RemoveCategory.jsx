@@ -16,20 +16,20 @@ export default class RemoveCategory extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryName: "",
+      categoryName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = (name) => {
+  setCategoryName = name => {
     this.setState({ categoryName: name });
   };
 
@@ -39,7 +39,7 @@ export default class RemoveCategory extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Remove Category</h4>
                 <p>Complete category's name</p>

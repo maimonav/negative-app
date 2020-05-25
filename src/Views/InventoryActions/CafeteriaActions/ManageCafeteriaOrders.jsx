@@ -15,20 +15,20 @@ import {
   AddCafeteriaOrder,
   EditCafeteriaOrder,
   RemoveOrder,
-  ConfirmCafeteriaOrder,
+  ConfirmCafeteriaOrder
 } from "../../index";
 import {
   handleAddCafeteriaOrder,
   handleEditCafeteriaOrder,
   handleRemoveOrder,
-  handleConfirmCafeteriaOrder,
+  handleConfirmCafeteriaOrder
 } from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
   removeActionHook,
-  confirmActionHook,
+  confirmActionHook
 } from "../../../consts/data-hooks";
 import { isAtLeastDeputyManager } from "../../../consts/permissions";
 const style = { justifyContent: "center", top: "auto" };
@@ -36,7 +36,7 @@ const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white",
+  color: "white"
 };
 
 export default class ManageCafeteriaOrders extends React.Component {
@@ -45,7 +45,7 @@ export default class ManageCafeteriaOrders extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = (action) => {
+  onChange = action => {
     this.setState({ action });
   };
 
@@ -54,7 +54,7 @@ export default class ManageCafeteriaOrders extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={6}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>

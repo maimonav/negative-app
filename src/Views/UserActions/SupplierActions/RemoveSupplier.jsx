@@ -17,20 +17,20 @@ export default class RemoveSupplier extends React.Component {
     super(props);
     this.state = {
       supplierName: "",
-      contactDetails: "",
+      contactDetails: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetSuppliers(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setSupplierName = (supplierName) => {
+  setSupplierName = supplierName => {
     this.setState({ supplierName });
   };
 
@@ -44,7 +44,7 @@ export default class RemoveSupplier extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Remove supplier</h4>
               </CardHeader>

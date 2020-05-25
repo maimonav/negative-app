@@ -18,20 +18,20 @@ export default class EditSupplier extends React.Component {
     super(props);
     this.state = {
       supplierName: "",
-      contactDetails: "",
+      contactDetails: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetSuppliers(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setSupplierName = (supplierName) => {
+  setSupplierName = supplierName => {
     this.setState({ supplierName });
   };
 
@@ -45,7 +45,7 @@ export default class EditSupplier extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit supplier</h4>
                 <p>Complete his profile</p>
@@ -69,9 +69,9 @@ export default class EditSupplier extends React.Component {
                       labelText="Contact details"
                       id="contactDetails"
                       formControlProps={{
-                        fullWidth: true,
+                        fullWidth: true
                       }}
-                      onChange={(event) => this.setContactDetails(event)}
+                      onChange={event => this.setContactDetails(event)}
                       data-hook={contactDetailsHook}
                     />
                   </GridItem>

@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
 import {
   categoryNameHook,
-  categoryParentNameHook,
+  categoryParentNameHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -20,24 +20,24 @@ export default class EditCategory extends React.Component {
     super(props);
     this.state = {
       categoryName: "",
-      parentName: "",
+      parentName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = (name) => {
+  setCategoryName = name => {
     this.setState({ categoryName: name });
   };
 
-  setCategoryParentName = (name) => {
+  setCategoryParentName = name => {
     this.setState({ parentName: name });
   };
 
@@ -47,7 +47,7 @@ export default class EditCategory extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit Category</h4>
                 <p>Complete Category's details</p>
@@ -69,7 +69,7 @@ export default class EditCategory extends React.Component {
                   style={{
                     margin: "auto",
                     marginTop: "20px",
-                    marginBottom: "10px",
+                    marginBottom: "10px"
                   }}
                 >
                   <GridContainer>

@@ -9,11 +9,11 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCategories,
-  handleGetCategoryDetails,
+  handleGetCategoryDetails
 } from "../../../Handlers/Handlers";
 import {
   categoryNameHook,
-  categoryParentNameHook,
+  categoryParentNameHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -21,24 +21,24 @@ export default class ShowCategories extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryName: "",
+      categoryName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = (categoryName) => {
+  setCategoryName = categoryName => {
     this.setState({ categoryName });
     handleGetCategoryDetails(categoryName)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categoryName: state.result });
       });
   };
@@ -48,7 +48,7 @@ export default class ShowCategories extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show category details</h4>
               </CardHeader>
@@ -72,7 +72,7 @@ export default class ShowCategories extends React.Component {
                         label="categoryName"
                         value={this.state.categoryName.categoryName || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />
@@ -82,7 +82,7 @@ export default class ShowCategories extends React.Component {
                         label="Category Parent"
                         value={this.state.categoryName.categoryParent || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                         data-hook={categoryParentNameHook}

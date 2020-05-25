@@ -9,11 +9,11 @@ import Button from "../../../Components/CustomButtons/Button.js";
 import { Link } from "react-router-dom";
 import {
   manageCafeteriaOrdersPath,
-  manageMoviesOrdersPath,
+  manageMoviesOrdersPath
 } from "../../../consts/paths";
 import {
   cafeteriaOrdersHook,
-  moviesOrdersHook,
+  moviesOrdersHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -23,7 +23,7 @@ export default class ManageOrders extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={5}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>

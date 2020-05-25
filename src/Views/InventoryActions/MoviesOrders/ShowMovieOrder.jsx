@@ -10,7 +10,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import moment from "moment";
 import {
   handleGetMovieOrders,
-  handleGetMovieOrderDetails,
+  handleGetMovieOrderDetails
 } from "../../../Handlers/Handlers";
 import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -19,24 +19,24 @@ export default class ShowMovieOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: "",
+      orderId: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovieOrders()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orders: state.result });
       });
   };
 
-  setOrderId = (orderId) => {
+  setOrderId = orderId => {
     this.setState({ orderId });
     handleGetMovieOrderDetails(orderId)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orderId: state.result });
       });
   };
@@ -49,7 +49,7 @@ export default class ShowMovieOrders extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={10}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show order details</h4>
               </CardHeader>
@@ -75,7 +75,7 @@ export default class ShowMovieOrders extends React.Component {
                           moment(orderId.orderDate).format("DD/MM/YYYY") || ""
                         }
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />
@@ -87,7 +87,7 @@ export default class ShowMovieOrders extends React.Component {
                         label="supplier Details"
                         value={orderId.supplierDetails || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />
@@ -99,7 +99,7 @@ export default class ShowMovieOrders extends React.Component {
                         label="Movies:"
                         value={orderId.products || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />

@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetSuppliers,
-  handleGetSupplierDetails,
+  handleGetSupplierDetails
 } from "../../../Handlers/Handlers";
 import { userNameHook, contactDetailsHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -18,24 +18,24 @@ export default class ShowSupplier extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      supplierName: "",
+      supplierName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetSuppliers(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setSupplierName = (supplierName) => {
+  setSupplierName = supplierName => {
     this.setState({ supplierName });
     handleGetSupplierDetails(supplierName, localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ contactDetails: state.result || "" });
       });
   };
@@ -45,7 +45,7 @@ export default class ShowSupplier extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show Supplier details</h4>
               </CardHeader>
@@ -68,7 +68,7 @@ export default class ShowSupplier extends React.Component {
                       label="Contact details"
                       value={this.state.contactDetails}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                       data-hook={contactDetailsHook}

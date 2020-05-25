@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaOrders,
-  handleGetOrderDetails,
+  handleGetOrderDetails
 } from "../../../Handlers/Handlers";
 import SimpleTable from "../../../Components/Tables/SimpleTable";
 import moment from "moment";
@@ -20,24 +20,24 @@ export default class ShowCafeteriaOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: "",
+      orderId: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaOrders()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orders: state.result });
       });
   };
 
-  setOrderId = (orderId) => {
+  setOrderId = orderId => {
     this.setState({ orderId });
     handleGetOrderDetails(orderId)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orderId: state.result });
       });
   };
@@ -45,7 +45,7 @@ export default class ShowCafeteriaOrders extends React.Component {
   columns = [
     { title: "Product Name", field: "name" },
     { title: "Quantity", field: "expectedQuantity" },
-    { title: "Actual Quantity", field: "actualQuantity" },
+    { title: "Actual Quantity", field: "actualQuantity" }
   ];
 
   render() {
@@ -54,7 +54,7 @@ export default class ShowCafeteriaOrders extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show order details</h4>
               </CardHeader>
@@ -80,7 +80,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                           moment(orderId.orderDate).format("DD/MM/YYYY") || ""
                         }
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />
@@ -92,7 +92,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                         label="supplier Details"
                         value={orderId.supplierDetails || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />

@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetMovies,
-  handleGetMovieDetails,
+  handleGetMovieDetails
 } from "../../../Handlers/Handlers";
 import { movieNameHook, categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -18,24 +18,24 @@ export default class ShowMovieDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieName: "",
+      movieName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ movies: state.result });
       });
   };
 
-  setMovieName = (movieName) => {
+  setMovieName = movieName => {
     this.setState({ movieName });
     handleGetMovieDetails(movieName)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ movieName: state.result });
       });
   };
@@ -43,7 +43,7 @@ export default class ShowMovieDetails extends React.Component {
   columns = [
     { title: "Movie Name", field: "name" },
     { title: "Key", field: "expectedQuantity" },
-    { title: "Examination room", field: "actualQuantity" },
+    { title: "Examination room", field: "actualQuantity" }
   ];
 
   render() {
@@ -52,7 +52,7 @@ export default class ShowMovieDetails extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show movie details</h4>
               </CardHeader>
@@ -76,7 +76,7 @@ export default class ShowMovieDetails extends React.Component {
                         label="movieName"
                         value={movieName.movieName || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />
@@ -88,7 +88,7 @@ export default class ShowMovieDetails extends React.Component {
                         label="category"
                         value={movieName.category || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                         data-hook={categoryNameHook}
@@ -101,7 +101,7 @@ export default class ShowMovieDetails extends React.Component {
                         label="Movie Key"
                         value={movieName.movieKey || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />
@@ -113,7 +113,7 @@ export default class ShowMovieDetails extends React.Component {
                         label="Examination Room"
                         value={movieName.examinationRoom || ""}
                         InputProps={{
-                          readOnly: true,
+                          readOnly: true
                         }}
                         variant="filled"
                       />

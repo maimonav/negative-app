@@ -13,7 +13,7 @@ import SelectDates from "../../../Components/SelectDates";
 import SimpleTable from "../../../Components/Tables/SimpleTable";
 import {
   handleGetCafeteriaProducts,
-  handleGetSuppliers,
+  handleGetSuppliers
 } from "../../../Handlers/Handlers";
 import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -28,7 +28,7 @@ export default class AddCafeteriaOrder extends React.Component {
       product: "",
       quantity: "",
       arrayOfProducts: [],
-      clearField: false,
+      clearField: false
     };
     this.checkValidate = true;
     this.setInitialState();
@@ -36,26 +36,26 @@ export default class AddCafeteriaOrder extends React.Component {
 
   setInitialState = () => {
     handleGetCafeteriaProducts()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ products: state.result });
       });
     handleGetSuppliers(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ suppliers: state.result });
       });
   };
 
   stopAddmore = () => {
-    this.setState((oldState) => ({ addMore: !oldState.addMore }));
+    this.setState(oldState => ({ addMore: !oldState.addMore }));
   };
 
   setQuantity(event) {
     this.setState({ quantity: event.target.value });
   }
 
-  setProduct = (name) => {
+  setProduct = name => {
     this.setState({ product: name, clearField: false });
   };
 
@@ -67,28 +67,28 @@ export default class AddCafeteriaOrder extends React.Component {
           ...this.state.arrayOfProducts,
           {
             name: this.state.product,
-            quantity: this.state.quantity,
-          },
+            quantity: this.state.quantity
+          }
         ],
         clearField: true,
         product: "",
-        quantity: "",
+        quantity: ""
       });
       document.getElementById("quantity").value = "";
     }
   };
 
-  setOrderDate = (date) => {
+  setOrderDate = date => {
     this.setState({ orderDate: date });
   };
 
-  setSupplierName = (event) => {
+  setSupplierName = event => {
     this.setState({ supplierName: event });
   };
 
   columns = [
     { title: "Product Name", field: "name" },
-    { title: "Quantity", field: "expectedQuantity" },
+    { title: "Quantity", field: "expectedQuantity" }
   ];
 
   validateInput() {
@@ -106,13 +106,13 @@ export default class AddCafeteriaOrder extends React.Component {
       orderDate,
       addMore,
       arrayOfProducts,
-      clearField,
+      clearField
     } = this.state;
     return (
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={10}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new Cafeteria Order</h4>
                 <p>Complete order's details</p>
@@ -135,12 +135,12 @@ export default class AddCafeteriaOrder extends React.Component {
                         labelText="Set Product Qunatity"
                         id="quantity"
                         inputProps={{
-                          type: "number",
+                          type: "number"
                         }}
                         formControlProps={{
-                          fullWidth: true,
+                          fullWidth: true
                         }}
-                        onChange={(event) => this.setQuantity(event)}
+                        onChange={event => this.setQuantity(event)}
                       />
                     </GridItem>
                   </GridContainer>

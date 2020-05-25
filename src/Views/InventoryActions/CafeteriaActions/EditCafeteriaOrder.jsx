@@ -13,7 +13,7 @@ import EditTable from "../../../Components/Tables/EditTable";
 import {
   handleGetOrdersByDates,
   handleGetProductsAndQuantityByOrder,
-  handleGetOrderDetails,
+  handleGetOrderDetails
 } from "../../../Handlers/Handlers";
 import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -29,7 +29,7 @@ export default class EditCafeteriaOrder extends React.Component {
       updatedProducts: "",
       isOpened: false,
       openSecond: false,
-      openThird: false,
+      openThird: false
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
@@ -38,63 +38,63 @@ export default class EditCafeteriaOrder extends React.Component {
 
   handleGetOrdersByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate, true)
-      .then((response) => response.json())
-      .then((state) => this.setState({ orders: state.result }));
+      .then(response => response.json())
+      .then(state => this.setState({ orders: state.result }));
   };
 
-  handleGetProductAndQuntityByOrder = (orderId) => {
+  handleGetProductAndQuntityByOrder = orderId => {
     handleGetProductsAndQuantityByOrder(orderId)
-      .then((response) => response.json())
-      .then((state) => this.setState({ productsWithQuantity: state.result }));
+      .then(response => response.json())
+      .then(state => this.setState({ productsWithQuantity: state.result }));
   };
 
   toggleBox() {
     this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
     this.handleGetProductAndQuntityByOrder(this.state.orderId);
-    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
   }
 
   toggleThirdBox() {
-    this.setState((oldState) => ({ openThird: !oldState.openThird }));
-    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ openThird: !oldState.openThird }));
+    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
-  setStartDate = (date) => {
+  setStartDate = date => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = (date) => {
+  setEndDate = date => {
     this.setState({ endDate: date });
   };
 
-  setOrderName = (orderId) => {
+  setOrderName = orderId => {
     this.setState({ orderId });
     handleGetOrderDetails(orderId)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orderDate: state.result.orderDate });
       });
   };
 
-  setOrderDate = (date) => {
+  setOrderDate = date => {
     this.setState({ orderDate: date });
   };
 
-  setProductsWithQuantity = (name) => {
+  setProductsWithQuantity = name => {
     this.setState({
-      updatedProducts: name,
+      updatedProducts: name
     });
   };
 
   columns = [
     { title: "Product Name", field: "name", editable: "never" },
     { title: "Quantity", field: "expectedQuantity", editable: "never" },
-    { title: "New Quantity", field: "actualQuantity" },
+    { title: "New Quantity", field: "actualQuantity" }
   ];
 
   render() {
@@ -107,13 +107,13 @@ export default class EditCafeteriaOrder extends React.Component {
       updatedProducts,
       isOpened,
       openSecond,
-      openThird,
+      openThird
     } = this.state;
     return (
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={10}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit Cafeteria Order</h4>
                 <p>Complete order's changes</p>

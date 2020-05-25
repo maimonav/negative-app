@@ -18,15 +18,15 @@ export default class AddMovie extends React.Component {
     super(props);
     this.state = {
       movieName: "",
-      category: "",
+      category: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
@@ -35,7 +35,7 @@ export default class AddMovie extends React.Component {
     this.setState({ movieName: event.target.value });
   }
 
-  setCategory = (name) => {
+  setCategory = name => {
     this.setState({ category: name });
   };
 
@@ -45,7 +45,7 @@ export default class AddMovie extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add New movie</h4>
               </CardHeader>
@@ -56,9 +56,9 @@ export default class AddMovie extends React.Component {
                       labelText="Add Movie Name"
                       id="movieName"
                       formControlProps={{
-                        fullWidth: true,
+                        fullWidth: true
                       }}
-                      onChange={(event) => this.setMovieName(event)}
+                      onChange={event => this.setMovieName(event)}
                       data-hook={movieNameHook}
                     />
                   </GridItem>

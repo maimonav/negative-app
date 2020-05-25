@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetEmployees,
-  handleGetEmployeeDetails,
+  handleGetEmployeeDetails
 } from "../../../Handlers/Handlers";
 import { userNameHook, contactDetailsHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -18,24 +18,24 @@ export default class ShowEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: "",
+      userName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetEmployees(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ employees: state.result });
       });
   };
 
-  setUsername = (userName) => {
+  setUsername = userName => {
     this.setState({ userName });
     handleGetEmployeeDetails(userName, localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ employee: state.result });
       });
   };
@@ -45,7 +45,7 @@ export default class ShowEmployee extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card style={{ backgroundColor: "#FFFFF0" }}>
+            <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show employee details</h4>
               </CardHeader>
@@ -68,7 +68,7 @@ export default class ShowEmployee extends React.Component {
                       label="First name"
                       value={this.state.employee.firstName || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -78,7 +78,7 @@ export default class ShowEmployee extends React.Component {
                       label="Last name"
                       value={this.state.employee.lastName || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -89,7 +89,7 @@ export default class ShowEmployee extends React.Component {
                       label="Permissions"
                       value={this.state.employee.permissions || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                     />
@@ -99,7 +99,7 @@ export default class ShowEmployee extends React.Component {
                       label="Contact details"
                       value={this.state.employee.contactDetails || ""}
                       InputProps={{
-                        readOnly: true,
+                        readOnly: true
                       }}
                       variant="filled"
                       data-hook={contactDetailsHook}
