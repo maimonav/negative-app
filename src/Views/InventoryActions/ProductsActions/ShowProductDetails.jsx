@@ -45,7 +45,7 @@ export default class ShowProductDetails extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show product details</h4>
               </CardHeader>

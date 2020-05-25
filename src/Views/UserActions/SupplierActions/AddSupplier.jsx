@@ -16,7 +16,7 @@ export default class AddSupplier extends React.Component {
     super(props);
     this.state = {
       supplierName: "",
-      contactDetails: ""
+      contactDetails: "",
     };
   }
 
@@ -34,7 +34,7 @@ export default class AddSupplier extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new supplier</h4>
                 <p>Complete his profile</p>
@@ -46,10 +46,10 @@ export default class AddSupplier extends React.Component {
                       labelText="Name"
                       id="supplierName"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
                       data-hook={userNameHook}
-                      onChange={event => this.setSupplierName(event)}
+                      onChange={(event) => this.setSupplierName(event)}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
@@ -57,10 +57,10 @@ export default class AddSupplier extends React.Component {
                       labelText="Contact details"
                       id="contactDetails"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
                       data-hook={contactDetailsHook}
-                      onChange={event => this.setContactDetails(event)}
+                      onChange={(event) => this.setContactDetails(event)}
                     />
                   </GridItem>
                 </GridContainer>

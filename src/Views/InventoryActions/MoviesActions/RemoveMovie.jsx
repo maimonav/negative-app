@@ -16,20 +16,20 @@ export default class EditMovie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieName: ""
+      movieName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movies: state.result });
       });
   };
 
-  setMovieName = movieName => {
+  setMovieName = (movieName) => {
     this.setState({ movieName: movieName });
   };
 
@@ -39,7 +39,7 @@ export default class EditMovie extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Remove movie</h4>
               </CardHeader>

@@ -53,8 +53,8 @@ export default class ShowCafeteriaOrders extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={10}>
-            <Card>
+          <GridItem xs={12} sm={12} md={8}>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show order details</h4>
               </CardHeader>

@@ -13,29 +13,29 @@ import {
   AddProduct,
   EditProduct,
   RemoveProduct,
-  ShowProductDetails
+  ShowProductDetails,
 } from "../../index";
 import {
   handleAddProduct,
   handleEditProduct,
-  handleRemoveProduct
+  handleRemoveProduct,
 } from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
-  removeActionHook
+  removeActionHook,
 } from "../../../consts/data-hooks";
 import {
   isAtLeastShiftManager,
-  isAtLeastDeputyManager
+  isAtLeastDeputyManager,
 } from "../../../consts/permissions";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white"
+  color: "white",
 };
 
 export default class ManageInventory extends React.Component {
@@ -44,7 +44,7 @@ export default class ManageInventory extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = action => {
+  onChange = (action) => {
     this.setState({ action });
   };
 
@@ -53,7 +53,7 @@ export default class ManageInventory extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={6}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>

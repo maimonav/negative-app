@@ -87,7 +87,7 @@ export default class AddProduct extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new Product</h4>
                 <p>Complete product's details</p>

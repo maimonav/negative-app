@@ -101,7 +101,7 @@ export default class ConfirmMovieOrder extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={10}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Confirm Cafeteria Order</h4>
                 <p>Complete order's changes</p>

@@ -49,7 +49,7 @@ export default class ManageCategories extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={6}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info">
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={5}>

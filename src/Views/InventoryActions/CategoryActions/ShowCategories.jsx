@@ -48,7 +48,7 @@ export default class ShowCategories extends React.Component {
       <div>
         <GridContainer style={style}>
           <GridItem xs={12} sm={12} md={8}>
-            <Card>
+            <Card style={{ backgroundColor: "#FFFFF0" }}>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show category details</h4>
               </CardHeader>
