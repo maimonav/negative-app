@@ -10,7 +10,7 @@ class App extends React.Component {
     this.state = {
       messageType: "",
       messageContent: "",
-      messageError: "",
+      messageError: ""
     };
     this.setInitialState();
   }
@@ -20,8 +20,8 @@ class App extends React.Component {
     const permission = localStorage.getItem("permission");
     if (user) {
       handleIsLoggedIn(user)
-        .then((response) => response.json())
-        .then((state) => {
+        .then(response => response.json())
+        .then(state => {
           const isLogged = Boolean(state.result);
           const username = isLogged ? user : "";
           this.setState({ isLogged, username, permission });
@@ -34,7 +34,7 @@ class App extends React.Component {
       console.log("connected");
     };
 
-    socket.onmessage = (evt) => {
+    socket.onmessage = evt => {
       const message = JSON.parse(evt.data);
       if (message[0].type === "INFO") {
         this.setState({ messageType: "INFO", messageContent: message });
@@ -45,6 +45,12 @@ class App extends React.Component {
 
     socket.onclose = () => {
       console.log("disconnected");
+      //For now, this is our way to know when the server is disconnected
+      this.setState({
+        isLogged: false,
+        username: undefined,
+        permission: undefined
+      });
     };
   }
 
@@ -70,7 +76,7 @@ class App extends React.Component {
     this.setState({
       isLogged: false,
       username: undefined,
-      permission: undefined,
+      permission: undefined
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");
