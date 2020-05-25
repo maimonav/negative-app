@@ -32,6 +32,22 @@ class NotificationController {
       if (userId && this.loggedInUsers.has(userId))
         this._sendAllNotificationsToUserFromDB(userId, socketClient);
 
+      socketClient.on("message", async (message) => {
+        if (
+          message.type &&
+          message.type === "ERROR" &&
+          message.subtype &&
+          message.subtype === "CONFIRM"
+        ) {
+          let content = JSON.parse(message);
+          await DataBase.singleUpdate(
+            "notification",
+            { timeFired: content.timeFired },
+            { seen: true }
+          );
+        }
+      });
+
       socketClient.on("close", () => {
         console.log(clientUrl, "closed");
         this.clientsMap.delete(clientUrl);
