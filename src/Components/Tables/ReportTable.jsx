@@ -183,7 +183,6 @@ export default function ReactVirtualizedTable(props) {
     let additionalColumns = [];
     const additionalProps =
       data && data[data.length - 1] && data[data.length - 1].allProps;
-    // const additionalProps = propsObj && Object.keys(propsObj);
     if (
       additionalProps &&
       additionalProps.length > 0 &&

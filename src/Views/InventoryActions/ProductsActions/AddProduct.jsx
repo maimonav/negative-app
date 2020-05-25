@@ -21,6 +21,7 @@ import {
   productMaxQuantityHook,
   productMinQuantityHook
 } from "../../../consts/data-hooks";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddProduct extends React.Component {
@@ -153,7 +154,7 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Set Product Max Quantity"
+                      labelText={"Set Product Max Quantity" + optional}
                       id="productMaxQuantity"
                       formControlProps={{
                         fullWidth: true
@@ -169,7 +170,7 @@ export default class AddProduct extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Set Product Min Quantity"
+                      labelText={"Set Product Min Quantity" + optional}
                       id="productMinQuantity"
                       formControlProps={{
                         fullWidth: true
