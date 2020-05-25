@@ -105,7 +105,15 @@ export default class RemoveOrder extends React.Component {
                   <Button
                     id={"removeOrder"}
                     color="info"
-                    onClick={() => this.props.handleRemoveOrder(orderName)}
+                    onClick={() =>
+                      this.props
+                        .handleRemoveOrder(orderName)
+                        .then(response => response.json())
+                        .then(state => {
+                          alert(state.result);
+                          this.handleGetOrdersByDates();
+                        })
+                    }
                   >
                     Remove Order
                   </Button>

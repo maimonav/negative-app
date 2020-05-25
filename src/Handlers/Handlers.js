@@ -119,15 +119,11 @@ export function handleEditEmployee(
  */
 export function handleRemoveEmployee(userName) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeEmployee?userName=${encodeURIComponent(
       userName
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -229,19 +225,11 @@ export function handleEditProduct(
  * @returns void
  */
 export function handleRemoveProduct(productName) {
-  if (productName === "") {
-    alert("Product name is required");
-    return;
-  }
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeProduct?productName=${encodeURIComponent(productName)}
     &user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -338,20 +326,12 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
  * @param {string} movieName
  */
 export function handleRemoveMovie(movieName) {
-  if (movieName === "") {
-    alert("movie name is required");
-    return;
-  }
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeMovie?movieName=${encodeURIComponent(
       movieName
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 /**
  * Handle add supplier to system
@@ -402,15 +382,11 @@ export function handleEditSupplier(name, contactDetails) {
  */
 export function handleRemoveSupplier(name) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeSupplier?name=${encodeURIComponent(
       name
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -466,15 +442,11 @@ export function handleEditCategory(categoryName, parentName) {
  */
 export function handleRemoveCategory(categoryName) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeCategory?categoryName=${encodeURIComponent(
       categoryName
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -539,15 +511,11 @@ export function handleEditCafeteriaOrder(
  */
 export function handleRemoveOrder(orderId) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/RemoveOrder?orderId=${encodeURIComponent(
       orderId
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
