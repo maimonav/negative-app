@@ -22,7 +22,7 @@ export default function TablPanel(props) {
   return (
     <Router>
       <Paper square>
-        <Tabs indicatorColor="primary" aria-label="tabs">
+        <Tabs style={{ backgroundColor: "#F8F8FF" }} aria-label="tabs">
           {props.isLogged && (
             <Tab
               label={`Welcome back, ${props.userName}`}
