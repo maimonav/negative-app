@@ -143,7 +143,8 @@ export default class ShowReport extends React.Component {
                   </Button>
                 </div>
                 {this.state.reportType &&
-                  this.state.date &&
+                  this.state.fromDate &&
+                  this.state.toDate &&
                   this.state.reportData &&
                   this.renderReport()}
               </CardBody>
