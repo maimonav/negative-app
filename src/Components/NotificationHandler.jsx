@@ -13,6 +13,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import moment from "moment";
+import { handleGetSeenNotifications } from "../Handlers/Handlers";
 
 function getNotificationMessage(type, content, requiredQuantity) {
   switch (type) {
@@ -35,15 +36,25 @@ export default class NotificationHandler extends React.Component {
       notifications: [],
       view: false,
       newNotifications: 0,
-      changeColor: false
+      changeColor: false,
     };
+  }
+
+  componentDidMount() {
+    handleGetSeenNotifications()
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ messages: state.result }, () =>
+          console.log("messages:", this.state.messages)
+        );
+      });
   }
 
   componentDidUpdate(prevProps) {
     if (prevProps.messageContent !== this.props.messageContent) {
       this.updateNotifications();
       this.setState({
-        render: true
+        render: true,
       });
     }
   }
@@ -66,15 +77,15 @@ export default class NotificationHandler extends React.Component {
           {
             name: notificationMessage,
             hasUserView: false,
-            notificationDate: date
+            notificationDate: date,
           },
-          ...this.state.notifications
-        ]
+          ...this.state.notifications,
+        ],
       },
       () =>
         this.setState({
           newNotifications:
-            this.state.newNotifications + messageContent[0].content.length
+            this.state.newNotifications + messageContent[0].content.length,
         })
     );
     console.log(messageContent);
@@ -105,7 +116,7 @@ export default class NotificationHandler extends React.Component {
     const { notifications, view, newNotifications } = this.state;
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
-        {popupState => (
+        {(popupState) => (
           <>
             <IconButton aria-label="show new notifications" color="inherit">
               <Badge
@@ -121,11 +132,11 @@ export default class NotificationHandler extends React.Component {
               onExited={this.handleOnExited}
               anchorOrigin={{
                 vertical: "bottom",
-                horizontal: "center"
+                horizontal: "center",
               }}
               transformOrigin={{
                 vertical: "top",
-                horizontal: "center"
+                horizontal: "center",
               }}
             >
               <List style={{ width: 350 }}>
@@ -135,7 +146,7 @@ export default class NotificationHandler extends React.Component {
                   Notifications:
                 </h3>
                 <Divider />
-                {notifications.map(notification => (
+                {notifications.map((notification) => (
                   <>
                     <Box
                       bgcolor={notification.hasUserView ? "white" : "#eaf7ff"}

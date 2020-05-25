@@ -310,10 +310,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (!this.users.has(userName)) {
       this.writeToLog(
@@ -353,10 +353,10 @@ class ServiceLayer {
    **/
   async deleteEmployee(userName, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (!this.users.has(userName)) {
       this.writeToLog(
@@ -396,10 +396,10 @@ class ServiceLayer {
    */
   async addMovie(movieName, category, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
@@ -468,10 +468,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
@@ -531,10 +531,10 @@ class ServiceLayer {
    */
   async removeMovie(movieName, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
@@ -583,10 +583,10 @@ class ServiceLayer {
    */
   async addNewSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
@@ -639,10 +639,10 @@ class ServiceLayer {
    */
   async editSupplier(supplierName, contactDetails, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
@@ -689,10 +689,10 @@ class ServiceLayer {
    */
   async removeSupplier(supplierName, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
@@ -752,10 +752,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (this.products.has(productName)) {
       return "The product already exist";
@@ -828,10 +828,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (!this.products.has(productName)) {
       this.writeToLog("info", "editProduct", "The product doesn't exist");
@@ -915,10 +915,10 @@ class ServiceLayer {
    **/
   async removeProduct(productName, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (!this.products.has(productName)) {
       this.writeToLog("info", "removeProduct", "The product does not exist");
@@ -952,10 +952,10 @@ class ServiceLayer {
    **/
   async addCategory(categoryName, ActionIDOfTheOperation, parentName) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (this.categories.has(categoryName)) {
       this.writeToLog("info", "addCategory", "The category already exist");
@@ -1008,10 +1008,10 @@ class ServiceLayer {
    **/
   async editCategory(categoryName, ActionIDOfTheOperation, parentName) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (!this.categories.has(categoryName)) {
       this.writeToLog("info", "editCategory", "The category doesn't exist");
@@ -1052,10 +1052,10 @@ class ServiceLayer {
    **/
   async removeCategory(categoryName, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     if (!this.categories.has(categoryName)) {
       this.writeToLog("info", "removeCategory", "The category doesn't exist");
@@ -1095,10 +1095,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
@@ -1184,10 +1184,10 @@ class ServiceLayer {
    **/
   async removeOrder(orderId, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
@@ -1233,10 +1233,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
@@ -1329,10 +1329,10 @@ class ServiceLayer {
 
   async confirmOrder(orderName, productsList, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
@@ -1425,10 +1425,10 @@ class ServiceLayer {
     ActionIDOfTheOperation
   ) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
@@ -1519,10 +1519,10 @@ class ServiceLayer {
    */
   async removeFieldFromDailyReport(fieldToRemove, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(fieldToRemove)
       ? "Field is not valid"
@@ -1557,10 +1557,10 @@ class ServiceLayer {
    */
   async addFieldToDailyReport(newField, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(newField)
       ? "Field is not valid"
@@ -1595,10 +1595,10 @@ class ServiceLayer {
    */
   async createDailyReport(date, reports, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(date)
       ? "Date is not valid"
@@ -1674,10 +1674,10 @@ class ServiceLayer {
    */
   async getReport(type, fromDate, toDate, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(type)
       ? "Type is not valid"
@@ -1716,10 +1716,10 @@ class ServiceLayer {
    */
   async getFullDailyReport(fromDate, toDate, ActionIDOfTheOperation) {
     if (
-      typeof ActionIDofTheOperation !== "undefined" &&
-      this.userActivation.has(ActionIDofTheOperation)
+      typeof ActionIDOfTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDOfTheOperation)
     ) {
-      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+      this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
     let validationResult = !this._isInputValid(date)
       ? "Date is not valid"
