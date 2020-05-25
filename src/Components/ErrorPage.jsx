@@ -12,9 +12,9 @@ export default class RecipeReviewCard extends React.Component {
   render() {
     return (
       <Box className="error">
-        <h1>There Was a Problem Launching Your Web Site</h1>
+        <h1>Oops, There was a problem launching your web site</h1>
         <Typography style={{ paddingTop: "35px" }}>
-          Server initialization error Database Error: Cannot complete action.
+          Server initialization error, Database Error: Cannot complete action.
           Error ID: 2ed0x7yskadr7hmf
         </Typography>
       </Box>

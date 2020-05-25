@@ -28,6 +28,8 @@ export const reportsTypesInverseObj = Object.freeze({
   incomes_daily_report: "Incomes"
 });
 
+export const optional = " - optional";
+
 export const inventoryColumns = [
   {
     width: 200,

@@ -14,6 +14,7 @@ import {
   categoryParentNameHook
 } from "../../../consts/data-hooks";
 import { handleGetCategories } from "../../../Handlers/Handlers";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCategory extends React.Component {
@@ -85,7 +86,7 @@ export default class AddCategory extends React.Component {
                     <ComboBox
                       id={"categoryParentName"}
                       items={this.state.categories}
-                      boxLabel={"Choose category parent"}
+                      boxLabel={"Choose category parent" + optional}
                       setName={this.setCategoryParentName}
                       isMultiple={false}
                       data-hook={categoryParentNameHook}
