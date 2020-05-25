@@ -2033,7 +2033,7 @@ class ServiceLayer {
       let diffTime =
         Math.abs(value.lastActTime.getTime() - new Date().getTime()) /
         (1000 * 60);
-      if (diffTime >= 3) {
+      if (diffTime >= 10) {
         console.log("disconnect " + key + " the diff is " + diffTime);
         this.logout(key);
       }

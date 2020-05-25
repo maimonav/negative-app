@@ -186,7 +186,10 @@ class NotificationController {
       movieList
     );
   }
-
+  /**
+   * alert about event buzz error
+   * @param {Array(string)} msg error message to show to the user
+   */
   static notifyEventBuzzError(msg) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
