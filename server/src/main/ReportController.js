@@ -234,11 +234,12 @@ class ReportController {
 
   /**
    * @param {string} type Type of report from _types
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The last date of the report to show
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  static async getReport(type, date) {
+  static async getReport(type, fromDate, toDate) {
     if (!this._isValidType(type)) {
       logger.writeToLog(
         "info",
@@ -276,25 +277,19 @@ class ReportController {
           },
         },
       ];
-    let requestedDateMidnight = new Date(
-      this._getSyncDateFormat(new Date(date))
+    let requestedFromDateMidnight = new Date(
+      this._getSyncDateFormat(new Date(fromDate))
     );
-    let requestedDateTomorrowMidnight = new Date(
-      this._getSyncDateFormat(new Date(date.setDate(date.getDate() + 1)))
+    let requestedToDateTomorrowMidnight = new Date(
+      this._getSyncDateFormat(new Date(toDate.setDate(toDate.getDate() + 1)))
     );
-    let where =
-      type === this._types.MOVIES
-        ? {
-            date: {
-              [Sequelize.Op.between]: [
-                requestedDateMidnight,
-                requestedDateTomorrowMidnight,
-              ],
-            },
-          }
-        : {
-            date: requestedDateMidnight,
-          };
+    let where = {
+      date: {
+        [Sequelize.Op.gte]: requestedFromDateMidnight,
+        [Sequelize.Op.lt]: requestedToDateTomorrowMidnight,
+      },
+    };
+
     let result = await DataBase.singleFindAll(type, where, undefined, [
       ["date", "ASC"],
     ]);
