@@ -260,6 +260,7 @@ describe("Report Operations Tests", function() {
       let result = await service.getReport(
         types[i],
         todayDate.toISOString(),
+        todayDate.toISOString(),
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
@@ -312,6 +313,7 @@ describe("Report Operations Tests", function() {
     ];
 
     let result = await service.getFullDailyReport(
+      todayDate.toISOString(),
       todayDate.toISOString(),
       "username"
     );
