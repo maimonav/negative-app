@@ -235,7 +235,7 @@ class ReportController {
   /**
    * @param {string} type Type of report from _types
    * @param {string} fromDate The starting date of the report to show
-   * @param {string} toDate The last date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
@@ -250,14 +250,23 @@ class ReportController {
       return "The requested report type is invalid";
     }
 
-    if (!this._isValidDate(date)) {
+    if (!this._isValidDate(fromDate)) {
       logger.writeToLog(
         "info",
         "ReportController",
         "getReport",
-        "The requested report date " + date + " is invalid"
+        "The requested report date " + fromDate + " is invalid"
       );
-      return "The requested report date is invalid";
+      return "The requested report starting date is invalid";
+    }
+    if (!this._isValidDate(toDate)) {
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report date " + toDate + " is invalid"
+      );
+      return "The requested report ending date is invalid";
     }
     //TO DO : to remove
     if (type === this._types.MOVIES)

@@ -1003,7 +1003,7 @@ class CinemaSystem {
   /**
    * @param {string} type Type of the report
    * @param {string} fromDate The starting date of the report to show
-   * @param {string} toDate The last date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @param {string} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.

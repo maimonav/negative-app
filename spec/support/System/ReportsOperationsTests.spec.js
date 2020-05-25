@@ -60,12 +60,13 @@ describe("Report Operations Tests", () => {
 
     await validate(serviceLayer, serviceLayer.getReport, {
       "Type ": "type",
-      "Date ": "date",
+      "From Date ": "fromDate",
+      "To Date ": "toDate",
       "Username ": "User",
     });
 
     await testFunctions(
-      async () => serviceLayer.getReport("type", "date", "User"),
+      async () => serviceLayer.getReport("type", "fromDate", "toDate", "User"),
       "The user performing the operation does not exist in the system"
     );
   });
@@ -74,12 +75,13 @@ describe("Report Operations Tests", () => {
     let serviceLayer = new ServiceLayer();
 
     await validate(serviceLayer, serviceLayer.getFullDailyReport, {
-      "Date ": "date",
+      "From Date ": "fromDate",
+      "To Date ": "toDate",
       "Username ": "User",
     });
 
     await testFunctions(
-      async () => serviceLayer.getFullDailyReport("date", "User"),
+      async () => serviceLayer.getFullDailyReport("fromDate", "toDate", "User"),
       "The user performing the operation does not exist in the system"
     );
   });
@@ -137,7 +139,7 @@ describe("Report Operations Tests", () => {
   it("UnitTest  getReport - Cinema System", async () => {
     let cinemaSystem = new CinemaSystem();
     await testCinemaFunctions(cinemaSystem, async () =>
-      cinemaSystem.getReport("type", "date", 1)
+      cinemaSystem.getReport("type", "fromDate", "toDate", 1)
     );
   });
 
@@ -158,7 +160,7 @@ describe("Report Operations Tests", () => {
   });
 
   it("UnitTest getReport - ReportController", async () => {
-    let result = await ReportController.getReport("lol", "test");
+    let result = await ReportController.getReport("lol");
     expect(result).toBe("The requested report type is invalid");
     let todayDate;
     let types = [
