@@ -66,14 +66,19 @@ export default class RemoveSupplier extends React.Component {
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
-                  onClick={() =>
-                    this.state.supplierName
-                      ? this.props.handleRemoveSupplier(
-                          supplierName,
-                          contactDetails
-                        )
-                      : alert("Supplier name is required.")
-                  }
+                  onClick={() => {
+                    if (this.state.supplierName) {
+                      this.props
+                        .handleRemoveSupplier(supplierName, contactDetails)
+                        .then(response => response.json())
+                        .then(state => {
+                          alert(state.result);
+                          this.setInitialState();
+                        });
+                    } else {
+                      alert("Supplier name is required.");
+                    }
+                  }}
                 >
                   Remove Supplier
                 </Button>

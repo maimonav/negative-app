@@ -61,7 +61,19 @@ export default class RemoveProduct extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveProduct(productName)}
+                  onClick={() => {
+                    if (productName) {
+                      this.props
+                        .handleRemoveProduct(productName)
+                        .then(response => response.json())
+                        .then(state => {
+                          alert(state.result);
+                          this.setInitialState();
+                        });
+                    } else {
+                      alert("Product name is required");
+                    }
+                  }}
                 >
                   Remove Product
                 </Button>

@@ -17,6 +17,7 @@ import {
   manageOrdersPath,
   manageMoviesOrdersPath,
   errorPagePath,
+  logFilePath,
 } from "../consts/paths";
 
 import {
@@ -42,6 +43,7 @@ import {
   ManageOrders,
   ManageMoviesOrders,
   ErrorPage,
+  LogFile,
 } from "../Views/index";
 
 export default function Routes(props) {
@@ -120,6 +122,9 @@ export default function Routes(props) {
             />
           )}
         />
+      )}
+      {props.isLogged && (
+        <Route path={logFilePath} component={() => <LogFile />} />
       )}
     </Switch>
   );
