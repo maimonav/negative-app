@@ -131,7 +131,9 @@ export default class ShowReport extends React.Component {
                   <Button
                     color="info"
                     onClick={() => {
-                      this.state.reportType && this.state.date
+                      this.state.reportType &&
+                      this.state.fromDate &&
+                      this.state.toDate
                         ? this.setReport()
                         : alert("All fields are required.");
                     }}
