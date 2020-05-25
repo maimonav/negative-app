@@ -32,7 +32,7 @@ class NotificationController {
       if (userId && this.loggedInUsers.has(userId))
         this._sendAllNotificationsToUserFromDB(userId, socketClient);
 
-      socketClient.on("close", (socketClient) => {
+      socketClient.on("close", () => {
         console.log(clientUrl, "closed");
         this.clientsMap.delete(clientUrl);
         console.log("Number of clients:", serverSocket.clients.size);
@@ -101,7 +101,7 @@ class NotificationController {
           content:
             "There was a problem sending your notifications.\n" +
             notifications +
-            "\nYou can try to loggout and loggin to see them all.",
+            "\nYou can try to logged out and logged in to see them all.",
         },
       ]);
       return;
@@ -155,6 +155,7 @@ class NotificationController {
   static notifyLowQuantity(productList) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
+      "INFO",
       "LOW QUANTITY",
       productList
     );
@@ -167,27 +168,38 @@ class NotificationController {
   static notifyHighQuantity(productList) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
+      "INFO",
       "HIGH QUANTITY",
       productList
     );
   }
 
   /**
-   * alert about all movie orders confirem and movies examined
+   * alert about all movie orders confirm and movies examined
    * @param {Array(string)} movieList movie that examined, @example ["Spiderman","Saw"]
    */
   static notifyMovieExamination(movieList) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
+      "INFO",
       "MOVIE EXAMINATION",
       movieList
     );
   }
 
-  static async _notify(usersList, subtype, content) {
+  static notifyEventBuzzError(msg) {
+    this._notify(
+      [this.ManagerId, this.DeputyManagerId],
+      "ERROR",
+      "EXTERNAL SYSTEM",
+      msg
+    );
+  }
+
+  static async _notify(usersList, type, subtype, content) {
     let timeFired = new Date();
     let notificationContent = {
-      type: "INFO",
+      type: type,
       subtype: subtype,
       content: content,
       timeFired: timeFired,
@@ -206,7 +218,7 @@ class NotificationController {
         let clientSocket = this.clientsMap.get(userUrl);
         clientSocket.send(JSON.stringify([notificationContent]));
         //set notification as seen
-        seenFlag = true;
+        seenFlag = type === "ERROR" ? false : true;
       }
       delete notificationContent.timeFired;
 
