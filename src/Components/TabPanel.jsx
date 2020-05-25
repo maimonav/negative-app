@@ -16,7 +16,7 @@ import {
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook,
+  reportsActionsTabHook
 } from "../consts/data-hooks";
 export default function TablPanel(props) {
   return (
@@ -28,7 +28,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px",
+                marginLeft: "15px"
               }}
             />
           )}
@@ -52,31 +52,26 @@ export default function TablPanel(props) {
             />
           )}
           {props.isLogged && (
-            <Tab
-              style={{ marginLeft: "auto", paddingLeft: "105px" }}
-              label={
-                <NotificationHandler
-                  messageType={props.messageType}
-                  messageContent={props.messageContent}
-                />
-              }
-              data-hook={notificationTabHook}
-            />
+            <div style={{ marginLeft: "auto", marginRight: "20px" }}>
+              <NotificationHandler
+                messageType={props.messageType}
+                messageContent={props.messageContent}
+                data-hook={notificationTabHook}
+              />
+            </div>
           )}
           {props.isLogged && (
-            <Tab
-              label={
-                <IconButton
-                  style={{ marginRight: "100px" }}
-                  onClick={() => handleLogout(props.onLogout)}
-                  color="inherit"
-                  aria-label="add to shopping cart"
-                >
-                  <LogoutIcon />
-                </IconButton>
-              }
-              data-hook={logoutTabHook}
-            />
+            <>
+              <IconButton
+                style={{ marginRight: "30px" }}
+                onClick={() => handleLogout(props.onLogout)}
+                color="inherit"
+                aria-label="add to shopping cart"
+                data-hook={logoutTabHook}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </>
           )}
         </Tabs>
       </Paper>

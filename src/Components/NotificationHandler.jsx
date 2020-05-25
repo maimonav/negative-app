@@ -35,7 +35,7 @@ export default class NotificationHandler extends React.Component {
       notifications: [],
       view: false,
       newNotifications: 0,
-      changeColor: false,
+      changeColor: false
     };
   }
 
@@ -43,7 +43,7 @@ export default class NotificationHandler extends React.Component {
     if (prevProps.messageContent !== this.props.messageContent) {
       this.updateNotifications();
       this.setState({
-        render: true,
+        render: true
       });
     }
   }
@@ -66,15 +66,15 @@ export default class NotificationHandler extends React.Component {
           {
             name: notificationMessage,
             hasUserView: false,
-            notificationDate: date,
+            notificationDate: date
           },
-          ...this.state.notifications,
-        ],
+          ...this.state.notifications
+        ]
       },
       () =>
         this.setState({
           newNotifications:
-            this.state.newNotifications + messageContent[0].content.length,
+            this.state.newNotifications + messageContent[0].content.length
         })
     );
     console.log(messageContent);
@@ -105,8 +105,8 @@ export default class NotificationHandler extends React.Component {
     const { notifications, view, newNotifications } = this.state;
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
-        {(popupState) => (
-          <div>
+        {popupState => (
+          <>
             <IconButton aria-label="show new notifications" color="inherit">
               <Badge
                 badgeContent={view ? 0 : newNotifications}
@@ -121,11 +121,11 @@ export default class NotificationHandler extends React.Component {
               onExited={this.handleOnExited}
               anchorOrigin={{
                 vertical: "bottom",
-                horizontal: "center",
+                horizontal: "center"
               }}
               transformOrigin={{
                 vertical: "top",
-                horizontal: "center",
+                horizontal: "center"
               }}
             >
               <List style={{ width: 350 }}>
@@ -135,7 +135,7 @@ export default class NotificationHandler extends React.Component {
                   Notifications:
                 </h3>
                 <Divider />
-                {notifications.map((notification) => (
+                {notifications.map(notification => (
                   <>
                     <Box
                       bgcolor={notification.hasUserView ? "white" : "#eaf7ff"}
@@ -158,7 +158,7 @@ export default class NotificationHandler extends React.Component {
                 ))}
               </List>
             </Popover>
-          </div>
+          </>
         )}
       </PopupState>
     );
