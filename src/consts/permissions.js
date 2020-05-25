@@ -34,3 +34,5 @@ export const isAtLeastDeputyManager = permission =>
 
 export const isAtLeastManager = permission =>
   permission === permissionsObj.MANAGER || permission === permissionsObj.ADMIN;
+
+export const isAdmin = permission => permission === permissionsObj.ADMIN;

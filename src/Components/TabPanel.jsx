@@ -17,9 +17,10 @@ import {
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook,
+  reportsActionsTabHook
 } from "../consts/data-hooks";
 import { logFilePath } from "../consts/paths";
+import { isAdmin } from "../consts/permissions";
 
 export default function TablPanel(props) {
   return (
@@ -31,7 +32,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px",
+                marginLeft: "15px"
               }}
             />
           )}
@@ -60,13 +61,15 @@ export default function TablPanel(props) {
                 to={logFilePath}
                 style={{ marginLeft: "auto", marginRight: "30px" }}
               >
-                <IconButton
-                  color="inherit"
-                  aria-label="logFilr"
-                  //data-hook={logoutTabHook}
-                >
-                  <DescriptionIcon />
-                </IconButton>
+                {isAdmin(props.permission) && (
+                  <IconButton
+                    color="inherit"
+                    aria-label="logFile"
+                    //data-hook={logoutTabHook}
+                  >
+                    <DescriptionIcon />
+                  </IconButton>
+                )}
               </Link>
             </>
           )}
