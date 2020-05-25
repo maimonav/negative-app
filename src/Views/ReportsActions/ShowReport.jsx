@@ -24,7 +24,8 @@ export default class ShowReport extends React.Component {
     super(props);
     this.state = {
       reportType: "",
-      date: new Date()
+      fromDate: new Date(),
+      toDate: new Date()
     };
   }
 
@@ -33,8 +34,12 @@ export default class ShowReport extends React.Component {
     this.resetData();
   };
 
-  setDate = date => {
-    this.setState({ date });
+  setFromDate = fromDate => {
+    this.setState({ fromDate });
+  };
+
+  setToDate = toDate => {
+    this.setState({ toDate });
   };
 
   resetData = () => {
@@ -44,12 +49,14 @@ export default class ShowReport extends React.Component {
   setReport = () => {
     (this.state.reportType === reportsTypes.Daily
       ? HandleGetFullDailyReport(
-          this.state.date,
+          this.state.fromDate,
+          this.state.toDate,
           localStorage.getItem("username")
         )
       : handleGetReport(
           this.state.reportType,
-          this.state.date,
+          this.state.fromDate,
+          this.state.toDate,
           localStorage.getItem("username")
         )
     )
@@ -109,10 +116,17 @@ export default class ShowReport extends React.Component {
                   />
                   <SelectDates
                     id={"remove-start-date"}
-                    label={"Choose Date"}
-                    setDate={this.setDate}
+                    label={"Choose from date"}
+                    setDate={this.setFromDate}
                     style={{ width: "auto" }}
-                    date={this.state.date}
+                    date={this.state.fromDate}
+                  />
+                  <SelectDates
+                    id={"remove-start-date"}
+                    label={"Choose to date"}
+                    setDate={this.setToDate}
+                    style={{ width: "auto" }}
+                    date={this.state.toDate}
                   />
                   <Button
                     color="info"

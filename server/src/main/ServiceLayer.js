@@ -109,7 +109,7 @@ class ServiceLayer {
           records[i] = record;
         }
         return records;
-      },
+      }
     };
   }
 
@@ -1269,7 +1269,7 @@ class ServiceLayer {
       supplierID = this.suppliers.get(supplierName);
     let problematicProductName;
     let problematicQuantityName;
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       if (!this.products.has(product.name)) {
         this.writeToLog(
           "info",
@@ -1355,7 +1355,7 @@ class ServiceLayer {
     }
     let problematicProductName;
     let problematicQuantityName;
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       if (!this.products.has(product.name)) {
         this.writeToLog(
           "info",
@@ -1672,7 +1672,7 @@ class ServiceLayer {
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  async getReport(type, date, ActionIDOfTheOperation) {
+  async getReport(type, fromDate, toDate, ActionIDOfTheOperation) {
     if (
       typeof ActionIDofTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDofTheOperation)
@@ -1714,7 +1714,7 @@ class ServiceLayer {
    * @returns {Promise(Array(Object) | string)} In success returns list of the reports by type,
    * otherwise returns error string.
    */
-  async getFullDailyReport(date, ActionIDOfTheOperation) {
+  async getFullDailyReport(fromDate, toDate, ActionIDOfTheOperation) {
     if (
       typeof ActionIDofTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDofTheOperation)

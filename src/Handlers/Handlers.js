@@ -726,15 +726,18 @@ export function handleGetCategoryDetails(categoryName) {
 /**
  * Handle get report from system
  * @param {string} reportType
- * @param {Date} date
+ * @param {string} fromDate
+ * @param {string} toDate
  * @param {string} user
  * @returns {Promise(Array || string)} Success - array, Failure - string error message
  */
-export function handleGetReport(reportType, date, user) {
+export function handleGetReport(reportType, fromDate, toDate, user) {
   return fetch(
     `/api/getReport?reportType=${encodeURIComponent(
       reportType
-    )}&date=${encodeURIComponent(date)}&user=${encodeURIComponent(user)}`
+    )}&fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(
+      toDate
+    )}&user=${encodeURIComponent(user)}`
   );
 }
 /**
@@ -872,12 +875,17 @@ export function HandleRemoveFieldToGeneralDailyReport(field) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
-
-export function HandleGetFullDailyReport(date, user) {
-  console.log(date);
+/**
+ * Handle get full daily report
+ * @param {*} fromDate
+ * @param {*} toDate
+ * @param {*} user
+ * @returns {Promise(Array || string)} Success - array, Failure - string error message
+ */
+export function HandleGetFullDailyReport(fromDate, toDate, user) {
   return fetch(
-    `/api/getFullDailyReport?date=${encodeURIComponent(
-      date
-    )}&user=${encodeURIComponent(user)}`
+    `/api/getFullDailyReport?fromDate=${encodeURIComponent(
+      fromDate
+    )}&toDate=${encodeURIComponent(toDate)}&user=${encodeURIComponent(user)}`
   );
 }
