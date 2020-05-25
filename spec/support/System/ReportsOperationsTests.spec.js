@@ -229,9 +229,9 @@ describe("Report Operations Tests", () => {
       1,
       null
     );
-    product = new CafeteriaProduct(0, "Product", 1, 1, 7, 12, 2);
+    let product = new CafeteriaProduct(0, "Product", 1, 1, 7, 12, 2);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, product);
-    result = await serviceLayer.createDailyReport(
+    let result = await serviceLayer.createDailyReport(
       date,
       JSON.stringify(reports),
       "User"
@@ -245,31 +245,38 @@ describe("Report Operations Tests", () => {
     await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.getReport("type", "test", "User")
+      serviceLayer.getReport("type", "test", "test", "User")
     );
     let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
-    let result = await serviceLayer.getReport("lol", "test", "User");
+    let result = await serviceLayer.getReport("lol", "test", "test", "User");
     expect(result).toBe("The requested report type is invalid");
-    let todayDate;
     let types = [
       "inventory_daily_report",
       "incomes_daily_report",
       "general_purpose_daily_report",
     ];
+
+    let todayDate = new Date();
+    let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
+    todayDate = new Date();
+
     for (let i in types) {
       let type = types[i];
-      result = await serviceLayer.getReport(type, "test", "User");
-      expect(result).toBe("The requested report date is invalid");
+      result = await serviceLayer.getReport(type, "test", "test", "User");
+      expect(result).toBe("The requested report starting date is invalid");
 
-      todayDate = new Date();
-      let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
-      result = await serviceLayer.getReport(type, date, "User");
-      expect(result).toBe("The requested report date is invalid");
+      result = await serviceLayer.getReport(type, date, "test", "User");
+      expect(result).toBe("The requested report starting date is invalid");
 
-      todayDate = new Date();
-      result = await serviceLayer.getReport(type, date, "User");
+      result = await serviceLayer.getReport(type, todayDate, "test", "User");
+      expect(result).toBe("The requested report ending date is invalid");
+
+      result = await serviceLayer.getReport(type, todayDate, date, "User");
+      expect(result).toBe("The requested report ending date is invalid");
+
+      result = await serviceLayer.getReport(type, todayDate, todayDate, "User");
       expect(Array.isArray(result)).toBeTrue;
     }
   });
@@ -280,19 +287,30 @@ describe("Report Operations Tests", () => {
     await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.getFullDailyReport("test", "User")
+      serviceLayer.getFullDailyReport("test", "test", "User")
     );
     let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
-    let result = await serviceLayer.getFullDailyReport("test", "User");
-    expect(result).toBe("The requested report date is invalid");
+
     let todayDate = new Date();
     let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
-    result = await serviceLayer.getFullDailyReport(date, "User");
-    expect(result).toBe("The requested report date is invalid");
     todayDate = new Date();
+
+    let result = await serviceLayer.getFullDailyReport("test", "test", "User");
+    expect(result).toBe("The requested report starting date is invalid");
+
+    result = await serviceLayer.getFullDailyReport(date, "test", "User");
+    expect(result).toBe("The requested report starting date is invalid");
+
+    result = await serviceLayer.getFullDailyReport(todayDate, "test", "User");
+    expect(result).toBe("The requested report ending date is invalid");
+
+    result = await serviceLayer.getFullDailyReport(todayDate, date, "User");
+    expect(result).toBe("The requested report ending date is invalid");
+
     result = await serviceLayer.getFullDailyReport(
+      todayDate.toISOString(),
       todayDate.toISOString(),
       "User"
     );
