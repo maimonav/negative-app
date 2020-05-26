@@ -20,6 +20,7 @@ export const cafeteriaOrdersHook = "cafeteriaOrdersButton";
 export const moviesOrdersHook = "moviesOrdersButton";
 export const orderNameHook = "orderNameField";
 export const orderDateHook = "orderDateField";
+export const newFieldHook = "newField";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";
