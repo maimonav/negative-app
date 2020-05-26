@@ -181,7 +181,7 @@ class NotificationController {
    * send message to the client about auto logged out user
    * @param {Array(Object)} userId the user who logged out
    */
-  async autoLogoutHandler(userId) {
+  static autoLogoutHandler(userId) {
     this._notify([userId], "INFO", "AUTO LOGGED OUT");
   }
 

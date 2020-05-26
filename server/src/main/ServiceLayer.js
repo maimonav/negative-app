@@ -339,15 +339,15 @@ class ServiceLayer {
   ) {
     let validationResult = !this._isInputValid(userName)
       ? "Username is not valid"
-      : password === ""
+      : password === undefined
       ? "Password is not valid"
-      : firstName === ""
+      : firstName === undefined
       ? "First Name is not valid"
-      : lastName === ""
+      : lastName === undefined
       ? "Last Name is not valid"
-      : permissions === ""
+      : permissions === undefined
       ? "Permissions is not valid"
-      : contactDetails === ""
+      : contactDetails === undefined
       ? "Contact Details is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -531,11 +531,11 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
-      : category === ""
+      : category === undefined
       ? "Category is not valid"
-      : key === ""
+      : key === undefined
       ? "Key is not valid"
-      : examinationRoom === ""
+      : examinationRoom === undefined
       ? "Examination Room is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -573,9 +573,9 @@ class ServiceLayer {
     }
     return await this.cinemaSystem.editMovie(
       this.products.get(movieName),
-      category ? this.categories.get(category) : category,
-      key,
-      examinationRoom ? parseInt(examinationRoom) : examinationRoom,
+      category !== "" ? this.categories.get(category) : undefined,
+      key !== "" ? key : undefined,
+      examinationRoom !== "" ? parseInt(examinationRoom) : undefined,
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -702,7 +702,7 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
-      : contactDetails === ""
+      : contactDetails === undefined
       ? "Contact Details is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -732,7 +732,7 @@ class ServiceLayer {
     return this.cinemaSystem.editSupplier(
       this.suppliers.get(supplierName),
       supplierName,
-      contactDetails,
+      contactDetails !== "" ? contactDetails : undefined,
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -827,9 +827,9 @@ class ServiceLayer {
       ? "Product quantity is not valid"
       : !this._isInputValid(productCategory)
       ? "Product category is not valid"
-      : minQuantity === ""
+      : minQuantity === undefined
       ? "Minimum Quantity is not valid"
-      : maxQuantity === ""
+      : maxQuantity === undefined
       ? "Maximum Quantity is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -897,15 +897,15 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(productName)
       ? "Product name is not valid"
-      : productPrice === ""
+      : productPrice === undefined
       ? "Product price is not valid"
-      : productQuantity === ""
+      : productQuantity === undefined
       ? "Product quantity is not valid"
-      : productCategory === ""
+      : productCategory === undefined
       ? "Product category is not valid"
-      : minQuantity === ""
+      : minQuantity === undefined
       ? "Minimum Quantity is not valid"
-      : maxQuantity === ""
+      : maxQuantity === undefined
       ? "Maximum Quantity is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -1049,7 +1049,7 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(categoryName)
       ? "Category name is not valid"
-      : parentName === ""
+      : parentName === undefined
       ? "Parent Name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -1117,7 +1117,7 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(categoryName)
       ? "Category name is not valid"
-      : parentName === ""
+      : parentName === undefined
       ? "Parent Name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -1362,11 +1362,11 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
-      : supplierName === ""
+      : supplierName === undefined
       ? "Supplier Name is not valid"
-      : dateSTR === ""
+      : dateSTR === undefined
       ? "Date is not valid"
-      : productsList === ""
+      : productsList === undefined
       ? "Products List is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -2128,7 +2128,6 @@ class ServiceLayer {
 
   async getFields() {
     let props = await this.cinemaSystem.getGeneralReportProps();
-    console.log(props);
     let output = [];
     for (let i in props) {
       output = output.concat({ title: props[i] });

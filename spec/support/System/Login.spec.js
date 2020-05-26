@@ -32,7 +32,7 @@ describe("LoginTest", () => {
       "Incorrect user name or password"
     );
     expect(user.login(correctUserName, correctPassword)).toEqual([
-      "User Logged in succesfully.",
+      "User Logged in successfully.",
       permissions,
     ]);
     expect(user.login(correctUserName, correctPassword)).toBe(
@@ -41,26 +41,28 @@ describe("LoginTest", () => {
   });
 
   it("UnitTest-login Test on class CinimaSystem", () => {
-    spyOn(user, "login").and.returnValue("User Logged in succesfully.");
+    spyOn(user, "login").and.returnValue("User Logged in successfully.");
 
     const wrongid = "a";
     expect(cinemaSystem.login(correctUserName, correctPassword, wrongid)).toBe(
       "The user isn't exists"
     );
     expect(cinemaSystem.login(correctUserName, correctPassword, user.id)).toBe(
-      "User Logged in succesfully."
+      "User Logged in successfully."
     );
   });
 
   it("UnitTest-login Test on class ServiceLayer", () => {
-    spyOn(cinemaSystem, "login").and.returnValue("User Logged in succesfully.");
+    spyOn(cinemaSystem, "login").and.returnValue(
+      "User Logged in successfully."
+    );
     servicelayer.cinemaSystem = cinemaSystem;
     const wrongUserName = "yubal";
     expect(servicelayer.login(wrongUserName, correctPassword)).toBe(
       "Incorrect user name."
     );
     expect(servicelayer.login(correctUserName, correctPassword, user.id)).toBe(
-      "User Logged in succesfully."
+      "User Logged in successfully."
     );
   });
 
@@ -74,7 +76,7 @@ describe("LoginTest", () => {
       "Incorrect user name or password"
     );
     expect(user.login(correctUserName, correctPassword)).toEqual([
-      "User Logged in succesfully.",
+      "User Logged in successfully.",
       permissions,
     ]);
     expect(user.login(correctUserName, correctPassword)).toBe(
@@ -89,7 +91,7 @@ describe("LoginTest", () => {
     );
     expect(
       cinemaSystem.login(correctUserName, correctPassword, user.id)
-    ).toEqual(["User Logged in succesfully.", permissions]);
+    ).toEqual(["User Logged in successfully.", permissions]);
   });
 
   it("integration-login Test on class ServiceLayer", () => {
@@ -100,6 +102,6 @@ describe("LoginTest", () => {
     );
     expect(
       servicelayer.login(correctUserName, correctPassword, user.id)
-    ).toEqual(["User Logged in succesfully.", permissions]);
+    ).toEqual(["User Logged in successfully.", permissions]);
   });
 });

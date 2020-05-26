@@ -17,7 +17,7 @@ class Supplier {
   }
 
   async editSupplier(name, contactDetails) {
-    super.name = name ? name : this.name;
+    this.name = name ? name : this.name;
     this.contactDetails = contactDetails ? contactDetails : this.contactDetails;
     return DataBase.singleUpdate(
       "supplier",
