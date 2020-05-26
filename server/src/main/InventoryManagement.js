@@ -253,8 +253,8 @@ class InventoryManagement {
         name: DB._add,
         model: "movie_order",
         params: {
-          element: { orderId: orderId, movieId: movieId, expectedQuantity: 1 },
-        },
+          element: { orderId: orderId, movieId: movieId, expectedQuantity: 1 }
+        }
       });
     }
     let result = await DB.executeActions(actionsList);
@@ -394,9 +394,9 @@ class InventoryManagement {
           element: {
             orderId: orderId,
             productId: productId,
-            expectedQuantity: quantity,
-          },
-        },
+            expectedQuantity: quantity
+          }
+        }
       });
     }
     let result = await DB.executeActions(actionsList);
@@ -473,7 +473,7 @@ class InventoryManagement {
    */
   notifyMovieExamination(productsList) {
     let movieList = [];
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       product = this.products.get(product.id);
       if (product.quantity) return;
       movieList = movieList.concat(product.name);
@@ -489,7 +489,7 @@ class InventoryManagement {
   checkAndNotifyLowAndHighQuantity(productsList) {
     let lowQuantityList = [];
     let highQuantityList = [];
-    productsList.forEach((product) => {
+    productsList.forEach(product => {
       product = this.products.get(product.id);
       if (!product.quantity) return;
       let quantity = parseInt(product.quantity);
@@ -499,13 +499,13 @@ class InventoryManagement {
         highQuantityList = highQuantityList.concat({
           name: product.name,
           quantity: quantity,
-          maxQuantity: maxQuantity,
+          maxQuantity: maxQuantity
         });
       if (quantity <= minQuantity)
         lowQuantityList = lowQuantityList.concat({
           name: product.name,
           quantity: quantity,
-          minQuantity: minQuantity,
+          minQuantity: minQuantity
         });
     });
     if (lowQuantityList.length > 0)
@@ -683,7 +683,7 @@ class InventoryManagement {
    * @param {Number} productId Unique ID of cafeteria product
    * @returns {Promise(string)} Success or failure string
    **/
-  removeCafeteriaProduct = async (productId) => {
+  removeCafeteriaProduct = async productId => {
     if (!this.products.has(productId)) {
       this.writeToLog(
         "info",
@@ -702,7 +702,7 @@ class InventoryManagement {
   };
   getSuppliers() {
     const output = [];
-    this.suppliers.forEach((supplier) => {
+    this.suppliers.forEach(supplier => {
       const value = { title: supplier.name };
       output.push(value);
     });
@@ -711,9 +711,9 @@ class InventoryManagement {
 
   getCategories() {
     const output = [];
-    this.categories.forEach((category) => {
+    this.categories.forEach(category => {
       const value = {
-        title: category.name,
+        title: category.name
       };
       output.push(value);
     });
@@ -722,14 +722,14 @@ class InventoryManagement {
 
   getCafeteriaOrders() {
     const output = [];
-    this.orders.forEach((order) => {
+    this.orders.forEach(order => {
       let check = false;
-      order.productOrders.forEach((product) => {
+      order.productOrders.forEach(product => {
         if (product instanceof CafeteriaProductOrder) check = true;
       });
       if (check)
         output.push({
-          title: order.name,
+          title: order.name
         });
     });
     return output;
@@ -737,16 +737,16 @@ class InventoryManagement {
 
   getMovieOrders() {
     const output = [];
-    this.orders.forEach((order) => {
+    this.orders.forEach(order => {
       let check = false;
-      order.productOrders.forEach((product) => {
+      order.productOrders.forEach(product => {
         if (product instanceof MovieOrder) {
           check = true;
         }
       });
       if (check)
         output.push({
-          title: order.name,
+          title: order.name
         });
     });
     return output;
@@ -754,10 +754,10 @@ class InventoryManagement {
 
   getCafeteriaProducts() {
     const output = [];
-    this.products.forEach((product) => {
+    this.products.forEach(product => {
       if (product instanceof CafeteriaProduct) {
         const value = {
-          title: product.name,
+          title: product.name
         };
         output.push(value);
       }
@@ -767,10 +767,10 @@ class InventoryManagement {
 
   getMovies() {
     const output = [];
-    this.products.forEach((movie) => {
+    this.products.forEach(movie => {
       if (movie instanceof Movie) {
         const value = {
-          title: movie.name,
+          title: movie.name
         };
         output.push(value);
       }
@@ -783,14 +783,14 @@ class InventoryManagement {
     let cafiteriaProducts = this.getCafeteriaProducts();
     let movies = this.getMovies();
 
-    Object.keys(cafiteriaProducts).forEach((productID) => {
+    Object.keys(cafiteriaProducts).forEach(productID => {
       output[productID] = {
         type: "CafeteriaProduct",
-        product: cafiteriaProducts[productID],
+        product: cafiteriaProducts[productID]
       };
     });
 
-    Object.keys(movies).forEach((productID) => {
+    Object.keys(movies).forEach(productID => {
       output[productID] = { type: "Movie", product: movies[productID] };
     });
 
@@ -814,7 +814,7 @@ class InventoryManagement {
         obj.push({
           name: value.product.name,
           expectedQuantity: value.expectedQuantity,
-          actualQuantity: value.actualQuantity,
+          actualQuantity: value.actualQuantity
         });
       else obj.push(value.movie.name);
     });
@@ -831,7 +831,7 @@ class InventoryManagement {
         orderId: order.id,
         orderDate: order.date,
         supplierDetails: supplierName,
-        products: this.mapToObj(order.productOrders),
+        products: this.mapToObj(order.productOrders)
       };
     }
     return {};
@@ -845,7 +845,7 @@ class InventoryManagement {
           movieName: movie.name,
           category: this.categories.get(movie.categoryId).name,
           movieKey: movie.movieKey,
-          examinationRoom: movie.examinationRoom,
+          examinationRoom: movie.examinationRoom
         };
       }
     }
@@ -864,8 +864,8 @@ class InventoryManagement {
         productCategory: this.categories.get(product.categoryId).name,
         productPrice: product.price,
         productQuantity: product.quantity,
-        productMaxQunatity: productMaxQuantityToRepresnt,
-        productMimQunatity: product.minQuantity,
+        productMaxQuantity: productMaxQuantityToRepresnt,
+        productMimQuantity: product.minQuantity
       };
     }
     return output;
@@ -885,7 +885,7 @@ class InventoryManagement {
         .name;
     return {
       categoryName: this.categories.get(categoryId).name,
-      categoryParent: parent,
+      categoryParent: parent
     };
   }
   /**
@@ -985,7 +985,7 @@ class InventoryManagement {
     //DB
     let DBActionList = [];
     //Product category setup;
-    this.products.forEach((product) => {
+    this.products.forEach(product => {
       if (product.categoryId === categoryToRemove.id) {
         if (product instanceof CafeteriaProduct) {
           DBActionList.push({
@@ -993,12 +993,12 @@ class InventoryManagement {
             model: "cafeteria_product",
             params: {
               where: {
-                id: product.id,
+                id: product.id
               },
               element: {
-                categoryId: categoryToRemove.parentId,
-              },
-            },
+                categoryId: categoryToRemove.parentId
+              }
+            }
           });
         } else {
           DBActionList.push({
@@ -1006,30 +1006,30 @@ class InventoryManagement {
             model: "movie",
             params: {
               where: {
-                id: product.id,
+                id: product.id
               },
               element: {
-                categoryId: categoryToRemove.parentId,
-              },
-            },
+                categoryId: categoryToRemove.parentId
+              }
+            }
           });
         }
       }
     });
     //categories tree arrange
-    this.categories.forEach((category) => {
+    this.categories.forEach(category => {
       if (category.parentId === categoryToRemove.id)
         DBActionList.push({
           name: DB._update,
           model: "category",
           params: {
             where: {
-              id: category.id,
+              id: category.id
             },
             element: {
-              parentId: categoryToRemove.parentId,
-            },
-          },
+              parentId: categoryToRemove.parentId
+            }
+          }
         });
     });
     //remove the category from DB
@@ -1038,12 +1038,12 @@ class InventoryManagement {
       model: "category",
       params: {
         where: {
-          id: categoryId,
+          id: categoryId
         },
         element: {
-          isCategoryRemoved: new Date(),
-        },
-      },
+          isCategoryRemoved: new Date()
+        }
+      }
     });
 
     let result = await DB.executeActions(DBActionList);
@@ -1051,12 +1051,12 @@ class InventoryManagement {
       this.writeToLog("error", "removeCategory", "DB failure - " + result);
       return "DB failure - " + result;
     }
-    this.products.forEach((product) => {
+    this.products.forEach(product => {
       if (product.categoryId === categoryToRemove.id) {
         product.categoryId = categoryToRemove.parentId;
       }
     });
-    this.categories.forEach((category) => {
+    this.categories.forEach(category => {
       if (category.parentId === categoryToRemove.id)
         category.parentId = categoryToRemove.parentId;
     });
@@ -1073,7 +1073,7 @@ class InventoryManagement {
     const endDate = new Date(endDateStr);
     endDate.setHours(0, 0, 0, 0);
     let result = [];
-    this.orders.forEach((order) => {
+    this.orders.forEach(order => {
       if (order.recipientEmployeeId === null) {
         const orderDate = order.date;
         orderDate.setHours(0, 0, 0, 0);
@@ -1104,18 +1104,18 @@ class InventoryManagement {
       this.writeToLog("info", "getProductsByOrder", "The order isn't exist");
       return { title: "The order " + orderId + " doesn't exists" };
     }
-    this.orders.get(orderId).productOrders.forEach((product) => {
+    this.orders.get(orderId).productOrders.forEach(product => {
       if (product instanceof CafeteriaProductOrder) {
         result.push({
           title: product.product.name,
           expectedQuantity: product.expectedQuantity,
-          actualQuantity: product.actualQuantity,
+          actualQuantity: product.actualQuantity
         });
       } else {
         result.push({
           title: product.movie.name,
           key: "",
-          examinationRoom: "",
+          examinationRoom: ""
         });
       }
     });
@@ -1128,12 +1128,12 @@ class InventoryManagement {
       this.writeToLog("info", "getProductsByOrder", "The order isn't exist");
       return { title: "The order " + orderId + " doesn't exists" };
     }
-    this.orders.get(orderId).productOrders.forEach((product) => {
+    this.orders.get(orderId).productOrders.forEach(product => {
       if (product instanceof CafeteriaProductOrder) {
         result.push({
           name: product.product.name,
           expectedQuantity: product.expectedQuantity,
-          actualQuantity: product.actualQuantity,
+          actualQuantity: product.actualQuantity
         });
       } else {
         result.push({ name: product.movie.name, key: "", examinationRoom: "" });

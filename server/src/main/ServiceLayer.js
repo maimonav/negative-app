@@ -169,6 +169,12 @@ class ServiceLayer {
       this.writeToLog("info", "login", validationResult);
       return validationResult;
     }
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(userName)
+    ) {
+      this.userActivation.get(userName).lastActTime = new Date();
+    }
     if (this.users.has(userName)) {
       let output = this.cinemaSystem.login(
         userName,
@@ -2061,6 +2067,12 @@ class ServiceLayer {
   }
 
   async getSeenNotifications(ActionIDofTheOperation) {
+    if (
+      typeof ActionIDofTheOperation !== "undefined" &&
+      this.userActivation.has(ActionIDofTheOperation)
+    ) {
+      this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
+    }
     return NotificationController.getSeenNotifications(
       this.users.get(ActionIDofTheOperation)
     );

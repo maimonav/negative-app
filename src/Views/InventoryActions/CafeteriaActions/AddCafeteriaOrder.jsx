@@ -132,7 +132,7 @@ export default class AddCafeteriaOrder extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
-                        labelText="Set Product Qunatity"
+                        labelText="Set Product Quantity"
                         id="quantity"
                         inputProps={{
                           type: "number"
