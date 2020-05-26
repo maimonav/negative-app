@@ -17,6 +17,8 @@ class CinemaSystem {
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
     this.toUserConversionMethods = {
       inventory_daily_report: async (record) => {
+        console.log(record.productId);
+        console.log(this.inventoryManagement.products.get(record.productId));
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;

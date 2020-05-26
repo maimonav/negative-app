@@ -88,7 +88,7 @@ class SystemInitializer {
       let category = categories[i];
 
       if (category.isCategoryRemoved === null) {
-        let parentName;
+        let parentName = "";
         if (category.parentId !== -1)
           parentName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
             category.parentId
