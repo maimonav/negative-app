@@ -47,7 +47,7 @@ describe("Order Operations Tests", function() {
       user
     );
     expect(result).toBe("Movie does not exist");
-    await service.addCategory("categoryTest", user);
+    await service.addCategory("categoryTest", user, "");
     result = await service.addMovie(movie, "categoryTest", user);
 
     result = await service.addMovieOrder(
@@ -136,7 +136,7 @@ describe("Order Operations Tests", function() {
       user
     );
     expect(result).toBe("Product does not exist");
-    await service.addCategory("categoryTest", user);
+    await service.addCategory("categoryTest", user, "");
     await service.addNewProduct(product, 10, 5, 0, 10, "categoryTest", user);
 
     result = await service.addCafeteriaOrder(
@@ -216,7 +216,7 @@ describe("Order Operations Tests", function() {
     expect(result).toBe("The order does not exist");
 
     await service.addNewSupplier(supplier, "contact", user);
-    await service.addCategory(category, user);
+    await service.addCategory(category, user, "");
     await service.addMovie(movie, category, user);
     await service.addNewProduct(product, 10, 5, 0, 10, category, user);
     await service.addNewEmployee(

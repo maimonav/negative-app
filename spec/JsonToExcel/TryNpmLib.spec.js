@@ -1,4 +1,4 @@
-var xlsx = require('json-as-xlsx')
+/*var xlsx = require('json-as-xlsx')
  
 var columns = [
   { label: 'Email', value: 'email' }, // Top level data
@@ -18,4 +18,4 @@ var settings = {
   extraLength: 3
 }
  
-xlsx(columns, content, settings) // Will download the excel file
+xlsx(columns, content, settings) // Will download the excel file*/

@@ -24,7 +24,7 @@ exports.validate = validate;
 async function validateEdit(serviceLayer, method, params) {
   Object.keys(params).forEach(async (key) => {
     let withEmptyParam = Object.keys(params).map((k) =>
-      k === key ? "" : params[k]
+      k === key ? undefined : params[k]
     );
     let expected = key + "is not valid";
     let result = await method.apply(serviceLayer, withEmptyParam);
