@@ -1,10 +1,5 @@
-<<<<<<< HEAD
-/*var xlsx = require('json-as-xlsx')
- 
-=======
 var xlsx = require("json-as-xlsx");
 
->>>>>>> JsonToExcel
 var columns = [
   { label: "Email", value: "email" }, // Top level data
   { label: "Age", value: (row) => row.age + " years" }, // Run functions
@@ -20,14 +15,6 @@ var content = [
 ];
 
 var settings = {
-<<<<<<< HEAD
-  sheetName: 'First sheet',
-  fileName: 'Users',
-  extraLength: 3
-}
- 
-xlsx(columns, content, settings) // Will download the excel file*/
-=======
   sheetName: "First sheet",
   fileName: "C:\\Users\\ASUS\\Downloads\\file",
   extraLength: 3,
@@ -38,4 +25,3 @@ describe("Json to excel", function() {
     xlsx(columns, content, settings); // Will download the excel file
   });
 });
->>>>>>> JsonToExcel
