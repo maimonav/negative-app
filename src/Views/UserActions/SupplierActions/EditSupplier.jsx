@@ -51,7 +51,7 @@ export default class EditSupplier extends React.Component {
                 <p>Complete his profile</p>
               </CardHeader>
               <CardBody>
-                <GridContainer>
+                <GridContainer style={style}>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id={"supplierName"}

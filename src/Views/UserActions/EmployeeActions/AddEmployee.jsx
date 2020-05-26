@@ -76,7 +76,7 @@ export default class AddEmployee extends React.Component {
                 <p>Complete his profile</p>
               </CardHeader>
               <CardBody>
-                <GridContainer>
+                <GridContainer style={style}>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
                       id="permission"
@@ -87,6 +87,8 @@ export default class AddEmployee extends React.Component {
                       data-hook={permissionsHook}
                     />
                   </GridItem>
+                </GridContainer>
+                <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Username"
