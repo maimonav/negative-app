@@ -5,7 +5,8 @@ const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 const Sequelize = require("sequelize");
-const { csvToJson } = require("./EventBuzzScript");
+const schedule = require("node-schedule");
+const { csvToJson, json_ans, main } = require("./EventBuzzScript");
 
 class ReportController {
   static _types = {
@@ -16,14 +17,20 @@ class ReportController {
   };
   static _allGeneralDailyReportFormat;
   static _currentGeneralDailyReportFormat;
-  static _MovieReportJson = csvToJson();
-
+  // static _MovieReportJson = csvToJson();
+  static _MovieReportJob = schedule.scheduleJob("36 19 * * *", function() {
+    console.log("The answer to life, the universe, and everything!");
+    csvToJson();
+    console.log("The answer to life, the universe, and everything!");
+  });
   /**
    * add movies report records to db
    * @param {Array(Object)} report list of records to add to movies report
    * @returns {Promise(void|string)} void in success or string in failure
    */
   static async createMovieReport(report) {
+    console.log("Begin to insert to the DB");
+    console.log(report);
     let recordsToAdd = [];
     for (let i in report) {
       let record = report[i];
