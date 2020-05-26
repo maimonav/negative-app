@@ -17,8 +17,6 @@ class CinemaSystem {
     this.inappropriatePermissionsMsg = "User does not have proper permissions";
     this.toUserConversionMethods = {
       inventory_daily_report: async (record) => {
-        console.log(record.productId);
-        console.log(this.inventoryManagement.products.get(record.productId));
         record.productName = this.inventoryManagement.products.get(
           record.productId
         ).name;
@@ -39,7 +37,6 @@ class CinemaSystem {
         this.employeeAndDateConversion(record),
       movies_daily_report: async (record) => {
         record.date = moment(record.date).format("lll");
-        console.log(record.date);
         return record;
       },
     };
@@ -1018,8 +1015,6 @@ class CinemaSystem {
     );
     if (result != null) return result;
     result = await ReportController.getReport(type, fromDate, toDate);
-    console.log(result);
-
     if (typeof result !== "string")
       for (let i in result)
         result[i] = await this.toUserConversionMethods[type](
