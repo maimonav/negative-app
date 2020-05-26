@@ -12,12 +12,12 @@ export function handleLogin(username, password, onLogin) {
       username
     )}&password=${encodeURIComponent(password)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       if (
         state.result &&
         typeof state.result !== "string" &&
-        state.result[0] === "User Logged in succesfully."
+        state.result[0] === "User Logged in successfully."
       ) {
         onLogin(username, state.result[1]);
         alert(state.result[0]);
@@ -34,8 +34,8 @@ export function handleLogin(username, password, onLogin) {
 export function handleLogout(onLogout) {
   const username = localStorage.getItem("username");
   fetch(`/api/logout?username=${encodeURIComponent(username)}`)
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       onLogout();
       alert(state.result);
     });
@@ -71,8 +71,8 @@ export function handleAddEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -107,8 +107,8 @@ export function handleEditEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -119,15 +119,11 @@ export function handleEditEmployee(
  */
 export function handleRemoveEmployee(userName) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeEmployee?userName=${encodeURIComponent(
       userName
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -174,8 +170,8 @@ export function handleAddProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -217,8 +213,8 @@ export function handleEditProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -229,19 +225,11 @@ export function handleEditProduct(
  * @returns void
  */
 export function handleRemoveProduct(productName) {
-  if (productName === "") {
-    alert("Product name is required");
-    return;
-  }
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeProduct?productName=${encodeURIComponent(productName)}
     &user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -270,8 +258,8 @@ export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
     &moviesName=${JSON.stringify(moviesName)}
     &user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -299,8 +287,8 @@ export function handleAddMovie(movieName, category) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -328,8 +316,8 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
       examinationRoom
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -338,20 +326,12 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
  * @param {string} movieName
  */
 export function handleRemoveMovie(movieName) {
-  if (movieName === "") {
-    alert("movie name is required");
-    return;
-  }
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeMovie?movieName=${encodeURIComponent(
       movieName
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 /**
  * Handle add supplier to system
@@ -368,8 +348,8 @@ export function handleAddSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -389,8 +369,8 @@ export function handleEditSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -402,15 +382,11 @@ export function handleEditSupplier(name, contactDetails) {
  */
 export function handleRemoveSupplier(name) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeSupplier?name=${encodeURIComponent(
       name
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -432,8 +408,8 @@ export function handleAddCategory(categoryName, parentName) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -453,8 +429,8 @@ export function handleEditCategory(categoryName, parentName) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -466,15 +442,11 @@ export function handleEditCategory(categoryName, parentName) {
  */
 export function handleRemoveCategory(categoryName) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/removeCategory?categoryName=${encodeURIComponent(
       categoryName
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -497,8 +469,8 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -526,8 +498,8 @@ export function handleEditCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -539,15 +511,11 @@ export function handleEditCafeteriaOrder(
  */
 export function handleRemoveOrder(orderId) {
   const user = localStorage.getItem("username");
-  fetch(
+  return fetch(
     `api/RemoveOrder?orderId=${encodeURIComponent(
       orderId
     )}&user=${encodeURIComponent(user)}`
-  )
-    .then(response => response.json())
-    .then(state => {
-      alert(state.result);
-    });
+  );
 }
 
 /**
@@ -569,8 +537,8 @@ export function handleConfirmCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -726,15 +694,18 @@ export function handleGetCategoryDetails(categoryName) {
 /**
  * Handle get report from system
  * @param {string} reportType
- * @param {Date} date
+ * @param {string} fromDate
+ * @param {string} toDate
  * @param {string} user
  * @returns {Promise(Array || string)} Success - array, Failure - string error message
  */
-export function handleGetReport(reportType, date, user) {
+export function handleGetReport(reportType, fromDate, toDate, user) {
   return fetch(
     `/api/getReport?reportType=${encodeURIComponent(
       reportType
-    )}&date=${encodeURIComponent(date)}&user=${encodeURIComponent(user)}`
+    )}&fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(
+      toDate
+    )}&user=${encodeURIComponent(user)}`
   );
 }
 /**
@@ -779,8 +750,8 @@ export function handleConfirmMovieOrder(orderId, updatedMovies) {
       user
     )}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -804,8 +775,8 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -824,8 +795,8 @@ export function handleCreateDailyReports(reports) {
       date
     )}&reports=${encodeURIComponent(reports)}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -842,8 +813,8 @@ export function HandleAddFieldToGeneralDailyReport(field) {
       field
     )}&user=${encodeURIComponent(user)}`
   )
-    .then(response => response.json())
-    .then(state => {
+    .then((response) => response.json())
+    .then((state) => {
       alert(state.result);
     });
 }
@@ -872,12 +843,26 @@ export function HandleRemoveFieldToGeneralDailyReport(field) {
     )}&user=${encodeURIComponent(user)}`
   );
 }
-
-export function HandleGetFullDailyReport(date, user) {
-  console.log(date);
+/**
+ * Handle get full daily report
+ * @param {*} fromDate
+ * @param {*} toDate
+ * @param {*} user
+ * @returns {Promise(Array || string)} Success - array, Failure - string error message
+ */
+export function HandleGetFullDailyReport(fromDate, toDate, user) {
   return fetch(
-    `/api/getFullDailyReport?date=${encodeURIComponent(
-      date
-    )}&user=${encodeURIComponent(user)}`
+    `/api/getFullDailyReport?fromDate=${encodeURIComponent(
+      fromDate
+    )}&toDate=${encodeURIComponent(toDate)}&user=${encodeURIComponent(user)}`
   );
+}
+
+/**
+ * Handle get fields general daily report
+ * @returns {Promise(Array)} Success - array, Failure - string error message
+ */
+export function handleGetSeenNotifications() {
+  const user = localStorage.getItem("username");
+  return fetch(`api/getSeenNotifications?user=${encodeURIComponent(user)}`);
 }

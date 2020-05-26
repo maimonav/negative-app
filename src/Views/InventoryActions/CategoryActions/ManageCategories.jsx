@@ -13,25 +13,25 @@ import {
   AddCategory,
   EditCategoey,
   RemoveCategory,
-  ShowCategories,
+  ShowCategories
 } from "../../index";
 import {
   handleAddCategory,
   handleEditCategory,
-  handleRemoveCategory,
+  handleRemoveCategory
 } from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
-  removeActionHook,
+  removeActionHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white",
+  color: "white"
 };
 
 export default class ManageCategories extends React.Component {
@@ -40,7 +40,7 @@ export default class ManageCategories extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = (action) => {
+  onChange = action => {
     this.setState({ action });
   };
 

@@ -103,13 +103,11 @@ describe("Report Operations Tests", function() {
   it("addFieldToDailyReport req 2.8", async function() {
     let user = "admin";
     service.login(user, user);
-
+    let date = new Date("1999-12-31");
     let result = await service.addFieldToDailyReport("new_field", user);
     expect(result).toBe("The report field added successfully");
     let reportAfter = {
-      date: getSyncDateFormat(
-        new Date(todayDate.setDate(todayDate.getDate() - 1))
-      ),
+      date: date,
       creatorEmployeeId: null,
       allProps: ["new_field"],
       currentProps: ["new_field"],
@@ -121,15 +119,14 @@ describe("Report Operations Tests", function() {
   it("removeFieldFromDailyReport req 2.9", async function() {
     let user = "admin";
     service.login(user, user);
+    let date = new Date("1999-12-31");
 
     await service.addFieldToDailyReport("new_field", user);
 
     let result = await service.removeFieldFromDailyReport("new_field", user);
     expect(result).toBe("The report field removed successfully");
     let reportAfter = {
-      date: getSyncDateFormat(
-        new Date(todayDate.setDate(todayDate.getDate() - 1))
-      ),
+      date: date,
       creatorEmployeeId: null,
       allProps: ["new_field"],
       currentProps: [],
@@ -153,7 +150,7 @@ describe("Report Operations Tests", function() {
       user
     );
     expect(result).toBe("The product does not exist.");
-    await service.addCategory("category", "admin");
+    let res = await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -213,7 +210,7 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Cash Counted", user);
     await service.addFieldToDailyReport("Report Z Taken", user);
 
-    await service.addCategory("category", "admin");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -260,6 +257,7 @@ describe("Report Operations Tests", function() {
       let result = await service.getReport(
         types[i],
         todayDate.toISOString(),
+        todayDate.toISOString(),
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
@@ -275,7 +273,7 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Cash Counted", user);
     await service.addFieldToDailyReport("Report Z Taken", user);
 
-    await service.addCategory("category", "admin");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -312,6 +310,7 @@ describe("Report Operations Tests", function() {
     ];
 
     let result = await service.getFullDailyReport(
+      todayDate.toISOString(),
       todayDate.toISOString(),
       "username"
     );

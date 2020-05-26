@@ -2,7 +2,7 @@ import React from "react";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 import Routes from "../Routes/Routes";
 import UserActionsDropDownTab from "../Views/UserActions/UserActionsDropDownTab";
 import InventoryActionsDropDownTab from "../Views/InventoryActions/InventoryActionsDropDownTab";
@@ -11,24 +11,28 @@ import NotificationHandler from "./NotificationHandler";
 import IconButton from "@material-ui/core/IconButton";
 import { handleLogout } from "../Handlers/Handlers";
 import LogoutIcon from "@material-ui/icons/ExitToApp";
+import DescriptionIcon from "@material-ui/icons/Description";
 import {
   userActionsTabHook,
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook,
+  reportsActionsTabHook
 } from "../consts/data-hooks";
+import { logFilePath } from "../consts/paths";
+import { isAdmin } from "../consts/permissions";
+
 export default function TablPanel(props) {
   return (
     <Router>
       <Paper square>
-        <Tabs indicatorColor="primary" aria-label="tabs">
+        <Tabs style={{ backgroundColor: "#F8F8FF" }} aria-label="tabs">
           {props.isLogged && (
             <Tab
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px",
+                marginLeft: "15px"
               }}
             />
           )}
@@ -52,26 +56,44 @@ export default function TablPanel(props) {
             />
           )}
           {props.isLogged && (
-            <Tab
-              style={{ marginLeft: "auto", paddingLeft: "105px" }}
-              label={<NotificationHandler />}
-              data-hook={notificationTabHook}
-            />
+            <>
+              <Link
+                to={logFilePath}
+                style={{ marginLeft: "auto", marginRight: "30px" }}
+              >
+                {isAdmin(props.permission) && (
+                  <IconButton
+                    color="inherit"
+                    aria-label="logFile"
+                    //data-hook={logoutTabHook}
+                  >
+                    <DescriptionIcon />
+                  </IconButton>
+                )}
+              </Link>
+            </>
           )}
           {props.isLogged && (
-            <Tab
-              label={
-                <IconButton
-                  style={{ marginRight: "100px" }}
-                  onClick={() => handleLogout(props.onLogout)}
-                  color="inherit"
-                  aria-label="add to shopping cart"
-                >
-                  <LogoutIcon />
-                </IconButton>
-              }
-              data-hook={logoutTabHook}
-            />
+            <div style={{ marginRight: "20px" }}>
+              <NotificationHandler
+                messageType={props.messageType}
+                messageContent={props.messageContent}
+                data-hook={notificationTabHook}
+              />
+            </div>
+          )}
+          {props.isLogged && (
+            <>
+              <IconButton
+                style={{ marginRight: "30px" }}
+                onClick={() => handleLogout(props.onLogout)}
+                color="inherit"
+                aria-label="add to shopping cart"
+                data-hook={logoutTabHook}
+              >
+                <LogoutIcon />
+              </IconButton>
+            </>
           )}
         </Tabs>
       </Paper>

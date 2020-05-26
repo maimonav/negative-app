@@ -106,6 +106,7 @@ export default class EditProduct extends React.Component {
                       setName={this.setProuctName}
                       isMultiple={false}
                       data-hook={productNameHook}
+                      style={{ marginBottom: "10px" }}
                     />
                   </GridItem>
                 </GridContainer>

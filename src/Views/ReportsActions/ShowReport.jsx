@@ -24,7 +24,8 @@ export default class ShowReport extends React.Component {
     super(props);
     this.state = {
       reportType: "",
-      date: new Date()
+      fromDate: new Date(),
+      toDate: new Date()
     };
   }
 
@@ -33,8 +34,12 @@ export default class ShowReport extends React.Component {
     this.resetData();
   };
 
-  setDate = date => {
-    this.setState({ date });
+  setFromDate = fromDate => {
+    this.setState({ fromDate: new Date(fromDate) });
+  };
+
+  setToDate = toDate => {
+    this.setState({ toDate: new Date(toDate) });
   };
 
   resetData = () => {
@@ -44,12 +49,14 @@ export default class ShowReport extends React.Component {
   setReport = () => {
     (this.state.reportType === reportsTypes.Daily
       ? HandleGetFullDailyReport(
-          this.state.date,
+          this.state.fromDate,
+          this.state.toDate,
           localStorage.getItem("username")
         )
       : handleGetReport(
           this.state.reportType,
-          this.state.date,
+          this.state.fromDate,
+          this.state.toDate,
           localStorage.getItem("username")
         )
     )
@@ -108,18 +115,29 @@ export default class ShowReport extends React.Component {
                     isMultiple={false}
                   />
                   <SelectDates
-                    id={"remove-start-date"}
-                    label={"Choose Date"}
-                    setDate={this.setDate}
-                    style={{ width: "auto" }}
-                    date={this.state.date}
+                    id={"choose-from-date"}
+                    label={"Choose from date"}
+                    setDate={this.setFromDate}
+                    date={this.state.fromDate}
+                  />
+                  <SelectDates
+                    id={"choose-to-date"}
+                    label={"Choose to date"}
+                    setDate={this.setToDate}
+                    date={this.state.toDate}
                   />
                   <Button
                     color="info"
                     onClick={() => {
-                      this.state.reportType && this.state.date
-                        ? this.setReport()
-                        : alert("All fields are required.");
+                      if (
+                        this.state.reportType &&
+                        this.state.fromDate &&
+                        this.state.toDate
+                      ) {
+                        this.setReport();
+                      } else {
+                        alert("All fields are required.");
+                      }
                     }}
                     style={{ marginLeft: "15px", marginTop: "10px" }}
                   >
@@ -127,7 +145,8 @@ export default class ShowReport extends React.Component {
                   </Button>
                 </div>
                 {this.state.reportType &&
-                  this.state.date &&
+                  this.state.fromDate &&
+                  this.state.toDate &&
                   this.state.reportData &&
                   this.renderReport()}
               </CardBody>

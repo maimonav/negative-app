@@ -238,7 +238,6 @@ app.get("/api/editProduct", async (req, res) => {
 app.get("/api/removeProduct", async (req, res) => {
   const productName =
     (req.query.productName && req.query.productName.trim()) || "";
-  console.log("req.query.productName:", req.query.productName.trim());
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.removeProduct(productName, user);
   res.send(JSON.stringify({ result }));
@@ -360,7 +359,6 @@ app.get("/api/getMovies", (req, res) => {
 app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
-  result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -408,7 +406,6 @@ app.get("/api/getOrderDetails", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const order = (req.query.order && req.query.order.trim()) || "";
   const result = service.getOrderDetails(order, user);
-  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
@@ -445,10 +442,10 @@ app.get("/api/getProductAndQuntityByOrder", (req, res) => {
 app.get("/api/getReport", async (req, res) => {
   const reportType =
     (req.query.reportType && req.query.reportType.trim()) || "";
-  const date = (req.query.date && req.query.date.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = await service.getReport(reportType, date, user);
-  console.log("Result", result);
+  const result = await service.getReport(reportType, fromDate, toDate, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -539,8 +536,15 @@ app.get("/api/removeFieldToGeneralDailyReport", async (req, res) => {
 });
 
 app.get("/api/getFullDailyReport", async (req, res) => {
-  const date = (req.query.date && req.query.date.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = await service.getFullDailyReport(date, user);
+  const result = await service.getFullDailyReport(fromDate, toDate, user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getSeenNotifications", async (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getSeenNotifications(user);
   res.send(JSON.stringify({ result }));
 });

@@ -13,14 +13,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import moment from "moment";
-
-//TODO:: websocket impl
-const socket = new WebSocket("ws://localhost:3001");
-
-// Connection opened
-socket.addEventListener("open", function(event) {
-  socket.send("Hello Server!");
-});
+import { handleGetSeenNotifications } from "../Handlers/Handlers";
 
 function getNotificationMessage(type, content, requiredQuantity) {
   switch (type) {
@@ -39,6 +32,7 @@ export default class NotificationHandler extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      render: false,
       notifications: [],
       view: false,
       newNotifications: 0,
@@ -47,45 +41,54 @@ export default class NotificationHandler extends React.Component {
   }
 
   componentDidMount() {
-    socket.onopen = () => {
-      console.log("connected");
-    };
+    handleGetSeenNotifications()
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ messages: state.result }, () =>
+          console.log("messages:", this.state.messages)
+        );
+      });
+  }
 
-    socket.onmessage = (evt) => {
-      const message = JSON.parse(evt.data);
-      const date = moment(message[0].timeFired).format("LLLL");
-      const content = message[0].content[0];
-      const requiredQuantity = content.minQuantity
-        ? content.minQuantity
-        : content.maxQuantity;
-      const notificationMessage = getNotificationMessage(
-        message[0].subtype,
-        content,
-        requiredQuantity
-      );
-      this.setState(
-        {
-          notifications: [
-            {
-              name: notificationMessage,
-              hasUserView: false,
-              notificationDate: date,
-            },
-            ...this.state.notifications,
-          ],
-        },
-        () =>
-          this.setState({
-            newNotifications:
-              this.state.newNotifications + message[0].content.length,
-          })
-      );
-      console.log(message);
-    };
+  componentDidUpdate(prevProps) {
+    if (prevProps.messageContent !== this.props.messageContent) {
+      this.updateNotifications();
+      this.setState({
+        render: true,
+      });
+    }
+  }
 
-    socket.onclose = () => {
-      console.log("disconnected");
-    };
+  updateNotifications() {
+    const { messageContent } = this.props;
+    const date = moment(messageContent[0].timeFired).format("LLLL");
+    const content = messageContent[0].content[0];
+    const requiredQuantity = content.minQuantity
+      ? content.minQuantity
+      : content.maxQuantity;
+    const notificationMessage = getNotificationMessage(
+      messageContent[0].subtype,
+      content,
+      requiredQuantity
+    );
+    this.setState(
+      {
+        notifications: [
+          {
+            name: notificationMessage,
+            hasUserView: false,
+            notificationDate: date,
+          },
+          ...this.state.notifications,
+        ],
+      },
+      () =>
+        this.setState({
+          newNotifications:
+            this.state.newNotifications + messageContent[0].content.length,
+        })
+    );
+    console.log(messageContent);
   }
 
   handleNotificationNumber() {
@@ -111,13 +114,10 @@ export default class NotificationHandler extends React.Component {
 
   render() {
     const { notifications, view, newNotifications } = this.state;
-    console.log("array:", notifications);
-    console.log("view:", view);
-    console.log("newNotifications:", newNotifications);
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
-          <div>
+          <>
             <IconButton aria-label="show new notifications" color="inherit">
               <Badge
                 badgeContent={view ? 0 : newNotifications}
@@ -169,7 +169,7 @@ export default class NotificationHandler extends React.Component {
                 ))}
               </List>
             </Popover>
-          </div>
+          </>
         )}
       </PopupState>
     );

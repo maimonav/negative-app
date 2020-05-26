@@ -44,27 +44,33 @@ export default class RemoveEmployee extends React.Component {
                 <h4 style={{ margin: "auto" }}>Remove employee</h4>
               </CardHeader>
               <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"userName"}
-                      items={this.state.employees}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
-                      isMultiple={false}
-                      data-hook={userNameHook}
-                    />
-                  </GridItem>
+                <GridContainer style={style}>
+                  <ComboBox
+                    id={"userName"}
+                    items={this.state.employees}
+                    boxLabel={"Choose employee"}
+                    setName={this.setUsername}
+                    isMultiple={false}
+                    data-hook={userNameHook}
+                  />
                 </GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
-                  onClick={() =>
-                    this.state.userName
-                      ? this.props.handleRemoveEmployee(userName)
-                      : alert("Employee name is required.")
-                  }
+                  onClick={() => {
+                    if (this.state.userName) {
+                      this.props
+                        .handleRemoveEmployee(userName)
+                        .then(response => response.json())
+                        .then(state => {
+                          alert(state.result);
+                          this.setInitialState();
+                        });
+                    } else {
+                      alert("Employee name is required.");
+                    }
+                  }}
                 >
                   Remove Employee
                 </Button>

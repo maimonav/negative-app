@@ -4,6 +4,7 @@ const CinemaSystem = require("../../../server/src/main/CinemaSystem");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const InventoryManagement = require("../../../server/src/main/InventoryManagement");
 const {
+  validateEdit,
   validate,
   testCinemaFunctions,
 } = require("./MovieOperationsTests.spec");
@@ -21,7 +22,7 @@ describe("Supplier Operations Tests", () => {
       "Contact Details ": "0500000000",
       "Username ": "User",
     });
-    await validate(serviceLayer, serviceLayer.editSupplier, {
+    await validateEdit(serviceLayer, serviceLayer.editSupplier, {
       "Supplier Name ": "Supplier",
       "Contact Details ": "0500000000",
       "Username ": "User",
@@ -134,9 +135,9 @@ describe("Supplier Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.editSupplier("Supplier", "050", "User")
     );
-    user = { isLoggedIn: () => true, permissionCheck: () => true };
+    let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
-    result = await serviceLayer.editSupplier("Supplier", "050", "User");
+    let result = await serviceLayer.editSupplier("Supplier", "050", "User");
     expect(result).toBe("The supplier does not exist");
     serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(
       1,
@@ -158,9 +159,9 @@ describe("Supplier Operations Tests", () => {
     await testCinemaFunctions(serviceLayer.cinemaSystem, async () =>
       serviceLayer.removeSupplier("Supplier", "User")
     );
-    user = { isLoggedIn: () => true, permissionCheck: () => true };
+    let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
-    result = await serviceLayer.removeSupplier("Supplier", "User");
+    let result = await serviceLayer.removeSupplier("Supplier", "User");
     expect(result).toBe("The supplier does not exist");
     serviceLayer.cinemaSystem.inventoryManagement.suppliers.set(
       1,

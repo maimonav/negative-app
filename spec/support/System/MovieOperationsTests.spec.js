@@ -21,6 +21,18 @@ async function validate(serviceLayer, method, params) {
 }
 exports.validate = validate;
 
+async function validateEdit(serviceLayer, method, params) {
+  Object.keys(params).forEach(async (key) => {
+    let withEmptyParam = Object.keys(params).map((k) =>
+      k === key ? undefined : params[k]
+    );
+    let expected = key + "is not valid";
+    let result = await method.apply(serviceLayer, withEmptyParam);
+    expect(result).toBe(expected);
+  });
+}
+exports.validateEdit = validateEdit;
+
 describe("Movie Operations Tests", () => {
   beforeAll(() => {
     DB._testModeOn();
@@ -51,7 +63,7 @@ describe("Movie Operations Tests", () => {
     let serviceLayer = new ServiceLayer();
 
     //Input validation
-    validate(serviceLayer, serviceLayer.editMovie, {
+    validateEdit(serviceLayer, serviceLayer.editMovie, {
       "Movie Name ": "Movie",
       "Category ": "fantasy",
       "Key ": "key",
@@ -118,7 +130,7 @@ describe("Movie Operations Tests", () => {
     expect(result).toBe("The movie does not exist");
     let actualMovie = new Movie(1, "Movie", 1);
     inventoryManagement.products.set(1, actualMovie);
-    result = await inventoryManagement.editMovie(1);
+    result = await inventoryManagement.editMovie(1, 0);
     expect(result).toBe("Category doesn't exist");
     inventoryManagement.categories.set(1, null);
     result = await inventoryManagement.editMovie(1, 1, "key", -1);

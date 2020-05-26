@@ -9,12 +9,13 @@ import CustomInput from "../../Components/CustomInput/CustomInput.js";
 // import ComboBox from "../../Components/AutoComplete";
 import { HandleAddFieldToGeneralDailyReport } from "../../Handlers/Handlers";
 import Button from "../../Components/CustomButtons/Button.js";
+import { newFieldHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { field: "" };
   }
 
   setField(event) {
@@ -43,7 +44,7 @@ export default class AddField extends React.Component {
                         fullWidth: true
                       }}
                       onChange={event => this.setField(event)}
-                      // data-hook={}
+                      data-hook={newFieldHook}
                     />
                   </GridItem>
                 </GridContainer>

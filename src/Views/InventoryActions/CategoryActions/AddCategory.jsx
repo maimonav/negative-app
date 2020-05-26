@@ -11,9 +11,10 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   categoryNameHook,
-  categoryParentNameHook,
+  categoryParentNameHook
 } from "../../../consts/data-hooks";
 import { handleGetCategories } from "../../../Handlers/Handlers";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCategory extends React.Component {
@@ -21,15 +22,15 @@ export default class AddCategory extends React.Component {
     super(props);
     this.state = {
       categoryName: "",
-      parentName: "",
+      parentName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
@@ -38,7 +39,7 @@ export default class AddCategory extends React.Component {
     this.setState({ categoryName: event.target.value });
   }
 
-  setCategoryParentName = (name) => {
+  setCategoryParentName = name => {
     this.setState({ parentName: name });
   };
 
@@ -60,12 +61,12 @@ export default class AddCategory extends React.Component {
                       labelText="Category Name"
                       id="categoryName"
                       formControlProps={{
-                        fullWidth: true,
+                        fullWidth: true
                       }}
                       inputProps={{
-                        type: "string",
+                        type: "string"
                       }}
-                      onChange={(event) => this.setCategoryName(event)}
+                      onChange={event => this.setCategoryName(event)}
                       data-hook={categoryNameHook}
                     />
                   </GridItem>
@@ -76,7 +77,7 @@ export default class AddCategory extends React.Component {
                       style={{
                         margin: "auto",
                         marginTop: "20px",
-                        marginBottom: "10px",
+                        marginBottom: "10px"
                       }}
                     >
                       Choose category parent - meaning the new category will be
@@ -85,7 +86,7 @@ export default class AddCategory extends React.Component {
                     <ComboBox
                       id={"categoryParentName"}
                       items={this.state.categories}
-                      boxLabel={"Choose category parent"}
+                      boxLabel={"Choose category parent" + optional}
                       setName={this.setCategoryParentName}
                       isMultiple={false}
                       data-hook={categoryParentNameHook}

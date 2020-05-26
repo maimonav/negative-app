@@ -16,6 +16,8 @@ import {
   createDailyReportPath,
   manageOrdersPath,
   manageMoviesOrdersPath,
+  errorPagePath,
+  logFilePath,
 } from "../consts/paths";
 
 import {
@@ -40,11 +42,14 @@ import {
   ManageCategories,
   ManageOrders,
   ManageMoviesOrders,
+  ErrorPage,
+  LogFile,
 } from "../Views/index";
 
 export default function Routes(props) {
   return (
     <Switch>
+      {<Route path={errorPagePath} component={ErrorPage} />}
       {!props.isLogged && (
         <Route
           path={loginPath}
@@ -117,6 +122,9 @@ export default function Routes(props) {
             />
           )}
         />
+      )}
+      {props.isLogged && (
+        <Route path={logFilePath} component={() => <LogFile />} />
       )}
     </Switch>
   );
