@@ -160,13 +160,22 @@ class ServiceLayer {
    * @returns {string} Success or failure string
    **/
   login(userName, password) {
+    let validationResult = !this._isInputValid(userName)
+      ? "Username is not valid"
+      : !this._isInputValid(password)
+      ? "Password is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "login", validationResult);
+      return validationResult;
+    }
     if (this.users.has(userName)) {
       let output = this.cinemaSystem.login(
         userName,
         password,
         this.users.get(userName)
       );
-      if (output[0] === "User Logged in succesfully.") {
+      if (output[0] === "User Logged in successfully.") {
         this.userActivation.set(userName, { lastActTime: new Date() });
       }
       return output;
@@ -238,6 +247,25 @@ class ServiceLayer {
     ActionIDofTheOperation,
     isPasswordHashed
   ) {
+    let validationResult = !this._isInputValid(userName)
+      ? "Username is not valid"
+      : !this._isInputValid(password)
+      ? "Password is not valid"
+      : !this._isInputValid(firstName)
+      ? "First Name is not valid"
+      : !this._isInputValid(lastName)
+      ? "Last Name is not valid"
+      : !this._isInputValid(permissions)
+      ? "Permissions is not valid"
+      : !this._isInputValid(contactDetails)
+      ? "Contact Details is not valid"
+      : !this._isInputValid(ActionIDofTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "addNewEmployee", validationResult);
+      return validationResult;
+    }
     if (
       typeof ActionIDofTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDofTheOperation)
@@ -309,6 +337,25 @@ class ServiceLayer {
     contactDetails,
     ActionIDOfTheOperation
   ) {
+    let validationResult = !this._isInputValid(userName)
+      ? "Username is not valid"
+      : password === ""
+      ? "Password is not valid"
+      : firstName === ""
+      ? "First Name is not valid"
+      : lastName === ""
+      ? "Last Name is not valid"
+      : permissions === ""
+      ? "Permissions is not valid"
+      : contactDetails === ""
+      ? "Contact Details is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "editEmployee", validationResult);
+      return validationResult;
+    }
     if (
       typeof ActionIDOfTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDOfTheOperation)
@@ -352,6 +399,15 @@ class ServiceLayer {
    * @returns {Promise(string)} Success or failure string
    **/
   async deleteEmployee(userName, ActionIDOfTheOperation) {
+    let validationResult = !this._isInputValid(userName)
+      ? "Username is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "deleteEmployee", validationResult);
+      return validationResult;
+    }
     if (
       typeof ActionIDOfTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDOfTheOperation)
@@ -475,11 +531,11 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
-      : !this._isInputValid(category)
+      : category === ""
       ? "Category is not valid"
-      : !this._isInputValid(key)
+      : key === ""
       ? "Key is not valid"
-      : !this._isInputValid(examinationRoom)
+      : examinationRoom === ""
       ? "Examination Room is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -507,7 +563,7 @@ class ServiceLayer {
       );
       return "The user performing the operation does not exist in the system";
     }
-    if (!this.categories.has(category)) {
+    if (category && !this.categories.has(category)) {
       this.writeToLog(
         "info",
         "editMovie",
@@ -517,9 +573,9 @@ class ServiceLayer {
     }
     return await this.cinemaSystem.editMovie(
       this.products.get(movieName),
-      this.categories.get(category),
+      category ? this.categories.get(category) : category,
       key,
-      parseInt(examinationRoom),
+      examinationRoom ? parseInt(examinationRoom) : examinationRoom,
       this.users.get(ActionIDOfTheOperation)
     );
   }
@@ -646,7 +702,7 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
-      : !this._isInputValid(contactDetails)
+      : contactDetails === ""
       ? "Contact Details is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"
@@ -771,6 +827,12 @@ class ServiceLayer {
       ? "Product quantity is not valid"
       : !this._isInputValid(productCategory)
       ? "Product category is not valid"
+      : minQuantity === ""
+      ? "Minimum Quantity is not valid"
+      : maxQuantity === ""
+      ? "Maximum Quantity is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
       : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addNewProduct", validationResult);
@@ -832,6 +894,25 @@ class ServiceLayer {
       this.userActivation.has(ActionIDOfTheOperation)
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
+    let validationResult = !this._isInputValid(productName)
+      ? "Product name is not valid"
+      : productPrice === ""
+      ? "Product price is not valid"
+      : productQuantity === ""
+      ? "Product quantity is not valid"
+      : productCategory === ""
+      ? "Product category is not valid"
+      : minQuantity === ""
+      ? "Minimum Quantity is not valid"
+      : maxQuantity === ""
+      ? "Maximum Quantity is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "addNewProduct", validationResult);
+      return validationResult;
     }
     if (!this.products.has(productName)) {
       this.writeToLog("info", "editProduct", "The product doesn't exist");
@@ -920,6 +1001,15 @@ class ServiceLayer {
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
+    let validationResult = !this._isInputValid(productName)
+      ? "Product name is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "removeProduct", validationResult);
+      return validationResult;
+    }
     if (!this.products.has(productName)) {
       this.writeToLog("info", "removeProduct", "The product does not exist");
       return "The product does not exist";
@@ -957,6 +1047,17 @@ class ServiceLayer {
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
+    let validationResult = !this._isInputValid(categoryName)
+      ? "Category name is not valid"
+      : parentName === ""
+      ? "Parent Name is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "addCategory", validationResult);
+      return validationResult;
+    }
     if (this.categories.has(categoryName)) {
       this.writeToLog("info", "addCategory", "The category already exist");
       return "The category already exist";
@@ -993,6 +1094,7 @@ class ServiceLayer {
       parentId,
       this.users.get(ActionIDOfTheOperation)
     );
+
     if (result === "The category was successfully added to the system") {
       this.categories.set(categoryName, this.categoriesCounter);
       this.categoriesCounter++;
@@ -1012,6 +1114,17 @@ class ServiceLayer {
       this.userActivation.has(ActionIDOfTheOperation)
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
+    let validationResult = !this._isInputValid(categoryName)
+      ? "Category name is not valid"
+      : parentName === ""
+      ? "Parent Name is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "addCategory", validationResult);
+      return validationResult;
     }
     if (!this.categories.has(categoryName)) {
       this.writeToLog("info", "editCategory", "The category doesn't exist");
@@ -1056,6 +1169,15 @@ class ServiceLayer {
       this.userActivation.has(ActionIDOfTheOperation)
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
+    }
+    let validationResult = !this._isInputValid(categoryName)
+      ? "Category name is not valid"
+      : !this._isInputValid(ActionIDOfTheOperation)
+      ? "Username is not valid"
+      : "Valid";
+    if (validationResult !== "Valid") {
+      this.writeToLog("info", "removeCategory", validationResult);
+      return validationResult;
     }
     if (!this.categories.has(categoryName)) {
       this.writeToLog("info", "removeCategory", "The category doesn't exist");
@@ -1240,7 +1362,11 @@ class ServiceLayer {
     }
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
-      : !this._isInputValid(productsList)
+      : supplierName === ""
+      ? "Supplier Name is not valid"
+      : dateSTR === ""
+      ? "Date is not valid"
+      : productsList === ""
       ? "Products List is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
       ? "Username is not valid"

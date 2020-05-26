@@ -17,12 +17,12 @@ class Supplier {
   }
 
   async editSupplier(name, contactDetails) {
-    super.name = name;
-    this.contactDetails = contactDetails;
+    super.name = name ? name : this.name;
+    this.contactDetails = contactDetails ? contactDetails : this.contactDetails;
     return DataBase.singleUpdate(
       "supplier",
       { id: this.id },
-      { name: name, contactDetails: contactDetails }
+      { name: this.name, contactDetails: this.contactDetails }
     );
   }
 

@@ -74,7 +74,7 @@ class InventoryManagement {
       );
       return "Category doesn't exist";
     }
-    if (examinationRoom < 0) {
+    if (examinationRoom && examinationRoom < 0) {
       this.writeToLog(
         "info",
         "editMovie",
