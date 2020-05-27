@@ -3,10 +3,12 @@ import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
+import DownloadIcon from "@material-ui/icons/SaveAlt";
 import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
+import Tooltip from "@material-ui/core/Tooltip";
 import ReportTable from "../../Components/Tables/ReportTable";
 import {
   handleGetReport,
@@ -17,6 +19,8 @@ import {
   reportsPrettyTypes,
   reportsTypesInverseObj
 } from "../../consts/data";
+import { downloadActionHook } from "../../consts/data-hooks";
+import { IconButton } from "@material-ui/core";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -35,11 +39,11 @@ export default class ShowReport extends React.Component {
   };
 
   setFromDate = fromDate => {
-    this.setState({ fromDate });
+    this.setState({ fromDate: new Date(fromDate) });
   };
 
   setToDate = toDate => {
-    this.setState({ toDate });
+    this.setState({ toDate: new Date(toDate) });
   };
 
   resetData = () => {
@@ -115,32 +119,48 @@ export default class ShowReport extends React.Component {
                     isMultiple={false}
                   />
                   <SelectDates
-                    id={"remove-start-date"}
+                    id={"choose-from-date"}
                     label={"Choose from date"}
                     setDate={this.setFromDate}
-                    style={{ width: "auto" }}
                     date={this.state.fromDate}
                   />
                   <SelectDates
-                    id={"remove-start-date"}
+                    id={"choose-to-date"}
                     label={"Choose to date"}
                     setDate={this.setToDate}
-                    style={{ width: "auto" }}
                     date={this.state.toDate}
                   />
                   <Button
                     color="info"
                     onClick={() => {
-                      this.state.reportType &&
-                      this.state.fromDate &&
-                      this.state.toDate
-                        ? this.setReport()
-                        : alert("All fields are required.");
+                      if (
+                        this.state.reportType &&
+                        this.state.fromDate &&
+                        this.state.toDate
+                      ) {
+                        this.setReport();
+                      } else {
+                        alert("All fields are required.");
+                      }
                     }}
                     style={{ marginLeft: "15px", marginTop: "10px" }}
                   >
                     Show report
                   </Button>
+                  {this.state.reportData &&
+                    this.state.reportType !== reportsTypes.Daily && (
+                      <Tooltip title="Download report" aria-label="show">
+                        <IconButton
+                          color="default"
+                          size="medium"
+                          // onClick={}
+                          data-hook={downloadActionHook}
+                          style={{ marginLeft: "15px", marginTop: "10px" }}
+                        >
+                          <DownloadIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                 </div>
                 {this.state.reportType &&
                   this.state.fromDate &&

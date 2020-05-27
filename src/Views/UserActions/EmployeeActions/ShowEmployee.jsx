@@ -52,7 +52,7 @@ export default class ShowEmployee extends React.Component {
                 <h4 style={{ margin: "auto" }}>Show employee details</h4>
               </CardHeader>
               <CardBody>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={6} style={style}>
                   <ComboBox
                     id={"userName"}
                     items={this.state.employees}
@@ -64,7 +64,7 @@ export default class ShowEmployee extends React.Component {
                   />
                 </GridItem>
                 {this.state.userName && this.state.employee && (
-                  <GridItem xs={12} sm={12} md={8}>
+                  <GridContainer style={style}>
                     <TextField
                       id="filled-read-only-input"
                       defaultValue=""
@@ -111,7 +111,7 @@ export default class ShowEmployee extends React.Component {
                       variant="outlined"
                       data-hook={contactDetailsHook}
                     />
-                  </GridItem>
+                  </GridContainer>
                 )}
               </CardBody>
             </Card>

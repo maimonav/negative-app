@@ -150,7 +150,7 @@ describe("Report Operations Tests", function() {
       user
     );
     expect(result).toBe("The product does not exist.");
-    await service.addCategory("category", "admin");
+    let res = await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -211,7 +211,7 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Cash Counted", user);
     await service.addFieldToDailyReport("Report Z Taken", user);
 
-    await service.addCategory("category", "admin");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -277,7 +277,7 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Cash Counted", user);
     await service.addFieldToDailyReport("Report Z Taken", user);
 
-    await service.addCategory("category", "admin");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",

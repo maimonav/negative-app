@@ -111,8 +111,8 @@ export default class ShowProductDetails extends React.Component {
                     <TextField
                       id="field5"
                       defaultValue=""
-                      label="Product Max Qunatity"
-                      value={this.state.productName.productMaxQunatity || ""}
+                      label="Product Max Quantity"
+                      value={this.state.productName.productMaxQuantity || ""}
                       InputProps={{
                         readOnly: true
                       }}
@@ -122,8 +122,8 @@ export default class ShowProductDetails extends React.Component {
                     <TextField
                       id="field6"
                       defaultValue=""
-                      label="Product Mim Qunatity"
-                      value={this.state.productName.productMimQunatity || ""}
+                      label="Product Mim Quantity"
+                      value={this.state.productName.productMimQuantity || ""}
                       InputProps={{
                         readOnly: true
                       }}

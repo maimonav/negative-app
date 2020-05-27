@@ -56,7 +56,7 @@ export default class RemoveOrder extends React.Component {
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Remvoe Order</h4>
+                <h4 style={{ margin: "auto" }}>Remove Order</h4>
                 <p>Choose order's number</p>
               </CardHeader>
               <CardBody>

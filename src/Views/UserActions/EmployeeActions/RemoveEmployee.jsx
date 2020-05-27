@@ -44,17 +44,15 @@ export default class RemoveEmployee extends React.Component {
                 <h4 style={{ margin: "auto" }}>Remove employee</h4>
               </CardHeader>
               <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"userName"}
-                      items={this.state.employees}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
-                      isMultiple={false}
-                      data-hook={userNameHook}
-                    />
-                  </GridItem>
+                <GridContainer style={style}>
+                  <ComboBox
+                    id={"userName"}
+                    items={this.state.employees}
+                    boxLabel={"Choose employee"}
+                    setName={this.setUsername}
+                    isMultiple={false}
+                    data-hook={userNameHook}
+                  />
                 </GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>

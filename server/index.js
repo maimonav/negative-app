@@ -238,7 +238,6 @@ app.get("/api/editProduct", async (req, res) => {
 app.get("/api/removeProduct", async (req, res) => {
   const productName =
     (req.query.productName && req.query.productName.trim()) || "";
-  console.log("req.query.productName:", req.query.productName.trim());
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.removeProduct(productName, user);
   res.send(JSON.stringify({ result }));
@@ -360,7 +359,6 @@ app.get("/api/getMovies", (req, res) => {
 app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
-  result.map(category => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -408,7 +406,6 @@ app.get("/api/getOrderDetails", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const order = (req.query.order && req.query.order.trim()) || "";
   const result = service.getOrderDetails(order, user);
-  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
@@ -449,7 +446,6 @@ app.get("/api/getReport", async (req, res) => {
   const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.getReport(reportType, fromDate, toDate, user);
-  console.log("Result", result);
   res.send(JSON.stringify({ result }));
 });
 
