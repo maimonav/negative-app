@@ -1,6 +1,8 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const ReportController = require("../../../server/src/main/ReportController");
+const { csvToJson } = require("../../../server/src/main/EventBuzzScript");
+
 const moment = require("moment");
 
 const {
@@ -204,43 +206,7 @@ describe("Report Operations Tests", function() {
   it("getReport req 1.1.14, 2.5, 2.7", async function(done) {
     setTimeout(done, 5000);
 
-<<<<<<< Updated upstream
-    let user = "admin";
-    service.login(user, user);
-
-    await service.addFieldToDailyReport("Cash Counted", user);
-    await service.addFieldToDailyReport("Report Z Taken", user);
-
-    await service.addCategory("category", "admin", "");
-    await service.addNewProduct(
-      "product",
-      "10",
-      "10",
-      "2",
-      "20",
-      "category",
-      "admin"
-    );
-
-    await service.addNewEmployee(
-      "username",
-      "password",
-      "first",
-      "last",
-      "MANAGER",
-      "contact",
-      user
-    );
-    service.login("username", "password");
-
-    await service.createDailyReport(
-      todayDate.toISOString(),
-      JSON.stringify(reports),
-      "username"
-    );
-=======
     await createReport(service, todayDate, reports);
->>>>>>> Stashed changes
 
     //Get reports
 
@@ -333,7 +299,7 @@ describe("Report Operations Tests", function() {
   }, 6000);
 
   it("Movies Report Event Buzz - create and get from DB", async () => {
-    let report = ReportController._MovieReportJson.slice(0, 5);
+    let report = csvToJson().slice(0, 5);
     let result = await ReportController.createMovieReport(report);
     expect(result).toBe(undefined);
     let reportAfter = report;
