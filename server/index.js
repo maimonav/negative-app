@@ -552,3 +552,24 @@ app.get("/api/getSeenNotifications", async (req, res) => {
   const result = await service.getSeenNotifications(user);
   res.send(JSON.stringify({ result }));
 });
+
+app.get("/api/getReportFile", async (req, res) => {
+  const reportType =
+    (req.query.reportType && req.query.reportType.trim()) || "";
+  const fromDate = (req.query.date && req.query.date.trim()) || "";
+  const toDate = (req.query.date && req.query.date.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getReportFile(
+    reportType,
+    fromDate,
+    toDate,
+    user
+  );
+  let msg = result;
+  if (typeof result !== "string") {
+    msg = result[0];
+    let fileName = result[1];
+    res.download(fileName);
+  }
+  res.send(JSON.stringify({ msg }));
+});

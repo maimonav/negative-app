@@ -36,8 +36,12 @@ class CinemaSystem {
       incomes_daily_report: async (record) =>
         this.employeeAndDateConversion(record),
       movies_daily_report: async (record) => {
+<<<<<<< Updated upstream
         record.date = moment(record.date).format("lll");
         console.log(record.date);
+=======
+        record.date = moment(record.date).format("llll");
+>>>>>>> Stashed changes
         return record;
       },
     };

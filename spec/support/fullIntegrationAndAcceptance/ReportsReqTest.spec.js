@@ -14,6 +14,42 @@ const {
   testMoviesDailyReportResult,
 } = require("./../DBtests/ReportsTests.spec");
 
+let reports = [
+  {
+    type: "incomes_daily_report",
+    content: [
+      {
+        numOfTabsSales: "2",
+        cafeteriaCashRevenues: "2.2",
+        cafeteriaCreditCardRevenues: "5.5",
+        ticketsCashRevenues: "4",
+        ticketsCreditCardRevenues: "3",
+        tabsCashRevenues: "0",
+        tabsCreditCardRevenues: "0",
+      },
+    ],
+  },
+  {
+    type: "inventory_daily_report",
+    content: [
+      {
+        productName: "product",
+        quantitySold: "2",
+        stockThrown: "4",
+      },
+    ],
+  },
+  {
+    type: "general_purpose_daily_report",
+    content: [
+      {
+        "Cash Counted": "true",
+        "Report Z Taken": "true",
+      },
+    ],
+  },
+];
+
 //TODO:: test general
 describe("Report Operations Tests", function() {
   let service = new ServiceLayer();
@@ -50,42 +86,6 @@ describe("Report Operations Tests", function() {
       allProps: ["Cash Counted", "Report Z Taken"],
       currentProps: ["Cash Counted", "Report Z Taken"],
       propsObject: { "Cash Counted": "true", "Report Z Taken": "true" },
-    },
-  ];
-
-  let reports = [
-    {
-      type: "incomes_daily_report",
-      content: [
-        {
-          numOfTabsSales: "2",
-          cafeteriaCashRevenues: "2.2",
-          cafeteriaCreditCardRevenues: "5.5",
-          ticketsCashRevenues: "4",
-          ticketsCreditCardRevenues: "3",
-          tabsCashRevenues: "0",
-          tabsCreditCardRevenues: "0",
-        },
-      ],
-    },
-    {
-      type: "inventory_daily_report",
-      content: [
-        {
-          productName: "product",
-          quantitySold: "2",
-          stockThrown: "4",
-        },
-      ],
-    },
-    {
-      type: "general_purpose_daily_report",
-      content: [
-        {
-          "Cash Counted": "true",
-          "Report Z Taken": "true",
-        },
-      ],
     },
   ];
 
@@ -204,6 +204,7 @@ describe("Report Operations Tests", function() {
   it("getReport req 1.1.14, 2.5, 2.7", async function(done) {
     setTimeout(done, 5000);
 
+<<<<<<< Updated upstream
     let user = "admin";
     service.login(user, user);
 
@@ -237,6 +238,9 @@ describe("Report Operations Tests", function() {
       JSON.stringify(reports),
       "username"
     );
+=======
+    await createReport(service, todayDate, reports);
+>>>>>>> Stashed changes
 
     //Get reports
 
@@ -342,3 +346,36 @@ describe("Report Operations Tests", function() {
     }
   });
 });
+async function createReport(service, todayDate, costumeReports) {
+  let user = "admin";
+  service.login(user, user);
+  await service.addFieldToDailyReport("Cash Counted", user);
+  await service.addFieldToDailyReport("Report Z Taken", user);
+  await service.addCategory("category", "admin", "");
+  await service.addNewProduct(
+    "product",
+    "10",
+    "10",
+    "2",
+    "20",
+    "category",
+    "admin"
+  );
+  await service.addNewEmployee(
+    "username",
+    "password",
+    "first",
+    "last",
+    "MANAGER",
+    "contact",
+    user
+  );
+  service.login("username", "password");
+  await service.createDailyReport(
+    todayDate.toISOString(),
+    JSON.stringify(costumeReports ? costumeReports : reports),
+    "username"
+  );
+}
+
+exports.createReport = createReport;
