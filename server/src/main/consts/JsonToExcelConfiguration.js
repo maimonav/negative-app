@@ -5,18 +5,18 @@ const incomesReportColumns = [
   { label: "Cafeteria Cash", value: "cafeteriaCashRevenues" },
   {
     label: "Cafeteria CreditCard",
-    value: "cafeteriaCreditCardRevenues",
+    value: "cafeteriaCreditCardRevenues"
   },
   { label: "Tickets Cash", value: "ticketsCashRevenues" },
   {
     label: "Tickets CreditCard",
-    value: "ticketsCreditCardRevenues",
+    value: "ticketsCreditCardRevenues"
   },
   { label: "Tabs Cash", value: "tabsCashRevenues" },
   {
     label: "Tabs CreditCard",
-    value: "tabsCreditCardRevenues",
-  },
+    value: "tabsCreditCardRevenues"
+  }
 ];
 
 const inventoryReportColumns = [
@@ -25,12 +25,12 @@ const inventoryReportColumns = [
   { label: "Tabs Sales", value: "productName" },
   { label: "Quantity Sold", value: "quantitySold" },
   { label: "Stock Thrown", value: "stockThrown" },
-  { label: "Quantity In Stock", value: "quantityInStock" },
+  { label: "Quantity In Stock", value: "quantityInStock" }
 ];
 
 let generalReportColumns = [
   { label: "Date", value: "date" },
-  { label: "Employee", value: "creatorEmployeeName" },
+  { label: "Employee", value: "creatorEmployeeName" }
 ];
 
 const moviesReportColumns = [
@@ -44,47 +44,49 @@ const moviesReportColumns = [
   { label: "Fees", value: "totalFees" },
   {
     label: "Revenues Without Cash",
-    value: "totalRevenuesWithoutCash",
+    value: "totalRevenuesWithoutCash"
   },
-  { label: "Cash Incomes", value: "totalCashIncomes" },
+  { label: "Cash Incomes", value: "totalCashIncomes" }
 ];
+
+const relativeFilePath = fileName => `./server/src/main/reports/${fileName}`;
 
 const incomesReportSettings = {
   sheetName: "Incomes Report",
-  fileName: ".\\server\\src\\main\\consts\\Incomes Report",
-  extraLength: 5,
+  fileName: relativeFilePath("Incomes Report"),
+  extraLength: 5
 };
 const inventoryReportSettings = {
   sheetName: "Inventory Report",
-  fileName: ".\\server\\src\\main\\consts\\Inventory Report",
-  extraLength: 5,
+  fileName: relativeFilePath("Inventory Report"),
+  extraLength: 5
 };
 const generalReportSettings = {
   sheetName: "General Report",
-  fileName: ".\\server\\src\\main\\consts\\General Report",
-  extraLength: 5,
+  fileName: relativeFilePath("General Report"),
+  extraLength: 5
 };
 const moviesReportSettings = {
   sheetName: "Movies Report",
-  fileName: ".\\server\\src\\main\\consts\\Movies Report",
-  extraLength: 5,
+  fileName: relativeFilePath("Movies Report"),
+  extraLength: 5
 };
 
 const settings = {
   incomes_daily_report: incomesReportSettings,
   inventory_daily_report: inventoryReportSettings,
   general_purpose_daily_report: generalReportSettings,
-  movies_daily_report: moviesReportSettings,
+  movies_daily_report: moviesReportSettings
 };
 
 const columns = {
   incomes_daily_report: incomesReportColumns,
   inventory_daily_report: inventoryReportColumns,
   general_purpose_daily_report: generalReportColumns,
-  movies_daily_report: moviesReportColumns,
+  movies_daily_report: moviesReportColumns
 };
 
 module.exports = {
   settings,
-  columns,
+  columns
 };

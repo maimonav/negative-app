@@ -9,6 +9,7 @@ const service = new ServiceLayer();
 const app = express();
 var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
+const path = require("path");
 //NotificationController.initServerSocket(server);
 const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -552,8 +553,8 @@ app.get("/api/getSeenNotifications", async (req, res) => {
 app.get("/api/getReportFile", async (req, res) => {
   const reportType =
     (req.query.reportType && req.query.reportType.trim()) || "";
-  const fromDate = (req.query.date && req.query.date.trim()) || "";
-  const toDate = (req.query.date && req.query.date.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.getReportFile(
     reportType,
@@ -561,11 +562,17 @@ app.get("/api/getReportFile", async (req, res) => {
     toDate,
     user
   );
-  let msg = result;
+  let msg;
+
+  /// example purposes - TODO: Maor - you should give me here the name of the report
+  const fileName = "Inventory Report";
+  const relativeFilePath = fileName => `/src/main/reports/${fileName}.xlsx`;
+  /// example purposes
+
   if (typeof result !== "string") {
     msg = result[0];
-    let fileName = result[1];
-    res.download(fileName);
+    res.download(path.join(__dirname, relativeFilePath(fileName)));
+  } else {
+    res.send(JSON.stringify({ msg }));
   }
-  res.send(JSON.stringify({ msg }));
 });

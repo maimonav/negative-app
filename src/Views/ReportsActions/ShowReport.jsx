@@ -12,7 +12,8 @@ import Tooltip from "@material-ui/core/Tooltip";
 import ReportTable from "../../Components/Tables/ReportTable";
 import {
   handleGetReport,
-  HandleGetFullDailyReport
+  HandleGetFullDailyReport,
+  handleGetReportFile
 } from "../../Handlers/Handlers";
 import {
   reportsTypes,
@@ -72,6 +73,31 @@ export default class ShowReport extends React.Component {
           alert(state.result);
         }
       });
+  };
+
+  //TODO: wip - need to send file name and handle when it doesn't work
+  handleDownloadReportFile = () => {
+    handleGetReportFile(
+      this.state.reportType,
+      this.state.fromDate,
+      this.state.toDate,
+      localStorage.getItem("username")
+    ).then(response => {
+      response.blob().then(blob => {
+        if (blob) {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.setAttribute("hidden", "");
+          a.setAttribute("href", url);
+          a.setAttribute("download", "Inventory Report.xlsx");
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } else {
+          alert("Something went wrong..");
+        }
+      });
+    });
   };
 
   renderReport = () => {
@@ -153,7 +179,7 @@ export default class ShowReport extends React.Component {
                         <IconButton
                           color="default"
                           size="medium"
-                          // onClick={}
+                          onClick={this.handleDownloadReportFile}
                           data-hook={downloadActionHook}
                           style={{ marginLeft: "15px", marginTop: "10px" }}
                         >
