@@ -265,6 +265,6 @@ describe("Init System Tests - Restore data Tests", function() {
       expect(order.name).toBe(
         "manager - " + moment(date).format("MMMM Do YYYY, h:mm:ss a")
       );
-    }, 2000);
+    }, 3000);
   }, 7000);
 });
