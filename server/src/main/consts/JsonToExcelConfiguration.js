@@ -49,27 +49,47 @@ const moviesReportColumns = [
   { label: "Cash Incomes", value: "totalCashIncomes" }
 ];
 
+<<<<<<< Updated upstream
 const relativeFilePath = fileName => `./server/src/main/reports/${fileName}`;
+=======
+const relativeFilePath = (fileName) => `./server/src/main/reports/${fileName}`;
+>>>>>>> Stashed changes
 
 const incomesReportSettings = {
   sheetName: "Incomes Report",
   fileName: relativeFilePath("Incomes Report"),
+<<<<<<< Updated upstream
   extraLength: 5
+=======
+  extraLength: 5,
+>>>>>>> Stashed changes
 };
 const inventoryReportSettings = {
   sheetName: "Inventory Report",
   fileName: relativeFilePath("Inventory Report"),
+<<<<<<< Updated upstream
   extraLength: 5
+=======
+  extraLength: 5,
+>>>>>>> Stashed changes
 };
 const generalReportSettings = {
   sheetName: "General Report",
   fileName: relativeFilePath("General Report"),
+<<<<<<< Updated upstream
   extraLength: 5
+=======
+  extraLength: 5,
+>>>>>>> Stashed changes
 };
 const moviesReportSettings = {
   sheetName: "Movies Report",
   fileName: relativeFilePath("Movies Report"),
+<<<<<<< Updated upstream
   extraLength: 5
+=======
+  extraLength: 5,
+>>>>>>> Stashed changes
 };
 
 const settings = {
@@ -86,7 +106,19 @@ const columns = {
   movies_daily_report: moviesReportColumns
 };
 
+const fileNames = {
+  incomes_daily_report: "Incomes Report",
+  inventory_daily_report: "Inventory Report",
+  general_purpose_daily_report: "General Report",
+  movies_daily_report: "Movies Report",
+};
+
 module.exports = {
   settings,
+<<<<<<< Updated upstream
   columns
+=======
+  columns,
+  fileNames,
+>>>>>>> Stashed changes
 };

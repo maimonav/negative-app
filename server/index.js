@@ -564,12 +564,20 @@ app.get("/api/getReportFile", async (req, res) => {
   );
   let msg;
 
+<<<<<<< Updated upstream
   /// example purposes - TODO: Maor - you should give me here the name of the report
   const fileName = "Inventory Report";
   const relativeFilePath = fileName => `/src/main/reports/${fileName}.xlsx`;
   /// example purposes
 
+=======
+>>>>>>> Stashed changes
   if (typeof result !== "string") {
+    /// example purposes - TODO: Maor - you should give me here the name of the report
+    const fileName = "Inventory Report";
+    const relativeFilePath = (fileName) => `/src/main/reports/${fileName}.xlsx`;
+    /// example purposes
+
     msg = result[0];
     res.download(path.join(__dirname, relativeFilePath(fileName)));
   } else {

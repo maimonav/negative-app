@@ -5,7 +5,11 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
-const { columns, settings } = require("./consts/JsonToExcelConfiguration");
+const {
+  columns,
+  settings,
+  fileNames,
+} = require("./consts/JsonToExcelConfiguration");
 const xlsx = require("json-as-xlsx");
 
 class ServiceLayer {
@@ -1912,7 +1916,7 @@ class ServiceLayer {
       toDate,
       ActionIDOfTheOperation
     );
-    let fileName = ""; // TODO
+    let fileName = fileNames[type];
     if (typeof report === "string")
       return "The report cannot be exported " + report;
     let cols = columns[type];
@@ -1921,7 +1925,6 @@ class ServiceLayer {
         cols = [...cols, { label: prop, value: prop }];
       });
     }
-    //TODO change settings filename
     xlsx(cols, report, settings[type]);
 
     return ["The report download would start in a few seconds", fileName];
