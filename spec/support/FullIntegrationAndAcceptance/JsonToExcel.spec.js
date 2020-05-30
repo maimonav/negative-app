@@ -11,10 +11,10 @@ const types = [
 ];
 
 const fileNames = [
-  "C:\\Users\\ASUS\\Downloads\\Incomes Report",
-  "C:\\Users\\ASUS\\Downloads\\Inventory Report",
-  "C:\\Users\\ASUS\\Downloads\\General Report",
-  "C:\\Users\\ASUS\\Downloads\\Movies Report",
+  ".\\server\\src\\main\\consts\\Incomes Report",
+  ".\\server\\src\\main\\consts\\Inventory Report",
+  ".\\server\\src\\main\\consts\\General Report",
+  ".\\server\\src\\main\\consts\\Movies Report",
 ];
 
 describe("Json to excel", function() {

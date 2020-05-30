@@ -51,22 +51,22 @@ const moviesReportColumns = [
 
 const incomesReportSettings = {
   sheetName: "Incomes Report",
-  fileName: "C:\\Users\\ASUS\\Downloads\\Incomes Report",
+  fileName: ".\\server\\src\\main\\consts\\Incomes Report",
   extraLength: 5,
 };
 const inventoryReportSettings = {
   sheetName: "Inventory Report",
-  fileName: "C:\\Users\\ASUS\\Downloads\\Inventory Report",
+  fileName: ".\\server\\src\\main\\consts\\Inventory Report",
   extraLength: 5,
 };
 const generalReportSettings = {
   sheetName: "General Report",
-  fileName: "C:\\Users\\ASUS\\Downloads\\General Report",
+  fileName: ".\\server\\src\\main\\consts\\General Report",
   extraLength: 5,
 };
 const moviesReportSettings = {
   sheetName: "Movies Report",
-  fileName: "C:\\Users\\ASUS\\Downloads\\Movies Report",
+  fileName: ".\\server\\src\\main\\consts\\Movies Report",
   extraLength: 5,
 };
 
