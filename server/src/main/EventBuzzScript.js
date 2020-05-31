@@ -10,6 +10,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const ReportController = require("./ReportController");
 const moment = require("moment");
+const NotificationController = require("./NotificationController");
 require("chromedriver");
 
 const reportPath = "MoviesReport.csv";
@@ -56,11 +57,15 @@ let json_ans = class {
       }
     }
     // console.log(output);
-    ReportController.createMovieReport(output);
+    let result = await ReportController.createMovieReport(output);
+    if (typeof result === "string") this.errorHandler(result);
   }
   //TODO
   static errorHandler(msg) {
     console.log(msg);
+    NotificationController.notifyEventBuzzError(
+      "There was a problem creating movies report\n" + msg
+    );
   }
 };
 
