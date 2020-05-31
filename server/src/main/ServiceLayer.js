@@ -2108,6 +2108,15 @@ class ServiceLayer {
     ) {
       this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
     }
+    if (!this.users.get(ActionIDofTheOperation))
+      console.log(
+        "\n**************Show Maor This Error***************\n",
+        "users: ",
+        this.users,
+        "\nusername: ",
+        ActionIDofTheOperation,
+        "**************Show Maor This Error***************\n"
+      );
     return NotificationController.getSeenNotifications(
       this.users.get(ActionIDofTheOperation)
     );
