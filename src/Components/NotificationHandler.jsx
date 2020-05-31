@@ -45,9 +45,43 @@ export default class NotificationHandler extends React.Component {
       .then((response) => response.json())
       .then((state) => {
         this.setState({ messages: state.result }, () =>
-          console.log("messages:", this.state.messages)
+          this.createNotificationArray()
         );
       });
+  }
+
+  createNotificationArray() {
+    const { messages } = this.state;
+    const messagesArray = [];
+    for (let i in messages) {
+      let message = messages[i];
+      if (message.type === "INFO") {
+        const notification = this.buildNotificationMessage(message, true);
+        messagesArray.unshift(notification);
+      }
+    }
+    this.setState({
+      notifications: messagesArray,
+    });
+  }
+
+  buildNotificationMessage(message, isOld) {
+    const date = moment(message.timeFired).format("LLLL");
+    const content = message.content[0];
+    const requiredQuantity = content.minQuantity
+      ? content.minQuantity
+      : content.maxQuantity;
+    const notificationMessage = getNotificationMessage(
+      message.subtype,
+      content,
+      requiredQuantity
+    );
+    const notification = {
+      name: notificationMessage,
+      hasUserView: isOld,
+      notificationDate: date,
+    };
+    return notification;
   }
 
   componentDidUpdate(prevProps) {
@@ -61,26 +95,13 @@ export default class NotificationHandler extends React.Component {
 
   updateNotifications() {
     const { messageContent } = this.props;
-    const date = moment(messageContent[0].timeFired).format("LLLL");
-    const content = messageContent[0].content[0];
-    const requiredQuantity = content.minQuantity
-      ? content.minQuantity
-      : content.maxQuantity;
-    const notificationMessage = getNotificationMessage(
-      messageContent[0].subtype,
-      content,
-      requiredQuantity
+    const notification = this.buildNotificationMessage(
+      messageContent[0],
+      false
     );
     this.setState(
       {
-        notifications: [
-          {
-            name: notificationMessage,
-            hasUserView: false,
-            notificationDate: date,
-          },
-          ...this.state.notifications,
-        ],
+        notifications: [notification, ...this.state.notifications],
       },
       () =>
         this.setState({
@@ -88,7 +109,6 @@ export default class NotificationHandler extends React.Component {
             this.state.newNotifications + messageContent[0].content.length,
         })
     );
-    console.log(messageContent);
   }
 
   handleNotificationNumber() {
