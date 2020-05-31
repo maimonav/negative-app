@@ -12,7 +12,7 @@ import {
   editActionHook,
   removeActionHook,
   showActionHook,
-  categoriesTabHook,
+  categoriesTabHook
 } from "../../../src/consts/data-hooks";
 
 const product = "product";
@@ -74,6 +74,7 @@ context("Manage Products", () => {
       .click()
       .type(product)
       .type("{downarrow}")
+      .type("{enter}")
       .type("{esc}");
   });
 

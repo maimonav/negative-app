@@ -10,7 +10,7 @@ import {
   firstNameHook,
   lastNameHook,
   contactDetailsHook,
-  showActionHook,
+  showActionHook
 } from "../../src/consts/data-hooks";
 
 Cypress.Commands.add("startSystem", () => {
@@ -31,18 +31,17 @@ Cypress.Commands.add("login", (username, password) => {
 
 Cypress.Commands.add("logout", () => {
   cy.get(`[data-hook=${logoutTabHook}]`).click();
-  cy.get(`[data-hook=${actionButtonHook}]`).click();
 });
 
-Cypress.Commands.add("accessTab", (tab) => {
+Cypress.Commands.add("accessTab", tab => {
   cy.get(`[data-hook=${tab}]`).click();
 });
 
-Cypress.Commands.add("chooseAction", (action) => {
+Cypress.Commands.add("chooseAction", action => {
   cy.get(`[data-hook=${action}]`).click();
 });
 
-Cypress.Commands.add("matchSnapshot", (action) => {
+Cypress.Commands.add("matchSnapshot", action => {
   cy.document().toMatchImageSnapshot();
 });
 
