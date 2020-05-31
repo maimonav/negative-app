@@ -2102,6 +2102,8 @@ class ServiceLayer {
   }
 
   async getSeenNotifications(ActionIDofTheOperation) {
+    if (!this._isInputValid(ActionIDofTheOperation))
+      return "Username is not valid";
     if (
       typeof ActionIDofTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDofTheOperation)
@@ -2115,7 +2117,7 @@ class ServiceLayer {
         this.users,
         "\nusername: ",
         ActionIDofTheOperation,
-        "**************Show Maor This Error***************\n"
+        "\n**************Show Maor This Error***************\n"
       );
     return NotificationController.getSeenNotifications(
       this.users.get(ActionIDofTheOperation)
