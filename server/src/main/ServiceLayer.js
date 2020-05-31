@@ -1916,9 +1916,9 @@ class ServiceLayer {
       toDate,
       ActionIDOfTheOperation
     );
-    let fileName = fileNames[type];
     if (typeof report === "string")
       return "The report cannot be exported " + report;
+    let fileName = fileNames[type];
     let cols = columns[type];
     if (type === "general_purpose_daily_report") {
       report[0].props.forEach((prop) => {
@@ -1927,7 +1927,7 @@ class ServiceLayer {
     }
     xlsx(cols, report, settings[type]);
 
-    return ["The report download would start in a few seconds", fileName];
+    return [fileName];
   }
 
   getMovies(ActionIDofTheOperation) {

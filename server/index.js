@@ -567,7 +567,7 @@ app.get("/api/getReportFile", async (req, res) => {
     user
   );
   if (typeof result !== "string") {
-    const fileName = result[1];
+    const fileName = result[0];
     const relativeFilePath = (fileName) => `/src/main/reports/${fileName}.xlsx`;
     const filePath = path.join(__dirname, relativeFilePath(fileName));
     res.download(filePath, fileName, (err) => {
