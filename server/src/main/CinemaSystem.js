@@ -36,8 +36,7 @@ class CinemaSystem {
       incomes_daily_report: async (record) =>
         this.employeeAndDateConversion(record),
       movies_daily_report: async (record) => {
-        record.date = moment(record.date).format("lll");
-        console.log(record.date);
+        record.date = moment(record.date).format("llll");
         return record;
       },
     };
@@ -1002,21 +1001,20 @@ class CinemaSystem {
 
   /**
    * @param {string} type Type of the report
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @param {string} ActionIDOfTheOperation Id of the user performed the action
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  async getReport(type, date, ActionIDOfTheOperation) {
+  async getReport(type, fromDate, toDate, ActionIDOfTheOperation) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
       "DEPUTY_MANAGER",
       "getReport"
     );
     if (result != null) return result;
-    result = await ReportController.getReport(type, date);
-    console.log(result);
-
+    result = await ReportController.getReport(type, fromDate, toDate);
     if (typeof result !== "string")
       for (let i in result)
         result[i] = await this.toUserConversionMethods[type](

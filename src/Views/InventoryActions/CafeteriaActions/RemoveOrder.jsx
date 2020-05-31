@@ -20,31 +20,31 @@ export default class RemoveOrder extends React.Component {
       isOpened: false,
       startDate: new Date(),
       endDate: new Date(),
-      orderName: "",
+      orderName: ""
     };
     this.toggleBox = this.toggleBox.bind(this);
   }
 
   handleGetOrdersByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate)
-      .then((response) => response.json())
-      .then((state) => this.setState({ orders: state.result }));
+      .then(response => response.json())
+      .then(state => this.setState({ orders: state.result }));
   };
 
   toggleBox() {
     this.handleGetOrdersByDates(this.state.startDate, this.state.endDate);
-    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
+    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
   }
 
-  setOrderName = (name) => {
+  setOrderName = name => {
     this.setState({ orderName: name });
   };
 
-  setStartDate = (date) => {
+  setStartDate = date => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = (date) => {
+  setEndDate = date => {
     this.setState({ endDate: date });
   };
 
@@ -56,7 +56,7 @@ export default class RemoveOrder extends React.Component {
           <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
-                <h4 style={{ margin: "auto" }}>Remvoe Order</h4>
+                <h4 style={{ margin: "auto" }}>Remove Order</h4>
                 <p>Choose order's number</p>
               </CardHeader>
               <CardBody>
@@ -105,7 +105,15 @@ export default class RemoveOrder extends React.Component {
                   <Button
                     id={"removeOrder"}
                     color="info"
-                    onClick={() => this.props.handleRemoveOrder(orderName)}
+                    onClick={() =>
+                      this.props
+                        .handleRemoveOrder(orderName)
+                        .then(response => response.json())
+                        .then(state => {
+                          alert(state.result);
+                          this.handleGetOrdersByDates();
+                        })
+                    }
                   >
                     Remove Order
                   </Button>

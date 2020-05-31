@@ -1,6 +1,8 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const ReportController = require("../../../server/src/main/ReportController");
+const { csvToJson } = require("../../../server/src/main/EventBuzzScript");
+
 const moment = require("moment");
 
 const {
@@ -13,6 +15,42 @@ const {
   testGeneralPurposeDailyReportResult,
   testMoviesDailyReportResult,
 } = require("./../DBtests/ReportsTests.spec");
+
+let reports = [
+  {
+    type: "incomes_daily_report",
+    content: [
+      {
+        numOfTabsSales: "2",
+        cafeteriaCashRevenues: "2.2",
+        cafeteriaCreditCardRevenues: "5.5",
+        ticketsCashRevenues: "4",
+        ticketsCreditCardRevenues: "3",
+        tabsCashRevenues: "0",
+        tabsCreditCardRevenues: "0",
+      },
+    ],
+  },
+  {
+    type: "inventory_daily_report",
+    content: [
+      {
+        productName: "product",
+        quantitySold: "2",
+        stockThrown: "4",
+      },
+    ],
+  },
+  {
+    type: "general_purpose_daily_report",
+    content: [
+      {
+        "Cash Counted": "true",
+        "Report Z Taken": "true",
+      },
+    ],
+  },
+];
 
 //TODO:: test general
 describe("Report Operations Tests", function() {
@@ -53,42 +91,6 @@ describe("Report Operations Tests", function() {
     },
   ];
 
-  let reports = [
-    {
-      type: "incomes_daily_report",
-      content: [
-        {
-          numOfTabsSales: "2",
-          cafeteriaCashRevenues: "2.2",
-          cafeteriaCreditCardRevenues: "5.5",
-          ticketsCashRevenues: "4",
-          ticketsCreditCardRevenues: "3",
-          tabsCashRevenues: "0",
-          tabsCreditCardRevenues: "0",
-        },
-      ],
-    },
-    {
-      type: "inventory_daily_report",
-      content: [
-        {
-          productName: "product",
-          quantitySold: "2",
-          stockThrown: "4",
-        },
-      ],
-    },
-    {
-      type: "general_purpose_daily_report",
-      content: [
-        {
-          "Cash Counted": "true",
-          "Report Z Taken": "true",
-        },
-      ],
-    },
-  ];
-
   beforeEach(async function() {
     await service.initServiceLayer(dbName);
   });
@@ -103,13 +105,11 @@ describe("Report Operations Tests", function() {
   it("addFieldToDailyReport req 2.8", async function() {
     let user = "admin";
     service.login(user, user);
-
+    let date = new Date("1999-12-31");
     let result = await service.addFieldToDailyReport("new_field", user);
     expect(result).toBe("The report field added successfully");
     let reportAfter = {
-      date: getSyncDateFormat(
-        new Date(todayDate.setDate(todayDate.getDate() - 1))
-      ),
+      date: date,
       creatorEmployeeId: null,
       allProps: ["new_field"],
       currentProps: ["new_field"],
@@ -121,15 +121,14 @@ describe("Report Operations Tests", function() {
   it("removeFieldFromDailyReport req 2.9", async function() {
     let user = "admin";
     service.login(user, user);
+    let date = new Date("1999-12-31");
 
     await service.addFieldToDailyReport("new_field", user);
 
     let result = await service.removeFieldFromDailyReport("new_field", user);
     expect(result).toBe("The report field removed successfully");
     let reportAfter = {
-      date: getSyncDateFormat(
-        new Date(todayDate.setDate(todayDate.getDate() - 1))
-      ),
+      date: date,
       creatorEmployeeId: null,
       allProps: ["new_field"],
       currentProps: [],
@@ -153,7 +152,7 @@ describe("Report Operations Tests", function() {
       user
     );
     expect(result).toBe("The product does not exist.");
-    await service.addCategory("category", "admin");
+    let res = await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -207,39 +206,7 @@ describe("Report Operations Tests", function() {
   it("getReport req 1.1.14, 2.5, 2.7", async function(done) {
     setTimeout(done, 5000);
 
-    let user = "admin";
-    service.login(user, user);
-
-    await service.addFieldToDailyReport("Cash Counted", user);
-    await service.addFieldToDailyReport("Report Z Taken", user);
-
-    await service.addCategory("category", "admin");
-    await service.addNewProduct(
-      "product",
-      "10",
-      "10",
-      "2",
-      "20",
-      "category",
-      "admin"
-    );
-
-    await service.addNewEmployee(
-      "username",
-      "password",
-      "first",
-      "last",
-      "MANAGER",
-      "contact",
-      user
-    );
-    service.login("username", "password");
-
-    await service.createDailyReport(
-      todayDate.toISOString(),
-      JSON.stringify(reports),
-      "username"
-    );
+    await createReport(service, todayDate, reports);
 
     //Get reports
 
@@ -260,6 +227,7 @@ describe("Report Operations Tests", function() {
       let result = await service.getReport(
         types[i],
         todayDate.toISOString(),
+        todayDate.toISOString(),
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
@@ -275,7 +243,7 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Cash Counted", user);
     await service.addFieldToDailyReport("Report Z Taken", user);
 
-    await service.addCategory("category", "admin");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -313,6 +281,7 @@ describe("Report Operations Tests", function() {
 
     let result = await service.getFullDailyReport(
       todayDate.toISOString(),
+      todayDate.toISOString(),
       "username"
     );
 
@@ -330,7 +299,7 @@ describe("Report Operations Tests", function() {
   }, 6000);
 
   it("Movies Report Event Buzz - create and get from DB", async () => {
-    let report = ReportController._MovieReportJson.slice(0, 5);
+    let report = csvToJson().slice(0, 5);
     let result = await ReportController.createMovieReport(report);
     expect(result).toBe(undefined);
     let reportAfter = report;
@@ -343,3 +312,36 @@ describe("Report Operations Tests", function() {
     }
   });
 });
+async function createReport(service, todayDate, costumeReports) {
+  let user = "admin";
+  service.login(user, user);
+  await service.addFieldToDailyReport("Cash Counted", user);
+  await service.addFieldToDailyReport("Report Z Taken", user);
+  await service.addCategory("category", "admin", "");
+  await service.addNewProduct(
+    "product",
+    "10",
+    "10",
+    "2",
+    "20",
+    "category",
+    "admin"
+  );
+  await service.addNewEmployee(
+    "username",
+    "password",
+    "first",
+    "last",
+    "MANAGER",
+    "contact",
+    user
+  );
+  service.login("username", "password");
+  await service.createDailyReport(
+    todayDate.toISOString(),
+    JSON.stringify(costumeReports ? costumeReports : reports),
+    "username"
+  );
+}
+
+exports.createReport = createReport;

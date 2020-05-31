@@ -92,20 +92,10 @@ class Employee extends User {
     }
     if (this.isNeedToEdit(lastName)) {
       needToUpdate = true;
-      console.log(
-        "lastName - " + lastName + "isNeedToEdit " + this.isNeedToEdit(lastName)
-      );
       this.lastName = lastName;
     }
     if (typeof contactDetails !== "undefined" && contactDetails !== null) {
       needToUpdate = true;
-      console.log(
-        "contactDetails - " +
-          contactDetails +
-          "isNeedToEdit " +
-          typeof contactDetails !==
-          "undefined"
-      );
       this.contactDetails = contactDetails;
     }
 

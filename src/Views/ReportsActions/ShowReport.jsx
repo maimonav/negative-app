@@ -3,20 +3,25 @@ import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
+import DownloadIcon from "@material-ui/icons/SaveAlt";
 import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
+import Tooltip from "@material-ui/core/Tooltip";
 import ReportTable from "../../Components/Tables/ReportTable";
 import {
   handleGetReport,
-  HandleGetFullDailyReport
+  HandleGetFullDailyReport,
+  handleGetReportFile
 } from "../../Handlers/Handlers";
 import {
   reportsTypes,
   reportsPrettyTypes,
   reportsTypesInverseObj
 } from "../../consts/data";
+import { downloadActionHook } from "../../consts/data-hooks";
+import { IconButton } from "@material-ui/core";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -24,7 +29,8 @@ export default class ShowReport extends React.Component {
     super(props);
     this.state = {
       reportType: "",
-      date: new Date()
+      fromDate: new Date(),
+      toDate: new Date()
     };
   }
 
@@ -33,8 +39,12 @@ export default class ShowReport extends React.Component {
     this.resetData();
   };
 
-  setDate = date => {
-    this.setState({ date });
+  setFromDate = fromDate => {
+    this.setState({ fromDate: new Date(fromDate) });
+  };
+
+  setToDate = toDate => {
+    this.setState({ toDate: new Date(toDate) });
   };
 
   resetData = () => {
@@ -44,12 +54,14 @@ export default class ShowReport extends React.Component {
   setReport = () => {
     (this.state.reportType === reportsTypes.Daily
       ? HandleGetFullDailyReport(
-          this.state.date,
+          this.state.fromDate,
+          this.state.toDate,
           localStorage.getItem("username")
         )
       : handleGetReport(
           this.state.reportType,
-          this.state.date,
+          this.state.fromDate,
+          this.state.toDate,
           localStorage.getItem("username")
         )
     )
@@ -61,6 +73,31 @@ export default class ShowReport extends React.Component {
           alert(state.result);
         }
       });
+  };
+
+  //TODO: wip - need to send file name and handle when it doesn't work
+  handleDownloadReportFile = () => {
+    handleGetReportFile(
+      this.state.reportType,
+      this.state.fromDate,
+      this.state.toDate,
+      localStorage.getItem("username")
+    ).then(response => {
+      response.blob().then(blob => {
+        if (blob) {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.setAttribute("hidden", "");
+          a.setAttribute("href", url);
+          a.setAttribute("download", "Inventory Report.xlsx");
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } else {
+          alert("Something went wrong..");
+        }
+      });
+    });
   };
 
   renderReport = () => {
@@ -93,7 +130,7 @@ export default class ShowReport extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={11}>
+          <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show Report</h4>
@@ -108,26 +145,52 @@ export default class ShowReport extends React.Component {
                     isMultiple={false}
                   />
                   <SelectDates
-                    id={"remove-start-date"}
-                    label={"Choose Date"}
-                    setDate={this.setDate}
-                    style={{ width: "auto" }}
-                    date={this.state.date}
+                    id={"choose-from-date"}
+                    label={"Choose from date"}
+                    setDate={this.setFromDate}
+                    date={this.state.fromDate}
+                  />
+                  <SelectDates
+                    id={"choose-to-date"}
+                    label={"Choose to date"}
+                    setDate={this.setToDate}
+                    date={this.state.toDate}
                   />
                   <Button
                     color="info"
                     onClick={() => {
-                      this.state.reportType && this.state.date
-                        ? this.setReport()
-                        : alert("All fields are required.");
+                      if (
+                        this.state.reportType &&
+                        this.state.fromDate &&
+                        this.state.toDate
+                      ) {
+                        this.setReport();
+                      } else {
+                        alert("All fields are required.");
+                      }
                     }}
                     style={{ marginLeft: "15px", marginTop: "10px" }}
                   >
                     Show report
                   </Button>
+                  {this.state.reportData &&
+                    this.state.reportType !== reportsTypes.Daily && (
+                      <Tooltip title="Download report" aria-label="show">
+                        <IconButton
+                          color="default"
+                          size="medium"
+                          onClick={this.handleDownloadReportFile}
+                          data-hook={downloadActionHook}
+                          style={{ marginLeft: "15px", marginTop: "10px" }}
+                        >
+                          <DownloadIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                 </div>
                 {this.state.reportType &&
-                  this.state.date &&
+                  this.state.fromDate &&
+                  this.state.toDate &&
                   this.state.reportData &&
                   this.renderReport()}
               </CardBody>

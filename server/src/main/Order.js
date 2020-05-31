@@ -134,7 +134,6 @@ class Order {
     });
     productsList.forEach((product) => {
       if (this.productOrders.has(product.id)) {
-        console.log(product);
         if (
           this.productOrders.get(product.id) instanceof CafeteriaProductOrder
         ) {
@@ -292,7 +291,6 @@ class Order {
           let productAction = this.productOrders
             .get(product.id)
             .getConfirmOrderDB(product.key, product.examinationRoom);
-          console.log(productAction);
           DBActionList.push(productAction[0]);
           DBActionList.push(productAction[1]);
         }

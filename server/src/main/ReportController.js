@@ -5,7 +5,6 @@ const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 const Sequelize = require("sequelize");
-const { csvToJson } = require("./EventBuzzScript");
 
 class ReportController {
   static _types = {
@@ -16,12 +15,29 @@ class ReportController {
   };
   static _allGeneralDailyReportFormat;
   static _currentGeneralDailyReportFormat;
-  static _MovieReportJson = csvToJson();
 
   /**
    * add movies report records to db
    * @param {Array(Object)} report list of records to add to movies report
    * @returns {Promise(void|string)} void in success or string in failure
+   * 
+   * * @example reports
+   *
+   * reports= [
+        { 
+            date: [Date],
+            name: [Name],
+            location:[Location],
+            numOfTicketsSales: [NumberOfTicketsSales],
+            numOfTicketsAssigned: [NumberOfTicketsAssigned],
+            totalSalesIncomes: [TotalSalesIncomes],
+            totalTicketsReturns: [TotalTicketsReturns],
+            totalFees: [TotalFees],
+            totalRevenuesWithoutCash: [TotalRevenuesWithoutCash],
+            totalCashIncomes: [TotalCashIncomes],
+        }
+      ]
+   * 
    */
   static async createMovieReport(report) {
     let recordsToAdd = [];
@@ -234,11 +250,12 @@ class ReportController {
 
   /**
    * @param {string} type Type of report from _types
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  static async getReport(type, date) {
+  static async getReport(type, fromDate, toDate) {
     if (!this._isValidType(type)) {
       logger.writeToLog(
         "info",
@@ -249,14 +266,23 @@ class ReportController {
       return "The requested report type is invalid";
     }
 
-    if (!this._isValidDate(date)) {
+    if (!this._isValidDate(fromDate)) {
       logger.writeToLog(
         "info",
         "ReportController",
         "getReport",
-        "The requested report date " + date + " is invalid"
+        "The requested report date " + fromDate + " is invalid"
       );
-      return "The requested report date is invalid";
+      return "The requested report starting date is invalid";
+    }
+    if (!this._isValidDate(toDate)) {
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report date " + toDate + " is invalid"
+      );
+      return "The requested report ending date is invalid";
     }
     //TO DO : to remove
     if (type === this._types.MOVIES)
@@ -276,25 +302,19 @@ class ReportController {
           },
         },
       ];
-    let requestedDateMidnight = new Date(
-      this._getSyncDateFormat(new Date(date))
+    fromDate = new Date(fromDate);
+    toDate = new Date(toDate);
+    let requestedFromDateMidnight = new Date(this._getSyncDateFormat(fromDate));
+    let requestedToDateTomorrowMidnight = new Date(
+      this._getSyncDateFormat(new Date(toDate.setDate(toDate.getDate() + 1)))
     );
-    let requestedDateTomorrowMidnight = new Date(
-      this._getSyncDateFormat(new Date(date.setDate(date.getDate() + 1)))
-    );
-    let where =
-      type === this._types.MOVIES
-        ? {
-            date: {
-              [Sequelize.Op.between]: [
-                requestedDateMidnight,
-                requestedDateTomorrowMidnight,
-              ],
-            },
-          }
-        : {
-            date: requestedDateMidnight,
-          };
+    let where = {
+      date: {
+        [Sequelize.Op.gte]: requestedFromDateMidnight,
+        [Sequelize.Op.lt]: requestedToDateTomorrowMidnight,
+      },
+    };
+
     let result = await DataBase.singleFindAll(type, where, undefined, [
       ["date", "ASC"],
     ]);

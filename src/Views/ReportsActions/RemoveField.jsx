@@ -11,12 +11,13 @@ import {
   HandleRemoveFieldToGeneralDailyReport
 } from "../../Handlers/Handlers";
 import Button from "../../Components/CustomButtons/Button.js";
+import { newFieldHook } from "../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class RemoveField extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { field: "" };
     this.setInitialState();
   }
   setInitialState = () => {
@@ -47,12 +48,12 @@ export default class RemoveField extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox
-                      id={"supplierName"}
+                      id={"fieldName"}
                       items={this.state.fields}
                       boxLabel={"Choose field"}
                       setName={this.setField}
                       isMultiple={false}
-                      // data-hook={}
+                      data-hook={newFieldHook}
                     />
                   </GridItem>
                 </GridContainer>

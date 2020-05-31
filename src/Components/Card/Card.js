@@ -8,9 +8,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // @material-ui/icons
 
 // core components
-import styles from '../../assets/jss/material-dashboard-react/components/cardStyle.js';
-
-
+import styles from "../../assets/jss/material-dashboard-react/components/cardStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -25,7 +23,11 @@ export default function Card(props) {
     [className]: className !== undefined
   });
   return (
-    <div className={cardClasses} {...rest}>
+    <div
+      className={cardClasses}
+      style={{ backgroundColor: "#F8F8FF" }}
+      {...rest}
+    >
       {children}
     </div>
   );

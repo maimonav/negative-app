@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Http = require("http");
+const fs = require("fs");
 const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
@@ -9,7 +10,11 @@ const service = new ServiceLayer();
 const app = express();
 var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
-//NotificationController.initServerSocket(server);
+const path = require("path");
+const LogControllerFile = require("./src/main/LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+
 const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
@@ -238,7 +243,6 @@ app.get("/api/editProduct", async (req, res) => {
 app.get("/api/removeProduct", async (req, res) => {
   const productName =
     (req.query.productName && req.query.productName.trim()) || "";
-  console.log("req.query.productName:", req.query.productName.trim());
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.removeProduct(productName, user);
   res.send(JSON.stringify({ result }));
@@ -360,7 +364,6 @@ app.get("/api/getMovies", (req, res) => {
 app.get("/api/getCategories", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = service.getCategories(user);
-  result.map((category) => console.log(category));
   res.send(JSON.stringify({ result }));
 });
 
@@ -408,7 +411,6 @@ app.get("/api/getOrderDetails", (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const order = (req.query.order && req.query.order.trim()) || "";
   const result = service.getOrderDetails(order, user);
-  console.log(result);
   res.send(JSON.stringify({ result }));
 });
 
@@ -445,10 +447,10 @@ app.get("/api/getProductAndQuntityByOrder", (req, res) => {
 app.get("/api/getReport", async (req, res) => {
   const reportType =
     (req.query.reportType && req.query.reportType.trim()) || "";
-  const date = (req.query.date && req.query.date.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = await service.getReport(reportType, date, user);
-  console.log("Result", result);
+  const result = await service.getReport(reportType, fromDate, toDate, user);
   res.send(JSON.stringify({ result }));
 });
 
@@ -539,8 +541,51 @@ app.get("/api/removeFieldToGeneralDailyReport", async (req, res) => {
 });
 
 app.get("/api/getFullDailyReport", async (req, res) => {
-  const date = (req.query.date && req.query.date.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
   const user = (req.query.user && req.query.user.trim()) || "";
-  const result = await service.getFullDailyReport(date, user);
+  const result = await service.getFullDailyReport(fromDate, toDate, user);
   res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getSeenNotifications", async (req, res) => {
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getSeenNotifications(user);
+  res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getReportFile", async (req, res) => {
+  const reportType =
+    (req.query.reportType && req.query.reportType.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getReportFile(
+    reportType,
+    fromDate,
+    toDate,
+    user
+  );
+  let msg;
+
+  if (typeof result !== "string") {
+    const fileName = result[1];
+    const relativeFilePath = (fileName) => `/src/main/reports/${fileName}.xlsx`;
+    msg = result[0];
+    const filePath = path.join(__dirname, relativeFilePath(fileName));
+    res.download(filePath, fileName, (err) => {
+      try {
+        fs.unlink(filePath, () => {});
+      } catch (error) {
+        logger.writeToLog(
+          "error",
+          "index.js server",
+          "getReportFile",
+          "File could not be removed" + error
+        );
+      }
+    });
+  }
+  msg = result;
+  res.send(JSON.stringify({ msg }));
 });

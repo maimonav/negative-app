@@ -29,7 +29,7 @@ describe("Movie Operations Tests", function() {
     service.login(user, user);
     let result = await service.addMovie(movie, category, user);
     expect(result).toBe("The category does not exist");
-    await service.addCategory(category, user);
+    await service.addCategory(category, user, "");
 
     result = await service.addMovie(movie, category, user);
     expect(result).toBe("The movie added successfully");
@@ -53,10 +53,10 @@ describe("Movie Operations Tests", function() {
     service.login(user, user);
     let result = await service.editMovie(movie, category, "key", "4", user);
     expect(result).toBe("The movie does not exist");
-    result = await service.addCategory(category, user);
+    result = await service.addCategory(category, user, "");
 
     await service.addMovie(movie, category, user);
-    result = await service.addCategory(category + "2", user);
+    result = await service.addCategory(category + "2", user, "");
     result = await service.editMovie(movie, category + "2", "key", "4", user);
     expect(result).toBe("The movie edited successfully");
 
@@ -76,7 +76,7 @@ describe("Movie Operations Tests", function() {
     service.login(user, user);
     let result = await service.removeMovie(movie, user);
     expect(result).toBe("The movie does not exist");
-    result = await service.addCategory(category, user);
+    result = await service.addCategory(category, user, "");
     await service.addMovie(movie, category, user);
     let movieId = service.products.get(movie);
     result = await service.removeMovie(movie, user);

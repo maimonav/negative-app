@@ -60,7 +60,19 @@ export default class EditMovie extends React.Component {
               <CardFooter>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveMovie(movieName)}
+                  onClick={() => {
+                    if (movieName) {
+                      this.props
+                        .handleRemoveMovie(movieName)
+                        .then(response => response.json())
+                        .then(state => {
+                          alert(state.result);
+                          this.setInitialState();
+                        });
+                    } else {
+                      alert("movie name is required");
+                    }
+                  }}
                 >
                   Remove Movie
                 </Button>

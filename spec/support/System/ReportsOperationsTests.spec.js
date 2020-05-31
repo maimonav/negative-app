@@ -60,12 +60,13 @@ describe("Report Operations Tests", () => {
 
     await validate(serviceLayer, serviceLayer.getReport, {
       "Type ": "type",
-      "Date ": "date",
+      "From Date ": "fromDate",
+      "To Date ": "toDate",
       "Username ": "User",
     });
 
     await testFunctions(
-      async () => serviceLayer.getReport("type", "date", "User"),
+      async () => serviceLayer.getReport("type", "fromDate", "toDate", "User"),
       "The user performing the operation does not exist in the system"
     );
   });
@@ -74,12 +75,13 @@ describe("Report Operations Tests", () => {
     let serviceLayer = new ServiceLayer();
 
     await validate(serviceLayer, serviceLayer.getFullDailyReport, {
-      "Date ": "date",
+      "From Date ": "fromDate",
+      "To Date ": "toDate",
       "Username ": "User",
     });
 
     await testFunctions(
-      async () => serviceLayer.getFullDailyReport("date", "User"),
+      async () => serviceLayer.getFullDailyReport("fromDate", "toDate", "User"),
       "The user performing the operation does not exist in the system"
     );
   });
@@ -137,7 +139,7 @@ describe("Report Operations Tests", () => {
   it("UnitTest  getReport - Cinema System", async () => {
     let cinemaSystem = new CinemaSystem();
     await testCinemaFunctions(cinemaSystem, async () =>
-      cinemaSystem.getReport("type", "date", 1)
+      cinemaSystem.getReport("type", "fromDate", "toDate", 1)
     );
   });
 
@@ -158,9 +160,8 @@ describe("Report Operations Tests", () => {
   });
 
   it("UnitTest getReport - ReportController", async () => {
-    let result = await ReportController.getReport("lol", "test");
+    let result = await ReportController.getReport("lol");
     expect(result).toBe("The requested report type is invalid");
-    let todayDate;
     let types = [
       "inventory_daily_report",
       "incomes_daily_report",
@@ -169,12 +170,19 @@ describe("Report Operations Tests", () => {
     for (let i in types) {
       let type = types[i];
       result = await ReportController.getReport(type, "test");
-      expect(result).toBe("The requested report date is invalid");
+      expect(result).toBe("The requested report starting date is invalid");
 
-      todayDate = new Date();
+      let todayDate = new Date();
       let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
-      result = await ReportController.getReport(type, date);
-      expect(result).toBe("The requested report date is invalid");
+      todayDate = new Date();
+      result = await ReportController.getReport(type, date, "test");
+      expect(result).toBe("The requested report starting date is invalid");
+
+      result = await ReportController.getReport(type, todayDate, "test");
+      expect(result).toBe("The requested report ending date is invalid");
+
+      result = await ReportController.getReport(type, todayDate, date);
+      expect(result).toBe("The requested report ending date is invalid");
     }
   });
 
@@ -221,9 +229,9 @@ describe("Report Operations Tests", () => {
       1,
       null
     );
-    product = new CafeteriaProduct(0, "Product", 1, 1, 7, 12, 2);
+    let product = new CafeteriaProduct(0, "Product", 1, 1, 7, 12, 2);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, product);
-    result = await serviceLayer.createDailyReport(
+    let result = await serviceLayer.createDailyReport(
       date,
       JSON.stringify(reports),
       "User"
@@ -237,31 +245,38 @@ describe("Report Operations Tests", () => {
     await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.getReport("type", "test", "User")
+      serviceLayer.getReport("type", "test", "test", "User")
     );
     let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
-    let result = await serviceLayer.getReport("lol", "test", "User");
+    let result = await serviceLayer.getReport("lol", "test", "test", "User");
     expect(result).toBe("The requested report type is invalid");
-    let todayDate;
     let types = [
       "inventory_daily_report",
       "incomes_daily_report",
       "general_purpose_daily_report",
     ];
+
+    let todayDate = new Date();
+    let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
+    todayDate = new Date();
+
     for (let i in types) {
       let type = types[i];
-      result = await serviceLayer.getReport(type, "test", "User");
-      expect(result).toBe("The requested report date is invalid");
+      result = await serviceLayer.getReport(type, "test", "test", "User");
+      expect(result).toBe("The requested report starting date is invalid");
 
-      todayDate = new Date();
-      let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
-      result = await serviceLayer.getReport(type, date, "User");
-      expect(result).toBe("The requested report date is invalid");
+      result = await serviceLayer.getReport(type, date, "test", "User");
+      expect(result).toBe("The requested report starting date is invalid");
 
-      todayDate = new Date();
-      result = await serviceLayer.getReport(type, date, "User");
+      result = await serviceLayer.getReport(type, todayDate, "test", "User");
+      expect(result).toBe("The requested report ending date is invalid");
+
+      result = await serviceLayer.getReport(type, todayDate, date, "User");
+      expect(result).toBe("The requested report ending date is invalid");
+
+      result = await serviceLayer.getReport(type, todayDate, todayDate, "User");
       expect(Array.isArray(result)).toBeTrue;
     }
   });
@@ -272,19 +287,30 @@ describe("Report Operations Tests", () => {
     await serviceLayer.initServiceLayer();
     serviceLayer.users.set("User", 1);
     await testCinemaFunctions(serviceLayer.cinemaSystem, () =>
-      serviceLayer.getFullDailyReport("test", "User")
+      serviceLayer.getFullDailyReport("test", "test", "User")
     );
     let user = { isLoggedIn: () => true, permissionCheck: () => true };
     serviceLayer.cinemaSystem.users.set(1, user);
     serviceLayer.cinemaSystem.inventoryManagement.products.set(0, null);
-    let result = await serviceLayer.getFullDailyReport("test", "User");
-    expect(result).toBe("The requested report date is invalid");
+
     let todayDate = new Date();
     let date = new Date(todayDate.setFullYear(todayDate.getFullYear() - 2));
-    result = await serviceLayer.getFullDailyReport(date, "User");
-    expect(result).toBe("The requested report date is invalid");
     todayDate = new Date();
+
+    let result = await serviceLayer.getFullDailyReport("test", "test", "User");
+    expect(result).toBe("The requested report starting date is invalid");
+
+    result = await serviceLayer.getFullDailyReport(date, "test", "User");
+    expect(result).toBe("The requested report starting date is invalid");
+
+    result = await serviceLayer.getFullDailyReport(todayDate, "test", "User");
+    expect(result).toBe("The requested report ending date is invalid");
+
+    result = await serviceLayer.getFullDailyReport(todayDate, date, "User");
+    expect(result).toBe("The requested report ending date is invalid");
+
     result = await serviceLayer.getFullDailyReport(
+      todayDate.toISOString(),
       todayDate.toISOString(),
       "User"
     );

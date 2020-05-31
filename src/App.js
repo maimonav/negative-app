@@ -1,12 +1,17 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
-import { Login } from "./Views";
+import { Login, ErrorPage } from "./Views";
 import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
 
+export const socket = new WebSocket("ws://localhost:3001");
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      messageType: "",
+      messageContent: "",
+      messageError: ""
+    };
     this.setInitialState();
   }
 
@@ -23,6 +28,31 @@ class App extends React.Component {
         });
     }
   };
+
+  componentDidMount() {
+    socket.onopen = () => {
+      console.log("connected");
+    };
+
+    socket.onmessage = evt => {
+      const message = JSON.parse(evt.data);
+      if (message[0].type === "INFO") {
+        this.setState({ messageType: "INFO", messageContent: message });
+      } else if (message[0].type === "ERROR") {
+        this.setState({ messageType: "ERROR", messageError: message });
+      }
+    };
+
+    socket.onclose = () => {
+      console.log("disconnected");
+      //For now, this is our way to know when the server is disconnected
+      this.setState({
+        isLogged: false,
+        username: undefined,
+        permission: undefined
+      });
+    };
+  }
 
   /**
    * Login to system
@@ -53,6 +83,10 @@ class App extends React.Component {
   };
 
   render() {
+    const { messageType } = this.state;
+    if (messageType === "ERROR") {
+      return <ErrorPage />;
+    }
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
     } else {
@@ -63,6 +97,8 @@ class App extends React.Component {
           onLogout={this.onLogout}
           userName={this.state.username}
           permission={this.state.permission}
+          messageType={this.state.messageType}
+          messageContent={this.state.messageContent}
         ></TabPanel>
       );
     }

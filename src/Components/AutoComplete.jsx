@@ -29,9 +29,9 @@ export default function ComboBox(props) {
           value={value}
           id={props.id}
           options={props.items}
-          getOptionLabel={(option) => option.title}
-          style={{ width: 400, maxWidth: "100%" }}
-          renderInput={(params) => (
+          getOptionLabel={option => option.title}
+          style={{ width: 200, maxWidth: "100%" }}
+          renderInput={params => (
             <TextField {...params} label={props.boxLabel} variant="outlined" />
           )}
           onChange={handleChange}
@@ -43,9 +43,9 @@ export default function ComboBox(props) {
           multiple
           id={props.id}
           options={props.items}
-          getOptionLabel={(option) => option.title}
+          getOptionLabel={option => option.title}
           filterSelectedOptions
-          renderInput={(params) => (
+          renderInput={params => (
             <TextField {...params} variant="outlined" label={props.boxLabel} />
           )}
           onChange={handleMultipleChange}

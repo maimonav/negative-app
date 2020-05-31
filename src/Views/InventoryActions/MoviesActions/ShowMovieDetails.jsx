@@ -9,33 +9,34 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetMovies,
-  handleGetMovieDetails,
+  handleGetMovieDetails
 } from "../../../Handlers/Handlers";
 import { movieNameHook, categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowMovieDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieName: "",
+      movieName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ movies: state.result });
       });
   };
 
-  setMovieName = (movieName) => {
+  setMovieName = movieName => {
     this.setState({ movieName });
     handleGetMovieDetails(movieName)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ movieName: state.result });
       });
   };
@@ -43,7 +44,7 @@ export default class ShowMovieDetails extends React.Component {
   columns = [
     { title: "Movie Name", field: "name" },
     { title: "Key", field: "expectedQuantity" },
-    { title: "Examination room", field: "actualQuantity" },
+    { title: "Examination room", field: "actualQuantity" }
   ];
 
   render() {
@@ -65,59 +66,56 @@ export default class ShowMovieDetails extends React.Component {
                     setName={this.setMovieName}
                     isMultiple={false}
                     data-hook={movieNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {movieName && (
                   <GridContainer style={style}>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field1"
-                        defaultValue=""
-                        label="movieName"
-                        value={movieName.movieName || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field2"
-                        defaultValue=""
-                        label="category"
-                        value={movieName.category || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                        data-hook={categoryNameHook}
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field3"
-                        defaultValue=""
-                        label="Movie Key"
-                        value={movieName.movieKey || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field4"
-                        defaultValue=""
-                        label="Examination Room"
-                        value={movieName.examinationRoom || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
+                    <TextField
+                      id="field1"
+                      defaultValue=""
+                      label="movieName"
+                      value={movieName.movieName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field2"
+                      defaultValue=""
+                      label="category"
+                      value={movieName.category || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                      data-hook={categoryNameHook}
+                    />
+                    <TextField
+                      id="field3"
+                      defaultValue=""
+                      label="Movie Key"
+                      value={movieName.movieKey || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field4"
+                      defaultValue=""
+                      label="Examination Room"
+                      value={movieName.examinationRoom || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
                   </GridContainer>
                 )}
               </CardBody>
