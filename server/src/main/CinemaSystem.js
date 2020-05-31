@@ -1015,8 +1015,6 @@ class CinemaSystem {
     );
     if (result != null) return result;
     result = await ReportController.getReport(type, fromDate, toDate);
-    console.log(result);
-
     if (typeof result !== "string")
       for (let i in result)
         result[i] = await this.toUserConversionMethods[type](

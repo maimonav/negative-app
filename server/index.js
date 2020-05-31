@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Http = require("http");
+const fs = require("fs");
 const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
@@ -10,7 +11,10 @@ const app = express();
 var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
 const path = require("path");
-//NotificationController.initServerSocket(server);
+const LogControllerFile = require("./src/main/LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+
 const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
@@ -564,23 +568,24 @@ app.get("/api/getReportFile", async (req, res) => {
   );
   let msg;
 
-<<<<<<< Updated upstream
-  /// example purposes - TODO: Maor - you should give me here the name of the report
-  const fileName = "Inventory Report";
-  const relativeFilePath = fileName => `/src/main/reports/${fileName}.xlsx`;
-  /// example purposes
-
-=======
->>>>>>> Stashed changes
   if (typeof result !== "string") {
-    /// example purposes - TODO: Maor - you should give me here the name of the report
-    const fileName = "Inventory Report";
+    const fileName = result[1];
     const relativeFilePath = (fileName) => `/src/main/reports/${fileName}.xlsx`;
-    /// example purposes
-
     msg = result[0];
-    res.download(path.join(__dirname, relativeFilePath(fileName)));
-  } else {
-    res.send(JSON.stringify({ msg }));
+    const filePath = path.join(__dirname, relativeFilePath(fileName));
+    res.download(filePath, fileName, (err) => {
+      try {
+        fs.unlink(filePath, () => {});
+      } catch (error) {
+        logger.writeToLog(
+          "error",
+          "index.js server",
+          "getReportFile",
+          "File could not be removed" + error
+        );
+      }
+    });
   }
+  msg = result;
+  res.send(JSON.stringify({ msg }));
 });

@@ -5,18 +5,18 @@ const incomesReportColumns = [
   { label: "Cafeteria Cash", value: "cafeteriaCashRevenues" },
   {
     label: "Cafeteria CreditCard",
-    value: "cafeteriaCreditCardRevenues"
+    value: "cafeteriaCreditCardRevenues",
   },
   { label: "Tickets Cash", value: "ticketsCashRevenues" },
   {
     label: "Tickets CreditCard",
-    value: "ticketsCreditCardRevenues"
+    value: "ticketsCreditCardRevenues",
   },
   { label: "Tabs Cash", value: "tabsCashRevenues" },
   {
     label: "Tabs CreditCard",
-    value: "tabsCreditCardRevenues"
-  }
+    value: "tabsCreditCardRevenues",
+  },
 ];
 
 const inventoryReportColumns = [
@@ -25,12 +25,12 @@ const inventoryReportColumns = [
   { label: "Tabs Sales", value: "productName" },
   { label: "Quantity Sold", value: "quantitySold" },
   { label: "Stock Thrown", value: "stockThrown" },
-  { label: "Quantity In Stock", value: "quantityInStock" }
+  { label: "Quantity In Stock", value: "quantityInStock" },
 ];
 
 let generalReportColumns = [
   { label: "Date", value: "date" },
-  { label: "Employee", value: "creatorEmployeeName" }
+  { label: "Employee", value: "creatorEmployeeName" },
 ];
 
 const moviesReportColumns = [
@@ -44,66 +44,46 @@ const moviesReportColumns = [
   { label: "Fees", value: "totalFees" },
   {
     label: "Revenues Without Cash",
-    value: "totalRevenuesWithoutCash"
+    value: "totalRevenuesWithoutCash",
   },
-  { label: "Cash Incomes", value: "totalCashIncomes" }
+  { label: "Cash Incomes", value: "totalCashIncomes" },
 ];
 
-<<<<<<< Updated upstream
-const relativeFilePath = fileName => `./server/src/main/reports/${fileName}`;
-=======
 const relativeFilePath = (fileName) => `./server/src/main/reports/${fileName}`;
->>>>>>> Stashed changes
 
 const incomesReportSettings = {
   sheetName: "Incomes Report",
   fileName: relativeFilePath("Incomes Report"),
-<<<<<<< Updated upstream
-  extraLength: 5
-=======
   extraLength: 5,
->>>>>>> Stashed changes
 };
 const inventoryReportSettings = {
   sheetName: "Inventory Report",
   fileName: relativeFilePath("Inventory Report"),
-<<<<<<< Updated upstream
-  extraLength: 5
-=======
   extraLength: 5,
->>>>>>> Stashed changes
 };
 const generalReportSettings = {
   sheetName: "General Report",
   fileName: relativeFilePath("General Report"),
-<<<<<<< Updated upstream
-  extraLength: 5
-=======
   extraLength: 5,
->>>>>>> Stashed changes
 };
 const moviesReportSettings = {
   sheetName: "Movies Report",
   fileName: relativeFilePath("Movies Report"),
-<<<<<<< Updated upstream
-  extraLength: 5
-=======
   extraLength: 5,
->>>>>>> Stashed changes
 };
 
 const settings = {
   incomes_daily_report: incomesReportSettings,
   inventory_daily_report: inventoryReportSettings,
   general_purpose_daily_report: generalReportSettings,
-  movies_daily_report: moviesReportSettings
+  movies_daily_report: moviesReportSettings,
 };
 
 const columns = {
   incomes_daily_report: incomesReportColumns,
   inventory_daily_report: inventoryReportColumns,
   general_purpose_daily_report: generalReportColumns,
-  movies_daily_report: moviesReportColumns
+  movies_daily_report: moviesReportColumns,
 };
 
 const fileNames = {
@@ -115,10 +95,6 @@ const fileNames = {
 
 module.exports = {
   settings,
-<<<<<<< Updated upstream
-  columns
-=======
   columns,
   fileNames,
->>>>>>> Stashed changes
 };

@@ -7,16 +7,16 @@ const types = [
   "incomes_daily_report",
   "inventory_daily_report",
   "general_purpose_daily_report",
-  "movies_daily_report"
+  "movies_daily_report",
 ];
 
-const relativeFilePath = fileName => `./server/src/main/reports/${fileName}`;
+const relativeFilePath = (fileName) => `./server/src/main/reports/${fileName}`;
 
 const fileNames = [
   relativeFilePath("Incomes Report"),
   relativeFilePath("Inventory Report"),
   relativeFilePath("General Report"),
-  relativeFilePath("Movies Report")
+  relativeFilePath("Movies Report"),
 ];
 
 describe("Json to excel", function() {
