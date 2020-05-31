@@ -4,6 +4,7 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
+const { csvToJson } = require("./EventBuzzScript");
 
 class SystemInitializer {
   static serviceLayer;
@@ -23,6 +24,7 @@ class SystemInitializer {
     let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
     result = await DataBase.initDB(dbName, password);
+    csvToJson();
     if (typeof result === "string") {
       DBlogger.writeToLog(
         "info",

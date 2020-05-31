@@ -8,6 +8,8 @@ const { Builder, By, Key, util, until } = require("selenium-webdriver");
 const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
+const ReportController = require("./ReportController");
+const moment = require("moment");
 require("chromedriver");
 
 const reportPath = "MoviesReport.csv";
@@ -25,11 +27,36 @@ let json_ans = class {
       this.subscribers.push(fn);
     }
   }
-  static fire(value) {
+  static dateCompare(d1, d2) {
+    if (d1.getYear() !== d2.getYear()) return false;
+    if (d1.getMonth() !== d2.getMonth()) return false;
+    if (d1.getDate() === d2.getDate()) {
+      console.log("d1= ", d1, " in day is  of ", d1.getDate());
+      console.log("d2= ", d2, " in day is  of ", d2.getDate());
+    }
+    return d1.getDate() === d2.getDate();
+  }
+  static async fire(value) {
+    let addTheTest = false;
+    let output = [];
     this.value = value;
     console.log("fire!");
-    const ReportController = require("./ReportController");
-    ReportController.createMovieReport(value);
+    for (let i = 0; i < 100; i++) {
+      let event = value[i];
+      let date = moment(event.date, "DD-MM-YYYY HH:mm").toDate();
+      if (
+        this.dateCompare(date, new Date()) ||
+        (this.dateCompare(date, new Date(2018, 10, 11)) && !addTheTest)
+      ) {
+        output.push(event);
+        if (dateCompare(date, new Date(2018, 5, 12))) {
+          // console.log("add the test movie report");
+          addTheTest = true;
+        }
+      }
+    }
+    // console.log(output);
+    ReportController.createMovieReport(output);
   }
   //TODO
   static errorHandler(msg) {
