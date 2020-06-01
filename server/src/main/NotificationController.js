@@ -217,7 +217,7 @@ class NotificationController {
   static notifyEventBuzzError(msg) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
-      "ERROR",
+      "INFO",
       "EXTERNAL SYSTEM",
       msg
     );
@@ -296,7 +296,7 @@ class NotificationController {
           let clientSocket = this.clientsMap.get(userUrl);
           clientSocket.send([
             {
-              type: "ERROR",
+              type: "INFO",
               subtype: "SAVE NOTIFICATIONS",
               content:
                 "There was a problem saving your notifications," +
