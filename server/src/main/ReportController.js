@@ -203,10 +203,29 @@ class ReportController {
           );
           return "Report record date is invalid";
         }
+
         records[i].date = moment(records[i].date).toDate();
-        let isDailyReportCreated = await DataBase.singleGetById(type, {
-          date: records[i].date,
-        });
+        let requestedFromDateMidnight = moment(
+          this._getSyncDateFormat(records[i].date)
+        ).toDate();
+        let requestedToDateTomorrowMidnight = moment(
+          records[i].date.setDate(records[i].date.getDate() + 1)
+        ).toDate();
+        requestedToDateTomorrowMidnight = this._getSyncDateFormat(
+          requestedToDateTomorrowMidnight
+        );
+        let where = {
+          date: {
+            [Sequelize.Op.gte]: requestedFromDateMidnight,
+            [Sequelize.Op.lt]: requestedToDateTomorrowMidnight,
+          },
+        };
+        let isDailyReportCreated = await DataBase.singleFindAll(
+          type,
+          where,
+          undefined,
+          [["date", "ASC"]]
+        );
         if (typeof isDailyReportCreated === "string") {
           DBlogger.writeToLog(
             "info",
@@ -216,7 +235,7 @@ class ReportController {
           );
           return "The report cannot be created\n" + isDailyReportCreated;
         }
-        if (isDailyReportCreated && isDailyReportCreated !== null) {
+        if (isDailyReportCreated && isDailyReportCreated.length !== 0) {
           logger.writeToLog(
             "info",
             "ReportController",
@@ -282,7 +301,7 @@ class ReportController {
       return "The requested report ending date is invalid";
     }
     //TO DO : to remove
-    if (type === this._types.MOVIES)
+    /*if (type === this._types.MOVIES)
       return [
         {
           dataValues: {
@@ -298,7 +317,7 @@ class ReportController {
             totalCashIncomes: "",
           },
         },
-      ];
+      ];*/
     fromDate = moment(fromDate).toDate();
     toDate = moment(toDate).toDate();
     let requestedFromDateMidnight = moment(
@@ -324,7 +343,8 @@ class ReportController {
       DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result && result.length === 0) return "The report does not exist";
+    if (result && result.length === 0 && type !== this._types.MOVIES)
+      return "The report does not exist";
 
     return result;
   }
