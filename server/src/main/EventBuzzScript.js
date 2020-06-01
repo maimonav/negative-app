@@ -51,7 +51,7 @@ let json_ans = class {
       ) {
         output.push(event);
         if (dateCompare(date, new Date(2018, 5, 12))) {
-          // console.log("add the test movie report");
+          console.log("add the test movie report");
           addTheTest = true;
         }
       }
@@ -438,14 +438,14 @@ async function eventbuzzScript() {
       setTimeout(() => {
         downlowdReportMainFlow();
       }, 120000);
-    } catch {
+    } catch (error) {
       logger.writeToLog(
         "error",
         "EventBuzzScript",
         "eventbuzzScript",
         "The script fail to integrate to eventbuzz web"
       );
-      console.log("The script fail to integrate to eventbuzz web");
+      console.log("The script fail to integrate to eventbuzz web " + error);
       json_ans.errorHandler("The script fail to integrate to eventbuzz web");
     }
   });

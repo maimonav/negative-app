@@ -4,7 +4,8 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
-const { csvToJson } = require("./EventBuzzScript");
+const schedule = require("node-schedule");
+const { main, downlowdReportMainFlow } = require("./EventBuzzScript");
 
 class SystemInitializer {
   static serviceLayer;
@@ -24,7 +25,6 @@ class SystemInitializer {
     let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
     result = await DataBase.initDB(dbName, password);
-    csvToJson();
     if (typeof result === "string") {
       DBlogger.writeToLog(
         "info",
@@ -49,6 +49,12 @@ class SystemInitializer {
     if ((err = await SystemInitializer._restoreProducts(admin))) return err;
     if ((err = await SystemInitializer._restoreSuppliers(admin))) return err;
     if ((err = await SystemInitializer._restoreOrders())) return err;
+
+    schedule.scheduleJob("27 18 * * *", function() {
+      console.log("The schedualing job start running");
+      main();
+    });
+    console.log("EventBuzz script scheduled successfully");
   }
 
   static async _restoreEmployees(admin) {

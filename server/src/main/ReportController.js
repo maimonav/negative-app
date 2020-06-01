@@ -5,7 +5,6 @@ const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 const Sequelize = require("sequelize");
-const schedule = require("node-schedule");
 
 class ReportController {
   static _types = {
