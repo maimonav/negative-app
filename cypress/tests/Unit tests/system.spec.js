@@ -13,10 +13,6 @@ import {
 } from "../../../src/consts/data-hooks";
 
 context("Click all tabs", () => {
-  it("Logout", () => {
-    cy.accessTab(logoutTabHook);
-  });
-
   it("Manage Suppliers", () => {
     cy.accessTab(userActionsTabHook);
     cy.accessTab(suppliersTabHook);

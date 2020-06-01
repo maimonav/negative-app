@@ -59,7 +59,7 @@ class Login extends React.Component {
             </Box>
             <BaseButton
               name="Login"
-              color="info"
+              color="default"
               data-hook={actionButtonHook}
               onClick={() =>
                 this.props.handleLogin(

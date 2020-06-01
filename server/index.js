@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Http = require("http");
+const fs = require("fs");
 const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
@@ -9,7 +10,11 @@ const service = new ServiceLayer();
 const app = express();
 var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
-//NotificationController.initServerSocket(server);
+const path = require("path");
+const LogControllerFile = require("./src/main/LogController");
+const LogController = LogControllerFile.LogController;
+const logger = LogController.getInstance("system");
+
 const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
@@ -547,4 +552,38 @@ app.get("/api/getSeenNotifications", async (req, res) => {
   const user = (req.query.user && req.query.user.trim()) || "";
   const result = await service.getSeenNotifications(user);
   res.send(JSON.stringify({ result }));
+});
+
+app.get("/api/getReportFile", async (req, res) => {
+  const reportType =
+    (req.query.reportType && req.query.reportType.trim()) || "";
+  const fromDate = (req.query.fromDate && req.query.fromDate.trim()) || "";
+  const toDate = (req.query.toDate && req.query.toDate.trim()) || "";
+  const user = (req.query.user && req.query.user.trim()) || "";
+  const result = await service.getReportFile(
+    reportType,
+    fromDate,
+    toDate,
+    user
+  );
+  if (typeof result !== "string") {
+    const fileName = result[0];
+    const relativeFilePath = fileName => `/src/main/reports/${fileName}.xlsx`;
+    const filePath = path.join(__dirname, relativeFilePath(fileName));
+    res.setHeader("fileName", fileName);
+    res.download(filePath, fileName, err => {
+      try {
+        fs.unlink(filePath, () => {});
+      } catch (error) {
+        logger.writeToLog(
+          "error",
+          "index.js server",
+          "getReportFile",
+          "File could not be removed" + error
+        );
+      }
+    });
+  } else {
+    res.send(JSON.stringify({ result }));
+  }
 });

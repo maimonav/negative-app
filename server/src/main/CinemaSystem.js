@@ -36,7 +36,7 @@ class CinemaSystem {
       incomes_daily_report: async (record) =>
         this.employeeAndDateConversion(record),
       movies_daily_report: async (record) => {
-        record.date = moment(record.date).format("lll");
+        record.date = moment(record.date).format("llll");
         return record;
       },
     };

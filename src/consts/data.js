@@ -38,13 +38,13 @@ export const inventoryColumns = [
   },
   {
     width: 150,
-    label: "Product",
-    dataKey: "productName"
+    label: "Employee",
+    dataKey: "creatorEmployeeName"
   },
   {
     width: 150,
-    label: "Employee",
-    dataKey: "creatorEmployeeName"
+    label: "Product",
+    dataKey: "productName"
   },
   {
     width: 150,
@@ -81,6 +81,12 @@ export const incomesColumns = [
     width: 120,
     label: "Tabs Sales",
     dataKey: "numOfTabsSales",
+    numeric: true
+  },
+  {
+    width: 200,
+    label: "Cafeteria Cash",
+    dataKey: "cafeteriaCashRevenues",
     numeric: true
   },
   {

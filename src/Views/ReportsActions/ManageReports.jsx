@@ -39,7 +39,7 @@ export default class ManageReports extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={9}>
+          <GridItem xs={12} sm={12} md={12}>
             <Card style={style}>
               <CardHeader color="info">
                 <GridContainer>

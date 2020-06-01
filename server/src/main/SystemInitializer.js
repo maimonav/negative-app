@@ -117,6 +117,7 @@ class SystemInitializer {
       let movie = movies[i];
 
       if (movie.isMovieRemoved === null) {
+        this.serviceLayer.productsCounter = movie.id;
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           movie.categoryId
         ).name;
@@ -136,8 +137,9 @@ class SystemInitializer {
             );
           }
         });
-      } else this.serviceLayer.productsCounter = movie.id + 1;
+      }
     }
+    this.serviceLayer.productsCounter = this.serviceLayer.products.size;
   }
   static async _restoreProducts(admin) {
     let products = await DataBase.singleFindAll(
@@ -152,6 +154,7 @@ class SystemInitializer {
       let product = products[i];
 
       if (product.isProductRemoved === null) {
+        this.serviceLayer.productsCounter = product.id;
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           product.categoryId
         ).name;
@@ -166,8 +169,9 @@ class SystemInitializer {
             admin.userName
           );
         });
-      } else this.serviceLayer.productsCounter = product.id + 1;
+      }
     }
+    this.serviceLayer.productsCounter = this.serviceLayer.products.size;
   }
   static async _restoreSuppliers(admin) {
     let suppliers = await DataBase.singleFindAll("supplier", {}, undefined, [

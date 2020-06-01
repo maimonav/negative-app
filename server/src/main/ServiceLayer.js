@@ -5,6 +5,12 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
+const {
+  columns,
+  settings,
+  fileNames,
+} = require("./consts/JsonToExcelConfiguration");
+const xlsx = require("json-as-xlsx");
 
 class ServiceLayer {
   constructor() {
@@ -1895,6 +1901,35 @@ class ServiceLayer {
     return reports;
   }
 
+  /**
+   * export report to excel file
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
+   * @param {string} ActionIDOfTheOperation Username of the user performed the action
+   * @returns {Promise(Array(string) | string)} In success returns list of 2 elements, 1st element is the
+   * message to the client and the 2nd is the file name, otherwise returns error string.
+   */
+  async getReportFile(type, fromDate, toDate, ActionIDOfTheOperation) {
+    let report = await this.getReport(
+      type,
+      fromDate,
+      toDate,
+      ActionIDOfTheOperation
+    );
+    if (typeof report === "string")
+      return "The report cannot be exported " + report;
+    let fileName = fileNames[type];
+    let cols = columns[type];
+    if (type === "general_purpose_daily_report") {
+      report[0].props.forEach((prop) => {
+        cols = [...cols, { label: prop, value: prop }];
+      });
+    }
+    xlsx(cols, report, settings[type]);
+
+    return [fileName];
+  }
+
   getMovies(ActionIDofTheOperation) {
     if (
       typeof ActionIDofTheOperation !== "undefined" &&
@@ -2067,6 +2102,8 @@ class ServiceLayer {
   }
 
   async getSeenNotifications(ActionIDofTheOperation) {
+    if (!this._isInputValid(ActionIDofTheOperation))
+      return "Username is not valid";
     if (
       typeof ActionIDofTheOperation !== "undefined" &&
       this.userActivation.has(ActionIDofTheOperation)

@@ -42,6 +42,7 @@ export const addActionHook = "addAction";
 export const editActionHook = "editAction";
 export const removeActionHook = "removeAction";
 export const confirmActionHook = "confirmAction";
+export const downloadActionHook = "downloadAction";
 
 //Buttons
 export const actionButtonHook = "actionButton";

@@ -4,13 +4,14 @@ import { Login, ErrorPage } from "./Views";
 import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
 
 export const socket = new WebSocket("ws://localhost:3001");
+
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       messageType: "",
       messageContent: "",
-      messageError: ""
+      messageError: "",
     };
     this.setInitialState();
   }
@@ -19,9 +20,10 @@ class App extends React.Component {
     const user = localStorage.getItem("username");
     const permission = localStorage.getItem("permission");
     if (user) {
+      console.log("user:", user);
       handleIsLoggedIn(user)
-        .then(response => response.json())
-        .then(state => {
+        .then((response) => response.json())
+        .then((state) => {
           const isLogged = Boolean(state.result);
           const username = isLogged ? user : "";
           this.setState({ isLogged, username, permission });
@@ -34,8 +36,9 @@ class App extends React.Component {
       console.log("connected");
     };
 
-    socket.onmessage = evt => {
+    socket.onmessage = (evt) => {
       const message = JSON.parse(evt.data);
+      console.log("message:", message);
       if (message[0].type === "INFO") {
         this.setState({ messageType: "INFO", messageContent: message });
       } else if (message[0].type === "ERROR") {
@@ -45,12 +48,7 @@ class App extends React.Component {
 
     socket.onclose = () => {
       console.log("disconnected");
-      //For now, this is our way to know when the server is disconnected
-      this.setState({
-        isLogged: false,
-        username: undefined,
-        permission: undefined
-      });
+      this.onLogout();
     };
   }
 
@@ -76,7 +74,7 @@ class App extends React.Component {
     this.setState({
       isLogged: false,
       username: undefined,
-      permission: undefined
+      permission: undefined,
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");

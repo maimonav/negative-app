@@ -45,7 +45,6 @@ async function testAddIncomesDailyReport(report, success) {
 exports.testAddIncomesDailyReport = testAddIncomesDailyReport;
 
 function testIncomeDailyReportResult(result, report) {
-  expect(result.date).toEqual(report.date);
   expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
   expect(result.numOfTabsSales).toBe(report.numOfTabsSales);
   expect(result.cafeteriaCashRevenues).toBe(report.cafeteriaCashRevenues);
@@ -82,7 +81,6 @@ async function testAddMoviesDailyReport(report, success) {
 exports.testAddMoviesDailyReport = testAddMoviesDailyReport;
 
 function testMoviesDailyReportResult(result, report) {
-  expect(result.date).toEqual(report.date);
   expect(result.name).toBe(report.name);
   expect(result.location).toBe(report.location);
   expect(result.numOfTicketsAssigned).toBe(report.numOfTicketsAssigned);
@@ -116,7 +114,6 @@ async function testAddGeneralPurposeDailyReport(report, success) {
 exports.testAddGeneralPurposeDailyReport = testAddGeneralPurposeDailyReport;
 
 function testGeneralPurposeDailyReportResult(result, report) {
-  expect(result.date).toEqual(report.date);
   expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
   expect(result.propsObject).toEqual(report.propsObject);
   expect(result.allProps).toEqual(report.allProps);
@@ -145,7 +142,6 @@ async function testAddInventoryDailyReport(report, success) {
 exports.testAddInventoryDailyReport = testAddInventoryDailyReport;
 
 function testInventoryDailyReportResult(result, report) {
-  expect(result.date).toEqual(report.date);
   expect(result.creatorEmployeeId).toBe(report.creatorEmployeeId);
   expect(result.productId).toBe(report.productId);
   expect(result.quantitySold).toBe(report.quantitySold);

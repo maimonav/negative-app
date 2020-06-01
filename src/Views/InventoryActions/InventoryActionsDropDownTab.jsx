@@ -8,17 +8,17 @@ import {
   manageInventoryPath,
   manageCategoriesPath,
   manageMoviesPath,
-  manageOrdersPath
+  manageOrdersPath,
 } from "../../consts/paths";
 import {
   inventoryTabHook,
   ordersTabHook,
   moviesTabHook,
-  categoriesTabHook
+  categoriesTabHook,
 } from "../../consts/data-hooks";
 import {
   isAtLeastShiftManager,
-  isAtLeastDeputyManager
+  isAtLeastDeputyManager,
 } from "../../consts/permissions";
 const style = { textDecoration: "none", color: "black" };
 const menuStyle = { justifyContent: "center" };
@@ -26,11 +26,11 @@ const menuStyle = { justifyContent: "center" };
 export default function InventoryActionsDropDownTab(props) {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = path => {
+  const handleClose = (path) => {
     setAnchorEl(null);
     props.handleTabChange && props.handleTabChange(path);
   };
@@ -40,7 +40,7 @@ export default function InventoryActionsDropDownTab(props) {
   }
 
   return (
-    <>
+    <React.Fragment>
       <Button
         aria-controls="drop-down-tab"
         aria-haspopup="true"
@@ -59,7 +59,7 @@ export default function InventoryActionsDropDownTab(props) {
         style={{
           marginTop: "34px",
           marginLeft: "5px",
-          maxWidth: "175px"
+          maxWidth: "175px",
         }}
       >
         {isAtLeastShiftManager(props.permission) && (
@@ -108,6 +108,6 @@ export default function InventoryActionsDropDownTab(props) {
           </>
         )}
       </Menu>
-    </>
+    </React.Fragment>
   );
 }

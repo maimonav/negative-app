@@ -1,4 +1,15 @@
 import moment from "moment";
+
+function _handleConnectionError(response, returnVal) {
+  if (response.status !== 200) {
+    alert(
+      "There was a problem connecting to the system.\n You should ask the admin to initialize the server."
+    );
+    window.location.reload();
+  }
+  return returnVal;
+}
+
 /**
  * Handle login to system
  * @param {string} username
@@ -12,7 +23,7 @@ export function handleLogin(username, password, onLogin) {
       username
     )}&password=${encodeURIComponent(password)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       if (
         state.result &&
@@ -34,7 +45,7 @@ export function handleLogin(username, password, onLogin) {
 export function handleLogout(onLogout) {
   const username = localStorage.getItem("username");
   fetch(`/api/logout?username=${encodeURIComponent(username)}`)
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       onLogout();
       alert(state.result);
@@ -71,7 +82,7 @@ export function handleAddEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -107,7 +118,7 @@ export function handleEditEmployee(
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -144,15 +155,20 @@ export function handleAddProduct(
   minQuantity,
   productCategory
 ) {
-  if (
-    productName === "" ||
-    productPrice === "" ||
-    productQuantity === "" ||
-    maxQuantity === "" ||
-    minQuantity === "" ||
-    productCategory === ""
-  ) {
-    alert("All product fields are required");
+  if (productName === "") {
+    alert("Product name is required");
+    return;
+  }
+  if (productPrice === "") {
+    alert("Product price is required");
+    return;
+  }
+  if (productQuantity === "") {
+    alert("Product qunatity is required");
+    return;
+  }
+  if (productCategory === "") {
+    alert("Product category is required");
     return;
   }
   const user = localStorage.getItem("username");
@@ -170,7 +186,7 @@ export function handleAddProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -213,7 +229,7 @@ export function handleEditProduct(
       productCategory
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -258,7 +274,7 @@ export function handleAddMovieOrder(orderDate, supplierName, moviesName) {
     &moviesName=${JSON.stringify(moviesName)}
     &user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -287,7 +303,7 @@ export function handleAddMovie(movieName, category) {
       user
     )}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -316,7 +332,7 @@ export function handleEditMovie(movieName, category, key, examinationRoom) {
       examinationRoom
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -348,7 +364,7 @@ export function handleAddSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -369,7 +385,7 @@ export function handleEditSupplier(name, contactDetails) {
       contactDetails
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -408,7 +424,7 @@ export function handleAddCategory(categoryName, parentName) {
       user
     )}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -429,7 +445,7 @@ export function handleEditCategory(categoryName, parentName) {
       user
     )}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -469,7 +485,7 @@ export function handleAddCafeteriaOrder(productsName, supplierName, orderDate) {
       user
     )}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -498,7 +514,7 @@ export function handleEditCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -537,7 +553,7 @@ export function handleConfirmCafeteriaOrder(
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -557,7 +573,7 @@ export function handleGetOrdersByDates(startDate, endDate, isCafeteriaOrder) {
     )}&endDate=${encodeURIComponent(
       endDate
     )}&isCafeteriaOrder=${encodeURIComponent(isCafeteriaOrder)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -568,7 +584,7 @@ export function handleGetOrdersByDates(startDate, endDate, isCafeteriaOrder) {
 export function handleGetProductsAndQuantityByOrder(orderName) {
   return fetch(
     `api/getProductAndQuntityByOrder?orderName=${encodeURIComponent(orderName)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -577,7 +593,9 @@ export function handleGetProductsAndQuantityByOrder(orderName) {
  * @returns {Promise(Array)} array of suppliers
  */
 export function handleGetSuppliers(username) {
-  return fetch(`/api/getSuppliers?user=${encodeURIComponent(username)}`);
+  return fetch(
+    `/api/getSuppliers?user=${encodeURIComponent(username)}`
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -586,7 +604,9 @@ export function handleGetSuppliers(username) {
  * @returns {Promise(Array)} array of employees
  */
 export function handleGetEmployees(username) {
-  return fetch(`/api/getEmployees?user=${encodeURIComponent(username)}`);
+  return fetch(
+    `/api/getEmployees?user=${encodeURIComponent(username)}`
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -595,7 +615,9 @@ export function handleGetEmployees(username) {
  * @returns {Promise(Array)} array of movies
  */
 export function handleGetMovies(username) {
-  return fetch(`/api/getMovies?user=${encodeURIComponent(username)}`);
+  return fetch(
+    `/api/getMovies?user=${encodeURIComponent(username)}`
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -603,7 +625,9 @@ export function handleGetMovies(username) {
  * @returns {Promise(Array)} array of categories
  */
 export function handleGetCategories() {
-  return fetch(`/api/getCategories`);
+  return fetch(`/api/getCategories`).then((response) =>
+    _handleConnectionError(response, response)
+  );
 }
 
 /**
@@ -611,7 +635,9 @@ export function handleGetCategories() {
  * @returns {Promise(Array)} array of categories
  */
 export function handleGetCafeteriaProducts() {
-  return fetch(`/api/getCafeteriaProducts`);
+  return fetch(`/api/getCafeteriaProducts`).then((response) =>
+    _handleConnectionError(response, response)
+  );
 }
 
 /**
@@ -619,7 +645,9 @@ export function handleGetCafeteriaProducts() {
  * @returns {Promise(Array)} array of orders
  */
 export function handleGetCafeteriaOrders() {
-  return fetch(`/api/getCafeteriaOrders`);
+  return fetch(`/api/getCafeteriaOrders`).then((response) =>
+    _handleConnectionError(response, response)
+  );
 }
 
 /**
@@ -633,7 +661,7 @@ export function handleGetSupplierDetails(supplier, user) {
     `/api/getSupplierDetails?supplier=${encodeURIComponent(
       supplier
     )}&user=${encodeURIComponent(user)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -647,7 +675,7 @@ export function handleGetEmployeeDetails(employee, user) {
     `/api/getEmployeeDetails?employee=${encodeURIComponent(
       employee
     )}&user=${encodeURIComponent(user)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -656,7 +684,9 @@ export function handleGetEmployeeDetails(employee, user) {
  * @returns {Promise(string)} details of orders
  */
 export function handleGetOrderDetails(order) {
-  return fetch(`/api/getOrderDetails?order=${encodeURIComponent(order)}`);
+  return fetch(
+    `/api/getOrderDetails?order=${encodeURIComponent(order)}`
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -667,7 +697,7 @@ export function handleGetOrderDetails(order) {
 export function handleGetMovieDetails(movieName) {
   return fetch(
     `/api/getMovieDetails?movieName=${encodeURIComponent(movieName)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -678,7 +708,7 @@ export function handleGetMovieDetails(movieName) {
 export function handleGetProductDetails(productName) {
   return fetch(
     `/api/getProductDetails?productName=${encodeURIComponent(productName)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -689,7 +719,7 @@ export function handleGetProductDetails(productName) {
 export function handleGetCategoryDetails(categoryName) {
   return fetch(
     `/api/getCategoryDetails?categoryName=${encodeURIComponent(categoryName)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 /**
  * Handle get report from system
@@ -706,7 +736,24 @@ export function handleGetReport(reportType, fromDate, toDate, user) {
     )}&fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(
       toDate
     )}&user=${encodeURIComponent(user)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
+}
+/**
+ * Handle get report file from system
+ * @param {string} reportType
+ * @param {string} fromDate
+ * @param {string} toDate
+ * @param {string} user
+ * @returns {Promise(Array || string)} Success - report excel file, Failure - string error message
+ */
+export function handleGetReportFile(reportType, fromDate, toDate, user) {
+  return fetch(
+    `/api/getReportFile?reportType=${encodeURIComponent(
+      reportType
+    )}&fromDate=${encodeURIComponent(fromDate)}&toDate=${encodeURIComponent(
+      toDate
+    )}&user=${encodeURIComponent(user)}`
+  ).then((response) => _handleConnectionError(response, response));
 }
 /**
  * Handle is logged to system
@@ -722,7 +769,9 @@ export function handleIsLoggedIn(username) {
  * @returns {Promise(array)} array of movies orders
  */
 export function handleGetMovieOrders() {
-  return fetch(`/api/getMovieOrders?`);
+  return fetch(`/api/getMovieOrders?`).then((response) =>
+    _handleConnectionError(response, response)
+  );
 }
 
 /**
@@ -731,7 +780,9 @@ export function handleGetMovieOrders() {
  * @returns {Promise(string)} details of order
  */
 export function handleGetMovieOrderDetails(order) {
-  return fetch(`/api/getMovieOrderDetails?order=${encodeURIComponent(order)}`);
+  return fetch(
+    `/api/getMovieOrderDetails?order=${encodeURIComponent(order)}`
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -750,7 +801,7 @@ export function handleConfirmMovieOrder(orderId, updatedMovies) {
       user
     )}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -775,7 +826,7 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
       updatedProducts
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -788,14 +839,14 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
  */
 export function handleCreateDailyReports(reports) {
   const user = localStorage.getItem("username");
-  const date = new Date();
+  const date = moment().toDate();
   reports = JSON.stringify(reports);
   fetch(
     `api/createDailyReport?date=${encodeURIComponent(
       date
     )}&reports=${encodeURIComponent(reports)}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -813,7 +864,7 @@ export function HandleAddFieldToGeneralDailyReport(field) {
       field
     )}&user=${encodeURIComponent(user)}`
   )
-    .then((response) => response.json())
+    .then((response) => _handleConnectionError(response, response.json()))
     .then((state) => {
       alert(state.result);
     });
@@ -827,7 +878,7 @@ export function handleGetFieldsGeneralDailyReport() {
   const user = localStorage.getItem("username");
   return fetch(
     `api/getFieldsGeneralDailyReport?user=${encodeURIComponent(user)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
@@ -855,14 +906,16 @@ export function HandleGetFullDailyReport(fromDate, toDate, user) {
     `/api/getFullDailyReport?fromDate=${encodeURIComponent(
       fromDate
     )}&toDate=${encodeURIComponent(toDate)}&user=${encodeURIComponent(user)}`
-  );
+  ).then((response) => _handleConnectionError(response, response));
 }
 
 /**
- * Handle get fields general daily report
- * @returns {Promise(Array)} Success - array, Failure - string error message
+ * Handle get fields ld notifications
+ * @returns {Promise(Array)} Success - array
  */
-export function handleGetSeenNotifications() {
-  const user = localStorage.getItem("username");
-  return fetch(`api/getSeenNotifications?user=${encodeURIComponent(user)}`);
+export function handleGetSeenNotifications(user) {
+  console.log("user:", user);
+  return fetch(
+    `api/getSeenNotifications?user=${encodeURIComponent(user)}`
+  ).then((response) => _handleConnectionError(response, response));
 }

@@ -1,10 +1,11 @@
 const DB = require("../../../server/src/main/DataLayer/DBManager");
 const ServiceLayer = require("../../../server/src/main/ServiceLayer");
 const ReportController = require("../../../server/src/main/ReportController");
+const { csvToJson } = require("../../../server/src/main/EventBuzzScript");
+
 const moment = require("moment");
 
 const {
-  getSyncDateFormat,
   testAddInventoryDailyReport,
   testAddIncomesDailyReport,
   testAddGeneralPurposeDailyReport,
@@ -13,6 +14,42 @@ const {
   testGeneralPurposeDailyReportResult,
   testMoviesDailyReportResult,
 } = require("./../DBtests/ReportsTests.spec");
+
+let reports = [
+  {
+    type: "incomes_daily_report",
+    content: [
+      {
+        numOfTabsSales: "2",
+        cafeteriaCashRevenues: "2.2",
+        cafeteriaCreditCardRevenues: "5.5",
+        ticketsCashRevenues: "4",
+        ticketsCreditCardRevenues: "3",
+        tabsCashRevenues: "0",
+        tabsCreditCardRevenues: "0",
+      },
+    ],
+  },
+  {
+    type: "inventory_daily_report",
+    content: [
+      {
+        productName: "product",
+        quantitySold: "2",
+        stockThrown: "4",
+      },
+    ],
+  },
+  {
+    type: "general_purpose_daily_report",
+    content: [
+      {
+        "Cash Counted": "true",
+        "Report Z Taken": "true",
+      },
+    ],
+  },
+];
 
 //TODO:: test general
 describe("Report Operations Tests", function() {
@@ -26,7 +63,7 @@ describe("Report Operations Tests", function() {
   ];
   let records = [
     {
-      date: getSyncDateFormat(todayDate),
+      date: todayDate,
       numOfTabsSales: 2,
       cafeteriaCashRevenues: 2.2,
       cafeteriaCreditCardRevenues: 5.5,
@@ -37,7 +74,7 @@ describe("Report Operations Tests", function() {
       creatorEmployeeId: 1,
     },
     {
-      date: getSyncDateFormat(todayDate),
+      date: todayDate,
       productId: 0,
       quantitySold: 2,
       stockThrown: 4,
@@ -45,47 +82,11 @@ describe("Report Operations Tests", function() {
       creatorEmployeeId: 1,
     },
     {
-      date: getSyncDateFormat(todayDate),
+      date: todayDate,
       creatorEmployeeId: 1,
       allProps: ["Cash Counted", "Report Z Taken"],
       currentProps: ["Cash Counted", "Report Z Taken"],
       propsObject: { "Cash Counted": "true", "Report Z Taken": "true" },
-    },
-  ];
-
-  let reports = [
-    {
-      type: "incomes_daily_report",
-      content: [
-        {
-          numOfTabsSales: "2",
-          cafeteriaCashRevenues: "2.2",
-          cafeteriaCreditCardRevenues: "5.5",
-          ticketsCashRevenues: "4",
-          ticketsCreditCardRevenues: "3",
-          tabsCashRevenues: "0",
-          tabsCreditCardRevenues: "0",
-        },
-      ],
-    },
-    {
-      type: "inventory_daily_report",
-      content: [
-        {
-          productName: "product",
-          quantitySold: "2",
-          stockThrown: "4",
-        },
-      ],
-    },
-    {
-      type: "general_purpose_daily_report",
-      content: [
-        {
-          "Cash Counted": "true",
-          "Report Z Taken": "true",
-        },
-      ],
     },
   ];
 
@@ -145,12 +146,12 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Report Z Taken", user);
 
     let result = await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       user
     );
     expect(result).toBe("The product does not exist.");
-    let res = await service.addCategory("category", "admin", "");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -162,7 +163,7 @@ describe("Report Operations Tests", function() {
     );
 
     result = await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       user
     );
@@ -182,7 +183,7 @@ describe("Report Operations Tests", function() {
     service.login("username", "password");
 
     result = await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       "username"
     );
@@ -204,39 +205,7 @@ describe("Report Operations Tests", function() {
   it("getReport req 1.1.14, 2.5, 2.7", async function(done) {
     setTimeout(done, 5000);
 
-    let user = "admin";
-    service.login(user, user);
-
-    await service.addFieldToDailyReport("Cash Counted", user);
-    await service.addFieldToDailyReport("Report Z Taken", user);
-
-    await service.addCategory("category", "admin", "");
-    await service.addNewProduct(
-      "product",
-      "10",
-      "10",
-      "2",
-      "20",
-      "category",
-      "admin"
-    );
-
-    await service.addNewEmployee(
-      "username",
-      "password",
-      "first",
-      "last",
-      "MANAGER",
-      "contact",
-      user
-    );
-    service.login("username", "password");
-
-    await service.createDailyReport(
-      todayDate.toISOString(),
-      JSON.stringify(reports),
-      "username"
-    );
+    await createReport(service, todayDate, reports);
 
     //Get reports
 
@@ -249,15 +218,14 @@ describe("Report Operations Tests", function() {
     let reportsAfter = records;
     reportsAfter[1].productName = "product";
     for (let i in reportsAfter) {
-      reportsAfter[i].date = reportsAfter[i].date.toDateString();
       reportsAfter[i].creatorEmployeeName = "first last";
     }
 
     for (let i in types) {
       let result = await service.getReport(
         types[i],
-        todayDate.toISOString(),
-        todayDate.toISOString(),
+        todayDate,
+        todayDate,
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
@@ -296,7 +264,7 @@ describe("Report Operations Tests", function() {
     service.login("username", "password");
 
     await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       "username"
     );
@@ -310,8 +278,8 @@ describe("Report Operations Tests", function() {
     ];
 
     let result = await service.getFullDailyReport(
-      todayDate.toISOString(),
-      todayDate.toISOString(),
+      todayDate,
+      todayDate,
       "username"
     );
 
@@ -329,7 +297,7 @@ describe("Report Operations Tests", function() {
   }, 6000);
 
   it("Movies Report Event Buzz - create and get from DB", async () => {
-    let report = ReportController._MovieReportJson.slice(0, 5);
+    let report = csvToJson().slice(0, 5);
     let result = await ReportController.createMovieReport(report);
     expect(result).toBe(undefined);
     let reportAfter = report;
@@ -342,3 +310,36 @@ describe("Report Operations Tests", function() {
     }
   });
 });
+async function createReport(service, todayDate, costumeReports) {
+  let user = "admin";
+  service.login(user, user);
+  await service.addFieldToDailyReport("Cash Counted", user);
+  await service.addFieldToDailyReport("Report Z Taken", user);
+  await service.addCategory("category", "admin", "");
+  await service.addNewProduct(
+    "product",
+    "10",
+    "10",
+    "2",
+    "20",
+    "category",
+    "admin"
+  );
+  await service.addNewEmployee(
+    "username",
+    "password",
+    "first",
+    "last",
+    "MANAGER",
+    "contact",
+    user
+  );
+  service.login("username", "password");
+  await service.createDailyReport(
+    todayDate,
+    JSON.stringify(costumeReports ? costumeReports : reports),
+    "username"
+  );
+}
+
+exports.createReport = createReport;

@@ -3,20 +3,25 @@ import GridItem from "../../Components/Grid/GridItem";
 import GridContainer from "../../Components/Grid/GridContainer.js";
 import Card from "../../Components/Card/Card.js";
 import CardHeader from "../../Components/Card/CardHeader.js";
+import DownloadIcon from "@material-ui/icons/SaveAlt";
 import CardBody from "../../Components/Card/CardBody.js";
 import ComboBox from "../../Components/AutoComplete";
 import Button from "../../Components/CustomButtons/Button.js";
 import SelectDates from "../../Components/SelectDates";
+import Tooltip from "@material-ui/core/Tooltip";
 import ReportTable from "../../Components/Tables/ReportTable";
 import {
   handleGetReport,
-  HandleGetFullDailyReport
+  HandleGetFullDailyReport,
+  handleGetReportFile
 } from "../../Handlers/Handlers";
 import {
   reportsTypes,
   reportsPrettyTypes,
   reportsTypesInverseObj
 } from "../../consts/data";
+import { downloadActionHook } from "../../consts/data-hooks";
+import { IconButton } from "@material-ui/core";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class ShowReport extends React.Component {
@@ -70,6 +75,38 @@ export default class ShowReport extends React.Component {
       });
   };
 
+  handleDownloadReportFile = () => {
+    handleGetReportFile(
+      this.state.reportType,
+      this.state.fromDate,
+      this.state.toDate,
+      localStorage.getItem("username")
+    ).then(response => {
+      const fileName = response.headers.get("fileName");
+      if (fileName) {
+        response.blob().then(blob => {
+          if (blob) {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.setAttribute("hidden", "");
+            a.setAttribute("href", url);
+            a.setAttribute(
+              "download",
+              `${fileName} ${this.state.fromDate.toDateString()} - ${this.state.toDate.toDateString()}.xlsx`
+            );
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } else {
+            alert("Something went wrong..");
+          }
+        });
+      } else {
+        response.json().then(state => state.result && alert(state.result));
+      }
+    });
+  };
+
   renderReport = () => {
     const isFullReport = this.state.reportType === reportsTypes.Daily;
     if (!isFullReport) {
@@ -100,7 +137,7 @@ export default class ShowReport extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={11}>
+          <GridItem xs={12} sm={12} md={12}>
             <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show Report</h4>
@@ -143,6 +180,20 @@ export default class ShowReport extends React.Component {
                   >
                     Show report
                   </Button>
+                  {this.state.reportData &&
+                    this.state.reportType !== reportsTypes.Daily && (
+                      <Tooltip title="Download report" aria-label="show">
+                        <IconButton
+                          color="default"
+                          size="medium"
+                          onClick={this.handleDownloadReportFile}
+                          data-hook={downloadActionHook}
+                          style={{ marginLeft: "15px", marginTop: "10px" }}
+                        >
+                          <DownloadIcon />
+                        </IconButton>
+                      </Tooltip>
+                    )}
                 </div>
                 {this.state.reportType &&
                   this.state.fromDate &&
