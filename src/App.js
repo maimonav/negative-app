@@ -83,7 +83,7 @@ class App extends React.Component {
   render() {
     const { messageType } = this.state;
     if (messageType === "ERROR") {
-      return <ErrorPage />;
+      return <ErrorPage messageError={this.state.messageError} />;
     }
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
