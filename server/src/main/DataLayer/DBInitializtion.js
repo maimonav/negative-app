@@ -144,10 +144,7 @@ async function initDB(dbName, password) {
     {
       host: "localhost",
       dialect: "mysql",
-      dialectOptions: {
-        useUTC: false,
-      },
-      timezone: "+03:00",
+      timezone: "Asia/Jerusalem",
     }
   );
 
@@ -163,7 +160,7 @@ async function initDB(dbName, password) {
       JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
-      "DBInitializtion",
+      "DBInitialization",
       "initDB- authenticate",
       errId + " - " + errMsg
     );

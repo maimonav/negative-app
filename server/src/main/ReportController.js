@@ -203,13 +203,13 @@ class ReportController {
           );
           return "Report record date is invalid";
         }
-
+        let tomorrowDate = moment(records[i].date).toDate();
         records[i].date = moment(records[i].date).toDate();
         let requestedFromDateMidnight = moment(
           this._getSyncDateFormat(records[i].date)
         ).toDate();
         let requestedToDateTomorrowMidnight = moment(
-          records[i].date.setDate(records[i].date.getDate() + 1)
+          tomorrowDate.setDate(tomorrowDate.getDate() + 1)
         ).toDate();
         requestedToDateTomorrowMidnight = this._getSyncDateFormat(
           requestedToDateTomorrowMidnight
