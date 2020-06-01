@@ -10,6 +10,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const ReportController = require("./ReportController");
 const moment = require("moment");
+const NotificationController = require("./NotificationController");
 require("chromedriver");
 
 const reportPath = "MoviesReport.csv";
@@ -50,17 +51,21 @@ let json_ans = class {
       ) {
         output.push(event);
         if (dateCompare(date, new Date(2018, 5, 12))) {
-          // console.log("add the test movie report");
+          console.log("add the test movie report");
           addTheTest = true;
         }
       }
     }
     // console.log(output);
-    ReportController.createMovieReport(output);
+    let result = await ReportController.createMovieReport(output);
+    if (typeof result === "string") this.errorHandler(result);
   }
   //TODO
   static errorHandler(msg) {
     console.log(msg);
+    NotificationController.notifyEventBuzzError(
+      "There was a problem creating movies report\n" + msg
+    );
   }
 };
 
@@ -433,14 +438,14 @@ async function eventbuzzScript() {
       setTimeout(() => {
         downlowdReportMainFlow();
       }, 120000);
-    } catch {
+    } catch (error) {
       logger.writeToLog(
         "error",
         "EventBuzzScript",
         "eventbuzzScript",
         "The script fail to integrate to eventbuzz web"
       );
-      console.log("The script fail to integrate to eventbuzz web");
+      console.log("The script fail to integrate to eventbuzz web " + error);
       json_ans.errorHandler("The script fail to integrate to eventbuzz web");
     }
   });
