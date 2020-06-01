@@ -125,15 +125,18 @@ class ReportController {
     return { currentProps: [], allProps: [] };
   }
 
-  static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
+  //static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
   static _isValidDate(strDate) {
     let date = new Date(strDate);
     if (isNaN(date.valueOf())) return false;
-    let requestedDatePlusOneYear = this._getSyncDateFormat(
-      new Date(date.setFullYear(date.getFullYear() + 1))
-    );
-    return requestedDatePlusOneYear >= this._getSyncDateFormat(new Date());
+    // let requestedDatePlusOneYear = this._getSyncDateFormat(
+    //   new Date(date.setFullYear(date.getFullYear() + 1))
+    // );
+    let requestedDatePlusOneYear = date.setFullYear(date.getFullYear() + 1);
+    //let todayDate = this._getSyncDateFormat(new Date());
+    let todayDate = new Date();
+    return requestedDatePlusOneYear >= todayDate;
   }
 
   static _isValidType(type) {
@@ -205,7 +208,8 @@ class ReportController {
           return "Report record date is invalid";
         }
         records[i].date = new Date(
-          this._getSyncDateFormat(new Date(records[i].date))
+          records[i].date
+          //this._getSyncDateFormat(new Date(records[i].date))
         );
         let isDailyReportCreated = await DataBase.singleGetById(type, {
           date: records[i].date,
@@ -304,9 +308,10 @@ class ReportController {
       ];
     fromDate = new Date(fromDate);
     toDate = new Date(toDate);
-    let requestedFromDateMidnight = new Date(this._getSyncDateFormat(fromDate));
+    let requestedFromDateMidnight = new Date(fromDate); //this._getSyncDateFormat(fromDate));
     let requestedToDateTomorrowMidnight = new Date(
-      this._getSyncDateFormat(new Date(toDate.setDate(toDate.getDate() + 1)))
+      toDate.setDate(toDate.getDate() + 1)
+      //this._getSyncDateFormat(new Date(toDate.setDate(toDate.getDate() + 1)))
     );
     let where = {
       date: {
