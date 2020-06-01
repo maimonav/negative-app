@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const Http = require("http");
-const Https = require("https");
 const WebSocket = require("ws");
 const pino = require("express-pino-logger")();
 const ServiceLayer = require("./src/main/ServiceLayer");
@@ -23,7 +22,7 @@ const initResult = service.initServiceLayer(undefined, "admin123");
 
 NotificationController.setConnectionHandler(serverSocket, initResult);
 
-app.get("/", function(req, res) {
+app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 
