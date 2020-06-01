@@ -50,7 +50,6 @@ export default class NotificationHandler extends React.Component {
       view: false,
       newNotifications: 0,
       changeColor: false,
-      confirmMessage: false,
     };
   }
 
@@ -86,11 +85,13 @@ export default class NotificationHandler extends React.Component {
     const messageType = message.subtype;
     let content;
     let requiredQuantity;
+    let confirmButton;
     if (messageType === "AUTO LOGGED OUT") {
       window.location.reload();
     }
     if (confirmMessagesArray.includes(messageType)) {
       content = message.content;
+      confirmButton = true;
       this.setState({
         confirmMessage: true,
       });
@@ -99,6 +100,7 @@ export default class NotificationHandler extends React.Component {
       requiredQuantity = content.minQuantity
         ? content.minQuantity
         : content.maxQuantity;
+      confirmButton = false;
     }
     const date = moment(message.timeFired).format("LLLL");
     const notificationMessage = getNotificationMessage(
@@ -108,8 +110,10 @@ export default class NotificationHandler extends React.Component {
     );
     const notification = {
       name: notificationMessage,
+      type: messageType,
       hasUserView: isOld,
       notificationDate: date,
+      confirmMessage: confirmButton,
     };
     return notification;
   }
@@ -122,18 +126,23 @@ export default class NotificationHandler extends React.Component {
 
   updateNotifications() {
     const { messageContent } = this.props;
+    let newNumber;
     const notification = this.buildNotificationMessage(
       messageContent[0],
       false
     );
+    if (confirmMessagesArray.includes(messageContent[0].subtype)) {
+      newNumber = 1;
+    } else {
+      newNumber = messageContent[0].content.length;
+    }
     this.setState(
       {
         notifications: [notification, ...this.state.notifications],
       },
       () =>
         this.setState({
-          newNotifications:
-            this.state.newNotifications + messageContent[0].content.length,
+          newNotifications: this.state.newNotifications + newNumber,
         })
     );
   }
@@ -170,15 +179,17 @@ export default class NotificationHandler extends React.Component {
         },
       ])
     );
+
+    const updatedNotifications = this.state.notifications.map((not) =>
+      not.notificationDate === notificayionTimeFired
+        ? { ...not, confirmMessage: false }
+        : not
+    );
+    this.setState({ notifications: updatedNotifications });
   };
 
   render() {
-    const {
-      notifications,
-      view,
-      newNotifications,
-      confirmMessage,
-    } = this.state;
+    const { notifications, view, newNotifications } = this.state;
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
@@ -227,7 +238,7 @@ export default class NotificationHandler extends React.Component {
                           primary={notification.name}
                           secondary={notification.notificationDate}
                         />
-                        {confirmMessage && (
+                        {notification.confirmMessage && (
                           <>
                             <IconButton
                               onClick={() =>

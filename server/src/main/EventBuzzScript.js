@@ -46,8 +46,7 @@ let json_ans = class {
       let event = value[i];
       let date = moment(event.date, "DD-MM-YYYY HH:mm").toDate();
       if (
-        this.dateCompare(date, new Date()) ||
-        (this.dateCompare(date, new Date(2018, 10, 11)) && !addTheTest)
+        this.dateCompare(date, new Date())
       ) {
         output.push(event);
         if (dateCompare(date, new Date(2018, 5, 12))) {
@@ -195,7 +194,7 @@ function getRecentEmailreq(auth, i) {
     // Only get the recent email - 'maxResults' parameter
     gmail.users.messages.list(
       { auth: auth, userId: "me", maxResults: 1 },
-      function(err, response) {
+      function (err, response) {
         if (err) {
           console.log("The API returned an error: " + err);
           return;
@@ -214,7 +213,7 @@ function getRecentEmailreq(auth, i) {
         // Retreive the actual message using the message id
         gmail.users.messages.get(
           { auth: auth, userId: "me", id: message_id },
-          function(err, response) {
+          function (err, response) {
             if (err) {
               console.log("The API returned an error: " + err);
             } else {
@@ -382,7 +381,7 @@ async function download(url) {
 }
 
 async function eventbuzzScript() {
-  return new Promise(async function() {
+  return new Promise(async function () {
     try {
       let driver = await new Builder().forBrowser("chrome").build();
       driver
