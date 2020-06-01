@@ -75,7 +75,6 @@ export default class ShowReport extends React.Component {
       });
   };
 
-  //TODO: wip - need to send file name and handle when it doesn't work
   handleDownloadReportFile = () => {
     handleGetReportFile(
       this.state.reportType,
@@ -83,20 +82,28 @@ export default class ShowReport extends React.Component {
       this.state.toDate,
       localStorage.getItem("username")
     ).then(response => {
-      response.blob().then(blob => {
-        if (blob) {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.setAttribute("hidden", "");
-          a.setAttribute("href", url);
-          a.setAttribute("download", "Inventory Report.xlsx");
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } else {
-          alert("Something went wrong..");
-        }
-      });
+      const fileName = response.headers.get("fileName");
+      if (fileName) {
+        response.blob().then(blob => {
+          if (blob) {
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.setAttribute("hidden", "");
+            a.setAttribute("href", url);
+            a.setAttribute(
+              "download",
+              `${fileName} ${this.state.fromDate.toDateString()} - ${this.state.toDate.toDateString()}.xlsx`
+            );
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+          } else {
+            alert("Something went wrong..");
+          }
+        });
+      } else {
+        response.json().then(state => state.result && alert(state.result));
+      }
     });
   };
 

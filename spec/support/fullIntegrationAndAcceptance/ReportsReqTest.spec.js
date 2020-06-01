@@ -6,7 +6,6 @@ const { csvToJson } = require("../../../server/src/main/EventBuzzScript");
 const moment = require("moment");
 
 const {
-  getSyncDateFormat,
   testAddInventoryDailyReport,
   testAddIncomesDailyReport,
   testAddGeneralPurposeDailyReport,
@@ -64,7 +63,7 @@ describe("Report Operations Tests", function() {
   ];
   let records = [
     {
-      date: getSyncDateFormat(todayDate),
+      date: todayDate,
       numOfTabsSales: 2,
       cafeteriaCashRevenues: 2.2,
       cafeteriaCreditCardRevenues: 5.5,
@@ -75,7 +74,7 @@ describe("Report Operations Tests", function() {
       creatorEmployeeId: 1,
     },
     {
-      date: getSyncDateFormat(todayDate),
+      date: todayDate,
       productId: 0,
       quantitySold: 2,
       stockThrown: 4,
@@ -83,7 +82,7 @@ describe("Report Operations Tests", function() {
       creatorEmployeeId: 1,
     },
     {
-      date: getSyncDateFormat(todayDate),
+      date: todayDate,
       creatorEmployeeId: 1,
       allProps: ["Cash Counted", "Report Z Taken"],
       currentProps: ["Cash Counted", "Report Z Taken"],
@@ -147,12 +146,12 @@ describe("Report Operations Tests", function() {
     await service.addFieldToDailyReport("Report Z Taken", user);
 
     let result = await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       user
     );
     expect(result).toBe("The product does not exist.");
-    let res = await service.addCategory("category", "admin", "");
+    await service.addCategory("category", "admin", "");
     await service.addNewProduct(
       "product",
       "10",
@@ -164,7 +163,7 @@ describe("Report Operations Tests", function() {
     );
 
     result = await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       user
     );
@@ -184,7 +183,7 @@ describe("Report Operations Tests", function() {
     service.login("username", "password");
 
     result = await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       "username"
     );
@@ -219,15 +218,14 @@ describe("Report Operations Tests", function() {
     let reportsAfter = records;
     reportsAfter[1].productName = "product";
     for (let i in reportsAfter) {
-      reportsAfter[i].date = reportsAfter[i].date.toDateString();
       reportsAfter[i].creatorEmployeeName = "first last";
     }
 
     for (let i in types) {
       let result = await service.getReport(
         types[i],
-        todayDate.toISOString(),
-        todayDate.toISOString(),
+        todayDate,
+        todayDate,
         "username"
       );
       testFunctions[i](result[0], reportsAfter[i]);
@@ -266,7 +264,7 @@ describe("Report Operations Tests", function() {
     service.login("username", "password");
 
     await service.createDailyReport(
-      todayDate.toISOString(),
+      todayDate,
       JSON.stringify(reports),
       "username"
     );
@@ -280,8 +278,8 @@ describe("Report Operations Tests", function() {
     ];
 
     let result = await service.getFullDailyReport(
-      todayDate.toISOString(),
-      todayDate.toISOString(),
+      todayDate,
+      todayDate,
       "username"
     );
 
@@ -338,7 +336,7 @@ async function createReport(service, todayDate, costumeReports) {
   );
   service.login("username", "password");
   await service.createDailyReport(
-    todayDate.toISOString(),
+    todayDate,
     JSON.stringify(costumeReports ? costumeReports : reports),
     "username"
   );

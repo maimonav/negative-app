@@ -106,7 +106,7 @@ class ReportController {
     }
     if (result) {
       result = await DataBase.singleGetById(this._types.GENERAL, {
-        date: new Date(result[0].date),
+        date: moment(result[0].date).toDate(),
       });
       if (typeof result === "string") {
         DBlogger.writeToLog(
@@ -128,12 +128,11 @@ class ReportController {
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
   static _isValidDate(strDate) {
-    let date = new Date(strDate);
+    let date = moment(strDate).toDate();
     if (isNaN(date.valueOf())) return false;
-    let requestedDatePlusOneYear = this._getSyncDateFormat(
-      new Date(date.setFullYear(date.getFullYear() + 1))
-    );
-    return requestedDatePlusOneYear >= this._getSyncDateFormat(new Date());
+    let requestedDatePlusOneYear = date.setFullYear(date.getFullYear() + 1);
+    let todayDate = moment().toDate();
+    return requestedDatePlusOneYear >= todayDate;
   }
 
   static _isValidType(type) {
@@ -204,9 +203,7 @@ class ReportController {
           );
           return "Report record date is invalid";
         }
-        records[i].date = new Date(
-          this._getSyncDateFormat(new Date(records[i].date))
-        );
+        records[i].date = moment(records[i].date).toDate();
         let isDailyReportCreated = await DataBase.singleGetById(type, {
           date: records[i].date,
         });
@@ -289,7 +286,7 @@ class ReportController {
       return [
         {
           dataValues: {
-            date: new Date(),
+            date: moment().toDate(),
             name: "",
             location: "",
             numOfTicketsSales: "",
@@ -302,11 +299,16 @@ class ReportController {
           },
         },
       ];
-    fromDate = new Date(fromDate);
-    toDate = new Date(toDate);
-    let requestedFromDateMidnight = new Date(this._getSyncDateFormat(fromDate));
-    let requestedToDateTomorrowMidnight = new Date(
-      this._getSyncDateFormat(new Date(toDate.setDate(toDate.getDate() + 1)))
+    fromDate = moment(fromDate).toDate();
+    toDate = moment(toDate).toDate();
+    let requestedFromDateMidnight = moment(
+      this._getSyncDateFormat(fromDate)
+    ).toDate();
+    let requestedToDateTomorrowMidnight = moment(
+      toDate.setDate(toDate.getDate() + 1)
+    ).toDate();
+    requestedToDateTomorrowMidnight = this._getSyncDateFormat(
+      requestedToDateTomorrowMidnight
     );
     let where = {
       date: {
@@ -354,7 +356,7 @@ class ReportController {
 
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
-      { date: new Date(result.date) },
+      { date: moment(result.date).toDate() },
       { currentProps: newCurrentProps, allProps: newAllProps }
     );
     if (typeof result === "string") {
@@ -400,7 +402,7 @@ class ReportController {
 
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
-      { date: new Date(result.date) },
+      { date: moment(result.date).toDate() },
       { currentProps: newCurrentProps }
     );
     if (typeof result === "string") {
