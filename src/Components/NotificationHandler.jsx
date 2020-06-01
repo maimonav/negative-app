@@ -12,8 +12,10 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import moment from "moment";
 import { handleGetSeenNotifications } from "../Handlers/Handlers";
+import { socket } from "../App";
 
 function getNotificationMessage(type, content, requiredQuantity) {
   switch (type) {
@@ -23,28 +25,39 @@ function getNotificationMessage(type, content, requiredQuantity) {
       return `Warning: you have high quantity in product ${content.name}, required: ${requiredQuantity}, got ${content.quantity}`;
     case "MOVIE EXAMINATION":
       return `The following movies: ${content}, were reviewed and approved in the system`;
+    case "EXTERNAL SYSTEM":
+      return content;
+    case "SAVE NOTIFICATIONS":
+      return content;
+    case "GET NOTIFICATIONS":
+      return content;
     default:
       return "";
   }
 }
 
+const confirmMessagesArray = [
+  "EXTERNAL SYSTEM",
+  "SAVE NOTIFICATIONS",
+  "GET NOTIFICATIONS",
+];
+
 export default class NotificationHandler extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      render: false,
       notifications: [],
       view: false,
       newNotifications: 0,
       changeColor: false,
+      confirmMessage: false,
     };
   }
 
   componentDidMount() {
-    console.log("this.props.userName:", this.props.userName);
-    if (this.props.userName) {
-      console.log("enter");
-      handleGetSeenNotifications(this.props.userName)
+    const { userName } = this.props;
+    if (userName) {
+      handleGetSeenNotifications(userName)
         .then((response) => response.json())
         .then((state) => {
           this.setState({ messages: state.result }, () =>
@@ -70,13 +83,26 @@ export default class NotificationHandler extends React.Component {
   }
 
   buildNotificationMessage(message, isOld) {
+    const messageType = message.subtype;
+    let content;
+    let requiredQuantity;
+    if (messageType === "AUTO LOGGED OUT") {
+      window.location.reload();
+    }
+    if (confirmMessagesArray.includes(messageType)) {
+      content = message.content;
+      this.setState({
+        confirmMessage: true,
+      });
+    } else {
+      content = message.content[0];
+      requiredQuantity = content.minQuantity
+        ? content.minQuantity
+        : content.maxQuantity;
+    }
     const date = moment(message.timeFired).format("LLLL");
-    const content = message.content[0];
-    const requiredQuantity = content.minQuantity
-      ? content.minQuantity
-      : content.maxQuantity;
     const notificationMessage = getNotificationMessage(
-      message.subtype,
+      messageType,
       content,
       requiredQuantity
     );
@@ -89,16 +115,8 @@ export default class NotificationHandler extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log("prev:", prevProps.userName);
-    console.log("now:", this.props.userName);
-    if (prevProps.userName !== this.props.userName) {
-      console.log("user name changed");
-    }
     if (prevProps.messageContent !== this.props.messageContent) {
       this.updateNotifications();
-      this.setState({
-        render: true,
-      });
     }
   }
 
@@ -141,8 +159,26 @@ export default class NotificationHandler extends React.Component {
     this.setState({ view: false, newNotifications: 0, notifications });
   };
 
+  handleConfirm = (notificayionTimeFired) => {
+    const time = moment(notificayionTimeFired).format();
+    socket.send(
+      JSON.stringify([
+        {
+          type: "INFO",
+          subtype: "CONFIRM",
+          timeFired: time,
+        },
+      ])
+    );
+  };
+
   render() {
-    const { notifications, view, newNotifications } = this.state;
+    const {
+      notifications,
+      view,
+      newNotifications,
+      confirmMessage,
+    } = this.state;
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
@@ -168,7 +204,7 @@ export default class NotificationHandler extends React.Component {
                 horizontal: "center",
               }}
             >
-              <List style={{ width: 350 }}>
+              <List style={{ width: 400 }}>
                 <h3
                   style={{ fontSize: 20, marginLeft: "10px", color: "#6495ED" }}
                 >
@@ -191,6 +227,23 @@ export default class NotificationHandler extends React.Component {
                           primary={notification.name}
                           secondary={notification.notificationDate}
                         />
+                        {confirmMessage && (
+                          <>
+                            <IconButton
+                              onClick={() =>
+                                this.handleConfirm(
+                                  notification.notificationDate
+                                )
+                              }
+                              color="inherit"
+                              aria-label="add to shopping cart"
+                            >
+                              <Avatar>
+                                <CheckBoxIcon />
+                              </Avatar>
+                            </IconButton>
+                          </>
+                        )}
                       </ListItem>
                       <Divider variant="inset" component="li" />
                     </Box>
