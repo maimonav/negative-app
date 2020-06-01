@@ -839,7 +839,7 @@ export function handleEditMovieOrder(orderId, orderDate, updatedMovies) {
  */
 export function handleCreateDailyReports(reports) {
   const user = localStorage.getItem("username");
-  const date = new Date();
+  const date = moment().toDate();
   reports = JSON.stringify(reports);
   fetch(
     `api/createDailyReport?date=${encodeURIComponent(
