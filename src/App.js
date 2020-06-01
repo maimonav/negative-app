@@ -20,6 +20,7 @@ class App extends React.Component {
     const user = localStorage.getItem("username");
     const permission = localStorage.getItem("permission");
     if (user) {
+      console.log("user:", user);
       handleIsLoggedIn(user)
         .then((response) => response.json())
         .then((state) => {
@@ -47,12 +48,7 @@ class App extends React.Component {
 
     socket.onclose = () => {
       console.log("disconnected");
-      //For now, this is our way to know when the server is disconnected
-      this.setState({
-        isLogged: false,
-        username: undefined,
-        permission: undefined,
-      });
+      this.onLogout();
     };
   }
 

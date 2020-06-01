@@ -41,13 +41,17 @@ export default class NotificationHandler extends React.Component {
   }
 
   componentDidMount() {
-    handleGetSeenNotifications()
-      .then((response) => response.json())
-      .then((state) => {
-        this.setState({ messages: state.result }, () =>
-          this.createNotificationArray()
-        );
-      });
+    console.log("this.props.userName:", this.props.userName);
+    if (this.props.userName) {
+      console.log("enter");
+      handleGetSeenNotifications(this.props.userName)
+        .then((response) => response.json())
+        .then((state) => {
+          this.setState({ messages: state.result }, () =>
+            this.createNotificationArray()
+          );
+        });
+    }
   }
 
   createNotificationArray() {
@@ -85,6 +89,11 @@ export default class NotificationHandler extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+    console.log("prev:", prevProps.userName);
+    console.log("now:", this.props.userName);
+    if (prevProps.userName !== this.props.userName) {
+      console.log("user name changed");
+    }
     if (prevProps.messageContent !== this.props.messageContent) {
       this.updateNotifications();
       this.setState({

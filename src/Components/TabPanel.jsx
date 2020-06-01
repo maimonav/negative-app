@@ -17,7 +17,7 @@ import {
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook
+  reportsActionsTabHook,
 } from "../consts/data-hooks";
 import { logFilePath } from "../consts/paths";
 import { isAdmin } from "../consts/permissions";
@@ -32,7 +32,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px"
+                marginLeft: "15px",
               }}
             />
           )}
@@ -78,6 +78,8 @@ export default function TablPanel(props) {
               <NotificationHandler
                 messageType={props.messageType}
                 messageContent={props.messageContent}
+                isUserLogged={props.isLogged}
+                userName={props.userName}
                 data-hook={notificationTabHook}
               />
             </div>

@@ -881,10 +881,10 @@ export function HandleGetFullDailyReport(fromDate, toDate, user) {
 }
 
 /**
- * Handle get fields general daily report
- * @returns {Promise(Array)} Success - array, Failure - string error message
+ * Handle get fields ld notifications
+ * @returns {Promise(Array)} Success - array
  */
-export function handleGetSeenNotifications() {
-  const user = localStorage.getItem("username");
+export function handleGetSeenNotifications(user) {
+  console.log("user:", user);
   return fetch(`api/getSeenNotifications?user=${encodeURIComponent(user)}`);
 }
