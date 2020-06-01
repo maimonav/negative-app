@@ -55,7 +55,7 @@ let reports = [
 describe("Report Operations Tests", function() {
   let service = new ServiceLayer();
   let dbName = "reporttest";
-  let todayDate = new Date();
+  let todayDate = moment().toDate();
   let types = [
     "incomes_daily_report",
     "inventory_daily_report",
