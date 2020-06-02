@@ -1,6 +1,7 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
-import { Login, ErrorPage } from "./Views";
+import { Login } from "./Views";
+import { errorPagePath } from "./consts/paths";
 import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
 
 export const socket = new WebSocket("ws://localhost:3001");
@@ -12,7 +13,7 @@ class App extends React.Component {
       messageType: "",
       messageContent: "",
       messageError: "",
-      disableTabs: false,
+      disableTabs: false
     };
     this.setInitialState();
   }
@@ -22,8 +23,8 @@ class App extends React.Component {
     const permission = localStorage.getItem("permission");
     if (user) {
       handleIsLoggedIn(user)
-        .then((response) => response.json())
-        .then((state) => {
+        .then(response => response.json())
+        .then(state => {
           const isLogged = Boolean(state.result);
           const username = isLogged ? user : "";
           this.setState({ isLogged, username, permission });
@@ -31,12 +32,12 @@ class App extends React.Component {
     }
   };
 
-  componentDidMount() {
+  componentDidMount = () => {
     socket.onopen = () => {
       console.log("connected");
     };
 
-    socket.onmessage = (evt) => {
+    socket.onmessage = evt => {
       const message = JSON.parse(evt.data);
       console.log("message:", message);
       if (message[0].type === "INFO") {
@@ -45,7 +46,7 @@ class App extends React.Component {
         this.setState({
           messageType: "ERROR",
           messageError: message,
-          disableTabs: true,
+          disableTabs: true
         });
       }
     };
@@ -54,7 +55,7 @@ class App extends React.Component {
       console.log("disconnected");
       this.onLogout();
     };
-  }
+  };
 
   /**
    * Login to system
@@ -67,6 +68,11 @@ class App extends React.Component {
     this.setState({ isLogged: true, username, permission });
     localStorage.setItem("username", username);
     localStorage.setItem("permission", permission);
+
+    if (!this.state.errorPage) {
+      window.location.href = errorPagePath;
+      this.setState({ errorPage: true });
+    }
   };
 
   /**
@@ -78,7 +84,7 @@ class App extends React.Component {
     this.setState({
       isLogged: false,
       username: undefined,
-      permission: undefined,
+      permission: undefined
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");
@@ -92,7 +98,7 @@ class App extends React.Component {
       permission,
       messageContent,
       messageError,
-      disableTabs,
+      disableTabs
     } = this.state;
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;

@@ -17,10 +17,9 @@ import {
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook,
+  reportsActionsTabHook
 } from "../consts/data-hooks";
-import { logFilePath, errorPagePath } from "../consts/paths";
-import { ErrorPage } from "../Views";
+import { logFilePath } from "../consts/paths";
 import { isAdmin } from "../consts/permissions";
 
 export default function TablPanel(props) {
@@ -33,7 +32,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px",
+                marginLeft: "15px"
               }}
             />
           )}
@@ -59,15 +58,6 @@ export default function TablPanel(props) {
               disabled={props.disableTabs}
             />
           )}
-          {props.messageType === "ERROR" && (
-            <Link to={errorPagePath}>
-              {/* <ErrorPage
-                messageError={props.messageError}
-                userName={props.username}
-                permission={props.permission}
-              /> */}
-            </Link>
-          )}
           {props.isLogged && (
             <>
               <Link
@@ -75,7 +65,7 @@ export default function TablPanel(props) {
                 style={{
                   textDecoration: "none",
                   marginLeft: "auto",
-                  marginRight: "30px",
+                  marginRight: "30px"
                 }}
               >
                 {isAdmin(props.permission) && (
