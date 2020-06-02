@@ -20,7 +20,6 @@ class App extends React.Component {
     const user = localStorage.getItem("username");
     const permission = localStorage.getItem("permission");
     if (user) {
-      console.log("user:", user);
       handleIsLoggedIn(user)
         .then((response) => response.json())
         .then((state) => {
@@ -81,22 +80,35 @@ class App extends React.Component {
   };
 
   render() {
-    const { messageType } = this.state;
-    if (messageType === "ERROR") {
-      return <ErrorPage messageError={this.state.messageError} />;
-    }
+    const {
+      messageType,
+      isLogged,
+      username,
+      permission,
+      messageContent,
+      messageError,
+    } = this.state;
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
+    }
+    if (messageType === "ERROR") {
+      return (
+        <ErrorPage
+          messageError={messageError}
+          userName={username}
+          permission={permission}
+        />
+      );
     } else {
       return (
         <TabPanel
-          isLogged={this.state.isLogged}
+          isLogged={isLogged}
           onLogin={this.onLogin}
           onLogout={this.onLogout}
-          userName={this.state.username}
-          permission={this.state.permission}
-          messageType={this.state.messageType}
-          messageContent={this.state.messageContent}
+          userName={username}
+          permission={permission}
+          messageType={messageType}
+          messageContent={messageContent}
         ></TabPanel>
       );
     }

@@ -62,11 +62,7 @@ export default function TablPanel(props) {
                 style={{ marginLeft: "auto", marginRight: "30px" }}
               >
                 {isAdmin(props.permission) && (
-                  <IconButton
-                    color="inherit"
-                    aria-label="logFile"
-                    //data-hook={logoutTabHook}
-                  >
+                  <IconButton color="inherit" aria-label="logFile">
                     <DescriptionIcon />
                   </IconButton>
                 )}
@@ -90,7 +86,7 @@ export default function TablPanel(props) {
                 style={{ marginRight: "30px" }}
                 onClick={() => handleLogout(props.onLogout)}
                 color="inherit"
-                aria-label="add to shopping cart"
+                aria-label="log out"
                 data-hook={logoutTabHook}
               >
                 <LogoutIcon />
