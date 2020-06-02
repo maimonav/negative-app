@@ -69,10 +69,10 @@ class App extends React.Component {
     localStorage.setItem("username", username);
     localStorage.setItem("permission", permission);
 
-    if (!this.state.errorPage) {
-      window.location.href = errorPagePath;
-      this.setState({ errorPage: true });
-    }
+    // if (!this.state.errorPage) {
+    //   window.location.href = errorPagePath;
+    //   this.setState({ errorPage: true });
+    // }
   };
 
   /**
