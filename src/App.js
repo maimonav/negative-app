@@ -12,6 +12,7 @@ class App extends React.Component {
       messageType: "",
       messageContent: "",
       messageError: "",
+      disableTabs: false,
     };
     this.setInitialState();
   }
@@ -41,7 +42,11 @@ class App extends React.Component {
       if (message[0].type === "INFO") {
         this.setState({ messageType: "INFO", messageContent: message });
       } else if (message[0].type === "ERROR") {
-        this.setState({ messageType: "ERROR", messageError: message });
+        this.setState({
+          messageType: "ERROR",
+          messageError: message,
+          disableTabs: true,
+        });
       }
     };
 
@@ -87,19 +92,21 @@ class App extends React.Component {
       permission,
       messageContent,
       messageError,
+      disableTabs,
     } = this.state;
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
     }
-    if (messageType === "ERROR") {
-      return (
-        <ErrorPage
-          messageError={messageError}
-          userName={username}
-          permission={permission}
-        />
-      );
-    } else {
+    // if (messageType === "ERROR") {
+    //   return (
+    //     <ErrorPage
+    //       messageError={messageError}
+    //       userName={username}
+    //       permission={permission}
+    //     />
+    //   );
+    // }
+    else {
       return (
         <TabPanel
           isLogged={isLogged}
@@ -109,6 +116,7 @@ class App extends React.Component {
           permission={permission}
           messageType={messageType}
           messageContent={messageContent}
+          disableTabs={disableTabs}
         ></TabPanel>
       );
     }
