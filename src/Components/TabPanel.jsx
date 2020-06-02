@@ -19,7 +19,8 @@ import {
   notificationTabHook,
   reportsActionsTabHook,
 } from "../consts/data-hooks";
-import { logFilePath } from "../consts/paths";
+import { logFilePath, errorPagePath } from "../consts/paths";
+import { ErrorPage } from "../Views";
 import { isAdmin } from "../consts/permissions";
 
 export default function TablPanel(props) {
@@ -40,12 +41,14 @@ export default function TablPanel(props) {
             <UserActionsDropDownTab
               data-hook={userActionsTabHook}
               permission={props.permission}
+              disabled={props.disableTabs}
             />
           )}
           {props.isLogged && (
             <InventoryActionsDropDownTab
               data-hook={inventoryActionsTabHook}
               permission={props.permission}
+              disabled={props.disableTabs}
             />
           )}
 
@@ -53,20 +56,30 @@ export default function TablPanel(props) {
             <ReportsActionsDropDownTab
               data-hook={reportsActionsTabHook}
               permission={props.permission}
+              disabled={props.disableTabs}
             />
+          )}
+          {props.messageType === "ERROR" && (
+            <Link to={errorPagePath}>
+              {/* <ErrorPage
+                messageError={props.messageError}
+                userName={props.username}
+                permission={props.permission}
+              /> */}
+            </Link>
           )}
           {props.isLogged && (
             <>
               <Link
                 to={logFilePath}
-                style={{ marginLeft: "auto", marginRight: "30px" }}
+                style={{
+                  textDecoration: "none",
+                  marginLeft: "auto",
+                  marginRight: "30px",
+                }}
               >
                 {isAdmin(props.permission) && (
-                  <IconButton
-                    color="inherit"
-                    aria-label="logFile"
-                    //data-hook={logoutTabHook}
-                  >
+                  <IconButton color="inherit" aria-label="logFile">
                     <DescriptionIcon />
                   </IconButton>
                 )}
@@ -90,7 +103,7 @@ export default function TablPanel(props) {
                 style={{ marginRight: "30px" }}
                 onClick={() => handleLogout(props.onLogout)}
                 color="inherit"
-                aria-label="add to shopping cart"
+                aria-label="log out"
                 data-hook={logoutTabHook}
               >
                 <LogoutIcon />

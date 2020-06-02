@@ -568,10 +568,10 @@ app.get("/api/getReportFile", async (req, res) => {
   );
   if (typeof result !== "string") {
     const fileName = result[0];
-    const relativeFilePath = fileName => `/src/main/reports/${fileName}.xlsx`;
+    const relativeFilePath = (fileName) => `/src/main/reports/${fileName}.xlsx`;
     const filePath = path.join(__dirname, relativeFilePath(fileName));
     res.setHeader("fileName", fileName);
-    res.download(filePath, fileName, err => {
+    res.download(filePath, fileName, (err) => {
       try {
         fs.unlink(filePath, () => {});
       } catch (error) {
@@ -586,4 +586,12 @@ app.get("/api/getReportFile", async (req, res) => {
   } else {
     res.send(JSON.stringify({ result }));
   }
+});
+
+app.get("/api/getLogContent", async (req, res) => {
+  const type = (req.query.type && req.query.type.trim()) || "";
+  console.log("type2:", type);
+  const result = await service.getLogContent(type);
+  console.log("result:", result);
+  res.send(JSON.stringify({ result }));
 });

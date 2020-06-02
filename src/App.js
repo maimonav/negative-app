@@ -12,6 +12,7 @@ class App extends React.Component {
       messageType: "",
       messageContent: "",
       messageError: "",
+      disableTabs: false,
     };
     this.setInitialState();
   }
@@ -20,7 +21,6 @@ class App extends React.Component {
     const user = localStorage.getItem("username");
     const permission = localStorage.getItem("permission");
     if (user) {
-      console.log("user:", user);
       handleIsLoggedIn(user)
         .then((response) => response.json())
         .then((state) => {
@@ -42,7 +42,11 @@ class App extends React.Component {
       if (message[0].type === "INFO") {
         this.setState({ messageType: "INFO", messageContent: message });
       } else if (message[0].type === "ERROR") {
-        this.setState({ messageType: "ERROR", messageError: message });
+        this.setState({
+          messageType: "ERROR",
+          messageError: message,
+          disableTabs: true,
+        });
       }
     };
 
@@ -81,22 +85,38 @@ class App extends React.Component {
   };
 
   render() {
-    const { messageType } = this.state;
-    if (messageType === "ERROR") {
-      return <ErrorPage messageError={this.state.messageError} />;
-    }
+    const {
+      messageType,
+      isLogged,
+      username,
+      permission,
+      messageContent,
+      messageError,
+      disableTabs,
+    } = this.state;
     if (!this.state.isLogged) {
       return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
-    } else {
+    }
+    // if (messageType === "ERROR") {
+    //   return (
+    //     <ErrorPage
+    //       messageError={messageError}
+    //       userName={username}
+    //       permission={permission}
+    //     />
+    //   );
+    // }
+    else {
       return (
         <TabPanel
-          isLogged={this.state.isLogged}
+          isLogged={isLogged}
           onLogin={this.onLogin}
           onLogout={this.onLogout}
-          userName={this.state.username}
-          permission={this.state.permission}
-          messageType={this.state.messageType}
-          messageContent={this.state.messageContent}
+          userName={username}
+          permission={permission}
+          messageType={messageType}
+          messageContent={messageContent}
+          disableTabs={disableTabs}
         ></TabPanel>
       );
     }

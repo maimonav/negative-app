@@ -45,9 +45,7 @@ let json_ans = class {
     for (let i = 0; i < 100; i++) {
       let event = value[i];
       let date = moment(event.date, "DD-MM-YYYY HH:mm").toDate();
-      if (
-        this.dateCompare(date, new Date())
-      ) {
+      if (this.dateCompare(date, new Date())) {
         output.push(event);
         if (dateCompare(date, new Date(2018, 5, 12))) {
           console.log("add the test movie report");
@@ -62,6 +60,7 @@ let json_ans = class {
   //TODO
   static errorHandler(msg) {
     console.log(msg);
+    logger.writeToLog("error", "EventBuzzScript", "errorHandler", msg);
     NotificationController.notifyEventBuzzError(
       "There was a problem creating movies report\n" + msg
     );
@@ -176,12 +175,6 @@ function getRecentEmailreq(auth, i) {
     //if all 15 attempts fail stop trying
     if (i > 15) {
       //add to log file
-      logger.writeToLog(
-        "error",
-        "EventBuzzScript",
-        "eventbuzzScript",
-        "The download of the movie report fail - all the 15 tries fail"
-      );
       console.log(
         "The download of the movie report fail - all the 15 tries fail"
       );
@@ -194,7 +187,7 @@ function getRecentEmailreq(auth, i) {
     // Only get the recent email - 'maxResults' parameter
     gmail.users.messages.list(
       { auth: auth, userId: "me", maxResults: 1 },
-      function (err, response) {
+      function(err, response) {
         if (err) {
           console.log("The API returned an error: " + err);
           return;
@@ -213,7 +206,7 @@ function getRecentEmailreq(auth, i) {
         // Retreive the actual message using the message id
         gmail.users.messages.get(
           { auth: auth, userId: "me", id: message_id },
-          function (err, response) {
+          function(err, response) {
             if (err) {
               console.log("The API returned an error: " + err);
             } else {
@@ -250,12 +243,6 @@ function getRecentEmailreq(auth, i) {
       }
     );
   } catch {
-    logger.writeToLog(
-      "error",
-      "EventBuzzScript",
-      "eventbuzzScript",
-      "The download of the movie report fail"
-    );
     console.log("The download of the movie report fail");
     json_ans.errorHandler("The download of the movie report fail");
   }
@@ -277,12 +264,6 @@ function msgProcessor(data) {
       }, 90000)
     );
   } catch {
-    logger.writeToLog(
-      "error",
-      "EventScript",
-      "msgProcessor",
-      "The msg processor fail"
-    );
     json_ans.errorHandler("The msg processor fail");
     return;
   }
@@ -333,7 +314,7 @@ function getValueFormatByType(value) {
 
 function csvToJson() {
   if (!reportPath) {
-    logger.writeToLog("inputFileName is not defined!!!");
+    json_ans.errorHandler("inputFileName is not defined!!!");
   }
   let parsedCsv = fs.readFileSync("server/src/main/" + reportPath).toString();
   let lines = parsedCsv.split("\n");
@@ -381,7 +362,7 @@ async function download(url) {
 }
 
 async function eventbuzzScript() {
-  return new Promise(async function () {
+  return new Promise(async function() {
     try {
       let driver = await new Builder().forBrowser("chrome").build();
       driver
@@ -425,12 +406,6 @@ async function eventbuzzScript() {
         .click();
       await driver.sleep(5000);
       driver.close();
-      logger.writeToLog(
-        "info",
-        "EventBuzzScript",
-        "eventbuzzScript",
-        "end the integration with the eventbuzz Web. Begin with the download step"
-      );
       console.log(
         "The EventBuzzScript - end the integration with the eventbuzz Web. Begin with the download step"
       );
@@ -438,12 +413,6 @@ async function eventbuzzScript() {
         downlowdReportMainFlow();
       }, 120000);
     } catch (error) {
-      logger.writeToLog(
-        "error",
-        "EventBuzzScript",
-        "eventbuzzScript",
-        "The script fail to integrate to eventbuzz web"
-      );
       console.log("The script fail to integrate to eventbuzz web " + error);
       json_ans.errorHandler("The script fail to integrate to eventbuzz web");
     }

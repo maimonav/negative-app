@@ -91,10 +91,7 @@ export default class NotificationHandler extends React.Component {
     }
     if (confirmMessagesArray.includes(messageType)) {
       content = message.content;
-      confirmButton = true;
-      this.setState({
-        confirmMessage: true,
-      });
+      confirmButton = isOld ? false : true;
     } else {
       content = message.content[0];
       requiredQuantity = content.minQuantity

@@ -919,3 +919,14 @@ export function handleGetSeenNotifications(user) {
     `api/getSeenNotifications?user=${encodeURIComponent(user)}`
   ).then((response) => _handleConnectionError(response, response));
 }
+
+/**
+ * Handle get log content
+ * @returns {Promise(Array)} Success - array
+ */
+export function handleGetLogContent(type) {
+  console.log("type1:", type);
+  return fetch(
+    `api/getLogContent?type=${encodeURIComponent(type)}`
+  ).then((response) => _handleConnectionError(response, response));
+}
