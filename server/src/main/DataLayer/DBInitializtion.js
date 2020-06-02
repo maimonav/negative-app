@@ -144,7 +144,7 @@ async function initDB(dbName, password) {
     {
       host: "localhost",
       dialect: "mysql",
-      timezone: "Asia/Jerusalem",
+      timezone: "+03:00",
     }
   );
 
