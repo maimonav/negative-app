@@ -42,14 +42,15 @@ class NotificationController {
         this._sendAllNotificationsToUserFromDB(userId, socketClient);
 
       socketClient.on("message", async (message) => {
-        message = JSON.parse(message);
+        console.log(message);
+        let content = JSON.parse(message);
+        console.log(content);
         if (
           message.type &&
           message.type === "ERROR" &&
           message.subtype &&
           message.subtype === "CONFIRM"
         ) {
-          let content = JSON.parse(message);
           await DataBase.singleUpdate(
             "notification",
             { timeFired: content.timeFired },
