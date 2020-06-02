@@ -2192,7 +2192,7 @@ class ServiceLayer {
       case "db":
         return DBlogger.readLog(year);
       default:
-        logger.readLog(year);
+        return logger.readLog(year);
     }
   }
   writeToLog(type, functionName, msg) {
