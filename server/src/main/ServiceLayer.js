@@ -1441,7 +1441,7 @@ class ServiceLayer {
     if (typeof problematicQuantityName !== "undefined")
       return (
         "The product " +
-        product.name +
+        problematicProductName +
         "'s quantity received is not a number type"
       );
 
