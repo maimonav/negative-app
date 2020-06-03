@@ -26,7 +26,7 @@ import {
 const order = "order";
 const product = "product";
 const price = "20";
-const quantity = "100";
+const quantity = "80";
 const min = "20";
 const max = "100";
 const category = "category";
@@ -107,19 +107,16 @@ function addOrder() {
     .type("{enter}")
     .type("{esc}");
 
+  cy.get(`[data-hook=${productQuantityHook}]`)
+    .click()
+    .type(quantity);
+
+  cy.get(`#addProduct`).click();
+  cy.get(`#finishAddProducts`).click();
+
   cy.get(`[data-hook=${actionButtonHook}]`).click();
 
-  cy.get("#edit").click();
-
-  cy.get(
-    "#root > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div > div > div.makeStyles-cardBody-788 > div:nth-child(3) > div > div > div.Component-horizontalScrollContainer-1308 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(3)"
-  )
-    .click()
-    .type("10");
-
-  cy.get("#check").click();
-
-  cy.get("#editTableButton").click();
+  // cy.get("#editTableButton").click();
 
   cy.get(`[data-hook=${userNameHook}`)
     .click()
