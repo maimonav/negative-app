@@ -12,7 +12,7 @@ import {
   editActionHook,
   removeActionHook,
   showActionHook,
-  categoriesTabHook
+  categoriesTabHook,
 } from "../../../src/consts/data-hooks";
 
 const product = "product";
@@ -204,7 +204,7 @@ context("Manage Products", () => {
     cy.get(`[data-hook=${actionButtonHook}]`).click();
   });
 
-  it.only("edit product by shift manager", () => {
+  it("edit product by shift manager", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(categoriesTabHook);
     cy.chooseAction(addActionHook);
@@ -293,7 +293,7 @@ context("Manage Products", () => {
       .type("{enter}");
   });
 
-  it.only("remove product", () => {
+  it("remove product", () => {
     cy.accessTab(inventoryActionsTabHook);
     cy.accessTab(inventoryTabHook);
     cy.chooseAction(removeActionHook);
