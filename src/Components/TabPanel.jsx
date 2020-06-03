@@ -64,6 +64,7 @@ export default function TablPanel(props) {
                 to={logFilePath}
                 style={{
                   textDecoration: "none",
+                  color: "black",
                   marginLeft: "auto",
                   marginRight: "30px",
                 }}
