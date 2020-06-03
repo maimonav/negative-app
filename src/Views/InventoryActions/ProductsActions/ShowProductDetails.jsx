@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaProducts,
-  handleGetProductDetails
+  handleGetProductDetails,
 } from "../../../Handlers/Handlers";
 import { productNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -19,29 +19,32 @@ export default class ShowProductDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: ""
+      productName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaProducts()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ products: state.result });
       });
   };
 
-  setProductName = productName => {
+  setProductName = (productName) => {
     this.setState({ productName });
     handleGetProductDetails(productName)
-      .then(response => response.json())
-      .then(state => {
-        this.setState({ productName: state.result });
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ productName: state.result }, () =>
+          console.log("product:", this.state.productName)
+        );
       });
   };
 
   render() {
+    const { productName } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -68,9 +71,9 @@ export default class ShowProductDetails extends React.Component {
                       id="field1"
                       defaultValue=""
                       label="productName"
-                      value={this.state.productName.productName || ""}
+                      value={productName.productName || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -79,9 +82,9 @@ export default class ShowProductDetails extends React.Component {
                       id="field2"
                       defaultValue=""
                       label="Product Category"
-                      value={this.state.productName.productCategory || ""}
+                      value={productName.productCategory || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -90,9 +93,9 @@ export default class ShowProductDetails extends React.Component {
                       id="field3"
                       defaultValue=""
                       label="Product Price"
-                      value={this.state.productName.productPrice || ""}
+                      value={productName.productPrice || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -101,9 +104,13 @@ export default class ShowProductDetails extends React.Component {
                       id="field4"
                       defaultValue=""
                       label="Product Quantity"
-                      value={this.state.productName.productQuantity || ""}
+                      value={
+                        productName.productQuantity
+                          ? productName.productQuantity
+                          : 0
+                      }
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -112,9 +119,13 @@ export default class ShowProductDetails extends React.Component {
                       id="field5"
                       defaultValue=""
                       label="Product Max Quantity"
-                      value={this.state.productName.productMaxQuantity || ""}
+                      value={
+                        productName.productMaxQuantity
+                          ? productName.productMaxQuantity
+                          : 0
+                      }
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -123,9 +134,13 @@ export default class ShowProductDetails extends React.Component {
                       id="field6"
                       defaultValue=""
                       label="Product Mim Quantity"
-                      value={this.state.productName.productMimQuantity || ""}
+                      value={
+                        productName.productMimQuantity
+                          ? productName.productMimQuantity
+                          : 0
+                      }
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"

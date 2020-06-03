@@ -99,8 +99,12 @@ export default class AddCafeteriaOrder extends React.Component {
   ];
 
   validateInput() {
+    console.log("quantity:", this.state.quantity);
     if (this.state.quantity === "" || this.state.product === "") {
       alert("product and quantity are required");
+      this.checkValidate = false;
+    } else if (this.state.quantity === "0") {
+      alert("product quantity must be greater than 0");
       this.checkValidate = false;
     } else {
       this.checkValidate = true;
