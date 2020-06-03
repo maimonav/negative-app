@@ -70,6 +70,26 @@ class App extends React.Component {
     localStorage.setItem("username", username);
     localStorage.setItem("permission", permission);
 
+    if (username === "s") {
+      this.setState({
+        messageType: "INFO",
+        messageContent: [
+          {
+            type: "INFO",
+            subtype: "HIGH QUANTITY",
+            timeFired: "2020-05-19T09:50:14.423Z",
+            content: [
+              {
+                name: "product",
+                quantity: 10,
+                maxQuantity: 10,
+              },
+            ],
+          },
+        ],
+      });
+    }
+
     const { messageType, errorPage } = this.state;
     if (messageType === "ERROR" && !errorPage && username === "admin") {
       window.location.href = errorPagePath;
@@ -111,7 +131,13 @@ class App extends React.Component {
       disableTabs,
     } = this.state;
     if (!this.state.isLogged) {
-      return <Login handleLogin={handleLogin} onLogin={this.onLogin} />;
+      return (
+        <Login
+          handleLogin={handleLogin}
+          onLogin={this.onLogin}
+          onLoginError={this.onLoginError}
+        />
+      );
     } else {
       return (
         <TabPanel
