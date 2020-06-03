@@ -17,7 +17,7 @@ import {
   inventoryActionsTabHook,
   logoutTabHook,
   notificationTabHook,
-  reportsActionsTabHook
+  reportsActionsTabHook,
 } from "../consts/data-hooks";
 import { logFilePath } from "../consts/paths";
 import { isAdmin } from "../consts/permissions";
@@ -32,7 +32,7 @@ export default function TablPanel(props) {
               label={`Welcome back, ${props.userName}`}
               style={{
                 textTransform: "none",
-                marginLeft: "15px"
+                marginLeft: "15px",
               }}
             />
           )}
@@ -65,7 +65,7 @@ export default function TablPanel(props) {
                 style={{
                   textDecoration: "none",
                   marginLeft: "auto",
-                  marginRight: "30px"
+                  marginRight: "30px",
                 }}
               >
                 {isAdmin(props.permission) && (
@@ -76,7 +76,7 @@ export default function TablPanel(props) {
               </Link>
             </>
           )}
-          {props.isLogged && (
+          {props.isLogged && !props.disableTabs && (
             <div style={{ marginRight: "20px" }}>
               <NotificationHandler
                 messageType={props.messageType}
@@ -87,7 +87,7 @@ export default function TablPanel(props) {
               />
             </div>
           )}
-          {props.isLogged && (
+          {props.isLogged && !props.disableTabs && (
             <>
               <IconButton
                 style={{ marginRight: "30px" }}

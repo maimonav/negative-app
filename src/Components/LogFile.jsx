@@ -83,10 +83,16 @@ export default class LogFile extends React.Component {
                     <GridItem xs={12} sm={12} md={8}>
                       <Typography variant="h6">System Log File:</Typography>
                       <div>
-                        <Paper style={{ maxHeight: 400, overflow: "auto" }}>
+                        <Paper
+                          style={{
+                            maxHeight: 400,
+                            overflow: "auto",
+                            width: 1000,
+                          }}
+                        >
                           <List>
-                            {logContentFixed.map((log) => (
-                              <ListItem>
+                            {logContentFixed.map((log, key) => (
+                              <ListItem key={key}>
                                 <ListItemText primary={log} />
                               </ListItem>
                             ))}

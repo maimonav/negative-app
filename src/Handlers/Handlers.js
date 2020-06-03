@@ -17,7 +17,7 @@ function _handleConnectionError(response, returnVal) {
  * @param {callback} onLogin
  * @returns void
  */
-export function handleLogin(username, password, onLogin) {
+export function handleLogin(username, password, onLogin, onLoginError) {
   fetch(
     `/api/login?username=${encodeURIComponent(
       username
@@ -33,6 +33,7 @@ export function handleLogin(username, password, onLogin) {
         onLogin(username, state.result[1]);
         alert(state.result[0]);
       } else {
+        onLoginError();
         alert(state.result);
       }
     });

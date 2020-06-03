@@ -51,7 +51,11 @@ export default function Routes(props) {
         <Route
           path={loginPath}
           component={() => (
-            <Login handleLogin={handleLogin} onLogin={props.onLogin} />
+            <Login
+              handleLogin={handleLogin}
+              onLogin={props.onLogin}
+              onLoginError={props.onLoginError}
+            />
           )}
         />
       )}

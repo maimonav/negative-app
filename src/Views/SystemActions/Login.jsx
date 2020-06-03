@@ -65,7 +65,8 @@ class Login extends React.Component {
                 this.props.handleLogin(
                   this.state.username,
                   this.state.password,
-                  this.props.onLogin
+                  this.props.onLogin,
+                  this.props.onLoginError
                 )
               }
             />
