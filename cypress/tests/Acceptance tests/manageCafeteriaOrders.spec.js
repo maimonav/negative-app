@@ -205,4 +205,43 @@ context("Manage Cafeteria Orders", () => {
 
     cy.get("#chooseOrder").click();
   });
+
+  it("confirm cafeteria order by shift manager", () => {
+    cy.addEmployee("Shift Manager", "user1", "456", "user1", "user1", "tmp");
+    cy.chooseAction(showActionHook);
+    cy.chooseAction(addActionHook);
+    cy.addEmployee("MANAGER", "user", "123", "user", "user", "tmp");
+    cy.logout();
+    cy.login("user", "123");
+    addProduct();
+    addSupplier();
+    addOrder();
+    cy.logout();
+    cy.login("user1", "456");
+
+    cy.chooseAction(confirmActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+
+    cy.get(`[data-hook=${orderNameHook}`)
+      .click()
+      .type("{downarrow}")
+      .type("{enter}")
+      .type("{esc}");
+
+    cy.get("#chooseOrder").click();
+
+    cy.get("#edit").click();
+
+    cy.get(
+      "#root > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div > div > div:nth-child(4) > div > div > div > div.Component-horizontalScrollContainer-1661 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(4) > div > div"
+    )
+      .click()
+      .type("{selectall}")
+      .type("80");
+
+    cy.get("#check").click();
+
+    cy.get("#editTableButton").click();
+    cy.get("#confirmOrder").click();
+  });
 });
