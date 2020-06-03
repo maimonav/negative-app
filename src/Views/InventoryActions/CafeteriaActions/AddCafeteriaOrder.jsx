@@ -15,7 +15,7 @@ import {
   handleGetCafeteriaProducts,
   handleGetSuppliers,
 } from "../../../Handlers/Handlers";
-import { userNameHook } from "../../../consts/data-hooks";
+import { userNameHook, productQuantityHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
@@ -99,7 +99,6 @@ export default class AddCafeteriaOrder extends React.Component {
   ];
 
   validateInput() {
-    console.log("quantity:", this.state.quantity);
     if (this.state.quantity === "" || this.state.product === "") {
       alert("product and quantity are required");
       this.checkValidate = false;
@@ -152,11 +151,16 @@ export default class AddCafeteriaOrder extends React.Component {
                           fullWidth: true,
                         }}
                         onChange={(event) => this.setQuantity(event)}
+                        data-hook={productQuantityHook}
                       />
                     </GridItem>
                   </GridContainer>
                   <CardFooter style={{ justifyContent: "center" }}>
-                    <Button color="info" onClick={this.setArrayOfProducts}>
+                    <Button
+                      id={"addProduct"}
+                      color="info"
+                      onClick={this.setArrayOfProducts}
+                    >
                       Add Product
                     </Button>
                   </CardFooter>
@@ -164,7 +168,11 @@ export default class AddCafeteriaOrder extends React.Component {
               )}
               {addMore && (
                 <CardFooter style={{ justifyContent: "center" }}>
-                  <Button color="info" onClick={this.stopAddmore}>
+                  <Button
+                    id={"finishAddProducts"}
+                    color="info"
+                    onClick={this.stopAddmore}
+                  >
                     Finish add products
                   </Button>
                 </CardFooter>
