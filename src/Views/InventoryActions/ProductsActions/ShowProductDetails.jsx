@@ -37,9 +37,7 @@ export default class ShowProductDetails extends React.Component {
     handleGetProductDetails(productName)
       .then((response) => response.json())
       .then((state) => {
-        this.setState({ productName: state.result }, () =>
-          console.log("product:", this.state.productName)
-        );
+        this.setState({ productName: state.result });
       });
   };
 
