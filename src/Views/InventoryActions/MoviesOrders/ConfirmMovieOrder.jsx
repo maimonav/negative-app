@@ -12,7 +12,7 @@ import SelectDates from "../../../Components/SelectDates";
 import EditTable from "../../../Components/Tables/EditTable";
 import {
   handleGetOrdersByDates,
-  handleGetProductsAndQuantityByOrder
+  handleGetProductsAndQuantityByOrder,
 } from "../../../Handlers/Handlers";
 import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -27,7 +27,7 @@ export default class ConfirmMovieOrder extends React.Component {
       openThird: false,
       startDate: new Date(),
       endDate: new Date(),
-      updatedMovies: ""
+      updatedMovies: "",
     };
     this.toggleBox = this.toggleBox.bind(this);
     this.toggleSecondBox = this.toggleSecondBox.bind(this);
@@ -36,54 +36,54 @@ export default class ConfirmMovieOrder extends React.Component {
 
   handleGetItemsByDates = (startDate, endDate) => {
     handleGetOrdersByDates(startDate, endDate, false)
-      .then(response => response.json())
-      .then(state => this.setState({ orders: state.result }));
+      .then((response) => response.json())
+      .then((state) => this.setState({ orders: state.result }));
   };
 
-  handleGetProductAndQuntityByOrder = orderId => {
+  handleGetProductAndQuntityByOrder = (orderId) => {
     handleGetProductsAndQuantityByOrder(orderId)
-      .then(response => response.json())
-      .then(state => this.setState({ movies: state.result }));
+      .then((response) => response.json())
+      .then((state) => this.setState({ movies: state.result }));
   };
 
   toggleBox() {
     this.handleGetItemsByDates(this.state.startDate, this.state.endDate);
-    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
   toggleSecondBox() {
     this.handleGetProductAndQuntityByOrder(this.state.orderId);
-    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
   }
 
   toggleThirdBox() {
-    this.setState(oldState => ({ openThird: !oldState.openThird }));
-    this.setState(oldState => ({ openSecond: !oldState.openSecond }));
-    this.setState(oldState => ({ isOpened: !oldState.isOpened }));
+    this.setState((oldState) => ({ openThird: !oldState.openThird }));
+    this.setState((oldState) => ({ openSecond: !oldState.openSecond }));
+    this.setState((oldState) => ({ isOpened: !oldState.isOpened }));
   }
 
-  setStartDate = date => {
+  setStartDate = (date) => {
     this.setState({ startDate: date });
   };
 
-  setEndDate = date => {
+  setEndDate = (date) => {
     this.setState({ endDate: date });
   };
 
-  setOrderName = name => {
+  setOrderName = (name) => {
     this.setState({ orderId: name });
   };
 
-  setUpdatedMovies = name => {
+  setUpdatedMovies = (name) => {
     this.setState({
-      updatedMovies: name
+      updatedMovies: name,
     });
   };
 
   columns = [
     { title: "Movie Name", field: "name", editable: "never" },
     { title: "Key", field: "key" },
-    { title: "Examination room", field: "examinationRoom" }
+    { title: "Examination room", field: "examinationRoom" },
   ];
 
   render() {
@@ -95,7 +95,7 @@ export default class ConfirmMovieOrder extends React.Component {
       updatedMovies,
       isOpened,
       openSecond,
-      openThird
+      openThird,
     } = this.state;
     return (
       <div>
@@ -175,6 +175,7 @@ export default class ConfirmMovieOrder extends React.Component {
               {openThird && (
                 <CardFooter style={{ justifyContent: "center" }}>
                   <Button
+                    id={"confirmOrder"}
                     color="info"
                     onClick={() =>
                       this.props.handleConfirmMovieOrder(orderId, updatedMovies)

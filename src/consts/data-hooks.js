@@ -21,6 +21,7 @@ export const moviesOrdersHook = "moviesOrdersButton";
 export const orderNameHook = "orderNameField";
 export const orderDateHook = "orderDateField";
 export const newFieldHook = "newField";
+export const notificationButtonHook = "notificationButton";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";
