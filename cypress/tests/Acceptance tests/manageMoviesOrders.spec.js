@@ -153,7 +153,7 @@ context("Manage Movie Orders", () => {
     cy.get("#removeOrder").click();
   });
 
-  it("confirm movies order", () => {
+  it.only("confirm movies order", () => {
     cy.addEmployee("MANAGER", "user", "123", "user", "user", "tmp");
     cy.logout();
     cy.login("user", "123");
@@ -171,5 +171,24 @@ context("Manage Movie Orders", () => {
       .type("{esc}");
 
     cy.get("#chooseOrder").click();
+
+    cy.get("#edit").click();
+
+    cy.get(
+      "#root > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div > div > div:nth-child(4) > div > div > div > div.Component-horizontalScrollContainer-1238 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(3) > div > div > input"
+    )
+      .click()
+      .type("1");
+
+    cy.get(
+      "#root > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div > div > div:nth-child(4) > div > div > div > div.Component-horizontalScrollContainer-1238 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(4) > div > div > input"
+    )
+      .click()
+      .type("26");
+
+    cy.get("#check").click();
+
+    cy.get("#editTableButton").click();
+    cy.get("#confirmOrder").click();
   });
 });
