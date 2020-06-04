@@ -18,6 +18,7 @@ import {
   logoutTabHook,
   notificationTabHook,
   reportsActionsTabHook,
+  logFileButtonHook,
 } from "../consts/data-hooks";
 import { logFilePath } from "../consts/paths";
 import { isAdmin } from "../consts/permissions";
@@ -70,7 +71,11 @@ export default function TablPanel(props) {
                 }}
               >
                 {isAdmin(props.permission) && (
-                  <IconButton color="inherit" aria-label="logFile">
+                  <IconButton
+                    color="inherit"
+                    aria-label="logFile"
+                    id={logFileButtonHook}
+                  >
                     <DescriptionIcon />
                   </IconButton>
                 )}

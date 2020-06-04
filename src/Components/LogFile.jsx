@@ -13,7 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-
+import { logFileSelectButtonHook } from "../consts/data-hooks";
 import { handleGetLogContent } from "../Handlers/Handlers";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -72,7 +72,11 @@ export default class LogFile extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <CardFooter>
-                  <Button color="info" onClick={this.handleLog}>
+                  <Button
+                    id={logFileSelectButtonHook}
+                    color="info"
+                    onClick={this.handleLog}
+                  >
                     Show log content
                   </Button>
                 </CardFooter>

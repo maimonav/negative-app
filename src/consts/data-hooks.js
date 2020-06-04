@@ -22,6 +22,8 @@ export const orderNameHook = "orderNameField";
 export const orderDateHook = "orderDateField";
 export const newFieldHook = "newField";
 export const notificationButtonHook = "notificationButton";
+export const logFileButtonHook = "logFileButton";
+export const logFileSelectButtonHook = "logFileSelectButton";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";
