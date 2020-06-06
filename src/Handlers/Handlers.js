@@ -915,7 +915,6 @@ export function HandleGetFullDailyReport(fromDate, toDate, user) {
  * @returns {Promise(Array)} Success - array
  */
 export function handleGetSeenNotifications(user) {
-  console.log("user:", user);
   return fetch(
     `api/getSeenNotifications?user=${encodeURIComponent(user)}`
   ).then((response) => _handleConnectionError(response, response));

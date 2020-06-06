@@ -41,15 +41,20 @@ class App extends React.Component {
     socket.onmessage = (evt) => {
       const message = JSON.parse(evt.data);
       console.log("message:", message);
-      if (message[0].type === "INFO") {
-        this.setState({ messageType: "INFO", messageContent: message });
-      } else if (message[0].type === "ERROR") {
-        this.setState({
-          messageType: "ERROR",
-          messageError: message,
-          disableTabs: true,
-        });
+      let messagesArray = [];
+      for (let i in message) {
+        let not = message[i];
+        if (not.type === "INFO") {
+          messagesArray.push(not);
+        } else if (not.type === "ERROR") {
+          this.setState({
+            messageType: "ERROR",
+            messageError: message,
+            disableTabs: true,
+          });
+        }
       }
+      this.setState({ messageContent: messagesArray });
     };
 
     socket.onclose = () => {
@@ -70,25 +75,37 @@ class App extends React.Component {
     localStorage.setItem("username", username);
     localStorage.setItem("permission", permission);
 
-    if (username === "s") {
-      this.setState({
-        messageType: "INFO",
-        messageContent: [
-          {
-            type: "INFO",
-            subtype: "HIGH QUANTITY",
-            timeFired: "2020-05-19T09:50:14.423Z",
-            content: [
-              {
-                name: "product",
-                quantity: 10,
-                maxQuantity: 10,
-              },
-            ],
-          },
-        ],
-      });
-    }
+    // if (username === "s") {
+    //   this.setState({
+    //     messageType: "INFO",
+    //     messageContent: [
+    //       {
+    //         type: "INFO",
+    //         subtype: "HIGH QUANTITY",
+    //         timeFired: "2020-05-19T09:50:14.423Z",
+    //         content: [
+    //           {
+    //             name: "product",
+    //             quantity: 10,
+    //             maxQuantity: 10,
+    //           },
+    //         ],
+    //       },
+    //       {
+    //         type: "INFO",
+    //         subtype: "MOVIE EXAMINATION",
+    //         timeFired: "2020-05-19T09:54:40.121Z",
+    //         content: ["movie"],
+    //       },
+    //       {
+    //         type: "INFO",
+    //         subtype: "EXTERNAL SYSTEM",
+    //         timeFired: "2020-05-19T09:54:40.121Z",
+    //         content: "error in event buzz",
+    //       },
+    //     ],
+    //   });
+    // }
 
     const { messageType, errorPage } = this.state;
     if (messageType === "ERROR" && !errorPage && username === "admin") {

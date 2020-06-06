@@ -13,9 +13,11 @@ import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import Paper from "@material-ui/core/Paper";
 import moment from "moment";
 import { handleGetSeenNotifications } from "../Handlers/Handlers";
 import { socket } from "../App";
+import { notificationButtonHook } from "../consts/data-hooks";
 
 function getNotificationMessage(type, content, requiredQuantity) {
   switch (type) {
@@ -47,6 +49,7 @@ export default class NotificationHandler extends React.Component {
     super(props);
     this.state = {
       notifications: [],
+      oldNotifications: [],
       view: false,
       newNotifications: 0,
       changeColor: false,
@@ -68,17 +71,49 @@ export default class NotificationHandler extends React.Component {
 
   createNotificationArray() {
     const { messages } = this.state;
-    const messagesArray = [];
+    const oldMessages = [];
     for (let i in messages) {
       let message = messages[i];
       if (message.type === "INFO") {
         const notification = this.buildNotificationMessage(message, true);
-        messagesArray.unshift(notification);
+        oldMessages.unshift(notification);
       }
     }
     this.setState({
-      notifications: messagesArray,
+      oldNotifications: oldMessages,
+      ...this.state.oldNotifications,
     });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.messageContent !== this.props.messageContent) {
+      this.updateNotifications();
+    }
+  }
+
+  updateNotifications() {
+    const { messageContent } = this.props;
+    let newNotificationsArray = [];
+    for (let i in messageContent) {
+      let notificationMessage = messageContent[i];
+      let notification = this.buildNotificationMessage(
+        notificationMessage,
+        false
+      );
+      newNotificationsArray.unshift(notification);
+    }
+    const concatAllNotificationsArray = newNotificationsArray.concat(
+      this.state.notifications
+    );
+    this.setState(
+      {
+        notifications: concatAllNotificationsArray,
+      },
+      () =>
+        this.setState({
+          newNotifications: this.state.newNotifications + messageContent.length,
+        })
+    );
   }
 
   buildNotificationMessage(message, isOld) {
@@ -115,43 +150,6 @@ export default class NotificationHandler extends React.Component {
     return notification;
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.messageContent !== this.props.messageContent) {
-      this.updateNotifications();
-    }
-  }
-
-  updateNotifications() {
-    const { messageContent } = this.props;
-    let newNumber;
-    const notification = this.buildNotificationMessage(
-      messageContent[0],
-      false
-    );
-    if (confirmMessagesArray.includes(messageContent[0].subtype)) {
-      newNumber = 1;
-    } else {
-      newNumber = messageContent[0].content.length;
-    }
-    this.setState(
-      {
-        notifications: [notification, ...this.state.notifications],
-      },
-      () =>
-        this.setState({
-          newNotifications: this.state.newNotifications + newNumber,
-        })
-    );
-  }
-
-  handleNotificationNumber() {
-    const { notifications, view } = this.state;
-    if (view) {
-      return 0;
-    }
-    return notifications.length;
-  }
-
   handleOnEnter = () => {
     this.setState({ view: true });
   };
@@ -186,12 +184,22 @@ export default class NotificationHandler extends React.Component {
   };
 
   render() {
-    const { notifications, view, newNotifications } = this.state;
+    const {
+      notifications,
+      oldNotifications,
+      view,
+      newNotifications,
+    } = this.state;
+    const showNotificatins = notifications.concat(oldNotifications);
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
           <>
-            <IconButton aria-label="show new notifications" color="inherit">
+            <IconButton
+              aria-label="show new notifications"
+              color="inherit"
+              data-hook={notificationButtonHook}
+            >
               <Badge
                 badgeContent={view ? 0 : newNotifications}
                 color="secondary"
@@ -212,52 +220,59 @@ export default class NotificationHandler extends React.Component {
                 horizontal: "center",
               }}
             >
-              <List style={{ width: 400 }}>
-                <h3
-                  style={{ fontSize: 20, marginLeft: "10px", color: "#6495ED" }}
-                >
-                  Notifications:
-                </h3>
-                <Divider />
-                {notifications.map((notification) => (
-                  <>
-                    <Box
-                      bgcolor={notification.hasUserView ? "white" : "#eaf7ff"}
-                      p={2}
-                    >
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar>
-                            <ListAltIcon />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={notification.name}
-                          secondary={notification.notificationDate}
-                        />
-                        {notification.confirmMessage && (
-                          <>
-                            <IconButton
-                              onClick={() =>
-                                this.handleConfirm(
-                                  notification.notificationDate
-                                )
-                              }
-                              color="inherit"
-                              aria-label="add to shopping cart"
-                            >
-                              <Avatar>
-                                <CheckBoxIcon />
-                              </Avatar>
-                            </IconButton>
-                          </>
-                        )}
-                      </ListItem>
-                      <Divider variant="inset" component="li" />
-                    </Box>
-                  </>
-                ))}
-              </List>
+              <Paper style={{ width: 400, maxHeight: 500, overflow: "auto" }}>
+                <List>
+                  <h3
+                    style={{
+                      fontSize: 20,
+                      marginLeft: "10px",
+                      color: "#6495ED",
+                    }}
+                  >
+                    Notifications:
+                  </h3>
+                  <Divider />
+                  {showNotificatins.map((notification, key) => (
+                    <>
+                      <Box
+                        key={key}
+                        bgcolor={notification.hasUserView ? "white" : "#eaf7ff"}
+                        p={2}
+                      >
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ListAltIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={notification.name}
+                            secondary={notification.notificationDate}
+                          />
+                          {notification.confirmMessage && (
+                            <>
+                              <IconButton
+                                onClick={() =>
+                                  this.handleConfirm(
+                                    notification.notificationDate
+                                  )
+                                }
+                                color="inherit"
+                                aria-label="add to shopping cart"
+                              >
+                                <Avatar>
+                                  <CheckBoxIcon />
+                                </Avatar>
+                              </IconButton>
+                            </>
+                          )}
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                      </Box>
+                    </>
+                  ))}
+                </List>
+              </Paper>
             </Popover>
           </>
         )}
