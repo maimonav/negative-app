@@ -2110,34 +2110,7 @@ class ServiceLayer {
     ) {
       this.userActivation.get(ActionIDofTheOperation).lastActTime = new Date();
     }
-    // const messageContent = [
-    //   {
-    //     type: "INFO",
-    //     subtype: "HIGH QUANTITY",
-    //     timeFired: "2020-05-19T09:50:14.423Z",
-    //     content: [
-    //       {
-    //         name: "product",
-    //         quantity: 10,
-    //         maxQuantity: 10,
-    //       },
-    //     ],
-    //   },
-    //   {
-    //     type: "INFO",
-    //     subtype: "SAVE NOTIFICATIONS",
-    //     content:
-    //       "There was a problem saving your notifications," +
-    //       "information got lost.\n",
-    //   },
-    //   {
-    //     type: "INFO",
-    //     subtype: "EXTERNAL SYSTEM",
-    //     timeFired: "2020-05-19T09:54:40.121Z",
-    //     content: "error in event buzz",
-    //   },
-    // ];
-    // return messageContent;
+
     return NotificationController.getSeenNotifications(
       this.users.get(ActionIDofTheOperation)
     );

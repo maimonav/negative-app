@@ -75,38 +75,6 @@ class App extends React.Component {
     localStorage.setItem("username", username);
     localStorage.setItem("permission", permission);
 
-    // if (username === "s") {
-    //   this.setState({
-    //     messageType: "INFO",
-    //     messageContent: [
-    //       {
-    //         type: "INFO",
-    //         subtype: "HIGH QUANTITY",
-    //         timeFired: "2020-05-19T09:50:14.423Z",
-    //         content: [
-    //           {
-    //             name: "product",
-    //             quantity: 10,
-    //             maxQuantity: 10,
-    //           },
-    //         ],
-    //       },
-    //       {
-    //         type: "INFO",
-    //         subtype: "MOVIE EXAMINATION",
-    //         timeFired: "2020-05-19T09:54:40.121Z",
-    //         content: ["movie"],
-    //       },
-    //       {
-    //         type: "INFO",
-    //         subtype: "EXTERNAL SYSTEM",
-    //         timeFired: "2020-05-19T09:54:40.121Z",
-    //         content: "error in event buzz",
-    //       },
-    //     ],
-    //   });
-    // }
-
     const { messageType, errorPage } = this.state;
     if (messageType === "ERROR" && !errorPage && username === "admin") {
       window.location.href = errorPagePath;
