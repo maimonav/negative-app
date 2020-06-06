@@ -86,7 +86,7 @@ export default class EditCategory extends React.Component {
                   </GridContainer>
                 </div>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "18px" }}>
                 <Button
                   color="info"
                   onClick={() =>

@@ -45,6 +45,7 @@ export default function ComboBox(props) {
           options={props.items}
           getOptionLabel={(option) => option.title}
           filterSelectedOptions
+          style={{ width: 300, maxWidth: "100%" }}
           renderInput={(params) => (
             <TextField {...params} variant="outlined" label={props.boxLabel} />
           )}

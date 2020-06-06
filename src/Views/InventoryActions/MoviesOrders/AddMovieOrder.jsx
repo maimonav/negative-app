@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import SelectDates from "../../../Components/SelectDates";
 import {
   handleGetMovies,
-  handleGetSuppliers
+  handleGetSuppliers,
 } from "../../../Handlers/Handlers";
 import { userNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -22,34 +22,34 @@ export default class AddMovieOrder extends React.Component {
     this.state = {
       moviesNames: "",
       supplier: "",
-      orderDate: new Date()
+      orderDate: new Date(),
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movies: state.result });
       });
 
     handleGetSuppliers(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setMoviesNames = names => {
-    this.setState({ moviesNames: names.map(item => item.title) });
+  setMoviesNames = (names) => {
+    this.setState({ moviesNames: names.map((item) => item.title) });
   };
 
-  setSupplier = supplier => {
+  setSupplier = (supplier) => {
     this.setState({ supplier });
   };
 
-  setOrderDate = date => {
+  setOrderDate = (date) => {
     this.setState({ orderDate: date });
   };
 
@@ -65,19 +65,6 @@ export default class AddMovieOrder extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"moviesName"}
-                      items={this.state.movies}
-                      boxLabel={"Choose movies to order"}
-                      setName={this.setMoviesNames}
-                      isMultiple={true}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-              <CardBody>
-                <GridContainer>
                   <GridItem>
                     <SelectDates
                       id={"add-movie-order-date"}
@@ -87,6 +74,27 @@ export default class AddMovieOrder extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"moviesName"}
+                        items={this.state.movies}
+                        boxLabel={"Choose movies to order"}
+                        setName={this.setMoviesNames}
+                        isMultiple={true}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
+              </CardBody>
+              <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox

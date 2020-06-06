@@ -31,7 +31,7 @@ export default class ManageOrders extends React.Component {
               </GridContainer>
             </CardHeader>
             <CardBody>
-              <GridContainer>
+              <GridContainer style={{ paddingLeft: "60px" }}>
                 <GridItem xs={12} sm={12} md={5}>
                   <CardFooter>
                     <Link
