@@ -15,8 +15,7 @@ import Box from "@material-ui/core/Box";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import Paper from "@material-ui/core/Paper";
 import moment from "moment";
-import { handleGetSeenNotifications } from "../Handlers/Handlers";
-import { socket } from "../App";
+import { handleGetSeenNotifications, ws } from "../Handlers/Handlers";
 import { notificationButtonHook } from "../consts/data-hooks";
 
 function getNotificationMessage(type, content, requiredQuantity) {
@@ -165,7 +164,7 @@ export default class NotificationHandler extends React.Component {
 
   handleConfirm = (notificayionTimeFired) => {
     const time = moment(notificayionTimeFired).format();
-    socket.send(
+    ws.send(
       JSON.stringify([
         {
           type: "INFO",

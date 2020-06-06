@@ -2,10 +2,10 @@ import React from "react";
 import TabPanel from "./Components/TabPanel";
 import { Login } from "./Views";
 import { errorPagePath } from "./consts/paths";
-import { handleLogin, handleIsLoggedIn } from "./Handlers/Handlers";
+import { handleLogin, handleIsLoggedIn, ws } from "./Handlers/Handlers";
 
-export const socket = new WebSocket("ws://localhost:3001");
-
+//export const socket = new WebSocket("ws://localhost:3001");
+//export let ws = openNewSocket();
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -34,11 +34,11 @@ class App extends React.Component {
   };
 
   componentDidMount = () => {
-    socket.onopen = () => {
+    ws.onopen = () => {
       console.log("connected");
     };
 
-    socket.onmessage = (evt) => {
+    ws.onmessage = (evt) => {
       const message = JSON.parse(evt.data);
       console.log("message:", message);
       let messagesArray = [];
@@ -57,7 +57,7 @@ class App extends React.Component {
       this.setState({ messageContent: messagesArray });
     };
 
-    socket.onclose = () => {
+    ws.onclose = () => {
       console.log("disconnected");
       this.onLogout();
     };

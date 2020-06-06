@@ -1,10 +1,17 @@
 import moment from "moment";
 
+export let ws = new WebSocket("ws://localhost:3001");
+
+export function openNewSocket() {
+  ws = new WebSocket("ws://localhost:3001");
+}
+
 function _handleConnectionError(response, returnVal) {
   if (response.status !== 200) {
     alert(
       "There was a problem connecting to the system.\n You should ask the admin to initialize the server."
     );
+    openNewSocket();
     window.location.reload();
   }
   return returnVal;
