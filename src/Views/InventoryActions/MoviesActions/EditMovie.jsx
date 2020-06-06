@@ -11,14 +11,16 @@ import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetMovies,
-  handleGetCategories
+  handleGetCategories,
+  handleGetMovieDetails,
 } from "../../../Handlers/Handlers";
 import {
   movieNameHook,
   categoryNameHook,
   keyHook,
-  examinationRoomHook
+  examinationRoomHook,
 } from "../../../consts/data-hooks";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditMovie extends React.Component {
@@ -28,43 +30,54 @@ export default class EditMovie extends React.Component {
       movieName: "",
       category: "",
       key: "",
-      examinationRoom: ""
+      examinationRoom: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movies: state.result });
       });
 
     handleGetCategories()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ categories: state.result });
       });
   };
 
-  setMovieName = movieName => {
+  setMovieName = (movieName) => {
     this.setState({ movieName: movieName });
+    handleGetMovieDetails(movieName)
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ movieDetails: state.result });
+      });
   };
 
-  setCategory = category => {
+  setCategory = (category) => {
     this.setState({ category: category });
   };
 
-  setKey = event => {
+  setKey = (event) => {
     this.setState({ key: event.target.value });
   };
 
-  setExaminationRoom = event => {
+  setExaminationRoom = (event) => {
     this.setState({ examinationRoom: event.target.value });
   };
 
   render() {
-    const { movieName, category, key, examinationRoom } = this.state;
+    const {
+      movieName,
+      category,
+      key,
+      examinationRoom,
+      movieDetails,
+    } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -86,46 +99,70 @@ export default class EditMovie extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"category"}
+                        items={this.state.categories}
+                        boxLabel={"Choose category"}
+                        setName={this.setCategory}
+                        isMultiple={false}
+                        data-hook={categoryNameHook}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"category"}
-                      items={this.state.categories}
-                      boxLabel={"Choose category"}
-                      setName={this.setCategory}
-                      isMultiple={false}
-                      data-hook={categoryNameHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
-                      labelText="Key"
+                      labelText={
+                        movieDetails
+                          ? `Current key: ${
+                              movieDetails && movieDetails.movieKey
+                                ? movieDetails.movieKey
+                                : "none"
+                            }`
+                          : "Change Movie Key" + optional
+                      }
                       id="key"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setKey(event)}
+                      onChange={(event) => this.setKey(event)}
                       data-hook={keyHook}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
-                      labelText="Examination room"
+                      labelText={
+                        movieDetails
+                          ? `Current examination room: ${
+                              movieDetails && movieDetails.examinationRoom
+                                ? movieDetails.examinationRoom
+                                : "none"
+                            }`
+                          : "Change Examination Room" + optional
+                      }
                       id="examinationRoom"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setExaminationRoom(event)}
+                      onChange={(event) => this.setExaminationRoom(event)}
                       data-hook={examinationRoomHook}
                     />
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() =>

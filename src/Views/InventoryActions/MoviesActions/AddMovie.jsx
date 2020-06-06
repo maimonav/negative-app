@@ -18,15 +18,15 @@ export default class AddMovie extends React.Component {
     super(props);
     this.state = {
       movieName: "",
-      category: ""
+      category: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ categories: state.result });
       });
   };
@@ -35,7 +35,7 @@ export default class AddMovie extends React.Component {
     this.setState({ movieName: event.target.value });
   }
 
-  setCategory = name => {
+  setCategory = (name) => {
     this.setState({ category: name });
   };
 
@@ -50,33 +50,41 @@ export default class AddMovie extends React.Component {
                 <h4 style={{ margin: "auto" }}>Add New movie</h4>
               </CardHeader>
               <CardBody>
-                <GridContainer>
+                <GridContainer style={{ paddingLeft: "5px" }}>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Add Movie Name"
                       id="movieName"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setMovieName(event)}
+                      onChange={(event) => this.setMovieName(event)}
                       data-hook={movieNameHook}
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"category"}
-                      items={this.state.categories}
-                      boxLabel={"Choose category"}
-                      setName={this.setCategory}
-                      isMultiple={false}
-                      data-hook={categoryNameHook}
-                    />
-                  </GridItem>
-                </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"category"}
+                        items={this.state.categories}
+                        boxLabel={"Choose category"}
+                        setName={this.setCategory}
+                        isMultiple={false}
+                        data-hook={categoryNameHook}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() => this.props.handleAddMovie(movieName, category)}

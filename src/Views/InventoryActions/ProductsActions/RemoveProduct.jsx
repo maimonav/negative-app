@@ -16,20 +16,20 @@ export default class RemoveProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      productName: ""
+      productName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaProducts()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ products: state.result });
       });
   };
 
-  setProuctName = name => {
+  setProuctName = (name) => {
     this.setState({ productName: name });
   };
 
@@ -58,15 +58,15 @@ export default class RemoveProduct extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "18px" }}>
                 <Button
                   color="info"
                   onClick={() => {
                     if (productName) {
                       this.props
                         .handleRemoveProduct(productName)
-                        .then(response => response.json())
-                        .then(state => {
+                        .then((response) => response.json())
+                        .then((state) => {
                           alert(state.result);
                           this.setInitialState();
                         });

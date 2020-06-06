@@ -187,7 +187,7 @@ export default class AddProduct extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() =>

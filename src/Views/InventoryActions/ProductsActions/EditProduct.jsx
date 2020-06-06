@@ -61,9 +61,7 @@ export default class EditProduct extends React.Component {
     handleGetProductDetails(name)
       .then((response) => response.json())
       .then((state) => {
-        this.setState({ productDetails: state.result }, () =>
-          console.log("details:", this.state.productDetails)
-        );
+        this.setState({ productDetails: state.result });
       });
   };
 
@@ -120,31 +118,42 @@ export default class EditProduct extends React.Component {
                       setName={this.setProuctName}
                       isMultiple={false}
                       data-hook={productNameHook}
-                      style={{ marginBottom: "10px" }}
+                      //style={{ marginBottom: "10px" }}
                     />
                   </GridItem>
                 </GridContainer>
                 {isAtLeastDeputyManager(this.props.permission) && (
                   <>
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={6}>
-                        <ComboBox
-                          id={"productCategory"}
-                          items={this.state.categories}
-                          boxLabel={"Choose new category"}
-                          setName={this.setProductCategory}
-                          isMultiple={false}
-                          data-hook={categoryNameHook}
-                        />
-                      </GridItem>
-                    </GridContainer>
+                    <div
+                      style={{
+                        margin: "auto",
+                        marginTop: "20px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <GridContainer>
+                        <GridItem xs={12} sm={12} md={6}>
+                          <ComboBox
+                            id={"productCategory"}
+                            items={this.state.categories}
+                            boxLabel={"Choose new category"}
+                            setName={this.setProductCategory}
+                            isMultiple={false}
+                            data-hook={categoryNameHook}
+                          />
+                        </GridItem>
+                      </GridContainer>
+                    </div>
                     <GridContainer>
                       <GridItem xs={12} sm={12} md={8}>
                         <CustomInput
                           labelText={
                             productDetails
-                              ? `Current price: ${productDetails &&
-                                  productDetails.productPrice}`
+                              ? `Current price: ${
+                                  productDetails && productDetails.productPrice
+                                    ? productDetails.productPrice
+                                    : "none"
+                                }`
                               : "Change Product Price" + optional
                           }
                           id="productPrice"
@@ -164,8 +173,11 @@ export default class EditProduct extends React.Component {
                       <CustomInput
                         labelText={
                           productDetails
-                            ? `Current quantity: ${productDetails &&
-                                productDetails.productQuantity}`
+                            ? `Current quantity: ${
+                                productDetails && productDetails.productQuantity
+                                  ? productDetails.productQuantity
+                                  : "none"
+                              }`
                             : "Change Product Quantity" + optional
                         }
                         id="productQuantity"
@@ -185,8 +197,12 @@ export default class EditProduct extends React.Component {
                         <CustomInput
                           labelText={
                             productDetails
-                              ? `Current Product Max Quantity: ${productDetails &&
-                                  productDetails.productMaxQuantity}`
+                              ? `Current Product Max Quantity: ${
+                                  productDetails &&
+                                  productDetails.productMaxQuantity
+                                    ? productDetails.productMaxQuantity
+                                    : "none"
+                                }`
                               : "Change Product Max Quantity" + optional
                           }
                           id="productMaxQuantity"
@@ -203,8 +219,12 @@ export default class EditProduct extends React.Component {
                         <CustomInput
                           labelText={
                             productDetails
-                              ? `Current Product Min Quantity: ${productDetails &&
-                                  productDetails.productMimQuantity}`
+                              ? `Current Product Min Quantity: ${
+                                  productDetails &&
+                                  productDetails.productMimQuantity
+                                    ? productDetails.productMimQuantity
+                                    : "none"
+                                }`
                               : "Change Product Min Quantity" + optional
                           }
                           id="productMinQuantity"
@@ -219,7 +239,7 @@ export default class EditProduct extends React.Component {
                   </>
                 )}
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() =>

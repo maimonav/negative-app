@@ -11,7 +11,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import { handleGetCategories } from "../../../Handlers/Handlers";
 import {
   categoryNameHook,
-  categoryParentNameHook
+  categoryParentNameHook,
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -20,24 +20,24 @@ export default class EditCategory extends React.Component {
     super(props);
     this.state = {
       categoryName: "",
-      parentName: ""
+      parentName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = name => {
+  setCategoryName = (name) => {
     this.setState({ categoryName: name });
   };
 
-  setCategoryParentName = name => {
+  setCategoryParentName = (name) => {
     this.setState({ parentName: name });
   };
 
@@ -69,15 +69,15 @@ export default class EditCategory extends React.Component {
                   style={{
                     margin: "auto",
                     marginTop: "20px",
-                    marginBottom: "10px"
+                    marginBottom: "10px",
                   }}
                 >
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                       <ComboBox
-                        id={"categoryName"}
+                        id={"categoryParentName"}
                         items={this.state.categories}
-                        boxLabel={"Choose category"}
+                        boxLabel={"Choose category parent name"}
                         setName={this.setCategoryParentName}
                         isMultiple={false}
                         data-hook={categoryParentNameHook}
