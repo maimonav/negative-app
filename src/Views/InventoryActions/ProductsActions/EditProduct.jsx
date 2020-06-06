@@ -95,10 +95,6 @@ export default class EditProduct extends React.Component {
       productCategory,
       productDetails,
     } = this.state;
-    console.log(
-      "details:",
-      this.state.productDetails && this.state.productDetails.productPrice
-    );
     return (
       <div>
         <GridContainer style={style}>
