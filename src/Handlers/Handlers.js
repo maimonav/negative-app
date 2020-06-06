@@ -11,8 +11,8 @@ function _handleConnectionError(response, returnVal) {
     alert(
       "There was a problem connecting to the system.\n You should ask the admin to initialize the server."
     );
-    openNewSocket();
     window.location.reload();
+    openNewSocket();
   }
   return returnVal;
 }
