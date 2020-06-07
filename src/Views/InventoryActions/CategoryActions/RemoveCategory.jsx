@@ -58,10 +58,18 @@ export default class RemoveCategory extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "18px" }}>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveCategory(categoryName)}
+                  onClick={() =>
+                    this.props
+                      .handleRemoveCategory(categoryName)
+                      .then((response) => response.json())
+                      .then((state) => {
+                        alert(state.result);
+                        this.setInitialState();
+                      })
+                  }
                 >
                   Remove Category
                 </Button>

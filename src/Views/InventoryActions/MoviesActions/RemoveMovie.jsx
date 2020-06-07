@@ -16,20 +16,20 @@ export default class EditMovie extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieName: ""
+      movieName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movies: state.result });
       });
   };
 
-  setMovieName = movieName => {
+  setMovieName = (movieName) => {
     this.setState({ movieName: movieName });
   };
 
@@ -57,10 +57,22 @@ export default class EditMovie extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "18px" }}>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveMovie(movieName)}
+                  onClick={() => {
+                    if (movieName) {
+                      this.props
+                        .handleRemoveMovie(movieName)
+                        .then((response) => response.json())
+                        .then((state) => {
+                          alert(state.result);
+                          this.setInitialState();
+                        });
+                    } else {
+                      alert("movie name is required");
+                    }
+                  }}
                 >
                   Remove Movie
                 </Button>

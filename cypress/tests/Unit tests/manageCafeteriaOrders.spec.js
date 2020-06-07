@@ -9,10 +9,12 @@ import {
   removeActionHook,
   showActionHook,
   confirmActionHook,
+  productQuantityHook,
 } from "../../../src/consts/data-hooks";
 
 const order = "order";
 const product = "product";
+const quantity = "100";
 
 context("Type all fields", () => {
   it("add cafeteria order", () => {
@@ -25,6 +27,12 @@ context("Type all fields", () => {
       .click()
       .type(product)
       .type("{esc}");
+
+    cy.get(`[data-hook=${productQuantityHook}]`)
+      .click()
+      .type(quantity);
+
+    cy.get(`#finishAddProducts`).click();
   });
 
   it("show cafeteria order", () => {

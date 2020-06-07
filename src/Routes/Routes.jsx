@@ -4,8 +4,6 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import {
   loginPath,
   manageEmployeesPath,
-  editMoviePath,
-  removeMoviePath,
   manageSuppliersPath,
   manageReportsPath,
   manageInventoryPath,
@@ -16,22 +14,17 @@ import {
   createDailyReportPath,
   manageOrdersPath,
   manageMoviesOrdersPath,
+  errorPagePath,
+  logFilePath,
 } from "../consts/paths";
 
-import {
-  handleLogin,
-  handleEditMovie,
-  handleRemoveMovie,
-  handleCreateDailyReports,
-} from "../Handlers/Handlers";
+import { handleLogin, handleCreateDailyReports } from "../Handlers/Handlers";
 
 import {
   Login,
   ManageEmployees,
   ManageSuppliers,
   ManageReports,
-  EditMovie,
-  RemoveMovie,
   ManageInventory,
   ManageCafeteriaOrders,
   ManageMovies,
@@ -40,16 +33,29 @@ import {
   ManageCategories,
   ManageOrders,
   ManageMoviesOrders,
+  ErrorPage,
+  LogFile,
 } from "../Views/index";
 
 export default function Routes(props) {
   return (
     <Switch>
+      {props.isLogged && (
+        <Route
+          path={errorPagePath}
+          component={() => <ErrorPage {...props} />}
+        />
+      )}
+      {props.isLogged && <Route path={logFilePath} component={LogFile} />}
       {!props.isLogged && (
         <Route
           path={loginPath}
           component={() => (
-            <Login handleLogin={handleLogin} onLogin={props.onLogin} />
+            <Login
+              handleLogin={handleLogin}
+              onLogin={props.onLogin}
+              onLoginError={props.onLoginError}
+            />
           )}
         />
       )}
@@ -87,20 +93,6 @@ export default function Routes(props) {
         <Route
           path={manageCategoriesPath}
           component={() => <ManageCategories />}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={editMoviePath}
-          component={() => <EditMovie handleEditMovie={handleEditMovie} />}
-        />
-      )}
-      {props.isLogged && (
-        <Route
-          path={removeMoviePath}
-          component={() => (
-            <RemoveMovie handleRemoveMovie={handleRemoveMovie} />
-          )}
         />
       )}
 

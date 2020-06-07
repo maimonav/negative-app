@@ -15,7 +15,7 @@ import {
   handleGetCafeteriaProducts,
   handleGetSuppliers,
 } from "../../../Handlers/Handlers";
-import { userNameHook } from "../../../consts/data-hooks";
+import { userNameHook, productQuantityHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddCafeteriaOrder extends React.Component {
@@ -75,6 +75,7 @@ export default class AddCafeteriaOrder extends React.Component {
         quantity: "",
       });
       document.getElementById("quantity").value = "";
+      this.removeSelectedProduct(this.state.product);
     }
   };
 
@@ -86,6 +87,12 @@ export default class AddCafeteriaOrder extends React.Component {
     this.setState({ supplierName: event });
   };
 
+  removeSelectedProduct(productName) {
+    const { products } = this.state;
+    const newArr = products.filter((e) => e.title !== productName);
+    this.setState({ products: newArr });
+  }
+
   columns = [
     { title: "Product Name", field: "name" },
     { title: "Quantity", field: "expectedQuantity" },
@@ -94,6 +101,9 @@ export default class AddCafeteriaOrder extends React.Component {
   validateInput() {
     if (this.state.quantity === "" || this.state.product === "") {
       alert("product and quantity are required");
+      this.checkValidate = false;
+    } else if (this.state.quantity === "0") {
+      alert("product quantity must be greater than 0");
       this.checkValidate = false;
     } else {
       this.checkValidate = true;
@@ -111,7 +121,7 @@ export default class AddCafeteriaOrder extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={12}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new Cafeteria Order</h4>
@@ -132,7 +142,7 @@ export default class AddCafeteriaOrder extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <CustomInput
-                        labelText="Set Product Qunatity"
+                        labelText="Set Product Quantity"
                         id="quantity"
                         inputProps={{
                           type: "number",
@@ -141,11 +151,16 @@ export default class AddCafeteriaOrder extends React.Component {
                           fullWidth: true,
                         }}
                         onChange={(event) => this.setQuantity(event)}
+                        data-hook={productQuantityHook}
                       />
                     </GridItem>
                   </GridContainer>
                   <CardFooter style={{ justifyContent: "center" }}>
-                    <Button color="info" onClick={this.setArrayOfProducts}>
+                    <Button
+                      id={"addProduct"}
+                      color="info"
+                      onClick={this.setArrayOfProducts}
+                    >
                       Add Product
                     </Button>
                   </CardFooter>
@@ -153,7 +168,11 @@ export default class AddCafeteriaOrder extends React.Component {
               )}
               {addMore && (
                 <CardFooter style={{ justifyContent: "center" }}>
-                  <Button color="info" onClick={this.stopAddmore}>
+                  <Button
+                    id={"finishAddProducts"}
+                    color="info"
+                    onClick={this.stopAddmore}
+                  >
                     Finish add products
                   </Button>
                 </CardFooter>

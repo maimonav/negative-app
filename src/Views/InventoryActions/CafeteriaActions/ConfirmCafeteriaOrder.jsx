@@ -145,7 +145,9 @@ export default class ConfirmCafeteriaOrder extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
-                  <GridContainer style={{ justifyContent: "center" }}>
+                  <GridContainer
+                    style={{ justifyContent: "center", marginTop: "10px" }}
+                  >
                     {orderId && (
                       <Button
                         id={"chooseOrder"}
@@ -175,6 +177,7 @@ export default class ConfirmCafeteriaOrder extends React.Component {
               {openThird && (
                 <CardFooter style={{ justifyContent: "center" }}>
                   <Button
+                    id={"confirmOrder"}
                     color="info"
                     onClick={() =>
                       this.props.handleConfirmCafeteriaOrder(

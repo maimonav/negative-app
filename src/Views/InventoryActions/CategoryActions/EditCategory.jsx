@@ -75,9 +75,9 @@ export default class EditCategory extends React.Component {
                   <GridContainer>
                     <GridItem xs={12} sm={12} md={6}>
                       <ComboBox
-                        id={"categoryName"}
+                        id={"categoryParentName"}
                         items={this.state.categories}
-                        boxLabel={"Choose category"}
+                        boxLabel={"Choose category parent name"}
                         setName={this.setCategoryParentName}
                         isMultiple={false}
                         data-hook={categoryParentNameHook}
@@ -86,7 +86,7 @@ export default class EditCategory extends React.Component {
                   </GridContainer>
                 </div>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "18px" }}>
                 <Button
                   color="info"
                   onClick={() =>

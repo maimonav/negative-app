@@ -4,7 +4,7 @@ const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
-const { csvToJson } = require("./EventBuzzScript");
+const Sequelize = require("sequelize");
 
 class ReportController {
   static _types = {
@@ -15,22 +15,63 @@ class ReportController {
   };
   static _allGeneralDailyReportFormat;
   static _currentGeneralDailyReportFormat;
-  static _MovieReportJson = csvToJson();
 
-  static async createMovieReport() {
-    let record = this._MovieReportJson[0];
-    return await DataBase.singleAdd(this._types.MOVIES, {
-      date: moment(record.date, "YYYY-MM-DD").toDate(),
-      name: record.name,
-      location: record.location,
-      numOfTicketsSales: record.numberOfTicketsSales,
-      numOfTicketsAssigned: record.numberOfTicketsAssigned,
-      totalSalesIncomes: record.totalSalesIncomes,
-      totalTicketsReturns: record.totalTicketsReturns,
-      totalFees: record.totalFees,
-      totalRevenuesWithoutCash: record.totalRevenuesWithoutCash,
-      totalCashIncomes: record.totalCashIncomes,
-    });
+  /**
+   * add movies report records to db
+   * @param {Array(Object)} report list of records to add to movies report
+   * @returns {Promise(void|string)} void in success or string in failure
+   * 
+   * * @example reports
+   *
+   * reports= [
+        { 
+            date: [Date],
+            name: [Name],
+            location:[Location],
+            numOfTicketsSales: [NumberOfTicketsSales],
+            numOfTicketsAssigned: [NumberOfTicketsAssigned],
+            totalSalesIncomes: [TotalSalesIncomes],
+            totalTicketsReturns: [TotalTicketsReturns],
+            totalFees: [TotalFees],
+            totalRevenuesWithoutCash: [TotalRevenuesWithoutCash],
+            totalCashIncomes: [TotalCashIncomes],
+        }
+      ]
+   * 
+   */
+  static async createMovieReport(report) {
+    let recordsToAdd = [];
+    for (let i in report) {
+      let record = report[i];
+      recordsToAdd = recordsToAdd.concat({
+        name: DataBase._add,
+        model: this._types.MOVIES,
+        params: {
+          element: {
+            date: moment(record.date, "DD-MM-YYYY HH:mm").toDate(),
+            name: record.name,
+            location: record.location,
+            numOfTicketsSales: record.numberOfTicketsSales,
+            numOfTicketsAssigned: record.numberOfTicketsAssigned,
+            totalSalesIncomes: record.totalSalesIncomes,
+            totalTicketsReturns: record.totalTicketsReturns,
+            totalFees: record.totalFees,
+            totalRevenuesWithoutCash: record.totalRevenuesWithoutCash,
+            totalCashIncomes: record.totalCashIncomes,
+          },
+        },
+      });
+    }
+    let result = await DataBase.executeActions(recordsToAdd);
+    if (typeof result === "string") {
+      DBlogger.writeToLog(
+        "info",
+        "ReportController",
+        "createMovieReport",
+        result
+      );
+      return "The report cannot be added\n" + result;
+    }
   }
 
   static async getAllGeneralDailyReportFormat(calledFunctionName) {
@@ -65,7 +106,7 @@ class ReportController {
     }
     if (result) {
       result = await DataBase.singleGetById(this._types.GENERAL, {
-        date: new Date(result[0].date),
+        date: moment(result[0].date).toDate(),
       });
       if (typeof result === "string") {
         DBlogger.writeToLog(
@@ -87,12 +128,11 @@ class ReportController {
   static _getSyncDateFormat = (date) => date.toISOString().substring(0, 10);
 
   static _isValidDate(strDate) {
-    let date = new Date(strDate);
+    let date = moment(strDate).toDate();
     if (isNaN(date.valueOf())) return false;
-    let requestedDatePlusOneYear = this._getSyncDateFormat(
-      new Date(date.setFullYear(date.getFullYear() + 1))
-    );
-    return requestedDatePlusOneYear >= this._getSyncDateFormat(new Date());
+    let requestedDatePlusOneYear = date.setFullYear(date.getFullYear() + 1);
+    let todayDate = moment().toDate();
+    return requestedDatePlusOneYear >= todayDate;
   }
 
   static _isValidType(type) {
@@ -163,12 +203,29 @@ class ReportController {
           );
           return "Report record date is invalid";
         }
-        records[i].date = new Date(
-          this._getSyncDateFormat(new Date(records[i].date))
+        let tomorrowDate = moment(records[i].date).toDate();
+        records[i].date = moment(records[i].date).toDate();
+        let requestedFromDateMidnight = moment(
+          this._getSyncDateFormat(records[i].date)
+        ).toDate();
+        let requestedToDateTomorrowMidnight = moment(
+          tomorrowDate.setDate(tomorrowDate.getDate() + 1)
+        ).toDate();
+        requestedToDateTomorrowMidnight = this._getSyncDateFormat(
+          requestedToDateTomorrowMidnight
         );
-        let isDailyReportCreated = await DataBase.singleGetById(type, {
-          date: records[i].date,
-        });
+        let where = {
+          date: {
+            [Sequelize.Op.gte]: requestedFromDateMidnight,
+            [Sequelize.Op.lt]: requestedToDateTomorrowMidnight,
+          },
+        };
+        let isDailyReportCreated = await DataBase.singleFindAll(
+          type,
+          where,
+          undefined,
+          [["date", "ASC"]]
+        );
         if (typeof isDailyReportCreated === "string") {
           DBlogger.writeToLog(
             "info",
@@ -178,7 +235,7 @@ class ReportController {
           );
           return "The report cannot be created\n" + isDailyReportCreated;
         }
-        if (isDailyReportCreated && isDailyReportCreated !== null) {
+        if (isDailyReportCreated && isDailyReportCreated.length !== 0) {
           logger.writeToLog(
             "info",
             "ReportController",
@@ -209,11 +266,12 @@ class ReportController {
 
   /**
    * @param {string} type Type of report from _types
-   * @param {string} date Date of the report
+   * @param {string} fromDate The starting date of the report to show
+   * @param {string} toDate The ending date of the report to show
    * @returns {Promise(Array(Object) | string)} In success returns list of records from the report,
    * otherwise returns error string.
    */
-  static async getReport(type, date) {
+  static async getReport(type, fromDate, toDate) {
     if (!this._isValidType(type)) {
       logger.writeToLog(
         "info",
@@ -224,46 +282,69 @@ class ReportController {
       return "The requested report type is invalid";
     }
 
-    if (!this._isValidDate(date)) {
+    if (!this._isValidDate(fromDate)) {
       logger.writeToLog(
         "info",
         "ReportController",
         "getReport",
-        "The requested report date " + date + " is invalid"
+        "The requested report date " + fromDate + " is invalid"
       );
-      return "The requested report date is invalid";
+      return "The requested report starting date is invalid";
+    }
+    if (!this._isValidDate(toDate)) {
+      logger.writeToLog(
+        "info",
+        "ReportController",
+        "getReport",
+        "The requested report date " + toDate + " is invalid"
+      );
+      return "The requested report ending date is invalid";
     }
     //TO DO : to remove
-    if (type === this._types.MOVIES)
+    /*if (type === this._types.MOVIES)
       return [
         {
           dataValues: {
-            date: moment("08.11.2018 21:30", "YYYY-MM-DD").toDate(),
-            name: "סרט",
-            location: "אולם 6",
-            numOfTicketsSales: 7,
-            numOfTicketsAssigned: 8,
-            totalSalesIncomes: 500,
-            totalTicketsReturns: 0,
-            totalFees: 1.2,
-            totalRevenuesWithoutCash: 500,
-            totalCashIncomes: 400,
+            date: moment().toDate(),
+            name: "",
+            location: "",
+            numOfTicketsSales: "",
+            numOfTicketsAssigned: "",
+            totalSalesIncomes: "",
+            totalTicketsReturns: "",
+            totalFees: "",
+            totalRevenuesWithoutCash: "",
+            totalCashIncomes: "",
           },
         },
-      ];
-    let result = await DataBase.singleFindAll(
-      type,
-      {
-        date: new Date(this._getSyncDateFormat(new Date(date))),
-      },
-      undefined,
-      [["date", "ASC"]]
+      ];*/
+    fromDate = moment(fromDate).toDate();
+    toDate = moment(toDate).toDate();
+    let requestedFromDateMidnight = moment(
+      this._getSyncDateFormat(fromDate)
+    ).toDate();
+    let requestedToDateTomorrowMidnight = moment(
+      toDate.setDate(toDate.getDate() + 1)
+    ).toDate();
+    requestedToDateTomorrowMidnight = this._getSyncDateFormat(
+      requestedToDateTomorrowMidnight
     );
+    let where = {
+      date: {
+        [Sequelize.Op.gte]: requestedFromDateMidnight,
+        [Sequelize.Op.lt]: requestedToDateTomorrowMidnight,
+      },
+    };
+
+    let result = await DataBase.singleFindAll(type, where, undefined, [
+      ["date", "ASC"],
+    ]);
     if (typeof result === "string") {
       DBlogger.writeToLog("info", "ReportController", "getReport", result);
       return "There was a problem getting the report\n" + result;
     }
-    if (result && result.length === 0) return "The report does not exist";
+    if (result && result.length === 0 && type !== this._types.MOVIES)
+      return "The report does not exist";
 
     return result;
   }
@@ -295,7 +376,7 @@ class ReportController {
 
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
-      { date: new Date(result.date) },
+      { date: moment(result.date).toDate() },
       { currentProps: newCurrentProps, allProps: newAllProps }
     );
     if (typeof result === "string") {
@@ -341,7 +422,7 @@ class ReportController {
 
     result = await DataBase.singleUpdate(
       this._types.GENERAL,
-      { date: new Date(result.date) },
+      { date: moment(result.date).toDate() },
       { currentProps: newCurrentProps }
     );
     if (typeof result === "string") {

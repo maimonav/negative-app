@@ -13,25 +13,25 @@ import {
   AddMovie,
   EditMovie,
   RemoveMovie,
-  ShowMovieDetails,
+  ShowMovieDetails
 } from "../../index";
 import {
   handleAddMovie,
   handleEditMovie,
-  handleRemoveMovie,
+  handleRemoveMovie
 } from "../../../Handlers/Handlers";
 import {
   showActionHook,
   addActionHook,
   editActionHook,
-  removeActionHook,
+  removeActionHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 const iconStyle = {
   marginTop: "-10px",
   boxShadow: "none",
   backgroundColor: "unset",
-  color: "white",
+  color: "white"
 };
 
 export default class ManageMovies extends React.Component {
@@ -40,7 +40,7 @@ export default class ManageMovies extends React.Component {
     this.state = { action: "show" };
   }
 
-  onChange = (action) => {
+  onChange = action => {
     this.setState({ action });
   };
 

@@ -32,7 +32,7 @@ describe("Notification Operations Tests", function() {
       "contact",
       user
     );
-    await service.addCategory(category, user);
+    await service.addCategory(category, user, "");
     await service.addNewProduct(product, "10", "2", "2", "10", category, user);
     let content = {
       type: "INFO",
@@ -76,7 +76,7 @@ describe("Notification Operations Tests", function() {
       "contact",
       user
     );
-    await service.addCategory(category, user);
+    await service.addCategory(category, user, "");
     await service.addNewProduct(product, "10", "10", "2", "10", category, user);
     let content = {
       type: "INFO",
@@ -114,7 +114,7 @@ describe("Notification Operations Tests", function() {
     let user = "admin";
     service.login(user, user);
     await service.addNewSupplier(supplier, "contact", user);
-    await service.addCategory("categoryTest", user);
+    await service.addCategory("categoryTest", user, "");
     await service.addMovie(movie, "categoryTest", user);
     await service.addNewEmployee(
       "username",

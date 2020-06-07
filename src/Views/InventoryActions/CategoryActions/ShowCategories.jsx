@@ -9,36 +9,37 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCategories,
-  handleGetCategoryDetails,
+  handleGetCategoryDetails
 } from "../../../Handlers/Handlers";
 import {
   categoryNameHook,
-  categoryParentNameHook,
+  categoryParentNameHook
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowCategories extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryName: "",
+      categoryName: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCategories()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categories: state.result });
       });
   };
 
-  setCategoryName = (categoryName) => {
+  setCategoryName = categoryName => {
     this.setState({ categoryName });
     handleGetCategoryDetails(categoryName)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ categoryName: state.result });
       });
   };
@@ -61,34 +62,35 @@ export default class ShowCategories extends React.Component {
                     setName={this.setCategoryName}
                     isMultiple={false}
                     data-hook={categoryNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.categoryName && (
-                  <GridContainer>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field1"
-                        defaultValue=""
-                        label="categoryName"
-                        value={this.state.categoryName.categoryName || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                      <TextField
-                        id="field2"
-                        defaultValue=""
-                        label="Category Parent"
-                        value={this.state.categoryName.categoryParent || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                        data-hook={categoryParentNameHook}
-                      />
-                    </GridItem>
-                  </GridContainer>
+                  <GridItem xs={12} sm={12} md={8}>
+                    <TextField
+                      id="field1"
+                      defaultValue=""
+                      label="categoryName"
+                      value={this.state.categoryName.categoryName || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field2"
+                      defaultValue=""
+                      label="Category Parent"
+                      value={this.state.categoryName.categoryParent || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                      data-hook={categoryParentNameHook}
+                    />
+                  </GridItem>
                 )}
               </CardBody>
             </Card>

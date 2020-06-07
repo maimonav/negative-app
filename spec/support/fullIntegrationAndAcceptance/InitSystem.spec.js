@@ -60,8 +60,7 @@ describe("Init System Tests", function() {
   });
 
   it("general report added", async function() {
-    let todayDate = new Date();
-    let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
+    let date = new Date("1999-12-31");
     let result = await DB.singleGetById("general_purpose_daily_report", {
       date: new Date(date.toISOString().substring(0, 10)),
     });
@@ -266,6 +265,6 @@ describe("Init System Tests - Restore data Tests", function() {
       expect(order.name).toBe(
         "manager - " + moment(date).format("MMMM Do YYYY, h:mm:ss a")
       );
-    }, 2000);
+    }, 3000);
   }, 7000);
 });

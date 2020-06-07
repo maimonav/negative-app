@@ -4,6 +4,7 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
+const moment = require("moment");
 
 class NotificationController {
   static serverSocket;
@@ -15,6 +16,14 @@ class NotificationController {
   static loggedInUsers = new Set();
   static initServerSocket(httpServer) {
     this.serverSocket = new WebSocket.Server({ httpServer });
+  }
+
+  static _shouldSetAsSeen(subtype) {
+    return (
+      subtype !== "GET NOTIFICATIONS" &&
+      subtype !== "EXTERNAL SYSTEM" &&
+      subtype !== "SAVE NOTIFICATIONS"
+    );
   }
 
   /**
@@ -32,7 +41,25 @@ class NotificationController {
       if (userId && this.loggedInUsers.has(userId))
         this._sendAllNotificationsToUserFromDB(userId, socketClient);
 
-      socketClient.on("close", (socketClient) => {
+      socketClient.on("message", async (message) => {
+        console.log(message);
+        let content = JSON.parse(message);
+        console.log(content);
+        if (
+          message.type &&
+          message.type === "ERROR" &&
+          message.subtype &&
+          message.subtype === "CONFIRM"
+        ) {
+          await DataBase.singleUpdate(
+            "notification",
+            { timeFired: content.timeFired },
+            { seen: true }
+          );
+        }
+      });
+
+      socketClient.on("close", () => {
         console.log(clientUrl, "closed");
         this.clientsMap.delete(clientUrl);
         console.log("Number of clients:", serverSocket.clients.size);
@@ -43,6 +70,7 @@ class NotificationController {
         let err = {
           type: "ERROR",
           subtype: "INIT",
+          timeFired: moment().format(),
           content: initResult,
         };
         socketClient.send(JSON.stringify([err]));
@@ -92,18 +120,21 @@ class NotificationController {
         "info",
         "NotificationController",
         "loginHandler- singleFindAll ",
-        "userId: " + userId
+        "userId: " + userId + "\n" + notifications
       );
-      clientSocket.send([
-        {
-          type: "ERROR",
-          subtype: "GET NOTIFICATIONS",
-          content:
-            "There was a problem sending your notifications.\n" +
-            notifications +
-            "\nYou can try to loggout and loggin to see them all.",
-        },
-      ]);
+      clientSocket.send(
+        JSON.stringify([
+          {
+            type: "INFO",
+            subtype: "GET NOTIFICATIONS",
+            timeFired: moment().format(),
+            content:
+              "There was a problem sending your notifications.\n" +
+              "\nYou can try to logged out and logged in to see them all." +
+              notifications,
+          },
+        ])
+      );
       return;
     }
 
@@ -155,9 +186,18 @@ class NotificationController {
   static notifyLowQuantity(productList) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
+      "INFO",
       "LOW QUANTITY",
       productList
     );
+  }
+
+  /**
+   * send message to the client about auto logged out user
+   * @param {Array(Object)} userId the user who logged out
+   */
+  static autoLogoutHandler(userId) {
+    this._notify([userId], "INFO", "AUTO LOGGED OUT");
   }
 
   /**
@@ -167,27 +207,54 @@ class NotificationController {
   static notifyHighQuantity(productList) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
+      "INFO",
       "HIGH QUANTITY",
       productList
     );
   }
 
   /**
-   * alert about all movie orders confirem and movies examined
+   * alert about all movie orders confirm and movies examined
    * @param {Array(string)} movieList movie that examined, @example ["Spiderman","Saw"]
    */
   static notifyMovieExamination(movieList) {
     this._notify(
       [this.ManagerId, this.DeputyManagerId],
+      "INFO",
       "MOVIE EXAMINATION",
       movieList
     );
   }
+  /**
+   * alert about event buzz error
+   * @param {Array(string)} msg error message to show to the user
+   */
+  static notifyEventBuzzError(msg) {
+    this._notify(
+      [this.ManagerId, this.DeputyManagerId],
+      "INFO",
+      "EXTERNAL SYSTEM",
+      msg
+    );
+  }
 
-  static async _notify(usersList, subtype, content) {
-    let timeFired = new Date();
+  static async getSeenNotifications(userId) {
+    let result = await DataBase.singleFindAll("notification", {
+      recipientUserId: userId,
+      seen: true,
+    });
+    if (typeof result === "string") return result;
+    result = result.map((notification) => {
+      notification.content.timeFired = notification.timeFired;
+      return notification.content;
+    });
+    return result;
+  }
+
+  static async _notify(usersList, type, subtype, content) {
+    let timeFired = moment().format();
     let notificationContent = {
-      type: "INFO",
+      type: type,
       subtype: subtype,
       content: content,
       timeFired: timeFired,
@@ -206,9 +273,9 @@ class NotificationController {
         let clientSocket = this.clientsMap.get(userUrl);
         clientSocket.send(JSON.stringify([notificationContent]));
         //set notification as seen
-        seenFlag = true;
+        seenFlag = this._shouldSetAsSeen(subtype);
       }
-      delete notificationContent.timeFired;
+      if (notificationContent.timeFired) delete notificationContent.timeFired;
 
       let notificationObject = {
         name: DataBase._add,
@@ -227,6 +294,8 @@ class NotificationController {
       );
     }
 
+    if (subtype === "AUTO LOGGED OUT") return;
+
     //insert list of notification to db
     let result = await DataBase.executeActions(notificationObjectsList);
 
@@ -241,16 +310,19 @@ class NotificationController {
           this.clientsMap.has(userUrl)
         ) {
           let clientSocket = this.clientsMap.get(userUrl);
-          clientSocket.send([
-            {
-              type: "ERROR",
-              subtype: "SAVE NOTIFICATIONS",
-              content:
-                "There was a problem saving your notifications," +
-                "information got lost.\n",
-              result,
-            },
-          ]);
+          clientSocket.send(
+            JSON.stringify([
+              {
+                type: "INFO",
+                subtype: "SAVE NOTIFICATIONS",
+                timeFired: moment().format(),
+                content:
+                  "There was a problem saving your notifications," +
+                  "information got lost.\n",
+                result,
+              },
+            ])
+          );
         }
       }
 

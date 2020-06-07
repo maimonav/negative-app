@@ -50,7 +50,7 @@ export default class AddMovie extends React.Component {
                 <h4 style={{ margin: "auto" }}>Add New movie</h4>
               </CardHeader>
               <CardBody>
-                <GridContainer>
+                <GridContainer style={{ paddingLeft: "5px" }}>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Add Movie Name"
@@ -63,20 +63,28 @@ export default class AddMovie extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"category"}
-                      items={this.state.categories}
-                      boxLabel={"Choose category"}
-                      setName={this.setCategory}
-                      isMultiple={false}
-                      data-hook={categoryNameHook}
-                    />
-                  </GridItem>
-                </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"category"}
+                        items={this.state.categories}
+                        boxLabel={"Choose category"}
+                        setName={this.setCategory}
+                        isMultiple={false}
+                        data-hook={categoryNameHook}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() => this.props.handleAddMovie(movieName, category)}

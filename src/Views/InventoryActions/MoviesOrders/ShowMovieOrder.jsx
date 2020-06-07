@@ -10,33 +10,34 @@ import ComboBox from "../../../Components/AutoComplete";
 import moment from "moment";
 import {
   handleGetMovieOrders,
-  handleGetMovieOrderDetails,
+  handleGetMovieOrderDetails
 } from "../../../Handlers/Handlers";
 import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowMovieOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: "",
+      orderId: ""
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovieOrders()
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orders: state.result });
       });
   };
 
-  setOrderId = (orderId) => {
+  setOrderId = orderId => {
     this.setState({ orderId });
     handleGetMovieOrderDetails(orderId)
-      .then((response) => response.json())
-      .then((state) => {
+      .then(response => response.json())
+      .then(state => {
         this.setState({ orderId: state.result });
       });
   };
@@ -62,49 +63,47 @@ export default class ShowMovieOrders extends React.Component {
                     setName={this.setOrderId}
                     isMultiple={false}
                     data-hook={orderNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.orderId && (
-                  <GridContainer style={style}>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field1"
-                        defaultValue=""
-                        label="Order Date"
-                        value={
-                          moment(orderId.orderDate).format("DD/MM/YYYY") || ""
-                        }
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field2"
-                        defaultValue=""
-                        label="supplier Details"
-                        value={orderId.supplierDetails || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                    <GridItem xs={12} sm={12} md={8}>
-                      <TextField
-                        id="field3"
-                        defaultValue=""
-                        label="Movies:"
-                        value={orderId.products || ""}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                        variant="filled"
-                      />
-                    </GridItem>
-                  </GridContainer>
+                  <GridItem xs={12} sm={12} md={8}>
+                    <TextField
+                      id="field1"
+                      defaultValue=""
+                      label="Order Date"
+                      value={
+                        moment(orderId.orderDate).format("DD/MM/YYYY") || ""
+                      }
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field2"
+                      defaultValue=""
+                      label="supplier Details"
+                      value={orderId.supplierDetails || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                    <TextField
+                      id="field3"
+                      defaultValue=""
+                      label="Movies:"
+                      value={orderId.products || ""}
+                      InputProps={{
+                        readOnly: true
+                      }}
+                      style={marginStyle}
+                      variant="outlined"
+                    />
+                  </GridItem>
                 )}
               </CardBody>
             </Card>

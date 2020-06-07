@@ -7,7 +7,7 @@ import CryptoJS from "crypto-js";
 import {
   userNameHook,
   passwordHook,
-  actionButtonHook
+  actionButtonHook,
 } from "../../consts/data-hooks";
 import "./Login.scss";
 
@@ -15,13 +15,13 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.classes = makeStyles(theme => ({
+    this.classes = makeStyles((theme) => ({
       root: {
         "& > *": {
           margin: theme.spacing(1),
-          width: 200
-        }
-      }
+          width: 200,
+        },
+      },
     }));
   }
 
@@ -46,12 +46,12 @@ class Login extends React.Component {
               <TextField
                 label="Username"
                 data-hook={userNameHook}
-                onChange={event => this.setUsername(event)}
+                onChange={(event) => this.setUsername(event)}
                 id="loginusername"
               />
               <TextField
                 label="Password"
-                onChange={event => this.setPassword(event)}
+                onChange={(event) => this.setPassword(event)}
                 data-hook={passwordHook}
                 type="password"
                 id="loginpassword"
@@ -59,12 +59,14 @@ class Login extends React.Component {
             </Box>
             <BaseButton
               name="Login"
+              color="default"
               data-hook={actionButtonHook}
               onClick={() =>
                 this.props.handleLogin(
                   this.state.username,
                   this.state.password,
-                  this.props.onLogin
+                  this.props.onLogin,
+                  this.props.onLoginError
                 )
               }
             />

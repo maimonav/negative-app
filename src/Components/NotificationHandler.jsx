@@ -12,15 +12,11 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Divider from "@material-ui/core/Divider";
 import Box from "@material-ui/core/Box";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import Paper from "@material-ui/core/Paper";
 import moment from "moment";
-
-//TODO:: websocket impl
-const socket = new WebSocket("ws://localhost:3001");
-
-// Connection opened
-socket.addEventListener("open", function(event) {
-  socket.send("Hello Server!");
-});
+import { handleGetSeenNotifications, ws } from "../Handlers/Handlers";
+import { notificationButtonHook } from "../consts/data-hooks";
 
 function getNotificationMessage(type, content, requiredQuantity) {
   switch (type) {
@@ -30,16 +26,29 @@ function getNotificationMessage(type, content, requiredQuantity) {
       return `Warning: you have high quantity in product ${content.name}, required: ${requiredQuantity}, got ${content.quantity}`;
     case "MOVIE EXAMINATION":
       return `The following movies: ${content}, were reviewed and approved in the system`;
+    case "EXTERNAL SYSTEM":
+      return content;
+    case "SAVE NOTIFICATIONS":
+      return content;
+    case "GET NOTIFICATIONS":
+      return content;
     default:
       return "";
   }
 }
+
+const confirmMessagesArray = [
+  "EXTERNAL SYSTEM",
+  "SAVE NOTIFICATIONS",
+  "GET NOTIFICATIONS",
+];
 
 export default class NotificationHandler extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       notifications: [],
+      oldNotifications: [],
       view: false,
       newNotifications: 0,
       changeColor: false,
@@ -47,53 +56,97 @@ export default class NotificationHandler extends React.Component {
   }
 
   componentDidMount() {
-    socket.onopen = () => {
-      console.log("connected");
-    };
-
-    socket.onmessage = (evt) => {
-      const message = JSON.parse(evt.data);
-      const date = moment(message[0].timeFired).format("LLLL");
-      const content = message[0].content[0];
-      const requiredQuantity = content.minQuantity
-        ? content.minQuantity
-        : content.maxQuantity;
-      const notificationMessage = getNotificationMessage(
-        message[0].subtype,
-        content,
-        requiredQuantity
-      );
-      this.setState(
-        {
-          notifications: [
-            {
-              name: notificationMessage,
-              hasUserView: false,
-              notificationDate: date,
-            },
-            ...this.state.notifications,
-          ],
-        },
-        () =>
-          this.setState({
-            newNotifications:
-              this.state.newNotifications + message[0].content.length,
-          })
-      );
-      console.log(message);
-    };
-
-    socket.onclose = () => {
-      console.log("disconnected");
-    };
+    const { userName } = this.props;
+    if (userName) {
+      handleGetSeenNotifications(userName)
+        .then((response) => response.json())
+        .then((state) => {
+          this.setState({ messages: state.result }, () =>
+            this.createNotificationArray()
+          );
+        });
+    }
   }
 
-  handleNotificationNumber() {
-    const { notifications, view } = this.state;
-    if (view) {
-      return 0;
+  createNotificationArray() {
+    const { messages } = this.state;
+    const oldMessages = [];
+    for (let i in messages) {
+      let message = messages[i];
+      if (message.type === "INFO") {
+        const notification = this.buildNotificationMessage(message, true);
+        oldMessages.unshift(notification);
+      }
     }
-    return notifications.length;
+    this.setState({
+      oldNotifications: oldMessages,
+      ...this.state.oldNotifications,
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.messageContent !== this.props.messageContent) {
+      this.updateNotifications();
+    }
+  }
+
+  updateNotifications() {
+    const { messageContent } = this.props;
+    let newNotificationsArray = [];
+    for (let i in messageContent) {
+      let notificationMessage = messageContent[i];
+      let notification = this.buildNotificationMessage(
+        notificationMessage,
+        false
+      );
+      newNotificationsArray.unshift(notification);
+    }
+    const concatAllNotificationsArray = newNotificationsArray.concat(
+      this.state.notifications
+    );
+    this.setState(
+      {
+        notifications: concatAllNotificationsArray,
+      },
+      () =>
+        this.setState({
+          newNotifications: this.state.newNotifications + messageContent.length,
+        })
+    );
+  }
+
+  buildNotificationMessage(message, isOld) {
+    const messageType = message.subtype;
+    let content;
+    let requiredQuantity;
+    let confirmButton;
+    if (messageType === "AUTO LOGGED OUT") {
+      window.location.reload();
+    }
+    if (confirmMessagesArray.includes(messageType)) {
+      content = message.content;
+      confirmButton = isOld ? false : true;
+    } else {
+      content = message.content[0];
+      requiredQuantity = content.minQuantity
+        ? content.minQuantity
+        : content.maxQuantity;
+      confirmButton = false;
+    }
+    const date = moment(message.timeFired).format("LLLL");
+    const notificationMessage = getNotificationMessage(
+      messageType,
+      content,
+      requiredQuantity
+    );
+    const notification = {
+      name: notificationMessage,
+      type: messageType,
+      hasUserView: isOld,
+      notificationDate: date,
+      confirmMessage: confirmButton,
+    };
+    return notification;
   }
 
   handleOnEnter = () => {
@@ -109,16 +162,43 @@ export default class NotificationHandler extends React.Component {
     this.setState({ view: false, newNotifications: 0, notifications });
   };
 
+  handleConfirm = (notificayionTimeFired) => {
+    const time = moment(notificayionTimeFired).format();
+    ws.send(
+      JSON.stringify([
+        {
+          type: "INFO",
+          subtype: "CONFIRM",
+          timeFired: time,
+        },
+      ])
+    );
+
+    const updatedNotifications = this.state.notifications.map((not) =>
+      not.notificationDate === notificayionTimeFired
+        ? { ...not, confirmMessage: false }
+        : not
+    );
+    this.setState({ notifications: updatedNotifications });
+  };
+
   render() {
-    const { notifications, view, newNotifications } = this.state;
-    console.log("array:", notifications);
-    console.log("view:", view);
-    console.log("newNotifications:", newNotifications);
+    const {
+      notifications,
+      oldNotifications,
+      view,
+      newNotifications,
+    } = this.state;
+    const showNotificatins = notifications.concat(oldNotifications);
     return (
       <PopupState variant="popover" popupId="demo-popup-popover">
         {(popupState) => (
-          <div>
-            <IconButton aria-label="show new notifications" color="inherit">
+          <>
+            <IconButton
+              aria-label="show new notifications"
+              color="inherit"
+              data-hook={notificationButtonHook}
+            >
               <Badge
                 badgeContent={view ? 0 : newNotifications}
                 color="secondary"
@@ -139,37 +219,61 @@ export default class NotificationHandler extends React.Component {
                 horizontal: "center",
               }}
             >
-              <List style={{ width: 350 }}>
-                <h3
-                  style={{ fontSize: 20, marginLeft: "10px", color: "#6495ED" }}
-                >
-                  Notifications:
-                </h3>
-                <Divider />
-                {notifications.map((notification) => (
-                  <>
-                    <Box
-                      bgcolor={notification.hasUserView ? "white" : "#eaf7ff"}
-                      p={2}
-                    >
-                      <ListItem>
-                        <ListItemAvatar>
-                          <Avatar>
-                            <ListAltIcon />
-                          </Avatar>
-                        </ListItemAvatar>
-                        <ListItemText
-                          primary={notification.name}
-                          secondary={notification.notificationDate}
-                        />
-                      </ListItem>
-                      <Divider variant="inset" component="li" />
-                    </Box>
-                  </>
-                ))}
-              </List>
+              <Paper style={{ width: 400, maxHeight: 500, overflow: "auto" }}>
+                <List>
+                  <h3
+                    style={{
+                      fontSize: 20,
+                      marginLeft: "10px",
+                      color: "#6495ED",
+                    }}
+                  >
+                    Notifications:
+                  </h3>
+                  <Divider />
+                  {showNotificatins.map((notification, key) => (
+                    <>
+                      <Box
+                        key={key}
+                        bgcolor={notification.hasUserView ? "white" : "#eaf7ff"}
+                        p={2}
+                      >
+                        <ListItem>
+                          <ListItemAvatar>
+                            <Avatar>
+                              <ListAltIcon />
+                            </Avatar>
+                          </ListItemAvatar>
+                          <ListItemText
+                            primary={notification.name}
+                            secondary={notification.notificationDate}
+                          />
+                          {notification.confirmMessage && (
+                            <>
+                              <IconButton
+                                onClick={() =>
+                                  this.handleConfirm(
+                                    notification.notificationDate
+                                  )
+                                }
+                                color="inherit"
+                                aria-label="add to shopping cart"
+                              >
+                                <Avatar>
+                                  <CheckBoxIcon />
+                                </Avatar>
+                              </IconButton>
+                            </>
+                          )}
+                        </ListItem>
+                        <Divider variant="inset" component="li" />
+                      </Box>
+                    </>
+                  ))}
+                </List>
+              </Paper>
             </Popover>
-          </div>
+          </>
         )}
       </PopupState>
     );

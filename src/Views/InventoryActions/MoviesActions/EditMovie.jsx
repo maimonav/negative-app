@@ -12,6 +12,7 @@ import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetMovies,
   handleGetCategories,
+  handleGetMovieDetails,
 } from "../../../Handlers/Handlers";
 import {
   movieNameHook,
@@ -19,6 +20,7 @@ import {
   keyHook,
   examinationRoomHook,
 } from "../../../consts/data-hooks";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditMovie extends React.Component {
@@ -49,6 +51,11 @@ export default class EditMovie extends React.Component {
 
   setMovieName = (movieName) => {
     this.setState({ movieName: movieName });
+    handleGetMovieDetails(movieName)
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ movieDetails: state.result });
+      });
   };
 
   setCategory = (category) => {
@@ -64,7 +71,13 @@ export default class EditMovie extends React.Component {
   };
 
   render() {
-    const { movieName, category, key, examinationRoom } = this.state;
+    const {
+      movieName,
+      category,
+      key,
+      examinationRoom,
+      movieDetails,
+    } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -86,22 +99,47 @@ export default class EditMovie extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"category"}
+                        items={this.state.categories}
+                        boxLabel={
+                          movieDetails
+                            ? `Current category: ${
+                                movieDetails && movieDetails.category
+                                  ? movieDetails.category
+                                  : "none"
+                              }`
+                            : "Change Movie Category" + optional
+                        }
+                        //boxLabel={"Choose category"}
+                        setName={this.setCategory}
+                        isMultiple={false}
+                        data-hook={categoryNameHook}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"category"}
-                      items={this.state.categories}
-                      boxLabel={"Choose category"}
-                      setName={this.setCategory}
-                      isMultiple={false}
-                      data-hook={categoryNameHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
-                      labelText="Key"
+                      labelText={
+                        movieDetails
+                          ? `Current key: ${
+                              movieDetails && movieDetails.movieKey
+                                ? movieDetails.movieKey
+                                : "none"
+                            }`
+                          : "Change Movie Key" + optional
+                      }
                       id="key"
                       formControlProps={{
                         fullWidth: true,
@@ -112,9 +150,17 @@ export default class EditMovie extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
-                      labelText="Examination room"
+                      labelText={
+                        movieDetails
+                          ? `Current examination room: ${
+                              movieDetails && movieDetails.examinationRoom
+                                ? movieDetails.examinationRoom
+                                : "none"
+                            }`
+                          : "Change Examination Room" + optional
+                      }
                       id="examinationRoom"
                       formControlProps={{
                         fullWidth: true,
@@ -125,7 +171,7 @@ export default class EditMovie extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() =>

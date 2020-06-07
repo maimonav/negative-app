@@ -26,7 +26,7 @@ import {
 const order = "order";
 const product = "product";
 const price = "20";
-const quantity = "100";
+const quantity = "80";
 const min = "20";
 const max = "100";
 const category = "category";
@@ -107,19 +107,16 @@ function addOrder() {
     .type("{enter}")
     .type("{esc}");
 
+  cy.get(`[data-hook=${productQuantityHook}]`)
+    .click()
+    .type(quantity);
+
+  cy.get(`#addProduct`).click();
+  cy.get(`#finishAddProducts`).click();
+
   cy.get(`[data-hook=${actionButtonHook}]`).click();
 
-  cy.get("#edit").click();
-
-  cy.get(
-    "#root > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div > div > div.makeStyles-cardBody-788 > div:nth-child(3) > div > div > div.Component-horizontalScrollContainer-1308 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(3)"
-  )
-    .click()
-    .type("10");
-
-  cy.get("#check").click();
-
-  cy.get("#editTableButton").click();
+  // cy.get("#editTableButton").click();
 
   cy.get(`[data-hook=${userNameHook}`)
     .click()
@@ -207,5 +204,44 @@ context("Manage Cafeteria Orders", () => {
       .type("{esc}");
 
     cy.get("#chooseOrder").click();
+  });
+
+  it("confirm cafeteria order by shift manager", () => {
+    cy.addEmployee("Shift Manager", "user1", "456", "user1", "user1", "tmp");
+    cy.chooseAction(showActionHook);
+    cy.chooseAction(addActionHook);
+    cy.addEmployee("MANAGER", "user", "123", "user", "user", "tmp");
+    cy.logout();
+    cy.login("user", "123");
+    addProduct();
+    addSupplier();
+    addOrder();
+    cy.logout();
+    cy.login("user1", "456");
+
+    cy.chooseAction(confirmActionHook);
+    cy.get(`[data-hook=${actionButtonHook}]`).click();
+
+    cy.get(`[data-hook=${orderNameHook}`)
+      .click()
+      .type("{downarrow}")
+      .type("{enter}")
+      .type("{esc}");
+
+    cy.get("#chooseOrder").click();
+
+    cy.get("#edit").click();
+
+    cy.get(
+      "#root > div:nth-child(2) > div > div > div > div:nth-child(2) > div > div > div > div:nth-child(4) > div > div > div > div.Component-horizontalScrollContainer-1661 > div > div > div > table > tbody > tr:nth-child(1) > td:nth-child(4) > div > div"
+    )
+      .click()
+      .type("{selectall}")
+      .type("80");
+
+    cy.get("#check").click();
+
+    cy.get("#editTableButton").click();
+    cy.get("#confirmOrder").click();
   });
 });

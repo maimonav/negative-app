@@ -34,16 +34,18 @@ class Movie extends Product {
   }
 
   editMovie(categoryId, key, examinationRoom) {
-    super.categoryId = categoryId;
-    this.movieKey = key;
-    this.examinationRoom = examinationRoom;
+    this.categoryId = categoryId ? categoryId : this.categoryId;
+    this.movieKey = key ? key : this.movieKey;
+    this.examinationRoom = examinationRoom
+      ? examinationRoom
+      : this.examinationRoom;
     return DataBase.singleUpdate(
       "movie",
       { id: this.id },
       {
         categoryId: this.categoryId,
-        movieKey: key,
-        examinationRoom: examinationRoom,
+        movieKey: this.movieKey,
+        examinationRoom: this.examinationRoom,
       }
     );
   }

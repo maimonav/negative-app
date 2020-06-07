@@ -9,33 +9,35 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetEmployees,
-  handleGetEmployeeDetails
+  handleGetEmployeeDetails,
 } from "../../../Handlers/Handlers";
 import { userNameHook, contactDetailsHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: ""
+      userName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetEmployees(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ employees: state.result });
       });
   };
 
-  setUsername = userName => {
+  setUsername = (userName) => {
     this.setState({ userName });
     handleGetEmployeeDetails(userName, localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ employee: state.result });
       });
   };
@@ -44,13 +46,13 @@ export default class ShowEmployee extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Show employee details</h4>
               </CardHeader>
               <CardBody>
-                <GridItem xs={12} sm={12} md={6}>
+                <GridItem xs={12} sm={12} md={6} style={style}>
                   <ComboBox
                     id={"userName"}
                     items={this.state.employees}
@@ -58,19 +60,21 @@ export default class ShowEmployee extends React.Component {
                     setName={this.setUsername}
                     isMultiple={false}
                     data-hook={userNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.userName && this.state.employee && (
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridContainer style={style}>
                     <TextField
                       id="filled-read-only-input"
                       defaultValue=""
                       label="First name"
                       value={this.state.employee.firstName || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="filled-read-only-input"
@@ -78,9 +82,10 @@ export default class ShowEmployee extends React.Component {
                       label="Last name"
                       value={this.state.employee.lastName || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
 
                     <TextField
@@ -89,9 +94,10 @@ export default class ShowEmployee extends React.Component {
                       label="Permissions"
                       value={this.state.employee.permissions || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="filled-read-only-input"
@@ -99,12 +105,13 @@ export default class ShowEmployee extends React.Component {
                       label="Contact details"
                       value={this.state.employee.contactDetails || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                       data-hook={contactDetailsHook}
                     />
-                  </GridItem>
+                  </GridContainer>
                 )}
               </CardBody>
             </Card>

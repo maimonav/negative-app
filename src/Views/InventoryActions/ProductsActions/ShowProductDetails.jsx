@@ -13,6 +13,7 @@ import {
 } from "../../../Handlers/Handlers";
 import { productNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
+const marginStyle = { marginBottom: "10px", marginRight: "10px" };
 
 export default class ShowProductDetails extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ export default class ShowProductDetails extends React.Component {
   };
 
   render() {
+    const { productName } = this.state;
     return (
       <div>
         <GridContainer style={style}>
@@ -58,6 +60,7 @@ export default class ShowProductDetails extends React.Component {
                     setName={this.setProductName}
                     isMultiple={false}
                     data-hook={productNameHook}
+                    style={marginStyle}
                   />
                 </GridItem>
                 {this.state.productName && (
@@ -66,61 +69,79 @@ export default class ShowProductDetails extends React.Component {
                       id="field1"
                       defaultValue=""
                       label="productName"
-                      value={this.state.productName.productName || ""}
+                      value={productName.productName || ""}
                       InputProps={{
                         readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field2"
                       defaultValue=""
                       label="Product Category"
-                      value={this.state.productName.productCategory || ""}
+                      value={productName.productCategory || ""}
                       InputProps={{
                         readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field3"
                       defaultValue=""
                       label="Product Price"
-                      value={this.state.productName.productPrice || ""}
+                      value={productName.productPrice || ""}
                       InputProps={{
                         readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field4"
                       defaultValue=""
                       label="Product Quantity"
-                      value={this.state.productName.productQuantity || ""}
+                      value={
+                        productName.productQuantity
+                          ? productName.productQuantity
+                          : 0
+                      }
                       InputProps={{
                         readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field5"
                       defaultValue=""
-                      label="Product Max Qunatity"
-                      value={this.state.productName.productMaxQunatity || ""}
+                      label="Product Max Quantity"
+                      value={
+                        productName.productMaxQuantity
+                          ? productName.productMaxQuantity
+                          : 0
+                      }
                       InputProps={{
                         readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                     <TextField
                       id="field6"
                       defaultValue=""
-                      label="Product Mim Qunatity"
-                      value={this.state.productName.productMimQunatity || ""}
+                      label="Product Mim Quantity"
+                      value={
+                        productName.productMimQuantity
+                          ? productName.productMimQuantity
+                          : 0
+                      }
                       InputProps={{
                         readOnly: true,
                       }}
-                      variant="filled"
+                      style={marginStyle}
+                      variant="outlined"
                     />
                   </GridItem>
                 )}

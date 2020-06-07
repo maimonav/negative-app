@@ -144,6 +144,7 @@ async function initDB(dbName, password) {
     {
       host: "localhost",
       dialect: "mysql",
+      timezone: "+03:00",
     }
   );
 
@@ -156,10 +157,10 @@ async function initDB(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
-      "DBInitializtion",
+      "DBInitialization",
       "initDB- authenticate",
       errId + " - " + errMsg
     );
@@ -222,7 +223,7 @@ async function initDB(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",
@@ -238,10 +239,8 @@ async function initDB(dbName, password) {
 async function _initGeneralReport() {
   let result = await DataBase.singleGetById("general_purpose_daily_report", {});
   if (result != null) return;
-  let todayDate = new Date();
-  let date = new Date(todayDate.setDate(todayDate.getDate() - 1));
   return DataBase.singleAdd("general_purpose_daily_report", {
-    date: date.toISOString().substring(0, 10),
+    date: new Date("01/01/2000").toISOString().substring(0, 10),
     currentProps: [],
     propsObject: {},
     allProps: [],
@@ -284,7 +283,7 @@ async function connectAndCreate(dbName, password) {
       ", " +
       (password ? password : defaultPassword) +
       " - " +
-      error;
+      JSON.stringify(error);
     DBlogger.writeToLog(
       "error",
       "DBInitializtion",

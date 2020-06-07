@@ -16,20 +16,20 @@ export default class RemoveEmployee extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userName: ""
+      userName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetEmployees(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ employees: state.result });
       });
   };
 
-  setUsername = userName => {
+  setUsername = (userName) => {
     this.setState({ userName });
   };
 
@@ -38,29 +38,39 @@ export default class RemoveEmployee extends React.Component {
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info">
                 <h4 style={{ margin: "auto" }}>Remove employee</h4>
               </CardHeader>
               <CardBody>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"userName"}
-                      items={this.state.employees}
-                      boxLabel={"Choose employee"}
-                      setName={this.setUsername}
-                      isMultiple={false}
-                      data-hook={userNameHook}
-                    />
-                  </GridItem>
+                <GridContainer style={style}>
+                  <ComboBox
+                    id={"userName"}
+                    items={this.state.employees}
+                    boxLabel={"Choose employee"}
+                    setName={this.setUsername}
+                    isMultiple={false}
+                    data-hook={userNameHook}
+                  />
                 </GridContainer>
               </CardBody>
               <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
-                  onClick={() => this.props.handleRemoveEmployee(userName)}
+                  onClick={() => {
+                    if (this.state.userName) {
+                      this.props
+                        .handleRemoveEmployee(userName)
+                        .then((response) => response.json())
+                        .then((state) => {
+                          alert(state.result);
+                          this.setInitialState();
+                        });
+                    } else {
+                      alert("Employee name is required.");
+                    }
+                  }}
                 >
                   Remove Employee
                 </Button>

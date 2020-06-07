@@ -21,6 +21,7 @@ import {
   productMaxQuantityHook,
   productMinQuantityHook,
 } from "../../../consts/data-hooks";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class AddProduct extends React.Component {
@@ -94,7 +95,7 @@ export default class AddProduct extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <ComboBox
                       id={"productCategory"}
                       items={this.state.categories}
@@ -106,20 +107,21 @@ export default class AddProduct extends React.Component {
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
                       labelText="Product Name"
                       id="productName"
                       formControlProps={{
                         fullWidth: true,
                       }}
+                      required
                       onChange={(event) => this.setProuctName(event)}
                       data-hook={productNameHook}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
                       labelText="Product Price"
                       id="productPrice"
@@ -129,13 +131,14 @@ export default class AddProduct extends React.Component {
                       inputProps={{
                         type: "number",
                       }}
+                      required
                       onChange={(event) => this.setProuctPrice(event)}
                       data-hook={productPriceHook}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
                       labelText="Product Quantity"
                       id="productQuantity"
@@ -145,31 +148,16 @@ export default class AddProduct extends React.Component {
                       inputProps={{
                         type: "number",
                       }}
+                      required
                       onChange={(event) => this.setProuctQuantity(event)}
                       data-hook={productQuantityHook}
                     />
                   </GridItem>
                 </GridContainer>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
+                  <GridItem xs={12} sm={12} md={7}>
                     <CustomInput
-                      labelText="Set Product Max Quantity"
-                      id="productMaxQuantity"
-                      formControlProps={{
-                        fullWidth: true,
-                      }}
-                      inputProps={{
-                        type: "number",
-                      }}
-                      onChange={(event) => this.setMaxQuantity(event)}
-                      data-hook={productMaxQuantityHook}
-                    />
-                  </GridItem>
-                </GridContainer>
-                <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <CustomInput
-                      labelText="Set Product Min Quantity"
+                      labelText={"Set Product Min Quantity" + optional}
                       id="productMinQuantity"
                       formControlProps={{
                         fullWidth: true,
@@ -182,8 +170,24 @@ export default class AddProduct extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <GridContainer>
+                  <GridItem xs={12} sm={12} md={7}>
+                    <CustomInput
+                      labelText={"Set Product Max Quantity" + optional}
+                      id="productMaxQuantity"
+                      formControlProps={{
+                        fullWidth: true,
+                      }}
+                      inputProps={{
+                        type: "number",
+                      }}
+                      onChange={(event) => this.setMaxQuantity(event)}
+                      data-hook={productMaxQuantityHook}
+                    />
+                  </GridItem>
+                </GridContainer>
               </CardBody>
-              <CardFooter>
+              <CardFooter style={{ paddingLeft: "15px" }}>
                 <Button
                   color="info"
                   onClick={() =>

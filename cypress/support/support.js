@@ -5,6 +5,7 @@ before(() => {
 });
 
 beforeEach(() => {
+  cy.startSystem();
   cy.login("admin", "admin");
 });
 

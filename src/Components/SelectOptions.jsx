@@ -5,27 +5,21 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import { Select, ListItemText } from "@material-ui/core";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   formControl: {
     margin: theme.spacing(1),
-    minWidth: 120
+    minWidth: 120,
   },
   selectEmpty: {
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 }));
 
 export default function SimpleSelect(props) {
   const classes = useStyles();
   const [name, setName] = React.useState("");
 
-  // const inputLabel = React.useRef(null);
-  // const [labelWidth, setLabelWidth] = React.useState(0);
-  // React.useEffect(() => {
-  //   setLabelWidth(inputLabel.current.offsetWidth);
-  // }, []);
-
-  const handleChange = event => {
+  const handleChange = (event) => {
     props.setName(event.target.value);
     setName(event.target.value);
   };
@@ -35,7 +29,7 @@ export default function SimpleSelect(props) {
       <FormControl className={classes.formControl}>
         <InputLabel>{props.placeHolder}</InputLabel>
         <Select value={name} onChange={handleChange}>
-          {props.names.map(name => (
+          {props.names.map((name) => (
             <MenuItem key={name} value={name}>
               <ListItemText primary={name} />
             </MenuItem>

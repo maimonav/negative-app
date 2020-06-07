@@ -157,7 +157,9 @@ export default class EditCafeteriaOrder extends React.Component {
                       />
                     </GridItem>
                   </GridContainer>
-                  <GridContainer style={{ justifyContent: "center" }}>
+                  <GridContainer
+                    style={{ justifyContent: "center", marginTop: "10px" }}
+                  >
                     {orderId && (
                       <Button
                         id={"chooseOrder"}

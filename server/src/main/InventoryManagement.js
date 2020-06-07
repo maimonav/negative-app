@@ -74,7 +74,7 @@ class InventoryManagement {
       );
       return "Category doesn't exist";
     }
-    if (examinationRoom < 0) {
+    if (examinationRoom && examinationRoom < 0) {
       this.writeToLog(
         "info",
         "editMovie",
@@ -864,8 +864,8 @@ class InventoryManagement {
         productCategory: this.categories.get(product.categoryId).name,
         productPrice: product.price,
         productQuantity: product.quantity,
-        productMaxQunatity: productMaxQuantityToRepresnt,
-        productMimQunatity: product.minQuantity,
+        productMaxQuantity: productMaxQuantityToRepresnt,
+        productMimQuantity: product.minQuantity,
       };
     }
     return output;

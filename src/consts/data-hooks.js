@@ -20,6 +20,10 @@ export const cafeteriaOrdersHook = "cafeteriaOrdersButton";
 export const moviesOrdersHook = "moviesOrdersButton";
 export const orderNameHook = "orderNameField";
 export const orderDateHook = "orderDateField";
+export const newFieldHook = "newField";
+export const notificationButtonHook = "notificationButton";
+export const logFileButtonHook = "logFileButton";
+export const logFileSelectButtonHook = "logFileSelectButton";
 
 //Tabs
 export const userActionsTabHook = "userActionsTab";
@@ -41,6 +45,7 @@ export const addActionHook = "addAction";
 export const editActionHook = "editAction";
 export const removeActionHook = "removeAction";
 export const confirmActionHook = "confirmAction";
+export const downloadActionHook = "downloadAction";
 
 //Buttons
 export const actionButtonHook = "actionButton";

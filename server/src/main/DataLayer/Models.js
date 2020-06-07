@@ -258,8 +258,8 @@ const moviesDailyReportSchema = () => {
   return {
     // attributes
     date: { type: Sequelize.DATE, primaryKey: true },
-    name: { type: Sequelize.STRING, defaultValue: "-" },
-    location: { type: Sequelize.STRING, defaultValue: "-" },
+    name: { type: Sequelize.STRING, primaryKey: true },
+    location: { type: Sequelize.STRING, primaryKey: true },
     numOfTicketsSales: { type: Sequelize.STRING, defaultValue: "-" },
     numOfTicketsAssigned: { type: Sequelize.STRING, defaultValue: "-" },
     totalSalesIncomes: { type: Sequelize.STRING, defaultValue: "-" },

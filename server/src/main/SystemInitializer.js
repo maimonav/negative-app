@@ -4,6 +4,8 @@ const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
+const schedule = require("node-schedule");
+const { main, downlowdReportMainFlow } = require("./EventBuzzScript");
 
 class SystemInitializer {
   static serviceLayer;
@@ -18,7 +20,7 @@ class SystemInitializer {
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
     //Turn database off
-    //DataBase._testModeOn();
+    // DataBase._testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
@@ -47,11 +49,17 @@ class SystemInitializer {
     if ((err = await SystemInitializer._restoreProducts(admin))) return err;
     if ((err = await SystemInitializer._restoreSuppliers(admin))) return err;
     if ((err = await SystemInitializer._restoreOrders())) return err;
+
+    schedule.scheduleJob("00 00 * * *", function() {
+      console.log("The schedualing job start running");
+      main();
+    });
+    console.log("EventBuzz script scheduled successfully");
   }
 
   static async _restoreEmployees(admin) {
     let employees = await DataBase.singleFindAll("employee", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof employees === "string")
       return this._errorHandler(employees, "restoreEmployees - employees");
@@ -80,7 +88,7 @@ class SystemInitializer {
   }
   static async _restoreCategories(admin) {
     let categories = await DataBase.singleFindAll("category", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof categories === "string")
       return this._errorHandler(categories, "restoreCategories - categories");
@@ -88,7 +96,7 @@ class SystemInitializer {
       let category = categories[i];
 
       if (category.isCategoryRemoved === null) {
-        let parentName;
+        let parentName = "";
         if (category.parentId !== -1)
           parentName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
             category.parentId
@@ -107,7 +115,7 @@ class SystemInitializer {
 
   static async _restoreMovies(admin) {
     let movies = await DataBase.singleFindAll("movie", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof movies === "string")
       return this._errorHandler(movies, "restoreMovies - movies");
@@ -115,6 +123,7 @@ class SystemInitializer {
       let movie = movies[i];
 
       if (movie.isMovieRemoved === null) {
+        this.serviceLayer.productsCounter = movie.id;
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           movie.categoryId
         ).name;
@@ -134,8 +143,9 @@ class SystemInitializer {
             );
           }
         });
-      } else this.serviceLayer.productsCounter = movie.id + 1;
+      }
     }
+    this.serviceLayer.productsCounter = this.serviceLayer.products.size;
   }
   static async _restoreProducts(admin) {
     let products = await DataBase.singleFindAll(
@@ -150,6 +160,7 @@ class SystemInitializer {
       let product = products[i];
 
       if (product.isProductRemoved === null) {
+        this.serviceLayer.productsCounter = product.id;
         let categoryName = this.serviceLayer.cinemaSystem.inventoryManagement.categories.get(
           product.categoryId
         ).name;
@@ -164,12 +175,13 @@ class SystemInitializer {
             admin.userName
           );
         });
-      } else this.serviceLayer.productsCounter = product.id + 1;
+      }
     }
+    this.serviceLayer.productsCounter = this.serviceLayer.products.size;
   }
   static async _restoreSuppliers(admin) {
     let suppliers = await DataBase.singleFindAll("supplier", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof suppliers === "string")
       return this._errorHandler(suppliers, "restoreSuppliers - suppliers");
@@ -188,7 +200,7 @@ class SystemInitializer {
   }
   static async _restoreOrders() {
     let orders = await DataBase.singleFindAll("order", {}, undefined, [
-      ["id", "ASC"],
+      ["id", "ASC"]
     ]);
     if (typeof orders === "string")
       return this._errorHandler(orders, "restoreOrders - orders");
@@ -202,26 +214,26 @@ class SystemInitializer {
       );
       let creatorEmployeeName = creatorEmployee.userName;
       let movies = await DataBase.singleFindAll("movie_order", {
-        orderId: order.id,
+        orderId: order.id
       });
       if (typeof movies === "string")
         return this._errorHandler(movies, "restoreOrders - movies");
       let movieList = movies.map(
-        (e) =>
+        e =>
           this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
             e.movieId
           ).name
       );
       let products = await DataBase.singleFindAll("cafeteria_product_order", {
-        orderId: order.id,
+        orderId: order.id
       });
       if (typeof products === "string")
         return this._errorHandler(products, "restoreOrders - products");
-      let productList = products.map((e) => ({
+      let productList = products.map(e => ({
         name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
           e.productId
         ).name,
-        quantity: e.expectedQuantity,
+        quantity: e.expectedQuantity
       }));
       await this._executeActionInSystem(creatorEmployee, async () => {
         if (movieList.length !== 0) {
@@ -239,11 +251,11 @@ class SystemInitializer {
               order.recipientEmployeeId
             );
             let recipientEmployeeName = recipientEmployee.userName;
-            let movieListToConfirm = movies.map((e) => ({
+            let movieListToConfirm = movies.map(e => ({
               name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
                 e.movieId
               ).name,
-              actualQuantity: e.actualQuantity,
+              actualQuantity: e.actualQuantity
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +
@@ -269,11 +281,11 @@ class SystemInitializer {
               order.recipientEmployeeId
             );
             let recipientEmployeeName = recipientEmployee.userName;
-            let productsListToConfirm = products.map((e) => ({
+            let productsListToConfirm = products.map(e => ({
               name: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
                 e.productId
               ).name,
-              actualQuantity: e.actualQuantity,
+              actualQuantity: e.actualQuantity
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +

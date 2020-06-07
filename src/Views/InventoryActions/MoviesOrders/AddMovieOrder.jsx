@@ -65,19 +65,6 @@ export default class AddMovieOrder extends React.Component {
               </CardHeader>
               <CardBody>
                 <GridContainer>
-                  <GridItem xs={12} sm={12} md={6}>
-                    <ComboBox
-                      id={"moviesName"}
-                      items={this.state.movies}
-                      boxLabel={"Choose movies to order"}
-                      setName={this.setMoviesNames}
-                      isMultiple={true}
-                    />
-                  </GridItem>
-                </GridContainer>
-              </CardBody>
-              <CardBody>
-                <GridContainer>
                   <GridItem>
                     <SelectDates
                       id={"add-movie-order-date"}
@@ -87,6 +74,27 @@ export default class AddMovieOrder extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
+                <div
+                  style={{
+                    margin: "auto",
+                    marginTop: "20px",
+                    marginBottom: "10px",
+                  }}
+                >
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={6}>
+                      <ComboBox
+                        id={"moviesName"}
+                        items={this.state.movies}
+                        boxLabel={"Choose movies to order"}
+                        setName={this.setMoviesNames}
+                        isMultiple={true}
+                      />
+                    </GridItem>
+                  </GridContainer>
+                </div>
+              </CardBody>
+              <CardBody>
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <ComboBox

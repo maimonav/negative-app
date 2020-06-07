@@ -1,5 +1,6 @@
 export const loginPath = "/login";
 export const logoutPath = "/logout";
+export const errorPagePath = "/errorPage";
 export const notificationPath = "/notification";
 export const manageEmployeesPath = "/manageEmployees";
 export const manageSuppliersPath = "/manageSuppliers";
@@ -28,3 +29,4 @@ export const manageMoviesOrdersPath = "/manageMoviesOrders";
 export const editMovieOrderPath = "/editMovieOrder";
 export const showMovieOrdersPath = "/showMovieOrders";
 export const confirmMovieOrderPath = "/confirmMovieOrder";
+export const logFilePath = "/logFile";
