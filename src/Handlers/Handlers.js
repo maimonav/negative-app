@@ -1,9 +1,9 @@
 import moment from "moment";
 
-export let ws = new WebSocket("ws://localhost:3001");
+export let ws = new WebSocket("ws://localhost:80");
 
 export function openNewSocket() {
-  ws = new WebSocket("ws://localhost:3001");
+  ws = new WebSocket("ws://localhost:80");
 }
 
 function _handleConnectionError(response, returnVal) {
@@ -187,8 +187,8 @@ export function handleAddProduct(
       productPrice
     )}&productQuantity=${encodeURIComponent(productQuantity)}
       &maxQuantity=${encodeURIComponent(
-        maxQuantity
-      )}&minQuantity=${encodeURIComponent(
+      maxQuantity
+    )}&minQuantity=${encodeURIComponent(
       minQuantity
     )}&productCategory=${encodeURIComponent(
       productCategory
@@ -230,8 +230,8 @@ export function handleEditProduct(
       productPrice
     )}&productQuantity=${encodeURIComponent(productQuantity)}
       &maxQuantity=${encodeURIComponent(
-        maxQuantity
-      )}&minQuantity=${encodeURIComponent(
+      maxQuantity
+    )}&minQuantity=${encodeURIComponent(
       minQuantity
     )}&productCategory=${encodeURIComponent(
       productCategory

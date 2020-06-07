@@ -12,7 +12,6 @@ const service = new ServiceLayer();
 const app = express();
 var CryptoJS = require("crypto-js");
 const server = Http.createServer(app);
-const path = require("path");
 const LogControllerFile = require("./src/main/LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
@@ -28,7 +27,10 @@ const initResult = service.initServiceLayer(undefined, "admin123");
 NotificationController.setConnectionHandler(serverSocket, initResult);
 
 app.get("/", function (req, res) {
-  res.sendFile(path.join(__dirname, "build", "index.html"));
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
+});
+app.get("/login", function (req, res) {
+  res.sendFile(path.join(__dirname, "../build", "index.html"));
 });
 
 app.get("/api/isLoggedIn", (req, res) => {
@@ -577,7 +579,7 @@ app.get("/api/getReportFile", async (req, res) => {
     res.setHeader("fileName", fileName);
     res.download(filePath, fileName, (err) => {
       try {
-        fs.unlink(filePath, () => {});
+        fs.unlink(filePath, () => { });
       } catch (error) {
         logger.writeToLog(
           "error",
