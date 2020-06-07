@@ -326,8 +326,11 @@ class NotificationController {
         }
       }
 
-      DBlogger.info(
-        "NotificationController - notify - problem to insert notification to database, notifications got lost\n. Notifications List:\n",
+      DBlogger.writeToLog(
+        "info",
+        "NotificationController",
+        "notify",
+        "problem to insert notification to database, notifications got lost\n. Notifications List:\n",
         notificationObjectsList,
         "\n",
         result
