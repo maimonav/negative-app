@@ -235,8 +235,8 @@ class DataBase {
    */
   static async singleAdd(modelName, element) {
     if (this._isTestMode) return;
-    const model = this.models[modelName];
     try {
+      const model = this.models[modelName];
       return this.sequelize
         .transaction((t) => {
           return model.create(element, { transaction: t });
@@ -278,8 +278,8 @@ class DataBase {
    */
   static async singleGetById(modelName, where) {
     if (this._isTestMode) return;
-    const model = this.models[modelName];
     try {
+      const model = this.models[modelName];
       return this.sequelize
         .transaction((t) => {
           let res = model.findOne({ where: where, transaction: t });
@@ -323,8 +323,8 @@ class DataBase {
    */
   static async singleUpdate(modelName, where, element) {
     if (this._isTestMode) return;
-    const model = this.models[modelName];
     try {
+      const model = this.models[modelName];
       return this.sequelize
         .transaction((t) => {
           return model.update(element, { where: where, transaction: t });
@@ -367,8 +367,8 @@ class DataBase {
    */
   static async singleRemove(modelName, where) {
     if (this._isTestMode) return;
-    const model = this.models[modelName];
     try {
+      const model = this.models[modelName];
       return this.sequelize
         .transaction((t) => {
           return model.destroy({ where: where, transaction: t });
@@ -426,8 +426,8 @@ class DataBase {
           attributes.fnField,
         ],
       ];
-    const model = this.models[modelName];
     try {
+      const model = this.models[modelName];
       return this.sequelize
         .transaction((t) => {
           let argument = {

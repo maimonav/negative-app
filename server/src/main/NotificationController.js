@@ -243,6 +243,7 @@ class NotificationController {
       recipientUserId: userId,
       seen: true,
     });
+    if (typeof result === "string") return result;
     result = result.map((notification) => {
       notification.content.timeFired = notification.timeFired;
       return notification.content;
