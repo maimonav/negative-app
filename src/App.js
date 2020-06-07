@@ -80,11 +80,13 @@ class App extends React.Component {
     }
   };
 
-  onLoginError = () => {
-    const { messageType, errorPage } = this.state;
+  onLoginError = (staticAlert) => {
+    const { messageType, errorPage, messageError } = this.state;
     if (messageType === "ERROR" && !errorPage) {
-      window.location.href = errorPagePath;
+      alert(messageError[0].content);
       this.setState({ errorPage: true });
+    } else {
+      alert(staticAlert);
     }
   };
 

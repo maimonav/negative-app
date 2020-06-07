@@ -40,8 +40,7 @@ export function handleLogin(username, password, onLogin, onLoginError) {
         onLogin(username, state.result[1]);
         alert(state.result[0]);
       } else {
-        onLoginError();
-        alert(state.result);
+        onLoginError(state.result);
       }
     });
 }
