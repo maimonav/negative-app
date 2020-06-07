@@ -132,7 +132,16 @@ export default class EditProduct extends React.Component {
                           <ComboBox
                             id={"productCategory"}
                             items={this.state.categories}
-                            boxLabel={"Choose new category"}
+                            boxLabel={
+                              productDetails
+                                ? `Current category: ${
+                                    productDetails &&
+                                    productDetails.productCategory
+                                      ? productDetails.productCategory
+                                      : "none"
+                                  }`
+                                : "Change Product category" + optional
+                            }
                             setName={this.setProductCategory}
                             isMultiple={false}
                             data-hook={categoryNameHook}

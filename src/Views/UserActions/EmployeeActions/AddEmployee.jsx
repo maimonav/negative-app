@@ -16,7 +16,7 @@ import {
   passwordHook,
   firstNameHook,
   lastNameHook,
-  contactDetailsHook
+  contactDetailsHook,
 } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
 
@@ -29,7 +29,7 @@ export default class AddEmployee extends React.Component {
       firstName: "",
       lastName: "",
       permission: "",
-      contactDetails: ""
+      contactDetails: "",
     };
   }
 
@@ -49,7 +49,7 @@ export default class AddEmployee extends React.Component {
     this.setState({ lastName: event.target.value });
   }
 
-  setPermission = permission => {
+  setPermission = (permission) => {
     this.setState({ permission });
   };
 
@@ -64,12 +64,12 @@ export default class AddEmployee extends React.Component {
       firstName,
       lastName,
       permission,
-      contactDetails
+      contactDetails,
     } = this.state;
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Add new employee</h4>
@@ -94,9 +94,9 @@ export default class AddEmployee extends React.Component {
                       labelText="Username"
                       id="username"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setUsername(event)}
+                      onChange={(event) => this.setUsername(event)}
                       data-hook={userNameHook}
                     />
                   </GridItem>
@@ -106,9 +106,9 @@ export default class AddEmployee extends React.Component {
                       labelText="Password"
                       id="password"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setPassword(event)}
+                      onChange={(event) => this.setPassword(event)}
                       autoComplete="new-password"
                       data-hook={passwordHook}
                     />
@@ -120,9 +120,9 @@ export default class AddEmployee extends React.Component {
                       labelText="First Name"
                       id="first-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setFirstName(event)}
+                      onChange={(event) => this.setFirstName(event)}
                       data-hook={firstNameHook}
                     />
                   </GridItem>
@@ -131,9 +131,9 @@ export default class AddEmployee extends React.Component {
                       labelText="Last Name"
                       id="last-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setLastName(event)}
+                      onChange={(event) => this.setLastName(event)}
                       data-hook={lastNameHook}
                     />
                   </GridItem>
@@ -144,9 +144,9 @@ export default class AddEmployee extends React.Component {
                       labelText="Contact Details"
                       id="contactDetails"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setContactDetails(event)}
+                      onChange={(event) => this.setContactDetails(event)}
                       data-hook={contactDetailsHook}
                     />
                   </GridItem>
