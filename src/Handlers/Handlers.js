@@ -932,7 +932,6 @@ export function handleGetSeenNotifications(user) {
  * @returns {Promise(Array)} Success - array
  */
 export function handleGetLogContent(type) {
-  console.log("type1:", type);
   return fetch(
     `api/getLogContent?type=${encodeURIComponent(type)}`
   ).then((response) => _handleConnectionError(response, response));

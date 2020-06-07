@@ -12,9 +12,9 @@ export default class ErrorPage extends React.Component {
   }
 
   componentDidMount() {
-    console.log("props:", this.props);
+    const { messageError } = this.props;
     this.setState({
-      error: this.props.messageError[0].content,
+      error: messageError[0] && messageError[0].content,
     });
   }
 
