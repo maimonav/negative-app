@@ -244,7 +244,7 @@ export default class EditProduct extends React.Component {
                   </>
                 )}
               </CardBody>
-              <CardFooter style={{ paddingLeft: "15px" }}>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
                   onClick={() =>

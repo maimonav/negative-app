@@ -58,7 +58,7 @@ export default class RemoveCategory extends React.Component {
                   </GridItem>
                 </GridContainer>
               </CardBody>
-              <CardFooter style={{ paddingLeft: "18px" }}>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
                   onClick={() =>
