@@ -18,20 +18,20 @@ export default class EditSupplier extends React.Component {
     super(props);
     this.state = {
       supplierName: "",
-      contactDetails: ""
+      contactDetails: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetSuppliers(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ suppliers: state.result });
       });
   };
 
-  setSupplierName = supplierName => {
+  setSupplierName = (supplierName) => {
     this.setState({ supplierName });
   };
 
@@ -63,15 +63,15 @@ export default class EditSupplier extends React.Component {
                     />
                   </GridItem>
                 </GridContainer>
-                <GridContainer>
+                <GridContainer style={{ paddingLeft: "71px" }}>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
                       labelText="Contact details"
                       id="contactDetails"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setContactDetails(event)}
+                      onChange={(event) => this.setContactDetails(event)}
                       data-hook={contactDetailsHook}
                     />
                   </GridItem>
