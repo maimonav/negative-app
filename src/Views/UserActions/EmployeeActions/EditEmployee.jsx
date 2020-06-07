@@ -9,7 +9,10 @@ import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import CardFooter from "../../../Components/Card/CardFooter.js";
 import ComboBox from "../../../Components/AutoComplete";
-import { handleGetEmployees } from "../../../Handlers/Handlers";
+import {
+  handleGetEmployees,
+  handleGetEmployeeDetails,
+} from "../../../Handlers/Handlers";
 import { permissions } from "../../../consts/permissions";
 import {
   permissionsHook,
@@ -17,8 +20,9 @@ import {
   passwordHook,
   firstNameHook,
   lastNameHook,
-  contactDetailsHook
+  contactDetailsHook,
 } from "../../../consts/data-hooks";
+import { optional } from "../../../consts/data";
 const style = { justifyContent: "center", top: "auto" };
 
 export default class EditEmployee extends React.Component {
@@ -30,21 +34,26 @@ export default class EditEmployee extends React.Component {
       firstName: "",
       lastName: "",
       permission: "",
-      contactDetails: ""
+      contactDetails: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetEmployees(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ employees: state.result });
       });
   };
 
-  setUsername = userName => {
+  setUsername = (userName) => {
     this.setState({ userName });
+    handleGetEmployeeDetails(userName, localStorage.getItem("username"))
+      .then((response) => response.json())
+      .then((state) => {
+        this.setState({ employeeDetails: state.result });
+      });
   };
 
   setPassword(event) {
@@ -59,7 +68,7 @@ export default class EditEmployee extends React.Component {
     this.setState({ lastName: event.target.value });
   }
 
-  setPermission = permission => {
+  setPermission = (permission) => {
     this.setState({ permission });
   };
 
@@ -74,12 +83,13 @@ export default class EditEmployee extends React.Component {
       firstName,
       lastName,
       permission,
-      contactDetails
+      contactDetails,
+      employeeDetails,
     } = this.state;
     return (
       <div>
         <GridContainer style={style}>
-          <GridItem xs={12} sm={12} md={8}>
+          <GridItem xs={12} sm={12} md={10}>
             <Card>
               <CardHeader color="info" style={{ maxHeight: "50px" }}>
                 <h4 style={{ margin: "auto" }}>Edit employee</h4>
@@ -101,7 +111,15 @@ export default class EditEmployee extends React.Component {
                     <ComboBox
                       id="permission"
                       items={permissions}
-                      boxLabel={"Choose permission"}
+                      boxLabel={
+                        employeeDetails
+                          ? `Current Permission: ${
+                              employeeDetails && employeeDetails.permissions
+                                ? employeeDetails.permissions
+                                : "none"
+                            }`
+                          : "Employee Permission" + optional
+                      }
                       setName={this.setPermission}
                       isMultiple={false}
                       data-hook={permissionsHook}
@@ -114,9 +132,9 @@ export default class EditEmployee extends React.Component {
                       labelText="Password"
                       id="password"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setPassword(event)}
+                      onChange={(event) => this.setPassword(event)}
                       autoComplete="new-password"
                       data-hook={passwordHook}
                       type="password"
@@ -124,12 +142,20 @@ export default class EditEmployee extends React.Component {
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="First Name"
+                      labelText={
+                        employeeDetails
+                          ? `Current First Name: ${
+                              employeeDetails && employeeDetails.firstName
+                                ? employeeDetails.firstName
+                                : "none"
+                            }`
+                          : "Change Employee First Name" + optional
+                      }
                       id="first-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setFirstName(event)}
+                      onChange={(event) => this.setFirstName(event)}
                       data-hook={firstNameHook}
                     />
                   </GridItem>
@@ -137,23 +163,39 @@ export default class EditEmployee extends React.Component {
                 <GridContainer>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Last Name"
+                      labelText={
+                        employeeDetails
+                          ? `Current Last Name: ${
+                              employeeDetails && employeeDetails.lastName
+                                ? employeeDetails.lastName
+                                : "none"
+                            }`
+                          : "Change Employee Last Name" + optional
+                      }
                       id="last-name"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setLastName(event)}
+                      onChange={(event) => this.setLastName(event)}
                       data-hook={lastNameHook}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={6}>
                     <CustomInput
-                      labelText="Contact Details"
+                      labelText={
+                        employeeDetails
+                          ? `Current Contact Details: ${
+                              employeeDetails && employeeDetails.contactDetails
+                                ? employeeDetails.contactDetails
+                                : "none"
+                            }`
+                          : "Change Employee Contact" + optional
+                      }
                       id="contactDetails"
                       formControlProps={{
-                        fullWidth: true
+                        fullWidth: true,
                       }}
-                      onChange={event => this.setContactDetails(event)}
+                      onChange={(event) => this.setContactDetails(event)}
                       data-hook={contactDetailsHook}
                     />
                   </GridItem>

@@ -111,7 +111,16 @@ export default class EditMovie extends React.Component {
                       <ComboBox
                         id={"category"}
                         items={this.state.categories}
-                        boxLabel={"Choose category"}
+                        boxLabel={
+                          movieDetails
+                            ? `Current category: ${
+                                movieDetails && movieDetails.category
+                                  ? movieDetails.category
+                                  : "none"
+                              }`
+                            : "Change Movie Category" + optional
+                        }
+                        //boxLabel={"Choose category"}
                         setName={this.setCategory}
                         isMultiple={false}
                         data-hook={categoryNameHook}

@@ -1,11 +1,9 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
 import { Login } from "./Views";
-import { errorPagePath } from "./consts/paths";
+import { errorPagePath, loginPath } from "./consts/paths";
 import { handleLogin, handleIsLoggedIn, ws } from "./Handlers/Handlers";
 
-//export const socket = new WebSocket("ws://localhost:3001");
-//export let ws = openNewSocket();
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -103,6 +101,7 @@ class App extends React.Component {
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");
+    window.location.replace(loginPath);
   };
 
   render() {
