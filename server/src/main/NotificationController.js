@@ -8,8 +8,8 @@ const moment = require("moment");
 
 class NotificationController {
   static serverSocket;
-  static ManagerId;
-  static DeputyManagerId;
+  static ManagerIdList = [];
+  static DeputyManagerIdList = [];
   static clientsMap = new Map();
   static usersIdToUrl = new Map();
   static urlToUserId = new Map();
@@ -94,7 +94,6 @@ class NotificationController {
         content[0].subtype &&
         content[0].subtype === "CONFIRM"
       ) {
-        console.log("update", userId, content[0].timeFired);
         await DataBase.singleUpdate(
           "notification",
           {
@@ -177,7 +176,7 @@ class NotificationController {
    */
   static notifyLowQuantity(productList) {
     this._notify(
-      [this.ManagerId, this.DeputyManagerId],
+      this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
       "LOW QUANTITY",
       productList
@@ -198,7 +197,7 @@ class NotificationController {
    */
   static notifyHighQuantity(productList) {
     this._notify(
-      [this.ManagerId, this.DeputyManagerId],
+      this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
       "HIGH QUANTITY",
       productList
@@ -211,7 +210,7 @@ class NotificationController {
    */
   static notifyMovieExamination(movieList) {
     this._notify(
-      [this.ManagerId, this.DeputyManagerId],
+      this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
       "MOVIE EXAMINATION",
       movieList
@@ -223,7 +222,7 @@ class NotificationController {
    */
   static notifyEventBuzzError(msg) {
     this._notify(
-      [this.ManagerId, this.DeputyManagerId],
+      this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
       "EXTERNAL SYSTEM",
       msg
@@ -282,7 +281,10 @@ class NotificationController {
   }
 
   static async _notify(usersList, type, subtype, content) {
-    let timeFired = moment().format("LLLL");
+    let timeFired = moment()
+      .seconds(0)
+      .milliseconds(0)
+      .toISOString();
     let notificationContent = {
       type: type,
       subtype: subtype,
