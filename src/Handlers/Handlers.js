@@ -1,9 +1,9 @@
 import moment from "moment";
 
-export let ws = new WebSocket("ws://localhost:80");
+export let ws = new WebSocket("ws://132.72.23.63:3087");
 
 export function openNewSocket() {
-  ws = new WebSocket("ws://localhost:80");
+  ws = new WebSocket("ws://132.72.23.63:3087");
 }
 
 function _handleConnectionError(response, returnVal) {

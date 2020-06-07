@@ -101,7 +101,7 @@ class App extends React.Component {
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");
-    window.location.replace(loginPath);
+    // window.location.replace("/");
   };
 
   render() {

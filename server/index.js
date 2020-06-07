@@ -22,7 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 app.use(express.static(path.join(__dirname, "../build")));
 
-const initResult = service.initServiceLayer(undefined, "admin123");
+const initResult = service.initServiceLayer('DBtest', "admin123");
 
 NotificationController.setConnectionHandler(serverSocket, initResult);
 
