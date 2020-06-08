@@ -118,7 +118,37 @@ class App extends React.Component {
     if (!this.state.isLogged) {
       return (
         <Login
-          handleLogin={handleLogin}
+          handleLogin={(username, password, onLogin, onLoginError) => {
+            handleLogin(username, password, onLogin, onLoginError);
+
+            ws.onopen = () => {
+              console.log("connected");
+            };
+
+            ws.onmessage = (evt) => {
+              const message = JSON.parse(evt.data);
+              console.log("message:", message);
+              let messagesArray = [];
+              for (let i in message) {
+                let not = message[i];
+                if (not.type === "INFO") {
+                  messagesArray.push(not);
+                } else if (not.type === "ERROR") {
+                  this.setState({
+                    messageType: "ERROR",
+                    messageError: message,
+                    disableTabs: true,
+                  });
+                }
+              }
+              this.setState({ messageContent: messagesArray });
+            };
+
+            ws.onclose = () => {
+              console.log("disconnected");
+              this.onLogout();
+            };
+          }}
           onLogin={this.onLogin}
           onLoginError={this.onLoginError}
         />

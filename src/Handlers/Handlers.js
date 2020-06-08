@@ -12,7 +12,6 @@ function _handleConnectionError(response, returnVal) {
       "There was a problem connecting to the system.\n You should ask the admin to initialize the server."
     );
     window.location.reload();
-    openNewSocket();
   }
   return returnVal;
 }
@@ -25,6 +24,7 @@ function _handleConnectionError(response, returnVal) {
  * @returns void
  */
 export function handleLogin(username, password, onLogin, onLoginError) {
+  openNewSocket();
   fetch(
     `/api/login?username=${encodeURIComponent(
       username
