@@ -7,6 +7,7 @@ const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 
 class NotificationController {
+  static notificationsOffMode = false;
   static serverSocket;
   static ManagerIdList = [];
   static DeputyManagerIdList = [];
@@ -17,6 +18,13 @@ class NotificationController {
   static userIdSeenNotifications = new Map();
   static initServerSocket(httpServer) {
     this.serverSocket = new WebSocket.Server({ httpServer });
+  }
+
+  static _turnNotificationsOff() {
+    this.notificationsOffMode = true;
+  }
+  static _turnNotificationsOn() {
+    this.notificationsOffMode = false;
   }
 
   static _shouldSetAsSeen(subtype) {
@@ -33,6 +41,7 @@ class NotificationController {
    * @param {Promise(void|string)} initRes result of the server initialization, void in success, string on failure.
    */
   static setConnectionHandler(serverSocket, initRes) {
+    if (this.notificationsOffMode) return;
     serverSocket.on("connection", async (socketClient, request) => {
       let clientUrl = request.headers.origin;
       console.log("connected to", clientUrl);
@@ -67,6 +76,7 @@ class NotificationController {
    * @param {string} url url of the client
    */
   static async loginHandler(userId, url) {
+    if (this.notificationsOffMode) return;
     url = new URL(url);
     let clientSocket = this.clientsMap.get(url.origin);
     if (!clientSocket) {
@@ -109,6 +119,7 @@ class NotificationController {
   }
 
   static async _sendAllNotificationsToUserFromDB(userId, clientSocket) {
+    if (this.notificationsOffMode) return;
     //get all notification from db and send it to the logged in user
     let notifications = await DataBase.singleFindAll(
       "notification",
@@ -164,6 +175,7 @@ class NotificationController {
    * @param {string} userId username of the logged out client
    */
   static logoutHandler(userId) {
+    if (this.notificationsOffMode) return;
     this.loggedInUsers.delete(userId);
     let url = this.urlToUserId.get(userId);
     this.urlToUserId.delete(url);
@@ -175,6 +187,7 @@ class NotificationController {
    * @param {Array(Object)} productList @example {name:"product", quantity:20 , minQuantity:40}
    */
   static notifyLowQuantity(productList) {
+    if (this.notificationsOffMode) return;
     this._notify(
       this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
@@ -188,6 +201,7 @@ class NotificationController {
    * @param {Array(Object)} userId the user who logged out
    */
   static autoLogoutHandler(userId) {
+    if (this.notificationsOffMode) return;
     this._notify([userId], "INFO", "AUTO LOGGED OUT");
   }
 
@@ -196,6 +210,7 @@ class NotificationController {
    * @param {Array(Object)} productList @example {name:"product", quantity:20 , maxQuantity:10}
    */
   static notifyHighQuantity(productList) {
+    if (this.notificationsOffMode) return;
     this._notify(
       this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
@@ -209,6 +224,7 @@ class NotificationController {
    * @param {Array(string)} movieList movie that examined, @example ["Spiderman","Saw"]
    */
   static notifyMovieExamination(movieList) {
+    if (this.notificationsOffMode) return;
     this._notify(
       this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
@@ -221,6 +237,7 @@ class NotificationController {
    * @param {Array(string)} msg error message to show to the user
    */
   static notifyEventBuzzError(msg) {
+    if (this.notificationsOffMode) return;
     this._notify(
       this.ManagerIdList.concat(this.DeputyManagerIdList),
       "INFO",
@@ -230,6 +247,7 @@ class NotificationController {
   }
 
   static async getSeenNotifications(userId) {
+    if (this.notificationsOffMode) return;
     let result = await DataBase.singleFindAll("notification", {
       recipientUserId: userId,
       seen: true,
@@ -281,6 +299,7 @@ class NotificationController {
   }
 
   static async _notify(usersList, type, subtype, content) {
+    if (this.notificationsOffMode) return;
     let timeFired = moment()
       .seconds(0)
       .milliseconds(0)
