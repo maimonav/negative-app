@@ -44,13 +44,13 @@ context("Type all fields", () => {
       .click()
       .type(quantity);
 
-    cy.get(`[data-hook=${productMaxQuantityHook}]`)
-      .click()
-      .type(max);
-
     cy.get(`[data-hook=${productMinQuantityHook}]`)
       .click()
       .type(min);
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max);
   });
 
   it("show product", () => {
@@ -87,13 +87,13 @@ context("Type all fields", () => {
       .click()
       .type(quantity);
 
-    cy.get(`[data-hook=${productMaxQuantityHook}]`)
-      .click()
-      .type(max);
-
     cy.get(`[data-hook=${productMinQuantityHook}]`)
       .click()
       .type(min);
+
+    cy.get(`[data-hook=${productMaxQuantityHook}]`)
+      .click()
+      .type(max);
   });
 
   it("remove product", () => {
