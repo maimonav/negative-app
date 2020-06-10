@@ -66,7 +66,7 @@ class InventoryManagement {
       );
       return "The movie does not exist";
     }
-    if (!this.categories.has(categoryId)) {
+    if (categoryId && !this.categories.has(categoryId)) {
       this.writeToLog(
         "info",
         "editMovie",

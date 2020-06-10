@@ -255,6 +255,12 @@ class SystemInitializer {
                 e.movieId
               ).name,
               actualQuantity: e.actualQuantity,
+              key: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
+                e.movieId
+              ).movieKey,
+              examinationRoom: this.serviceLayer.cinemaSystem.inventoryManagement.products.get(
+                e.movieId
+              ).examinationRoom,
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +
