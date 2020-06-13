@@ -6,7 +6,7 @@ const LogController = LogControllerFile.LogController;
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 const schedule = require("node-schedule");
-const { main } = require("./EventBuzzScript");
+const { main, csvToJson } = require("./EventBuzzScript");
 
 class SystemInitializer {
   static serviceLayer;
@@ -53,6 +53,7 @@ class SystemInitializer {
       console.log("The schedualing job start running");
       main();
     });
+    // csvToJson();
     console.log("EventBuzz script scheduled successfully");
   }
 

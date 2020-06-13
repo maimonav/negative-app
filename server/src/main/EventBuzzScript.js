@@ -42,15 +42,16 @@ let json_ans = class {
     let output = [];
     this.value = value;
     console.log("fire!");
-    for (let i = 0; i < 100; i++) {
+    var yesterday = moment().subtract(1, "days");
+    console.log("yesterday ", yesterday.toDate(), "\n");
+    console.log("value.length ", value.length, "\n");
+
+    for (let i = value.length - 23; i > value.length - 123; i--) {
       let event = value[i];
+      // console.log("found event in date ", event.date, " in place ", i, "\n");
       let date = moment(event.date, "DD-MM-YYYY HH:mm").toDate();
-      if (this.dateCompare(date, new Date())) {
+      if (this.dateCompare(date, yesterday.toDate())) {
         output.push(event);
-        if (dateCompare(date, new Date(2018, 5, 12))) {
-          console.log("add the test movie report");
-          addTheTest = true;
-        }
       }
     }
     // console.log(output);
@@ -61,8 +62,9 @@ let json_ans = class {
   static errorHandler(msg) {
     console.log(msg);
     logger.writeToLog("error", "EventBuzzScript", "errorHandler", msg);
+    var date = moment().subtract(1, "days");
     NotificationController.notifyEventBuzzError(
-      "There was a problem creating movies report\n" + msg
+      "There was a problem creating movies report in date" + date + "\n" + msg
     );
   }
 };
