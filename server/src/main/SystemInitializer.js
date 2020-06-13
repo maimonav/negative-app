@@ -31,7 +31,7 @@ class SystemInitializer {
         "initSystem - initDB",
         result
       );
-      return "Server initialization error\n" + result;
+      return "Server initialization error." + result;
     }
 
     result = await DataBase.singleGetById("user", { id: 0 });
@@ -314,7 +314,7 @@ class SystemInitializer {
       "initSystem - initDB",
       errMsg
     );
-    return "Server initialization error\n" + result;
+    return "Server initialization error." + result;
   }
 
   static async _executeActionInSystem(user, method) {
