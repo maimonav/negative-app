@@ -1,4 +1,16 @@
 const DataBase = require("./DataLayer/DBManager");
+const {
+  addEmployeeArgsList,
+  addMoviesArgsList,
+  addProductsArgsList,
+  addCategoriesArgsList,
+  addMoviesOrdersArgsList,
+  addProductsOrdersArgsList,
+  addSuppliersArgsList,
+  addMoviesReportsArgsList,
+  addReportsArgsList,
+  addFieldsArgsList,
+} = require("./consts/SystemData");
 const NotificationController = require("./NotificationController");
 const User = require("./User");
 const LogControllerFile = require("./LogController");
@@ -6,7 +18,8 @@ const LogController = LogControllerFile.LogController;
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 const schedule = require("node-schedule");
-const { main, csvToJson } = require("./EventBuzzScript");
+const { main } = require("./EventBuzzScript");
+const ReportController = require("./ReportController");
 
 class SystemInitializer {
   static serviceLayer;
@@ -55,6 +68,9 @@ class SystemInitializer {
     });
     // csvToJson();
     console.log("EventBuzz script scheduled successfully");
+
+    //Init database - system test environment
+    SystemInitializer._initSystemData();
   }
 
   static async _restoreEmployees(admin) {
@@ -325,6 +341,68 @@ class SystemInitializer {
     user.LoggedIn = false;
     DataBase._testModeOff();
     NotificationController._turnNotificationsOn();
+  }
+
+  static async _initSystemData() {
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addNewEmployee,
+      addEmployeeArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addCategory,
+      addCategoriesArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addMovie,
+      addMoviesArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addNewProduct,
+      addProductsArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addNewSupplier,
+      addSuppliersArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addMovieOrder,
+      addMoviesOrdersArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addCafeteriaOrder,
+      addProductsOrdersArgsList
+    );
+
+    SystemInitializer.executeMethodForArgList(
+      ReportController,
+      ReportController.createMovieReport,
+      addMoviesReportsArgsList
+    );
+
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addFieldToDailyReport,
+      addFieldsArgsList
+    );
+    SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.createDailyReport,
+      addReportsArgsList
+    );
+  }
+
+  static async executeMethodForArgList(className, method, argsList) {
+    for (let i in argsList) {
+      let args = argsList[i];
+      await className.method.apply(className, args);
+    }
   }
 }
 module.exports = SystemInitializer;
