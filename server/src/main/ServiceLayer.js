@@ -34,7 +34,7 @@ class ServiceLayer {
             "info",
             "createDailyReport",
             "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
-              records
+            records
           );
           return "Report content structure is invalid";
         }
@@ -46,7 +46,7 @@ class ServiceLayer {
               "info",
               "createDailyReport",
               "conversionMethods[inventory_daily_report] - Report content is invalid" +
-                records
+              records
             );
             return "Product Name is not valid";
           }
@@ -56,8 +56,8 @@ class ServiceLayer {
               "info",
               "createDailyReport",
               "conversionMethods[inventory_daily_report] - The product " +
-                record.productName +
-                " does not exist in the system."
+              record.productName +
+              " does not exist in the system."
             );
             return "The product does not exist.";
           }
@@ -66,8 +66,8 @@ class ServiceLayer {
               "info",
               "createDailyReport",
               "conversionMethods[inventory_daily_report] - The product " +
-                record.productName +
-                " already exists in the report."
+              record.productName +
+              " already exists in the report."
             );
             return "Cannot add the same product more than once to inventory report.";
           }
@@ -86,7 +86,7 @@ class ServiceLayer {
             "info",
             "createDailyReport",
             "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
-              records
+            records
           );
           return "Report content structure is invalid";
         }
@@ -104,7 +104,7 @@ class ServiceLayer {
             "info",
             "createDailyReport",
             "conversionMethods[inventory_daily_report] - Report content structure is invalid" +
-              records
+            records
           );
           return "Report content structure is invalid";
         }
@@ -141,8 +141,8 @@ class ServiceLayer {
         "info",
         "register",
         "The registration process failed - the " +
-          userName +
-          " exists on the system."
+        userName +
+        " exists on the system."
       );
       return "The user already Exist";
     } else {
@@ -169,8 +169,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(userName)
       ? "Username is not valid"
       : !this._isInputValid(password)
-      ? "Password is not valid"
-      : "Valid";
+        ? "Password is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "login", validationResult);
       return validationResult;
@@ -196,8 +196,8 @@ class ServiceLayer {
       "info",
       "login",
       "The login process failed - the " +
-        userName +
-        " isn't exists on the system."
+      userName +
+      " isn't exists on the system."
     );
     return "Incorrect user name.";
   }
@@ -226,8 +226,8 @@ class ServiceLayer {
       "info",
       "logout",
       "The login process failed - the " +
-        userName +
-        " isn't exists on the system."
+      userName +
+      " isn't exists on the system."
     );
     return "Incorrect user name.";
   }
@@ -262,18 +262,18 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(userName)
       ? "Username is not valid"
       : !this._isInputValid(password)
-      ? "Password is not valid"
-      : !this._isInputValid(firstName)
-      ? "First Name is not valid"
-      : !this._isInputValid(lastName)
-      ? "Last Name is not valid"
-      : !this._isInputValid(permissions)
-      ? "Permissions is not valid"
-      : !this._isInputValid(contactDetails)
-      ? "Contact Details is not valid"
-      : !this._isInputValid(ActionIDofTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Password is not valid"
+        : !this._isInputValid(firstName)
+          ? "First Name is not valid"
+          : !this._isInputValid(lastName)
+            ? "Last Name is not valid"
+            : !this._isInputValid(permissions)
+              ? "Permissions is not valid"
+              : !this._isInputValid(contactDetails)
+                ? "Contact Details is not valid"
+                : !this._isInputValid(ActionIDofTheOperation)
+                  ? "Username is not valid"
+                  : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addNewEmployee", validationResult);
       return validationResult;
@@ -289,8 +289,8 @@ class ServiceLayer {
         "info",
         "addNewEmployee",
         "The addNewEmployee process failed - the " +
-          userName +
-          " exists on the system."
+        userName +
+        " exists on the system."
       );
       return "The user already exists";
     }
@@ -299,8 +299,8 @@ class ServiceLayer {
         "info",
         "addNewEmployee",
         "The addNewEmployee process failed - the " +
-          ActionIDofTheOperation +
-          " , who initiated the operation, does not exist in the system"
+        ActionIDofTheOperation +
+        " , who initiated the operation, does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -358,18 +358,18 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(userName)
       ? "Username is not valid"
       : password === undefined
-      ? "Password is not valid"
-      : firstName === undefined
-      ? "First Name is not valid"
-      : lastName === undefined
-      ? "Last Name is not valid"
-      : permissions === undefined
-      ? "Permissions is not valid"
-      : contactDetails === undefined
-      ? "Contact Details is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Password is not valid"
+        : firstName === undefined
+          ? "First Name is not valid"
+          : lastName === undefined
+            ? "Last Name is not valid"
+            : permissions === undefined
+              ? "Permissions is not valid"
+              : contactDetails === undefined
+                ? "Contact Details is not valid"
+                : !this._isInputValid(ActionIDOfTheOperation)
+                  ? "Username is not valid"
+                  : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "editEmployee", validationResult);
       return validationResult;
@@ -385,8 +385,8 @@ class ServiceLayer {
         "info",
         "editEmployee",
         "The editEmployee process failed - the " +
-          userName +
-          " not exists on the system."
+        userName +
+        " not exists on the system."
       );
       return "The employee does not exist";
     }
@@ -395,8 +395,8 @@ class ServiceLayer {
         "info",
         "editEmployee",
         "The editEmployee process failed - the " +
-          ActionIDOfTheOperation +
-          " , who initiated the operation, does not exist in the system"
+        ActionIDOfTheOperation +
+        " , who initiated the operation, does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -420,8 +420,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(userName)
       ? "Username is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "deleteEmployee", validationResult);
       return validationResult;
@@ -437,8 +437,8 @@ class ServiceLayer {
         "info",
         "deleteEmployee",
         "The deleteEmployee process failed - the " +
-          userName +
-          " not exists on the system."
+        userName +
+        " not exists on the system."
       );
       return "The employee does not exist";
     }
@@ -447,8 +447,8 @@ class ServiceLayer {
         "info",
         "deleteEmployee",
         "The deleteEmployee process failed - the " +
-          ActionIDOfTheOperation +
-          " , who initiated the operation, does not exist in the system"
+        ActionIDOfTheOperation +
+        " , who initiated the operation, does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -478,10 +478,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(category)
-      ? "Category is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Category is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addMovie", validationResult);
       return validationResult;
@@ -500,8 +500,8 @@ class ServiceLayer {
         "info",
         "addMovie",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -550,14 +550,14 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : category === undefined
-      ? "Category is not valid"
-      : key === undefined
-      ? "Key is not valid"
-      : examinationRoom === undefined
-      ? "Examination Room is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Category is not valid"
+        : key === undefined
+          ? "Key is not valid"
+          : examinationRoom === undefined
+            ? "Examination Room is not valid"
+            : !this._isInputValid(ActionIDOfTheOperation)
+              ? "Username is not valid"
+              : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "editMovie", validationResult);
       return validationResult;
@@ -576,8 +576,8 @@ class ServiceLayer {
         "info",
         "editMovie",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -613,8 +613,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(movieName)
       ? "Movie Name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "removeMovie", validationResult);
       return validationResult;
@@ -633,8 +633,8 @@ class ServiceLayer {
         "info",
         "removeMovie",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -665,10 +665,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
       : !this._isInputValid(contactDetails)
-      ? "Contact Details is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Contact Details is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addNewSupplier", validationResult);
       return validationResult;
@@ -687,8 +687,8 @@ class ServiceLayer {
         "info",
         "addNewSupplier",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -721,10 +721,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
       : contactDetails === undefined
-      ? "Contact Details is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Contact Details is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "editSupplier", validationResult);
       return validationResult;
@@ -742,8 +742,8 @@ class ServiceLayer {
         "info",
         "editSupplier",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -771,8 +771,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(supplierName)
       ? "Supplier Name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "removeSupplier", validationResult);
       return validationResult;
@@ -791,8 +791,8 @@ class ServiceLayer {
         "info",
         "removeSupplier",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -840,18 +840,18 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(productName)
       ? "Product name is not valid"
       : !this._isInputValid(productPrice)
-      ? "Product price is not valid"
-      : !this._isInputValid(productQuantity)
-      ? "Product quantity is not valid"
-      : !this._isInputValid(productCategory)
-      ? "Product category is not valid"
-      : minQuantity === undefined
-      ? "Minimum Quantity is not valid"
-      : maxQuantity === undefined
-      ? "Maximum Quantity is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Product price is not valid"
+        : !this._isInputValid(productQuantity)
+          ? "Product quantity is not valid"
+          : !this._isInputValid(productCategory)
+            ? "Product category is not valid"
+            : minQuantity === undefined
+              ? "Minimum Quantity is not valid"
+              : maxQuantity === undefined
+                ? "Maximum Quantity is not valid"
+                : !this._isInputValid(ActionIDOfTheOperation)
+                  ? "Username is not valid"
+                  : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addNewProduct", validationResult);
       return validationResult;
@@ -916,18 +916,18 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(productName)
       ? "Product name is not valid"
       : productPrice === undefined
-      ? "Product price is not valid"
-      : productQuantity === undefined
-      ? "Product quantity is not valid"
-      : productCategory === undefined
-      ? "Product category is not valid"
-      : minQuantity === undefined
-      ? "Minimum Quantity is not valid"
-      : maxQuantity === undefined
-      ? "Maximum Quantity is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Product price is not valid"
+        : productQuantity === undefined
+          ? "Product quantity is not valid"
+          : productCategory === undefined
+            ? "Product category is not valid"
+            : minQuantity === undefined
+              ? "Minimum Quantity is not valid"
+              : maxQuantity === undefined
+                ? "Maximum Quantity is not valid"
+                : !this._isInputValid(ActionIDOfTheOperation)
+                  ? "Username is not valid"
+                  : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addNewProduct", validationResult);
       return validationResult;
@@ -941,8 +941,8 @@ class ServiceLayer {
         "info",
         "editProduct",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -969,8 +969,8 @@ class ServiceLayer {
         "info",
         "editProduct",
         "The Operation fail Quantity " +
-          productQuantity +
-          " is must to be number"
+        productQuantity +
+        " is must to be number"
       );
       return "The Operation fail - Quantity is must to be number";
     }
@@ -979,8 +979,8 @@ class ServiceLayer {
         "info",
         "editProduct",
         "The Operation fail minQuantity " +
-          minQuantity +
-          " is must to be number"
+        minQuantity +
+        " is must to be number"
       );
 
       return "The Operation fail - minQuantity is must to be number";
@@ -990,8 +990,8 @@ class ServiceLayer {
         "info",
         "editProduct",
         "The Operation fail maxQuantity " +
-          maxQuantity +
-          " is must to be number"
+        maxQuantity +
+        " is must to be number"
       );
       return "The Operation fail - maxQuantity is must to be number";
     }
@@ -1022,8 +1022,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(productName)
       ? "Product name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "removeProduct", validationResult);
       return validationResult;
@@ -1068,10 +1068,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(categoryName)
       ? "Category name is not valid"
       : parentName === undefined
-      ? "Parent Name is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Parent Name is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addCategory", validationResult);
       return validationResult;
@@ -1136,10 +1136,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(categoryName)
       ? "Category name is not valid"
       : parentName === undefined
-      ? "Parent Name is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Parent Name is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addCategory", validationResult);
       return validationResult;
@@ -1191,8 +1191,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(categoryName)
       ? "Category name is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "removeCategory", validationResult);
       return validationResult;
@@ -1243,14 +1243,14 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
       : !this._isInputValid(date)
-      ? "Date is not valid"
-      : !this._isInputValid(supplierName)
-      ? "Supplier Name is not valid"
-      : !this._isInputValid(moviesList)
-      ? "Movies List is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Date is not valid"
+        : !this._isInputValid(supplierName)
+          ? "Supplier Name is not valid"
+          : !this._isInputValid(moviesList)
+            ? "Movies List is not valid"
+            : !this._isInputValid(ActionIDOfTheOperation)
+              ? "Username is not valid"
+              : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addMovieOrder", validationResult);
       return validationResult;
@@ -1297,8 +1297,8 @@ class ServiceLayer {
         "info",
         "addMovieOrder",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1332,8 +1332,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "removeOrder", validationResult);
       return validationResult;
@@ -1351,8 +1351,8 @@ class ServiceLayer {
         "info",
         "removeOrder",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1381,14 +1381,14 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
       : supplierName === undefined
-      ? "Supplier Name is not valid"
-      : dateSTR === undefined
-      ? "Date is not valid"
-      : productsList === undefined
-      ? "Products List is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Supplier Name is not valid"
+        : dateSTR === undefined
+          ? "Date is not valid"
+          : productsList === undefined
+            ? "Products List is not valid"
+            : !this._isInputValid(ActionIDOfTheOperation)
+              ? "Username is not valid"
+              : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "editOrder", validationResult);
       return validationResult;
@@ -1433,8 +1433,8 @@ class ServiceLayer {
           "info",
           "editOrder",
           "The product " +
-            product.name +
-            "'s quantity received is not a number type"
+          product.name +
+          "'s quantity received is not a number type"
         );
         problematicQuantityName = product.name;
         return "The product " + product.name + " doesn't exists";
@@ -1456,8 +1456,8 @@ class ServiceLayer {
         "info",
         "editOrder",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1481,10 +1481,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(orderName)
       ? "Order ID is not valid"
       : !this._isInputValid(productsList)
-      ? "Products List is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Products List is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "confirmOrder", validationResult);
       return validationResult;
@@ -1518,8 +1518,8 @@ class ServiceLayer {
           "info",
           "confirmOrder",
           "The product " +
-            product.name +
-            "'s quantity received is not a number type"
+          product.name +
+          "'s quantity received is not a number type"
         );
         problematicQuantityName = product.name;
         return "The product " + product.name + " doesn't exists";
@@ -1540,8 +1540,8 @@ class ServiceLayer {
         "info",
         "confirmOrder",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1577,14 +1577,14 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(orderId)
       ? "Order ID is not valid"
       : !this._isInputValid(date)
-      ? "Date is not valid"
-      : !this._isInputValid(supplierName)
-      ? "Supplier Name is not valid"
-      : !this._isInputValid(productsList)
-      ? "Products List is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Date is not valid"
+        : !this._isInputValid(supplierName)
+          ? "Supplier Name is not valid"
+          : !this._isInputValid(productsList)
+            ? "Products List is not valid"
+            : !this._isInputValid(ActionIDOfTheOperation)
+              ? "Username is not valid"
+              : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addCafeteriaOrder", validationResult);
       return validationResult;
@@ -1620,8 +1620,8 @@ class ServiceLayer {
           "info",
           "addCafeteriaOrder",
           "The product " +
-            productsList[i].name +
-            " already exists in the order."
+          productsList[i].name +
+          " already exists in the order."
         );
         return "Cannot add the same product more than once to the order.";
       }
@@ -1635,8 +1635,8 @@ class ServiceLayer {
         "info",
         "addCafeteriaOrder",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1671,8 +1671,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(fieldToRemove)
       ? "Field is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "removeFieldFromDailyReport", validationResult);
       return validationResult;
@@ -1682,8 +1682,8 @@ class ServiceLayer {
         "info",
         "removeFieldFromDailyReport",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1709,8 +1709,8 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(newField)
       ? "Field is not valid"
       : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Username is not valid"
+        : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "addFieldToDailyReport", validationResult);
       return validationResult;
@@ -1720,8 +1720,8 @@ class ServiceLayer {
         "info",
         "addFieldToDailyReport",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1744,13 +1744,14 @@ class ServiceLayer {
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
+    console.log('date', date, ' reports ', reports);
     let validationResult = !this._isInputValid(date)
       ? "Date is not valid"
       : !this._isInputValid(reports)
-      ? "Reports is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "Reports is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "createDailyReport", validationResult);
       return validationResult;
@@ -1760,8 +1761,8 @@ class ServiceLayer {
         "info",
         "createDailyReport",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1827,12 +1828,12 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(type)
       ? "Type is not valid"
       : !this._isInputValid(fromDate)
-      ? "From Date is not valid"
-      : !this._isInputValid(toDate)
-      ? "To Date is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "From Date is not valid"
+        : !this._isInputValid(toDate)
+          ? "To Date is not valid"
+          : !this._isInputValid(ActionIDOfTheOperation)
+            ? "Username is not valid"
+            : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "getReport", validationResult);
       return validationResult;
@@ -1842,8 +1843,8 @@ class ServiceLayer {
         "info",
         "getReport",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }
@@ -1873,10 +1874,10 @@ class ServiceLayer {
     let validationResult = !this._isInputValid(fromDate)
       ? "From Date is not valid"
       : !this._isInputValid(toDate)
-      ? "To Date is not valid"
-      : !this._isInputValid(ActionIDOfTheOperation)
-      ? "Username is not valid"
-      : "Valid";
+        ? "To Date is not valid"
+        : !this._isInputValid(ActionIDOfTheOperation)
+          ? "Username is not valid"
+          : "Valid";
     if (validationResult !== "Valid") {
       this.writeToLog("info", "getFullDailyReport", validationResult);
       return validationResult;
@@ -1886,8 +1887,8 @@ class ServiceLayer {
         "info",
         "getFullDailyReport",
         "The user " +
-          ActionIDOfTheOperation +
-          " performing the operation does not exist in the system"
+        ActionIDOfTheOperation +
+        " performing the operation does not exist in the system"
       );
       return "The user performing the operation does not exist in the system";
     }

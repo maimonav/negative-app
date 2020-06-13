@@ -66,7 +66,7 @@ const addCategoriesArgsList = [
 const addMoviesOrdersArgsList = [
   [
     `manager - ` +
-      moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
+    moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 10),
     "Tedi Productions",
     JSON.parse('["Wonder Woman 1984"]'),
@@ -74,7 +74,7 @@ const addMoviesOrdersArgsList = [
   ],
   [
     `manager - ` +
-      moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
+    moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 11),
     "Tedi Productions",
     JSON.parse('["Bad Boys For Life"]'),
@@ -84,7 +84,7 @@ const addMoviesOrdersArgsList = [
 const addProductsOrdersArgsList = [
   [
     `manager - ` +
-      moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
+    moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 13),
     "shufersal",
     JSON.parse(
@@ -94,7 +94,7 @@ const addProductsOrdersArgsList = [
   ],
   [
     `manager - ` +
-      moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
+    moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 12),
     "rami levi",
     JSON.parse(
@@ -186,7 +186,47 @@ const addMoviesReportsArgsList = [
     ],
   ],
 ];
-const addReportsArgsList = [];
+const addReportsArgsList = [
+  [
+    new Date("06.06.2020 21:00"),
+    JSON.stringify([
+      {
+        type: "incomes_daily_report",
+        content: [
+          {
+            numOfTabsSales: "2",
+            cafeteriaCashRevenues: "2.2",
+            cafeteriaCreditCardRevenues: "5.5",
+            ticketsCashRevenues: "4",
+            ticketsCreditCardRevenues: "3",
+            tabsCashRevenues: "0",
+            tabsCreditCardRevenues: "0",
+          },
+        ],
+      },
+      {
+        type: "inventory_daily_report",
+        content: [
+          {
+            productName: "Coca-Cola",
+            quantitySold: "2",
+            stockThrown: "4",
+          },
+        ],
+      },
+      {
+        type: "general_purpose_daily_report",
+        content: [
+          {
+            "Cash Counted": "true",
+            "Report Z Taken": "true",
+          },
+        ],
+      },
+    ]),
+    "manager"
+
+  ],];
 const addFieldsArgsList = [];
 
 module.exports = {
