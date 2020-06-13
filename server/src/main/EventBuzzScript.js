@@ -43,12 +43,9 @@ let json_ans = class {
     this.value = value;
     console.log("fire!");
     var yesterday = moment().subtract(1, "days");
-    console.log("yesterday ", yesterday.toDate(), "\n");
-    console.log("value.length ", value.length, "\n");
 
     for (let i = value.length - 23; i > value.length - 123; i--) {
       let event = value[i];
-      // console.log("found event in date ", event.date, " in place ", i, "\n");
       let date = moment(event.date, "DD-MM-YYYY HH:mm").toDate();
       if (this.dateCompare(date, yesterday.toDate())) {
         output.push(event);

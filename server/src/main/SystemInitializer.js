@@ -344,37 +344,41 @@ class SystemInitializer {
   }
 
   static async _initSystemData() {
-    SystemInitializer.executeMethodForArgList(
+    let resualt = await this.serviceLayer.login("admin", "admin");
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addNewEmployee,
       addEmployeeArgsList
     );
-    SystemInitializer.executeMethodForArgList(
+    await this.serviceLayer.logout("admin");
+    resualt = await this.serviceLayer.login("manager", "manager123");
+    console.log("result", resualt);
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addCategory,
       addCategoriesArgsList
     );
-    SystemInitializer.executeMethodForArgList(
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addMovie,
       addMoviesArgsList
     );
-    SystemInitializer.executeMethodForArgList(
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addNewProduct,
       addProductsArgsList
     );
-    SystemInitializer.executeMethodForArgList(
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addNewSupplier,
       addSuppliersArgsList
     );
-    SystemInitializer.executeMethodForArgList(
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addMovieOrder,
       addMoviesOrdersArgsList
     );
-    SystemInitializer.executeMethodForArgList(
+    await SystemInitializer.executeMethodForArgList(
       this.serviceLayer,
       this.serviceLayer.addCafeteriaOrder,
       addProductsOrdersArgsList
@@ -386,22 +390,22 @@ class SystemInitializer {
       addMoviesReportsArgsList
     );
 
-    SystemInitializer.executeMethodForArgList(
-      this.serviceLayer,
-      this.serviceLayer.addFieldToDailyReport,
-      addFieldsArgsList
-    );
-    SystemInitializer.executeMethodForArgList(
-      this.serviceLayer,
-      this.serviceLayer.createDailyReport,
-      addReportsArgsList
-    );
+    // SystemInitializer.executeMethodForArgList(
+    //   this.serviceLayer,
+    //   this.serviceLayer.addFieldToDailyReport,
+    //   addFieldsArgsList
+    // );
+    // SystemInitializer.executeMethodForArgList(
+    //   this.serviceLayer,
+    //   this.serviceLayer.createDailyReport,
+    //   addReportsArgsList
+    // );
   }
 
   static async executeMethodForArgList(className, method, argsList) {
     for (let i in argsList) {
       let args = argsList[i];
-      await className.method.apply(className, args);
+      await method.apply(className, args);
     }
   }
 }
