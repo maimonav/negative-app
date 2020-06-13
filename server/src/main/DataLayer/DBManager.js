@@ -22,7 +22,7 @@ class DataBase {
     let handler = error ? this._errorsHandling[error.name] : undefined;
     let msg = handler
       ? handler(error)
-      : "Database Error: Cannot complete action.";
+      : "\nDatabase Error: Cannot complete action.";
     return msg + "\nError ID: " + errId;
   }
 
@@ -118,14 +118,11 @@ class DataBase {
         .catch((error) => {
           let errId = uniqid();
           let errMsg =
-            "add" +
-            ", " +
-            model +
-            ", " +
-            JSON.stringify(action.params) +
-            " - " +
-            JSON.stringify(error) +
-            error.toString();
+            "add, " + model + ", " + actionsList
+              ? JSON.stringify(actionsList) + " - "
+              : "" + action
+              ? JSON.stringify(action.params) + " - "
+              : "" + JSON.stringify(error) + error.toString();
           DBlogger.writeToLog(
             "error",
             "DBManager",

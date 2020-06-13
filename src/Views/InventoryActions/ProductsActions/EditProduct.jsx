@@ -202,28 +202,6 @@ export default class EditProduct extends React.Component {
                         <CustomInput
                           labelText={
                             productDetails
-                              ? `Current Product Max Quantity: ${
-                                  productDetails &&
-                                  productDetails.productMaxQuantity
-                                    ? productDetails.productMaxQuantity
-                                    : "none"
-                                }`
-                              : "Change Product Max Quantity" + optional
-                          }
-                          id="productMaxQuantity"
-                          formControlProps={{
-                            fullWidth: true,
-                          }}
-                          onChange={(event) => this.setMaxQuantity(event)}
-                          data-hook={productMaxQuantityHook}
-                        />
-                      </GridItem>
-                    </GridContainer>
-                    <GridContainer>
-                      <GridItem xs={12} sm={12} md={8}>
-                        <CustomInput
-                          labelText={
-                            productDetails
                               ? `Current Product Min Quantity: ${
                                   productDetails &&
                                   productDetails.productMimQuantity
@@ -241,10 +219,32 @@ export default class EditProduct extends React.Component {
                         />
                       </GridItem>
                     </GridContainer>
+                    <GridContainer>
+                      <GridItem xs={12} sm={12} md={8}>
+                        <CustomInput
+                          labelText={
+                            productDetails
+                              ? `Current Product Max Quantity: ${
+                                  productDetails &&
+                                  productDetails.productMaxQuantity
+                                    ? productDetails.productMaxQuantity
+                                    : "none"
+                                }`
+                              : "Change Product Max Quantity" + optional
+                          }
+                          id="productMaxQuantity"
+                          formControlProps={{
+                            fullWidth: true,
+                          }}
+                          onChange={(event) => this.setMaxQuantity(event)}
+                          data-hook={productMaxQuantityHook}
+                        />
+                      </GridItem>
+                    </GridContainer>
                   </>
                 )}
               </CardBody>
-              <CardFooter style={{ paddingLeft: "15px" }}>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
                   onClick={() =>

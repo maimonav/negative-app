@@ -154,6 +154,7 @@ class CinemaSystem {
           ) {
             logger.writeToLog(
               "info",
+              "CinemaSystem",
               "createDailyReport",
               "toDBConversionMethods[incomes_daily_report] - negative numbers are invalid"
             );
@@ -480,8 +481,8 @@ class CinemaSystem {
     ) {
       logger.writeToLog(
         "info",
+        "CinemaSystem",
         "addMovieOrder",
-        "checkUser",
         "Cannot add order - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
@@ -541,8 +542,8 @@ class CinemaSystem {
     ) {
       logger.writeToLog(
         "info",
+        "CinemaSystem",
         "addCafeteriaOrder",
-        "checkUser",
         "Cannot add order - creator employee id " +
           ActionIDOfTheOperation +
           " is not exist"
@@ -602,6 +603,19 @@ class CinemaSystem {
       "editOrder"
     );
     if (result != null) return result;
+    if (
+      !this.employeeManagement.employeeDictionary.has(ActionIDOfTheOperation)
+    ) {
+      logger.writeToLog(
+        "info",
+        "CinemaSystem",
+        "confirmOrder",
+        "Cannot confirm order - creator employee id " +
+          ActionIDOfTheOperation +
+          " is not exist"
+      );
+      return "Cannot confirm order - only employees can confirm orders";
+    }
     return this.inventoryManagement.confirmOrder(
       orderId,
       productsList,

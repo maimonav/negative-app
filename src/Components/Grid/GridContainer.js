@@ -7,7 +7,8 @@ import Grid from "@material-ui/core/Grid";
 
 const styles = {
   grid: {
-    width: "unset"
+    width: "unset",
+    flexWrap: "unset"
   }
 };
 

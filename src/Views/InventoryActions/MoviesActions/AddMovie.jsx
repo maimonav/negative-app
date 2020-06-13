@@ -84,7 +84,7 @@ export default class AddMovie extends React.Component {
                   </GridContainer>
                 </div>
               </CardBody>
-              <CardFooter style={{ paddingLeft: "15px" }}>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
                   onClick={() => this.props.handleAddMovie(movieName, category)}

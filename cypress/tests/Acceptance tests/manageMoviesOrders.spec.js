@@ -153,7 +153,7 @@ context("Manage Movie Orders", () => {
     cy.get("#removeOrder").click();
   });
 
-  it.only("confirm movies order", () => {
+  it("confirm movies order", () => {
     cy.addEmployee("MANAGER", "user", "123", "user", "user", "tmp");
     cy.logout();
     cy.login("user", "123");

@@ -318,12 +318,18 @@ class ServiceLayer {
     if (result === "The employee added successfully.") {
       let employeeId = this.userCounter;
       if (permissions === "MANAGER")
-        NotificationController.ManagerId = employeeId;
+        NotificationController.ManagerIdList = [
+          ...NotificationController.ManagerIdList,
+          employeeId,
+        ];
       else if (
         permissions === "DEPUTY MANAGER" ||
         permissions === "DEPUTY_MANAGER"
       )
-        NotificationController.DeputyManagerId = employeeId;
+        NotificationController.DeputyManagerIdList = [
+          ...NotificationController.DeputyManagerIdList,
+          employeeId,
+        ];
       this.users.set(userName, employeeId);
       this.userCounter++;
     }

@@ -1,7 +1,7 @@
 import React from "react";
 import TabPanel from "./Components/TabPanel";
 import { Login } from "./Views";
-import { errorPagePath, loginPath } from "./consts/paths";
+import { errorPagePath } from "./consts/paths";
 import { handleLogin, handleIsLoggedIn, ws } from "./Handlers/Handlers";
 
 class App extends React.Component {
@@ -80,11 +80,13 @@ class App extends React.Component {
     }
   };
 
-  onLoginError = () => {
-    const { messageType, errorPage } = this.state;
+  onLoginError = (staticAlert) => {
+    const { messageType, errorPage, messageError } = this.state;
     if (messageType === "ERROR" && !errorPage) {
-      window.location.href = errorPagePath;
+      alert(messageError[0].content);
       this.setState({ errorPage: true });
+    } else {
+      alert(staticAlert);
     }
   };
 
@@ -101,7 +103,6 @@ class App extends React.Component {
     });
     localStorage.setItem("username", "");
     localStorage.setItem("permission", "");
-    // window.location.replace("/");
   };
 
   render() {
@@ -117,7 +118,37 @@ class App extends React.Component {
     if (!this.state.isLogged) {
       return (
         <Login
-          handleLogin={handleLogin}
+          handleLogin={(username, password, onLogin, onLoginError) => {
+            handleLogin(username, password, onLogin, onLoginError);
+
+            ws.onopen = () => {
+              console.log("connected");
+            };
+
+            ws.onmessage = (evt) => {
+              const message = JSON.parse(evt.data);
+              console.log("message:", message);
+              let messagesArray = [];
+              for (let i in message) {
+                let not = message[i];
+                if (not.type === "INFO") {
+                  messagesArray.push(not);
+                } else if (not.type === "ERROR") {
+                  this.setState({
+                    messageType: "ERROR",
+                    messageError: message,
+                    disableTabs: true,
+                  });
+                }
+              }
+              this.setState({ messageContent: messagesArray });
+            };
+
+            ws.onclose = () => {
+              console.log("disconnected");
+              this.onLogout();
+            };
+          }}
           onLogin={this.onLogin}
           onLoginError={this.onLoginError}
         />

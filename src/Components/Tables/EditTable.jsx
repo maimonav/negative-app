@@ -41,7 +41,7 @@ export const tableIcons = {
   Search: forwardRef((props, ref) => <Search {...props} ref={ref} />),
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
   ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+  ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
 };
 
 export default class EditTable extends React.Component {
@@ -49,7 +49,7 @@ export default class EditTable extends React.Component {
     super(props);
     this.state = {
       data: this.props.data,
-      columns: this.props.columns
+      columns: this.props.columns,
     };
   }
 
@@ -72,28 +72,17 @@ export default class EditTable extends React.Component {
         {data && (
           <MaterialTable
             id={"lala"}
-            title="Edit Products Table"
+            title="Edit Table"
             columns={columns}
             data={data}
             icons={tableIcons}
             editable={{
-              // onRowAdd: (newData) =>
-              //   new Promise((resolve) => {
-              //     setTimeout(() => {
-              //       resolve();
-              //       this.setState((prevState) => {
-              //         const data = [...prevState.data];
-              //         data.push(newData);
-              //         return { ...prevState, data };
-              //       });
-              //     }, 600);
-              //   }),
               onRowUpdate: (newData, oldData) =>
-                new Promise(resolve => {
+                new Promise((resolve) => {
                   setTimeout(() => {
                     resolve();
                     if (oldData) {
-                      this.setState(prevState => {
+                      this.setState((prevState) => {
                         const data = [...prevState.data];
                         data[data.indexOf(oldData)] = newData;
                         return { ...prevState, data };
@@ -101,17 +90,17 @@ export default class EditTable extends React.Component {
                     }
                   }, 600);
                 }),
-              onRowDelete: oldData =>
-                new Promise(resolve => {
+              onRowDelete: (oldData) =>
+                new Promise((resolve) => {
                   setTimeout(() => {
                     resolve();
-                    this.setState(prevState => {
+                    this.setState((prevState) => {
                       const data = [...prevState.data];
                       data.splice(data.indexOf(oldData), 1);
                       return { ...prevState, data };
                     });
                   }, 600);
-                })
+                }),
             }}
           />
         )}
@@ -121,7 +110,7 @@ export default class EditTable extends React.Component {
             color="info"
             onClick={this.handleOnclick}
           >
-            Finish Manage Products Quantity
+            Finish Edit
           </Button>
         )}
       </>

@@ -86,7 +86,7 @@ export default class EditCategory extends React.Component {
                   </GridContainer>
                 </div>
               </CardBody>
-              <CardFooter style={{ paddingLeft: "18px" }}>
+              <CardFooter style={{ justifyContent: "center" }}>
                 <Button
                   color="info"
                   onClick={() =>

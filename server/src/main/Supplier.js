@@ -17,8 +17,9 @@ class Supplier {
   }
 
   async editSupplier(name, contactDetails) {
-    this.name = name ? name : this.name;
-    this.contactDetails = contactDetails ? contactDetails : this.contactDetails;
+    this.name = name !== undefined ? name : this.name;
+    this.contactDetails =
+      contactDetails !== undefined ? contactDetails : this.contactDetails;
     return DataBase.singleUpdate(
       "supplier",
       { id: this.id },
