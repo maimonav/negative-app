@@ -66,7 +66,7 @@ const addCategoriesArgsList = [
 const addMoviesOrdersArgsList = [
   [
     `manager - ` +
-    moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 10),
     "Tedi Productions",
     JSON.parse('["Wonder Woman 1984"]'),
@@ -74,7 +74,7 @@ const addMoviesOrdersArgsList = [
   ],
   [
     `manager - ` +
-    moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 11),
     "Tedi Productions",
     JSON.parse('["Bad Boys For Life"]'),
@@ -84,7 +84,7 @@ const addMoviesOrdersArgsList = [
 const addProductsOrdersArgsList = [
   [
     `manager - ` +
-    moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 13),
     "shufersal",
     JSON.parse(
@@ -94,7 +94,7 @@ const addProductsOrdersArgsList = [
   ],
   [
     `manager - ` +
-    moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 12),
     "rami levi",
     JSON.parse(
@@ -108,92 +108,83 @@ const addSuppliersArgsList = [
   ["rami levi", "https://www.rami-levy.co.il", "manager"],
   ["Tedi Productions", "Tel. 050-123456789", "manager"],
 ];
-console.log();
 const addMoviesReportsArgsList = [
   [
-    {
-      "name": "Bad Boys For Life 13/6/2020",
-      "date": '"06.13.2020 21:00"',
-      "location": '"Auditorium 5"',
-      "numberOfTicketsAssigned": "250",
-      "numberOfTicketsSales": "22",
-      "totalSalesIncomes": "172",
-      "totalTicketsReturns": "37.8",
-      "totalFees": "5.45",
-      "totalRevenuesWithoutCash": "65.75",
-      "totalCashIncomes": "63",
-    },
+    [
+      {
+        name: "Bad Boys For Life",
+        date: "06.06.2020 21:00",
+        location: "Auditorium 5",
+        numberOfTicketsAssigned: "250",
+        numberOfTicketsSales: "22",
+        totalSalesIncomes: "172",
+        totalTicketsReturns: "37.8",
+        totalFees: "5.45",
+        totalRevenuesWithoutCash: "65.75",
+        totalCashIncomes: "63",
+      },
+      {
+        name: "Wonder Woman",
+        date: "06.06.2020 21:00",
+        location: "Auditorium 5",
+        numberOfTicketsAssigned: "250",
+        numberOfTicketsSales: "0",
+        totalSalesIncomes: "0",
+        totalTicketsReturns: "0",
+        totalFees: "0",
+        totalRevenuesWithoutCash: "0",
+        totalCashIncomes: "0",
+      },
+      {
+        name: "Wonder Woman",
+        date: "06.06.2020 00:00",
+        location: "Auditorium 5",
+        numberOfTicketsAssigned: "250",
+        numberOfTicketsSales: "0",
+        totalSalesIncomes: "0",
+        totalTicketsReturns: "0",
+        totalFees: "0",
+        totalRevenuesWithoutCash: "0",
+        totalCashIncomes: "0",
+      },
+      {
+        name: "Bad Boys For Life",
+        date: "06.06.2020 00:00",
+        location: "Auditorium 6",
+        numberOfTicketsAssigned: "250",
+        numberOfTicketsSales: "22",
+        totalSalesIncomes: "172",
+        totalTicketsReturns: "37.8",
+        totalFees: "5.45",
+        totalRevenuesWithoutCash: "65.75",
+        totalCashIncomes: "63",
+      },
+      {
+        name: "Spiderman",
+        date: "07.06.2020 21:00",
+        location: "Auditorium 5",
+        numberOfTicketsAssigned: "250",
+        numberOfTicketsSales: "0",
+        totalSalesIncomes: "0",
+        totalTicketsReturns: "0",
+        totalFees: "0",
+        totalRevenuesWithoutCash: "0",
+        totalCashIncomes: "0",
+      },
+      {
+        name: "Bad Boys For Life",
+        date: "07.06.2020 21:00",
+        location: "Auditorium 5",
+        numberOfTicketsAssigned: "250",
+        numberOfTicketsSales: "22",
+        totalSalesIncomes: "172",
+        totalTicketsReturns: "37.8",
+        totalFees: "5.45",
+        totalRevenuesWithoutCash: "65.75",
+        totalCashIncomes: "63",
+      },
+    ],
   ],
-  // [
-  //   {
-  //     name: "Wonder Woman 1984 13/6/2020",
-  //     date: '"06.13.2020 21:00"',
-  //     location: '"Auditorium 5"',
-  //     numberOfTicketsAssigned: "250",
-  //     numberOfTicketsSales: "0",
-  //     totalSalesIncomes: "0",
-  //     totalTicketsReturns: "0",
-  //     totalFees: "0",
-  //     totalRevenuesWithoutCash: "0",
-  //     totalCashIncomes: "0\r",
-  //   },
-  // ],
-  // [
-  //   {
-  //     name: "Bad Boys For Life 12/6/2020",
-  //     date: '"06.12.2020 21:00"',
-  //     location: '"Auditorium 5"',
-  //     numberOfTicketsAssigned: "250",
-  //     numberOfTicketsSales: "22",
-  //     totalSalesIncomes: "172",
-  //     totalTicketsReturns: "37.8",
-  //     totalFees: "5.45",
-  //     totalRevenuesWithoutCash: "65.75",
-  //     totalCashIncomes: "63",
-  //   },
-  // ],
-  // [
-  //   {
-  //     name: "Wonder Woman 1984 12/6/2020",
-  //     date: '"06.12.2020 21:00"',
-  //     location: '"Auditorium 5"',
-  //     numberOfTicketsAssigned: "250",
-  //     numberOfTicketsSales: "0",
-  //     totalSalesIncomes: "0",
-  //     totalTicketsReturns: "0",
-  //     totalFees: "0",
-  //     totalRevenuesWithoutCash: "0",
-  //     totalCashIncomes: "0\r",
-  //   },
-  // ],
-  // [
-  //   {
-  //     name: "Bad Boys For Life 11/6/2020",
-  //     date: '"06.11.2020 21:00"',
-  //     location: '"Auditorium 5"',
-  //     numberOfTicketsAssigned: "250",
-  //     numberOfTicketsSales: "22",
-  //     totalSalesIncomes: "172",
-  //     totalTicketsReturns: "37.8",
-  //     totalFees: "5.45",
-  //     totalRevenuesWithoutCash: "65.75",
-  //     totalCashIncomes: "63",
-  //   },
-  // ],
-  // [
-  //   {
-  //     name: "Wonder Woman 1984 11/6/2020",
-  //     date: '"06.11.2020 21:00"',
-  //     location: '"Auditorium 5"',
-  //     numberOfTicketsAssigned: "250",
-  //     numberOfTicketsSales: "0",
-  //     totalSalesIncomes: "0",
-  //     totalTicketsReturns: "0",
-  //     totalFees: "0",
-  //     totalRevenuesWithoutCash: "0",
-  //     totalCashIncomes: "0\r",
-  //   },
-  // ],
 ];
 const addReportsArgsList = [];
 const addFieldsArgsList = [];
