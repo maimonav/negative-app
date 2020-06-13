@@ -142,8 +142,8 @@ class NotificationController {
             subtype: "GET NOTIFICATIONS",
             timeFired: moment().format(),
             content:
-              "There was a problem sending your notifications.\n" +
-              "\nYou can try to logged out and logged in to see them all." +
+              "There was a problem sending your notifications. " +
+              "You can try to logged out and logged in to see them all. " +
               notifications,
           },
         ])

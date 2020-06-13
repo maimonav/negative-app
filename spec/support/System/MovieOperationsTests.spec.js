@@ -130,7 +130,7 @@ describe("Movie Operations Tests", () => {
     expect(result).toBe("The movie does not exist");
     let actualMovie = new Movie(1, "Movie", 1);
     inventoryManagement.products.set(1, actualMovie);
-    result = await inventoryManagement.editMovie(1, 0);
+    result = await inventoryManagement.editMovie(1, -100);
     expect(result).toBe("Category doesn't exist");
     inventoryManagement.categories.set(1, null);
     result = await inventoryManagement.editMovie(1, 1, "key", -1);

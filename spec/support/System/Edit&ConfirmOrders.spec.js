@@ -88,6 +88,11 @@ describe("edit&confirmOrder", () => {
     manager.LoggedIn = true;
     cinemaSystem.users.set(employee.id, employee);
     cinemaSystem.users.set(manager.id, manager);
+    cinemaSystem.employeeManagement.employeeDictionary.set(
+      employee.id,
+      employee
+    );
+    cinemaSystem.employeeManagement.employeeDictionary.set(manager.id, manager);
 
     serviceLayer = new ServiceLayer();
     serviceLayer.cinemaSystem = cinemaSystem;
