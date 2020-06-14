@@ -9,7 +9,6 @@ const {
   addSuppliersArgsList,
   addMoviesReportsArgsList,
   addReportsArgsList,
-  addFieldsArgsList,
 } = require("./consts/SystemData");
 const NotificationController = require("./NotificationController");
 const User = require("./User");
@@ -33,6 +32,8 @@ class SystemInitializer {
     this.serviceLayer = serviceLayer;
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
+    //Turn database off
+    //DataBase._testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
@@ -62,7 +63,7 @@ class SystemInitializer {
     if ((err = await SystemInitializer._restoreSuppliers(admin))) return err;
     if ((err = await SystemInitializer._restoreOrders())) return err;
 
-    schedule.scheduleJob("00 00 * * *", function () {
+    schedule.scheduleJob("00 00 * * *", function() {
       console.log("The schedualing job start running");
       main();
     });
@@ -255,8 +256,8 @@ class SystemInitializer {
         if (movieList.length !== 0) {
           await this.serviceLayer.addMovieOrder(
             creatorEmployeeName +
-            " - " +
-            moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+              " - " +
+              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
             order.date,
             supplierName,
             movieList,
@@ -281,8 +282,8 @@ class SystemInitializer {
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +
-              " - " +
-              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+                " - " +
+                moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
               movieListToConfirm,
               recipientEmployeeName
             );
@@ -291,8 +292,8 @@ class SystemInitializer {
         if (productList.length !== 0) {
           await this.serviceLayer.addCafeteriaOrder(
             creatorEmployeeName +
-            " - " +
-            moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+              " - " +
+              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
             order.date,
             supplierName,
             productList,
@@ -311,8 +312,8 @@ class SystemInitializer {
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +
-              " - " +
-              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+                " - " +
+                moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
               productsListToConfirm,
               recipientEmployeeName
             );
