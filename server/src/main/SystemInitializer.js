@@ -396,6 +396,7 @@ class SystemInitializer {
       this.serviceLayer.createDailyReport,
       addReportsArgsList
     );
+    await this.serviceLayer.logout("manager");
   }
 
   static async executeMethodForArgList(className, method, argsList) {
