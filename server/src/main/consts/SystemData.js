@@ -69,7 +69,7 @@ const addMoviesOrdersArgsList = [
       moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 10),
     "Tedi Productions",
-    JSON.parse('["Wonder Woman 1984"]'),
+    JSON.parse('["Wonder Woman"]'),
     "manager",
   ],
   [
@@ -77,7 +77,7 @@ const addMoviesOrdersArgsList = [
       moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 11),
     "Tedi Productions",
-    JSON.parse('["Bad Boys For Life"]'),
+    JSON.parse('["Bad Boys For Life","Once Upon a Time in Hollywood"]'),
     "manager",
   ],
 ];
