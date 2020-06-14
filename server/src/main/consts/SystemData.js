@@ -41,7 +41,7 @@ const addEmployeeArgsList = [
 ];
 const addMoviesArgsList = [
   ["Bad Boys For Life", "comedy", "manager"],
-  ["Wonder Woman 1984", "action", "manager"],
+  ["Wonder Woman", "action", "manager"],
   ["Once Upon a Time in Hollywood", "comedy", "manager"],
 ];
 const addProductsArgsList = [
@@ -66,26 +66,42 @@ const addCategoriesArgsList = [
 const addMoviesOrdersArgsList = [
   [
     `manager - ` +
-      moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
-    new Date(2020, 06, 10),
+      moment(new Date(2020, 5, 10, 14, 22, 33)).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      ),
+    new Date(2020, 5, 10, 14, 22, 33),
     "Tedi Productions",
     JSON.parse('["Wonder Woman"]'),
     "manager",
   ],
   [
     `manager - ` +
-      moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
-    new Date(2020, 06, 11),
+      moment(new Date(2020, 5, 11, 11, 10, 3)).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      ),
+    new Date(2020, 5, 11, 11, 10, 3),
     "Tedi Productions",
-    JSON.parse('["Bad Boys For Life","Once Upon a Time in Hollywood"]'),
+    JSON.parse('["Bad Boys For Life"]'),
+    "manager",
+  ],
+  [
+    `manager - ` +
+      moment(new Date(2020, 5, 12, 12, 22, 4)).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      ),
+    new Date(2020, 5, 12, 12, 22, 4),
+    "Tedi Productions",
+    JSON.parse('["Once Upon a Time in Hollywood"]'),
     "manager",
   ],
 ];
 const addProductsOrdersArgsList = [
   [
     `manager - ` +
-      moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
-    new Date(2020, 06, 13),
+      moment(new Date(2020, 5, 13, 11, 30, 1)).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      ),
+    new Date(2020, 5, 13, 11, 30, 1),
     "shufersal",
     JSON.parse(
       '[{"name":"Coca-Cola","quantity":"30"},{"name":"GoldStar","quantity":"10"}]'
@@ -94,8 +110,10 @@ const addProductsOrdersArgsList = [
   ],
   [
     `manager - ` +
-      moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
-    new Date(2020, 06, 12),
+      moment(new Date(2020, 5, 12, 10, 33, 30)).format(
+        "MMMM Do YYYY, h:mm:ss a"
+      ),
+    new Date(2020, 5, 12, 10, 33, 30),
     "rami levi",
     JSON.parse(
       '[{"name":"Regular-Sprite","quantity":"30"},{"name":"Zero-Sprite","quantity":"35"}]'
