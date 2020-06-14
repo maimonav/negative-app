@@ -1,11 +1,14 @@
 const DataBase = require("./DataLayer/DBManager");
+const ProductOrder = require("./ProductOrder");
 const LogControllerFile = require("./LogController");
 const LogController = LogControllerFile.LogController;
 const logger = LogController.getInstance("system");
 const DBlogger = LogController.getInstance("db");
 
-class MovieOrder {
+
+class MovieOrder extends ProductOrder {
   constructor(movie, order) {
+    super(order, 1);
     this.actualQuantity = 0;
     this.expectedQuantity = 1;
     this.order = order;

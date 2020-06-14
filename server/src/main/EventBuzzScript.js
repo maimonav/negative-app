@@ -188,7 +188,7 @@ function getRecentEmailreq(auth, i) {
     // Only get the recent email - 'maxResults' parameter
     gmail.users.messages.list(
       { auth: auth, userId: "me", maxResults: 1 },
-      function(err, response) {
+      function (err, response) {
         if (err) {
           console.log("The API returned an error: " + err);
           return;
@@ -207,7 +207,7 @@ function getRecentEmailreq(auth, i) {
         // Retreive the actual message using the message id
         gmail.users.messages.get(
           { auth: auth, userId: "me", id: message_id },
-          function(err, response) {
+          function (err, response) {
             if (err) {
               console.log("The API returned an error: " + err);
             } else {
@@ -363,7 +363,7 @@ async function download(url) {
 }
 
 async function eventbuzzScript() {
-  return new Promise(async function() {
+  return new Promise(async function () {
     try {
       let driver = await new Builder().forBrowser("chrome").build();
       driver
