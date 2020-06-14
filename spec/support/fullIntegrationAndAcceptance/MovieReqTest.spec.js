@@ -22,7 +22,7 @@ describe("Movie Operations Tests", function() {
     logger.testModeOff();
   });
 
-  it("addMovie req 2.1.4", async function() {
+  it("addMovie", async function() {
     let category = "categoryTest";
     let movie = "movieTest";
     let user = "admin";
@@ -69,7 +69,7 @@ describe("Movie Operations Tests", function() {
     });
   });
 
-  it("removeMovie req 2.1.6", async function() {
+  it("removeMovie", async function() {
     let category = "categoryTest";
     let movie = "movieTest";
     let user = "admin";

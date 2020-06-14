@@ -17,7 +17,7 @@ describe("Notification Operations Tests", function() {
     console.log("Database deleted");
   });
 
-  it("Low quantity notify req 1.2.1", async function(done) {
+  it("Low quantity notify", async function(done) {
     setTimeout(done, 1000);
     let category = "categoryTest";
     let product = "productTest";
@@ -61,7 +61,7 @@ describe("Notification Operations Tests", function() {
     }, 500);
   });
 
-  it("High quantity notify req 1.2.2", async function(done) {
+  it("High quantity notify", async function(done) {
     setTimeout(done, 1000);
     let category = "categoryTest";
     let product = "productTest";
@@ -105,7 +105,7 @@ describe("Notification Operations Tests", function() {
     }, 500);
   });
 
-  it("Movie examination req 2.2.1", async function(done) {
+  it("Movie examination", async function(done) {
     setTimeout(done, 2000);
     let movie = "movieTest";
     let order = "orderTest";

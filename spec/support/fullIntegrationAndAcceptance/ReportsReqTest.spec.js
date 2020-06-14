@@ -101,7 +101,7 @@ describe("Report Operations Tests", function() {
     console.log("Database deleted");
   });
 
-  it("addFieldToDailyReport req 2.8", async function() {
+  it("addFieldToDailyReport", async function() {
     let user = "admin";
     service.login(user, user);
     let date = new Date("1999-12-31");
@@ -117,7 +117,7 @@ describe("Report Operations Tests", function() {
     await testAddGeneralPurposeDailyReport(reportAfter, true);
   });
 
-  it("removeFieldFromDailyReport req 2.9", async function() {
+  it("removeFieldFromDailyReport", async function() {
     let user = "admin";
     service.login(user, user);
     let date = new Date("1999-12-31");
@@ -136,7 +136,7 @@ describe("Report Operations Tests", function() {
     await testAddGeneralPurposeDailyReport(reportAfter, true);
   });
 
-  it("createDailyReport req 1.1.13, 2.4, 2.6, 3.1", async function(done) {
+  it("createDailyReport", async function(done) {
     setTimeout(done, 5000);
 
     let user = "admin";
@@ -202,7 +202,7 @@ describe("Report Operations Tests", function() {
     }
   }, 6000);
 
-  it("getReport req 1.1.14, 2.5, 2.7", async function(done) {
+  it("getReport", async function(done) {
     setTimeout(done, 5000);
 
     await createReport(service, todayDate, reports);
@@ -232,7 +232,7 @@ describe("Report Operations Tests", function() {
     }
   }, 6000);
 
-  it("getFullDailyReport req  2.10, 2.11", async function(done) {
+  it("getFullDailyReport", async function(done) {
     setTimeout(done, 5000);
 
     let user = "admin";
@@ -296,7 +296,7 @@ describe("Report Operations Tests", function() {
     }
   }, 6000);
 
-  it("Movies Report Event Buzz - create and get from DB", async () => {
+  it("Movies Report Event Buzz", async () => {
     let report = csvToJson().slice(0, 5);
     let result = await ReportController.createMovieReport(report);
     expect(result).toBe(undefined);

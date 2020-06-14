@@ -71,7 +71,7 @@ class SystemInitializer {
     console.log("EventBuzz script scheduled successfully");
 
     //Init database - system test environment
-    SystemInitializer._initSystemData();
+    //SystemInitializer._initSystemData();
   }
 
   static async _restoreEmployees(admin) {

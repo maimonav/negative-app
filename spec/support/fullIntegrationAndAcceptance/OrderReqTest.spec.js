@@ -21,7 +21,7 @@ describe("Order Operations Tests", function() {
     console.log("Database deleted");
   });
 
-  it("addMovieOrder req 2.1.1", async function() {
+  it("addMovieOrder", async function() {
     let movie = "movieTest";
     let order = "orderTest";
     let supplier = "supplierTest";
@@ -107,7 +107,7 @@ describe("Order Operations Tests", function() {
     expect(result).toBe("The order already exists");
   });
 
-  it("addCafeteriaOrder req 1.1.1", async function() {
+  it("addCafeteriaOrder", async function() {
     let product = "productTest";
     let order = "orderTest";
     let supplier = "supplierTest";
@@ -196,7 +196,7 @@ describe("Order Operations Tests", function() {
     expect(result).toBe("The order already exists");
   });
 
-  it("removeOrder req 1.1.2, 2.1.2", async function() {
+  it("removeOrder", async function() {
     let product = "productTest";
     let movie = "movieTest";
     let category = "categoryTest";

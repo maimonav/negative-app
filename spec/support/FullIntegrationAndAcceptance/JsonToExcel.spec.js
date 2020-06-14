@@ -34,7 +34,7 @@ describe("Json to excel", function() {
     console.log("Database deleted");
   });
 
-  it("test", async () => {
+  it("Download File - Report to Excel", async () => {
     await createReport(service, new Date());
     service.login("admin", "admin");
     for (let i in types) {

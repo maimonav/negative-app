@@ -17,7 +17,7 @@ describe("Supplier Operations Tests", function() {
     console.log("Database deleted");
   });
 
-  it("addNewSupplier req 1.1.7, 2.1.7", async function() {
+  it("addNewSupplier", async function() {
     let supplier = "supplierTest";
     let contactDetails = "0508888888";
     let user = "admin";
@@ -35,7 +35,7 @@ describe("Supplier Operations Tests", function() {
     expect(result).toBe("The supplier already exists");
   });
 
-  it("editSupplier req 1.1.8, 2.1.8", async function() {
+  it("editSupplier", async function() {
     let supplier = "supplierTest";
     let contactDetails = "0508888888";
     let user = "admin";
@@ -54,7 +54,7 @@ describe("Supplier Operations Tests", function() {
     });
   });
 
-  it("removeSupplier req 1.1.9, 2.1.9", async function(done) {
+  it("removeSupplier", async function(done) {
     setTimeout(done, 4999);
     let supplier = "supplierTest";
     let contactDetails = "0508888888";
