@@ -66,7 +66,7 @@ const addCategoriesArgsList = [
 const addMoviesOrdersArgsList = [
   [
     `manager - ` +
-    moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 10)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 10),
     "Tedi Productions",
     JSON.parse('["Wonder Woman 1984"]'),
@@ -74,7 +74,7 @@ const addMoviesOrdersArgsList = [
   ],
   [
     `manager - ` +
-    moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 11)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 11),
     "Tedi Productions",
     JSON.parse('["Bad Boys For Life"]'),
@@ -84,7 +84,7 @@ const addMoviesOrdersArgsList = [
 const addProductsOrdersArgsList = [
   [
     `manager - ` +
-    moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 13)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 13),
     "shufersal",
     JSON.parse(
@@ -94,7 +94,7 @@ const addProductsOrdersArgsList = [
   ],
   [
     `manager - ` +
-    moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
+      moment(new Date(2020, 06, 12)).format("MMMM Do YYYY, h:mm:ss a"),
     new Date(2020, 06, 12),
     "rami levi",
     JSON.parse(
@@ -160,7 +160,7 @@ const addMoviesReportsArgsList = [
         totalCashIncomes: "63",
       },
       {
-        name: "Spiderman",
+        name: "Once Upon a Time in Hollywood",
         date: "07.06.2020 21:00",
         location: "Auditorium 5",
         numberOfTicketsAssigned: "250",
@@ -224,9 +224,9 @@ const addReportsArgsList = [
         ],
       },
     ]),
-    "manager"
-
-  ],];
+    "manager",
+  ],
+];
 const addFieldsArgsList = [];
 
 module.exports = {
