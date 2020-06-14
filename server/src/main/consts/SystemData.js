@@ -209,8 +209,33 @@ const addReportsArgsList = [
         content: [
           {
             productName: "Coca-Cola",
-            quantitySold: "2",
-            stockThrown: "4",
+            quantitySold: "1",
+            stockThrown: "0",
+          },
+          {
+            productName: "Zero-Cola",
+            quantitySold: "1",
+            stockThrown: "0",
+          },
+          {
+            productName: "Diet-Cola",
+            quantitySold: "0",
+            stockThrown: "0",
+          },
+          {
+            productName: "GoldStar",
+            quantitySold: "3",
+            stockThrown: "0",
+          },
+          {
+            productName: "Regular-Sprite",
+            quantitySold: "0",
+            stockThrown: "1",
+          },
+          {
+            productName: "Zero-Sprite",
+            quantitySold: "0",
+            stockThrown: "0",
           },
         ],
       },
