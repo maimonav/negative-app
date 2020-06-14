@@ -816,7 +816,7 @@ class InventoryManagement {
           expectedQuantity: value.expectedQuantity,
           actualQuantity: value.actualQuantity,
         });
-      else obj.push(value.movie.name);
+      else obj.push({ name: value.movie.name });
     });
     return obj;
   }

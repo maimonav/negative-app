@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetCafeteriaOrders,
-  handleGetOrderDetails
+  handleGetOrderDetails,
 } from "../../../Handlers/Handlers";
 import SimpleTable from "../../../Components/Tables/SimpleTable";
 import moment from "moment";
@@ -21,24 +21,24 @@ export default class ShowCafeteriaOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: ""
+      orderId: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetCafeteriaOrders()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ orders: state.result });
       });
   };
 
-  setOrderId = orderId => {
+  setOrderId = (orderId) => {
     this.setState({ orderId });
     handleGetOrderDetails(orderId)
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ orderId: state.result });
       });
   };
@@ -46,7 +46,7 @@ export default class ShowCafeteriaOrders extends React.Component {
   columns = [
     { title: "Product Name", field: "name" },
     { title: "Quantity", field: "expectedQuantity" },
-    { title: "Actual Quantity", field: "actualQuantity" }
+    { title: "Actual Quantity", field: "actualQuantity" },
   ];
 
   render() {
@@ -82,7 +82,7 @@ export default class ShowCafeteriaOrders extends React.Component {
                           moment(orderId.orderDate).format("DD/MM/YYYY") || ""
                         }
                         InputProps={{
-                          readOnly: true
+                          readOnly: true,
                         }}
                         style={marginStyle}
                         variant="outlined"
@@ -95,16 +95,18 @@ export default class ShowCafeteriaOrders extends React.Component {
                         label="supplier Details"
                         value={orderId.supplierDetails || ""}
                         InputProps={{
-                          readOnly: true
+                          readOnly: true,
                         }}
                         style={marginStyle}
                         variant="outlined"
                       />
                     </GridItem>
+                  </GridContainer>
+                )}
+                {this.state.orderId && (
+                  <GridContainer>
                     <GridItem xs={12} sm={12} md={8}>
-                      <h3 style={{ margin: "auto", marginTop: "20px" }}>
-                        Order's products details:{" "}
-                      </h3>
+                      <h3>Order's products details: </h3>
                       <SimpleTable
                         colums={this.columns}
                         data={orderId.products}

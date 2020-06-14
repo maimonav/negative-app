@@ -9,7 +9,7 @@ import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
 import {
   handleGetMovies,
-  handleGetMovieDetails
+  handleGetMovieDetails,
 } from "../../../Handlers/Handlers";
 import { movieNameHook, categoryNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -19,24 +19,24 @@ export default class ShowMovieDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      movieName: ""
+      movieName: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovies(localStorage.getItem("username"))
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movies: state.result });
       });
   };
 
-  setMovieName = movieName => {
+  setMovieName = (movieName) => {
     this.setState({ movieName });
     handleGetMovieDetails(movieName)
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ movieName: state.result });
       });
   };
@@ -44,7 +44,7 @@ export default class ShowMovieDetails extends React.Component {
   columns = [
     { title: "Movie Name", field: "name" },
     { title: "Key", field: "expectedQuantity" },
-    { title: "Examination room", field: "actualQuantity" }
+    { title: "Examination room", field: "actualQuantity" },
   ];
 
   render() {
@@ -70,14 +70,14 @@ export default class ShowMovieDetails extends React.Component {
                   />
                 </GridItem>
                 {movieName && (
-                  <GridContainer style={style}>
+                  <GridItem xs={12} sm={12} md={8}>
                     <TextField
                       id="field1"
                       defaultValue=""
-                      label="movieName"
+                      label="Movie Name"
                       value={movieName.movieName || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -85,10 +85,10 @@ export default class ShowMovieDetails extends React.Component {
                     <TextField
                       id="field2"
                       defaultValue=""
-                      label="category"
+                      label="Category"
                       value={movieName.category || ""}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -98,9 +98,9 @@ export default class ShowMovieDetails extends React.Component {
                       id="field3"
                       defaultValue=""
                       label="Movie Key"
-                      value={movieName.movieKey || ""}
+                      value={movieName.movieKey || "none"}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
@@ -109,14 +109,14 @@ export default class ShowMovieDetails extends React.Component {
                       id="field4"
                       defaultValue=""
                       label="Examination Room"
-                      value={movieName.examinationRoom || ""}
+                      value={movieName.examinationRoom || "none"}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                       style={marginStyle}
                       variant="outlined"
                     />
-                  </GridContainer>
+                  </GridItem>
                 )}
               </CardBody>
             </Card>
