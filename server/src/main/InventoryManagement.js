@@ -809,14 +809,14 @@ class InventoryManagement {
   mapToObj(inputMap) {
     let obj = [];
 
-    inputMap.forEach(function(value, key) {
+    inputMap.forEach(function (value, key) {
       if (value.product instanceof CafeteriaProduct)
         obj.push({
           name: value.product.name,
           expectedQuantity: value.expectedQuantity,
           actualQuantity: value.actualQuantity,
         });
-      else obj.push(value.movie.name);
+      else obj.push({ name: value.movie.name });
     });
     return obj;
   }
@@ -855,16 +855,13 @@ class InventoryManagement {
   getCafeteriaProductDetails(productID) {
     const output = {};
     if (this.products.has(productID)) {
-      let productMaxQuantityToRepresnt;
       const product = this.products.get(productID);
-      if (product.maxQuantity !== 9999999)
-        productMaxQuantityToRepresnt = product.maxQuantity;
       return {
         productName: product.name,
         productCategory: this.categories.get(product.categoryId).name,
         productPrice: product.price,
         productQuantity: product.quantity,
-        productMaxQuantity: productMaxQuantityToRepresnt,
+        productMaxQuantity: product.maxQuantity,
         productMimQuantity: product.minQuantity,
       };
     }

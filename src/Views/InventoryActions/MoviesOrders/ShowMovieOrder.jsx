@@ -7,10 +7,11 @@ import TextField from "@material-ui/core/TextField";
 import CardHeader from "../../../Components/Card/CardHeader.js";
 import CardBody from "../../../Components/Card/CardBody.js";
 import ComboBox from "../../../Components/AutoComplete";
+import SimpleTable from "../../../Components/Tables/SimpleTable";
 import moment from "moment";
 import {
   handleGetMovieOrders,
-  handleGetMovieOrderDetails
+  handleGetMovieOrderDetails,
 } from "../../../Handlers/Handlers";
 import { orderNameHook } from "../../../consts/data-hooks";
 const style = { justifyContent: "center", top: "auto" };
@@ -20,29 +21,29 @@ export default class ShowMovieOrders extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      orderId: ""
+      orderId: "",
     };
     this.setInitialState();
   }
 
   setInitialState = () => {
     handleGetMovieOrders()
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ orders: state.result });
       });
   };
 
-  setOrderId = orderId => {
+  setOrderId = (orderId) => {
     this.setState({ orderId });
     handleGetMovieOrderDetails(orderId)
-      .then(response => response.json())
-      .then(state => {
+      .then((response) => response.json())
+      .then((state) => {
         this.setState({ orderId: state.result });
       });
   };
 
-  columns = [{ title: "Product Name", field: "name" }];
+  columns = [{ title: "Movie Name", field: "name" }];
 
   render() {
     const { orderId } = this.state;
@@ -67,43 +68,47 @@ export default class ShowMovieOrders extends React.Component {
                   />
                 </GridItem>
                 {this.state.orderId && (
-                  <GridItem xs={12} sm={12} md={8}>
-                    <TextField
-                      id="field1"
-                      defaultValue=""
-                      label="Order Date"
-                      value={
-                        moment(orderId.orderDate).format("DD/MM/YYYY") || ""
-                      }
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      style={marginStyle}
-                      variant="outlined"
-                    />
-                    <TextField
-                      id="field2"
-                      defaultValue=""
-                      label="supplier Details"
-                      value={orderId.supplierDetails || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      style={marginStyle}
-                      variant="outlined"
-                    />
-                    <TextField
-                      id="field3"
-                      defaultValue=""
-                      label="Movies:"
-                      value={orderId.products || ""}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                      style={marginStyle}
-                      variant="outlined"
-                    />
-                  </GridItem>
+                  <GridContainer style={style}>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <TextField
+                        id="field1"
+                        defaultValue=""
+                        label="Order Date"
+                        value={
+                          moment(orderId.orderDate).format("DD/MM/YYYY") || ""
+                        }
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        style={marginStyle}
+                        variant="outlined"
+                      />
+                    </GridItem>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <TextField
+                        id="field2"
+                        defaultValue=""
+                        label="supplier Details"
+                        value={orderId.supplierDetails || ""}
+                        InputProps={{
+                          readOnly: true,
+                        }}
+                        style={marginStyle}
+                        variant="outlined"
+                      />
+                    </GridItem>
+                  </GridContainer>
+                )}
+                {this.state.orderId && (
+                  <GridContainer>
+                    <GridItem xs={12} sm={12} md={8}>
+                      <h3>Order's movies details: </h3>
+                      <SimpleTable
+                        colums={this.columns}
+                        data={orderId.products}
+                      />
+                    </GridItem>
+                  </GridContainer>
                 )}
               </CardBody>
             </Card>

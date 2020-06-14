@@ -1,4 +1,15 @@
 const DataBase = require("./DataLayer/DBManager");
+const {
+  addEmployeeArgsList,
+  addMoviesArgsList,
+  addProductsArgsList,
+  addCategoriesArgsList,
+  addMoviesOrdersArgsList,
+  addProductsOrdersArgsList,
+  addSuppliersArgsList,
+  addMoviesReportsArgsList,
+  addReportsArgsList,
+} = require("./consts/SystemData");
 const NotificationController = require("./NotificationController");
 const User = require("./User");
 const LogControllerFile = require("./LogController");
@@ -6,7 +17,8 @@ const LogController = LogControllerFile.LogController;
 const DBlogger = LogController.getInstance("db");
 const moment = require("moment");
 const schedule = require("node-schedule");
-const { main, csvToJson } = require("./EventBuzzScript");
+const { main } = require("./EventBuzzScript");
+const ReportController = require("./ReportController");
 
 class SystemInitializer {
   static serviceLayer;
@@ -20,6 +32,8 @@ class SystemInitializer {
     this.serviceLayer = serviceLayer;
     let admin = new User(0, "admin", "admin", "ADMIN");
     this.serviceLayer.cinemaSystem.users.set(0, admin);
+    //Turn database off
+    //DataBase._testModeOn();
 
     let result = await DataBase.connectAndCreate(dbName, password);
     if (typeof result === "string") return this._errorHandler(result);
@@ -55,6 +69,9 @@ class SystemInitializer {
     });
     // csvToJson();
     console.log("EventBuzz script scheduled successfully");
+
+    //Init database - system test environment
+    SystemInitializer._initSystemData();
   }
 
   static async _restoreEmployees(admin) {
@@ -325,6 +342,67 @@ class SystemInitializer {
     user.LoggedIn = false;
     DataBase._testModeOff();
     NotificationController._turnNotificationsOn();
+  }
+
+  static async _initSystemData() {
+    let resualt = await this.serviceLayer.login("admin", "admin");
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addNewEmployee,
+      addEmployeeArgsList
+    );
+    await this.serviceLayer.logout("admin");
+    resualt = await this.serviceLayer.login("manager", "manager123");
+    console.log("result", resualt);
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addCategory,
+      addCategoriesArgsList
+    );
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addMovie,
+      addMoviesArgsList
+    );
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addNewProduct,
+      addProductsArgsList
+    );
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addNewSupplier,
+      addSuppliersArgsList
+    );
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addMovieOrder,
+      addMoviesOrdersArgsList
+    );
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addCafeteriaOrder,
+      addProductsOrdersArgsList
+    );
+
+    await SystemInitializer.executeMethodForArgList(
+      ReportController,
+      ReportController.createMovieReport,
+      addMoviesReportsArgsList
+    );
+
+    await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.createDailyReport,
+      addReportsArgsList
+    );
+  }
+
+  static async executeMethodForArgList(className, method, argsList) {
+    for (let i in argsList) {
+      let args = argsList[i];
+      await method.apply(className, args);
+    }
   }
 }
 module.exports = SystemInitializer;

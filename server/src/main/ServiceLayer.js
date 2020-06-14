@@ -870,8 +870,8 @@ class ServiceLayer {
       this.categories.get(productCategory),
       productPrice,
       productQuantity,
-      maxQuantity,
-      minQuantity,
+      maxQuantity !== "" ? maxQuantity : undefined,
+      minQuantity !== "" ? minQuantity : undefined,
       this.users.get(ActionIDOfTheOperation)
     );
     if (result === "The product was successfully added to the system") {
@@ -1744,6 +1744,7 @@ class ServiceLayer {
     ) {
       this.userActivation.get(ActionIDOfTheOperation).lastActTime = new Date();
     }
+    console.log("date", date, " reports ", reports);
     let validationResult = !this._isInputValid(date)
       ? "Date is not valid"
       : !this._isInputValid(reports)

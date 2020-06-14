@@ -43,12 +43,9 @@ let json_ans = class {
     this.value = value;
     console.log("fire!");
     var yesterday = moment().subtract(1, "days");
-    console.log("yesterday ", yesterday.toDate(), "\n");
-    console.log("value.length ", value.length, "\n");
 
     for (let i = value.length - 23; i > value.length - 123; i--) {
       let event = value[i];
-      // console.log("found event in date ", event.date, " in place ", i, "\n");
       let date = moment(event.date, "DD-MM-YYYY HH:mm").toDate();
       if (this.dateCompare(date, yesterday.toDate())) {
         output.push(event);
@@ -62,9 +59,11 @@ let json_ans = class {
   static errorHandler(msg) {
     console.log(msg);
     logger.writeToLog("error", "EventBuzzScript", "errorHandler", msg);
-    var date = moment().subtract(1, "days");
+    var date = moment()
+      .subtract(1, "days")
+      .format("LL");
     NotificationController.notifyEventBuzzError(
-      "There was a problem creating movies report in date" + date + "\n" + msg
+      "There was a problem creating movies report in " + date + " ." + msg
     );
   }
 };
@@ -189,7 +188,7 @@ function getRecentEmailreq(auth, i) {
     // Only get the recent email - 'maxResults' parameter
     gmail.users.messages.list(
       { auth: auth, userId: "me", maxResults: 1 },
-      function(err, response) {
+      function (err, response) {
         if (err) {
           console.log("The API returned an error: " + err);
           return;
@@ -208,7 +207,7 @@ function getRecentEmailreq(auth, i) {
         // Retreive the actual message using the message id
         gmail.users.messages.get(
           { auth: auth, userId: "me", id: message_id },
-          function(err, response) {
+          function (err, response) {
             if (err) {
               console.log("The API returned an error: " + err);
             } else {
@@ -364,7 +363,7 @@ async function download(url) {
 }
 
 async function eventbuzzScript() {
-  return new Promise(async function() {
+  return new Promise(async function () {
     try {
       let driver = await new Builder().forBrowser("chrome").build();
       driver
