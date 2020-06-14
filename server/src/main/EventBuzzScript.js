@@ -59,9 +59,11 @@ let json_ans = class {
   static errorHandler(msg) {
     console.log(msg);
     logger.writeToLog("error", "EventBuzzScript", "errorHandler", msg);
-    var date = moment().subtract(1, "days");
+    var date = moment()
+      .subtract(1, "days")
+      .format("LL");
     NotificationController.notifyEventBuzzError(
-      "There was a problem creating movies report in date" + date + "\n" + msg
+      "There was a problem creating movies report in " + date + " ." + msg
     );
   }
 };
