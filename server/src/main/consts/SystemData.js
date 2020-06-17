@@ -25,7 +25,7 @@ const addEmployeeArgsList = [
     "shift_manager123",
     "shift_manager",
     "shift_manager",
-    "SHIFT_MANAGER",
+    "SHIFT MANAGER",
     "tel - 052-123456789",
     "admin",
   ],
