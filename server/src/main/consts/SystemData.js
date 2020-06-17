@@ -270,7 +270,10 @@ const addReportsArgsList = [
     "manager",
   ],
 ];
-const addFieldsArgsList = [];
+const addFieldsArgsList = [
+  ["Report Z taken", "manager"],
+  ["Cash counted", "manager"],
+];
 
 module.exports = {
   addEmployeeArgsList,

@@ -9,6 +9,7 @@ const {
   addSuppliersArgsList,
   addMoviesReportsArgsList,
   addReportsArgsList,
+  addFieldsArgsList,
 } = require("./consts/SystemData");
 const NotificationController = require("./NotificationController");
 const User = require("./User");
@@ -63,7 +64,7 @@ class SystemInitializer {
     if ((err = await SystemInitializer._restoreSuppliers(admin))) return err;
     if ((err = await SystemInitializer._restoreOrders())) return err;
 
-    schedule.scheduleJob("00 00 * * *", function () {
+    schedule.scheduleJob("00 00 * * *", function() {
       console.log("The schedualing job start running");
       main();
     });
@@ -71,7 +72,7 @@ class SystemInitializer {
     console.log("EventBuzz script scheduled successfully");
 
     //Init database - system test environment
-    //SystemInitializer._initSystemData();
+    SystemInitializer._initSystemData();
   }
 
   static async _restoreEmployees(admin) {
@@ -256,8 +257,8 @@ class SystemInitializer {
         if (movieList.length !== 0) {
           await this.serviceLayer.addMovieOrder(
             creatorEmployeeName +
-            " - " +
-            moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+              " - " +
+              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
             order.date,
             supplierName,
             movieList,
@@ -282,8 +283,8 @@ class SystemInitializer {
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +
-              " - " +
-              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+                " - " +
+                moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
               movieListToConfirm,
               recipientEmployeeName
             );
@@ -292,8 +293,8 @@ class SystemInitializer {
         if (productList.length !== 0) {
           await this.serviceLayer.addCafeteriaOrder(
             creatorEmployeeName +
-            " - " +
-            moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+              " - " +
+              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
             order.date,
             supplierName,
             productList,
@@ -312,8 +313,8 @@ class SystemInitializer {
             }));
             await this.serviceLayer.confirmOrder(
               creatorEmployeeName +
-              " - " +
-              moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
+                " - " +
+                moment(order.date).format("MMMM Do YYYY, h:mm:ss a"),
               productsListToConfirm,
               recipientEmployeeName
             );
@@ -386,6 +387,12 @@ class SystemInitializer {
     );
 
     await SystemInitializer.executeMethodForArgList(
+      this.serviceLayer,
+      this.serviceLayer.addFieldToDailyReport,
+      addFieldsArgsList
+    );
+
+    await SystemInitializer.executeMethodForArgList(
       ReportController,
       ReportController.createMovieReport,
       addMoviesReportsArgsList
@@ -397,7 +404,6 @@ class SystemInitializer {
       addReportsArgsList
     );
     await this.serviceLayer.logout("manager");
-
   }
 
   static async executeMethodForArgList(className, method, argsList) {
