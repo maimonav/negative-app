@@ -19,7 +19,7 @@ const serverSocket = new WebSocket.Server({ server });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(pino);
 
-const initResult = service.initServiceLayer(undefined, "admin123");
+const initResult = service.initServiceLayer("dbtest", "admin123");
 
 NotificationController.setConnectionHandler(serverSocket, initResult);
 

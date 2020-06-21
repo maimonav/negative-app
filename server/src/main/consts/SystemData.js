@@ -261,8 +261,8 @@ const addReportsArgsList = [
         type: "general_purpose_daily_report",
         content: [
           {
-            "Cash Counted": "true",
             "Report Z Taken": "true",
+            "Cash Counted": "true",
           },
         ],
       },
@@ -271,8 +271,8 @@ const addReportsArgsList = [
   ],
 ];
 const addFieldsArgsList = [
-  ["Report Z taken", "manager"],
-  ["Cash counted", "manager"],
+  ["Report Z Taken", "manager"],
+  ["Cash Counted", "manager"],
 ];
 
 module.exports = {

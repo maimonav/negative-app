@@ -856,7 +856,7 @@ class CinemaSystem {
   ) {
     let result = this.checkUser(
       ActionIDOfTheOperation,
-      "DEPUTY_MANAGER",
+      "SHIFT_MANAGER",
       "editCafeteriaProduct"
     );
     if (result != null) return result;
