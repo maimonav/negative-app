@@ -21,7 +21,7 @@
         "googleapis": "^50.0.0",
         "history": "^4.10.1",
         "jasmine": "^3.5.0",
-        "lodash": "^4.17.15",
+        "lodash": "^4.17.21",
         "material-table": "^1.57.2",
         "material-ui-popup-state": "^1.5.4",
         "moment": "^2.24.0",
